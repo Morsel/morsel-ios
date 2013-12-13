@@ -1,5 +1,18 @@
 #import "_MRSLUser.h"
 
-@interface MRSLUser : _MRSLUser {}
-// Custom logic goes here.
+typedef NS_ENUM(NSUInteger, UserOccupationType)
+{
+    UserOccupationTypeChef,
+    UserOccupationTypeDiner,
+    UserOccupationTypeMedia
+};
+
+@interface MRSLUser : _MRSLUser
+
+- (NSString *)fullName;
+- (UserOccupationType)occupationTypeRaw;
+
+- (void)addPost:(MRSLPost *)post;
+- (void)setOccupationTypeRaw:(UserOccupationType)type;
+
 @end
