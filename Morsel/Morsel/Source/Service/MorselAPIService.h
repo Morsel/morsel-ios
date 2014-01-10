@@ -8,10 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class MRSLUser;
+@class MRSLPost, MRSLUser;
 
 @interface MorselAPIService : NSObject
 
-- (void)createUser:(MRSLUser *)user;
+- (void)createUser:(MRSLUser *)user
+           success:(MorselAPISuccessBlock)successOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)createPost:(MRSLPost *)post
+           success:(MorselAPISuccessBlock)successOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil;
 
 @end
