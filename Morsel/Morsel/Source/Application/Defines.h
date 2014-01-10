@@ -11,6 +11,9 @@
 #import "Constants.h"
 #import "CoreData+MagicalRecord.h"
 
+typedef void (^ MorselAPISuccessBlock)(id responseObject);
+typedef void (^ MorselAPIFailureBlock)(NSError *error);
+
 /*
 #ifdef DEBUG
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;

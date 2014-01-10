@@ -79,7 +79,9 @@
         {
             user.profileImage = UIImageJPEGRepresentation(profileImage, 1.f);
             
-            [[ModelController sharedController].morselApiService createUser:user];
+            [[ModelController sharedController].morselApiService createUser:user
+                                                                    success:nil
+                                                                    failure:nil];
         });
         
         self.originalProfileImage = nil;

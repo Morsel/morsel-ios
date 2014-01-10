@@ -9,6 +9,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.morselID = @"morselID",
 	.morselPicture = @"morselPicture",
 	.morselThumb = @"morselThumb",
+	.orderID = @"orderID",
 };
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
@@ -48,6 +49,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	
 	if ([key isEqualToString:@"morselIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"morselID"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"orderIDValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"orderID"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -107,6 +113,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic morselThumb;
 
+
+
+
+
+
+@dynamic orderID;
+
+
+
+- (int16_t)orderIDValue {
+	NSNumber *result = [self orderID];
+	return [result shortValue];
+}
+
+- (void)setOrderIDValue:(int16_t)value_ {
+	[self setOrderID:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveOrderIDValue {
+	NSNumber *result = [self primitiveOrderID];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveOrderIDValue:(int16_t)value_ {
+	[self setPrimitiveOrderID:[NSNumber numberWithShort:value_]];
+}
 
 
 

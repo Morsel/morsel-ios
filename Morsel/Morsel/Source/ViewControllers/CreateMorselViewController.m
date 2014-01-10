@@ -12,6 +12,7 @@
 
 #import "ModelController.h"
 #import "MorselCardCollectionViewCell.h"
+#import "JSONResponseSerializerWithData.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
@@ -82,18 +83,63 @@ MorselCardCollectionViewCellDelegate >
 
 - (void)postMorsel
 {
-    [_managedObjectContext MR_saveWithOptions:MRSaveParentContexts
-                                   completion:^(BOOL success, NSError *error)
-     {
-         if (error) {
-             NSLog(@"Error creating post.");
-         } else {
-             NSLog(@"New Post created!");
-         }
-     }];
+    if ([_post.morsels count] == 1)
+    {
+        MRSLMorsel *firstMorsel = [_post.morsels firstObject];
+        
+        if (!firstMorsel.morselDescription && !firstMorsel.morselPicture)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Post Error."
+                                                            message:@"Please add content to the Morsel."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            
+            [alert show];
+            return;
+        }
+    }
     
-    [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:nil];
+    int i = 0;
+    
+    for (MRSLMorsel *morsel in _post.morsels)
+    {
+        morsel.orderID = [NSNumber numberWithInt:i];
+        i ++;
+        
+        NSLog(@"Morsel Order ID: %i", [morsel.orderID intValue]);
+    }
+    
+    [[ModelController sharedController].morselApiService createPost:_post
+                                                            success:^(id responseObject)
+    {
+        [_managedObjectContext MR_saveWithOptions:MRSaveParentContexts
+                                       completion:^(BOOL success, NSError *error)
+         {
+             if (error)
+             {
+                 NSLog(@"Error creating post.");
+#warning If saving post locally fails, what course of action should be taken?
+             }
+             else
+             {
+                 NSLog(@"New Post created!");
+             }
+         }];
+        
+        [self.presentingViewController dismissViewControllerAnimated:YES
+                                                          completion:nil];
+    }
+                                                            failure:^(NSError *error)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Post Failed. Please try again."
+                                                        message:[NSString stringWithFormat:@"Error: %@", error.userInfo[JSONResponseSerializerWithDataKey]]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        
+        [alert show];
+    }];
 }
 
 - (void)cancelMorsel
@@ -158,7 +204,7 @@ MorselCardCollectionViewCellDelegate >
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Append Morsel Error."
                                                         message:@"Please add an image or text to your previous Morsel first."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
