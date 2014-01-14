@@ -4,12 +4,14 @@
 #import "_MRSLUser.h"
 
 const struct MRSLUserAttributes MRSLUserAttributes = {
+	.authToken = @"authToken",
 	.emailAddress = @"emailAddress",
 	.firstName = @"firstName",
 	.lastName = @"lastName",
+	.occupationTitle = @"occupationTitle",
 	.occupationType = @"occupationType",
-	.password = @"password",
 	.profileImage = @"profileImage",
+	.profileImageURL = @"profileImageURL",
 	.userID = @"userID",
 };
 
@@ -64,6 +66,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
+@dynamic authToken;
+
+
+
+
+
+
 @dynamic emailAddress;
 
 
@@ -79,6 +88,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 @dynamic lastName;
+
+
+
+
+
+
+@dynamic occupationTitle;
 
 
 
@@ -111,14 +127,14 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic password;
-
-
-
-
-
-
 @dynamic profileImage;
+
+
+
+
+
+
+@dynamic profileImageURL;
 
 
 

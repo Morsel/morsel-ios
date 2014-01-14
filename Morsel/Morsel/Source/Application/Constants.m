@@ -9,6 +9,8 @@
 #import "Constants.h"
 
 NSString *const MorselServiceDidCreateUserNotification = @"MorselServiceDidCreateUserNotification";
+NSString *const MorselServiceDidLogInNewUserNotification = @"MorselServiceDidLogInNewUserNotification";
+NSString *const MorselServiceDidLogInExistingUserNotification = @"MorselServiceDidLogInExistingUserNotification";
 
 @implementation Constants
 

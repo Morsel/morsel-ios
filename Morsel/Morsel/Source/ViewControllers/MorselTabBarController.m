@@ -41,12 +41,20 @@
                                                  selector:@selector(userCreated:)
                                                      name:MorselServiceDidCreateUserNotification
                                                    object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(userLoggedIn:)
+                                                     name:MorselServiceDidLogInNewUserNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(userLoggedIn:)
+                                                     name:MorselServiceDidLogInExistingUserNotification
+                                                   object:nil];
         
         double delayInSeconds = 0.f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
         {
-            [self performSegueWithIdentifier:@"DisplayLogin"
+            [self performSegueWithIdentifier:@"DisplaySignUp"
                                       sender:nil];
         });
     }
@@ -65,6 +73,12 @@
 }
 
 - (void)userCreated:(NSNotification *)notification
+{
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
+
+- (void)userLoggedIn:(NSNotification *)notification
 {
     [self dismissViewControllerAnimated:YES
                              completion:nil];

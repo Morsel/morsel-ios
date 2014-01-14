@@ -10,7 +10,12 @@
 
 #import "Constants.h"
 #import "CoreData+MagicalRecord.h"
+#import "Util.h"
 
+typedef void (^ MorselImageDownloadSuccessBlock)(UIImage *image);
+typedef void (^ MorselImageDownloadFailureBlock)(NSError *error);
+typedef void (^ MorselModelSuccessBlock)(NSNumber *objectID);
+typedef void (^ MorselModelFailureBlock)(NSError *error);
 typedef void (^ MorselAPISuccessBlock)(id responseObject);
 typedef void (^ MorselAPIFailureBlock)(NSError *error);
 

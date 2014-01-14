@@ -5,12 +5,14 @@
 
 
 extern const struct MRSLUserAttributes {
+	__unsafe_unretained NSString *authToken;
 	__unsafe_unretained NSString *emailAddress;
 	__unsafe_unretained NSString *firstName;
 	__unsafe_unretained NSString *lastName;
+	__unsafe_unretained NSString *occupationTitle;
 	__unsafe_unretained NSString *occupationType;
-	__unsafe_unretained NSString *password;
 	__unsafe_unretained NSString *profileImage;
+	__unsafe_unretained NSString *profileImageURL;
 	__unsafe_unretained NSString *userID;
 } MRSLUserAttributes;
 
@@ -33,6 +35,8 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+
+
 @interface MRSLUserID : NSManagedObjectID {}
 @end
 
@@ -41,6 +45,16 @@ extern const struct MRSLUserFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (MRSLUserID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSString* authToken;
+
+
+
+//- (BOOL)validateAuthToken:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -76,6 +90,16 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* occupationTitle;
+
+
+
+//- (BOOL)validateOccupationTitle:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* occupationType;
 
 
@@ -90,21 +114,21 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* password;
-
-
-
-//- (BOOL)validatePassword:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSData* profileImage;
 
 
 
 //- (BOOL)validateProfileImage:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* profileImageURL;
+
+
+
+//- (BOOL)validateProfileImageURL:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -158,6 +182,12 @@ extern const struct MRSLUserFetchedProperties {
 @interface _MRSLUser (CoreDataGeneratedPrimitiveAccessors)
 
 
+- (NSString*)primitiveAuthToken;
+- (void)setPrimitiveAuthToken:(NSString*)value;
+
+
+
+
 - (NSString*)primitiveEmailAddress;
 - (void)setPrimitiveEmailAddress:(NSString*)value;
 
@@ -176,6 +206,12 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+- (NSString*)primitiveOccupationTitle;
+- (void)setPrimitiveOccupationTitle:(NSString*)value;
+
+
+
+
 - (NSNumber*)primitiveOccupationType;
 - (void)setPrimitiveOccupationType:(NSNumber*)value;
 
@@ -185,14 +221,14 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSString*)primitivePassword;
-- (void)setPrimitivePassword:(NSString*)value;
-
-
-
-
 - (NSData*)primitiveProfileImage;
 - (void)setPrimitiveProfileImage:(NSData*)value;
+
+
+
+
+- (NSString*)primitiveProfileImageURL;
+- (void)setPrimitiveProfileImageURL:(NSString*)value;
 
 
 

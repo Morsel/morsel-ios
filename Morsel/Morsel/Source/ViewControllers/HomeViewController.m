@@ -14,7 +14,12 @@
 
 #import "MRSLPost.h"
 
-@interface HomeViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface HomeViewController ()
+
+<
+UICollectionViewDataSource,
+UICollectionViewDelegate
+>
 
 @property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
 

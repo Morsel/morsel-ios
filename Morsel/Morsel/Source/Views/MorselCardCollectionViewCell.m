@@ -14,7 +14,11 @@
 
 #import "UIImage+Resize.h"
 
-@interface MorselCardCollectionViewCell () <UITextViewDelegate>
+@interface MorselCardCollectionViewCell ()
+
+<
+UITextViewDelegate
+>
 
 @property (weak, nonatomic) IBOutlet UIButton *addMediaButton;
 @property (weak, nonatomic) IBOutlet UIImageView *mediaImageView;
