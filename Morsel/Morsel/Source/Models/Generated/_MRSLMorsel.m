@@ -8,8 +8,9 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
 	.morselPicture = @"morselPicture",
+	.morselPictureURL = @"morselPictureURL",
 	.morselThumb = @"morselThumb",
-	.orderID = @"orderID",
+	.sortOrder = @"sortOrder",
 };
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
@@ -52,8 +53,8 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"orderIDValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"orderID"];
+	if ([key isEqualToString:@"sortOrderValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"sortOrder"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -111,6 +112,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+@dynamic morselPictureURL;
+
+
+
+
+
+
 @dynamic morselThumb;
 
 
@@ -118,26 +126,26 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic orderID;
+@dynamic sortOrder;
 
 
 
-- (int16_t)orderIDValue {
-	NSNumber *result = [self orderID];
+- (int16_t)sortOrderValue {
+	NSNumber *result = [self sortOrder];
 	return [result shortValue];
 }
 
-- (void)setOrderIDValue:(int16_t)value_ {
-	[self setOrderID:[NSNumber numberWithShort:value_]];
+- (void)setSortOrderValue:(int16_t)value_ {
+	[self setSortOrder:[NSNumber numberWithShort:value_]];
 }
 
-- (int16_t)primitiveOrderIDValue {
-	NSNumber *result = [self primitiveOrderID];
+- (int16_t)primitiveSortOrderValue {
+	NSNumber *result = [self primitiveSortOrder];
 	return [result shortValue];
 }
 
-- (void)setPrimitiveOrderIDValue:(int16_t)value_ {
-	[self setPrimitiveOrderID:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveSortOrderValue:(int16_t)value_ {
+	[self setPrimitiveSortOrder:[NSNumber numberWithShort:value_]];
 }
 
 

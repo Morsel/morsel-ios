@@ -20,13 +20,15 @@
 
 @interface CreateMorselViewController ()
 
-<UICollectionViewDataSource,
+<
+UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 UITextFieldDelegate,
-MorselCardCollectionViewCellDelegate >
+MorselCardCollectionViewCellDelegate
+>
 
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *cancelButtonItem;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *postButtonItem;
@@ -49,7 +51,7 @@ MorselCardCollectionViewCellDelegate >
 {
     [super viewDidLoad];
     
-    self.managedObjectContext = [NSManagedObjectContext MR_contextForCurrentThread];
+    self.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
     
     MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:_managedObjectContext];
     
@@ -104,28 +106,27 @@ MorselCardCollectionViewCellDelegate >
     
     for (MRSLMorsel *morsel in _post.morsels)
     {
-        morsel.orderID = [NSNumber numberWithInt:i];
+        morsel.sortOrder = [NSNumber numberWithInt:i];
         i ++;
         
-        NSLog(@"Morsel Order ID: %i", [morsel.orderID intValue]);
+        NSLog(@"Morsel Sort Order: %i", [morsel.sortOrder intValue]);
     }
     
     [[ModelController sharedController].morselApiService createPost:_post
                                                             success:^(id responseObject)
     {
-        [_managedObjectContext MR_saveWithOptions:MRSaveParentContexts
-                                       completion:^(BOOL success, NSError *error)
-         {
-             if (error)
-             {
-                 NSLog(@"Error creating post.");
+        [_managedObjectContext MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
+        {
+            if (error)
+            {
+                NSLog(@"Error creating post.");
 #warning If saving post locally fails, what course of action should be taken?
-             }
-             else
-             {
-                 NSLog(@"New Post created!");
-             }
-         }];
+            }
+            else
+            {
+                NSLog(@"New Post created!");
+            }
+        }];
         
         [self.presentingViewController dismissViewControllerAnimated:YES
                                                           completion:nil];
@@ -192,7 +193,7 @@ MorselCardCollectionViewCellDelegate >
     
     if (lastExistingMorsel.morselPicture || lastExistingMorsel.morselDescription)
     {
-        NSManagedObjectContext *context = [NSManagedObjectContext MR_contextForCurrentThread];
+        NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
         
         MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:context];
         

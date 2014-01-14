@@ -20,7 +20,25 @@
     
     if (user)
     {
-        self.image = [UIImage imageWithData:user.profileImage];
+        if (!user.profileImage)
+        {
+            [user retrieveProfileImageWithSuccess:^(UIImage *image)
+             {
+                 dispatch_async(dispatch_get_main_queue(), ^
+                                {
+                                    self.image = image;
+                                });
+                 
+                 NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
+                 
+                 [context MR_saveOnlySelfWithCompletion:nil];
+             }
+                                          failure:nil];
+        }
+        else
+        {
+            self.image = [UIImage imageWithData:user.profileImage];
+        }
     }
     else
     {

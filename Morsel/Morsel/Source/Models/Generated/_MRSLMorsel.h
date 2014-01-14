@@ -9,8 +9,9 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *morselDescription;
 	__unsafe_unretained NSString *morselID;
 	__unsafe_unretained NSString *morselPicture;
+	__unsafe_unretained NSString *morselPictureURL;
 	__unsafe_unretained NSString *morselThumb;
-	__unsafe_unretained NSString *orderID;
+	__unsafe_unretained NSString *sortOrder;
 } MRSLMorselAttributes;
 
 extern const struct MRSLMorselRelationships {
@@ -25,6 +26,7 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLComment;
 @class MRSLPost;
 @class MRSLTag;
+
 
 
 
@@ -90,6 +92,16 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* morselPictureURL;
+
+
+
+//- (BOOL)validateMorselPictureURL:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSData* morselThumb;
 
 
@@ -100,15 +112,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* orderID;
+@property (nonatomic, strong) NSNumber* sortOrder;
 
 
 
-@property int16_t orderIDValue;
-- (int16_t)orderIDValue;
-- (void)setOrderIDValue:(int16_t)value_;
+@property int16_t sortOrderValue;
+- (int16_t)sortOrderValue;
+- (void)setSortOrderValue:(int16_t)value_;
 
-//- (BOOL)validateOrderID:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateSortOrder:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -182,17 +194,23 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSString*)primitiveMorselPictureURL;
+- (void)setPrimitiveMorselPictureURL:(NSString*)value;
+
+
+
+
 - (NSData*)primitiveMorselThumb;
 - (void)setPrimitiveMorselThumb:(NSData*)value;
 
 
 
 
-- (NSNumber*)primitiveOrderID;
-- (void)setPrimitiveOrderID:(NSNumber*)value;
+- (NSNumber*)primitiveSortOrder;
+- (void)setPrimitiveSortOrder:(NSNumber*)value;
 
-- (int16_t)primitiveOrderIDValue;
-- (void)setPrimitiveOrderIDValue:(int16_t)value_;
+- (int16_t)primitiveSortOrderValue;
+- (void)setPrimitiveSortOrderValue:(int16_t)value_;
 
 
 

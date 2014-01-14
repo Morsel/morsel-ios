@@ -12,9 +12,19 @@
 
 @interface MorselAPIService : NSObject
 
+#pragma mark - User Services
+
 - (void)createUser:(MRSLUser *)user
+      withPassword:(NSString *)password
            success:(MorselAPISuccessBlock)successOrNil
            failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)signInUserWithEmail:(NSString *)emailAddress
+                andPassword:(NSString *)password
+                    success:(MorselAPISuccessBlock)successOrNil
+                    failure:(MorselAPIFailureBlock)failureOrNil;
+
+#pragma mark - Morsel Post Services
 
 - (void)createPost:(MRSLPost *)post
            success:(MorselAPISuccessBlock)successOrNil

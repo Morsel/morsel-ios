@@ -48,6 +48,8 @@
     return self;
 }
 
+#pragma mark - User Methods
+
 - (MRSLUser *)currentUser
 {
     if (!self.userID)
@@ -57,9 +59,16 @@
         if (!self.userID) return nil;
     }
     
+    MRSLUser *user = [self userWithID:self.userID];
+    
+    return user;
+}
+
+- (MRSLUser *)userWithID:(NSNumber *)userID
+{
     MRSLUser *user = nil;
     
-    NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"userID == %i", [self.userID intValue]];
+    NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"userID == %i", [userID intValue]];
     
     NSArray *userArray = [MRSLUser MR_findAllWithPredicate:userPredicate];
     

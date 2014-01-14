@@ -19,5 +19,6 @@
 + (instancetype)sharedController;
 
 - (MRSLUser *)currentUser;
+- (MRSLUser *)userWithID:(NSNumber *)userID;
 
 @end

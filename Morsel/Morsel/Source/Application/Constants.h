@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 extern NSString *const MorselServiceDidCreateUserNotification;
+extern NSString *const MorselServiceDidLogInNewUserNotification;
+extern NSString *const MorselServiceDidLogInExistingUserNotification;
 
 @interface Constants : NSObject
 

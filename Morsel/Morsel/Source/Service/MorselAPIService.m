@@ -17,16 +17,6 @@
 
 #import "JSONResponseSerializerWithData.h"
 
-/*
- 
- api_key: MTP: Will always be the userID. Not necessary for create and signin/signup.
- 
- profile image: 400 x 400
- 
- auth_token: DO NOT USE YET.
- 
- */
-
 #warning Break out MorselAPIService to be separate Request classes
 
 @interface MorselAPIService ()
@@ -40,11 +30,12 @@
 @implementation MorselAPIService
 
 - (void)createUser:(MRSLUser *)user
-           success:(MorselAPISuccessBlock)userSuccess
-           failure:(MorselAPIFailureBlock)failure
+      withPassword:(NSString *)password
+           success:(MorselAPISuccessBlock)userSuccessOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil
 {
     NSDictionary *parameters = @{@"user":@{@"email": user.emailAddress,
-                                           @"password": user.password,
+                                           @"password": password,
                                            @"first_name": user.firstName,
                                            @"last_name": user.lastName}};
     
@@ -65,6 +56,7 @@
         NSLog(@"%s Response: %@", __PRETTY_FUNCTION__, responseObject);
         
         user.userID = [NSNumber numberWithInt:[responseObject[@"id"] intValue]];
+        user.authToken = responseObject[@"auth_token"];
         
         [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                                   forKey:@"userID"];
@@ -72,24 +64,23 @@
         
         dispatch_async(dispatch_get_main_queue(), ^
         {
-           NSManagedObjectContext *context = [NSManagedObjectContext MR_contextForCurrentThread];
+           NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
            
-           [context MR_saveWithOptions:MRSaveParentContexts
-                            completion:^(BOOL success, NSError *error)
+           [context MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
             {
                 if (error)
                 {
                     NSLog(@"Error saving newly created user: %@", error);
-                    failure(error);
+                    failureOrNil(error);
                 }
                 else
                 {
                     NSLog(@"New user created and saved successfully!");
                     [[NSNotificationCenter defaultCenter] postNotificationName:MorselServiceDidCreateUserNotification
                                                                         object:user];
-                    if (userSuccess)
+                    if (userSuccessOrNil)
                     {
-                        userSuccess(responseObject);
+                        userSuccessOrNil(responseObject);
                     }
                 }
             }];
@@ -99,11 +90,105 @@
     {
         NSLog(@"%s Request Error: %@", __PRETTY_FUNCTION__, error.userInfo[JSONResponseSerializerWithDataKey]);
         
-        if (failure)
+        if (failureOrNil)
         {
-            failure(error);
+            failureOrNil(error);
         }
     }];
+}
+
+- (void)signInUserWithEmail:(NSString *)emailAddress
+                andPassword:(NSString *)password
+           success:(MorselAPISuccessBlock)successOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil
+{
+    NSDictionary *parameters = @{@"user":@{@"email": emailAddress,
+                                           @"password": password}};
+    
+    [[MorselAPIClient sharedClient] POST:@"users/sign_in"
+                              parameters:parameters
+                                 success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSLog(@"%s Response: %@", __PRETTY_FUNCTION__, responseObject);
+         
+         NSNumber *userID = [NSNumber numberWithInt:[responseObject[@"id"] intValue]];
+         
+         MRSLUser *existingUser = [[ModelController sharedController] userWithID:userID];
+         
+         if (existingUser)
+         {
+             NSLog(@"User existed on device. Updating information.");
+             
+             NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
+             
+             [existingUser setWithDictionary:responseObject
+                                   inContext:context
+                                     success:^ (NSNumber *uniqueObjectID)
+             {
+                 NSLog(@"Existing user logged in and saved successfully!");
+                 
+                 [[NSUserDefaults standardUserDefaults] setObject:uniqueObjectID
+                                                           forKey:@"userID"];
+                 [[NSUserDefaults standardUserDefaults] synchronize];
+                 
+                 [[NSNotificationCenter defaultCenter] postNotificationName:MorselServiceDidLogInExistingUserNotification
+                                                                     object:nil];
+                 if (successOrNil)
+                 {
+                     successOrNil(responseObject);
+                 }
+             }
+                                     failure:^(NSError *error)
+             {
+                 NSLog(@"Error saving existing logged in user: %@", error);
+                 
+                 if (failureOrNil)
+                 {
+                     failureOrNil(error);
+                 }
+             }];
+         }
+         else
+         {
+             NSLog(@"User did not exist on device. Creating new.");
+             
+             NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
+             
+             MRSLUser *user = [MRSLUser MR_createInContext:context];
+             [user setWithDictionary:responseObject
+                           inContext:context
+                             success:^(NSNumber *uniqueObjectID)
+             {
+                 [[NSUserDefaults standardUserDefaults] setObject:uniqueObjectID
+                                                           forKey:@"userID"];
+                 BOOL didSync = [[NSUserDefaults standardUserDefaults] synchronize];
+                 
+                 NSLog(@"New user logged in and saved successfully (%@)!", didSync ? @"YES" : @"NO");
+                 
+                 [[NSNotificationCenter defaultCenter] postNotificationName:MorselServiceDidLogInNewUserNotification
+                                                                     object:nil];
+                 
+                 if (successOrNil)
+                 {
+                     successOrNil(responseObject);
+                 }
+             }
+                             failure:^(NSError *error)
+             {
+                 NSLog(@"Error saving newly logged in user: %@", error);
+                 failureOrNil(error);
+             }];
+         }
+     }
+                                 failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"%s Request Error: %@", __PRETTY_FUNCTION__, error.userInfo[JSONResponseSerializerWithDataKey]);
+         
+         if (failureOrNil)
+         {
+             failureOrNil(error);
+         }
+     }];
 }
 
 - (void)createPost:(MRSLPost *)post
@@ -146,9 +231,9 @@
         {
             for (MRSLMorsel *morsel in post.morsels)
             {
-                if ([morsel.orderID intValue] != 0)
+                if ([morsel.sortOrder intValue] != 0)
                 {
-                    NSLog(@"Morsel Order ID (%i) is not the first", [morsel.orderID intValue]);
+                    NSLog(@"Morsel Sort Order (%i) is not the first", [morsel.sortOrder intValue]);
                     [self appendMorsel:morsel toPost:post];
                 }
             }
@@ -212,7 +297,7 @@
      }
                                  success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
-         NSLog(@"Create Morsel Response: %@", responseObject);
+         NSLog(@"%s Response: %@", __PRETTY_FUNCTION__, responseObject);
          
          morsel.morselID = [NSNumber numberWithInt:[responseObject[@"id"] intValue]];
          if (successOrNil)
@@ -222,7 +307,7 @@
      }
                                  failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         NSLog(@"Create Morsel Request Error: %@", error.userInfo[JSONResponseSerializerWithDataKey]);
+         NSLog(@"%s Request Error: %@", __PRETTY_FUNCTION__, error.userInfo[JSONResponseSerializerWithDataKey]);
          
          if (failureOrNil)
          {

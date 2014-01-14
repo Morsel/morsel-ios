@@ -2,27 +2,22 @@
 //  LoginViewController.m
 //  Morsel
 //
-//  Created by Javier Otero on 1/8/14.
+//  Created by Javier Otero on 1/13/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
 #import "LoginViewController.h"
 
-#import <MobileCoreServices/MobileCoreServices.h>
-
 #import "ModelController.h"
-#import "ProfileImageView.h"
 
-#import "MRSLUser.h"
-#import "UIImage+Resize.h"
+@interface LoginViewController ()
 
-@interface LoginViewController () <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+<
+UITextFieldDelegate
+>
 
-@property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
-@property (weak, nonatomic) IBOutlet UITextField *firstNameField;
-@property (weak, nonatomic) IBOutlet UITextField *lastNameField;
-
-@property (nonatomic, strong) UIImage *originalProfileImage;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 
 @end
 
@@ -30,87 +25,25 @@
 
 #pragma mark - Private Methods
 
-- (IBAction)addPhoto:(id)sender
+- (IBAction)logIn
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    BOOL emailValid = [Util validateEmail:_emailTextField.text];
+    BOOL passValid = ([_passwordTextField.text length] >= 8);
     
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-    imagePicker.allowsEditing = NO;
-    imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
-    imagePicker.delegate = self;
-    
-    [self presentViewController:imagePicker
-                       animated:YES
-                     completion:nil];
-}
-
-- (IBAction)continue:(UIButton *)sender
-{
-    [sender setEnabled:NO];
-    
-    if ([_firstNameField.text length] == 0 ||
-        [_lastNameField.text length] == 0 ||
-        !_profileImageView.image)
+    if (emailValid || passValid)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"All Fields Required"
-                                                        message:@"Please fill in all fields and include a profile picture."
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Email or Password"
+                                                        message:@"Email must be valid. Password must be at least 8 characters."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
     }
     
-    NSManagedObjectContext *context = [NSManagedObjectContext MR_contextForCurrentThread];
-    
-    MRSLUser *user = [MRSLUser MR_createInContext:context];
-    user.firstName = _firstNameField.text;
-    user.lastName = _lastNameField.text;
-    user.emailAddress = [NSString stringWithFormat:@"%@-%@@eatmorsel.com", [user.firstName lowercaseString], [user.lastName lowercaseString]];
-    user.password = @"password";
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^
-    {
-        UIImage *profileImage = [_originalProfileImage thumbnailImage:400.f
-                                                 interpolationQuality:kCGInterpolationHigh];
-        
-        dispatch_async(dispatch_get_main_queue(), ^
-        {
-            user.profileImage = UIImageJPEGRepresentation(profileImage, 1.f);
-            
-            [[ModelController sharedController].morselApiService createUser:user
-                                                                    success:nil
-                                                                    failure:nil];
-        });
-        
-        self.originalProfileImage = nil;
-    });
-}
-
-#pragma mark - UIImagePickerControllerDelegate Methods
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage])
-    {
-        self.originalProfileImage = info[UIImagePickerControllerOriginalImage];
-        
-        [self.profileImageView addAndRenderImage:_originalProfileImage];
-    }
-    
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[ModelController sharedController].morselApiService signInUserWithEmail:_emailTextField.text
+                                                                 andPassword:_passwordTextField.text
+                                                                     success:nil
+                                                                     failure:nil];
 }
 
 #pragma mark - UITextFieldDelegate Methods
