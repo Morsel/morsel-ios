@@ -8,11 +8,21 @@
 
 #import "MorselPostCollectionViewCell.h"
 
-#import "MorselView.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
+
+#import "ProfileImageView.h"
+
+#import "MRSLMorsel.h"
+#import "MRSLPost.h"
 
 @interface MorselPostCollectionViewCell ()
 
-@property (nonatomic, weak) IBOutlet MorselView *morselView;
+@property (nonatomic, weak) IBOutlet UIButton *likeButton;
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *morselImageView;
+
+@property (nonatomic, weak) IBOutlet ProfileImageView *profileImageView;
 
 @end
 
@@ -20,16 +30,51 @@
 
 #pragma mark - Instance Methods
 
-- (void)setPost:(MRSLPost *)post
+- (void)setMorsel:(MRSLMorsel *)morsel
 {
     [self reset];
     
-    self.morselView.post = post;
+    if (_morsel != morsel)
+    {
+        _morsel = morsel;
+        
+        if (_morsel)
+        {
+            if (_morsel.morselPictureURL)
+            {
+                self.titleLabel.text = _morsel.post.title;
+                self.descriptionLabel.text = morsel.morselDescription;
+                
+                self.profileImageView.user = _morsel.post.author;
+                
+                __weak __typeof(self)weakSelf = self;
+                
+                [_morselImageView setImageWithURLRequest:_morsel.morselPictureURLRequest
+                                        placeholderImage:nil
+                                                 success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
+                 {
+                     if (image)
+                     {
+                         weakSelf.morselImageView.image = image;
+                     }
+                 }
+                                                 failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)
+                 {
+                     DDLogError(@"Unable to set Morsel Image: %@", error.userInfo);
+                 }];
+            }
+        }
+    }
 }
 
 - (void)reset
 {
-    [self.morselView reset];
+    [self.morselImageView cancelImageRequestOperation];
+    
+    self.titleLabel.text = nil;
+    self.descriptionLabel.text = nil;
+    self.profileImageView.user = nil;
+    self.morselImageView.image = nil;
 }
 
 @end

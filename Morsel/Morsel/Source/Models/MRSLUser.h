@@ -20,8 +20,6 @@ typedef NS_ENUM(NSUInteger, UserOccupationType)
 
 - (void)setOccupationTypeRaw:(UserOccupationType)type;
 - (void)setWithDictionary:(NSDictionary *)dictionary
-                inContext:(NSManagedObjectContext *)context
-                  success:(MorselModelSuccessBlock)successOrNil
-                  failure:(MorselModelFailureBlock)failureOrNil;
+                inContext:(NSManagedObjectContext *)contextOrNil;
 
 @end

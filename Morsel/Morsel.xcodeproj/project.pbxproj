@@ -46,10 +46,8 @@
 		066F5ADA185BCA4D00468210 /* MRSLTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AD5185BCA4D00468210 /* MRSLTag.m */; };
 		066F5ADF185BCB5000468210 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5ADE185BCB5000468210 /* ProfileViewController.m */; };
 		066F5AE2185BCB6200468210 /* CreateMorselViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AE1185BCB6200468210 /* CreateMorselViewController.m */; };
-		066F5AE7185BCBCA00468210 /* MorselPostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AE6185BCBCA00468210 /* MorselPostView.m */; };
 		066F5AEA185BCBF200468210 /* MorselPostCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AE9185BCBF200468210 /* MorselPostCollectionViewCell.m */; };
 		066F5AED185BCC2000468210 /* MorselScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AEC185BCC2000468210 /* MorselScrollView.m */; };
-		066F5AF0185BCC4200468210 /* MorselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AEF185BCC4200468210 /* MorselView.m */; };
 		066F5AF3185BCCF200468210 /* MorselCardCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF2185BCCF200468210 /* MorselCardCollectionViewCell.m */; };
 		066F5AF6185BCD2400468210 /* SocialCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF5185BCD2400468210 /* SocialCardViewController.m */; };
 		066F5AF9185BCD3700468210 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF8185BCD3700468210 /* ProfileImageView.m */; };
@@ -146,14 +144,10 @@
 		066F5ADE185BCB5000468210 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		066F5AE0185BCB6200468210 /* CreateMorselViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMorselViewController.h; sourceTree = "<group>"; };
 		066F5AE1185BCB6200468210 /* CreateMorselViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMorselViewController.m; sourceTree = "<group>"; };
-		066F5AE5185BCBCA00468210 /* MorselPostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselPostView.h; path = Source/Views/MorselPostView.h; sourceTree = "<group>"; };
-		066F5AE6185BCBCA00468210 /* MorselPostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselPostView.m; path = Source/Views/MorselPostView.m; sourceTree = "<group>"; };
 		066F5AE8185BCBF200468210 /* MorselPostCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselPostCollectionViewCell.h; path = Source/Views/MorselPostCollectionViewCell.h; sourceTree = "<group>"; };
 		066F5AE9185BCBF200468210 /* MorselPostCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselPostCollectionViewCell.m; path = Source/Views/MorselPostCollectionViewCell.m; sourceTree = "<group>"; };
 		066F5AEB185BCC2000468210 /* MorselScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselScrollView.h; path = Source/Views/MorselScrollView.h; sourceTree = "<group>"; };
 		066F5AEC185BCC2000468210 /* MorselScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselScrollView.m; path = Source/Views/MorselScrollView.m; sourceTree = "<group>"; };
-		066F5AEE185BCC4200468210 /* MorselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselView.h; path = Source/Views/MorselView.h; sourceTree = "<group>"; };
-		066F5AEF185BCC4200468210 /* MorselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselView.m; path = Source/Views/MorselView.m; sourceTree = "<group>"; };
 		066F5AF1185BCCF200468210 /* MorselCardCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselCardCollectionViewCell.h; path = Source/Views/MorselCardCollectionViewCell.h; sourceTree = "<group>"; };
 		066F5AF2185BCCF200468210 /* MorselCardCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselCardCollectionViewCell.m; path = Source/Views/MorselCardCollectionViewCell.m; sourceTree = "<group>"; };
 		066F5AF4185BCD2400468210 /* SocialCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialCardViewController.h; path = Source/Views/SocialCardViewController.h; sourceTree = "<group>"; };
@@ -258,14 +252,10 @@
 		063250CB1860E85700ADDF23 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				066F5AE5185BCBCA00468210 /* MorselPostView.h */,
-				066F5AE6185BCBCA00468210 /* MorselPostView.m */,
 				066F5AE8185BCBF200468210 /* MorselPostCollectionViewCell.h */,
 				066F5AE9185BCBF200468210 /* MorselPostCollectionViewCell.m */,
 				066F5AEB185BCC2000468210 /* MorselScrollView.h */,
 				066F5AEC185BCC2000468210 /* MorselScrollView.m */,
-				066F5AEE185BCC4200468210 /* MorselView.h */,
-				066F5AEF185BCC4200468210 /* MorselView.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -849,11 +839,9 @@
 				066F5ACB185BCA3D00468210 /* _MRSLTag.m in Sources */,
 				06E89F8F1885ED3B00DA3A90 /* Util.m in Sources */,
 				066F5AD7185BCA4D00468210 /* MRSLComment.m in Sources */,
-				066F5AF0185BCC4200468210 /* MorselView.m in Sources */,
 				0674A859185FBDF90089B672 /* MorselDetailViewController.m in Sources */,
 				06CE1882187F13A0009F9722 /* Constants.m in Sources */,
 				066F5ADF185BCB5000468210 /* ProfileViewController.m in Sources */,
-				066F5AE7185BCBCA00468210 /* MorselPostView.m in Sources */,
 				066F5B08185BD01100468210 /* AddCommentView.m in Sources */,
 				066F5B02185BCFBF00468210 /* CommentTableView.m in Sources */,
 				066F5AE2185BCB6200468210 /* CreateMorselViewController.m in Sources */,

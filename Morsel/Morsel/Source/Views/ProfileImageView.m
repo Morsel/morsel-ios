@@ -8,6 +8,8 @@
 
 #import "ProfileImageView.h"
 
+#import "ModelController.h"
+
 #import "MRSLUser.h"
 
 #import "UIImage+Resize.h"
@@ -25,13 +27,9 @@
             [user retrieveProfileImageWithSuccess:^(UIImage *image)
              {
                  dispatch_async(dispatch_get_main_queue(), ^
-                                {
-                                    self.image = image;
-                                });
-                 
-                 NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-                 
-                 [context MR_saveOnlySelfWithCompletion:nil];
+                {
+                    self.image = image;
+                });
              }
                                           failure:nil];
         }

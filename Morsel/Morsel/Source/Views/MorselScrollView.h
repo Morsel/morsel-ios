@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class MRSLPost;
+@class MRSLMorsel, MRSLPost;
 
 @interface MorselScrollView : UIScrollView
 

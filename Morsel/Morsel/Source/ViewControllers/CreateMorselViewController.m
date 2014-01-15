@@ -35,7 +35,6 @@ MorselCardCollectionViewCellDelegate
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, weak) IBOutlet UITextField *titleField;
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 
 @property (nonatomic, weak) MorselCardCollectionViewCell *selectedMorselCard;
@@ -51,11 +50,9 @@ MorselCardCollectionViewCellDelegate
 {
     [super viewDidLoad];
     
-    self.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
+    MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
     
-    MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:_managedObjectContext];
-    
-    self.post = [MRSLPost MR_createInContext:_managedObjectContext];
+    self.post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
     [self.post addMorsel:morsel];
     
     [[[ModelController sharedController] currentUser] addPost:self.post];
@@ -109,22 +106,22 @@ MorselCardCollectionViewCellDelegate
         morsel.sortOrder = [NSNumber numberWithInt:i];
         i ++;
         
-        NSLog(@"Morsel Sort Order: %i", [morsel.sortOrder intValue]);
+        DDLogDebug(@"Morsel Sort Order: %i", [morsel.sortOrder intValue]);
     }
     
     [[ModelController sharedController].morselApiService createPost:_post
                                                             success:^(id responseObject)
     {
-        [_managedObjectContext MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
+        [[ModelController sharedController].defaultContext MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
         {
             if (error)
             {
-                NSLog(@"Error creating post.");
+                DDLogError(@"Error creating post.");
 #warning If saving post locally fails, what course of action should be taken?
             }
             else
             {
-                NSLog(@"New Post created!");
+                DDLogDebug(@"New Post created!");
             }
         }];
         
@@ -145,7 +142,7 @@ MorselCardCollectionViewCellDelegate
 
 - (void)cancelMorsel
 {
-    [_managedObjectContext reset];
+    [[ModelController sharedController].defaultContext reset];
     
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
@@ -193,9 +190,7 @@ MorselCardCollectionViewCellDelegate
     
     if (lastExistingMorsel.morselPicture || lastExistingMorsel.morselDescription)
     {
-        NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-        
-        MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:context];
+        MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
         
         [self.post addMorsel:morsel];
         
@@ -323,7 +318,7 @@ MorselCardCollectionViewCellDelegate
         MRSLMorsel *morsel = [self.post.morselsSet objectAtIndex:cellPath.row];
         [self.post.morselsSet removeObject:morsel];
         
-        [self.managedObjectContext deleteObject:morsel];
+        [[ModelController sharedController].defaultContext deleteObject:morsel];
         
         [self.collectionView reloadData];
         

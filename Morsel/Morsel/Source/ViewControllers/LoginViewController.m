@@ -30,7 +30,7 @@ UITextFieldDelegate
     BOOL emailValid = [Util validateEmail:_emailTextField.text];
     BOOL passValid = ([_passwordTextField.text length] >= 8);
     
-    if (emailValid || passValid)
+    if (!emailValid || !passValid)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Email or Password"
                                                         message:@"Email must be valid. Password must be at least 8 characters."

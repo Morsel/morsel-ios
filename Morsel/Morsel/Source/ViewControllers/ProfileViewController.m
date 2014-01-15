@@ -81,11 +81,11 @@
 
 - (MorselPostCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    MRSLPost *post = [[[ModelController sharedController] currentUser].posts objectAtIndex:indexPath.row];
+    //MRSLPost *post = [[[ModelController sharedController] currentUser].posts objectAtIndex:indexPath.row];
     
     MorselPostCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
                                                                                                   forIndexPath:indexPath];
-    morselCell.post = post;
+    //morselCell.post = post;
     
     return morselCell;
 }

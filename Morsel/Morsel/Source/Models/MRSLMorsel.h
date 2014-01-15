@@ -1,5 +1,10 @@
 #import "_MRSLMorsel.h"
 
 @interface MRSLMorsel : _MRSLMorsel {}
-// Custom logic goes here.
+
+- (void)setWithDictionary:(NSDictionary *)dictionary
+                inContext:(NSManagedObjectContext *)context;
+
+- (NSURLRequest *)morselPictureURLRequest;
+
 @end

@@ -5,11 +5,13 @@
 
 const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.creationDate = @"creationDate",
+	.liked = @"liked",
 	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
 	.morselPicture = @"morselPicture",
 	.morselPictureURL = @"morselPictureURL",
 	.morselThumb = @"morselThumb",
+	.morselThumbURL = @"morselThumbURL",
 	.sortOrder = @"sortOrder",
 };
 
@@ -48,6 +50,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"likedValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"liked"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"morselIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"morselID"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -67,6 +74,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic creationDate;
 
+
+
+
+
+
+@dynamic liked;
+
+
+
+- (BOOL)likedValue {
+	NSNumber *result = [self liked];
+	return [result boolValue];
+}
+
+- (void)setLikedValue:(BOOL)value_ {
+	[self setLiked:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveLikedValue {
+	NSNumber *result = [self primitiveLiked];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveLikedValue:(BOOL)value_ {
+	[self setPrimitiveLiked:[NSNumber numberWithBool:value_]];
+}
 
 
 
@@ -126,6 +159,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+@dynamic morselThumbURL;
+
+
+
+
+
+
 @dynamic sortOrder;
 
 
@@ -155,10 +195,10 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 @dynamic comments;
 
 	
-- (NSMutableOrderedSet*)commentsSet {
+- (NSMutableSet*)commentsSet {
 	[self willAccessValueForKey:@"comments"];
   
-	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"comments"];
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"comments"];
   
 	[self didAccessValueForKey:@"comments"];
 	return result;
