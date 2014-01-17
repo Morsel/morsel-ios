@@ -9,13 +9,15 @@
     </entity>
     <entity name="MRSLMorsel" representedClassName="MRSLMorsel" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="morselDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="morselID" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
         <attribute name="morselPicture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="morselPictureURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="morselThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="morselThumbURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sortOrder" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="MRSLComment" inverseName="morsel" inverseEntity="MRSLComment" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="morsel" inverseEntity="MRSLComment" syncable="YES"/>
         <relationship name="post" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="MRSLPost" inverseName="morsels" inverseEntity="MRSLPost" syncable="YES"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLTag" inverseName="morsels" inverseEntity="MRSLTag" syncable="YES"/>
     </entity>

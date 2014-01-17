@@ -74,14 +74,22 @@
 
 - (void)userCreated:(NSNotification *)notification
 {
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
+    [self syncDataAndPresentFeed];
 }
 
 - (void)userLoggedIn:(NSNotification *)notification
 {
+    [self syncDataAndPresentFeed];
+}
+
+- (void)syncDataAndPresentFeed
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     [self dismissViewControllerAnimated:YES
                              completion:nil];
+    
+    [[ModelController sharedController] saveDataToStore];
 }
 
 #pragma mark - UITabBarControllerDelegate

@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class MRSLPost;
+@class MRSLMorsel;
 
 @interface MorselPostCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, weak) MRSLPost *post;
+@property (nonatomic, weak) MRSLMorsel *morsel;
 
 - (void)reset;
 

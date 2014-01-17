@@ -8,8 +8,12 @@
 
 #import "MorselScrollView.h"
 
-#import "MRSLPost.h"
 #import "MRSLMorsel.h"
+#import "MRSLPost.h"
+
+@interface MorselScrollView ()
+
+@end
 
 @implementation MorselScrollView
 
@@ -52,20 +56,6 @@
     {
         [subview removeFromSuperview];
     }];
-}
-
-#pragma mark - Private Methods
-
-- (void)touchesBegan: (NSSet*)touches withEvent:(UIEvent*)event
-{
-    [[self nextResponder] touchesBegan:touches
-                             withEvent:event];
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [[self nextResponder] touchesEnded:touches
-                             withEvent:event];
 }
 
 @end

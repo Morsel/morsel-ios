@@ -68,9 +68,7 @@ UITextFieldDelegate
         [alert show];
     }
     
-    NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-    
-    MRSLUser *user = [MRSLUser MR_createInContext:context];
+    MRSLUser *user = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
     user.firstName = _firstNameField.text;
     user.lastName = _lastNameField.text;
     user.emailAddress = [NSString stringWithFormat:@"%@-%@@eatmorsel.com", [user.firstName lowercaseString], [user.lastName lowercaseString]];

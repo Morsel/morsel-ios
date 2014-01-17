@@ -12,32 +12,27 @@
 #import "MorselPostCollectionViewCell.h"
 #import "MorselDetailViewController.h"
 
+#import "MRSLMorsel.h"
 #import "MRSLPost.h"
 
 @interface HomeViewController ()
 
 <
+NSFetchedResultsControllerDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate
 >
 
 @property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
 
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) NSIndexPath *selectedMorselCellIndexPath;
-@property (nonatomic, strong) NSArray *posts;
 
 @end
 
 @implementation HomeViewController
 
 #pragma mark - Instance Methods
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    self.posts = [MRSLPost MR_findAll];
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -59,9 +54,32 @@ UICollectionViewDelegate
 {
     [super viewDidAppear:animated];
     
-    self.posts = [MRSLPost MR_findAll];
+    if (![ModelController sharedController].currentUser || self.fetchedResultsController) return;
     
-    [self.feedCollectionView reloadData];
+    [[ModelController sharedController] getFeedWithSuccess:^(NSArray *responseArray)
+     {
+         if ([responseArray count] > 0)
+         {
+             DDLogDebug(@"%lu feed items available. Initiating fetch request.", (unsigned long)[responseArray count]);
+             
+             self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+                                                                   ascending:YES
+                                                               withPredicate:nil
+                                                                     groupBy:nil
+                                                                    delegate:self
+                                                                   inContext:[ModelController sharedController].temporaryContext];
+             
+             [self.feedCollectionView reloadData];
+         }
+         else
+         {
+             DDLogDebug(@"No Feed items available");
+         }
+     }
+                                                   failure:^(NSError *error)
+     {
+         DDLogError(@"Error loading feed items: %@", error.userInfo);
+     }];
 }
 
 #pragma mark - Segue Methods
@@ -70,10 +88,10 @@ UICollectionViewDelegate
 {
     if ([[segue identifier] isEqualToString:@"ShowMorselDetail"])
     {
-        MRSLPost *post = [_posts objectAtIndex:_selectedMorselCellIndexPath.row];
+        MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:_selectedMorselCellIndexPath];
         
         MorselDetailViewController *morselDetailVC = [segue destinationViewController];
-        morselDetailVC.post = post;
+        morselDetailVC.post = morsel.post;
     }
 }
 
@@ -81,16 +99,19 @@ UICollectionViewDelegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _posts.count;
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
+    
+    return [sectionInfo numberOfObjects];
 }
 
-- (MorselPostCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (MorselPostCollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                          cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    MRSLPost *post = [_posts objectAtIndex:indexPath.row];
+    MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
     
     MorselPostCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
                                                                                                   forIndexPath:indexPath];
-    morselCell.post = post;
+    morselCell.morsel = morsel;
     
     return morselCell;
 }
@@ -103,6 +124,23 @@ UICollectionViewDelegate
     
     [self performSegueWithIdentifier:@"ShowMorselDetail"
                               sender:nil];
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate Methods
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+    
+    NSError *fetchError = nil;
+    [_fetchedResultsController performFetch:&fetchError];
+    
+    if (fetchError)
+    {
+        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
+    }
+    
+    [self.feedCollectionView reloadData];
 }
 
 @end

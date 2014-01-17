@@ -13,8 +13,6 @@
 
 - (void)setWithDictionary:(NSDictionary *)dictionary
                 inContext:(NSManagedObjectContext *)contextOrNil
-                  success:(MorselModelSuccessBlock)successOrNil
-                  failure:(MorselModelFailureBlock)failureOrNil
 {
     self.emailAddress = ([dictionary[@"email"] isEqual:[NSNull null]]) ? self.emailAddress : dictionary[@"email"];
     self.firstName = ([dictionary[@"first_name"] isEqual:[NSNull null]]) ? self.firstName : dictionary[@"first_name"];
@@ -29,28 +27,7 @@
     
     if (contextOrNil)
     {
-        NSNumber *userID = [self.userID copy];
-        
-        dispatch_async(dispatch_get_main_queue(), ^
-        {
-            [contextOrNil MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
-             {
-                 if (error)
-                 {
-                     if (failureOrNil)
-                     {
-                         failureOrNil(error);
-                     }
-                 }
-                 else
-                 {
-                     if (successOrNil)
-                     {
-                         successOrNil(userID);
-                     }
-                 }
-             }];
-        });
+        // Only used when creation of MO children is relevant
     }
 }
 
@@ -91,17 +68,11 @@
              
              UIImage *downloadedProfileImage = [UIImage imageWithData:imageData];
              
-             if (successOrNil)
-             {
-                 successOrNil(downloadedProfileImage);
-             }
+             if (successOrNil) successOrNil(downloadedProfileImage);
          }
                                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
-             if (failureOrNil)
-             {
-                 failureOrNil(error);
-             }
+             if (failureOrNil) failureOrNil(error);
          }];
         [imageRequestOperation start];
     }

@@ -12,7 +12,7 @@
 
 @interface MorselAPIService : NSObject
 
-#pragma mark - User Services
+#pragma mark - User Sign Up and Sign In Services
 
 - (void)createUser:(MRSLUser *)user
       withPassword:(NSString *)password
@@ -24,10 +24,15 @@
                     success:(MorselAPISuccessBlock)successOrNil
                     failure:(MorselAPIFailureBlock)failureOrNil;
 
-#pragma mark - Morsel Post Services
+#pragma mark - Morsel Creation Services
 
 - (void)createPost:(MRSLPost *)post
            success:(MorselAPISuccessBlock)successOrNil
            failure:(MorselAPIFailureBlock)failureOrNil;
+
+#pragma mark - Feed Services
+
+- (void)retrieveFeedWithSuccess:(MorselAPIArrayBlock)success
+                        failure:(MorselAPIFailureBlock)failureOrNil;
 
 @end

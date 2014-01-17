@@ -6,11 +6,13 @@
 
 extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *creationDate;
+	__unsafe_unretained NSString *liked;
 	__unsafe_unretained NSString *morselDescription;
 	__unsafe_unretained NSString *morselID;
 	__unsafe_unretained NSString *morselPicture;
 	__unsafe_unretained NSString *morselPictureURL;
 	__unsafe_unretained NSString *morselThumb;
+	__unsafe_unretained NSString *morselThumbURL;
 	__unsafe_unretained NSString *sortOrder;
 } MRSLMorselAttributes;
 
@@ -26,6 +28,8 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLComment;
 @class MRSLPost;
 @class MRSLTag;
+
+
 
 
 
@@ -53,6 +57,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validateCreationDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* liked;
+
+
+
+@property BOOL likedValue;
+- (BOOL)likedValue;
+- (void)setLikedValue:(BOOL)value_;
+
+//- (BOOL)validateLiked:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -112,6 +130,16 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* morselThumbURL;
+
+
+
+//- (BOOL)validateMorselThumbURL:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* sortOrder;
 
 
@@ -126,9 +154,9 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSOrderedSet *comments;
+@property (nonatomic, strong) NSSet *comments;
 
-- (NSMutableOrderedSet*)commentsSet;
+- (NSMutableSet*)commentsSet;
 
 
 
@@ -152,8 +180,8 @@ extern const struct MRSLMorselFetchedProperties {
 
 @interface _MRSLMorsel (CoreDataGeneratedAccessors)
 
-- (void)addComments:(NSOrderedSet*)value_;
-- (void)removeComments:(NSOrderedSet*)value_;
+- (void)addComments:(NSSet*)value_;
+- (void)removeComments:(NSSet*)value_;
 - (void)addCommentsObject:(MRSLComment*)value_;
 - (void)removeCommentsObject:(MRSLComment*)value_;
 
@@ -169,6 +197,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSDate*)primitiveCreationDate;
 - (void)setPrimitiveCreationDate:(NSDate*)value;
+
+
+
+
+- (NSNumber*)primitiveLiked;
+- (void)setPrimitiveLiked:(NSNumber*)value;
+
+- (BOOL)primitiveLikedValue;
+- (void)setPrimitiveLikedValue:(BOOL)value_;
 
 
 
@@ -206,6 +243,12 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSString*)primitiveMorselThumbURL;
+- (void)setPrimitiveMorselThumbURL:(NSString*)value;
+
+
+
+
 - (NSNumber*)primitiveSortOrder;
 - (void)setPrimitiveSortOrder:(NSNumber*)value;
 
@@ -216,8 +259,8 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSMutableOrderedSet*)primitiveComments;
-- (void)setPrimitiveComments:(NSMutableOrderedSet*)value;
+- (NSMutableSet*)primitiveComments;
+- (void)setPrimitiveComments:(NSMutableSet*)value;
 
 
 

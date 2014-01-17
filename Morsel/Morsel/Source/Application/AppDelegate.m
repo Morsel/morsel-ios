@@ -11,6 +11,16 @@
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 
+#import "ModelController.h"
+
+// DDLogLevel must be declared here to avoid MagicalRecord.h extern conflict 
+
+#ifdef DEBUG
+int ddLogLevel = LOG_LEVEL_DEBUG;
+#else
+int ddLogLevel = LOG_LEVEL_ERROR;
+#endif
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -23,22 +33,12 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [self saveData];
+    [[ModelController sharedController] saveDataToStore];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [self saveData];
-}
-
-- (void)saveData
-{
-    NSManagedObjectContext *managedObjectContext = [NSManagedObjectContext MR_defaultContext];
-    [managedObjectContext MR_saveWithOptions:MRSaveParentContexts
-                                  completion:^(BOOL success, NSError *error)
-    {
-        NSLog(@"Data saved to persistent store!");
-    }];
+    [[ModelController sharedController] saveDataToStore];
 }
 
 @end
