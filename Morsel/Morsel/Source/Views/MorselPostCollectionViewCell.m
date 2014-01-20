@@ -10,6 +10,8 @@
 
 #import <AFNetworking/UIImageView+AFNetworking.h>
 
+#import "JSONResponseSerializerWithData.h"
+#import "ModelController.h"
 #import "ProfileImageView.h"
 
 #import "MRSLMorsel.h"
@@ -47,6 +49,8 @@
                 
                 self.profileImageView.user = _morsel.post.author;
                 
+                [self setLikeButtonImageForMorsel:_morsel];
+                
                 __weak __typeof(self)weakSelf = self;
                 
                 [_morselImageView setImageWithURLRequest:_morsel.morselPictureURLRequest
@@ -75,6 +79,45 @@
     self.descriptionLabel.text = nil;
     self.profileImageView.user = nil;
     self.morselImageView.image = nil;
+}
+
+#pragma mark - Private Methods
+
+- (IBAction)toggleLikeMorsel
+{
+    _likeButton.enabled = NO;
+    
+    [[ModelController sharedController].morselApiService likeMorsel:_morsel
+                                                         shouldLike:!_morsel.likedValue
+                                                            didLike:^(BOOL doesLike)
+     {
+         [_morsel setLikedValue:doesLike];
+         
+         [self setLikeButtonImageForMorsel:_morsel];
+     }
+                                                            failure:^(NSError *error)
+     {
+         NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+         
+         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                         message:errorDictionary ? [errorDictionary[@"errors"] objectAtIndex:0][@"msg"] : nil
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil];
+         [alert show];
+         
+         _likeButton.enabled = YES;
+     }];
+}
+
+- (void)setLikeButtonImageForMorsel:(MRSLMorsel *)morsel
+{
+    UIImage *likeImage = [UIImage imageNamed:morsel.likedValue ? @"30-heart" : @"29-heart"];
+    
+    [_likeButton setImage:likeImage
+                 forState:UIControlStateNormal];
+    
+    _likeButton.enabled = YES;
 }
 
 @end

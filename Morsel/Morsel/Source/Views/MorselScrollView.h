@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) MRSLPost *post;
 
+- (void)scrollToMorsel:(MRSLMorsel *)morsel;
 - (void)reset;
 
 @end

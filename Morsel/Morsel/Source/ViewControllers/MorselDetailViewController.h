@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class MRSLPost;
+@class MRSLMorsel;
 
 @interface MorselDetailViewController : UIViewController
 
-@property (nonatomic, strong) MRSLPost *post;
+@property (nonatomic, strong) MRSLMorsel *morsel;
 
 @end
