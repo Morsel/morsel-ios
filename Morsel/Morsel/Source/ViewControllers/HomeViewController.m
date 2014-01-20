@@ -91,7 +91,7 @@ UICollectionViewDelegate
         MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:_selectedMorselCellIndexPath];
         
         MorselDetailViewController *morselDetailVC = [segue destinationViewController];
-        morselDetailVC.post = morsel.post;
+        morselDetailVC.morsel = morsel;
     }
 }
 

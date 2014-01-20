@@ -68,7 +68,7 @@
         MRSLPost *post = [[[ModelController sharedController] currentUser].posts objectAtIndex:_selectedMorselCellIndexPath.row];
         
         MorselDetailViewController *morselDetailVC = [segue destinationViewController];
-        morselDetailVC.post = post;
+        //morselDetailVC.post = post;
     }
 }
 

@@ -139,7 +139,7 @@
      }];
 }
 
-#pragma mark - Morsel Creation Services
+#pragma mark - Morsel Services
 
 - (void)createPost:(MRSLPost *)post
            success:(MorselAPISuccessBlock)successOrNil
@@ -258,6 +258,51 @@
                    withError:error
                     inMethod:NSStringFromSelector(_cmd)];
      }];
+}
+
+- (void)likeMorsel:(MRSLMorsel *)morsel
+        shouldLike:(BOOL)shouldLike
+           didLike:(MorselAPILikeBlock)didLike
+           failure:(MorselAPIFailureBlock)failureOrNil
+{
+    if (shouldLike)
+    {
+        [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"morsels/%i/like", [morsel.morselID intValue]]
+                                  parameters:@{@"api_key": [ModelController sharedController].currentUser.userID}
+                                     success:nil
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             if ([operation.response statusCode] == 200)
+             {
+                 didLike(YES);
+             }
+             else
+             {
+                 [self reportFailure:failureOrNil
+                           withError:error
+                            inMethod:NSStringFromSelector(_cmd)];
+             }
+         }];
+    }
+    else
+    {
+        [[MorselAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"morsels/%i/like", [morsel.morselID intValue]]
+                                    parameters:@{@"api_key": [ModelController sharedController].currentUser.userID}
+                                       success:nil
+                                       failure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             if ([operation.response statusCode] == 200)
+             {
+                 didLike(NO);
+             }
+             else
+             {
+                 [self reportFailure:failureOrNil
+                           withError:error
+                            inMethod:NSStringFromSelector(_cmd)];
+             }
+         }];
+    }
 }
 
 #pragma mark - Feed Services

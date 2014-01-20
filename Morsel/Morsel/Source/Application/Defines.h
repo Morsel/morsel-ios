@@ -17,6 +17,7 @@ typedef void (^ MorselImageDownloadFailureBlock)(NSError *error);
 typedef void (^ MorselModelSuccessBlock)(NSNumber *objectID);
 typedef void (^ MorselModelFailureBlock)(NSError *error);
 typedef void (^ MorselAPIArrayBlock)(NSArray *responseArray);
+typedef void (^ MorselAPILikeBlock)(BOOL doesLike);
 typedef void (^ MorselAPISuccessBlock)(id responseObject);
 typedef void (^ MorselAPIFailureBlock)(NSError *error);
 

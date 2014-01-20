@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MRSLPost, MRSLUser;
+@class MRSLMorsel, MRSLPost, MRSLUser;
 
 @interface MorselAPIService : NSObject
 
@@ -24,10 +24,15 @@
                     success:(MorselAPISuccessBlock)successOrNil
                     failure:(MorselAPIFailureBlock)failureOrNil;
 
-#pragma mark - Morsel Creation Services
+#pragma mark - Morsel Services
 
 - (void)createPost:(MRSLPost *)post
            success:(MorselAPISuccessBlock)successOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)likeMorsel:(MRSLMorsel *)morsel
+        shouldLike:(BOOL)shouldLike
+           didLike:(MorselAPILikeBlock)didLike
            failure:(MorselAPIFailureBlock)failureOrNil;
 
 #pragma mark - Feed Services

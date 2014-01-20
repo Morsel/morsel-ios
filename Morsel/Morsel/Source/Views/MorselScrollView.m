@@ -8,6 +8,8 @@
 
 #import "MorselScrollView.h"
 
+#import <AFNetworking/UIImageView+AFNetworking.h>
+
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
 
@@ -32,20 +34,50 @@
 #warning Populate text version
             }
             
-            if (morsel.morselPicture)
+            if (morsel.morselPictureURL)
             {
                 UIImageView *morselImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f + (320.f * idx), 0.f, 320.f, 200.f)];
-                UIImage *morselImage = [UIImage imageWithData:morsel.morselPicture];
-                
                 morselImageView.contentMode = UIViewContentModeScaleAspectFill;
-                morselImageView.image = morselImage;
                 
                 [self addSubview:morselImageView];
-                
                 [self setContentSize:CGSizeMake(320.f * (idx + 1), 200.f)];
+                
+                if (morsel.morselPicture)
+                {
+                    UIImage *morselImage = [UIImage imageWithData:morsel.morselPicture];
+                    morselImageView.image = morselImage;
+                }
+                
+                if (morsel.morselPictureURL && !morsel.morselPicture)
+                {
+                    __weak UIImageView *weakImageView = morselImageView;
+                    
+                    [morselImageView setImageWithURLRequest:morsel.morselPictureURLRequest
+                                            placeholderImage:nil
+                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
+                     {
+                         if (image)
+                         {
+                             __strong UIImageView *strongImageView = weakImageView;
+                             strongImageView.image = image;
+                         }
+                     }
+                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)
+                     {
+                         DDLogError(@"Unable to set Morsel Image in ScrollView: %@", error.userInfo);
+                     }];
+                }
             }
         }];
     }
+}
+
+- (void)scrollToMorsel:(MRSLMorsel *)morsel
+{
+    int morselIndex = [_post.morsels indexOfObject:morsel];
+    
+    [self scrollRectToVisible:CGRectMake(self.frame.size.width * morselIndex, 0.f, self.frame.size.width, self.frame.size.height)
+                     animated:NO];
 }
 
 - (void)reset
@@ -54,8 +86,21 @@
     
     [[self subviews] enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop)
     {
+        if ([subview isKindOfClass:[UIImageView class]])
+        {
+            UIImageView *imageView = (UIImageView *)subview;
+            [imageView cancelImageRequestOperation];
+        }
+        
         [subview removeFromSuperview];
     }];
+}
+
+#pragma mark - Private Methods
+
+- (void)dealloc
+{
+    [self reset];
 }
 
 @end
