@@ -9,6 +9,8 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *emailAddress;
 	__unsafe_unretained NSString *firstName;
 	__unsafe_unretained NSString *lastName;
+	__unsafe_unretained NSString *likeCount;
+	__unsafe_unretained NSString *morselCount;
 	__unsafe_unretained NSString *occupationTitle;
 	__unsafe_unretained NSString *occupationType;
 	__unsafe_unretained NSString *profileImage;
@@ -26,6 +28,8 @@ extern const struct MRSLUserFetchedProperties {
 
 @class MRSLComment;
 @class MRSLPost;
+
+
 
 
 
@@ -85,6 +89,34 @@ extern const struct MRSLUserFetchedProperties {
 
 
 //- (BOOL)validateLastName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* likeCount;
+
+
+
+@property int16_t likeCountValue;
+- (int16_t)likeCountValue;
+- (void)setLikeCountValue:(int16_t)value_;
+
+//- (BOOL)validateLikeCount:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* morselCount;
+
+
+
+@property int16_t morselCountValue;
+- (int16_t)morselCountValue;
+- (void)setMorselCountValue:(int16_t)value_;
+
+//- (BOOL)validateMorselCount:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -202,6 +234,24 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSString*)primitiveLastName;
 - (void)setPrimitiveLastName:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveLikeCount;
+- (void)setPrimitiveLikeCount:(NSNumber*)value;
+
+- (int16_t)primitiveLikeCountValue;
+- (void)setPrimitiveLikeCountValue:(int16_t)value_;
+
+
+
+
+- (NSNumber*)primitiveMorselCount;
+- (void)setPrimitiveMorselCount:(NSNumber*)value;
+
+- (int16_t)primitiveMorselCountValue;
+- (void)setPrimitiveMorselCountValue:(int16_t)value_;
 
 
 

@@ -21,21 +21,22 @@
     self.lastName = ([dictionary[@"last_name"] isEqual:[NSNull null]]) ? self.lastName : dictionary[@"last_name"];
     self.occupationTitle = ([dictionary[@"title"] isEqual:[NSNull null]]) ? self.occupationTitle : dictionary[@"title"];
     self.authToken = ([dictionary[@"auth_token"] isEqual:[NSNull null]]) ? self.authToken : dictionary[@"auth_token"];
-    self.profileImageURL = ([dictionary[@"photo_url"] isEqual:[NSNull null]]) ? self.profileImageURL : dictionary[@"photo_url"];
-    self.userID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.userID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
     
-    [self retrieveProfileImageWithSuccess:nil
-                             failure:nil];
+    if (![dictionary[@"photos"] isEqual:[NSNull null]])
+    {
+        NSDictionary *photoDictionary = dictionary[@"photos"];
+        
+        self.profileImageURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
+                                                                                   withString:@"IMAGE_SIZE"];
+    }
+    
+    
+    self.userID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.userID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
     
     if (contextOrNil)
     {
         // Only used when creation of MO children is relevant
     }
-}
-
-- (NSString *)fullName
-{
-    return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
 }
 
 - (BOOL)isCurrentUser
@@ -48,42 +49,42 @@
     return (UserOccupationType)[self.occupationType intValue];
 }
 
+- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type
+{
+    if (!self.profileImageURL) return nil;
+    
+    BOOL isRetina = ([UIScreen mainScreen].scale == 2.f);
+    
+    NSString *typeSizeString = nil;
+    
+    switch (type)
+    {
+        case ProfileImageSizeTypeSmall:
+            typeSizeString = (isRetina) ? @"_80x80" : @"_40x40";
+            break;
+        case ProfileImageSizeTypeMedium:
+            typeSizeString = (isRetina) ? @"_144x144" : @"_72x72";
+            break;
+        default:
+            DDLogError(@"Unsupported Profile Image Size Type Requested!");
+            return nil;
+            break;
+    }
+    
+    NSString *adjustedURLForType = [self.profileImageURL stringByReplacingOccurrencesOfString:@"IMAGE_SIZE"
+                                                                                    withString:typeSizeString];
+    
+    return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
+}
+
+- (NSString *)fullName
+{
+    return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+}
+
 - (void)addPost:(MRSLPost *)post
 {
     [self.postsSet addObject:post];
-}
-
-
-- (void)retrieveProfileImageWithSuccess:(MorselImageDownloadSuccessBlock)successOrNil
-                                failure:(MorselImageDownloadFailureBlock)failureOrNil
-{
-    if (!self.profileImageURL)
-    {
-        NSError *imageUrlFailure = [NSError errorWithDomain:@"com.eatmorsel.morsel" code:50 userInfo:@{@"error": @"No image URL available"}];
-        
-        if (failureOrNil) failureOrNil(imageUrlFailure);
-        
-        return;
-    }
-    
-    if (!self.profileImage)
-    {
-        AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.profileImageURL]]];
-        [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, NSData *imageData)
-         {
-             self.profileImage = imageData;
-             
-             UIImage *downloadedProfileImage = [UIImage imageWithData:imageData];
-             
-             if (successOrNil) successOrNil(downloadedProfileImage);
-         }
-                                                     failure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
-             if (failureOrNil) failureOrNil(error);
-         }];
-        [imageRequestOperation start];
-    }
-    
 }
 
 - (void)setOccupationTypeRaw:(UserOccupationType)type

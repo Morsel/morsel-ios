@@ -38,6 +38,12 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>HelveticaNeueLTStd-Cn.otf</string>
+		<string>HelveticaNeueLTStd-CnO.otf</string>
+		<string>HelveticaNeueLTStd-ThCn.otf</string>
+	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

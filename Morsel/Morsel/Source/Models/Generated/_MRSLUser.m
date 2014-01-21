@@ -8,6 +8,8 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.emailAddress = @"emailAddress",
 	.firstName = @"firstName",
 	.lastName = @"lastName",
+	.likeCount = @"likeCount",
+	.morselCount = @"morselCount",
 	.occupationTitle = @"occupationTitle",
 	.occupationType = @"occupationType",
 	.profileImage = @"profileImage",
@@ -49,6 +51,16 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"likeCountValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"likeCount"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"morselCountValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"morselCount"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"occupationTypeValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"occupationType"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -89,6 +101,58 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 @dynamic lastName;
 
+
+
+
+
+
+@dynamic likeCount;
+
+
+
+- (int16_t)likeCountValue {
+	NSNumber *result = [self likeCount];
+	return [result shortValue];
+}
+
+- (void)setLikeCountValue:(int16_t)value_ {
+	[self setLikeCount:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveLikeCountValue {
+	NSNumber *result = [self primitiveLikeCount];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveLikeCountValue:(int16_t)value_ {
+	[self setPrimitiveLikeCount:[NSNumber numberWithShort:value_]];
+}
+
+
+
+
+
+@dynamic morselCount;
+
+
+
+- (int16_t)morselCountValue {
+	NSNumber *result = [self morselCount];
+	return [result shortValue];
+}
+
+- (void)setMorselCountValue:(int16_t)value_ {
+	[self setMorselCount:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveMorselCountValue {
+	NSNumber *result = [self primitiveMorselCount];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveMorselCountValue:(int16_t)value_ {
+	[self setPrimitiveMorselCount:[NSNumber numberWithShort:value_]];
+}
 
 
 
