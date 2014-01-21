@@ -60,7 +60,7 @@ UICollectionViewDelegate
      {
          if ([responseArray count] > 0)
          {
-             DDLogDebug(@"%lu feed items available. Initiating fetch request.", (unsigned long)[responseArray count]);
+             DDLogDebug(@"%lu feed posts available. Initiating fetch request.", (unsigned long)[responseArray count]);
              
              self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
                                                                    ascending:YES
@@ -73,12 +73,12 @@ UICollectionViewDelegate
          }
          else
          {
-             DDLogDebug(@"No Feed items available");
+             DDLogDebug(@"No feed posts available");
          }
      }
                                                    failure:^(NSError *error)
      {
-         DDLogError(@"Error loading feed items: %@", error.userInfo);
+         DDLogError(@"Error loading feed posts: %@", error.userInfo);
      }];
 }
 

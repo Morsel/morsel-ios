@@ -40,4 +40,8 @@
 - (void)retrieveFeedWithSuccess:(MorselAPIArrayBlock)success
                         failure:(MorselAPIFailureBlock)failureOrNil;
 
+- (void)retrieveUserPosts:(MRSLUser *)user
+                  success:(MorselAPIArrayBlock)success
+                  failure:(MorselAPIFailureBlock)failureOrNil;
+
 @end

@@ -2,6 +2,8 @@
 
 #import <AFNetworking/AFNetworking.h>
 
+#import "ModelController.h"
+
 @interface MRSLUser ()
 
 @end
@@ -34,6 +36,11 @@
 - (NSString *)fullName
 {
     return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+}
+
+- (BOOL)isCurrentUser
+{
+    return ([[ModelController sharedController].currentUser.userID intValue] == [self.userID intValue]);
 }
 
 - (UserOccupationType)occupationTypeRaw

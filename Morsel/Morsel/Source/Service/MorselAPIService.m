@@ -329,6 +329,30 @@
     }];
 }
 
+- (void)retrieveUserPosts:(MRSLUser *)user
+                  success:(MorselAPIArrayBlock)success
+                  failure:(MorselAPIFailureBlock)failureOrNil
+{
+    [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/posts", [user.userID intValue]]
+                             parameters:@{@"user_id": user.userID,
+                                          @"api_key": user.userID}
+                                success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+         
+         if ([responseObject isKindOfClass:[NSArray class]])
+         {
+             success(responseObject);
+         }
+     }
+                                failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         [self reportFailure:failureOrNil
+                   withError:error
+                    inMethod:NSStringFromSelector(_cmd)];
+     }];
+}
+
 #pragma mark - General Methods
 
 - (void)reportFailure:(MorselAPIFailureBlock)failureOrNil
