@@ -26,8 +26,12 @@
 - (MRSLUser *)currentUser;
 - (MRSLUser *)userWithID:(NSNumber *)userID;
 
-- (void)getFeedWithSuccess:(MorselAPIArrayBlock)success
+- (void)getFeedWithSuccess:(MorselAPIArrayBlock)successOrNil
                    failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)getUserPosts:(MRSLUser *)user
+             success:(MorselAPIArrayBlock)successOrNil
+             failure:(MorselAPIFailureBlock)failureOrNil;
 
 // Saves data in default context into the persistent store.
 - (void)saveDataToStore;

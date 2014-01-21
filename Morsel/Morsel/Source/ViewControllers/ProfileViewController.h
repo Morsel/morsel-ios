@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class MRSLUser;
+
 @interface ProfileViewController : UIViewController
+
+@property (nonatomic, strong) MRSLUser *user;
 
 @end

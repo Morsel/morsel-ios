@@ -9,8 +9,8 @@ typedef NS_ENUM(NSUInteger, UserOccupationType)
 
 @interface MRSLUser : _MRSLUser
 
-
 - (NSString *)fullName;
+- (BOOL)isCurrentUser;
 - (UserOccupationType)occupationTypeRaw;
 
 - (void)addPost:(MRSLPost *)post;

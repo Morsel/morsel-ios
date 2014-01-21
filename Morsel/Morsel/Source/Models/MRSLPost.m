@@ -28,10 +28,27 @@
     
     if (![dictionary[@"creator"] isEqual:[NSNull null]])
     {
-        MRSLUser *author = [MRSLUser MR_createInContext:context];
-        [author setWithDictionary:dictionary[@"creator"]
-                        inContext:context];
-        self.author = author;
+        
+        if (![dictionary[@"creator"][@"id"] isEqual:[NSNull null]])
+        {
+            NSNumber *userID = dictionary[@"creator"][@"id"];
+            
+            MRSLUser *author = nil;
+            
+            if ([[ModelController sharedController].currentUser.userID intValue] == [userID intValue] &&
+                [context isEqual:[ModelController sharedController].defaultContext])
+            {
+                author = [ModelController sharedController].currentUser;
+            }
+            else
+            {
+                author = [MRSLUser MR_createInContext:context];
+                [author setWithDictionary:dictionary[@"creator"]
+                                inContext:context];
+            }
+            
+            self.author = author;
+        }
     }
     
     if (![dictionary[@"morsels"] isEqual:[NSNull null]])

@@ -93,15 +93,15 @@
 
 #pragma mark - Feed Methods
 
-- (void)getFeedWithSuccess:(MorselAPIArrayBlock)success
+- (void)getFeedWithSuccess:(MorselAPIArrayBlock)successOrNil
                    failure:(MorselAPIFailureBlock)failureOrNil
 {
     [self.morselApiService retrieveFeedWithSuccess:^(NSArray *responseArray)
     {
         [responseArray enumerateObjectsUsingBlock:^(NSDictionary *postDictionary, NSUInteger idx, BOOL *stop)
         {
-            NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"postID == %d", [postDictionary[@"id"] intValue]];
-            NSArray *postArray = [MRSLPost MR_findAllWithPredicate:userPredicate
+            NSPredicate *existingPostPredicate = [NSPredicate predicateWithFormat:@"postID == %d", [postDictionary[@"id"] intValue]];
+            NSArray *postArray = [MRSLPost MR_findAllWithPredicate:existingPostPredicate
                                                          inContext:_temporaryContext];
             
             if ([postArray count] == 0)
@@ -115,12 +115,44 @@
             }
         }];
         
-        if (success) success(responseArray);
+        if (successOrNil) successOrNil(responseArray);
     }
                                            failure:^(NSError *error)
     {
         if (failureOrNil) failureOrNil(error);
     }];
+}
+
+- (void)getUserPosts:(MRSLUser *)user
+             success:(MorselAPIArrayBlock)successOrNil
+             failure:(MorselAPIFailureBlock)failureOrNil
+{
+    [self.morselApiService retrieveUserPosts:user
+                                     success:^(NSArray *responseArray)
+     {
+         [responseArray enumerateObjectsUsingBlock:^(NSDictionary *postDictionary, NSUInteger idx, BOOL *stop)
+          {
+              NSPredicate *existingPostPredicate = [NSPredicate predicateWithFormat:@"postID == %d", [postDictionary[@"id"] intValue]];
+              NSArray *postArray = [MRSLPost MR_findAllWithPredicate:existingPostPredicate
+                                                           inContext:user.isCurrentUser ? _defaultContext : _temporaryContext];
+              
+              if ([postArray count] == 0)
+              {
+                  // Create posts in temporary context but only if they don't already exist
+#warning Adjust this to REPLACE existing Posts
+                  DDLogDebug(@"Post with ID (%d) DOES NOT EXIST ALREADY", [postDictionary[@"id"] intValue]);
+                  MRSLPost *post = [MRSLPost MR_createInContext:user.isCurrentUser ? _defaultContext :_temporaryContext];
+                  [post setWithDictionary:postDictionary
+                                inContext:user.isCurrentUser ? _defaultContext :_temporaryContext];
+              }
+          }];
+         
+         if (successOrNil) successOrNil(responseArray);
+     }
+                                           failure:^(NSError *error)
+     {
+         if (failureOrNil) failureOrNil(error);
+     }];
 }
 
 #pragma mark - Data Methods
