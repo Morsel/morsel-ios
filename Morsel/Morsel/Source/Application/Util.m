@@ -18,4 +18,12 @@
     return [emailValidation evaluateWithObject:emailAddress];
 }
 
++ (BOOL)validateUsername:(NSString *)username
+{
+    NSString *usernameRegex = @"[A-Z0-9a-z_]+";
+    NSPredicate *usernameValidation = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", usernameRegex];
+    
+    return [usernameValidation evaluateWithObject:username];
+}
+
 @end

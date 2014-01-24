@@ -165,4 +165,12 @@ UIGestureRecognizerDelegate
                               sender:nil];
 }
 
+- (void)morselPostCollectionViewCellDidDisplayProgression:(MorselPostCollectionViewCell *)cell
+{
+    NSIndexPath *cellIndexPath = [self.feedCollectionView indexPathForCell:cell];
+    [self.feedCollectionView scrollToItemAtIndexPath:cellIndexPath
+                                    atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                            animated:YES];
+}
+
 @end

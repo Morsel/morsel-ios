@@ -11,5 +11,6 @@
 @interface Util : NSObject
 
 + (BOOL)validateEmail:(NSString *)candidate;
++ (BOOL)validateUsername:(NSString *)username;
 
 @end

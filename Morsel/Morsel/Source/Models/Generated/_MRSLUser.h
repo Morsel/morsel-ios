@@ -16,6 +16,7 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *profileImage;
 	__unsafe_unretained NSString *profileImageURL;
 	__unsafe_unretained NSString *userID;
+	__unsafe_unretained NSString *userName;
 } MRSLUserAttributes;
 
 extern const struct MRSLUserRelationships {
@@ -28,6 +29,7 @@ extern const struct MRSLUserFetchedProperties {
 
 @class MRSLComment;
 @class MRSLPost;
+
 
 
 
@@ -180,6 +182,16 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* userName;
+
+
+
+//- (BOOL)validateUserName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSSet *comments;
 
 - (NSMutableSet*)commentsSet;
@@ -288,6 +300,12 @@ extern const struct MRSLUserFetchedProperties {
 
 - (int16_t)primitiveUserIDValue;
 - (void)setPrimitiveUserIDValue:(int16_t)value_;
+
+
+
+
+- (NSString*)primitiveUserName;
+- (void)setPrimitiveUserName:(NSString*)value;
 
 
 

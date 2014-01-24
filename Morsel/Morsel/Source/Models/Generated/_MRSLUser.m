@@ -15,6 +15,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.profileImage = @"profileImage",
 	.profileImageURL = @"profileImageURL",
 	.userID = @"userID",
+	.userName = @"userName",
 };
 
 const struct MRSLUserRelationships MRSLUserRelationships = {
@@ -226,6 +227,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 - (void)setPrimitiveUserIDValue:(int16_t)value_ {
 	[self setPrimitiveUserID:[NSNumber numberWithShort:value_]];
 }
+
+
+
+
+
+@dynamic userName;
+
 
 
 

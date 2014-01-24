@@ -96,6 +96,7 @@
 		06E89F8F1885ED3B00DA3A90 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E89F8E1885ED3B00DA3A90 /* Util.m */; };
 		06F11E7C1862465F003E64C8 /* MRSLPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F11E7B1862465F003E64C8 /* MRSLPost.m */; };
 		06F11E7F18624680003E64C8 /* _MRSLPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F11E7E18624680003E64C8 /* _MRSLPost.m */; };
+		06F2F4F31892F78A00977DEB /* MorselLargeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F2F4F21892F78A00977DEB /* MorselLargeButton.m */; };
 		83193CDB90584AB6BE66EE88 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D39BCA7E9BC46D8914312A8 /* libPods.a */; };
 		F74BE655C47B487989CEC74D /* libPods-Morsel-Integration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85BAA024FEB848BEB18EFEBB /* libPods-Morsel-Integration.a */; };
 /* End PBXBuildFile section */
@@ -246,6 +247,8 @@
 		06F11E7B1862465F003E64C8 /* MRSLPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLPost.m; path = Source/Models/MRSLPost.m; sourceTree = "<group>"; };
 		06F11E7D18624680003E64C8 /* _MRSLPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MRSLPost.h; path = Source/Models/Generated/_MRSLPost.h; sourceTree = "<group>"; };
 		06F11E7E18624680003E64C8 /* _MRSLPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MRSLPost.m; path = Source/Models/Generated/_MRSLPost.m; sourceTree = "<group>"; };
+		06F2F4F11892F78A00977DEB /* MorselLargeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselLargeButton.h; path = Source/Views/MorselLargeButton.h; sourceTree = "<group>"; };
+		06F2F4F21892F78A00977DEB /* MorselLargeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselLargeButton.m; path = Source/Views/MorselLargeButton.m; sourceTree = "<group>"; };
 		25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.xcconfig"; path = "../Pods/Pods-Morsel-Integration.xcconfig"; sourceTree = "<group>"; };
 		4D39BCA7E9BC46D8914312A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -332,6 +335,8 @@
 			children = (
 				068602A01891AD2C000CD576 /* MorselStandardButton.h */,
 				068602A11891AD2C000CD576 /* MorselStandardButton.m */,
+				06F2F4F11892F78A00977DEB /* MorselLargeButton.h */,
+				06F2F4F21892F78A00977DEB /* MorselLargeButton.m */,
 				066F5AF7185BCD3700468210 /* ProfileImageView.h */,
 				066F5AF8185BCD3700468210 /* ProfileImageView.m */,
 				066F5AFD185BCD8500468210 /* TagView.h */,
@@ -942,6 +947,7 @@
 				068602991891A6C5000CD576 /* MorselTextField.m in Sources */,
 				066F5ACA185BCA3D00468210 /* _MRSLMorsel.m in Sources */,
 				0698CA99185240F2007AF442 /* MRSLUser.m in Sources */,
+				06F2F4F31892F78A00977DEB /* MorselLargeButton.m in Sources */,
 				068602B318920D31000CD576 /* MorselCondensedLabel.m in Sources */,
 				0669C5131871FD370093132F /* UIImage+Resize.m in Sources */,
 				066F5AEA185BCBF200468210 /* MorselPostCollectionViewCell.m in Sources */,

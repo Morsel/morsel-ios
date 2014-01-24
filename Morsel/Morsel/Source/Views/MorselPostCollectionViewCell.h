@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class MRSLMorsel, MRSLUser;
+@class MorselPostCollectionViewCell, MRSLMorsel, MRSLUser;
 
 @protocol MorselPostCollectionViewCellDelegate <NSObject>
 
 @optional
+- (void)morselPostCollectionViewCellDidDisplayProgression:(MorselPostCollectionViewCell *)cell;
 - (void)morselPostCollectionViewCellDidSelectProfileForUser:(MRSLUser *)user;
 - (void)morselPostCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel;
 

@@ -38,10 +38,12 @@
            success:(MorselAPISuccessBlock)userSuccessOrNil
            failure:(MorselAPIFailureBlock)failureOrNil
 {
-    NSDictionary *parameters = @{@"user":@{@"email": user.emailAddress,
+    NSDictionary *parameters = @{@"user":@{@"username": user.userName,
+                                           @"email": user.emailAddress,
                                            @"password": password,
                                            @"first_name": user.firstName,
-                                           @"last_name": user.lastName}};
+                                           @"last_name": user.lastName,
+                                           @"title": user.occupationTitle}};
     
     [[MorselAPIClient sharedClient] POST:@"users"
                               parameters:parameters
@@ -130,6 +132,38 @@
          }
          
          if (successOrNil) successOrNil(responseObject);
+     }
+                                 failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         [self reportFailure:failureOrNil
+                   withError:error
+                    inMethod:NSStringFromSelector(_cmd)];
+     }];
+}
+
+#pragma mark - User Services
+
+- (void)updateUser:(MRSLUser *)user
+           success:(MorselAPISuccessBlock)userSuccessOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil
+{
+    NSDictionary *parameters = @{@"user":@{@"username": user.userName,
+                                           @"email": user.emailAddress,
+                                           @"first_name": user.firstName,
+                                           @"last_name": user.lastName,
+                                           @"title": user.occupationTitle},
+                                 @"api_key": [ModelController sharedController].currentUser.userID};
+    
+    [[MorselAPIClient sharedClient] PUT:[NSString stringWithFormat:@"users/%i", [user.userID intValue]]
+                              parameters:parameters
+                                 success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+
+         if (userSuccessOrNil)
+         {
+             userSuccessOrNil(responseObject);
+         }
      }
                                  failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {

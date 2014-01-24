@@ -24,6 +24,12 @@
                     success:(MorselAPISuccessBlock)successOrNil
                     failure:(MorselAPIFailureBlock)failureOrNil;
 
+#pragma mark - User Services
+
+- (void)updateUser:(MRSLUser *)user
+           success:(MorselAPISuccessBlock)userSuccessOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil;
+
 #pragma mark - Morsel Services
 
 - (void)createPost:(MRSLPost *)post

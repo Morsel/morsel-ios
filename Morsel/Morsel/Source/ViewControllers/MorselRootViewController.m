@@ -13,6 +13,8 @@
 #import "ModelController.h"
 #import "ProfileViewController.h"
 
+#import "MRSLUser.h"
+
 @interface MorselRootViewController ()
 
 @property (nonatomic, strong) NSMutableArray *navigationControllers;
@@ -71,6 +73,8 @@
     }
     else
     {
+#warning Should attempt to log user in (if data connection is present) and if there is an error, display login screen
+        
         [self displayHome];
     }
 }

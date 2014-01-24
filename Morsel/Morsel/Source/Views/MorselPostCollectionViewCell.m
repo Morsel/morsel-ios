@@ -97,14 +97,29 @@ MorselThumbnailViewControllerDelegate
     self.descriptionLabel.text = nil;
     self.profileImageView.user = nil;
     self.morselImageView.image = nil;
+    
+    if (self.morselThumbnailVC)
+    {
+        [self.morselThumbnailVC.view removeFromSuperview];
+        self.morselThumbnailVC = nil;
+        
+        _titleLabel.alpha = 1.f;
+        _descriptionLabel.alpha = 1.f;
+        _profileImageView.alpha = 1.f;
+        _likeButton.alpha = 1.f;
+    }
 }
 
 #pragma mark - Private Methods
 
 - (IBAction)displayAssociatedMorsels:(id)sender
 {
-    // Hide Interface
     // Perform blur
+    
+    if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidDisplayProgression:)])
+    {
+        [self.delegate morselPostCollectionViewCellDidDisplayProgression:self];
+    }
     
     self.morselThumbnailVC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"MorselThumbnailViewController"];
     _morselThumbnailVC.delegate = self;
@@ -201,6 +216,7 @@ MorselThumbnailViewControllerDelegate
          }
                          completion:^(BOOL finished)
          {
+             [self.morselThumbnailVC.view removeFromSuperview];
              self.morselThumbnailVC = nil;
          }];
     }

@@ -46,6 +46,11 @@ UIScrollViewDelegate
     {
         _morselDescriptionLabel.text = _morsel.morselDescription;
     }
+    else
+    {
+        _morselDescriptionLabel.text = @"No Description";
+        _morselDescriptionLabel.textColor = [UIColor morselUserInterface];
+    }
     
     if (_morsel.morselPictureURL)
     {
