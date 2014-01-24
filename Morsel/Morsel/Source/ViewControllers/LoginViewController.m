@@ -18,6 +18,8 @@ UITextFieldDelegate
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UIView *activityView;
+@property (weak, nonatomic) IBOutlet UIButton *signInButton;
 
 @end
 
@@ -38,12 +40,21 @@ UITextFieldDelegate
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
+        
+        return;
     }
+    
+    [self.signInButton setEnabled:NO];
+    
+    self.activityView.hidden = NO;
     
     [[ModelController sharedController].morselApiService signInUserWithEmail:_emailTextField.text
                                                                  andPassword:_passwordTextField.text
                                                                      success:nil
-                                                                     failure:nil];
+                                                                     failure:^(NSError *error) {
+                                                                         self.activityView.hidden = YES;
+                                                                         [self.signInButton setEnabled:YES];
+                                                                     }];
 }
 
 #pragma mark - UITextFieldDelegate Methods

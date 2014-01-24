@@ -16,11 +16,14 @@
 - (void)setWithDictionary:(NSDictionary *)dictionary
                 inContext:(NSManagedObjectContext *)contextOrNil
 {
+    self.userName = ([dictionary[@"username"] isEqual:[NSNull null]]) ? self.userName : dictionary[@"username"];
     self.emailAddress = ([dictionary[@"email"] isEqual:[NSNull null]]) ? self.emailAddress : dictionary[@"email"];
     self.firstName = ([dictionary[@"first_name"] isEqual:[NSNull null]]) ? self.firstName : dictionary[@"first_name"];
     self.lastName = ([dictionary[@"last_name"] isEqual:[NSNull null]]) ? self.lastName : dictionary[@"last_name"];
     self.occupationTitle = ([dictionary[@"title"] isEqual:[NSNull null]]) ? self.occupationTitle : dictionary[@"title"];
     self.authToken = ([dictionary[@"auth_token"] isEqual:[NSNull null]]) ? self.authToken : dictionary[@"auth_token"];
+    self.morselCount = ([dictionary[@"morsel_count"] isEqual:[NSNull null]]) ? self.morselCount : [NSNumber numberWithInt:[dictionary[@"morsel_count"] intValue]];
+    self.likeCount = ([dictionary[@"like_count"] isEqual:[NSNull null]]) ? self.likeCount : [NSNumber numberWithInt:[dictionary[@"like_count"] intValue]];
     
     if (![dictionary[@"photos"] isEqual:[NSNull null]])
     {
@@ -29,7 +32,6 @@
         self.profileImageURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
                                                                                    withString:@"IMAGE_SIZE"];
     }
-    
     
     self.userID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.userID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
     

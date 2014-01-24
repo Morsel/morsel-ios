@@ -45,6 +45,7 @@
         <attribute name="profileImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="profileImageURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="user" inverseEntity="MRSLComment" syncable="YES"/>
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="MRSLPost" inverseName="author" inverseEntity="MRSLPost" syncable="YES"/>
     </entity>

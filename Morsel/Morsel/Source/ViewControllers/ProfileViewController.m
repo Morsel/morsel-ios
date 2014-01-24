@@ -8,7 +8,6 @@
 
 #import "ProfileViewController.h"
 
-#import "MorselCondensedLabel.h"
 #import "ModelController.h"
 #import "MorselDetailViewController.h"
 #import "MorselPostCollectionViewCell.h"
@@ -21,6 +20,7 @@
 @interface ProfileViewController ()
 
 <
+MorselPostCollectionViewCellDelegate,
 NSFetchedResultsControllerDelegate
 >
 
@@ -29,12 +29,13 @@ NSFetchedResultsControllerDelegate
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *morselCountLabel;
-@property (weak, nonatomic) IBOutlet MorselCondensedLabel *userTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *userTitleLabel;
 
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, strong) NSIndexPath *selectedMorselCellIndexPath;
+
+@property (nonatomic, strong) MRSLMorsel *selectedMorsel;
 
 @end
 
@@ -51,6 +52,8 @@ NSFetchedResultsControllerDelegate
     self.userNameLabel.text = _user.fullName;
     self.userTitleLabel.text = _user.occupationTitle;
     self.profileImageView.user = _user;
+    self.likeCountLabel.text = [NSString stringWithFormat:@"%i", [_user.likeCount intValue]];
+    self.morselCountLabel.text = [NSString stringWithFormat:@"%i", [_user.morselCount intValue]];
     
     [_profileImageView addCornersWithRadius:36.f];
     _profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -59,6 +62,7 @@ NSFetchedResultsControllerDelegate
     if ([self.navigationController.viewControllers count] == 1)
     {
         self.navigationItem.leftBarButtonItem = nil;
+        self.feedCollectionView.contentInset = UIEdgeInsetsMake(0.f, 0.f, 50.f, 0.f);
     }
 }
 
@@ -129,10 +133,8 @@ NSFetchedResultsControllerDelegate
 {
     if ([[segue identifier] isEqualToString:@"ShowMorselDetail"])
     {
-        MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:_selectedMorselCellIndexPath];
-        
         MorselDetailViewController *morselDetailVC = [segue destinationViewController];
-        morselDetailVC.morsel = morsel;
+        morselDetailVC.morsel = _selectedMorsel;
     }
 }
 
@@ -151,6 +153,7 @@ NSFetchedResultsControllerDelegate
     
     MorselPostCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
                                                                                                   forIndexPath:indexPath];
+    morselCell.delegate = self;
     morselCell.morsel = morsel;
     
     return morselCell;
@@ -160,7 +163,8 @@ NSFetchedResultsControllerDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedMorselCellIndexPath = indexPath;
+    MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
+    self.selectedMorsel = morsel;
     
     [self performSegueWithIdentifier:@"ShowMorselDetail"
                               sender:nil];
@@ -181,6 +185,23 @@ NSFetchedResultsControllerDelegate
     }
     
     [self.feedCollectionView reloadData];
+}
+
+#pragma mark - MorselPostCollectionViewCellDelegate Methods
+
+- (void)morselPostCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel
+{
+    self.selectedMorsel = morsel;
+    [self performSegueWithIdentifier:@"ShowMorselDetail"
+                              sender:nil];
+}
+
+- (void)morselPostCollectionViewCellDidDisplayProgression:(MorselPostCollectionViewCell *)cell
+{
+    NSIndexPath *cellIndexPath = [self.feedCollectionView indexPathForCell:cell];
+    [self.feedCollectionView scrollToItemAtIndexPath:cellIndexPath
+                                    atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                            animated:YES];
 }
 
 @end
