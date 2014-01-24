@@ -8,7 +8,7 @@
 
 #import "MorselScrollView.h"
 
-#import <AFNetworking/UIImageView+AFNetworking.h>
+#import "MorselDetailPanelViewController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
@@ -29,45 +29,12 @@
     {
         [_post.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop)
         {
-            if ([morsel.morselDescription length] > 0)
-            {
-#warning Populate text version
-            }
+            MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
+            morselDetailPanelVC.view.frame = CGRectMake(0.f + (320.f * idx), 0.f, 320.f, self.frame.size.height);
+            morselDetailPanelVC.morsel = morsel;
             
-            if (morsel.morselPictureURL)
-            {
-                UIImageView *morselImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.f + (320.f * idx), 0.f, 320.f, 200.f)];
-                morselImageView.contentMode = UIViewContentModeScaleAspectFill;
-                
-                [self addSubview:morselImageView];
-                [self setContentSize:CGSizeMake(320.f * (idx + 1), 200.f)];
-                
-                if (morsel.morselPicture)
-                {
-                    UIImage *morselImage = [UIImage imageWithData:morsel.morselPicture];
-                    morselImageView.image = morselImage;
-                }
-                
-                if (morsel.morselPictureURL && !morsel.morselPicture)
-                {
-                    __weak UIImageView *weakImageView = morselImageView;
-                    
-                    [morselImageView setImageWithURLRequest:morsel.morselPictureURLRequest
-                                            placeholderImage:nil
-                                                     success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-                     {
-                         if (image)
-                         {
-                             __strong UIImageView *strongImageView = weakImageView;
-                             strongImageView.image = image;
-                         }
-                     }
-                                                     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)
-                     {
-                         DDLogError(@"Unable to set Morsel Image in ScrollView: %@", error.userInfo);
-                     }];
-                }
-            }
+            [self addSubview:morselDetailPanelVC.view];
+            [self setContentSize:CGSizeMake(320.f * (idx + 1), 200.f)];
         }];
     }
 }
@@ -76,7 +43,7 @@
 {
     int morselIndex = [_post.morsels indexOfObject:morsel];
     
-    [self scrollRectToVisible:CGRectMake(self.frame.size.width * morselIndex, 0.f, self.frame.size.width, self.frame.size.height)
+    [self scrollRectToVisible:CGRectMake(self.frame.size.width * morselIndex, 0.f, self.frame.size.width, 1.f)
                      animated:NO];
 }
 
@@ -86,12 +53,6 @@
     
     [[self subviews] enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop)
     {
-        if ([subview isKindOfClass:[UIImageView class]])
-        {
-            UIImageView *imageView = (UIImageView *)subview;
-            [imageView cancelImageRequestOperation];
-        }
-        
         [subview removeFromSuperview];
     }];
 }

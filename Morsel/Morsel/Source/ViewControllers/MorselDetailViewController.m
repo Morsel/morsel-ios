@@ -8,10 +8,12 @@
 
 #import "MorselDetailViewController.h"
 
-#import "JSONResponseSerializerWithData.h"
+#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+
 #import "ModelController.h"
 #import "MorselScrollView.h"
 #import "ProfileImageView.h"
+#import "ProfileViewController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
@@ -23,10 +25,12 @@
 UIScrollViewDelegate
 >
 
-@property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UILabel *authorNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
-@property (weak, nonatomic) IBOutlet UITextView *morselDescriptionTextView;
+@property (weak, nonatomic) IBOutlet UILabel *timeSinceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *postTitleLabel;
+@property (weak, nonatomic) IBOutlet UIPageControl *progressionPageControl;
+@property (weak, nonatomic) IBOutlet UIView *morselDetailNavigationView;
+@property (weak, nonatomic) IBOutlet UIView *profilePanelView;
 
 @property (weak, nonatomic) IBOutlet MorselScrollView *morselScrollView;
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
@@ -43,63 +47,76 @@ UIScrollViewDelegate
     
     if (_morsel && _morsel.post)
     {
-        self.profileImageView.user = _morsel.post.author;
-        self.authorNameLabel.text = [_morsel.post.author fullName];
-        self.morselTitleLabel.text = _morsel.post.title;
+        int postMorselCount = [_morsel.post.morsels count];
         
-        self.morselScrollView.post = _morsel.post;
+        if (postMorselCount > 1)
+        {
+            self.progressionPageControl.numberOfPages = postMorselCount;
+        }
+        else
+        {
+            self.progressionPageControl.hidden = YES;
+            [self.morselDetailNavigationView setHeight:64.f];
+        }
+        
+        self.postTitleLabel.text = _morsel.post.title ? : @"Morsel";
+        self.timeSinceLabel.text = [_morsel.creationDate dateTimeAgo];
+        self.authorNameLabel.text = [_morsel.post.author fullName];
+        
+        self.profileImageView.user = _morsel.post.author;
+        [_profileImageView addCornersWithRadius:20.f];
         
         int morselIndex = [_morsel.post.morsels indexOfObject:_morsel];
         
+        self.morselScrollView.contentInset = UIEdgeInsetsMake(55.f, 0.f, 0.f, 0.f);
+        self.morselScrollView.post = _morsel.post;
         [self.morselScrollView scrollToMorsel:_morsel];
-        [self displayMorselDetailForPage:morselIndex];
         
-        [self setLikeButtonImageForMorsel:_morsel];
+        [self displayMorselDetailForPage:morselIndex];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO
+                                             animated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:MorselHideBottomBarNotification
+                                                        object:nil];
+    
+    [self.navigationController setNavigationBarHidden:YES
+                                             animated:YES];
+}
+
+#pragma mark - Segue Methods
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"DisplayUserProfile"])
+    {
+        ProfileViewController *profileVC = [segue destinationViewController];
+        profileVC.user = _morsel.post.author;
     }
 }
 
 #pragma mark - Private Methods
 
-- (IBAction)goBack:(UIBarButtonItem *)sender
+- (IBAction)goBack
 {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (IBAction)toggleLikeMorsel
-{
-    _likeButton.enabled = NO;
-    
-    [[ModelController sharedController].morselApiService likeMorsel:_morsel
-                                                         shouldLike:!_morsel.likedValue
-                                                            didLike:^(BOOL doesLike)
+    if ([self.navigationController.viewControllers count] == 2)
     {
-        [_morsel setLikedValue:doesLike];
-        
-        [self setLikeButtonImageForMorsel:_morsel];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MorselShowBottomBarNotification
+                                                            object:nil];
     }
-                                                            failure:^(NSError *error)
-    {
-        NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:errorDictionary ? [errorDictionary[@"errors"] objectAtIndex:0][@"msg"] : nil
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-        
-        _likeButton.enabled = YES;
-    }];
-}
-
-- (void)setLikeButtonImageForMorsel:(MRSLMorsel *)morsel
-{
-    UIImage *likeImage = [UIImage imageNamed:morsel.likedValue ? @"30-heart" : @"29-heart"];
     
-    [_likeButton setImage:likeImage
-                 forState:UIControlStateNormal];
-    
-    _likeButton.enabled = YES;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)displayMorselDetailForPage:(int)page
@@ -110,9 +127,7 @@ UIScrollViewDelegate
     
     self.morsel = morsel;
     
-    [self setLikeButtonImageForMorsel:morsel];
-    
-    self.morselDescriptionTextView.text = morsel.morselDescription;
+    self.progressionPageControl.currentPage = page;
 }
 
 - (void)changeMorselDetail

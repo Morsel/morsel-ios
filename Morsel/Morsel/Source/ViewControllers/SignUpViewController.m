@@ -11,10 +11,10 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 #import "ModelController.h"
+#import "MorselStandardButton.h"
 #import "ProfileImageView.h"
 
 #import "MRSLUser.h"
-#import "UIImage+Resize.h"
 
 @interface SignUpViewController ()
 
@@ -24,6 +24,7 @@ UINavigationControllerDelegate,
 UITextFieldDelegate
 >
 
+@property (weak, nonatomic) IBOutlet MorselStandardButton *addPhotoButton;
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameField;
@@ -33,6 +34,13 @@ UITextFieldDelegate
 @end
 
 @implementation SignUpViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [_profileImageView addCornersWithRadius:65.f];
+}
 
 #pragma mark - Private Methods
 
@@ -106,6 +114,8 @@ UITextFieldDelegate
         self.originalProfileImage = info[UIImagePickerControllerOriginalImage];
         
         [self.profileImageView addAndRenderImage:_originalProfileImage];
+        
+        _addPhotoButton.hidden = YES;
     }
     
     [self dismissViewControllerAnimated:YES

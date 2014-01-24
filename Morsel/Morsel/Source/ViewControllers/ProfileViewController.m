@@ -8,6 +8,7 @@
 
 #import "ProfileViewController.h"
 
+#import "MorselCondensedLabel.h"
 #import "ModelController.h"
 #import "MorselDetailViewController.h"
 #import "MorselPostCollectionViewCell.h"
@@ -23,8 +24,13 @@
 NSFetchedResultsControllerDelegate
 >
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *morselCountLabel;
+@property (weak, nonatomic) IBOutlet MorselCondensedLabel *userTitleLabel;
+
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -43,28 +49,32 @@ NSFetchedResultsControllerDelegate
     if (!_user) self.user = [ModelController sharedController].currentUser;
     
     self.userNameLabel.text = _user.fullName;
+    self.userTitleLabel.text = _user.occupationTitle;
     self.profileImageView.user = _user;
+    
+    [_profileImageView addCornersWithRadius:36.f];
+    _profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _profileImageView.layer.borderWidth = 2.f;
+    
+    if ([self.navigationController.viewControllers count] == 1)
+    {
+        self.navigationItem.leftBarButtonItem = nil;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.navigationController setNavigationBarHidden:YES
-                                             animated:animated];
-}
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [self.navigationController setNavigationBarHidden:NO
-                                             animated:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MorselHideBottomBarNotification
+                                                            object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    if (self.fetchedResultsController) return;
     
     [[ModelController sharedController] getUserPosts:_user
                                              success:^(NSArray *responseArray)
@@ -76,7 +86,7 @@ NSFetchedResultsControllerDelegate
              NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"post.author.userID == %i", [_user.userID intValue]];
              
              self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
-                                                                   ascending:YES
+                                                                   ascending:NO
                                                                withPredicate:currentUserPredicate
                                                                      groupBy:nil
                                                                     delegate:self
@@ -93,6 +103,24 @@ NSFetchedResultsControllerDelegate
      {
          DDLogError(@"Error loading profile posts: %@", error.userInfo);
      }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if ([self.navigationController.viewControllers count] == 1)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MorselShowBottomBarNotification
+                                                            object:nil];
+    }
+}
+
+#pragma mark - Private Methods
+
+- (IBAction)goBack:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Segue Methods

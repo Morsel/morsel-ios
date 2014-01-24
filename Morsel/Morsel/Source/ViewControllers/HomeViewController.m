@@ -11,6 +11,7 @@
 #import "ModelController.h"
 #import "MorselPostCollectionViewCell.h"
 #import "MorselDetailViewController.h"
+#import "ProfileViewController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
@@ -18,15 +19,19 @@
 @interface HomeViewController ()
 
 <
+MorselPostCollectionViewCellDelegate,
 NSFetchedResultsControllerDelegate,
 UICollectionViewDataSource,
-UICollectionViewDelegate
+UICollectionViewDelegate,
+UIGestureRecognizerDelegate
 >
 
 @property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, strong) NSIndexPath *selectedMorselCellIndexPath;
+
+@property (nonatomic, strong) MRSLMorsel *selectedMorsel;
+@property (nonatomic, strong) MRSLUser *currentUser;
 
 @end
 
@@ -34,20 +39,14 @@ UICollectionViewDelegate
 
 #pragma mark - Instance Methods
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidLoad
 {
-    [super viewWillAppear:animated];
+    [super viewDidLoad];
     
-    [self.navigationController setNavigationBarHidden:YES
-                                             animated:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
+    UIImage *image = [UIImage imageNamed: @"graphic-morsel-identity-small"];
+    UIImageView *imageview = [[UIImageView alloc] initWithImage: image];
     
-    [self.navigationController setNavigationBarHidden:NO
-                                             animated:animated];
+    self.navigationItem.titleView = imageview;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -63,7 +62,7 @@ UICollectionViewDelegate
              DDLogDebug(@"%lu feed posts available. Initiating fetch request.", (unsigned long)[responseArray count]);
              
              self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
-                                                                   ascending:YES
+                                                                   ascending:NO
                                                                withPredicate:nil
                                                                      groupBy:nil
                                                                     delegate:self
@@ -88,14 +87,18 @@ UICollectionViewDelegate
 {
     if ([[segue identifier] isEqualToString:@"ShowMorselDetail"])
     {
-        MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:_selectedMorselCellIndexPath];
-        
         MorselDetailViewController *morselDetailVC = [segue destinationViewController];
-        morselDetailVC.morsel = morsel;
+        morselDetailVC.morsel = _selectedMorsel;
+    }
+    
+    if ([[segue identifier] isEqualToString:@"DisplayUserProfile"])
+    {
+        ProfileViewController *profileVC = [segue destinationViewController];
+        profileVC.user = _currentUser;
     }
 }
 
-#pragma mark - UICollectionViewDataSource
+#pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -111,16 +114,18 @@ UICollectionViewDelegate
     
     MorselPostCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
                                                                                                   forIndexPath:indexPath];
+    morselCell.delegate = self;
     morselCell.morsel = morsel;
     
     return morselCell;
 }
 
-#pragma mark - UICollectionViewDelegate
+#pragma mark - UICollectionViewDelegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedMorselCellIndexPath = indexPath;
+    MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
+    self.selectedMorsel = morsel;
     
     [self performSegueWithIdentifier:@"ShowMorselDetail"
                               sender:nil];
@@ -141,6 +146,23 @@ UICollectionViewDelegate
     }
     
     [self.feedCollectionView reloadData];
+}
+
+#pragma mark - MorselPostCollectionViewCellDelegate Methods
+
+- (void)morselPostCollectionViewCellDidSelectProfileForUser:(MRSLUser *)user
+{
+    self.currentUser = user;
+    
+    [self performSegueWithIdentifier:@"DisplayUserProfile"
+                              sender:nil];
+}
+
+- (void)morselPostCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel
+{
+    self.selectedMorsel = morsel;
+    [self performSegueWithIdentifier:@"ShowMorselDetail"
+                              sender:nil];
 }
 
 @end

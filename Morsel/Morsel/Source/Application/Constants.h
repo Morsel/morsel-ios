@@ -11,6 +11,8 @@
 extern NSString *const MorselServiceDidCreateUserNotification;
 extern NSString *const MorselServiceDidLogInNewUserNotification;
 extern NSString *const MorselServiceDidLogInExistingUserNotification;
+extern NSString *const MorselShowBottomBarNotification;
+extern NSString *const MorselHideBottomBarNotification;
 
 @interface Constants : NSObject
 

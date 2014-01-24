@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@class MRSLMorsel;
+@class MRSLMorsel, MRSLUser;
+
+@protocol MorselPostCollectionViewCellDelegate <NSObject>
+
+@optional
+- (void)morselPostCollectionViewCellDidSelectProfileForUser:(MRSLUser *)user;
+- (void)morselPostCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel;
+
+@end
 
 @interface MorselPostCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, weak) id <MorselPostCollectionViewCellDelegate> delegate;
 
 @property (nonatomic, weak) MRSLMorsel *morsel;
 

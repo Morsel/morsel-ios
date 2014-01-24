@@ -24,6 +24,7 @@ PODS:
   - CocoaLumberjack/Extensions (1.6.5.1):
     - CocoaLumberjack/Core
   - GCPlaceholderTextView (1.0.1)
+  - GPUImage (0.1.2)
   - KIF (2.0.0)
   - Kiwi/ARC (2.2.3)
   - Kiwi/NonARC (2.2.3)
@@ -31,24 +32,29 @@ PODS:
     - Kiwi/ARC
     - Kiwi/NonARC
   - MagicalRecord (2.2)
+  - NSDate+TimeAgo (1.0.2)
   - NullSafe (1.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - CocoaLumberjack (~> 1.6.5.1)
   - GCPlaceholderTextView (= 1.0.1)
+  - GPUImage (~> 0.1.2)
   - KIF
   - Kiwi/XCTest
   - MagicalRecord (~> 2.2)
+  - NSDate+TimeAgo (~> 1.0.2)
   - NullSafe (~> 1.2)
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   CocoaLumberjack: 17803afbade3126a377d32b8d23367264b44ced6
   GCPlaceholderTextView: 5eeef8d07a1dece8fdcd7762dfc21b8e89800838
+  GPUImage: 007145faa0e27f1ddbcab93e07f026c9776e2fa2
   KIF: ff3b46deb62ce3f8e99c6a2c786729e1eea241ba
   Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
   MagicalRecord: b1fc46c99a9749fe7fe7e6f43a89b62ef5201933
+  NSDate+TimeAgo: fe93d3042e83093ae3630bc47ae7d57f782733f6
   NullSafe: ec359e864f3b8d9c2d81aaa2bdbac8280bba1be2
 
 COCOAPODS: 0.29.0

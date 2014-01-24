@@ -1,5 +1,5 @@
 //
-//  MorselTabBarController.h
+//  MorselRootViewController.h
 //  Morsel
 //
 //  Created by Javier Otero on 12/17/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MorselTabBarController : UITabBarController
+@interface MorselRootViewController : UIViewController
 
 @end

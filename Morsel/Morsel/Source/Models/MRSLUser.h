@@ -7,16 +7,20 @@ typedef NS_ENUM(NSUInteger, UserOccupationType)
     UserOccupationTypeMedia
 };
 
+typedef NS_ENUM(NSUInteger, ProfileImageSizeType)
+{
+    ProfileImageSizeTypeSmall,
+    ProfileImageSizeTypeMedium
+};
+
 @interface MRSLUser : _MRSLUser
 
-- (NSString *)fullName;
 - (BOOL)isCurrentUser;
 - (UserOccupationType)occupationTypeRaw;
+- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type;
+- (NSString *)fullName;
 
 - (void)addPost:(MRSLPost *)post;
-
-- (void)retrieveProfileImageWithSuccess:(MorselImageDownloadSuccessBlock)successOrNil
-                                failure:(MorselImageDownloadFailureBlock)failureOrNil;
 
 - (void)setOccupationTypeRaw:(UserOccupationType)type;
 - (void)setWithDictionary:(NSDictionary *)dictionary

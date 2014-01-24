@@ -11,6 +11,8 @@
 NSString *const MorselServiceDidCreateUserNotification = @"MorselServiceDidCreateUserNotification";
 NSString *const MorselServiceDidLogInNewUserNotification = @"MorselServiceDidLogInNewUserNotification";
 NSString *const MorselServiceDidLogInExistingUserNotification = @"MorselServiceDidLogInExistingUserNotification";
+NSString *const MorselShowBottomBarNotification = @"MorselShowBottomBarNotification";
+NSString *const MorselHideBottomBarNotification = @"MorselHideBottomBarNotification";
 
 @implementation Constants
 

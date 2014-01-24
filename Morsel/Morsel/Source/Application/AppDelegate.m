@@ -28,6 +28,11 @@ int ddLogLevel = LOG_LEVEL_ERROR;
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor morselDarkContent], UITextAttributeTextColor,
+      [UIFont helveticaNeueLTStandardThinCondensedFontOfSize:24.f], UITextAttributeFont, nil]];
+    
     return YES;
 }
 

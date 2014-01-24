@@ -12,8 +12,6 @@
 
 #import "MRSLMorsel.h"
 
-#import "UIImage+Resize.h"
-
 @interface MorselCardCollectionViewCell ()
 
 <

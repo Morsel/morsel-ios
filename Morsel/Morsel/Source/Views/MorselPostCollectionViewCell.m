@@ -12,6 +12,7 @@
 
 #import "JSONResponseSerializerWithData.h"
 #import "ModelController.h"
+#import "MorselThumbnailViewController.h"
 #import "ProfileImageView.h"
 
 #import "MRSLMorsel.h"
@@ -19,12 +20,20 @@
 
 @interface MorselPostCollectionViewCell ()
 
+<
+MorselThumbnailViewControllerDelegate
+>
+
 @property (nonatomic, weak) IBOutlet UIButton *likeButton;
+@property (weak, nonatomic) IBOutlet UIButton *plateButton;
+@property (weak, nonatomic) IBOutlet UIButton *progressionButton;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *morselImageView;
 
 @property (nonatomic, weak) IBOutlet ProfileImageView *profileImageView;
+
+@property (nonatomic, strong) MorselThumbnailViewController *morselThumbnailVC;
 
 @end
 
@@ -40,20 +49,29 @@
     {
         _morsel = morsel;
         
+#warning Troubleshoot why image is sometimes disappearing
+#warning Format text height and support up to two line description
+        
         if (_morsel)
         {
+            _progressionButton.hidden = ([_morsel.post.morsels count] == 1);
+            
+            self.titleLabel.text = _morsel.post.title;
+            self.descriptionLabel.text = morsel.morselDescription;
+            
+            self.profileImageView.user = _morsel.post.author;
+            
+            [self.profileImageView addCornersWithRadius:20.f];
+            self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+            self.profileImageView.layer.borderWidth = 1.f;
+            
+            [self setLikeButtonImageForMorsel:_morsel];
+            
             if (_morsel.morselPictureURL)
             {
-                self.titleLabel.text = _morsel.post.title;
-                self.descriptionLabel.text = morsel.morselDescription;
-                
-                self.profileImageView.user = _morsel.post.author;
-                
-                [self setLikeButtonImageForMorsel:_morsel];
-                
                 __weak __typeof(self)weakSelf = self;
                 
-                [_morselImageView setImageWithURLRequest:_morsel.morselPictureURLRequest
+                [_morselImageView setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeCropped]
                                         placeholderImage:nil
                                                  success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
                  {
@@ -82,6 +100,41 @@
 }
 
 #pragma mark - Private Methods
+
+- (IBAction)displayAssociatedMorsels:(id)sender
+{
+    // Hide Interface
+    // Perform blur
+    
+    self.morselThumbnailVC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"MorselThumbnailViewController"];
+    _morselThumbnailVC.delegate = self;
+    _morselThumbnailVC.post = _morsel.post;
+    [_morselThumbnailVC.view setX:self.frame.size.width];
+    
+    [self addSubview:_morselThumbnailVC.view];
+    
+    [UIView animateWithDuration:.3f
+                          delay:0.f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^
+    {
+        _titleLabel.alpha = 0.f;
+        _descriptionLabel.alpha = 0.f;
+        _profileImageView.alpha = 0.f;
+        _likeButton.alpha = 0.f;
+        
+        [_morselThumbnailVC.view setX:0.f];
+    }
+                     completion:nil];
+}
+
+- (IBAction)displayUserProfile:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectProfileForUser:)])
+    {
+        [self.delegate morselPostCollectionViewCellDidSelectProfileForUser:_morsel.post.author];
+    }
+}
 
 - (IBAction)toggleLikeMorsel
 {
@@ -112,12 +165,45 @@
 
 - (void)setLikeButtonImageForMorsel:(MRSLMorsel *)morsel
 {
-    UIImage *likeImage = [UIImage imageNamed:morsel.likedValue ? @"30-heart" : @"29-heart"];
+    UIImage *likeImage = [UIImage imageNamed:morsel.likedValue ? @"icon-like-active" : @"icon-like-inactive"];
     
     [_likeButton setImage:likeImage
                  forState:UIControlStateNormal];
     
     _likeButton.enabled = YES;
+}
+
+#pragma mark - MorselThumbnailViewControllerDelegate Methods
+
+- (void)morselThumbnailDidSelectMorsel:(MRSLMorsel *)morsel
+{
+    if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectMorsel:)])
+    {
+        [self.delegate morselPostCollectionViewCellDidSelectMorsel:morsel];
+    }
+}
+
+- (void)morselThumbnailDidSelectClose
+{
+    if (self.morselThumbnailVC)
+    {
+        [UIView animateWithDuration:.3f
+                              delay:0.f
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^
+         {
+             _titleLabel.alpha = 1.f;
+             _descriptionLabel.alpha = 1.f;
+             _profileImageView.alpha = 1.f;
+             _likeButton.alpha = 1.f;
+             
+             [_morselThumbnailVC.view setX:self.frame.size.width];
+         }
+                         completion:^(BOOL finished)
+         {
+             self.morselThumbnailVC = nil;
+         }];
+    }
 }
 
 @end

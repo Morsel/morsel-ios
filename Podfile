@@ -9,6 +9,8 @@ pod 'MagicalRecord', '~> 2.2'
 pod 'CocoaLumberjack', '~> 1.6.5.1'
 pod 'GCPlaceholderTextView', '1.0.1'
 pod 'NullSafe', '~>1.2'
+pod 'GPUImage', '~> 0.1.2'
+pod 'NSDate+TimeAgo', '~> 1.0.2'
 
 target 'Morsel-Integration' do
 	pod 'KIF'
