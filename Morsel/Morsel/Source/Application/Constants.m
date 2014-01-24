@@ -14,6 +14,12 @@ NSString *const MorselServiceDidLogInExistingUserNotification = @"MorselServiceD
 NSString *const MorselShowBottomBarNotification = @"MorselShowBottomBarNotification";
 NSString *const MorselHideBottomBarNotification = @"MorselHideBottomBarNotification";
 
+#ifdef DEBUG
+int ddLogLevel = LOG_LEVEL_DEBUG;
+#else
+int ddLogLevel = LOG_LEVEL_ERROR;
+#endif
+
 @implementation Constants
 
 @end

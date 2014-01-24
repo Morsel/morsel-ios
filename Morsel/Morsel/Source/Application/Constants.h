@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import <CocoaLumberjack/DDLog.h>
+
 extern NSString *const MorselServiceDidCreateUserNotification;
 extern NSString *const MorselServiceDidLogInNewUserNotification;
 extern NSString *const MorselServiceDidLogInExistingUserNotification;
 extern NSString *const MorselShowBottomBarNotification;
 extern NSString *const MorselHideBottomBarNotification;
+
+//extern int const ddLogLevel;
 
 @interface Constants : NSObject
 

@@ -24,7 +24,7 @@ MorselPostCollectionViewCellDelegate,
 NSFetchedResultsControllerDelegate
 >
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
@@ -61,42 +61,45 @@ NSFetchedResultsControllerDelegate
     
     if ([self.navigationController.viewControllers count] == 1)
     {
-        self.navigationItem.leftBarButtonItem = nil;
+        self.backButton.hidden = YES;
         self.feedCollectionView.contentInset = UIEdgeInsetsMake(0.f, 0.f, 50.f, 0.f);
     }
+    
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"post.author.userID == %i", [_user.userID intValue]];
+    
+    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+                                                          ascending:NO
+                                                      withPredicate:currentUserPredicate
+                                                            groupBy:nil
+                                                           delegate:self
+                                                          inContext:_user.isCurrentUser ? [ModelController sharedController].defaultContext : [ModelController sharedController].temporaryContext];
+    
+    [self.feedCollectionView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:MorselHideBottomBarNotification
+    if ([self.navigationController.viewControllers count] > 1)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MorselHideBottomBarNotification
                                                             object:nil];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    if (self.fetchedResultsController) return;
+    if (!_user) return;
     
     [[ModelController sharedController] getUserPosts:_user
                                              success:^(NSArray *responseArray)
      {
          if ([responseArray count] > 0)
          {
-             DDLogDebug(@"%lu profile posts available. Initiating fetch request.", (unsigned long)[responseArray count]);
-             
-             NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"post.author.userID == %i", [_user.userID intValue]];
-             
-             self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
-                                                                   ascending:NO
-                                                               withPredicate:currentUserPredicate
-                                                                     groupBy:nil
-                                                                    delegate:self
-                                                                   inContext:_user.isCurrentUser ? [ModelController sharedController].defaultContext : [ModelController sharedController].temporaryContext];
-             
-             [self.feedCollectionView reloadData];
+             DDLogDebug(@"%lu profile posts available.", (unsigned long)[responseArray count]);
          }
          else
          {

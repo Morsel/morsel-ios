@@ -43,21 +43,33 @@ MorselThumbnailViewControllerDelegate
 
 - (void)setMorsel:(MRSLMorsel *)morsel
 {
-    [self reset];
-    
     if (_morsel != morsel)
     {
-        _morsel = morsel;
+        [self reset];
         
-#warning Troubleshoot why image is sometimes disappearing
-#warning Format text height and support up to two line description
+        _morsel = morsel;
         
         if (_morsel)
         {
             _progressionButton.hidden = ([_morsel.post.morsels count] == 1);
             
+            if (morsel.morselDescription)
+            {
+                CGSize descriptionHeight = [morsel.morselDescription sizeWithFont:_descriptionLabel.font
+                                                                constrainedToSize:CGSizeMake(_descriptionLabel.frame.size.width, CGFLOAT_MAX)
+                                                                    lineBreakMode:NSLineBreakByWordWrapping];
+                if (descriptionHeight.height > 16.f) [self.descriptionLabel setHeight:30.f];
+                self.descriptionLabel.text = morsel.morselDescription;
+            }
+            else
+            {
+                [self.titleLabel setY:172.f];
+            }
+            
             self.titleLabel.text = _morsel.post.title;
-            self.descriptionLabel.text = morsel.morselDescription;
+            [self.titleLabel sizeToFit];
+             
+            if ([self.titleLabel getWidth] > 240.f) [self.titleLabel setWidth:240.f];
             
             self.profileImageView.user = _morsel.post.author;
             
@@ -97,6 +109,9 @@ MorselThumbnailViewControllerDelegate
     self.descriptionLabel.text = nil;
     self.profileImageView.user = nil;
     self.morselImageView.image = nil;
+    
+    [self.titleLabel setY:148.f];
+    [self.descriptionLabel setHeight:15.f];
     
     if (self.morselThumbnailVC)
     {

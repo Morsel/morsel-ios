@@ -44,8 +44,8 @@
 - (id)init
 {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
-#warning Uncomment temporary persistent store if core data usage becomes too high
-    //self.temporaryPersistentStore = [NSPersistentStoreCoordinator MR_coordinatorWithSqliteStoreNamed:@"Morsel-Temp.sqlite"];
+    
+    self.temporaryPersistentStore = [NSPersistentStoreCoordinator MR_coordinatorWithSqliteStoreNamed:@"Morsel-Temp.sqlite"];
     
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
@@ -53,8 +53,8 @@
     self.morselApiService = [[MorselAPIService alloc] init];
     
     self.defaultContext = [NSManagedObjectContext MR_defaultContext];
-    self.temporaryContext = [NSManagedObjectContext MR_context]; //[NSManagedObjectContext MR_contextWithStoreCoordinator:_temporaryPersistentStore];
-    //[_temporaryContext MR_setWorkingName:@"TEMP"];
+    self.temporaryContext = [NSManagedObjectContext MR_contextWithStoreCoordinator:_temporaryPersistentStore];
+    [_temporaryContext MR_setWorkingName:@"TEMP"];
     
     return self;
 }
@@ -98,6 +98,8 @@
 {
     [self.morselApiService retrieveFeedWithSuccess:^(NSArray *responseArray)
     {
+        if (successOrNil) successOrNil(responseArray);
+        
         [responseArray enumerateObjectsUsingBlock:^(NSDictionary *postDictionary, NSUInteger idx, BOOL *stop)
         {
             NSPredicate *existingPostPredicate = [NSPredicate predicateWithFormat:@"postID == %d", [postDictionary[@"id"] intValue]];
@@ -112,10 +114,10 @@
                 MRSLPost *post = [MRSLPost MR_createInContext:_temporaryContext];
                 [post setWithDictionary:postDictionary
                               inContext:_temporaryContext];
+                
+                [_temporaryContext MR_saveToPersistentStoreAndWait];
             }
         }];
-        
-        if (successOrNil) successOrNil(responseArray);
     }
                                            failure:^(NSError *error)
     {
@@ -130,6 +132,8 @@
     [self.morselApiService retrieveUserPosts:user
                                      success:^(NSArray *responseArray)
      {
+         if (successOrNil) successOrNil(responseArray);
+         
          [responseArray enumerateObjectsUsingBlock:^(NSDictionary *postDictionary, NSUInteger idx, BOOL *stop)
           {
               NSPredicate *existingPostPredicate = [NSPredicate predicateWithFormat:@"postID == %d", [postDictionary[@"id"] intValue]];
@@ -144,10 +148,10 @@
                   MRSLPost *post = [MRSLPost MR_createInContext:user.isCurrentUser ? _defaultContext :_temporaryContext];
                   [post setWithDictionary:postDictionary
                                 inContext:user.isCurrentUser ? _defaultContext :_temporaryContext];
+                  
+                  [user.isCurrentUser ? _defaultContext :_temporaryContext MR_saveToPersistentStoreAndWait];
               }
           }];
-         
-         if (successOrNil) successOrNil(responseArray);
      }
                                            failure:^(NSError *error)
      {
@@ -170,16 +174,12 @@
             DDLogError(@"Error saving data to persistent store: %@", error.userInfo);
         }
     }];
-}
-
-- (void)synchronizeContexts
-{
-#warning Method is currently not necessary as there is only one main context
-    [_defaultContext MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
+    
+    [_temporaryContext MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error)
      {
          if (success)
          {
-            DDLogDebug(@"Child context saved back to default context.");
+             DDLogDebug(@"Child context saved back to default context.");
          }
          else
          {

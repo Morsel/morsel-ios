@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Qbi-Wx-vRl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="Qbi-Wx-vRl">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
@@ -8,50 +8,39 @@
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="HomeViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="h02-xM-b2X"/>
-                        <viewControllerLayoutGuide type="bottom" id="LFf-8r-e8z"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="93d-5D-Qw2">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="93d-5D-Qw2">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="6Kl-tX-Iu1"/>
-                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="kpA-11-TgK">
                                     <size key="itemSize" width="320" height="214"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="50"/>
+                                    <inset key="sectionInset" minX="0.0" minY="44" maxX="0.0" maxY="50"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MorselCell" id="ufq-bm-re5" customClass="MorselPostCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="64" width="320" height="214"/>
+                                        <rect key="frame" x="0.0" y="44" width="320" height="214"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ugM-r8-AXD">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ugM-r8-AXD">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="effect-morsel-gradient" translatesAutoresizingMaskIntoConstraints="NO" id="QHN-T5-UjL">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="effect-morsel-gradient" id="QHN-T5-UjL">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSq-cW-jhT">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xSq-cW-jhT">
                                                     <rect key="frame" x="16" y="16" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="30" id="3jZ-1N-wz9"/>
-                                                        <constraint firstAttribute="height" constant="30" id="wzT-Uu-1RV"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal" image="icon-like-inactive">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,34 +49,26 @@
                                                         <action selector="toggleLikeMorsel" destination="ufq-bm-re5" eventType="touchUpInside" id="Msv-AG-bLj"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NxS-bf-5Uz" customClass="MorselThinCondensedLabel">
-                                                    <rect key="frame" x="16" y="148" width="237" height="24"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NxS-bf-5Uz" customClass="MorselThinCondensedLabel">
+                                                    <rect key="frame" x="16" y="148" width="240" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="24" id="Mlr-Xx-bXc"/>
-                                                        <constraint firstAttribute="width" constant="237" id="huR-si-wG1"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <color key="textColor" red="0.9137254901960784" green="0.92941176470588238" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="237" translatesAutoresizingMaskIntoConstraints="NO" id="1BH-fX-SO3" customClass="MorselStandardLabel">
-                                                    <rect key="frame" x="16" y="172" width="237" height="15"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1BH-fX-SO3" customClass="MorselStandardLabel">
+                                                    <rect key="frame" x="16" y="172" width="240" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="14" id="7bh-sY-XcF"/>
-                                                        <constraint firstAttribute="width" constant="237" id="peb-fx-Ld5"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.81568627450980391" green="0.83529411764705885" blue="0.85098039215686272" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KVX-Yw-yEC" customClass="ProfileImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="KVX-Yw-yEC" customClass="ProfileImageView">
                                                     <rect key="frame" x="266" y="156" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <gestureRecognizers/>
                                                 </imageView>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NmJ-Et-Nd0">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NmJ-Et-Nd0">
                                                     <rect key="frame" x="54" y="16" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -95,7 +76,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M5n-sm-2iI">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="M5n-sm-2iI">
                                                     <rect key="frame" x="274" y="0.0" width="46" height="46"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -106,7 +87,7 @@
                                                         <action selector="displayAssociatedMorsels:" destination="ufq-bm-re5" eventType="touchUpInside" id="hfc-xz-VYX"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U3t-Mh-ut5">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="U3t-Mh-ut5">
                                                     <rect key="frame" x="266" y="156" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -120,14 +101,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="1BH-fX-SO3" firstAttribute="top" secondItem="NxS-bf-5Uz" secondAttribute="bottom" id="3M2-1X-hWo"/>
-                                            <constraint firstItem="1BH-fX-SO3" firstAttribute="leading" secondItem="ufq-bm-re5" secondAttribute="leading" constant="16" id="3YP-Z1-Djc"/>
-                                            <constraint firstItem="NxS-bf-5Uz" firstAttribute="top" secondItem="ufq-bm-re5" secondAttribute="top" constant="148" id="B5T-G5-dbS"/>
-                                            <constraint firstItem="xSq-cW-jhT" firstAttribute="top" secondItem="ufq-bm-re5" secondAttribute="top" constant="16" id="ToB-n3-KKO"/>
-                                            <constraint firstItem="xSq-cW-jhT" firstAttribute="leading" secondItem="ufq-bm-re5" secondAttribute="leading" constant="16" id="rE1-jK-rcF"/>
-                                            <constraint firstItem="NxS-bf-5Uz" firstAttribute="leading" secondItem="ufq-bm-re5" secondAttribute="leading" constant="16" id="tfJ-fG-VdJ"/>
-                                        </constraints>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="1BH-fX-SO3" id="wRU-Qb-9M9"/>
                                             <outlet property="likeButton" destination="xSq-cW-jhT" id="jsv-kk-kAs"/>
@@ -144,20 +117,27 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="xl7-Q4-Ie1"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" id="eih-aQ-CmC">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-morsel-identity-small" id="AsV-gc-Pht">
+                                        <rect key="frame" x="126" y="27" width="70" height="30"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="93d-5D-Qw2" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="2Ok-8I-Jiw"/>
-                            <constraint firstItem="93d-5D-Qw2" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="fj5-yM-9wS"/>
-                            <constraint firstItem="LFf-8r-e8z" firstAttribute="top" secondItem="93d-5D-Qw2" secondAttribute="bottom" id="rFl-1e-URW"/>
-                        </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="9ia-yU-iNJ"/>
                     <connections>
                         <outlet property="feedCollectionView" destination="93d-5D-Qw2" id="E30-oC-rA2"/>
-                        <segue destination="8Kf-TJ-9mV" kind="push" identifier="ShowMorselDetail" id="rIg-bB-y9m"/>
                         <segue destination="aKw-n4-RY9" kind="push" identifier="DisplayUserProfile" id="au4-Jm-U7M"/>
+                        <segue destination="Lv4-g8-jKB" kind="push" identifier="ShowMorselDetail" id="tKH-iM-htk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -168,18 +148,15 @@
         <scene sceneID="4d8-AY-PFR">
             <objects>
                 <viewController storyboardIdentifier="MorselThumbnailViewController" id="TL7-hi-YHZ" customClass="MorselThumbnailViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Gr3-J7-cJn"/>
-                        <viewControllerLayoutGuide type="bottom" id="WCB-pb-bBs"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="jwD-0X-hsQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yjg-46-B0P">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="yjg-46-B0P">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="6" minimumInteritemSpacing="2" id="sz2-uA-tv8">
                                     <size key="itemSize" width="104" height="104"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -194,12 +171,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zzs-R2-BuM">
+                                                <view contentMode="scaleToFill" id="Zzs-R2-BuM">
                                                     <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0pf-5m-XPE">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="0pf-5m-XPE">
                                                     <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
@@ -217,7 +194,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="button-more" translatesAutoresizingMaskIntoConstraints="NO" id="2Ak-Gd-GHR">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="button-more" id="2Ak-Gd-GHR">
                                                     <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -231,13 +208,15 @@
                                     <outlet property="delegate" destination="TL7-hi-YHZ" id="RBy-fD-4bH"/>
                                 </connections>
                             </collectionView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" image="effect-thumb-gradient" translatesAutoresizingMaskIntoConstraints="NO" id="S3Q-8D-8qH">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="effect-thumb-gradient" id="S3Q-8D-8qH">
                                 <rect key="frame" x="216" y="0.0" width="104" height="104"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWS-Oe-8CB">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nWS-Oe-8CB">
                                 <rect key="frame" x="276" y="0.0" width="44" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                 <state key="normal" image="icon-close">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -264,65 +243,63 @@
         <scene sceneID="IxM-yC-dVw">
             <objects>
                 <viewController id="aKw-n4-RY9" customClass="ProfileViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ZkZ-vf-Eb6"/>
-                        <viewControllerLayoutGuide type="bottom" id="Xbj-j2-bFS"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OFj-Qu-JIV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="deW-uu-p0O">
-                                <rect key="frame" x="0.0" y="65" width="320" height="196"/>
+                            <view contentMode="scaleToFill" id="deW-uu-p0O">
+                                <rect key="frame" x="0.0" y="65" width="320" height="108"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qKb-tx-2xX" customClass="MorselThinCondensedLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qKb-tx-2xX" customClass="MorselThinCondensedLabel">
                                         <rect key="frame" x="106" y="40" width="202" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.88627450980392153" green="0.8666666666666667" blue="0.84313725490196079" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="icon-like-small" translatesAutoresizingMaskIntoConstraints="NO" id="6bf-FS-ZcI">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-like-small" id="6bf-FS-ZcI">
                                         <rect key="frame" x="106" y="70" width="24" height="21"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D2c-YV-pyC">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D2c-YV-pyC">
                                         <rect key="frame" x="135" y="70" width="21" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="icon-morsel" translatesAutoresizingMaskIntoConstraints="NO" id="MjA-ku-szE">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-morsel" id="MjA-ku-szE">
                                         <rect key="frame" x="164" y="70" width="24" height="21"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="39p-hP-FeT">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="39p-hP-FeT">
                                         <rect key="frame" x="196" y="70" width="21" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ho-1k-nBr" customClass="MorselCondensedLabel">
-                                        <rect key="frame" x="106" y="20" width="202" height="20"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1ho-1k-nBr" customClass="MorselCondensedLabel">
+                                        <rect key="frame" x="106" y="16" width="202" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Zy-og-eU9" customClass="ProfileImageView">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="0Zy-og-eU9" customClass="ProfileImageView">
                                         <rect key="frame" x="14" y="16" width="72" height="72"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8AL-5G-3jB">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="8AL-5G-3jB">
                                 <rect key="frame" x="0.0" y="170" width="320" height="398"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="Tfe-9T-4Ix">
                                     <size key="itemSize" width="320" height="214"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -337,21 +314,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rgI-s2-lDY">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="rgI-s2-lDY">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="effect-morsel-gradient" translatesAutoresizingMaskIntoConstraints="NO" id="2GC-gy-Mz3">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="effect-morsel-gradient" id="2GC-gy-Mz3">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Lk-F5-fiR">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2Lk-F5-fiR">
                                                     <rect key="frame" x="16" y="16" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="82x-ZI-Dog"/>
-                                                        <constraint firstAttribute="width" constant="30" id="POM-mD-x9f"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal" image="icon-like-inactive">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -360,34 +333,26 @@
                                                         <action selector="toggleLikeMorsel" destination="k8F-mY-cCX" eventType="touchUpInside" id="Akw-jc-syf"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EyE-a7-1vp" customClass="MorselThinCondensedLabel">
-                                                    <rect key="frame" x="16" y="148" width="237" height="24"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EyE-a7-1vp" customClass="MorselThinCondensedLabel">
+                                                    <rect key="frame" x="16" y="148" width="237" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="24" id="2D3-YH-yjH"/>
-                                                        <constraint firstAttribute="width" constant="237" id="8pX-Ow-SJX"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="237" translatesAutoresizingMaskIntoConstraints="NO" id="JBw-cG-fTC" customClass="MorselStandardLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JBw-cG-fTC" customClass="MorselStandardLabel">
                                                     <rect key="frame" x="16" y="172" width="237" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="237" id="0bc-Kq-YDv"/>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="14" id="U6q-HI-F0L"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.81568627449999997" green="0.83529411760000005" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GiD-HO-ioL" customClass="ProfileImageView">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="GiD-HO-ioL" customClass="ProfileImageView">
                                                     <rect key="frame" x="266" y="156" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <gestureRecognizers/>
                                                 </imageView>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="82j-Sg-Tmo">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="82j-Sg-Tmo">
                                                     <rect key="frame" x="54" y="16" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -395,7 +360,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="21H-jY-rdj">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="21H-jY-rdj">
                                                     <rect key="frame" x="274" y="0.0" width="46" height="46"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -406,7 +371,7 @@
                                                         <action selector="displayAssociatedMorsels:" destination="k8F-mY-cCX" eventType="touchUpInside" id="sX1-aL-smC"/>
                                                     </connections>
                                                 </button>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZj-Nz-EoR">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TZj-Nz-EoR">
                                                     <rect key="frame" x="266" y="156" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -420,14 +385,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="JBw-cG-fTC" firstAttribute="top" secondItem="EyE-a7-1vp" secondAttribute="bottom" id="1ZB-7g-4av"/>
-                                            <constraint firstItem="2Lk-F5-fiR" firstAttribute="leading" secondItem="k8F-mY-cCX" secondAttribute="leading" constant="16" id="4Sg-d6-Vfy"/>
-                                            <constraint firstItem="EyE-a7-1vp" firstAttribute="top" secondItem="k8F-mY-cCX" secondAttribute="top" constant="148" id="GGS-jX-T07"/>
-                                            <constraint firstItem="EyE-a7-1vp" firstAttribute="leading" secondItem="k8F-mY-cCX" secondAttribute="leading" constant="16" id="Hbc-f7-1Vz"/>
-                                            <constraint firstItem="2Lk-F5-fiR" firstAttribute="top" secondItem="k8F-mY-cCX" secondAttribute="top" constant="16" id="PDl-2E-gGo"/>
-                                            <constraint firstItem="JBw-cG-fTC" firstAttribute="leading" secondItem="k8F-mY-cCX" secondAttribute="leading" constant="16" id="tXc-Ow-G8M"/>
-                                        </constraints>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="JBw-cG-fTC" id="ks2-K1-ykM"/>
                                             <outlet property="likeButton" destination="2Lk-F5-fiR" id="tHK-Tb-4Mt"/>
@@ -444,50 +401,180 @@
                                     <outlet property="delegate" destination="aKw-n4-RY9" id="At6-3E-4CH"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" id="wh4-ie-aBt">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dW8-Kd-wvv">
+                                        <rect key="frame" x="0.0" y="20" width="60" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="icon-back">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="goBack:" destination="aKw-n4-RY9" eventType="touchUpInside" id="Knf-Gu-W65"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="G4x-yU-fny" customClass="MorselThinCondensedLabel">
+                                        <rect key="frame" x="47" y="30" width="226" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Profile" id="fOt-Do-dmc">
-                        <barButtonItem key="leftBarButtonItem" image="icon-back" id="sCQ-C3-foI">
-                            <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="goBack:" destination="aKw-n4-RY9" id="R44-gw-SYH"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Profile" id="fOt-Do-dmc"/>
                     <connections>
-                        <outlet property="backButton" destination="sCQ-C3-foI" id="z0N-yJ-Av9"/>
+                        <outlet property="backButton" destination="dW8-Kd-wvv" id="mWN-r3-Lr5"/>
                         <outlet property="feedCollectionView" destination="8AL-5G-3jB" id="TPg-uU-eJm"/>
                         <outlet property="likeCountLabel" destination="D2c-YV-pyC" id="mcc-MG-8I6"/>
                         <outlet property="morselCountLabel" destination="39p-hP-FeT" id="dfP-Pn-7uy"/>
                         <outlet property="profileImageView" destination="0Zy-og-eU9" id="exw-Gf-JtX"/>
                         <outlet property="userNameLabel" destination="1ho-1k-nBr" id="LzF-zu-LuP"/>
                         <outlet property="userTitleLabel" destination="qKb-tx-2xX" id="UCk-yc-LWM"/>
-                        <segue destination="8Kf-TJ-9mV" kind="push" identifier="ShowMorselDetail" id="1u4-fC-2jx"/>
+                        <segue destination="Lv4-g8-jKB" kind="push" identifier="ShowMorselDetail" id="FZu-1p-OaF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ydK-Nw-1R3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2313" y="-6"/>
         </scene>
+        <!--Morsel Detail View Controller-->
+        <scene sceneID="Iva-kc-tyi">
+            <objects>
+                <viewController id="Lv4-g8-jKB" customClass="MorselDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1pa-71-UOm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="eXM-b2-88g">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YRP-ej-kGh">
+                                        <rect key="frame" x="0.0" y="20" width="60" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="icon-back">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="goBack" destination="Lv4-g8-jKB" eventType="touchUpInside" id="nHL-4a-vo8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jj9-Jq-cgO">
+                                        <rect key="frame" x="260" y="19" width="60" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="icon-share">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Morsel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QvR-rc-7vc" customClass="MorselThinCondensedLabel">
+                                        <rect key="frame" x="47" y="30" width="226" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
+                                        <color key="textColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="nRD-HR-4Mp">
+                                        <rect key="frame" x="141" y="47" width="39" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="pageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="currentPageIndicatorTintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                    </pageControl>
+                                </subviews>
+                                <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="fmH-Rb-XQT" customClass="MorselScrollView">
+                                <rect key="frame" x="0.0" y="76" width="320" height="492"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Lv4-g8-jKB" id="9Nh-vg-9fG"/>
+                                </connections>
+                            </scrollView>
+                            <view contentMode="scaleToFill" id="9zF-g5-8hH">
+                                <rect key="frame" x="0.0" y="76" width="320" height="55"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wJl-oV-6Fc" customClass="MorselCondensedLabel">
+                                        <rect key="frame" x="58" y="26" width="170" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                        <color key="textColor" red="0.47450980390000003" green="0.47450980390000003" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="cke-Nf-Mzd" customClass="ProfileImageView">
+                                        <rect key="frame" x="12" y="8" width="40" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6vr-pM-HhJ">
+                                        <rect key="frame" x="244" y="13" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="icon-profile-light">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="aKw-n4-RY9" kind="push" identifier="DisplayUserProfile" id="Vqx-hg-RRT"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9u0-qE-LDH">
+                                        <rect key="frame" x="282" y="13" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="icon-location-light">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wt1-3n-bpr" customClass="MorselCondensedObliqueLabel">
+                                        <rect key="frame" x="58" y="10" width="170" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-LightOblique" family="Helvetica" pointSize="14"/>
+                                        <color key="textColor" red="0.66666666669999997" green="0.6588235294" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="F6g-SV-he6"/>
+                    <connections>
+                        <outlet property="authorNameLabel" destination="wJl-oV-6Fc" id="VQa-Px-b48"/>
+                        <outlet property="morselDetailNavigationView" destination="eXM-b2-88g" id="1eC-mE-4ep"/>
+                        <outlet property="morselScrollView" destination="fmH-Rb-XQT" id="g0V-1E-8Kr"/>
+                        <outlet property="postTitleLabel" destination="QvR-rc-7vc" id="GwI-Ce-m9b"/>
+                        <outlet property="profileImageView" destination="cke-Nf-Mzd" id="0hE-aE-Mj0"/>
+                        <outlet property="profilePanelView" destination="9zF-g5-8hH" id="NiP-RG-KG3"/>
+                        <outlet property="progressionPageControl" destination="nRD-HR-4Mp" id="lnf-BY-vvO"/>
+                        <outlet property="timeSinceLabel" destination="Wt1-3n-bpr" id="93N-fF-8eI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qjd-tP-KBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2708" y="-789"/>
+        </scene>
         <!--Create Morsel View Controller-->
         <scene sceneID="6z2-ji-duq">
             <objects>
                 <viewController storyboardIdentifier="CreateMorselViewController" id="biI-51-dt3" customClass="CreateMorselViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="rjL-sF-3ox"/>
-                        <viewControllerLayoutGuide type="bottom" id="4dq-W4-8TR"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="V3p-cu-kdG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zKk-hG-PSD">
+                            <view contentMode="scaleToFill" id="zKk-hG-PSD">
                                 <rect key="frame" x="0.0" y="65" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Mvt-j0-iGt">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="Mvt-j0-iGt">
                                         <rect key="frame" x="20" y="7" width="280" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="16"/>
@@ -498,11 +585,13 @@
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dTG-Ym-t0x">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="dTG-Ym-t0x">
                                 <rect key="frame" x="0.0" y="108" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JF1-W4-YtQ" customClass="MorselCardCollectionViewLayout">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -517,7 +606,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="crm-Jv-9br">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="crm-Jv-9br">
                                                     <rect key="frame" x="20" y="50" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" image="icon-tab-add-morsel">
@@ -527,7 +616,7 @@
                                                         <action selector="addMedia" destination="0cJ-78-OF7" eventType="touchUpInside" id="TNG-oe-U6C"/>
                                                     </connections>
                                                 </button>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nYF-Iw-m3b" customClass="GCPlaceholderTextView">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="nYF-Iw-m3b" customClass="GCPlaceholderTextView">
                                                     <rect key="frame" x="80" y="50" width="220" height="135"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -537,11 +626,11 @@
                                                         <outlet property="delegate" destination="0cJ-78-OF7" id="B6Y-wk-W7V"/>
                                                     </connections>
                                                 </textView>
-                                                <imageView hidden="YES" clipsSubviews="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J2M-jR-0Js">
+                                                <imageView hidden="YES" clipsSubviews="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="J2M-jR-0Js">
                                                     <rect key="frame" x="20" y="50" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kch-GE-KOo" customClass="MorselStandardButton">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kch-GE-KOo" customClass="MorselStandardButton">
                                                     <rect key="frame" x="254" y="12" width="46" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -571,11 +660,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="icon-morsel" translatesAutoresizingMaskIntoConstraints="NO" id="7XM-5n-dzP">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-morsel" id="7XM-5n-dzP">
                                                     <rect key="frame" x="72" y="14" width="22" height="22"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add Another Morsel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kEF-14-Sga">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Another Morsel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kEF-14-Sga">
                                                     <rect key="frame" x="102" y="13" width="156" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
@@ -593,21 +682,42 @@
                                     <outlet property="delegate" destination="biI-51-dt3" id="Dky-KD-Mdd"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" id="jwF-Kq-OuF">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Mep-Gb-QkA" customClass="MorselStandardButton">
+                                        <rect key="frame" x="14" y="25" width="56" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelMorsel" destination="biI-51-dt3" eventType="touchUpInside" id="F16-Jj-hu6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rpy-bk-AE7" customClass="MorselStandardButton">
+                                        <rect key="frame" x="256" y="25" width="56" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="Post">
+                                            <color key="titleColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="postMorsel" destination="biI-51-dt3" eventType="touchUpInside" id="6md-K3-xqG"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="fk4-IV-gq0">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="4NT-0c-pjF">
-                            <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Post" id="BPL-PG-mqC">
-                            <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="fk4-IV-gq0"/>
                     <connections>
-                        <outlet property="cancelButtonItem" destination="4NT-0c-pjF" id="f6f-5A-eNQ"/>
                         <outlet property="collectionView" destination="dTG-Ym-t0x" id="Hag-DW-BcW"/>
-                        <outlet property="postButtonItem" destination="BPL-PG-mqC" id="3Vg-NB-gIY"/>
                         <outlet property="titleField" destination="Mvt-j0-iGt" id="qUc-op-u1A"/>
                     </connections>
                 </viewController>
@@ -615,189 +725,42 @@
             </objects>
             <point key="canvasLocation" x="1909" y="806"/>
         </scene>
-        <!--Morsel Detail View Controller - Morsel-->
-        <scene sceneID="0UH-XY-MLY">
-            <objects>
-                <viewController storyboardIdentifier="MorselDetailViewController" hidesBottomBarWhenPushed="YES" id="8Kf-TJ-9mV" customClass="MorselDetailViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="TdU-yh-VGo"/>
-                        <viewControllerLayoutGuide type="bottom" id="Boa-4u-ElR"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="7Pi-CU-5x4" customClass="UIScrollView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EE0-AU-hAn" customClass="MorselScrollView">
-                                <rect key="frame" x="0.0" y="56" width="320" height="512"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="8Kf-TJ-9mV" id="BJl-Tb-Q8h"/>
-                                </connections>
-                            </scrollView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ueD-B4-FqO">
-                                <rect key="frame" x="0.0" y="56" width="320" height="55"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6te-3R-brr" customClass="MorselCondensedLabel">
-                                        <rect key="frame" x="58" y="30" width="170" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
-                                        <color key="textColor" red="0.47450980390000003" green="0.47450980390000003" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cqP-mF-8Vc" customClass="ProfileImageView">
-                                        <rect key="frame" x="12" y="8" width="40" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kAW-TU-vTT">
-                                        <rect key="frame" x="244" y="13" width="30" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="icon-profile-light">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="aKw-n4-RY9" kind="push" identifier="DisplayUserProfile" id="o38-Zo-jwo"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hre-IR-Ia1">
-                                        <rect key="frame" x="282" y="13" width="30" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="icon-location-light">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tjh-Ei-974" customClass="MorselCondensedObliqueLabel">
-                                        <rect key="frame" x="58" y="14" width="170" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Helvetica-LightOblique" family="Helvetica" pointSize="14"/>
-                                        <color key="textColor" red="0.66666666666666663" green="0.6588235294117647" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0ZT-RO-822">
-                                <rect key="frame" x="0.0" y="-20" width="320" height="76"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ekj-z3-VTd">
-                                        <rect key="frame" x="0.0" y="20" width="60" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="icon-back">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="goBack" destination="8Kf-TJ-9mV" eventType="touchUpInside" id="dqo-hL-3cE"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oi5-fN-1q3">
-                                        <rect key="frame" x="260" y="20" width="60" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="icon-share">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Morsel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9v-VA-xLo" customClass="MorselThinCondensedLabel">
-                                        <rect key="frame" x="47" y="27" width="226" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <color key="textColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="XAd-Ub-06a">
-                                        <rect key="frame" x="141" y="47" width="39" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="pageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="currentPageIndicatorTintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
-                                    </pageControl>
-                                </subviews>
-                                <color key="backgroundColor" red="0.88627450980392153" green="0.8666666666666667" blue="0.84313725490196079" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Morsel" id="JHm-mT-sH5"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="authorNameLabel" destination="6te-3R-brr" id="1hy-Wr-HWn"/>
-                        <outlet property="morselDetailNavigationView" destination="0ZT-RO-822" id="75D-LY-Ejx"/>
-                        <outlet property="morselScrollView" destination="EE0-AU-hAn" id="WXV-ff-ceS"/>
-                        <outlet property="postTitleLabel" destination="Y9v-VA-xLo" id="8Pq-hF-4Xd"/>
-                        <outlet property="profileImageView" destination="cqP-mF-8Vc" id="SFJ-y9-Dhe"/>
-                        <outlet property="profilePanelView" destination="ueD-B4-FqO" id="352-uR-SKK"/>
-                        <outlet property="progressionPageControl" destination="XAd-Ub-06a" id="fdc-tg-LM3"/>
-                        <outlet property="timeSinceLabel" destination="tjh-Ei-974" id="cb7-Vl-ojX"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FJz-z4-PdM" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2707" y="-789"/>
-        </scene>
         <!--Morsel Detail Panel View Controller-->
         <scene sceneID="ehx-UZ-1Ub">
             <objects>
                 <viewController storyboardIdentifier="MorselDetailPanel" id="bCk-6Y-KnW" customClass="MorselDetailPanelViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="2BT-1u-TtU"/>
-                        <viewControllerLayoutGuide type="bottom" id="48b-j7-nnh"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vHV-44-ls9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="457"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eaA-4o-K9T">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="eaA-4o-K9T">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="214" id="9N3-n9-5lA"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZs-lc-6Vq">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsVerticalScrollIndicator="NO" id="RZs-lc-6Vq">
                                 <rect key="frame" x="0.0" y="214" width="320" height="243"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-comment-pipe" translatesAutoresizingMaskIntoConstraints="NO" id="lfc-qq-ifL">
-                                        <rect key="frame" x="25" y="131" width="270" height="24"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="270" id="7jM-Cp-0zC"/>
-                                            <constraint firstAttribute="height" constant="24" id="cuX-et-Iqe"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="rEW-at-MlQ" customClass="MorselStandardLabel">
-                                        <rect key="frame" x="30" y="25" width="260" height="21"/>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-comment-pipe" id="lfc-qq-ifL">
+                                        <rect key="frame" x="25" y="130" width="270" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="Ysm-oS-y1c"/>
-                                            <constraint firstAttribute="width" constant="260" id="uAw-x7-JCf"/>
-                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rEW-at-MlQ" customClass="MorselStandardLabel">
+                                        <rect key="frame" x="30" y="26" width="260" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="lfc-qq-ifL" firstAttribute="leading" secondItem="RZs-lc-6Vq" secondAttribute="leading" constant="25" id="4fE-jx-vb2"/>
-                                    <constraint firstItem="lfc-qq-ifL" firstAttribute="top" secondItem="rEW-at-MlQ" secondAttribute="bottom" constant="85" id="KqJ-pQ-sNC"/>
-                                    <constraint firstItem="rEW-at-MlQ" firstAttribute="top" secondItem="RZs-lc-6Vq" secondAttribute="top" constant="25" id="OjT-RL-hP0"/>
-                                    <constraint firstAttribute="trailing" secondItem="lfc-qq-ifL" secondAttribute="trailing" constant="25" id="SYp-H9-CtG"/>
-                                    <constraint firstItem="rEW-at-MlQ" firstAttribute="leading" secondItem="RZs-lc-6Vq" secondAttribute="leading" constant="30" id="ZZf-eD-e6j"/>
-                                    <constraint firstAttribute="bottom" secondItem="lfc-qq-ifL" secondAttribute="bottom" constant="88" id="cJr-xK-CDh"/>
-                                    <constraint firstAttribute="width" constant="320" id="h18-3y-fK4"/>
-                                </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="bCk-6Y-KnW" id="LVb-sy-zxx"/>
                                 </connections>
                             </scrollView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQx-KE-7iv" customClass="MorselLargeButton">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xQx-KE-7iv" customClass="MorselLargeButton">
                                 <rect key="frame" x="0.0" y="397" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="3sk-vL-h6M"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Add Comment">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -807,13 +770,9 @@
                                     <action selector="continue:" destination="mzN-SV-pMP" eventType="touchUpInside" id="4cV-jj-aSN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ts9-qW-aaw">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ts9-qW-aaw">
                                 <rect key="frame" x="20" y="20" width="24" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="9hA-cT-rwJ"/>
-                                    <constraint firstAttribute="height" constant="21" id="ldC-hx-I3E"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" image="icon-like-inactive">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -824,26 +783,13 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="eaA-4o-K9T" firstAttribute="top" secondItem="vHV-44-ls9" secondAttribute="top" id="4ck-OI-65M"/>
-                            <constraint firstAttribute="bottom" secondItem="xQx-KE-7iv" secondAttribute="bottom" id="7FE-bo-Caa"/>
-                            <constraint firstItem="xQx-KE-7iv" firstAttribute="trailing" secondItem="RZs-lc-6Vq" secondAttribute="trailing" id="7OA-eS-I6i"/>
-                            <constraint firstItem="RZs-lc-6Vq" firstAttribute="top" secondItem="eaA-4o-K9T" secondAttribute="bottom" id="9yk-X0-IPi"/>
-                            <constraint firstItem="ts9-qW-aaw" firstAttribute="top" secondItem="vHV-44-ls9" secondAttribute="top" constant="20" symbolic="YES" id="K3W-I4-Hul"/>
-                            <constraint firstItem="RZs-lc-6Vq" firstAttribute="leading" secondItem="xQx-KE-7iv" secondAttribute="leading" id="Qvu-WV-NRZ"/>
-                            <constraint firstItem="eaA-4o-K9T" firstAttribute="trailing" secondItem="xQx-KE-7iv" secondAttribute="trailing" id="X5K-eN-kst"/>
-                            <constraint firstItem="xQx-KE-7iv" firstAttribute="bottom" secondItem="RZs-lc-6Vq" secondAttribute="bottom" id="YmJ-hI-Ctx"/>
-                            <constraint firstItem="xQx-KE-7iv" firstAttribute="leading" secondItem="eaA-4o-K9T" secondAttribute="leading" id="f8G-zB-rnp"/>
-                            <constraint firstItem="ts9-qW-aaw" firstAttribute="leading" secondItem="vHV-44-ls9" secondAttribute="leading" constant="20" symbolic="YES" id="shA-ar-Xx4"/>
-                            <constraint firstItem="RZs-lc-6Vq" firstAttribute="leading" secondItem="vHV-44-ls9" secondAttribute="leading" id="taW-e4-xUr"/>
-                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="addCommentButton" destination="xQx-KE-7iv" id="PO0-4A-Ip0"/>
+                        <outlet property="commentPipeView" destination="lfc-qq-ifL" id="oIg-oE-rMD"/>
+                        <outlet property="contentScrollView" destination="RZs-lc-6Vq" id="MVZ-bK-Ijh"/>
                         <outlet property="likeButton" destination="ts9-qW-aaw" id="pXJ-vZ-Ref"/>
                         <outlet property="morselDescriptionLabel" destination="rEW-at-MlQ" id="ryL-wz-tn7"/>
                         <outlet property="morselImageView" destination="eaA-4o-K9T" id="h0q-Qg-zJ5"/>
@@ -857,19 +803,15 @@
         <scene sceneID="TE9-G8-7lO">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="Qbi-Wx-vRl" customClass="MorselRootViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="khF-pQ-WFs"/>
-                        <viewControllerLayoutGuide type="bottom" id="snS-76-Cbk"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0Xp-rR-es0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cLr-hA-kY6">
+                            <view contentMode="scaleToFill" id="cLr-hA-kY6">
                                 <rect key="frame" x="0.0" y="518" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBx-Un-qgd">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HBx-Un-qgd">
                                         <rect key="frame" x="0.0" y="0.0" width="105" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -881,7 +823,7 @@
                                             <action selector="displayHome" destination="Qbi-Wx-vRl" eventType="touchUpInside" id="Kdg-pI-Z3G"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpI-9U-d52">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dpI-9U-d52">
                                         <rect key="frame" x="105" y="0.0" width="110" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.9137254901960784" green="0.38039215686274508" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
@@ -893,7 +835,7 @@
                                             <segue destination="4MJ-Js-O0K" kind="modal" id="LXF-LQ-c1h"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qss-GE-rWt">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qss-GE-rWt">
                                         <rect key="frame" x="215" y="0.0" width="105" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -907,17 +849,9 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="EDe-8i-gk6"/>
-                                    <constraint firstAttribute="height" constant="50" id="YVT-bk-Wbz"/>
-                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="cLr-hA-kY6" firstAttribute="leading" secondItem="0Xp-rR-es0" secondAttribute="leading" id="XlT-fM-bX5"/>
-                            <constraint firstItem="snS-76-Cbk" firstAttribute="top" secondItem="cLr-hA-kY6" secondAttribute="bottom" id="ndb-md-j8K"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="createMorselButton" destination="dpI-9U-d52" id="sj4-R7-JHM"/>
@@ -934,7 +868,7 @@
         <!--Navigation Controller - CreateMorsel-->
         <scene sceneID="FwM-vo-jIz">
             <objects>
-                <navigationController title="CreateMorsel" automaticallyAdjustsScrollViewInsets="NO" id="4MJ-Js-O0K" sceneMemberID="viewController">
+                <navigationController title="CreateMorsel" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="4MJ-Js-O0K" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="icon-tab-add-morsel" id="wHS-4J-jUC"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zgN-HB-BQC">
@@ -955,7 +889,7 @@
         <!--Navigation Controller - Home-->
         <scene sceneID="6QX-Yp-q6R">
             <objects>
-                <navigationController storyboardIdentifier="Home" title="Home" automaticallyAdjustsScrollViewInsets="NO" id="LlO-Jf-J9F" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Home" title="Home" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="LlO-Jf-J9F" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="icon-tab-home-active" id="9ek-L8-QJZ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zxy-Vq-tQ7">
@@ -966,7 +900,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="urD-Ty-tKv"/>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="pNT-AL-hOi"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jLZ-lt-ul6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -976,7 +910,7 @@
         <!--Navigation Controller - Profile-->
         <scene sceneID="vFK-v3-dz0">
             <objects>
-                <navigationController storyboardIdentifier="Profile" title="Profile" automaticallyAdjustsScrollViewInsets="NO" id="VEK-IU-wlq" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Profile" title="Profile" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="VEK-IU-wlq" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="icon-tab-profile-inactive" id="c4c-Zk-giA"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="crE-EZ-Jhs">
@@ -997,24 +931,20 @@
         <scene sceneID="gCE-jw-TMX">
             <objects>
                 <viewController id="mzN-SV-pMP" customClass="SignUpViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="UMO-hv-JwI"/>
-                        <viewControllerLayoutGuide type="bottom" id="wh0-d3-Jqh"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Rjl-QC-F3T">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V6e-8F-ldy">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="V6e-8F-ldy">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdM-eZ-9qA" customClass="ProfileImageView">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="IdM-eZ-9qA" customClass="ProfileImageView">
                                         <rect key="frame" x="20" y="119" width="72" height="72"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsM-Ji-enu" customClass="MorselStandardButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dsM-Ji-enu" customClass="MorselStandardButton">
                                         <rect key="frame" x="20" y="119" width="72" height="72"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -1026,7 +956,7 @@
                                             <action selector="addPhoto:" destination="mzN-SV-pMP" eventType="touchUpInside" id="WMt-fb-ozK"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESs-SP-X1k">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ESs-SP-X1k">
                                         <rect key="frame" x="17" y="456" width="280" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -1037,11 +967,11 @@
                                             <segue destination="6tg-QU-Uy7" kind="push" id="v2a-3p-rev"/>
                                         </connections>
                                     </button>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="graphic-morsel-identity-large" translatesAutoresizingMaskIntoConstraints="NO" id="kel-oQ-zvU">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-morsel-identity-large" id="kel-oQ-zvU">
                                         <rect key="frame" x="66" y="35" width="182" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="92A-E9-R6O" customClass="MorselTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" id="92A-E9-R6O" customClass="MorselTextField">
                                         <rect key="frame" x="107" y="119" width="193" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1052,7 +982,7 @@
                                             <outlet property="delegate" destination="mzN-SV-pMP" id="IMa-dH-0Pe"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kRd-9O-bVD" customClass="MorselTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" id="kRd-9O-bVD" customClass="MorselTextField">
                                         <rect key="frame" x="107" y="172" width="193" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1063,7 +993,7 @@
                                             <outlet property="delegate" destination="mzN-SV-pMP" id="JHZ-3C-kE5"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n4S-V3-rcZ" customClass="MorselTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="17" id="n4S-V3-rcZ" customClass="MorselTextField">
                                         <rect key="frame" x="107" y="278" width="193" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1074,7 +1004,7 @@
                                             <outlet property="delegate" destination="mzN-SV-pMP" id="4xj-Ni-Lp1"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g9q-51-iKJ" customClass="MorselTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" minimumFontSize="17" id="g9q-51-iKJ" customClass="MorselTextField">
                                         <rect key="frame" x="107" y="224" width="193" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1085,7 +1015,7 @@
                                             <outlet property="delegate" destination="mzN-SV-pMP" id="Sv3-Tk-fjW"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Jl-kq-yA7" customClass="MorselTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" minimumFontSize="17" id="5Jl-kq-yA7" customClass="MorselTextField">
                                         <rect key="frame" x="107" y="332" width="193" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1096,7 +1026,7 @@
                                             <outlet property="delegate" destination="mzN-SV-pMP" id="odg-IP-P3L"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Position Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GDL-M5-zKl" customClass="MorselTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Position Title" minimumFontSize="17" id="GDL-M5-zKl" customClass="MorselTextField">
                                         <rect key="frame" x="107" y="388" width="193" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1109,9 +1039,9 @@
                                     </textField>
                                 </subviews>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EFL-d7-ydq" customClass="MorselLargeButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EFL-d7-ydq" customClass="MorselLargeButton">
                                 <rect key="frame" x="0.0" y="508" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="0.31764705882352939" green="0.72941176470588232" blue="0.23921568627450979" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Continue">
@@ -1125,13 +1055,13 @@
                                     <action selector="continue:" destination="mzN-SV-pMP" eventType="touchUpInside" id="kAk-CF-45A"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5AS-Lr-LlO">
+                            <view hidden="YES" contentMode="scaleToFill" id="5AS-Lr-LlO">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="C7N-pH-8ar">
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" id="C7N-pH-8ar">
                                         <rect key="frame" x="142" y="265" width="37" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="0.5" colorSpace="calibratedRGB"/>
@@ -1162,15 +1092,11 @@
         <scene sceneID="aqH-3l-UyO">
             <objects>
                 <viewController id="6tg-QU-Uy7" customClass="LoginViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="A9b-KD-zZf"/>
-                        <viewControllerLayoutGuide type="bottom" id="Znz-Br-Lrx"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="qkw-QR-6dC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rfn-MY-aWo" customClass="MorselTextField">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" id="Rfn-MY-aWo" customClass="MorselTextField">
                                 <rect key="frame" x="20" y="185" width="280" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1181,7 +1107,7 @@
                                     <outlet property="delegate" destination="6tg-QU-Uy7" id="u4H-zV-p6m"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nFg-U5-ox3" customClass="MorselTextField">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" id="nFg-U5-ox3" customClass="MorselTextField">
                                 <rect key="frame" x="20" y="241" width="280" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1192,9 +1118,9 @@
                                     <outlet property="delegate" destination="6tg-QU-Uy7" id="kk1-Uc-zEL"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIL-ZR-gM9" customClass="MorselLargeButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lIL-ZR-gM9" customClass="MorselLargeButton">
                                 <rect key="frame" x="0.0" y="508" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Continue">
@@ -1208,17 +1134,17 @@
                                     <action selector="logIn" destination="6tg-QU-Uy7" eventType="touchUpInside" id="upI-RT-dEq"/>
                                 </connections>
                             </button>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="graphic-morsel-identity-large" translatesAutoresizingMaskIntoConstraints="NO" id="mtG-hw-PLl">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-morsel-identity-large" id="mtG-hw-PLl">
                                 <rect key="frame" x="66" y="116" width="182" height="54"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oYM-8p-v1X">
+                            <view hidden="YES" contentMode="scaleToFill" id="oYM-8p-v1X">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XR6-gx-1rI">
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" id="XR6-gx-1rI">
                                         <rect key="frame" x="142" y="265" width="37" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="0.5" colorSpace="calibratedRGB"/>
@@ -1271,6 +1197,7 @@
         <image name="effect-thumb-gradient" width="104" height="104"/>
         <image name="graphic-comment-pipe" width="270" height="24"/>
         <image name="graphic-morsel-identity-large" width="182" height="54"/>
+        <image name="graphic-morsel-identity-small" width="70" height="22"/>
         <image name="icon-back" width="12" height="20"/>
         <image name="icon-close" width="20" height="20"/>
         <image name="icon-like-inactive" width="28" height="26"/>
@@ -1287,13 +1214,14 @@
         <image name="icon-tab-profile-active" width="30" height="30"/>
         <image name="icon-tab-profile-inactive" width="30" height="30"/>
     </resources>
+    <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="1u4-fC-2jx"/>
-        <segue reference="o38-Zo-jwo"/>
+        <segue reference="FZu-1p-OaF"/>
+        <segue reference="Vqx-hg-RRT"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -25,6 +25,8 @@ UIScrollViewDelegate
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIImageView *morselImageView;
 @property (weak, nonatomic) IBOutlet UILabel *morselDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
+@property (weak, nonatomic) IBOutlet UIImageView *commentPipeView;
 
 @end
 
@@ -44,6 +46,12 @@ UIScrollViewDelegate
     
     if (_morsel.morselDescription)
     {
+        CGSize descriptionSize = [_morsel.morselDescription sizeWithFont:_morselDescriptionLabel.font
+                                                       constrainedToSize:CGSizeMake(_morselDescriptionLabel.frame.size.width, CGFLOAT_MAX)
+                                                           lineBreakMode:NSLineBreakByWordWrapping];
+        
+        [_morselDescriptionLabel setHeight:descriptionSize.height];
+        
         _morselDescriptionLabel.text = _morsel.morselDescription;
     }
     else
@@ -51,6 +59,10 @@ UIScrollViewDelegate
         _morselDescriptionLabel.text = @"No Description";
         _morselDescriptionLabel.textColor = [UIColor morselUserInterface];
     }
+    
+    [self.commentPipeView setY:[_morselDescriptionLabel getY] + [_morselDescriptionLabel getHeight] + 84.f];
+    
+    [self.contentScrollView setContentSize:CGSizeMake(self.view.frame.size.width, [_commentPipeView getY] + [_commentPipeView getHeight] + 20.f)];
     
     if (_morsel.morselPictureURL)
     {
@@ -123,7 +135,19 @@ UIScrollViewDelegate
 }
 
 #pragma mark - UIScrollViewDelegate Methods
-
-
-
+/*
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat offsetX = scrollView.contentOffset.y;
+    CGFloat scrollViewHeight = scrollView.frame.size.height;
+    CGFloat scrollContentSizeHeight = scrollView.contentSize.height;
+    
+    NSLog(@"OFFSET: %f", offsetX);
+ 
+    if (offsetX + scrollViewHeight >= scrollContentSizeHeight)
+    {
+        
+    }
+}
+*/
 @end
