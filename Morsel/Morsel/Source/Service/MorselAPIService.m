@@ -254,7 +254,6 @@
     }
                failure:^(NSError *error)
     {
-#warning If one of the Morsels fail, should that trigger the entire Post to fail as well?
         DDLogError(@"Morsel (%i) creation failed and not associated to Post: %i", [morsel.morselID intValue], [post.postID intValue]);
     }];
 }

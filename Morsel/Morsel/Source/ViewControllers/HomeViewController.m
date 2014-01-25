@@ -43,32 +43,27 @@ UIGestureRecognizerDelegate
 {
     [super viewDidLoad];
     
-    UIImage *image = [UIImage imageNamed: @"graphic-morsel-identity-small"];
-    UIImageView *imageview = [[UIImageView alloc] initWithImage: image];
+    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+                                                          ascending:NO
+                                                      withPredicate:nil
+                                                            groupBy:nil
+                                                           delegate:self
+                                                          inContext:[ModelController sharedController].temporaryContext];
     
-    self.navigationItem.titleView = imageview;
+    [self.feedCollectionView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    if (![ModelController sharedController].currentUser || self.fetchedResultsController) return;
+    if (![ModelController sharedController].currentUser) return;
     
     [[ModelController sharedController] getFeedWithSuccess:^(NSArray *responseArray)
      {
          if ([responseArray count] > 0)
          {
-             DDLogDebug(@"%lu feed posts available. Initiating fetch request.", (unsigned long)[responseArray count]);
-             
-             self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
-                                                                   ascending:NO
-                                                               withPredicate:nil
-                                                                     groupBy:nil
-                                                                    delegate:self
-                                                                   inContext:[ModelController sharedController].temporaryContext];
-             
-             [self.feedCollectionView reloadData];
+             DDLogDebug(@"%lu feed posts available.", (unsigned long)[responseArray count]);
          }
          else
          {

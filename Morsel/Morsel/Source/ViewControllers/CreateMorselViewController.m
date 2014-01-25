@@ -55,8 +55,6 @@ MorselCardCollectionViewCellDelegate
     self.post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
     [self.post addMorsel:morsel];
     
-    [[[ModelController sharedController] currentUser] addPost:self.post];
-    
     [self.cancelButtonItem setTarget:self];
     [self.postButtonItem setTarget:self];
     
@@ -80,7 +78,7 @@ MorselCardCollectionViewCellDelegate
     
 }
 
-- (void)postMorsel
+- (IBAction)postMorsel
 {
     if ([_post.morsels count] == 1)
     {
@@ -108,6 +106,8 @@ MorselCardCollectionViewCellDelegate
         
         DDLogDebug(@"Morsel Sort Order: %i", [morsel.sortOrder intValue]);
     }
+    
+    [[[ModelController sharedController] currentUser] addPost:self.post];
     
     [[ModelController sharedController].morselApiService createPost:_post
                                                             success:^(id responseObject)
@@ -140,9 +140,10 @@ MorselCardCollectionViewCellDelegate
     }];
 }
 
-- (void)cancelMorsel
+- (IBAction)cancelMorsel
 {
-    [[ModelController sharedController].defaultContext reset];
+    
+    [[ModelController sharedController].defaultContext deleteObject:_post];
     
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];

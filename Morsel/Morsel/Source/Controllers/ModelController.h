@@ -35,7 +35,5 @@
 
 // Saves data in default context into the persistent store.
 - (void)saveDataToStore;
-// Saves data in all child contexts back to default context. Does not go back to persistent store.
-- (void)synchronizeContexts;
 
 @end

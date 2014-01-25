@@ -47,7 +47,7 @@ UIScrollViewDelegate
     
     if (_morsel && _morsel.post)
     {
-        int postMorselCount = [_morsel.post.morsels count];
+        NSUInteger postMorselCount = [_morsel.post.morsels count];
         
         if (postMorselCount > 1)
         {
@@ -66,7 +66,7 @@ UIScrollViewDelegate
         self.profileImageView.user = _morsel.post.author;
         [_profileImageView addCornersWithRadius:20.f];
         
-        int morselIndex = [_morsel.post.morsels indexOfObject:_morsel];
+        NSUInteger morselIndex = [_morsel.post.morsels indexOfObject:_morsel];
         
         self.morselScrollView.contentInset = UIEdgeInsetsMake(55.f, 0.f, 0.f, 0.f);
         self.morselScrollView.post = _morsel.post;
@@ -76,23 +76,12 @@ UIScrollViewDelegate
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [self.navigationController setNavigationBarHidden:NO
-                                             animated:YES];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:MorselHideBottomBarNotification
                                                         object:nil];
-    
-    [self.navigationController setNavigationBarHidden:YES
-                                             animated:YES];
 }
 
 #pragma mark - Segue Methods
@@ -134,7 +123,7 @@ UIScrollViewDelegate
 {
     CGFloat scrollWidth = _morselScrollView.frame.size.width;
     float scrollPage = _morselScrollView.contentOffset.x / scrollWidth;
-    NSInteger actualPage = lround(scrollPage);
+    int actualPage = lround(scrollPage);
     
     [self displayMorselDetailForPage:actualPage];
 }

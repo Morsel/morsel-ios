@@ -22,6 +22,7 @@
 
 - (void)drawPlaceholderInRect:(CGRect)rect
 {
+#warning Deprecated in iOS 7. Make friendly.
     [[UIColor morselLightContent] setFill];
     [[self placeholder] drawInRect:rect
                           withFont:[UIFont helveticaLightFontOfSize:14.f]];

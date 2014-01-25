@@ -41,7 +41,7 @@
 
 - (void)scrollToMorsel:(MRSLMorsel *)morsel
 {
-    int morselIndex = [_post.morsels indexOfObject:morsel];
+    NSUInteger morselIndex = [_post.morsels indexOfObject:morsel];
     
     [self scrollRectToVisible:CGRectMake(self.frame.size.width * morselIndex, 0.f, self.frame.size.width, 1.f)
                      animated:NO];

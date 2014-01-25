@@ -11,13 +11,6 @@
 - (void)setWithDictionary:(NSDictionary *)dictionary
                 inContext:(NSManagedObjectContext *)context
 {
-#warning Following properties have not yet been implemented for generation
-    // morselThumb
-    // morselThumbURL
-    // sortOrder
-    /*
-    "_104x" = "https://morsel-staging.s3.amazonaws.com/morsel-photos/11/_104x_1390512021-1389398882-1a.jpg";
-    */
     self.liked = ([dictionary[@"liked"] isEqual:[NSNull null]]) ? self.liked : [NSNumber numberWithBool:[dictionary[@"liked"] boolValue]];
     self.morselID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.morselID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
     

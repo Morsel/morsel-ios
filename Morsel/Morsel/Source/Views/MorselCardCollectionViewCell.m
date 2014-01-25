@@ -63,21 +63,24 @@ UITextViewDelegate
 
 - (void)setMorsel:(MRSLMorsel *)morsel
 {
-    [self reset];
-    
-    _morsel = morsel;
-    
-    if (_morsel.morselPicture)
+    if (_morsel != morsel)
     {
-        self.addMediaButton.hidden = YES;
+        [self reset];
         
-        self.mediaImageView.hidden = NO;
-        self.mediaImageView.image = [UIImage imageWithData:_morsel.morselThumb];
-    }
-    
-    if (_morsel.morselDescription)
-    {
-        self.placeholderTextView.text = _morsel.morselDescription;
+        _morsel = morsel;
+        
+        if (_morsel.morselPicture)
+        {
+            self.addMediaButton.hidden = YES;
+            
+            self.mediaImageView.hidden = NO;
+            self.mediaImageView.image = [UIImage imageWithData:_morsel.morselThumb];
+        }
+        
+        if (_morsel.morselDescription)
+        {
+            self.placeholderTextView.text = _morsel.morselDescription;
+        }
     }
 }
 
