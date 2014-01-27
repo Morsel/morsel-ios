@@ -9,10 +9,12 @@
     </entity>
     <entity name="MRSLMorsel" representedClassName="MRSLMorsel" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="isDraft" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="morselDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="morselID" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
         <attribute name="morselPicture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="morselPictureCropped" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="morselPictureURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="morselThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="morselThumbURL" optional="YES" attributeType="String" syncable="YES"/>
@@ -23,10 +25,12 @@
     </entity>
     <entity name="MRSLPost" representedClassName="MRSLPost" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="isDraft" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isEditing" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="postID" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="posts" inverseEntity="MRSLUser" syncable="YES"/>
-        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="MRSLMorsel" inverseName="post" inverseEntity="MRSLMorsel" syncable="YES"/>
+        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="MRSLMorsel" inverseName="post" inverseEntity="MRSLMorsel" syncable="YES"/>
     </entity>
     <entity name="MRSLTag" representedClassName="MRSLTag" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>

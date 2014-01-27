@@ -79,7 +79,8 @@ MorselThumbnailViewControllerDelegate
             
             [self setLikeButtonImageForMorsel:_morsel];
             
-            if (_morsel.morselPictureURL)
+            if (_morsel.morselPictureURL &&
+                !_morsel.isDraft)
             {
                 __weak __typeof(self)weakSelf = self;
                 
@@ -97,6 +98,21 @@ MorselThumbnailViewControllerDelegate
                      DDLogError(@"Unable to set Morsel Image: %@", error.userInfo);
                  }];
             }
+            
+            if (_morsel.isDraft &&
+                _morsel.morselPictureCropped)
+            {
+                // This Morsel is a draft!
+                    
+                _morselImageView.image = [UIImage imageWithData:_morsel.morselPictureCropped];
+            }
+        }
+        
+        if (_morsel.belongsToCurrentUser)
+        {
+            self.likeButton.hidden = YES;
+            
+#warning Need to display edit button for Morsel here
         }
     }
 }

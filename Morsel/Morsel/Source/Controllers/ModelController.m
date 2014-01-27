@@ -18,7 +18,6 @@
 @interface ModelController ()
 
 @property (nonatomic, strong) NSNumber *userID;
-@property (nonatomic, strong) NSPersistentStoreCoordinator *temporaryPersistentStore;
 
 @end
 
@@ -45,16 +44,12 @@
 {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
     
-    self.temporaryPersistentStore = [NSPersistentStoreCoordinator MR_coordinatorWithSqliteStoreNamed:@"Morsel-Temp.sqlite"];
-    
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
     
     self.morselApiService = [[MorselAPIService alloc] init];
     
     self.defaultContext = [NSManagedObjectContext MR_defaultContext];
-    self.temporaryContext = [NSManagedObjectContext MR_contextWithStoreCoordinator:_temporaryPersistentStore];
-    [_temporaryContext MR_setWorkingName:@"TEMP"];
     
     return self;
 }
@@ -91,6 +86,22 @@
     return user;
 }
 
+- (MRSLPost *)postWithID:(NSNumber *)postID
+{
+    MRSLPost *post = nil;
+    
+    NSPredicate *postPredicate = [NSPredicate predicateWithFormat:@"postID == %i", [postID intValue]];
+    
+    NSArray *postArray = [MRSLPost MR_findAllWithPredicate:postPredicate];
+    
+    if ([postArray count] > 0)
+    {
+        post = [postArray firstObject];
+    }
+    
+    return post;
+}
+
 #pragma mark - Feed Methods
 
 - (void)getFeedWithSuccess:(MorselAPIArrayBlock)successOrNil
@@ -103,19 +114,16 @@
         [responseArray enumerateObjectsUsingBlock:^(NSDictionary *postDictionary, NSUInteger idx, BOOL *stop)
         {
             NSPredicate *existingPostPredicate = [NSPredicate predicateWithFormat:@"postID == %d", [postDictionary[@"id"] intValue]];
-            NSArray *postArray = [MRSLPost MR_findAllWithPredicate:existingPostPredicate
-                                                         inContext:_temporaryContext];
+            NSArray *postArray = [MRSLPost MR_findAllWithPredicate:existingPostPredicate];
             
             if ([postArray count] == 0)
             {
                 // Create posts in temporary context but only if they don't already exist
 #warning Adjust this to REPLACE existing Posts
                 DDLogDebug(@"Post with ID (%d) DOES NOT EXIST ALREADY", [postDictionary[@"id"] intValue]);
-                MRSLPost *post = [MRSLPost MR_createInContext:_temporaryContext];
-                [post setWithDictionary:postDictionary
-                              inContext:_temporaryContext];
-                
-                [_temporaryContext MR_saveToPersistentStoreAndWait];
+                MRSLPost *post = [MRSLPost MR_createInContext:_defaultContext];
+                [post setWithDictionary:postDictionary];
+                [_defaultContext MR_saveToPersistentStoreAndWait];
             }
         }];
     }
@@ -138,18 +146,17 @@
           {
               NSPredicate *existingPostPredicate = [NSPredicate predicateWithFormat:@"postID == %d", [postDictionary[@"id"] intValue]];
               NSArray *postArray = [MRSLPost MR_findAllWithPredicate:existingPostPredicate
-                                                           inContext:user.isCurrentUser ? _defaultContext : _temporaryContext];
+                                                           inContext:_defaultContext];
               
               if ([postArray count] == 0)
               {
                   // Create posts in temporary context but only if they don't already exist
 #warning Adjust this to REPLACE existing Posts
                   DDLogDebug(@"Post with ID (%d) DOES NOT EXIST ALREADY", [postDictionary[@"id"] intValue]);
-                  MRSLPost *post = [MRSLPost MR_createInContext:user.isCurrentUser ? _defaultContext :_temporaryContext];
-                  [post setWithDictionary:postDictionary
-                                inContext:user.isCurrentUser ? _defaultContext :_temporaryContext];
+                  MRSLPost *post = [MRSLPost MR_createInContext:_defaultContext];
+                  [post setWithDictionary:postDictionary];
                   
-                  [user.isCurrentUser ? _defaultContext :_temporaryContext MR_saveToPersistentStoreAndWait];
+                  [_defaultContext MR_saveToPersistentStoreAndWait];
               }
           }];
      }
@@ -174,18 +181,6 @@
             DDLogError(@"Error saving data to persistent store: %@", error.userInfo);
         }
     }];
-    
-    [_temporaryContext MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error)
-     {
-         if (success)
-         {
-             DDLogDebug(@"Child context saved back to default context.");
-         }
-         else
-         {
-             DDLogError(@"Error saving child context to default context: %@", error.userInfo);
-         }
-     }];
 }
 
 @end

@@ -21,14 +21,6 @@ typedef void (^ MorselAPILikeBlock)(BOOL doesLike);
 typedef void (^ MorselAPISuccessBlock)(id responseObject);
 typedef void (^ MorselAPIFailureBlock)(NSError *error);
 
-/*
- 
-// Unable to define due to MagicalRecord.h extern conflict
- 
-#ifdef DEBUG
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
-#else
-static const int ddLogLevel = LOG_LEVEL_ERROR;
-#endif
- 
-*/
+static const int minimumCameraMaxDimension = 1920.f;
+static const int yPreviewOffset = 52.f;
+static const int croppedHeightOffset = 106.f;

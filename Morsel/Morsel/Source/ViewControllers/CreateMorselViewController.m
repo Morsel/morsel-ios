@@ -8,10 +8,8 @@
 
 #import "CreateMorselViewController.h"
 
-#import <MobileCoreServices/MobileCoreServices.h>
-
 #import "ModelController.h"
-#import "MorselCardCollectionViewCell.h"
+#import "GCPlaceholderTextView.h"
 #import "JSONResponseSerializerWithData.h"
 
 #import "MRSLMorsel.h"
@@ -21,24 +19,20 @@
 @interface CreateMorselViewController ()
 
 <
-UICollectionViewDataSource,
-UICollectionViewDelegate,
-UICollectionViewDelegateFlowLayout,
-UIImagePickerControllerDelegate,
-UINavigationControllerDelegate,
-UITextFieldDelegate,
-MorselCardCollectionViewCellDelegate
+UIActionSheetDelegate,
+UITextViewDelegate
 >
 
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *cancelButtonItem;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *postButtonItem;
-@property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
-@property (nonatomic, weak) IBOutlet UITextField *titleField;
+@property (nonatomic) BOOL saveDraft;
 
-@property (nonatomic, strong) UIImagePickerController *imagePickerController;
+@property (weak, nonatomic) IBOutlet UIImageView *thumbnailImageView;
+@property (weak, nonatomic) IBOutlet UIButton *topRightButton;
+@property (weak, nonatomic) IBOutlet UIButton *addToProgressionButton;
+@property (weak, nonatomic) IBOutlet UIButton *postMorselButton;
 
-@property (nonatomic, weak) MorselCardCollectionViewCell *selectedMorselCard;
-@property (nonatomic, strong) MRSLPost *post;
+@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *descriptionTextView;
+
+@property (nonatomic, strong) MRSLMorsel *morsel;
 
 @end
 
@@ -50,313 +44,211 @@ MorselCardCollectionViewCellDelegate
 {
     [super viewDidLoad];
     
+    _descriptionTextView.placeholder = @"Tell us more about this";
+    _descriptionTextView.placeholderColor = [UIColor morselLightContent];
+    
+    _descriptionTextView.layer.borderColor = [UIColor morselRed].CGColor;
+    _descriptionTextView.layer.borderWidth = 1.f;
+    
+    _thumbnailImageView.layer.borderColor = [UIColor morselRed].CGColor;
+    _thumbnailImageView.layer.borderWidth = 1.f;
+    
     MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
+    morsel.isDraft = [NSNumber numberWithBool:YES];
+
+    self.morsel = morsel;
     
-    self.post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
-    [self.post addMorsel:morsel];
-    
-    [self.cancelButtonItem setTarget:self];
-    [self.postButtonItem setTarget:self];
-    
-    [self.cancelButtonItem setAction:@selector(cancelMorsel)];
-    [self.postButtonItem setAction:@selector(postMorsel)];
-    
-    __weak typeof (self) weakSelf = self;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^
+    if (!_thumbnailImageView.image)
     {
-        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        imagePicker.allowsEditing = NO;
-        //imagePicker.videoMaximumDuration = 10.f;
-        imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, /*(NSString *)kUTTypeMovie,*/ nil];
-        
-        imagePicker.delegate = self;
-        
-        weakSelf.imagePickerController = imagePicker;
-    });
+        [self renderThumbnail];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
     
+    [self.view endEditing:YES];
+}
+
+- (void)setCapturedImage:(UIImage *)capturedImage
+{
+    if (_capturedImage != capturedImage)
+    {
+        _capturedImage = capturedImage;
+        
+        [self renderThumbnail];
+    }
+}
+
+- (void)renderThumbnail
+{
+    if (_capturedImage)
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^
+        {
+            UIImage *thumbnailImage = [_capturedImage thumbnailImage:50.f
+                                                interpolationQuality:kCGInterpolationHigh];
+            
+            dispatch_async(dispatch_get_main_queue(), ^
+            {
+                _thumbnailImageView.image = thumbnailImage;
+            });
+        });
+    }
+}
+
+#pragma mark - Private Methods
+
+- (IBAction)goBackToCaptureMedia:(id)sender
+{
+    [[ModelController sharedController].defaultContext deleteObject:_morsel];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)postMorsel
 {
-    if ([_post.morsels count] == 1)
-    {
-        MRSLMorsel *firstMorsel = [_post.morsels firstObject];
-        
-        if (!firstMorsel.morselDescription && !firstMorsel.morselPicture)
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Post Error."
-                                                            message:@"Please add content to the Morsel."
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            
-            [alert show];
-            return;
-        }
-    }
+#warning If appended to progression, make sure sort_order is set?
     
-    int i = 0;
-    
-    for (MRSLMorsel *morsel in _post.morsels)
+    if (!_descriptionTextView.text &&
+        !_capturedImage)
     {
-        morsel.sortOrder = [NSNumber numberWithInt:i];
-        i ++;
-        
-        DDLogDebug(@"Morsel Sort Order: %i", [morsel.sortOrder intValue]);
-    }
-    
-    [[[ModelController sharedController] currentUser] addPost:self.post];
-    
-    [[ModelController sharedController].morselApiService createPost:_post
-                                                            success:^(id responseObject)
-    {
-        [[ModelController sharedController].defaultContext MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
-        {
-            if (error)
-            {
-                DDLogError(@"Error creating post.");
-#warning If saving post locally fails, what course of action should be taken?
-            }
-            else
-            {
-                DDLogDebug(@"New Post created!");
-            }
-        }];
-        
-        [self.presentingViewController dismissViewControllerAnimated:YES
-                                                          completion:nil];
-    }
-                                                            failure:^(NSError *error)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Post Failed. Please try again."
-                                                        message:[NSString stringWithFormat:@"Error: %@", error.userInfo[JSONResponseSerializerWithDataKey]]
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Post Error."
+                                                        message:@"Please add content to the Morsel."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         
         [alert show];
-    }];
+        return;
+    }
+    
+    if (_saveDraft)
+    {
+        [self saveAsDraft];
+    }
+    else
+    {
+        [self publishMorsel];
+    }
 }
 
-- (IBAction)cancelMorsel
+- (void)saveAsDraft
 {
+    if (_morsel)
+    {
+        MRSLPost *post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
+        post.isDraft = [NSNumber numberWithBool:YES];
+        post.author = [ModelController sharedController].currentUser;
+        
+        [post addMorsel:_morsel];
+        
+        _morsel.morselDescription = _descriptionTextView.text;
+        _morsel.creationDate = [NSDate date];
+    }
     
-    [[ModelController sharedController].defaultContext deleteObject:_post];
+    if (_capturedImage)
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+                       {
+                           _morsel.morselPicture = UIImageJPEGRepresentation(_capturedImage, 1.f);
+                           
+                           UIImage *thumbImage = [_capturedImage thumbnailImage:104.f
+                                                           interpolationQuality:kCGInterpolationHigh];
+                           
+                           _morsel.morselThumb = UIImageJPEGRepresentation(thumbImage, 1.f);;
+                           
+                           CGFloat cameraDimensionScale = minimumCameraMaxDimension / self.view.frame.size.height;
+                           CGFloat yScale = (minimumCameraMaxDimension * cameraDimensionScale) / _capturedImage.size.height;
+                           CGFloat cropStartingY = yPreviewOffset * yScale;
+                           CGFloat cropHeightAmount = croppedHeightOffset * yScale;
+                           
+                           UIImage *croppedImage = [_capturedImage croppedImage:CGRectMake(0.f, cropStartingY, _capturedImage.size.width, _capturedImage.size.width - cropHeightAmount)
+                                                                         scaled:CGSizeMake(320.f, 214.f)];
+                           
+                           _morsel.morselPictureCropped = UIImageJPEGRepresentation(croppedImage, 1.f);
+                           
+                           dispatch_async(dispatch_get_main_queue(), ^
+                                          {
+                                              [[ModelController sharedController] saveDataToStore];
+                                          });
+                       });
+    }
     
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
 }
 
-- (void)endMorselTextEditing
+- (void)publishMorsel
 {
-    [self.view endEditing:YES];
+    [[ModelController sharedController].morselApiService createMorsel:_morsel
+                                                              success:^(id responseObject)
+     {
+         [[ModelController sharedController] saveDataToStore];
+         
+         [self.presentingViewController dismissViewControllerAnimated:YES
+                                                           completion:nil];
+     }
+                                                              failure:^(NSError *error)
+     {
+         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, error publishing Morsel."
+                                                         message:[NSString stringWithFormat:@"Error: %@", error.userInfo[JSONResponseSerializerWithDataKey]]
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil];
+         
+         [alert show];
+         
+         DDLogError(@"Error! Unable to create Morsel: %@", error.userInfo[JSONResponseSerializerWithDataKey]);
+     }];
 }
 
-#pragma mark - UICollectionViewDataSource
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (IBAction)associateOrAddToProgression:(id)sender
 {
-    return [self.post.morsels count] + 1;
+    // Associate!
 }
 
-- (MorselCardCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (IBAction)displaySettingsOrDismissResponder:(UIButton *)button
 {
-    MorselCardCollectionViewCell *morselCell = nil;
-    
-    if (indexPath.row == [self.post.morsels count])
+    if ([button.titleLabel.text isEqualToString:@"Done"])
     {
-        morselCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"AddMorselCell"
-                                                                    forIndexPath:indexPath];
+        [self.view endEditing:YES];
     }
     else
     {
-        morselCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CreateMorselCell"
-                                                                    forIndexPath:indexPath];
-        morselCell.delegate = self;
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Settings"
+                                                                 delegate:self
+                                                        cancelButtonTitle:nil
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:@"Publish Now", @"Save Draft", nil];
         
-        MRSLMorsel *morsel = [self.post.morsels objectAtIndex:indexPath.row];
-        morselCell.morsel = morsel;
-    }
-    
-    return morselCell;
-}
-
-#pragma mark - UICollectionViewDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    MRSLMorsel *lastExistingMorsel = [self.post.morsels lastObject];
-    
-    if (lastExistingMorsel.morselPicture || lastExistingMorsel.morselDescription)
-    {
-        MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
-        
-        [self.post addMorsel:morsel];
-        
-        [self.collectionView reloadData];
-        
-        [self.titleField setEnabled:YES];
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Append Morsel Error."
-                                                        message:@"Please add an image or text to your previous Morsel first."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        
-        [alert show];
+        [actionSheet showInView:self.view];
     }
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - UITextFieldDelegate Methods
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    if (indexPath.row == [self.post.morsels count])
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
+    [self.topRightButton setTitle:@"Done"
+                         forState:UIControlStateNormal];
 }
 
-#pragma mark - UICollectionViewDelegateFlowLayout
-
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)textViewDidEndEditing:(UITextView *)textView
 {
-    if (indexPath.row == [self.post.morsels count])
-    {
-        return CGSizeMake(320.f, 50.f);
-    }
-    else
-    {
-        return CGSizeMake(320.f, 200.f);
-    }
+    [self.topRightButton setTitle:@"Settings"
+                         forState:UIControlStateNormal];
 }
 
-#pragma mark - UIImagePickerControllerDelegate
+#pragma mark - UIActionSheetDelegate Methods
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage])
-    {
-        UIImage *image = info[UIImagePickerControllerOriginalImage];
-        
-        [self.selectedMorselCard updateMedia:image];
-    }
+    self.saveDraft = (buttonIndex == 1);
     
-    self.selectedMorselCard = nil;
-    
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    self.selectedMorselCard = nil;
-    
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-}
-
-#pragma mark - MorselCardCollectionViewCellDelegate
-
-- (void)morselCardDidSelectAddMedia:(MorselCardCollectionViewCell *)card
-{
-    [self endMorselTextEditing];
-    
-    self.selectedMorselCard = card;
-    
-    [self presentViewController:_imagePickerController
-                       animated:YES
-                     completion:nil];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-}
-
-- (void)morselCard:(MorselCardCollectionViewCell *)card didUpdateDescription:(NSString *)description
-{
-    self.selectedMorselCard = nil;
-    
-    [self.cancelButtonItem setTarget:self];
-    [self.postButtonItem setTarget:self];
-    
-    [self.cancelButtonItem setAction:@selector(cancelMorsel)];
-    [self.postButtonItem setAction:@selector(postMorsel)];
-    
-    [self.cancelButtonItem setTitle:@"Cancel"];
-    [self.postButtonItem setTitle:@"Post"];
-}
-
-- (void)morselCardDidBeginEditing:(MorselCardCollectionViewCell *)card
-{
-    self.selectedMorselCard = card;
-    
-    [self.cancelButtonItem setTarget:self];
-    [self.postButtonItem setTarget:self];
-    
-    [self.postButtonItem setAction:@selector(endMorselTextEditing)];
-    
-    [self.cancelButtonItem setTitle:@""];
-    [self.postButtonItem setTitle:@"Done"];
-}
-
-- (void)morselCardShouldDelete:(MorselCardCollectionViewCell *)card
-{
-    if (self.post.morsels.count > 1)
-    {
-        NSIndexPath *cellPath = [self.collectionView indexPathForCell:card];
-        
-        MRSLMorsel *morsel = [self.post.morselsSet objectAtIndex:cellPath.row];
-        [self.post.morselsSet removeObject:morsel];
-        
-        [[ModelController sharedController].defaultContext deleteObject:morsel];
-        
-        [self.collectionView reloadData];
-        
-        if ([self.post.morsels count] == 1)
-        {
-            [self.titleField setEnabled:NO];
-        }
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You cannot delete your only Morsel." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [alert show];
-    }
-}
-
-#pragma mark - UITextFieldDelegate
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (textField.text)
-    {
-        self.post.title = textField.text;
-    }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    if ([string isEqualToString:@"\n"])
-    {
-        [textField resignFirstResponder];
-        return NO;
-    }
-    else
-    {
-        return YES;
-    }
+    [self.postMorselButton setTitle:_saveDraft ? @"Save Morsel" : @"Publish Morsel"
+                           forState:UIControlStateNormal];
 }
 
 @end

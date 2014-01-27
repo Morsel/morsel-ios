@@ -6,6 +6,8 @@
 
 extern const struct MRSLPostAttributes {
 	__unsafe_unretained NSString *creationDate;
+	__unsafe_unretained NSString *isDraft;
+	__unsafe_unretained NSString *isEditing;
 	__unsafe_unretained NSString *postID;
 	__unsafe_unretained NSString *title;
 } MRSLPostAttributes;
@@ -20,6 +22,8 @@ extern const struct MRSLPostFetchedProperties {
 
 @class MRSLUser;
 @class MRSLMorsel;
+
+
 
 
 
@@ -43,6 +47,34 @@ extern const struct MRSLPostFetchedProperties {
 
 
 //- (BOOL)validateCreationDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* isDraft;
+
+
+
+@property BOOL isDraftValue;
+- (BOOL)isDraftValue;
+- (void)setIsDraftValue:(BOOL)value_;
+
+//- (BOOL)validateIsDraft:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* isEditing;
+
+
+
+@property BOOL isEditingValue;
+- (BOOL)isEditingValue;
+- (void)setIsEditingValue:(BOOL)value_;
+
+//- (BOOL)validateIsEditing:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -103,6 +135,24 @@ extern const struct MRSLPostFetchedProperties {
 
 - (NSDate*)primitiveCreationDate;
 - (void)setPrimitiveCreationDate:(NSDate*)value;
+
+
+
+
+- (NSNumber*)primitiveIsDraft;
+- (void)setPrimitiveIsDraft:(NSNumber*)value;
+
+- (BOOL)primitiveIsDraftValue;
+- (void)setPrimitiveIsDraftValue:(BOOL)value_;
+
+
+
+
+- (NSNumber*)primitiveIsEditing;
+- (void)setPrimitiveIsEditing:(NSNumber*)value;
+
+- (BOOL)primitiveIsEditingValue;
+- (void)setPrimitiveIsEditingValue:(BOOL)value_;
 
 
 

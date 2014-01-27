@@ -15,7 +15,6 @@
 #pragma mark - Instance Methods
 
 - (void)setWithDictionary:(NSDictionary *)dictionary
-                inContext:(NSManagedObjectContext *)context
 {
     if (![dictionary[@"created_at"] isEqual:[NSNull null]])
     {
@@ -28,23 +27,20 @@
     
     if (![dictionary[@"creator"] isEqual:[NSNull null]])
     {
-        
         if (![dictionary[@"creator"][@"id"] isEqual:[NSNull null]])
         {
             NSNumber *userID = dictionary[@"creator"][@"id"];
             
             MRSLUser *author = nil;
             
-            if ([[ModelController sharedController].currentUser.userID intValue] == [userID intValue] &&
-                [context isEqual:[ModelController sharedController].defaultContext])
+            if ([[ModelController sharedController].currentUser.userID intValue] == [userID intValue])
             {
                 author = [ModelController sharedController].currentUser;
             }
             else
             {
-                author = [MRSLUser MR_createInContext:context];
-                [author setWithDictionary:dictionary[@"creator"]
-                                inContext:context];
+                author = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
+                [author setWithDictionary:dictionary[@"creator"]];
             }
             
             self.author = author;
@@ -61,9 +57,8 @@
             
             [morsels enumerateObjectsUsingBlock:^(NSDictionary *morselDictionary, NSUInteger idx, BOOL *stop)
              {
-                 MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:context];
-                 [morsel setWithDictionary:morselDictionary
-                                 inContext:context];
+                 MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
+                 [morsel setWithDictionary:morselDictionary];
                  
                  [mrsls addObject:morsel];
              }];

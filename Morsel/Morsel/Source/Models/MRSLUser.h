@@ -23,7 +23,6 @@ typedef NS_ENUM(NSUInteger, ProfileImageSizeType)
 - (void)addPost:(MRSLPost *)post;
 
 - (void)setOccupationTypeRaw:(UserOccupationType)type;
-- (void)setWithDictionary:(NSDictionary *)dictionary
-                inContext:(NSManagedObjectContext *)contextOrNil;
+- (void)setWithDictionary:(NSDictionary *)dictionary;
 
 @end

@@ -16,7 +16,6 @@
 - (void)morselCardDidSelectAddMedia:(MorselCardCollectionViewCell *)card;
 - (void)morselCard:(MorselCardCollectionViewCell *)card didUpdateDescription:(NSString *)description;
 - (void)morselCardDidBeginEditing:(MorselCardCollectionViewCell *)card;
-- (void)morselCardShouldDelete:(MorselCardCollectionViewCell *)card;
 
 @end
 
