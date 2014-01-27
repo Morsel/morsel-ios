@@ -5,8 +5,8 @@
 
 const struct MRSLPostAttributes MRSLPostAttributes = {
 	.creationDate = @"creationDate",
-	.isDraft = @"isDraft",
-	.isEditing = @"isEditing",
+	.draft = @"draft",
+	.editing = @"editing",
 	.postID = @"postID",
 	.title = @"title",
 };
@@ -45,13 +45,13 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
-	if ([key isEqualToString:@"isDraftValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"isDraft"];
+	if ([key isEqualToString:@"draftValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"draft"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"isEditingValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"isEditing"];
+	if ([key isEqualToString:@"editingValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"editing"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -74,52 +74,52 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 
 
 
-@dynamic isDraft;
+@dynamic draft;
 
 
 
-- (BOOL)isDraftValue {
-	NSNumber *result = [self isDraft];
+- (BOOL)draftValue {
+	NSNumber *result = [self draft];
 	return [result boolValue];
 }
 
-- (void)setIsDraftValue:(BOOL)value_ {
-	[self setIsDraft:[NSNumber numberWithBool:value_]];
+- (void)setDraftValue:(BOOL)value_ {
+	[self setDraft:[NSNumber numberWithBool:value_]];
 }
 
-- (BOOL)primitiveIsDraftValue {
-	NSNumber *result = [self primitiveIsDraft];
+- (BOOL)primitiveDraftValue {
+	NSNumber *result = [self primitiveDraft];
 	return [result boolValue];
 }
 
-- (void)setPrimitiveIsDraftValue:(BOOL)value_ {
-	[self setPrimitiveIsDraft:[NSNumber numberWithBool:value_]];
+- (void)setPrimitiveDraftValue:(BOOL)value_ {
+	[self setPrimitiveDraft:[NSNumber numberWithBool:value_]];
 }
 
 
 
 
 
-@dynamic isEditing;
+@dynamic editing;
 
 
 
-- (BOOL)isEditingValue {
-	NSNumber *result = [self isEditing];
+- (BOOL)editingValue {
+	NSNumber *result = [self editing];
 	return [result boolValue];
 }
 
-- (void)setIsEditingValue:(BOOL)value_ {
-	[self setIsEditing:[NSNumber numberWithBool:value_]];
+- (void)setEditingValue:(BOOL)value_ {
+	[self setEditing:[NSNumber numberWithBool:value_]];
 }
 
-- (BOOL)primitiveIsEditingValue {
-	NSNumber *result = [self primitiveIsEditing];
+- (BOOL)primitiveEditingValue {
+	NSNumber *result = [self primitiveEditing];
 	return [result boolValue];
 }
 
-- (void)setPrimitiveIsEditingValue:(BOOL)value_ {
-	[self setPrimitiveIsEditing:[NSNumber numberWithBool:value_]];
+- (void)setPrimitiveEditingValue:(BOOL)value_ {
+	[self setPrimitiveEditing:[NSNumber numberWithBool:value_]];
 }
 
 

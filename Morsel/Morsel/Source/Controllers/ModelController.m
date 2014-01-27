@@ -44,6 +44,8 @@
 {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
     
+    // Create Persistent store for MorselPosts
+    
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
     

@@ -6,8 +6,8 @@
 
 extern const struct MRSLPostAttributes {
 	__unsafe_unretained NSString *creationDate;
-	__unsafe_unretained NSString *isDraft;
-	__unsafe_unretained NSString *isEditing;
+	__unsafe_unretained NSString *draft;
+	__unsafe_unretained NSString *editing;
 	__unsafe_unretained NSString *postID;
 	__unsafe_unretained NSString *title;
 } MRSLPostAttributes;
@@ -52,29 +52,29 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* isDraft;
+@property (nonatomic, strong) NSNumber* draft;
 
 
 
-@property BOOL isDraftValue;
-- (BOOL)isDraftValue;
-- (void)setIsDraftValue:(BOOL)value_;
+@property BOOL draftValue;
+- (BOOL)draftValue;
+- (void)setDraftValue:(BOOL)value_;
 
-//- (BOOL)validateIsDraft:(id*)value_ error:(NSError**)error_;
-
-
+//- (BOOL)validateDraft:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, strong) NSNumber* isEditing;
+
+
+@property (nonatomic, strong) NSNumber* editing;
 
 
 
-@property BOOL isEditingValue;
-- (BOOL)isEditingValue;
-- (void)setIsEditingValue:(BOOL)value_;
+@property BOOL editingValue;
+- (BOOL)editingValue;
+- (void)setEditingValue:(BOOL)value_;
 
-//- (BOOL)validateIsEditing:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateEditing:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -139,20 +139,20 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-- (NSNumber*)primitiveIsDraft;
-- (void)setPrimitiveIsDraft:(NSNumber*)value;
+- (NSNumber*)primitiveDraft;
+- (void)setPrimitiveDraft:(NSNumber*)value;
 
-- (BOOL)primitiveIsDraftValue;
-- (void)setPrimitiveIsDraftValue:(BOOL)value_;
-
-
+- (BOOL)primitiveDraftValue;
+- (void)setPrimitiveDraftValue:(BOOL)value_;
 
 
-- (NSNumber*)primitiveIsEditing;
-- (void)setPrimitiveIsEditing:(NSNumber*)value;
 
-- (BOOL)primitiveIsEditingValue;
-- (void)setPrimitiveIsEditingValue:(BOOL)value_;
+
+- (NSNumber*)primitiveEditing;
+- (void)setPrimitiveEditing:(NSNumber*)value;
+
+- (BOOL)primitiveEditingValue;
+- (void)setPrimitiveEditingValue:(BOOL)value_;
 
 
 

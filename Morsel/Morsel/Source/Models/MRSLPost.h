@@ -2,8 +2,9 @@
 
 @interface MRSLPost : _MRSLPost {}
 
-- (void)setWithDictionary:(NSDictionary *)dictionary;
+- (BOOL)isDraft;
 
+- (void)setWithDictionary:(NSDictionary *)dictionary;
 - (void)addMorsel:(MRSLMorsel *)morsel;
 
 @end

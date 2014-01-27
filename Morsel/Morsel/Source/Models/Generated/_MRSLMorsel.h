@@ -6,7 +6,7 @@
 
 extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *creationDate;
-	__unsafe_unretained NSString *isDraft;
+	__unsafe_unretained NSString *draft;
 	__unsafe_unretained NSString *liked;
 	__unsafe_unretained NSString *morselDescription;
 	__unsafe_unretained NSString *morselID;
@@ -15,12 +15,12 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *morselPictureURL;
 	__unsafe_unretained NSString *morselThumb;
 	__unsafe_unretained NSString *morselThumbURL;
-	__unsafe_unretained NSString *sortOrder;
 } MRSLMorselAttributes;
 
 extern const struct MRSLMorselRelationships {
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *post;
+	__unsafe_unretained NSString *sortOrders;
 	__unsafe_unretained NSString *tags;
 } MRSLMorselRelationships;
 
@@ -29,8 +29,8 @@ extern const struct MRSLMorselFetchedProperties {
 
 @class MRSLComment;
 @class MRSLPost;
+@class MRSLSortOrder;
 @class MRSLTag;
-
 
 
 
@@ -66,15 +66,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* isDraft;
+@property (nonatomic, strong) NSNumber* draft;
 
 
 
-@property BOOL isDraftValue;
-- (BOOL)isDraftValue;
-- (void)setIsDraftValue:(BOOL)value_;
+@property BOOL draftValue;
+- (BOOL)draftValue;
+- (void)setDraftValue:(BOOL)value_;
 
-//- (BOOL)validateIsDraft:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateDraft:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -168,20 +168,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* sortOrder;
-
-
-
-@property int16_t sortOrderValue;
-- (int16_t)sortOrderValue;
-- (void)setSortOrderValue:(int16_t)value_;
-
-//- (BOOL)validateSortOrder:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSSet *comments;
 
 - (NSMutableSet*)commentsSet;
@@ -192,6 +178,13 @@ extern const struct MRSLMorselFetchedProperties {
 @property (nonatomic, strong) MRSLPost *post;
 
 //- (BOOL)validatePost:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, strong) NSSet *sortOrders;
+
+- (NSMutableSet*)sortOrdersSet;
 
 
 
@@ -213,6 +206,11 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)addCommentsObject:(MRSLComment*)value_;
 - (void)removeCommentsObject:(MRSLComment*)value_;
 
+- (void)addSortOrders:(NSSet*)value_;
+- (void)removeSortOrders:(NSSet*)value_;
+- (void)addSortOrdersObject:(MRSLSortOrder*)value_;
+- (void)removeSortOrdersObject:(MRSLSortOrder*)value_;
+
 - (void)addTags:(NSSet*)value_;
 - (void)removeTags:(NSSet*)value_;
 - (void)addTagsObject:(MRSLTag*)value_;
@@ -229,11 +227,11 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSNumber*)primitiveIsDraft;
-- (void)setPrimitiveIsDraft:(NSNumber*)value;
+- (NSNumber*)primitiveDraft;
+- (void)setPrimitiveDraft:(NSNumber*)value;
 
-- (BOOL)primitiveIsDraftValue;
-- (void)setPrimitiveIsDraftValue:(BOOL)value_;
+- (BOOL)primitiveDraftValue;
+- (void)setPrimitiveDraftValue:(BOOL)value_;
 
 
 
@@ -292,15 +290,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSNumber*)primitiveSortOrder;
-- (void)setPrimitiveSortOrder:(NSNumber*)value;
-
-- (int16_t)primitiveSortOrderValue;
-- (void)setPrimitiveSortOrderValue:(int16_t)value_;
-
-
-
-
 
 - (NSMutableSet*)primitiveComments;
 - (void)setPrimitiveComments:(NSMutableSet*)value;
@@ -309,6 +298,11 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (MRSLPost*)primitivePost;
 - (void)setPrimitivePost:(MRSLPost*)value;
+
+
+
+- (NSMutableSet*)primitiveSortOrders;
+- (void)setPrimitiveSortOrders:(NSMutableSet*)value;
 
 
 

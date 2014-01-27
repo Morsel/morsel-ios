@@ -42,7 +42,7 @@
              }
                                              failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)
              {
-                 DDLogError(@"Unable to set Morsel Image: %@", error.userInfo);
+                 DDLogError(@"Unable to set Morsel Thumbnail: %@", error.userInfo);
              }];
         }
         

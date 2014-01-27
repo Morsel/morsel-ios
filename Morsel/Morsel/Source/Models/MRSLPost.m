@@ -9,7 +9,6 @@
 
 @end
 
-
 @implementation MRSLPost
 
 #pragma mark - Instance Methods
@@ -63,12 +62,14 @@
                  [mrsls addObject:morsel];
              }];
             
+#warning Compare Morsel order with new Sort Order object
+            /*
             NSArray *sortedMrsls = [mrsls sortedArrayUsingComparator:^NSComparisonResult(MRSLMorsel *morselA, MRSLMorsel *morselB)
             {
                 return [morselA.sortOrder compare:morselB.sortOrder];
             }];
-            
-            self.morsels = [NSOrderedSet orderedSetWithArray:sortedMrsls];
+            */
+            self.morsels = [NSOrderedSet orderedSetWithArray:mrsls];
         }
     }
 }
@@ -76,6 +77,11 @@
 - (void)addMorsel:(MRSLMorsel *)morsel
 {
     [self.morselsSet addObject:morsel];
+}
+
+- (BOOL)isDraft
+{
+    return [self.draft boolValue];
 }
 
 @end

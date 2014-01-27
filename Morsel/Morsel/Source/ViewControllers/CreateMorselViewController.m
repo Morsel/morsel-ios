@@ -8,9 +8,10 @@
 
 #import "CreateMorselViewController.h"
 
-#import "ModelController.h"
 #import "GCPlaceholderTextView.h"
 #import "JSONResponseSerializerWithData.h"
+#import "ModelController.h"
+#import "UserPostsViewController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
@@ -29,10 +30,14 @@ UITextViewDelegate
 @property (weak, nonatomic) IBOutlet UIButton *topRightButton;
 @property (weak, nonatomic) IBOutlet UIButton *addToProgressionButton;
 @property (weak, nonatomic) IBOutlet UIButton *postMorselButton;
+@property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *descriptionTextView;
 
+@property (nonatomic, strong) NSString *postTitle;
+
 @property (nonatomic, strong) MRSLMorsel *morsel;
+@property (nonatomic, strong) MRSLPost *post;
 
 @end
 
@@ -43,6 +48,8 @@ UITextViewDelegate
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.addToProgressionButton.enabled = !([[ModelController sharedController].currentUser.posts count] == 0);
     
     _descriptionTextView.placeholder = @"Tell us more about this";
     _descriptionTextView.placeholderColor = [UIColor morselLightContent];
@@ -54,7 +61,7 @@ UITextViewDelegate
     _thumbnailImageView.layer.borderWidth = 1.f;
     
     MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
-    morsel.isDraft = [NSNumber numberWithBool:YES];
+    morsel.draft = [NSNumber numberWithBool:YES];
 
     self.morsel = morsel;
     
@@ -104,7 +111,19 @@ UITextViewDelegate
 {
     [[ModelController sharedController].defaultContext deleteObject:_morsel];
     
+    if (_capturedImage)
+    {
+        self.thumbnailImageView.image = nil;
+        self.capturedImage = nil;
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)associateMorselToPost
+{
+    [self performSegueWithIdentifier:@"AddMorselToPost"
+                              sender:nil];
 }
 
 - (IBAction)postMorsel
@@ -124,6 +143,8 @@ UITextViewDelegate
         return;
     }
     
+    self.activityView.hidden = NO;
+    
     if (_saveDraft)
     {
         [self saveAsDraft];
@@ -138,42 +159,66 @@ UITextViewDelegate
 {
     if (_morsel)
     {
-        MRSLPost *post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
-        post.isDraft = [NSNumber numberWithBool:YES];
-        post.author = [ModelController sharedController].currentUser;
+        if (!self.post)
+        {
+            // Creating a temporary draft post
+            
+            MRSLPost *post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
+            post.draft = [NSNumber numberWithBool:YES];
+            post.author = [ModelController sharedController].currentUser;
+            
+            if (self.postTitle)
+            {
+                post.title = _postTitle;
+            }
+            
+            _morsel.post = post;
+            [post addMorsel:_morsel];
+        }
+        else
+        {
+            // Adding Draft Morsel to existing Post!
+            
+            if (self.postTitle)
+            {
+                _post.title = _postTitle;
+            }
+            
+            _morsel.post = _post;
+            [_post addMorsel:_morsel];
+        }
         
-        [post addMorsel:_morsel];
+        if (_descriptionTextView.text) _morsel.morselDescription = _descriptionTextView.text;
         
-        _morsel.morselDescription = _descriptionTextView.text;
         _morsel.creationDate = [NSDate date];
     }
     
     if (_capturedImage)
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
-                       {
-                           _morsel.morselPicture = UIImageJPEGRepresentation(_capturedImage, 1.f);
-                           
-                           UIImage *thumbImage = [_capturedImage thumbnailImage:104.f
-                                                           interpolationQuality:kCGInterpolationHigh];
-                           
-                           _morsel.morselThumb = UIImageJPEGRepresentation(thumbImage, 1.f);;
-                           
-                           CGFloat cameraDimensionScale = minimumCameraMaxDimension / self.view.frame.size.height;
-                           CGFloat yScale = (minimumCameraMaxDimension * cameraDimensionScale) / _capturedImage.size.height;
-                           CGFloat cropStartingY = yPreviewOffset * yScale;
-                           CGFloat cropHeightAmount = croppedHeightOffset * yScale;
-                           
-                           UIImage *croppedImage = [_capturedImage croppedImage:CGRectMake(0.f, cropStartingY, _capturedImage.size.width, _capturedImage.size.width - cropHeightAmount)
-                                                                         scaled:CGSizeMake(320.f, 214.f)];
-                           
-                           _morsel.morselPictureCropped = UIImageJPEGRepresentation(croppedImage, 1.f);
-                           
-                           dispatch_async(dispatch_get_main_queue(), ^
-                                          {
-                                              [[ModelController sharedController] saveDataToStore];
-                                          });
-                       });
+        {
+            _morsel.morselPicture = UIImageJPEGRepresentation(_capturedImage, 1.f);
+            
+            UIImage *thumbImage = [_capturedImage thumbnailImage:104.f
+                                            interpolationQuality:kCGInterpolationHigh];
+            
+            _morsel.morselThumb = UIImageJPEGRepresentation(thumbImage, 1.f);;
+            
+            CGFloat cameraDimensionScale = minimumCameraMaxDimension / self.view.frame.size.height;
+            CGFloat yScale = (minimumCameraMaxDimension * cameraDimensionScale) / _capturedImage.size.height;
+            CGFloat cropStartingY = yPreviewOffset * yScale;
+            CGFloat cropHeightAmount = croppedHeightOffset * yScale;
+            
+            UIImage *croppedImage = [_capturedImage croppedImage:CGRectMake(0.f, cropStartingY, _capturedImage.size.width, _capturedImage.size.width - cropHeightAmount)
+                                                          scaled:CGSizeMake(320.f, 214.f)];
+            
+            _morsel.morselPictureCropped = UIImageJPEGRepresentation(croppedImage, 1.f);
+            
+            dispatch_async(dispatch_get_main_queue(), ^
+            {
+                [[ModelController sharedController] saveDataToStore];
+            });
+        });
     }
     
     [self.presentingViewController dismissViewControllerAnimated:YES
@@ -182,31 +227,48 @@ UITextViewDelegate
 
 - (void)publishMorsel
 {
-    [[ModelController sharedController].morselApiService createMorsel:_morsel
-                                                              success:^(id responseObject)
-     {
-         [[ModelController sharedController] saveDataToStore];
-         
-         [self.presentingViewController dismissViewControllerAnimated:YES
-                                                           completion:nil];
-     }
-                                                              failure:^(NSError *error)
-     {
-         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, error publishing Morsel."
-                                                         message:[NSString stringWithFormat:@"Error: %@", error.userInfo[JSONResponseSerializerWithDataKey]]
-                                                        delegate:nil
-                                               cancelButtonTitle:@"OK"
-                                               otherButtonTitles:nil];
-         
-         [alert show];
-         
-         DDLogError(@"Error! Unable to create Morsel: %@", error.userInfo[JSONResponseSerializerWithDataKey]);
-     }];
-}
-
-- (IBAction)associateOrAddToProgression:(id)sender
-{
-    // Associate!
+    if (self.post)
+    {
+        if (self.postTitle)
+        {
+            _post.title = _postTitle;
+        }
+        
+        _post.author = [ModelController sharedController].currentUser;
+        
+        _morsel.post = _post;
+        [_post addMorsel:_morsel];
+    }
+    
+    if (_descriptionTextView.text) _morsel.morselDescription = _descriptionTextView.text;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+    {
+        _morsel.morselPicture = UIImageJPEGRepresentation(_capturedImage, 1.f);
+        
+        [[ModelController sharedController].morselApiService createMorsel:_morsel
+                                                                  success:^(id responseObject)
+         {
+             [[ModelController sharedController] saveDataToStore];
+             
+             [self.presentingViewController dismissViewControllerAnimated:YES
+                                                               completion:nil];
+         }
+                                                                  failure:^(NSError *error)
+         {
+             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, error publishing Morsel."
+                                                             message:[NSString stringWithFormat:@"Error: %@", error.userInfo[JSONResponseSerializerWithDataKey]]
+                                                            delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+             
+             [alert show];
+             
+             DDLogError(@"Error! Unable to create Morsel: %@", error.userInfo[JSONResponseSerializerWithDataKey]);
+             
+             self.activityView.hidden = YES;
+         }];
+    });
 }
 
 - (IBAction)displaySettingsOrDismissResponder:(UIButton *)button
@@ -225,6 +287,33 @@ UITextViewDelegate
         
         [actionSheet showInView:self.view];
     }
+}
+
+#pragma mark - Segue Methods
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"AddMorselToPost"])
+    {
+        if (_post)
+        {
+            // Post existed. Be sure to highlight it in the user posts collection view
+            UserPostsViewController *userPostsVC = [segue destinationViewController];
+            userPostsVC.post = _post;
+            userPostsVC.postTitle = _postTitle;
+        }
+    }
+}
+
+- (IBAction)didSelectPostForProgressionAssociation:(UIStoryboardSegue *)segue
+{
+    UserPostsViewController *userPostsVC = [segue sourceViewController];
+    
+    self.post = userPostsVC.post;
+    self.postTitle = userPostsVC.postTitle;
+    
+    [self.addToProgressionButton setTitle:(_post) ? @"Change Associated Progression" : @"Add Morsel to Progression"
+                                 forState:UIControlStateNormal];
 }
 
 #pragma mark - UITextFieldDelegate Methods

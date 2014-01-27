@@ -150,11 +150,6 @@ UITextFieldDelegate
     });
 }
 
-- (IBAction)cancelLogin:(UIStoryboardSegue *)segue
-{
-    // Segue unwind left intentionally blank
-}
-
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
