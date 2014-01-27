@@ -56,10 +56,7 @@
 		066F5AE2185BCB6200468210 /* CreateMorselViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AE1185BCB6200468210 /* CreateMorselViewController.m */; };
 		066F5AEA185BCBF200468210 /* MorselPostCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AE9185BCBF200468210 /* MorselPostCollectionViewCell.m */; };
 		066F5AED185BCC2000468210 /* MorselScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AEC185BCC2000468210 /* MorselScrollView.m */; };
-		066F5AF3185BCCF200468210 /* MorselCardCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF2185BCCF200468210 /* MorselCardCollectionViewCell.m */; };
-		066F5AF6185BCD2400468210 /* SocialCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF5185BCD2400468210 /* SocialCardViewController.m */; };
 		066F5AF9185BCD3700468210 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF8185BCD3700468210 /* ProfileImageView.m */; };
-		066F5AFC185BCD5900468210 /* TagCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AFB185BCD5900468210 /* TagCardViewController.m */; };
 		066F5AFF185BCD8500468210 /* TagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AFE185BCD8500468210 /* TagView.m */; };
 		066F5B02185BCFBF00468210 /* CommentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5B01185BCFBF00468210 /* CommentTableView.m */; };
 		066F5B05185BCFD600468210 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5B04185BCFD600468210 /* CommentTableViewCell.m */; };
@@ -93,6 +90,8 @@
 		0698CACA18524359007AF442 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0660669418522E7900E780FC /* UIKit.framework */; };
 		0698CAD018524359007AF442 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0698CACE18524359007AF442 /* InfoPlist.strings */; };
 		0698CAD218524359007AF442 /* Morsel_Integration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0698CAD118524359007AF442 /* Morsel_Integration.m */; };
+		06A049621896D6E500BD1C5B /* UserPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049611896D6E500BD1C5B /* UserPostsViewController.m */; };
+		06A049651896D82500BD1C5B /* PostCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049641896D82500BD1C5B /* PostCollectionViewCell.m */; };
 		06CE1882187F13A0009F9722 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1881187F13A0009F9722 /* Constants.m */; };
 		06CE1885187F42EA009F9722 /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1884187F42EA009F9722 /* JSONResponseSerializerWithData.m */; };
 		06E89F8F1885ED3B00DA3A90 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E89F8E1885ED3B00DA3A90 /* Util.m */; };
@@ -181,14 +180,8 @@
 		066F5AE9185BCBF200468210 /* MorselPostCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselPostCollectionViewCell.m; path = Source/Views/MorselPostCollectionViewCell.m; sourceTree = "<group>"; };
 		066F5AEB185BCC2000468210 /* MorselScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselScrollView.h; path = Source/Views/MorselScrollView.h; sourceTree = "<group>"; };
 		066F5AEC185BCC2000468210 /* MorselScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselScrollView.m; path = Source/Views/MorselScrollView.m; sourceTree = "<group>"; };
-		066F5AF1185BCCF200468210 /* MorselCardCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselCardCollectionViewCell.h; path = Source/Views/MorselCardCollectionViewCell.h; sourceTree = "<group>"; };
-		066F5AF2185BCCF200468210 /* MorselCardCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselCardCollectionViewCell.m; path = Source/Views/MorselCardCollectionViewCell.m; sourceTree = "<group>"; };
-		066F5AF4185BCD2400468210 /* SocialCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialCardViewController.h; path = Source/Views/SocialCardViewController.h; sourceTree = "<group>"; };
-		066F5AF5185BCD2400468210 /* SocialCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SocialCardViewController.m; path = Source/Views/SocialCardViewController.m; sourceTree = "<group>"; };
 		066F5AF7185BCD3700468210 /* ProfileImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileImageView.h; path = Source/Views/ProfileImageView.h; sourceTree = "<group>"; };
 		066F5AF8185BCD3700468210 /* ProfileImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileImageView.m; path = Source/Views/ProfileImageView.m; sourceTree = "<group>"; };
-		066F5AFA185BCD5900468210 /* TagCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TagCardViewController.h; path = Source/Views/TagCardViewController.h; sourceTree = "<group>"; };
-		066F5AFB185BCD5900468210 /* TagCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TagCardViewController.m; path = Source/Views/TagCardViewController.m; sourceTree = "<group>"; };
 		066F5AFD185BCD8500468210 /* TagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TagView.h; path = Source/Views/TagView.h; sourceTree = "<group>"; };
 		066F5AFE185BCD8500468210 /* TagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TagView.m; path = Source/Views/TagView.m; sourceTree = "<group>"; };
 		066F5B00185BCFBF00468210 /* CommentTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentTableView.h; path = Source/Views/CommentTableView.h; sourceTree = "<group>"; };
@@ -243,6 +236,10 @@
 		0698CACF18524359007AF442 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0698CAD118524359007AF442 /* Morsel_Integration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Morsel_Integration.m; sourceTree = "<group>"; };
 		0698CAD318524359007AF442 /* Morsel-Integration-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Morsel-Integration-Prefix.pch"; sourceTree = "<group>"; };
+		06A049601896D6E500BD1C5B /* UserPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPostsViewController.h; sourceTree = "<group>"; };
+		06A049611896D6E500BD1C5B /* UserPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPostsViewController.m; sourceTree = "<group>"; };
+		06A049631896D82500BD1C5B /* PostCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostCollectionViewCell.h; path = Source/Views/PostCollectionViewCell.h; sourceTree = "<group>"; };
+		06A049641896D82500BD1C5B /* PostCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostCollectionViewCell.m; path = Source/Views/PostCollectionViewCell.m; sourceTree = "<group>"; };
 		06CE1880187F13A0009F9722 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		06CE1881187F13A0009F9722 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		06CE1883187F42EA009F9722 /* JSONResponseSerializerWithData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONResponseSerializerWithData.h; sourceTree = "<group>"; };
@@ -310,6 +307,8 @@
 				066F5AE1185BCB6200468210 /* CreateMorselViewController.m */,
 				0609B8351894A9E6005A11A4 /* CaptureMediaViewController.h */,
 				0609B8361894A9E6005A11A4 /* CaptureMediaViewController.m */,
+				06A049601896D6E500BD1C5B /* UserPostsViewController.h */,
+				06A049611896D6E500BD1C5B /* UserPostsViewController.m */,
 			);
 			name = "Create Morsel";
 			sourceTree = "<group>";
@@ -388,12 +387,8 @@
 		063250CC1860E86600ADDF23 /* Create */ = {
 			isa = PBXGroup;
 			children = (
-				066F5AF1185BCCF200468210 /* MorselCardCollectionViewCell.h */,
-				066F5AF2185BCCF200468210 /* MorselCardCollectionViewCell.m */,
-				066F5AF4185BCD2400468210 /* SocialCardViewController.h */,
-				066F5AF5185BCD2400468210 /* SocialCardViewController.m */,
-				066F5AFA185BCD5900468210 /* TagCardViewController.h */,
-				066F5AFB185BCD5900468210 /* TagCardViewController.m */,
+				06A049631896D82500BD1C5B /* PostCollectionViewCell.h */,
+				06A049641896D82500BD1C5B /* PostCollectionViewCell.m */,
 			);
 			name = Create;
 			sourceTree = "<group>";
@@ -995,7 +990,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0660669D18522E7900E780FC /* main.m in Sources */,
-				066F5AFC185BCD5900468210 /* TagCardViewController.m in Sources */,
 				062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */,
 				067382E1187E1A19003CF1AD /* MorselAPIClient.m in Sources */,
 				066F5AD9185BCA4D00468210 /* MRSLMorsel.m in Sources */,
@@ -1024,12 +1018,12 @@
 				0686029F1891A8D3000CD576 /* UIColor+Morsel.m in Sources */,
 				068602A81891B43E000CD576 /* UIStoryboard+Morsel.m in Sources */,
 				066F5B08185BD01100468210 /* AddCommentView.m in Sources */,
+				06A049651896D82500BD1C5B /* PostCollectionViewCell.m in Sources */,
 				068602A21891AD2C000CD576 /* MorselStandardButton.m in Sources */,
 				066F5B02185BCFBF00468210 /* CommentTableView.m in Sources */,
 				066F5AE2185BCB6200468210 /* CreateMorselViewController.m in Sources */,
 				063B177718922BDD00ABFEAE /* MorselCondensedObliqueLabel.m in Sources */,
 				0698CA8C18523A8C007AF442 /* Morsel.xcdatamodeld in Sources */,
-				066F5AF3185BCCF200468210 /* MorselCardCollectionViewCell.m in Sources */,
 				06F11E7F18624680003E64C8 /* _MRSLPost.m in Sources */,
 				0640FF32187DB89300BE2F0D /* SignUpViewController.m in Sources */,
 				0698CA9518523BBE007AF442 /* HomeViewController.m in Sources */,
@@ -1039,13 +1033,13 @@
 				063976DD186395FD00A17211 /* MorselCardCollectionViewLayout.m in Sources */,
 				0698CA9C18524100007AF442 /* _MRSLUser.m in Sources */,
 				0609B8401894B52E005A11A4 /* CameraPreviewView.m in Sources */,
-				066F5AF6185BCD2400468210 /* SocialCardViewController.m in Sources */,
 				067382E2187E1A19003CF1AD /* MorselAPIService.m in Sources */,
 				066F5B0B185BD05400468210 /* ModelController.m in Sources */,
 				066F5AED185BCC2000468210 /* MorselScrollView.m in Sources */,
 				068602AB1891C590000CD576 /* MorselStandardLabel.m in Sources */,
 				066F5AFF185BCD8500468210 /* TagView.m in Sources */,
 				066F5ADA185BCA4D00468210 /* MRSLTag.m in Sources */,
+				06A049621896D6E500BD1C5B /* UserPostsViewController.m in Sources */,
 				0698CA9418523BBE007AF442 /* AppDelegate.m in Sources */,
 				0609B8371894A9E6005A11A4 /* CaptureMediaViewController.m in Sources */,
 			);

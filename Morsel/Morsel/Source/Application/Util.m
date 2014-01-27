@@ -20,10 +20,15 @@
 
 + (BOOL)validateUsername:(NSString *)username
 {
+    BOOL passedRegex = NO;
+    BOOL passedLength = ([username length] <= 15);
+    
     NSString *usernameRegex = @"[A-Z0-9a-z_]+";
     NSPredicate *usernameValidation = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", usernameRegex];
     
-    return [usernameValidation evaluateWithObject:username];
+    passedRegex = [usernameValidation evaluateWithObject:username];
+    
+    return (passedRegex && passedLength);
 }
 
 @end

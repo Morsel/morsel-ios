@@ -65,7 +65,7 @@ NSFetchedResultsControllerDelegate
         self.feedCollectionView.contentInset = UIEdgeInsetsMake(0.f, 0.f, 50.f, 0.f);
     }
     
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"post.author.userID == %i", [_user.userID intValue]];
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.author.userID == %i) AND (draft == NO)", [_user.userID intValue]];
     
     self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
                                                           ascending:NO

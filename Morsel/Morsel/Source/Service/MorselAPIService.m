@@ -214,12 +214,14 @@
                              forKey:@"description"];
     }
     
+#warning Use Morsel Sort Order object instead
+    /*
     if (morsel.sortOrder)
     {
         [morselDictionary setObject:morsel.sortOrder
                              forKey:@"sort_order"];
     }
-    
+    */
     if ([morselDictionary count] > 0)
     {
         [parameters setObject:morselDictionary
@@ -248,7 +250,7 @@
      {
          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
          
-         morsel.isDraft = [NSNumber numberWithBool:NO];
+         morsel.draft = [NSNumber numberWithBool:NO];
          
          [morsel setWithDictionary:responseObject];
          

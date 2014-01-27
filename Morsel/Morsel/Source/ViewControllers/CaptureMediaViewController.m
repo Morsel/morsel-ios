@@ -159,6 +159,8 @@ UINavigationControllerDelegate
     {
         CreateMorselViewController *createMorselVC = [segue destinationViewController];
         createMorselVC.capturedImage = _capturedImage ? : nil;
+        
+        self.capturedImage = nil;
     }
 }
 
@@ -502,31 +504,38 @@ UINavigationControllerDelegate
 - (void)checkDeviceAuthorizationStatus
 {
 	NSString *mediaType = AVMediaTypeVideo;
-	
-	[AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted)
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
     {
-		if (granted)
-		{
-			//Granted access to mediaType
-			[self setDeviceAuthorized:YES];
-		}
-		else
-		{
-			//Not granted access to mediaType
-			dispatch_async(dispatch_get_main_queue(), ^
-            {
-                DDLogError(@"Camera access permission denied. Cannot create AV session!");
-                
-				[[[UIAlertView alloc] initWithTitle:@"Permission Denied"
-											message:@"Morsel doesn't have permission to use the Camera, please change your privacy settings!"
-										   delegate:self
-								  cancelButtonTitle:@"OK"
-								  otherButtonTitles:nil] show];
-                
-				[self setDeviceAuthorized:NO];
-			});
-		}
-	}];
+        [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted)
+         {
+             if (granted)
+             {
+                 //Granted access to mediaType
+                 [self setDeviceAuthorized:YES];
+             }
+             else
+             {
+                 //Not granted access to mediaType
+                 dispatch_async(dispatch_get_main_queue(), ^
+                                {
+                                    DDLogError(@"Camera access permission denied. Cannot create AV session!");
+                                    
+                                    [[[UIAlertView alloc] initWithTitle:@"Permission Denied"
+                                                                message:@"Morsel doesn't have permission to use the Camera, please change your privacy settings!"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil] show];
+                                    
+                                    [self setDeviceAuthorized:NO];
+                                });
+             }
+         }];
+    }
+    else
+    {
+        [self setDeviceAuthorized:YES];
+    }
 }
 
 #pragma mark - UIImagePickerController Methods

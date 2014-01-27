@@ -63,7 +63,7 @@
                 if (!existingPost)
                 {
                     self.post.postID = postID;
-                    self.post.isDraft = [NSNumber numberWithBool:NO];
+                    self.post.draft = [NSNumber numberWithBool:NO];
                 }
                 else
                 {
@@ -75,12 +75,26 @@
         }
     }
     
-#warning If Morsel is converted from draft, trash all the stored image data
+    if (self.isDraft)
+    {
+        // If Morsel is converted from draft, trash all the stored image data
+        
+        self.morselThumb = nil;
+        self.morselPicture = nil;
+        self.morselPictureCropped = nil;
+    }
+    
+    self.draft = [NSNumber numberWithBool:NO];
 }
 
 - (BOOL)belongsToCurrentUser
 {
     return ([self.post.author.userID intValue] == [[ModelController sharedController].currentUser.userID intValue]);
+}
+
+- (BOOL)isDraft
+{
+    return [self.draft boolValue];
 }
 
 - (NSURLRequest *)morselPictureURLRequestForImageSizeType:(MorselImageSizeType)type

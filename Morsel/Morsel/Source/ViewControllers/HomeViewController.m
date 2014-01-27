@@ -43,9 +43,11 @@ UIGestureRecognizerDelegate
 {
     [super viewDidLoad];
     
+    NSPredicate *publishedMorselPredicate = [NSPredicate predicateWithFormat:@"draft == NO"];
+    
     self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
                                                           ascending:NO
-                                                      withPredicate:nil
+                                                      withPredicate:publishedMorselPredicate
                                                             groupBy:nil
                                                            delegate:self
                                                           inContext:[ModelController sharedController].defaultContext];

@@ -5,7 +5,7 @@
 
 const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.creationDate = @"creationDate",
-	.isDraft = @"isDraft",
+	.draft = @"draft",
 	.liked = @"liked",
 	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
@@ -14,12 +14,12 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.morselPictureURL = @"morselPictureURL",
 	.morselThumb = @"morselThumb",
 	.morselThumbURL = @"morselThumbURL",
-	.sortOrder = @"sortOrder",
 };
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
 	.comments = @"comments",
 	.post = @"post",
+	.sortOrders = @"sortOrders",
 	.tags = @"tags",
 };
 
@@ -52,8 +52,8 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
-	if ([key isEqualToString:@"isDraftValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"isDraft"];
+	if ([key isEqualToString:@"draftValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"draft"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -64,11 +64,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"morselIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"morselID"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"sortOrderValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"sortOrder"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -86,26 +81,26 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic isDraft;
+@dynamic draft;
 
 
 
-- (BOOL)isDraftValue {
-	NSNumber *result = [self isDraft];
+- (BOOL)draftValue {
+	NSNumber *result = [self draft];
 	return [result boolValue];
 }
 
-- (void)setIsDraftValue:(BOOL)value_ {
-	[self setIsDraft:[NSNumber numberWithBool:value_]];
+- (void)setDraftValue:(BOOL)value_ {
+	[self setDraft:[NSNumber numberWithBool:value_]];
 }
 
-- (BOOL)primitiveIsDraftValue {
-	NSNumber *result = [self primitiveIsDraft];
+- (BOOL)primitiveDraftValue {
+	NSNumber *result = [self primitiveDraft];
 	return [result boolValue];
 }
 
-- (void)setPrimitiveIsDraftValue:(BOOL)value_ {
-	[self setPrimitiveIsDraft:[NSNumber numberWithBool:value_]];
+- (void)setPrimitiveDraftValue:(BOOL)value_ {
+	[self setPrimitiveDraft:[NSNumber numberWithBool:value_]];
 }
 
 
@@ -206,32 +201,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic sortOrder;
-
-
-
-- (int16_t)sortOrderValue {
-	NSNumber *result = [self sortOrder];
-	return [result shortValue];
-}
-
-- (void)setSortOrderValue:(int16_t)value_ {
-	[self setSortOrder:[NSNumber numberWithShort:value_]];
-}
-
-- (int16_t)primitiveSortOrderValue {
-	NSNumber *result = [self primitiveSortOrder];
-	return [result shortValue];
-}
-
-- (void)setPrimitiveSortOrderValue:(int16_t)value_ {
-	[self setPrimitiveSortOrder:[NSNumber numberWithShort:value_]];
-}
-
-
-
-
-
 @dynamic comments;
 
 	
@@ -247,6 +216,19 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic post;
 
+	
+
+@dynamic sortOrders;
+
+	
+- (NSMutableSet*)sortOrdersSet {
+	[self willAccessValueForKey:@"sortOrders"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"sortOrders"];
+  
+	[self didAccessValueForKey:@"sortOrders"];
+	return result;
+}
 	
 
 @dynamic tags;
