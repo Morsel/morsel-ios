@@ -2,8 +2,7 @@
 
 @interface MRSLPost : _MRSLPost {}
 
-- (void)setWithDictionary:(NSDictionary *)dictionary
-                inContext:(NSManagedObjectContext *)context;
+- (void)setWithDictionary:(NSDictionary *)dictionary;
 
 - (void)addMorsel:(MRSLMorsel *)morsel;
 

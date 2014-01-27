@@ -5,10 +5,12 @@
 
 const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.creationDate = @"creationDate",
+	.isDraft = @"isDraft",
 	.liked = @"liked",
 	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
 	.morselPicture = @"morselPicture",
+	.morselPictureCropped = @"morselPictureCropped",
 	.morselPictureURL = @"morselPictureURL",
 	.morselThumb = @"morselThumb",
 	.morselThumbURL = @"morselThumbURL",
@@ -50,6 +52,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"isDraftValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"isDraft"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"likedValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"liked"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -74,6 +81,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic creationDate;
 
+
+
+
+
+
+@dynamic isDraft;
+
+
+
+- (BOOL)isDraftValue {
+	NSNumber *result = [self isDraft];
+	return [result boolValue];
+}
+
+- (void)setIsDraftValue:(BOOL)value_ {
+	[self setIsDraft:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsDraftValue {
+	NSNumber *result = [self primitiveIsDraft];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsDraftValue:(BOOL)value_ {
+	[self setPrimitiveIsDraft:[NSNumber numberWithBool:value_]];
+}
 
 
 
@@ -139,6 +172,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 @dynamic morselPicture;
+
+
+
+
+
+
+@dynamic morselPictureCropped;
 
 
 

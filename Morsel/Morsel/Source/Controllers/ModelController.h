@@ -18,13 +18,12 @@
 @property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
 // Default Context that will persist objects created and managed within to disk
 @property (nonatomic, strong) NSManagedObjectContext *defaultContext;
-// Temporary Context will NEVER have it's data persisted to disk
-@property (nonatomic, strong) NSManagedObjectContext *temporaryContext;
 
 + (instancetype)sharedController;
 
 - (MRSLUser *)currentUser;
 - (MRSLUser *)userWithID:(NSNumber *)userID;
+- (MRSLPost *)postWithID:(NSNumber *)postID;
 
 - (void)getFeedWithSuccess:(MorselAPIArrayBlock)successOrNil
                    failure:(MorselAPIFailureBlock)failureOrNil;

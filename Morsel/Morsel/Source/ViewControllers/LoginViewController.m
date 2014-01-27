@@ -59,6 +59,13 @@ UITextFieldDelegate
 
 #pragma mark - UITextFieldDelegate Methods
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self logIn];
+    
+    return YES;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if ([string isEqualToString:@"\n"])

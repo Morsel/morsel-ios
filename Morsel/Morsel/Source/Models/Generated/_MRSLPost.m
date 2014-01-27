@@ -5,6 +5,8 @@
 
 const struct MRSLPostAttributes MRSLPostAttributes = {
 	.creationDate = @"creationDate",
+	.isDraft = @"isDraft",
+	.isEditing = @"isEditing",
 	.postID = @"postID",
 	.title = @"title",
 };
@@ -43,6 +45,16 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"isDraftValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"isDraft"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"isEditingValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"isEditing"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"postIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"postID"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -57,6 +69,58 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 
 @dynamic creationDate;
 
+
+
+
+
+
+@dynamic isDraft;
+
+
+
+- (BOOL)isDraftValue {
+	NSNumber *result = [self isDraft];
+	return [result boolValue];
+}
+
+- (void)setIsDraftValue:(BOOL)value_ {
+	[self setIsDraft:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsDraftValue {
+	NSNumber *result = [self primitiveIsDraft];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsDraftValue:(BOOL)value_ {
+	[self setPrimitiveIsDraft:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic isEditing;
+
+
+
+- (BOOL)isEditingValue {
+	NSNumber *result = [self isEditing];
+	return [result boolValue];
+}
+
+- (void)setIsEditingValue:(BOOL)value_ {
+	[self setIsEditing:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsEditingValue {
+	NSNumber *result = [self primitiveIsEditing];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsEditingValue:(BOOL)value_ {
+	[self setPrimitiveIsEditing:[NSNumber numberWithBool:value_]];
+}
 
 
 

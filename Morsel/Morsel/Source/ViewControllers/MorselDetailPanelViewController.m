@@ -73,7 +73,8 @@ UIScrollViewDelegate
         }
         
         if (_morsel.morselPictureURL &&
-            !_morsel.morselPicture)
+            !_morsel.morselPicture &&
+            !_morsel.isDraft)
         {
             __weak UIImageView *weakImageView = _morselImageView;
             
@@ -94,7 +95,22 @@ UIScrollViewDelegate
         }
     }
     
-    [self setLikeButtonImageForMorsel:_morsel];
+    if (_morsel.isDraft &&
+        _morsel.morselPictureCropped)
+    {
+        // This Morsel is a draft!
+        
+        _morselImageView.image = [UIImage imageWithData:_morsel.morselPictureCropped];
+    }
+    
+    if (_morsel.belongsToCurrentUser)
+    {
+        self.likeButton.hidden = YES;
+    }
+    else
+    {
+        [self setLikeButtonImageForMorsel:_morsel];
+    }
 }
 
 - (IBAction)toggleLikeMorsel
@@ -142,7 +158,7 @@ UIScrollViewDelegate
     CGFloat scrollViewHeight = scrollView.frame.size.height;
     CGFloat scrollContentSizeHeight = scrollView.contentSize.height;
     
-    NSLog(@"OFFSET: %f", offsetX);
+    DDLogDebug(@"OFFSET: %f", offsetX);
  
     if (offsetX + scrollViewHeight >= scrollContentSizeHeight)
     {

@@ -10,4 +10,6 @@
 
 @interface CreateMorselViewController : UIViewController
 
+@property (nonatomic, strong) UIImage *capturedImage;
+
 @end

@@ -2,6 +2,9 @@
 
 #import "ModelController.h"
 
+#import "MRSLPost.h"
+#import "MRSLUser.h"
+
 @interface MRSLMorsel ()
 
 @end
@@ -9,7 +12,6 @@
 @implementation MRSLMorsel
 
 - (void)setWithDictionary:(NSDictionary *)dictionary
-                inContext:(NSManagedObjectContext *)context
 {
     self.liked = ([dictionary[@"liked"] isEqual:[NSNull null]]) ? self.liked : [NSNumber numberWithBool:[dictionary[@"liked"] boolValue]];
     self.morselID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.morselID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
@@ -29,6 +31,56 @@
         self.morselPictureURL = [photoDictionary[@"_104x104"] stringByReplacingOccurrencesOfString:@"_104x104"
                                                                                      withString:@"IMAGE_SIZE"];
     }
+    
+    if (!self.post)
+    {
+        if (![dictionary[@"post_id"] isEqual:[NSNull null]])
+        {
+            NSNumber *postID = [NSNumber numberWithInt:[dictionary[@"post_id"] intValue]];
+            
+            self.post = [[ModelController sharedController] postWithID:postID];
+            
+            if (!self.post)
+            {
+                self.post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
+                self.post.postID = postID;
+                [self.post addMorsel:self];
+            }
+        }
+    }
+    else
+    {
+        if (self.post.isDraft)
+        {
+            // Created as a draft, should now be updated with real ID and converted to normal post. If post exists elsewhere, replace it.
+            
+            if (![dictionary[@"post_id"] isEqual:[NSNull null]])
+            {
+                NSNumber *postID = [NSNumber numberWithInt:[dictionary[@"post_id"] intValue]];
+                
+                MRSLPost *existingPost = [[ModelController sharedController] postWithID:postID];
+                
+                if (!existingPost)
+                {
+                    self.post.postID = postID;
+                    self.post.isDraft = [NSNumber numberWithBool:NO];
+                }
+                else
+                {
+                    [[ModelController sharedController].defaultContext deleteObject:self.post];
+                    
+                    self.post = existingPost;
+                }
+            }
+        }
+    }
+    
+#warning If Morsel is converted from draft, trash all the stored image data
+}
+
+- (BOOL)belongsToCurrentUser
+{
+    return ([self.post.author.userID intValue] == [[ModelController sharedController].currentUser.userID intValue]);
 }
 
 - (NSURLRequest *)morselPictureURLRequestForImageSizeType:(MorselImageSizeType)type

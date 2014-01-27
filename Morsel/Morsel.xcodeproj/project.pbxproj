@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		057749E490424AA8A501241D /* libPods-Morsel-Specs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F25ECEABED4243EAB69138D9 /* libPods-Morsel-Specs.a */; };
+		0609B8371894A9E6005A11A4 /* CaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* CaptureMediaViewController.m */; };
+		0609B8401894B52E005A11A4 /* CameraPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B83F1894B52E005A11A4 /* CameraPreviewView.m */; };
 		062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062DF21618845B7D00C199D8 /* LoginViewController.m */; };
 		062E709C1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E709B1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m */; };
 		062E709F1892C681005D07B9 /* MorselThumbnailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E709E1892C681005D07B9 /* MorselThumbnailViewController.m */; };
@@ -119,6 +121,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0609B8351894A9E6005A11A4 /* CaptureMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureMediaViewController.h; sourceTree = "<group>"; };
+		0609B8361894A9E6005A11A4 /* CaptureMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureMediaViewController.m; sourceTree = "<group>"; };
+		0609B83E1894B52E005A11A4 /* CameraPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraPreviewView.h; path = Source/Views/CameraPreviewView.h; sourceTree = "<group>"; };
+		0609B83F1894B52E005A11A4 /* CameraPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraPreviewView.m; path = Source/Views/CameraPreviewView.m; sourceTree = "<group>"; };
 		062DF21518845B7D00C199D8 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		062DF21618845B7D00C199D8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		062E709A1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselThumbnailCollectionViewCell.h; path = Source/Views/MorselThumbnailCollectionViewCell.h; sourceTree = "<group>"; };
@@ -297,6 +303,68 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0609B8381894A9ED005A11A4 /* Create Morsel */ = {
+			isa = PBXGroup;
+			children = (
+				066F5AE0185BCB6200468210 /* CreateMorselViewController.h */,
+				066F5AE1185BCB6200468210 /* CreateMorselViewController.m */,
+				0609B8351894A9E6005A11A4 /* CaptureMediaViewController.h */,
+				0609B8361894A9E6005A11A4 /* CaptureMediaViewController.m */,
+			);
+			name = "Create Morsel";
+			sourceTree = "<group>";
+		};
+		0609B8391894A9F9005A11A4 /* Morsel Detail */ = {
+			isa = PBXGroup;
+			children = (
+				0674A857185FBDF90089B672 /* MorselDetailViewController.h */,
+				0674A858185FBDF90089B672 /* MorselDetailViewController.m */,
+				063B177818923BF200ABFEAE /* MorselDetailPanelViewController.h */,
+				063B177918923BF200ABFEAE /* MorselDetailPanelViewController.m */,
+			);
+			name = "Morsel Detail";
+			sourceTree = "<group>";
+		};
+		0609B83A1894AA08005A11A4 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0698CA9218523BBE007AF442 /* HomeViewController.h */,
+				0698CA9318523BBE007AF442 /* HomeViewController.m */,
+				062E709D1892C681005D07B9 /* MorselThumbnailViewController.h */,
+				062E709E1892C681005D07B9 /* MorselThumbnailViewController.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		0609B83B1894AA11005A11A4 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				066F5ADD185BCB5000468210 /* ProfileViewController.h */,
+				066F5ADE185BCB5000468210 /* ProfileViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		0609B83C1894AA23005A11A4 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				0640FF30187DB89300BE2F0D /* SignUpViewController.h */,
+				0640FF31187DB89300BE2F0D /* SignUpViewController.m */,
+				062DF21518845B7D00C199D8 /* LoginViewController.h */,
+				062DF21618845B7D00C199D8 /* LoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		0609B83D1894B4EF005A11A4 /* AV Capture */ = {
+			isa = PBXGroup;
+			children = (
+				0609B83E1894B52E005A11A4 /* CameraPreviewView.h */,
+				0609B83F1894B52E005A11A4 /* CameraPreviewView.m */,
+			);
+			name = "AV Capture";
+			sourceTree = "<group>";
+		};
 		062E70991892C59E005D07B9 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,22 +438,11 @@
 		063976D8186361A400A17211 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
-				066F5AE0185BCB6200468210 /* CreateMorselViewController.h */,
-				066F5AE1185BCB6200468210 /* CreateMorselViewController.m */,
-				0698CA9218523BBE007AF442 /* HomeViewController.h */,
-				0698CA9318523BBE007AF442 /* HomeViewController.m */,
-				0674A857185FBDF90089B672 /* MorselDetailViewController.h */,
-				0674A858185FBDF90089B672 /* MorselDetailViewController.m */,
-				063B177818923BF200ABFEAE /* MorselDetailPanelViewController.h */,
-				063B177918923BF200ABFEAE /* MorselDetailPanelViewController.m */,
-				062E709D1892C681005D07B9 /* MorselThumbnailViewController.h */,
-				062E709E1892C681005D07B9 /* MorselThumbnailViewController.m */,
-				066F5ADD185BCB5000468210 /* ProfileViewController.h */,
-				066F5ADE185BCB5000468210 /* ProfileViewController.m */,
-				0640FF30187DB89300BE2F0D /* SignUpViewController.h */,
-				0640FF31187DB89300BE2F0D /* SignUpViewController.m */,
-				062DF21518845B7D00C199D8 /* LoginViewController.h */,
-				062DF21618845B7D00C199D8 /* LoginViewController.m */,
+				0609B83C1894AA23005A11A4 /* Login */,
+				0609B83B1894AA11005A11A4 /* Profile */,
+				0609B83A1894AA08005A11A4 /* Home */,
+				0609B8391894A9F9005A11A4 /* Morsel Detail */,
+				0609B8381894A9ED005A11A4 /* Create Morsel */,
 			);
 			name = Sections;
 			sourceTree = "<group>";
@@ -550,6 +607,7 @@
 		066F5AE3185BCB8A00468210 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0609B83D1894B4EF005A11A4 /* AV Capture */,
 				062E70991892C59E005D07B9 /* Detail */,
 				068602961891A68C000CD576 /* Text */,
 				063976DA186394A300A17211 /* Layouts */,
@@ -980,6 +1038,7 @@
 				06CE1885187F42EA009F9722 /* JSONResponseSerializerWithData.m in Sources */,
 				063976DD186395FD00A17211 /* MorselCardCollectionViewLayout.m in Sources */,
 				0698CA9C18524100007AF442 /* _MRSLUser.m in Sources */,
+				0609B8401894B52E005A11A4 /* CameraPreviewView.m in Sources */,
 				066F5AF6185BCD2400468210 /* SocialCardViewController.m in Sources */,
 				067382E2187E1A19003CF1AD /* MorselAPIService.m in Sources */,
 				066F5B0B185BD05400468210 /* ModelController.m in Sources */,
@@ -988,6 +1047,7 @@
 				066F5AFF185BCD8500468210 /* TagView.m in Sources */,
 				066F5ADA185BCA4D00468210 /* MRSLTag.m in Sources */,
 				0698CA9418523BBE007AF442 /* AppDelegate.m in Sources */,
+				0609B8371894A9E6005A11A4 /* CaptureMediaViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

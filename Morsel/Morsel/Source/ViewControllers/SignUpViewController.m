@@ -78,7 +78,7 @@ UITextFieldDelegate
                      completion:nil];
 }
 
-- (IBAction)continue:(UIButton *)sender
+- (IBAction)signUp
 {
     BOOL usernameValid = [Util validateUsername:_usernameField.text];
     BOOL emailValid = [Util validateEmail:_emailField.text];
@@ -116,7 +116,7 @@ UITextFieldDelegate
         return;
     }
     
-    [sender setEnabled:NO];
+    [_continueButton setEnabled:NO];
     
     self.activityView.hidden = NO;
     
@@ -142,7 +142,7 @@ UITextFieldDelegate
                                                                     failure:^(NSError *error)
             {
                 self.activityView.hidden = YES;
-                [sender setEnabled:YES];
+                [self.continueButton setEnabled:YES];
             }];
         });
         
@@ -231,6 +231,15 @@ UITextFieldDelegate
         return YES;
     }
     
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if ([textField isEqual:_occupationTitleField])
+    {
+        [self signUp];
+    }
     return YES;
 }
 

@@ -30,11 +30,15 @@
            success:(MorselAPISuccessBlock)userSuccessOrNil
            failure:(MorselAPIFailureBlock)failureOrNil;
 
+- (void)getUserProfile:(MRSLUser *)user
+               success:(MorselAPISuccessBlock)userSuccessOrNil
+               failure:(MorselAPIFailureBlock)failureOrNil;
+
 #pragma mark - Morsel Services
 
-- (void)createPost:(MRSLPost *)post
-           success:(MorselAPISuccessBlock)successOrNil
-           failure:(MorselAPIFailureBlock)failureOrNil;
+- (void)createMorsel:(MRSLMorsel *)morsel
+             success:(MorselAPISuccessBlock)successOrNil
+             failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)likeMorsel:(MRSLMorsel *)morsel
         shouldLike:(BOOL)shouldLike

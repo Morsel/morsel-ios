@@ -48,7 +48,7 @@ UIGestureRecognizerDelegate
                                                       withPredicate:nil
                                                             groupBy:nil
                                                            delegate:self
-                                                          inContext:[ModelController sharedController].temporaryContext];
+                                                          inContext:[ModelController sharedController].defaultContext];
     
     [self.feedCollectionView reloadData];
 }

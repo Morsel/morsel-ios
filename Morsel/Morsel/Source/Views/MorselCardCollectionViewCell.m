@@ -104,14 +104,6 @@ UITextViewDelegate
     }
 }
 
-- (IBAction)deleteMorsel
-{
-    if ([self.delegate respondsToSelector:@selector(morselCardShouldDelete:)])
-    {
-        [self.delegate morselCardShouldDelete:self];
-    }
-}
-
 #pragma mark - UITextViewDelegate
 
 - (void)textViewDidBeginEditing:(UITextView *)textView

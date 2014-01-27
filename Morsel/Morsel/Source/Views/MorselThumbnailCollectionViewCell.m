@@ -26,7 +26,8 @@
     {
         _morsel = morsel;
         
-        if (_morsel.morselPictureURL)
+        if (_morsel.morselPictureURL &&
+            !_morsel.isDraft)
         {
             __weak __typeof(self)weakSelf = self;
             
@@ -43,6 +44,14 @@
              {
                  DDLogError(@"Unable to set Morsel Image: %@", error.userInfo);
              }];
+        }
+        
+        if (!_morsel.isDraft &&
+            _morsel.morselThumb)
+        {
+            // This Morsel is a draft!
+                
+            self.thumbnailView.image = [UIImage imageWithData:_morsel.morselThumb];
         }
     }
 }

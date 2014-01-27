@@ -105,8 +105,7 @@
          {
              DDLogDebug(@"User existed on device. Updating information.");
              
-             [existingUser setWithDictionary:responseObject
-                                   inContext:[ModelController sharedController].defaultContext];
+             [existingUser setWithDictionary:responseObject];
              
              [[NSUserDefaults standardUserDefaults] setObject:existingUser.userID
                                                        forKey:@"userID"];
@@ -120,8 +119,7 @@
              DDLogDebug(@"User did not exist on device. Creating new.");
              
              MRSLUser *user = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
-             [user setWithDictionary:responseObject
-                           inContext:[ModelController sharedController].defaultContext];
+             [user setWithDictionary:responseObject];
              
              [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                                        forKey:@"userID"];
@@ -173,96 +171,67 @@
      }];
 }
 
-#pragma mark - Morsel Services
-
-- (void)createPost:(MRSLPost *)post
-           success:(MorselAPISuccessBlock)successOrNil
-           failure:(MorselAPIFailureBlock)failureOrNil
+- (void)getUserProfile:(MRSLUser *)user
+               success:(MorselAPISuccessBlock)userSuccessOrNil
+               failure:(MorselAPIFailureBlock)failureOrNil
 {
-    self.createPostFinalSuccessBlock = successOrNil;
-    self.morselsCreatedCount = 0;
+    NSDictionary *parameters = @{@"api_key": [ModelController sharedController].currentUser.userID};
     
-    MRSLMorsel *initialMorsel = [post.morsels firstObject];
-    
-    NSDictionary *parameters = @{@"morsel":@{@"description": initialMorsel.morselDescription},
-                                 @"post_title": post.title,
-                                 @"api_key": [ModelController sharedController].currentUser.userID};
-    
-    [self createMorsel:initialMorsel
-        withParameters:parameters
-               success:^(id responseObject)
+    [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i", [user.userID intValue]]
+                             parameters:parameters
+                                success:^(AFHTTPRequestOperation *operation, id responseObject)
     {
-        post.postID = [NSNumber numberWithInt:[responseObject[@"post_id"] intValue]];
+        DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
         
-        DDLogDebug(@"First Morsel successful and associated to Post: %i", [post.postID intValue]);
+        [user setWithDictionary:responseObject];
         
-        self.morselsCreatedCount += 1;
-        
-        if (_morselsCreatedCount == [post.morsels count])
+        if (userSuccessOrNil)
         {
-            DDLogDebug(@"All Morsels associated with Post created!");
-            
-            if (successOrNil)
-            {
-                successOrNil(nil);
-            }
-            
-            self.createPostFinalSuccessBlock = nil;
-        }
-        else
-        {
-            for (MRSLMorsel *morsel in post.morsels)
-            {
-                if ([morsel.sortOrder intValue] != 0)
-                {
-                    DDLogDebug(@"Morsel Sort Order (%i) is not the first", [morsel.sortOrder intValue]);
-                    [self appendMorsel:morsel toPost:post];
-                }
-            }
+            userSuccessOrNil(responseObject);
         }
     }
-               failure:^(NSError *error)
+                                failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
-        DDLogDebug(@"First Morsel creation failed. Aborting Post creation process.");
         [self reportFailure:failureOrNil
                   withError:error
                    inMethod:NSStringFromSelector(_cmd)];
     }];
 }
 
-- (void)appendMorsel:(MRSLMorsel *)morsel toPost:(MRSLPost *)post
-{
-    DDLogDebug(@"Appending Morsel to Post: %i", [post.postID intValue]);
-    
-    NSDictionary *parameters = @{@"morsel":@{@"description": morsel.morselDescription},
-                                 @"post_id": post.postID,
-                                 @"api_key": [ModelController sharedController].currentUser.userID};
-    
-    [self createMorsel:morsel
-        withParameters:parameters
-               success:^(id responseObject)
-    {
-        DDLogDebug(@"Morsel (%i) successfully appended to Post: %i", [morsel.morselID intValue], [post.postID intValue]);
-        self.morselsCreatedCount += 1;
-        
-        if (_morselsCreatedCount == [post.morsels count])
-        {
-            DDLogDebug(@"All Morsels associated with Post created!");
-            self.createPostFinalSuccessBlock(nil);
-            self.createPostFinalSuccessBlock = nil;
-        }
-    }
-               failure:^(NSError *error)
-    {
-        DDLogError(@"Morsel (%i) creation failed and not associated to Post: %i", [morsel.morselID intValue], [post.postID intValue]);
-    }];
-}
+#pragma mark - Morsel Services
 
 - (void)createMorsel:(MRSLMorsel *)morsel
-      withParameters:(NSDictionary *)parameters
              success:(MorselAPISuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil
 {
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:[ModelController sharedController].currentUser.userID, @"api_key", nil];
+    
+    NSMutableDictionary *morselDictionary = [NSMutableDictionary dictionary];
+    
+    if (morsel.morselDescription)
+    {
+        [morselDictionary setObject:morsel.morselDescription
+                             forKey:@"description"];
+    }
+    
+    if (morsel.sortOrder)
+    {
+        [morselDictionary setObject:morsel.sortOrder
+                             forKey:@"sort_order"];
+    }
+    
+    if ([morselDictionary count] > 0)
+    {
+        [parameters setObject:morselDictionary
+                       forKey:@"morsel"];
+    }
+    
+    if (morsel.post)
+    {
+        [parameters setObject:morsel.post.postID
+                       forKey:@"post_id"];
+    }
+    
     [[MorselAPIClient sharedClient] POST:@"morsels"
                               parameters:parameters
                constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
@@ -279,7 +248,10 @@
      {
          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
          
-         morsel.morselID = [NSNumber numberWithInt:[responseObject[@"id"] intValue]];
+         morsel.isDraft = [NSNumber numberWithBool:NO];
+         
+         [morsel setWithDictionary:responseObject];
+         
          if (successOrNil)
          {
              successOrNil(responseObject);

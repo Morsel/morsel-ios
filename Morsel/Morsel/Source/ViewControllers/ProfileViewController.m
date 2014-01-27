@@ -72,7 +72,7 @@ NSFetchedResultsControllerDelegate
                                                       withPredicate:currentUserPredicate
                                                             groupBy:nil
                                                            delegate:self
-                                                          inContext:_user.isCurrentUser ? [ModelController sharedController].defaultContext : [ModelController sharedController].temporaryContext];
+                                                          inContext:[ModelController sharedController].defaultContext];
     
     [self.feedCollectionView reloadData];
 }
@@ -86,6 +86,14 @@ NSFetchedResultsControllerDelegate
         [[NSNotificationCenter defaultCenter] postNotificationName:MorselHideBottomBarNotification
                                                             object:nil];
     }
+    
+    [[ModelController sharedController].morselApiService getUserProfile:_user
+                                                                success:^(id responseObject)
+    {
+         self.likeCountLabel.text = [NSString stringWithFormat:@"%i", [_user.likeCount intValue]];
+         self.morselCountLabel.text = [NSString stringWithFormat:@"%i", [_user.morselCount intValue]];
+    }
+                                                                failure:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated

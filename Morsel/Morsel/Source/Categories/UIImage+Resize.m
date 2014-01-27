@@ -1,4 +1,6 @@
+//
 // UIImage+Resize.m
+//
 // Created by Trevor Harmon on 8/5/09.
 // Free for personal or commercial use, with or without modification.
 // No warranty is expressed or implied.
@@ -7,20 +9,70 @@
 
 @implementation UIImage (Resize)
 
+#pragma mark - Instance Methods
+
 // Returns a copy of this image that is cropped to the given bounds.
 // The bounds will be adjusted using CGRectIntegral.
 // This method ignores the image's imageOrientation setting.
-- (UIImage *)croppedImage:(CGRect)bounds {
+
+- (UIImage *)croppedImage:(CGRect)bounds
+{
     CGImageRef imageRef = CGImageCreateWithImageInRect([self CGImage], bounds);
     UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
     return croppedImage;
 }
 
+// Returns a copy of this image that is cropped to the given bounds and scales it to desired dimensions.
+// Accounts for imageOrientation
+
+- (UIImage *)croppedImage:(CGRect)bounds
+                  scaled:(CGSize)scaleSize
+{
+    CGAffineTransform rectTransform;
+    
+    switch (self.imageOrientation)
+    {
+        case UIImageOrientationLeft:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(M_PI_2), 0, -self.size.height);
+            break;
+        case UIImageOrientationRight:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI_2), -self.size.width, 0);
+            break;
+        case UIImageOrientationDown:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI), -self.size.width, -self.size.height);
+            break;
+        default:
+            rectTransform = CGAffineTransformIdentity;
+            break;
+    };
+    
+    rectTransform = CGAffineTransformScale(rectTransform, self.scale, self.scale);
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect(self.CGImage, CGRectApplyAffineTransform(bounds, rectTransform));
+    UIImage *croppedImage = [UIImage imageWithCGImage:imageRef
+                                                scale:self.scale
+                                          orientation:self.imageOrientation];
+    CGImageRelease(imageRef);
+    
+    CGRect scaledImgRect = CGRectMake(0, 0, (scaleSize.width * 2), (scaleSize.height * 2));
+    
+    UIGraphicsBeginImageContextWithOptions(scaledImgRect.size, NO, [UIScreen mainScreen].scale);
+    
+    [croppedImage drawInRect:scaledImgRect];
+    
+    UIImage *croppedAndScaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return croppedAndScaledImage;
+}
+
 // Returns a copy of this image that is squared to the thumbnail size.
 // If transparentBorder is non-zero, a transparent border of the given size will be added around the edges of the thumbnail. (Adding a transparent border of at least one pixel in size has the side-effect of antialiasing the edges of the image when rotating it using Core Animation.)
 - (UIImage *)thumbnailImage:(NSInteger)thumbnailSize
-       interpolationQuality:(CGInterpolationQuality)quality {
+       interpolationQuality:(CGInterpolationQuality)quality
+{
     UIImage *resizedImage = [self resizedImageWithContentMode:UIViewContentModeScaleAspectFill
                                                        bounds:CGSizeMake(thumbnailSize, thumbnailSize)
                                          interpolationQuality:quality];
@@ -39,8 +91,10 @@
 
 // Returns a rescaled copy of the image, taking into account its orientation
 // The image will be scaled disproportionately if necessary to fit the bounds specified by the parameter
-- (UIImage *)resizedImage:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality {
+- (UIImage *)resizedImage:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality
+{
     BOOL drawTransposed;
+    
     switch ( self.imageOrientation )
     {
         case UIImageOrientationLeft:
@@ -54,7 +108,10 @@
     }
     CGAffineTransform transform = [self transformForOrientation:newSize];
     
-    return [self resizedImage:newSize transform:transform drawTransposed:drawTransposed interpolationQuality:quality];
+    return [self resizedImage:newSize
+                    transform:transform
+               drawTransposed:drawTransposed
+         interpolationQuality:quality];
 }
 
 // Resizes the image according to the given content mode, taking into account the image's orientation
@@ -83,12 +140,12 @@
     return [self resizedImage:newSize interpolationQuality:quality];
 }
 
-#pragma mark -
-#pragma mark Private helper methods
+#pragma mark - Private Methods
 
 // Returns a copy of the image that has been transformed using the given affine transform and scaled to the new size
 // The new image's orientation will be UIImageOrientationUp, regardless of the current image's orientation
 // If the new size is not integral, it will be rounded up
+
 - (UIImage *)resizedImage:(CGSize)newSize
                 transform:(CGAffineTransform)transform
            drawTransposed:(BOOL)transpose

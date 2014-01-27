@@ -14,7 +14,6 @@
 #pragma mark - Instance Methods
 
 - (void)setWithDictionary:(NSDictionary *)dictionary
-                inContext:(NSManagedObjectContext *)contextOrNil
 {
     self.userName = ([dictionary[@"username"] isEqual:[NSNull null]]) ? self.userName : dictionary[@"username"];
     self.emailAddress = ([dictionary[@"email"] isEqual:[NSNull null]]) ? self.emailAddress : dictionary[@"email"];
@@ -35,10 +34,7 @@
     
     self.userID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.userID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
     
-    if (contextOrNil)
-    {
-        // Only used when creation of MO children is relevant
-    }
+#warning When retrieving user, pull posts that are included from return call. Post MTP.
 }
 
 - (BOOL)isCurrentUser
