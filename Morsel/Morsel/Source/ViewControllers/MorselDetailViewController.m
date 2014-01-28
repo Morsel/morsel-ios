@@ -66,7 +66,7 @@ UIScrollViewDelegate
         self.profileImageView.user = _morsel.post.author;
         [_profileImageView addCornersWithRadius:20.f];
         
-        NSUInteger morselIndex = [_morsel.post.morsels indexOfObject:_morsel];
+        int morselIndex = (int)[_morsel.post.morsels indexOfObject:_morsel];
         
         self.morselScrollView.contentInset = UIEdgeInsetsMake(55.f, 0.f, 0.f, 0.f);
         self.morselScrollView.post = _morsel.post;
@@ -76,35 +76,21 @@ UIScrollViewDelegate
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
+#pragma mark - Section Methods
+
+- (IBAction)displayUserProfile
 {
-    [super viewWillAppear:animated];
+    ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+    profileVC.user = _morsel.post.author;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:MorselHideBottomBarNotification
-                                                        object:nil];
-}
-
-#pragma mark - Segue Methods
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"DisplayUserProfile"])
-    {
-        ProfileViewController *profileVC = [segue destinationViewController];
-        profileVC.user = _morsel.post.author;
-    }
+    [self.navigationController pushViewController:profileVC
+                                         animated:YES];
 }
 
 #pragma mark - Private Methods
 
 - (IBAction)goBack
 {
-    if ([self.navigationController.viewControllers count] == 2)
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MorselShowBottomBarNotification
-                                                            object:nil];
-    }
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -123,7 +109,7 @@ UIScrollViewDelegate
 {
     CGFloat scrollWidth = _morselScrollView.frame.size.width;
     float scrollPage = _morselScrollView.contentOffset.x / scrollWidth;
-    int actualPage = lround(scrollPage);
+    int actualPage = scrollPage;
     
     [self displayMorselDetailForPage:actualPage];
 }

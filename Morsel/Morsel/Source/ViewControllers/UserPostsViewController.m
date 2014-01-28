@@ -19,13 +19,10 @@
 <
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-NSFetchedResultsControllerDelegate,
-UITextFieldDelegate
+NSFetchedResultsControllerDelegate
 >
 
-@property (nonatomic, weak) IBOutlet UICollectionView *postCollectionView;
-@property (weak, nonatomic) IBOutlet UIView *titlePromptView;
-@property (weak, nonatomic) IBOutlet UITextField *titlePromptTextField;
+@property (nonatomic) int postCount;
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
@@ -38,6 +35,8 @@ UITextFieldDelegate
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.postCount = 0;
     
     NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(author.userID == %i)", [[ModelController sharedController].currentUser.userID intValue]];
     
@@ -60,11 +59,14 @@ UITextFieldDelegate
     }
 }
 
-#pragma mark - Action Methods
-
-- (IBAction)goBack
+- (void)setTemporaryPostTitle:(NSString *)temporaryPostTitle
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (_temporaryPostTitle != temporaryPostTitle)
+    {
+        _temporaryPostTitle = temporaryPostTitle;
+        
+        [self.postCollectionView reloadData];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource Methods
@@ -73,7 +75,9 @@ UITextFieldDelegate
 {
     id <NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
     
-    return [sectionInfo numberOfObjects];
+    self.postCount = [sectionInfo numberOfObjects];
+    
+    return _postCount;
 }
 
 - (PostCollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -85,15 +89,18 @@ UITextFieldDelegate
                                                                                             forIndexPath:indexPath];
     postCell.post = post;
     
-    if ([_post isEqual:post])
-    {
+
         [postCell setHighlighted:([post.postID intValue] == [_post.postID intValue])];
-    }
     
-    if (_postTitle &&
-        !post.title)
+
+    // Last one hides pipe
+    postCell.postPipeView.hidden = (indexPath.row == _postCount - 1);
+    
+    if (_temporaryPostTitle &&
+        !post.title &&
+        ([post.postID intValue] == [_post.postID intValue]))
     {
-        postCell.postTitleLabel.text = _postTitle;
+        postCell.postTitleLabel.text = _temporaryPostTitle;
     }
     
     return postCell;
@@ -103,6 +110,8 @@ UITextFieldDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.temporaryPostTitle = nil;
+    
     MRSLPost *post = [_fetchedResultsController objectAtIndexPath:indexPath];
 
     if (_post)
@@ -120,16 +129,9 @@ UITextFieldDelegate
         [postCell setHighlighted:NO];
     }
     
-    if (!_post.title)
+    if ([self.delegate respondsToSelector:@selector(userPostsSelectedPost:)])
     {
-        self.titlePromptView.hidden = NO;
-        
-        [self.titlePromptTextField becomeFirstResponder];
-    }
-    else
-    {
-        [self performSegueWithIdentifier:@"ReturnToCreateMorsel"
-                                  sender:nil];
+        [self.delegate userPostsSelectedPost:_post];
     }
 }
 
@@ -148,22 +150,6 @@ UITextFieldDelegate
     }
     
     [self.postCollectionView reloadData];
-}
-
-#pragma mark - UITextFieldDelegate Methods
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    if (textField.text.length > 0)
-    {
-        self.postTitle = textField.text;
-        
-        [self performSegueWithIdentifier:@"ReturnToCreateMorsel"
-                                  sender:nil];
-        
-        return YES;
-    }
-    return NO;
 }
 
 @end

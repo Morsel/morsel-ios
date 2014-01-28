@@ -8,8 +8,6 @@
 
 #import "MorselDetailPanelViewController.h"
 
-#import <AFNetworking/UIImageView+AFNetworking.h>
-
 #import "JSONResponseSerializerWithData.h"
 #import "ModelController.h"
 

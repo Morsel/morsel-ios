@@ -9,7 +9,7 @@
 #import "MorselTextField.h"
 
 @implementation MorselTextField
-
+/*
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -27,7 +27,7 @@
     [[self placeholder] drawInRect:rect
                           withFont:[UIFont helveticaLightFontOfSize:14.f]];
 }
-
+*/
 - (CGRect)editingRectForBounds:(CGRect)bounds
 {
     return CGRectInset(bounds, 15.f, 15.f);

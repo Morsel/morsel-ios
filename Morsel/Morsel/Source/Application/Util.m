@@ -31,4 +31,42 @@
     return (passedRegex && passedLength);
 }
 
++ (BOOL)imageIsLandscape:(UIImage *)image
+{
+#warning Temporarily using width to height comparison due to jpegStillImageNSDataRepresentation: not capturing image orientation
+
+    return (image.size.width > image.size.height);
+    /*
+    switch (image.imageOrientation)
+    {
+        case UIImageOrientationUp:
+        case UIImageOrientationUpMirrored:
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+            // Portrait
+            return NO;
+            break;
+        default:
+            // Landscape
+            return YES;
+            break;
+    }
+     */
+}
+
++ (CGFloat)cameraDimensionScaleFromImage:(UIImage *)image
+{
+    BOOL isLandscape = [self imageIsLandscape:image];
+    
+    //NSLog(@"Image is Landscape? %@", (isLandscape) ? @"YES" : @"NO");
+    
+    CGFloat cameraResolutionScale = ((isLandscape) ? image.size.height : image.size.width) / minimumCameraMaxDimension;
+    CGFloat dimensionScale = ((isLandscape) ? standardCameraDimensionLandscapeMultiplier : standardCameraDimensionPortraitMultiplier) * cameraResolutionScale;
+    
+    //NSLog(@"Camera Resolution Scale: %f", cameraResolutionScale);
+    //NSLog(@"Camera Dimension Scale Multiplier: %f", dimensionScale);
+    
+    return dimensionScale;
+}
+
 @end

@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class MRSLMorsel;
+
 @interface CreateMorselViewController : UIViewController
 
 @property (nonatomic, strong) UIImage *capturedImage;
+@property (nonatomic, strong) MRSLMorsel *morsel;
 
 @end

@@ -11,5 +11,10 @@
 @interface UIStoryboard (Morsel)
 
 + (UIStoryboard *)mainStoryboard;
++ (UIStoryboard *)homeStoryboard;
++ (UIStoryboard *)profileStoryboard;
++ (UIStoryboard *)loginStoryboard;
++ (UIStoryboard *)morselDetailStoryboard;
++ (UIStoryboard *)morselManagementStoryboard;
 
 @end

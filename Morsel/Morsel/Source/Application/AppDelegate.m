@@ -22,15 +22,17 @@
     
     return YES;
 }
-
+/*
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [[ModelController sharedController] saveDataToStore];
+    [[ModelController sharedController] saveDataToStoreWithSuccess:nil
+                                                           failure:nil];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [[ModelController sharedController] saveDataToStore];
+    [[ModelController sharedController] saveDataToStoreWithSuccess:nil
+                                                           failure:nil];
 }
-
+*/
 @end

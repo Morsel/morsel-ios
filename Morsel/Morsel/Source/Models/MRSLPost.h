@@ -6,5 +6,6 @@
 
 - (void)setWithDictionary:(NSDictionary *)dictionary;
 - (void)addMorsel:(MRSLMorsel *)morsel;
+- (void)removeMorsel:(MRSLMorsel *)morsel;
 
 @end

@@ -8,15 +8,15 @@
 
 #import "PostCollectionViewCell.h"
 
-#import <AFNetworking/UIImageView+AFNetworking.h>
-
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
 
 @interface PostCollectionViewCell ()
 
 @property (nonatomic, weak) IBOutlet UIImageView *postThumbnailView;
-@property (nonatomic ,weak) IBOutlet UILabel *postStatusAndCountLabel;
+@property (nonatomic ,weak) IBOutlet UILabel *postCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *postStatusLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *postCheckmark;
 
 @end
 
@@ -26,6 +26,8 @@
 {
     if (_post != post)
     {
+        [self reset];
+        
         _post = post;
         
         if (_post &&
@@ -68,7 +70,15 @@
             
             self.postTitleLabel.text = _post.title ? : @"No title";
             
-            self.postStatusAndCountLabel.text = [NSString stringWithFormat:@"(%lu morsel%@, %@)", (unsigned long)[_post.morsels count], ([_post.morsels count] > 1) ? @"s" : @"", _post.isDraft ? @"unpublished" : @"published"];
+            self.postCountLabel.text = [NSString stringWithFormat:@"%lu MORSEL%@ |", (unsigned long)[_post.morsels count], ([_post.morsels count] > 1) ? @"S" : @""];
+            
+            self.postStatusLabel.text = _post.isDraft ? @"UNPUBLISHED" : @"PUBLISHED";
+            self.postStatusLabel.textColor = _post.isDraft ? [UIColor morselRed] : [UIColor morselGreen];
+            
+            [_postCountLabel sizeToFit];
+            [_postStatusLabel sizeToFit];
+            
+            [_postStatusLabel setX:[_postCountLabel getX] + [_postCountLabel getWidth] + 5.f];
         }
         else
         {
@@ -79,12 +89,29 @@
 
 - (void)setHighlighted:(BOOL)highlighted
 {
-    self.backgroundColor = highlighted ? [UIColor morselRed] : [UIColor whiteColor];
-    self.postTitleLabel.textColor = highlighted ? [UIColor whiteColor] : [UIColor morselDarkContent];
-    self.postStatusAndCountLabel.textColor = highlighted ? [UIColor morselUserInterface] : [UIColor morselLightContent];
+    [super setHighlighted:highlighted];
     
-    self.postThumbnailView.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.postThumbnailView.layer.borderWidth = highlighted ? 2.f : 0.f;
+    [self displaySelectedState:highlighted];
+}
+
+- (void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    
+    [self displaySelectedState:selected];
+}
+
+- (void)displaySelectedState:(BOOL)selected
+{
+    self.postCheckmark.image = [UIImage imageNamed:selected ? @"icon-checkmark-on" : @"icon-checkmark-off"];
+}
+
+- (void)reset
+{
+    self.postThumbnailView.image = nil;
+    self.postTitleLabel.text = nil;
+    self.postCountLabel.text = nil;
+    self.postStatusLabel.text = nil;
 }
 
 @end

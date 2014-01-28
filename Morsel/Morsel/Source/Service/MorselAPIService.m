@@ -18,14 +18,30 @@
 
 #warning Possibly break out MorselAPIService to be separate Request classes to avoid this becoming colossal
 #warning Improve error handling for parameter dictionary elements being nil
+#warning Adjust calls to all go through common parameter creation so api_key logic doesn't need to be repeated
+#warning Update to fully support new response schema
+
+/*
+
+{
+    "data": {} or [],
+    "meta": {
+        "total_results": 1245
+    },
+    "errors": {
+        "username": [
+                     "is too long",
+                     "cannot contain special characters"
+                     ],
+        "email": [
+                  "is invalid"
+                  ]
+    }
+}
+ */
+
 
 @interface MorselAPIService ()
-
-#pragma mark - Morsel Creation Properties
-
-@property (nonatomic) int morselsCreatedCount;
-
-@property (nonatomic, strong) MorselAPISuccessBlock createPostFinalSuccessBlock;
 
 @end
 
@@ -105,7 +121,7 @@
          {
              DDLogDebug(@"User existed on device. Updating information.");
              
-             [existingUser setWithDictionary:responseObject];
+             [existingUser setWithDictionary:responseObject[@"data"]];
              
              [[NSUserDefaults standardUserDefaults] setObject:existingUser.userID
                                                        forKey:@"userID"];
@@ -119,7 +135,7 @@
              DDLogDebug(@"User did not exist on device. Creating new.");
              
              MRSLUser *user = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
-             [user setWithDictionary:responseObject];
+             [user setWithDictionary:responseObject[@"data"]];
              
              [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                                        forKey:@"userID"];
@@ -183,11 +199,82 @@
     {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
         
-        [user setWithDictionary:responseObject];
+        [user setWithDictionary:responseObject[@"data"]];
         
         if (userSuccessOrNil)
         {
             userSuccessOrNil(responseObject);
+        }
+    }
+                                failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
+        [self reportFailure:failureOrNil
+                  withError:error
+                   inMethod:NSStringFromSelector(_cmd)];
+    }];
+}
+
+#pragma mark - Post Services
+
+- (void)updatePost:(MRSLPost *)post
+           success:(MorselAPISuccessBlock)successOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil
+{
+    NSDictionary *parameters = @{@"post": @{@"title": post.title},
+                                 @"api_key": [ModelController sharedController].currentUser.userID};
+    
+    [[MorselAPIClient sharedClient] PUT:[NSString stringWithFormat:@"posts/%i", [post.postID intValue]]
+                             parameters:parameters
+                                success:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
+        DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+        
+        [post setWithDictionary:responseObject[@"data"]];
+        
+        if (successOrNil)
+        {
+            successOrNil(responseObject);
+        }
+    }
+                                failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
+        [self reportFailure:failureOrNil
+                  withError:error
+                   inMethod:NSStringFromSelector(_cmd)];
+    }];
+}
+
+- (void)getPost:(MRSLPost *)post
+        success:(MorselAPISuccessBlock)successOrNil
+        failure:(MorselAPIFailureBlock)failureOrNil
+{
+    NSDictionary *parameters = @{@"api_key": [ModelController sharedController].currentUser.userID};
+    
+    int postID = [post.postID intValue];
+    
+    [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"posts/%i", [post.postID intValue]]
+                             parameters:parameters
+                                success:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
+        DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+        
+        if (post)
+        {
+            [post setWithDictionary:responseObject[@"data"]];
+        }
+        else
+        {
+            MRSLPost *faultedPost = [[ModelController sharedController] postWithID:[NSNumber numberWithInt:postID]];
+            
+            if (faultedPost)
+            {
+                [faultedPost setWithDictionary:responseObject[@"data"]];
+            }
+        }
+        
+        if (successOrNil)
+        {
+            successOrNil(responseObject);
         }
     }
                                 failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -232,6 +319,8 @@
     {
         [parameters setObject:morsel.post.postID
                        forKey:@"post_id"];
+        [parameters setObject:morsel.post.title
+                       forKey:@"post_title"];
     }
     
     [[MorselAPIClient sharedClient] POST:@"morsels"
@@ -252,7 +341,7 @@
          
          morsel.draft = [NSNumber numberWithBool:NO];
          
-         [morsel setWithDictionary:responseObject];
+         [morsel setWithDictionary:responseObject[@"data"]];
          
          if (successOrNil)
          {
@@ -265,6 +354,69 @@
                    withError:error
                     inMethod:NSStringFromSelector(_cmd)];
      }];
+}
+
+- (void)updateMorsel:(MRSLMorsel *)morsel
+             success:(MorselAPISuccessBlock)successOrNil
+             failure:(MorselAPIFailureBlock)failureOrNil
+{
+    NSDictionary *parameters = @{@"morsel": @{@"description": morsel.morselDescription,
+                                              @"post_id": morsel.post.postID},
+                                 @"api_key": [ModelController sharedController].currentUser.userID};
+    
+#warning This does not currently update the image
+    
+    [[MorselAPIClient sharedClient] PUT:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
+                             parameters:parameters
+                                success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+         
+         [morsel setWithDictionary:responseObject[@"data"]];
+         
+         if (successOrNil)
+         {
+             successOrNil(responseObject);
+         }
+     }
+                                failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         [self reportFailure:failureOrNil
+                   withError:error
+                    inMethod:NSStringFromSelector(_cmd)];
+     }];
+}
+
+- (void)deleteMorsel:(MRSLMorsel *)morsel
+             success:(MorselDataSuccessBlock)successOrNil
+             failure:(MorselAPIFailureBlock)failureOrNil
+{
+    [[MorselAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
+                                parameters:@{@"api_key": [ModelController sharedController].currentUser.userID}
+                                   success:nil
+                                   failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
+        if ([operation.response statusCode] == 200)
+        {
+            int morselID = [morsel.morselID intValue];
+            
+            DDLogDebug(@"Morsel %i deleted from server. Attempting local.", morselID);
+            
+            [morsel.post removeMorsel:morsel];
+            
+            BOOL morselDeletedLocally = [morsel MR_deleteEntity];
+            
+            DDLogDebug(@"Morsel %i also deleted locally? %@", morselID, (morselDeletedLocally) ? @"YES" : @"NO");
+            
+            successOrNil(YES);
+        }
+        else
+        {
+            [self reportFailure:failureOrNil
+                      withError:error
+                       inMethod:NSStringFromSelector(_cmd)];
+        }
+    }];
 }
 
 - (void)likeMorsel:(MRSLMorsel *)morsel
@@ -323,9 +475,9 @@
     {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
         
-        if ([responseObject isKindOfClass:[NSArray class]])
+        if ([responseObject[@"data"] isKindOfClass:[NSArray class]])
         {
-            success(responseObject);
+            success(responseObject[@"data"]);
         }
     }
                                 failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -366,7 +518,16 @@
             withError:(NSError *)error
              inMethod:(NSString *)methodName
 {
-    DDLogError(@"%@ Request Error: %@", methodName, error.userInfo[JSONResponseSerializerWithDataKey]);
+    NSDictionary *userInfoDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+    
+    if (!userInfoDictionary)
+    {
+        DDLogError(@"%@ Request Error: %@", methodName, error.userInfo);
+    }
+    else
+    {
+        DDLogError(@"%@ Request Error: %@", methodName, userInfoDictionary[@"errors"]);
+    }
     
     if (failureOrNil) failureOrNil(error);
 }

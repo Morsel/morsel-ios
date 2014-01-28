@@ -28,6 +28,18 @@
                            size:fontSize];
 }
 
++ (UIFont *)helveticaNeueLTStandardLightCondensedFontOfSize:(CGFloat)fontSize
+{
+    return [UIFont fontWithName:@"HelveticaNeueLTStd-LtCn"
+                           size:fontSize];
+}
+
++ (UIFont *)helveticaNeueLTStandardMediumFontOfSize:(CGFloat)fontSize
+{
+    return [UIFont fontWithName:@"HelveticaNeueLTStd-MdCn"
+                           size:fontSize];
+}
+
 + (UIFont *)helveticaLightFontOfSize:(CGFloat)fontSize
 {
     return [UIFont fontWithName:@"Helvetica-Light"

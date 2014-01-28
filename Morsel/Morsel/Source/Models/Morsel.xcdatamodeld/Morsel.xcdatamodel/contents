@@ -19,8 +19,8 @@
         <attribute name="morselThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="morselThumbURL" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="morsel" inverseEntity="MRSLComment" syncable="YES"/>
-        <relationship name="post" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="MRSLPost" inverseName="morsels" inverseEntity="MRSLPost" syncable="YES"/>
-        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLTag" inverseName="morsels" inverseEntity="MRSLTag" syncable="YES"/>
+        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLPost" inverseName="morsels" inverseEntity="MRSLPost" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLTag" inverseName="morsels" inverseEntity="MRSLTag" syncable="YES"/>
     </entity>
     <entity name="MRSLMorselPost" syncable="YES">
         <attribute name="morselID" optional="YES" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
@@ -32,7 +32,6 @@
         <attribute name="draft" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="editing" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="postID" optional="YES" attributeType="Integer 16" defaultValueString="0.0" indexed="YES" syncable="YES"/>
-        <attribute name="sortedMorselIDs" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="posts" inverseEntity="MRSLUser" syncable="YES"/>
         <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="MRSLMorsel" inverseName="post" inverseEntity="MRSLMorsel" syncable="YES"/>
@@ -44,6 +43,7 @@
     </entity>
     <entity name="MRSLUser" representedClassName="MRSLUser" syncable="YES">
         <attribute name="authToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bio" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="emailAddress" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
@@ -55,15 +55,15 @@
         <attribute name="profileImageURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="Integer 16" defaultValueString="0.0" indexed="YES" syncable="YES"/>
         <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="user" inverseEntity="MRSLComment" syncable="YES"/>
-        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="MRSLPost" inverseName="author" inverseEntity="MRSLPost" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLComment" inverseName="user" inverseEntity="MRSLComment" syncable="YES"/>
+        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="MRSLPost" inverseName="author" inverseEntity="MRSLPost" syncable="YES"/>
     </entity>
     <elements>
         <element name="MRSLComment" positionX="0" positionY="0" width="0" height="0"/>
         <element name="MRSLMorsel" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MRSLMorselPost" positionX="0" positionY="0" width="0" height="0"/>
         <element name="MRSLPost" positionX="0" positionY="0" width="0" height="0"/>
         <element name="MRSLTag" positionX="0" positionY="0" width="0" height="0"/>
         <element name="MRSLUser" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="MRSLMorselPost" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

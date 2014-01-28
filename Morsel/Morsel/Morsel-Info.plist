@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>0.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -29,6 +29,8 @@
 		<string>HelveticaNeueLTStd-Cn.otf</string>
 		<string>HelveticaNeueLTStd-CnO.otf</string>
 		<string>HelveticaNeueLTStd-ThCn.otf</string>
+		<string>HelveticaNeueLTStd-LtCn.otf</string>
+		<string>HelveticaNeueLTStd-MdCn.otf</string>
 	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main_iPhone</string>

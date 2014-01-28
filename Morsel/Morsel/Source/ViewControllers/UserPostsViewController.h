@@ -10,9 +10,22 @@
 
 @class MRSLPost;
 
+@protocol UserPostsViewControllerDelegate <NSObject>
+
+@optional
+- (void)userPostsSelectedPost:(MRSLPost *)post;
+
+@end
+
+
 @interface UserPostsViewController : UIViewController
 
-@property (nonatomic, strong) NSString *postTitle;
+@property (nonatomic, weak) id < UserPostsViewControllerDelegate> delegate;
+
+@property (nonatomic, weak) IBOutlet UICollectionView *postCollectionView;
+
+@property (nonatomic, strong) NSString *temporaryPostTitle;
+
 @property (nonatomic, strong) MRSLPost *post;
 
 @end

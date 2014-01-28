@@ -10,7 +10,7 @@
 
 - (UIImage *)croppedImage:(CGRect)bounds;
 - (UIImage *)croppedImage:(CGRect)bounds
-                   scaled:(CGSize)scaleSize;
+                   scaled:(CGSize)scaleSizeOrSizeZero;
 - (UIImage *)thumbnailImage:(NSInteger)thumbnailSize
        interpolationQuality:(CGInterpolationQuality)quality;
 - (UIImage *)resizedImage:(CGSize)newSize

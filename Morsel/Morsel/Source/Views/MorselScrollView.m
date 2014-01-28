@@ -29,7 +29,7 @@
     {
         [_post.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop)
         {
-            MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
+            MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
             morselDetailPanelVC.view.frame = CGRectMake(0.f + (320.f * idx), 0.f, 320.f, self.frame.size.height);
             morselDetailPanelVC.morsel = morsel;
             
