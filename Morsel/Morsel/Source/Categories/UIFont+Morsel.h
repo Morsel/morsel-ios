@@ -13,6 +13,8 @@
 + (UIFont *)helveticaNeueLTStandardThinCondensedFontOfSize:(CGFloat)fontSize;
 + (UIFont *)helveticaNeueLTStandardCondensedFontOfSize:(CGFloat)fontSize;
 + (UIFont *)helveticaNeueLTStandardCondensedObliqueFontOfSize:(CGFloat)fontSize;
++ (UIFont *)helveticaNeueLTStandardLightCondensedFontOfSize:(CGFloat)fontSize;
++ (UIFont *)helveticaNeueLTStandardMediumFontOfSize:(CGFloat)fontSize;
 + (UIFont *)helveticaLightFontOfSize:(CGFloat)fontSize;
 
 @end

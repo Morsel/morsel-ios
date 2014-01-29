@@ -8,9 +8,12 @@
 
 #import "HomeViewController.h"
 
+#import "CreateMorselViewController.h"
+#import "PostMorselsViewController.h"
 #import "ModelController.h"
-#import "MorselPostCollectionViewCell.h"
+#import "MorselFeedCollectionViewCell.h"
 #import "MorselDetailViewController.h"
+#import "PostMorselsViewController.h"
 #import "ProfileViewController.h"
 
 #import "MRSLMorsel.h"
@@ -19,7 +22,7 @@
 @interface HomeViewController ()
 
 <
-MorselPostCollectionViewCellDelegate,
+MorselFeedCollectionViewCellDelegate,
 NSFetchedResultsControllerDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
@@ -78,21 +81,33 @@ UIGestureRecognizerDelegate
      }];
 }
 
-#pragma mark - Segue Methods
+#pragma mark - Section Methods
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (IBAction)addMorsel
 {
-    if ([[segue identifier] isEqualToString:@"ShowMorselDetail"])
-    {
-        MorselDetailViewController *morselDetailVC = [segue destinationViewController];
-        morselDetailVC.morsel = _selectedMorsel;
-    }
+    UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorsel"];
     
-    if ([[segue identifier] isEqualToString:@"DisplayUserProfile"])
-    {
-        ProfileViewController *profileVC = [segue destinationViewController];
-        profileVC.user = _currentUser;
-    }
+    [self presentViewController:createMorselNC
+                       animated:YES
+                     completion:nil];
+}
+
+- (void)displayUserProfile
+{
+    ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+    profileVC.user = _currentUser;
+    
+    [self.navigationController pushViewController:profileVC
+                                         animated:YES];
+}
+
+- (void)displayMorselDetail
+{
+    MorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailViewController"];
+    morselDetailVC.morsel = _selectedMorsel;
+    
+    [self.navigationController pushViewController:morselDetailVC
+                                         animated:YES];
 }
 
 #pragma mark - UICollectionViewDataSource Methods
@@ -104,12 +119,12 @@ UIGestureRecognizerDelegate
     return [sectionInfo numberOfObjects];
 }
 
-- (MorselPostCollectionViewCell *)collectionView:(UICollectionView *)collectionView
+- (MorselFeedCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                           cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
     
-    MorselPostCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
+    MorselFeedCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
                                                                                                   forIndexPath:indexPath];
     morselCell.delegate = self;
     morselCell.morsel = morsel;
@@ -124,8 +139,7 @@ UIGestureRecognizerDelegate
     MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
     self.selectedMorsel = morsel;
     
-    [self performSegueWithIdentifier:@"ShowMorselDetail"
-                              sender:nil];
+    [self displayMorselDetail];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
@@ -145,29 +159,43 @@ UIGestureRecognizerDelegate
     [self.feedCollectionView reloadData];
 }
 
-#pragma mark - MorselPostCollectionViewCellDelegate Methods
+#pragma mark - MorselFeedCollectionViewCellDelegate Methods
 
 - (void)morselPostCollectionViewCellDidSelectProfileForUser:(MRSLUser *)user
 {
     self.currentUser = user;
     
-    [self performSegueWithIdentifier:@"DisplayUserProfile"
-                              sender:nil];
+    [self displayUserProfile];
 }
 
 - (void)morselPostCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel
 {
     self.selectedMorsel = morsel;
-    [self performSegueWithIdentifier:@"ShowMorselDetail"
-                              sender:nil];
+    
+    [self displayMorselDetail];
 }
 
-- (void)morselPostCollectionViewCellDidDisplayProgression:(MorselPostCollectionViewCell *)cell
+- (void)morselPostCollectionViewCellDidDisplayProgression:(MorselFeedCollectionViewCell *)cell
 {
     NSIndexPath *cellIndexPath = [self.feedCollectionView indexPathForCell:cell];
     [self.feedCollectionView scrollToItemAtIndexPath:cellIndexPath
                                     atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                             animated:YES];
+}
+
+- (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel
+{
+    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"EditPostMorsels"];
+    
+    if ([editPostMorselsNC.viewControllers count] > 0)
+    {
+        PostMorselsViewController *postMorselsVC = [editPostMorselsNC.viewControllers firstObject];
+        postMorselsVC.post = morsel.post;
+        
+        [self.navigationController presentViewController:editPostMorselsNC
+                                                animated:YES
+                                              completion:nil];
+    }
 }
 
 @end

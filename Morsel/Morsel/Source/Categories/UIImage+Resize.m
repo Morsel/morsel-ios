@@ -25,10 +25,15 @@
 
 // Returns a copy of this image that is cropped to the given bounds and scales it to desired dimensions.
 // Accounts for imageOrientation
+// If no size is provided, scale is skipped
 
 - (UIImage *)croppedImage:(CGRect)bounds
-                  scaled:(CGSize)scaleSize
+                  scaled:(CGSize)scaleSizeOrSizeZero
 {
+    DDLogDebug(@"Cropping Image to Bounds: CGRect(x: %f, y: %f, w: %f, h: %f)", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+    
+    UIImage *finalImage = nil;
+    
     CGAffineTransform rectTransform;
     
     switch (self.imageOrientation)
@@ -55,17 +60,26 @@
                                           orientation:self.imageOrientation];
     CGImageRelease(imageRef);
     
-    CGRect scaledImgRect = CGRectMake(0, 0, (scaleSize.width * 2), (scaleSize.height * 2));
+    if (!CGSizeEqualToSize(scaleSizeOrSizeZero, CGSizeZero))
+    {
+        CGRect scaledImgRect = CGRectMake(0, 0, (scaleSizeOrSizeZero.width * 2), (scaleSizeOrSizeZero.height * 2));
+        
+        UIGraphicsBeginImageContextWithOptions(scaledImgRect.size, NO, [UIScreen mainScreen].scale);
+        
+        [croppedImage drawInRect:scaledImgRect];
+        
+        finalImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+    }
+    else
+    {
+        finalImage = croppedImage;
+    }
     
-    UIGraphicsBeginImageContextWithOptions(scaledImgRect.size, NO, [UIScreen mainScreen].scale);
+    DDLogDebug(@"Final Cropped Image Dimensions: (w:%f, h:%f)", finalImage.size.width, finalImage.size.height);
     
-    [croppedImage drawInRect:scaledImgRect];
-    
-    UIImage *croppedAndScaledImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return croppedAndScaledImage;
+    return finalImage;
 }
 
 // Returns a copy of this image that is squared to the thumbnail size.
@@ -120,19 +134,19 @@
                     interpolationQuality:(CGInterpolationQuality)quality {
     CGFloat horizontalRatio = bounds.width / self.size.width;
     CGFloat verticalRatio = bounds.height / self.size.height;
-    CGFloat ratio;
+    CGFloat ratio = 0.f;
     
-    switch (contentMode) {
+    switch (contentMode)
+    {
         case UIViewContentModeScaleAspectFill:
             ratio = MAX(horizontalRatio, verticalRatio);
             break;
-            
         case UIViewContentModeScaleAspectFit:
             ratio = MIN(horizontalRatio, verticalRatio);
             break;
-            
         default:
-            [NSException raise:NSInvalidArgumentException format:@"Unsupported content mode: %d", contentMode];
+            DDLogError(@"Unsupported content mode!");
+            break;
     }
     
     CGSize newSize = CGSizeMake(self.size.width * ratio, self.size.height * ratio);

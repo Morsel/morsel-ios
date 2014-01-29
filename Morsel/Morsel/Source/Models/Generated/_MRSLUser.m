@@ -5,6 +5,7 @@
 
 const struct MRSLUserAttributes MRSLUserAttributes = {
 	.authToken = @"authToken",
+	.bio = @"bio",
 	.emailAddress = @"emailAddress",
 	.firstName = @"firstName",
 	.lastName = @"lastName",
@@ -80,6 +81,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 @dynamic authToken;
+
+
+
+
+
+
+@dynamic bio;
 
 
 

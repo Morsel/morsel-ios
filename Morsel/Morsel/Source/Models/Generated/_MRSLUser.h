@@ -6,6 +6,7 @@
 
 extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *authToken;
+	__unsafe_unretained NSString *bio;
 	__unsafe_unretained NSString *emailAddress;
 	__unsafe_unretained NSString *firstName;
 	__unsafe_unretained NSString *lastName;
@@ -43,6 +44,7 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+
 @interface MRSLUserID : NSManagedObjectID {}
 @end
 
@@ -61,6 +63,16 @@ extern const struct MRSLUserFetchedProperties {
 
 
 //- (BOOL)validateAuthToken:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* bio;
+
+
+
+//- (BOOL)validateBio:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -228,6 +240,12 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSString*)primitiveAuthToken;
 - (void)setPrimitiveAuthToken:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveBio;
+- (void)setPrimitiveBio:(NSString*)value;
 
 
 

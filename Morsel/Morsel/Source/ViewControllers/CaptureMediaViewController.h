@@ -8,8 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol CaptureMediaViewControllerDelegate <NSObject>
+
+@optional
+- (void)captureMediaViewControllerDidAcceptImage:(UIImage *)updatedImage;
+
+@end
+
+@class MRSLMorsel;
+
 @interface CaptureMediaViewController : UIViewController
 
-@property (nonatomic, strong) UIImagePickerController *imagePickerController;
+@property (nonatomic, weak) id <CaptureMediaViewControllerDelegate> delegate;
+
+@property (nonatomic, strong) MRSLMorsel *morsel;
 
 @end

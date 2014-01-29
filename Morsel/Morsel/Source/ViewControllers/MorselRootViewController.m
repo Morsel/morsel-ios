@@ -8,7 +8,6 @@
 
 #import "MorselRootViewController.h"
 
-#import "CreateMorselViewController.h"
 #import "HomeViewController.h"
 #import "ModelController.h"
 #import "ProfileViewController.h"
@@ -37,15 +36,6 @@
     
     self.navigationControllers = [NSMutableArray array];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(showBottomBar)
-                                                 name:MorselShowBottomBarNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(hideBottomBar)
-                                                 name:MorselHideBottomBarNotification
-                                               object:nil];
-    
     MRSLUser *currentUser = [ModelController sharedController].currentUser;
     
     if (!currentUser)
@@ -67,8 +57,7 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
         {
-            [self performSegueWithIdentifier:@"DisplaySignUp"
-                                      sender:nil];
+            [self displaySignUp];
         });
     }
     else
@@ -80,6 +69,24 @@
 }
 
 #pragma mark - Private Methods
+
+- (void)displaySignUp
+{
+    UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:@"SignUp"];
+    
+    [self presentViewController:signUpNC
+                       animated:NO
+                     completion:nil];
+}
+
+- (IBAction)presentCreateMorsel
+{
+    UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorsel"];
+    
+    [self presentViewController:createMorselNC
+                       animated:YES
+                     completion:nil];
+}
 
 - (IBAction)displayHome
 {
@@ -98,7 +105,7 @@
     
     if (!homeNC)
     {
-        homeNC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"Home"];
+        homeNC = [[UIStoryboard homeStoryboard] instantiateViewControllerWithIdentifier:@"Home"];
         
         [self.navigationControllers addObject:homeNC];
         
@@ -135,7 +142,7 @@
     
     if (!profileNC)
     {
-        profileNC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"Profile"];
+        profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"Profile"];
         
         [self.navigationControllers addObject:profileNC];
         
@@ -177,22 +184,6 @@
     return foundNC;
 }
 
-- (void)hideBottomBar
-{
-    [UIView animateWithDuration:.2f animations:^
-    {
-        [_morselTabBarView setY:self.view.frame.size.height];
-    }];
-}
-
-- (void)showBottomBar
-{
-    [UIView animateWithDuration:.2f animations:^
-     {
-         [_morselTabBarView setY:self.view.frame.size.height - [_morselTabBarView getHeight]];
-     }];
-}
-
 - (void)userCreated:(NSNotification *)notification
 {
     [self syncDataAndPresentHome];
@@ -217,7 +208,8 @@
     [self dismissViewControllerAnimated:YES
                              completion:nil];
     
-    [[ModelController sharedController] saveDataToStore];
+    [[ModelController sharedController] saveDataToStoreWithSuccess:nil
+                                                           failure:nil];
 }
 
 @end

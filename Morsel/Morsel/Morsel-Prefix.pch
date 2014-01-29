@@ -13,6 +13,7 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import <AFNetworking/UIImageView+AFNetworking.h>
 
     #import "Defines.h"
     #import "UIColor+Morsel.h"

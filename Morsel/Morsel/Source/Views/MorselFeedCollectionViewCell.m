@@ -1,14 +1,12 @@
 //
-//  MorselPostCollectionViewCell.m
+//  MorselFeedCollectionViewCell.m
 //  Morsel
 //
 //  Created by Javier Otero on 12/13/13.
 //  Copyright (c) 2013 Morsel. All rights reserved.
 //
 
-#import "MorselPostCollectionViewCell.h"
-
-#import <AFNetworking/UIImageView+AFNetworking.h>
+#import "MorselFeedCollectionViewCell.h"
 
 #import "JSONResponseSerializerWithData.h"
 #import "ModelController.h"
@@ -18,12 +16,13 @@
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
 
-@interface MorselPostCollectionViewCell ()
+@interface MorselFeedCollectionViewCell ()
 
 <
 MorselThumbnailViewControllerDelegate
 >
 
+@property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (nonatomic, weak) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *plateButton;
 @property (weak, nonatomic) IBOutlet UIButton *progressionButton;
@@ -37,7 +36,7 @@ MorselThumbnailViewControllerDelegate
 
 @end
 
-@implementation MorselPostCollectionViewCell
+@implementation MorselFeedCollectionViewCell
 
 #pragma mark - Instance Methods
 
@@ -103,7 +102,7 @@ MorselThumbnailViewControllerDelegate
                 _morsel.morselPictureCropped)
             {
                 // This Morsel is a draft!
-                    
+                
                 _morselImageView.image = [UIImage imageWithData:_morsel.morselPictureCropped];
             }
         }
@@ -111,8 +110,12 @@ MorselThumbnailViewControllerDelegate
         if (_morsel.belongsToCurrentUser)
         {
             self.likeButton.hidden = YES;
-            
-#warning Need to display edit button for Morsel here
+            self.editButton.hidden = NO;
+        }
+        else
+        {
+            self.likeButton.hidden = NO;
+            self.editButton.hidden = YES;
         }
     }
 }
@@ -143,6 +146,14 @@ MorselThumbnailViewControllerDelegate
 
 #pragma mark - Private Methods
 
+- (IBAction)editMorsel:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectEditMorsel:)])
+    {
+        [self.delegate morselPostCollectionViewCellDidSelectEditMorsel:self.morsel];
+    }
+}
+
 - (IBAction)displayAssociatedMorsels:(id)sender
 {
     // Perform blur
@@ -152,7 +163,7 @@ MorselThumbnailViewControllerDelegate
         [self.delegate morselPostCollectionViewCellDidDisplayProgression:self];
     }
     
-    self.morselThumbnailVC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"MorselThumbnailViewController"];
+    self.morselThumbnailVC = [[UIStoryboard homeStoryboard] instantiateViewControllerWithIdentifier:@"MorselThumbnailViewController"];
     _morselThumbnailVC.delegate = self;
     _morselThumbnailVC.post = _morsel.post;
     [_morselThumbnailVC.view setX:self.frame.size.width];

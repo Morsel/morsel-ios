@@ -21,8 +21,17 @@
 
 + (instancetype)sharedController;
 
+// User Methods
+
 - (MRSLUser *)currentUser;
 - (MRSLUser *)userWithID:(NSNumber *)userID;
+
+// Morsel Methods
+
+- (MRSLMorsel *)morselWithID:(NSNumber *)morselID;
+
+// Post Methods
+
 - (MRSLPost *)postWithID:(NSNumber *)postID;
 
 - (void)getFeedWithSuccess:(MorselAPIArrayBlock)successOrNil
@@ -32,7 +41,9 @@
              success:(MorselAPIArrayBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil;
 
+// Data Methods
 // Saves data in default context into the persistent store.
-- (void)saveDataToStore;
+- (void)saveDataToStoreWithSuccess:(MorselDataSuccessBlock)successOrNil
+                           failure:(MorselDataFailureBlock)failureOrNil;
 
 @end

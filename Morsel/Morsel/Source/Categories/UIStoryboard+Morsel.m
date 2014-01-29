@@ -16,4 +16,34 @@
                                      bundle:nil];
 }
 
++ (UIStoryboard *)homeStoryboard
+{
+    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Home_iPad" : @"Home_iPhone"
+                                     bundle:nil];
+}
+
++ (UIStoryboard *)profileStoryboard
+{
+    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Profile_iPad" : @"Profile_iPhone"
+                                     bundle:nil];
+}
+
++ (UIStoryboard *)loginStoryboard
+{
+    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Login_iPad" : @"Login_iPhone"
+                                     bundle:nil];
+}
+
++ (UIStoryboard *)morselDetailStoryboard
+{
+    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"MorselDetail_iPad" : @"MorselDetail_iPhone"
+                                     bundle:nil];
+}
+
++ (UIStoryboard *)morselManagementStoryboard
+{
+    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"MorselManagement_iPad" : @"MorselManagement_iPhone"
+                                     bundle:nil];
+}
+
 @end

@@ -8,8 +8,6 @@
 
 #import "MorselThumbnailCollectionViewCell.h"
 
-#import <AFNetworking/UIImageView+AFNetworking.h>
-
 #import "MRSLMorsel.h"
 
 @interface MorselThumbnailCollectionViewCell ()

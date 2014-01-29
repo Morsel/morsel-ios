@@ -30,15 +30,22 @@
         {
             NSNumber *userID = dictionary[@"creator"][@"id"];
             
-            MRSLUser *author = nil;
+            MRSLUser *author = [[ModelController sharedController] userWithID:userID];
             
-            if ([[ModelController sharedController].currentUser.userID intValue] == [userID intValue])
+            if (!author)
             {
-                author = [ModelController sharedController].currentUser;
+                author = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
+                author.userID = userID;
+            }
+            
+            if (!dictionary[@"creator"])
+            {
+                [[ModelController sharedController].morselApiService getUserProfile:author
+                                                                            success:nil
+                                                                            failure:nil];
             }
             else
             {
-                author = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
                 [author setWithDictionary:dictionary[@"creator"]];
             }
             
@@ -56,7 +63,16 @@
             
             [morsels enumerateObjectsUsingBlock:^(NSDictionary *morselDictionary, NSUInteger idx, BOOL *stop)
              {
-                 MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
+                 NSNumber *morselID = [NSNumber numberWithInt:[morselDictionary[@"id"] intValue]];
+                 
+                 MRSLMorsel *morsel = [[ModelController sharedController] morselWithID:morselID];
+                 
+                 if (!morsel)
+                 {
+                     // Morsel not found. Creating.
+                     morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
+                 }
+                 
                  [morsel setWithDictionary:morselDictionary];
                  
                  [mrsls addObject:morsel];
@@ -77,6 +93,11 @@
 - (void)addMorsel:(MRSLMorsel *)morsel
 {
     [self.morselsSet addObject:morsel];
+}
+
+- (void)removeMorsel:(MRSLMorsel *)morsel
+{
+    [self.morselsSet removeObject:morsel];
 }
 
 - (BOOL)isDraft

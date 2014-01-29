@@ -44,7 +44,10 @@
             {
                 self.post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
                 self.post.postID = postID;
-                [self.post addMorsel:self];
+                
+                [[ModelController sharedController].morselApiService getPost:self.post
+                                                                     success:nil
+                                                                     failure:nil];
             }
         }
     }

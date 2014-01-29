@@ -19,7 +19,6 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
 	.comments = @"comments",
 	.post = @"post",
-	.sortOrders = @"sortOrders",
 	.tags = @"tags",
 };
 
@@ -216,19 +215,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic post;
 
-	
-
-@dynamic sortOrders;
-
-	
-- (NSMutableSet*)sortOrdersSet {
-	[self willAccessValueForKey:@"sortOrders"];
-  
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"sortOrders"];
-  
-	[self didAccessValueForKey:@"sortOrders"];
-	return result;
-}
 	
 
 @dynamic tags;

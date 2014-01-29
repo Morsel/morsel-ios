@@ -10,6 +10,7 @@
 
 #import <CoreData/CoreData.h>
 
+#import "MRSLMorsel.h"
 #import "MRSLPost.h"
 #import "MRSLUser.h"
 
@@ -88,6 +89,26 @@
     return user;
 }
 
+#pragma mark - Morsel Methods
+
+- (MRSLMorsel *)morselWithID:(NSNumber *)morselID
+{
+    MRSLMorsel *morsel = nil;
+    
+    NSPredicate *postPredicate = [NSPredicate predicateWithFormat:@"morselID == %i", [morselID intValue]];
+    
+    NSArray *morselArray = [MRSLMorsel MR_findAllWithPredicate:postPredicate];
+    
+    if ([morselArray count] > 0)
+    {
+        morsel = [morselArray firstObject];
+    }
+    
+    return morsel;
+}
+
+#pragma mark - Post Methods
+
 - (MRSLPost *)postWithID:(NSNumber *)postID
 {
     MRSLPost *post = nil;
@@ -104,8 +125,6 @@
     return post;
 }
 
-#pragma mark - Feed Methods
-
 - (void)getFeedWithSuccess:(MorselAPIArrayBlock)successOrNil
                    failure:(MorselAPIFailureBlock)failureOrNil
 {
@@ -115,10 +134,9 @@
         
         [responseArray enumerateObjectsUsingBlock:^(NSDictionary *postDictionary, NSUInteger idx, BOOL *stop)
         {
-            NSPredicate *existingPostPredicate = [NSPredicate predicateWithFormat:@"postID == %d", [postDictionary[@"id"] intValue]];
-            NSArray *postArray = [MRSLPost MR_findAllWithPredicate:existingPostPredicate];
+            MRSLPost *foundPost = [self postWithID:[NSNumber numberWithInt:[postDictionary[@"id"] intValue]]];
             
-            if ([postArray count] == 0)
+            if (!foundPost)
             {
                 // Create posts in temporary context but only if they don't already exist
 #warning Adjust this to REPLACE existing Posts
@@ -146,11 +164,9 @@
          
          [responseArray enumerateObjectsUsingBlock:^(NSDictionary *postDictionary, NSUInteger idx, BOOL *stop)
           {
-              NSPredicate *existingPostPredicate = [NSPredicate predicateWithFormat:@"postID == %d", [postDictionary[@"id"] intValue]];
-              NSArray *postArray = [MRSLPost MR_findAllWithPredicate:existingPostPredicate
-                                                           inContext:_defaultContext];
+              MRSLPost *foundPost = [self postWithID:[NSNumber numberWithInt:[postDictionary[@"id"] intValue]]];
               
-              if ([postArray count] == 0)
+              if (!foundPost)
               {
                   // Create posts in temporary context but only if they don't already exist
 #warning Adjust this to REPLACE existing Posts
@@ -170,17 +186,24 @@
 
 #pragma mark - Data Methods
 
-- (void)saveDataToStore
+- (void)saveDataToStoreWithSuccess:(MorselDataSuccessBlock)successOrNil
+                           failure:(MorselDataFailureBlock)failureOrNil
 {
     [_defaultContext MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error)
     {
         if (success)
         {
             DDLogDebug(@"Data saved to persistent store!");
+            
+            if (successOrNil) successOrNil(success);
         }
         else
         {
-            DDLogError(@"Error saving data to persistent store: %@", error.userInfo);
+            if (error)
+            {
+                DDLogError(@"Error saving data to persistent store: %@", error.userInfo);
+                if (successOrNil) failureOrNil(error);
+            }
         }
     }];
 }

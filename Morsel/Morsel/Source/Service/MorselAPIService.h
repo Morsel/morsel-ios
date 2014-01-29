@@ -34,10 +34,28 @@
                success:(MorselAPISuccessBlock)userSuccessOrNil
                failure:(MorselAPIFailureBlock)failureOrNil;
 
+#pragma mark - Post Services
+
+- (void)updatePost:(MRSLPost *)post
+           success:(MorselAPISuccessBlock)successOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)getPost:(MRSLPost *)post
+        success:(MorselAPISuccessBlock)successOrNil
+        failure:(MorselAPIFailureBlock)failureOrNil;
+
 #pragma mark - Morsel Services
 
 - (void)createMorsel:(MRSLMorsel *)morsel
              success:(MorselAPISuccessBlock)successOrNil
+             failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)updateMorsel:(MRSLMorsel *)morsel
+             success:(MorselAPISuccessBlock)successOrNil
+             failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)deleteMorsel:(MRSLMorsel *)morsel
+             success:(MorselDataSuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)likeMorsel:(MRSLMorsel *)morsel

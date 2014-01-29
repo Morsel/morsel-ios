@@ -15,5 +15,6 @@
 @property (nonatomic, strong) MRSLPost *post;
 
 @property (nonatomic ,weak) IBOutlet UILabel *postTitleLabel;
+@property (weak, nonatomic) IBOutlet UIView *postPipeView;
 
 @end

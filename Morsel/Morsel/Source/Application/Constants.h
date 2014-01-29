@@ -13,11 +13,8 @@
 extern NSString *const MorselServiceDidCreateUserNotification;
 extern NSString *const MorselServiceDidLogInNewUserNotification;
 extern NSString *const MorselServiceDidLogInExistingUserNotification;
-extern NSString *const MorselShowBottomBarNotification;
-extern NSString *const MorselHideBottomBarNotification;
 
-// Unable to define due to MagicalRecord conflict
-//extern int const ddLogLevel;
+extern int LOG_LEVEL_DEF;
 
 @interface Constants : NSObject
 

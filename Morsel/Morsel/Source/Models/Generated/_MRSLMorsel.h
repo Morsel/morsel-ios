@@ -20,7 +20,6 @@ extern const struct MRSLMorselAttributes {
 extern const struct MRSLMorselRelationships {
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *post;
-	__unsafe_unretained NSString *sortOrders;
 	__unsafe_unretained NSString *tags;
 } MRSLMorselRelationships;
 
@@ -29,7 +28,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 @class MRSLComment;
 @class MRSLPost;
-@class MRSLSortOrder;
 @class MRSLTag;
 
 
@@ -182,13 +180,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *sortOrders;
-
-- (NSMutableSet*)sortOrdersSet;
-
-
-
-
 @property (nonatomic, strong) NSSet *tags;
 
 - (NSMutableSet*)tagsSet;
@@ -205,11 +196,6 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)removeComments:(NSSet*)value_;
 - (void)addCommentsObject:(MRSLComment*)value_;
 - (void)removeCommentsObject:(MRSLComment*)value_;
-
-- (void)addSortOrders:(NSSet*)value_;
-- (void)removeSortOrders:(NSSet*)value_;
-- (void)addSortOrdersObject:(MRSLSortOrder*)value_;
-- (void)removeSortOrdersObject:(MRSLSortOrder*)value_;
 
 - (void)addTags:(NSSet*)value_;
 - (void)removeTags:(NSSet*)value_;
@@ -298,11 +284,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (MRSLPost*)primitivePost;
 - (void)setPrimitivePost:(MRSLPost*)value;
-
-
-
-- (NSMutableSet*)primitiveSortOrders;
-- (void)setPrimitiveSortOrders:(NSMutableSet*)value;
 
 
 

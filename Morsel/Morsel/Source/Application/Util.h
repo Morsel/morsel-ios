@@ -13,4 +13,7 @@
 + (BOOL)validateEmail:(NSString *)candidate;
 + (BOOL)validateUsername:(NSString *)username;
 
++ (BOOL)imageIsLandscape:(UIImage *)image;
++ (CGFloat)cameraDimensionScaleFromImage:(UIImage *)image;
+
 @end

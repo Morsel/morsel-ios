@@ -26,6 +26,9 @@ UINavigationControllerDelegate
 >
 
 @property (nonatomic) BOOL isSelectingImage;
+@property (nonatomic) BOOL userIsEditing;
+
+@property (nonatomic) AVCaptureFlashMode preferredFlashCaptureMode;
 
 @property (nonatomic, weak) IBOutlet CameraPreviewView *previewView;
 
@@ -36,6 +39,9 @@ UINavigationControllerDelegate
 @property (weak, nonatomic) IBOutlet UIButton *addTextMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelMorselButton;
 @property (weak, nonatomic) IBOutlet UIImageView *approvalImageView;
+@property (weak, nonatomic) IBOutlet UIButton *toggleFlashButton;
+@property (weak, nonatomic) IBOutlet UIButton *toggleCameraButton;
+@property (weak, nonatomic) IBOutlet UIView *togglePipeView;
 
 // Image Data
 @property (nonatomic, strong) UIImage *capturedImage;
@@ -64,7 +70,8 @@ UINavigationControllerDelegate
 	return [NSSet setWithObjects:@"session.running", @"deviceAuthorized", nil];
 }
 
-+ (void)setFlashMode:(AVCaptureFlashMode)flashMode forDevice:(AVCaptureDevice *)device
++ (void)setFlashMode:(AVCaptureFlashMode)flashMode
+           forDevice:(AVCaptureDevice *)device
 {
 	if ([device hasFlash] && [device isFlashModeSupported:flashMode])
 	{
@@ -111,12 +118,19 @@ UINavigationControllerDelegate
 {
     [super viewDidLoad];
     
+    self.preferredFlashCaptureMode = AVCaptureFlashModeAuto;
+    
     [self createSession];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (_morsel)
+    {
+        self.userIsEditing = YES;
+    }
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationSlide];
@@ -166,6 +180,135 @@ UINavigationControllerDelegate
 
 #pragma mark - Action Methods
 
+- (IBAction)toggleFlashMode
+{
+    switch (_preferredFlashCaptureMode)
+    {
+        case AVCaptureFlashModeAuto:
+            self.preferredFlashCaptureMode = AVCaptureFlashModeOff;
+            break;
+        case AVCaptureFlashModeOff:
+            self.preferredFlashCaptureMode = AVCaptureFlashModeOn;
+            break;
+        case AVCaptureFlashModeOn:
+            self.preferredFlashCaptureMode = AVCaptureFlashModeAuto;
+            break;
+        default:
+            break;
+    }
+    
+    [self setFlashImageForMode:_preferredFlashCaptureMode];
+    
+    [CaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
+                                   forDevice:[self.videoDeviceInput device]];
+}
+
+- (void)setFlashImageForMode:(AVCaptureFlashMode)mode
+{
+    NSString *flashImageName = nil;
+    
+    switch (mode)
+    {
+        case AVCaptureFlashModeAuto:
+            flashImageName = @"auto";
+            break;
+        case AVCaptureFlashModeOff:
+            flashImageName = @"off";
+            break;
+        case AVCaptureFlashModeOn:
+            flashImageName = @"on";
+            break;
+        default:
+            break;
+    }
+    
+    UIImage *flashImage = [UIImage imageNamed:[NSString stringWithFormat:@"icon-capture-flash-%@", flashImageName]];
+    
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        [_toggleFlashButton setImage:flashImage
+                            forState:UIControlStateNormal];
+    });
+}
+
+- (IBAction)toggleTargetCamera
+{
+    self.captureImageButton.enabled = NO;
+    self.toggleCameraButton.enabled = NO;
+	
+	dispatch_async(self.sessionQueue, ^
+    {
+		AVCaptureDevice *currentVideoDevice = [[self videoDeviceInput] device];
+		AVCaptureDevicePosition preferredPosition = AVCaptureDevicePositionUnspecified;
+		AVCaptureDevicePosition currentPosition = [currentVideoDevice position];
+		
+		switch (currentPosition)
+		{
+			case AVCaptureDevicePositionUnspecified:
+				preferredPosition = AVCaptureDevicePositionBack;
+				break;
+			case AVCaptureDevicePositionBack:
+				preferredPosition = AVCaptureDevicePositionFront;
+				break;
+			case AVCaptureDevicePositionFront:
+				preferredPosition = AVCaptureDevicePositionBack;
+				break;
+		}
+		
+		AVCaptureDevice *videoDevice = [CaptureMediaViewController deviceWithMediaType:AVMediaTypeVideo
+                                                                    preferringPosition:preferredPosition];
+        
+		AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice
+                                                                                       error:nil];
+		
+		[self.session beginConfiguration];
+		
+		[self.session removeInput:[self videoDeviceInput]];
+        
+		if ([self.session canAddInput:videoDeviceInput])
+		{
+			[[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:AVCaptureDeviceSubjectAreaDidChangeNotification
+                                                          object:currentVideoDevice];
+			if (preferredPosition == AVCaptureDevicePositionFront)
+            {
+                self.toggleFlashButton.enabled = NO;
+                [CaptureMediaViewController setFlashMode:AVCaptureFlashModeOff
+                                               forDevice:videoDevice];
+                
+                [self setFlashImageForMode:AVCaptureFlashModeOff];
+            }
+            else
+            {
+                self.toggleFlashButton.enabled = YES;
+                [CaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
+                                               forDevice:videoDevice];
+                [self setFlashImageForMode:_preferredFlashCaptureMode];
+            }
+            
+			[[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(subjectAreaDidChange:)
+                                                         name:AVCaptureDeviceSubjectAreaDidChangeNotification
+                                                       object:videoDevice];
+			
+			[self.session addInput:videoDeviceInput];
+			[self setVideoDeviceInput:videoDeviceInput];
+		}
+		else
+		{
+			[self.session addInput:[self videoDeviceInput]];
+		}
+		
+		[self.session commitConfiguration];
+		
+		dispatch_async(dispatch_get_main_queue(), ^
+        {
+			self.captureImageButton.enabled = YES;
+            self.toggleCameraButton.enabled = YES;
+		});
+	});
+}
+
 - (IBAction)cancelMorselCreation:(id)sender
 {
     [self.presentingViewController dismissViewControllerAnimated:YES
@@ -211,8 +354,21 @@ UINavigationControllerDelegate
 
 - (IBAction)acceptImage:(id)sender
 {
-    [self performSegueWithIdentifier:@"DisplayCreateMorsel"
-                              sender:nil];
+    if (_userIsEditing)
+    {
+        if ([self.delegate respondsToSelector:@selector(captureMediaViewControllerDidAcceptImage:)])
+        {
+            [self.delegate captureMediaViewControllerDidAcceptImage:_capturedImage];
+        }
+        
+        [self.presentingViewController dismissViewControllerAnimated:YES
+                                                          completion:nil];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"DisplayCreateMorsel"
+                                  sender:nil];
+    }
 }
 
 - (IBAction)snapStillImage:(id)sender
@@ -223,7 +379,7 @@ UINavigationControllerDelegate
 		[[self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)self.previewView.layer connection] videoOrientation]];
 		
 		// Flash set to Auto for Still Capture
-		[CaptureMediaViewController setFlashMode:AVCaptureFlashModeAuto
+		[CaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
                                        forDevice:[self.videoDeviceInput device]];
 		
 		// Capture a still image.
@@ -268,7 +424,11 @@ UINavigationControllerDelegate
     self.cameraRollButton.hidden = !shouldDisplay;
     self.captureImageButton.hidden = !shouldDisplay;
     self.addTextMorselButton.hidden = !shouldDisplay;
+    self.toggleCameraButton.hidden = !shouldDisplay;
+    self.toggleFlashButton.hidden = !shouldDisplay;
+    self.cancelMorselButton.hidden = !shouldDisplay;
     
+    self.togglePipeView.hidden = shouldDisplay;
     self.acceptImageButton.hidden = shouldDisplay;
     self.discardImageButton.hidden = shouldDisplay;
     self.approvalImageView.hidden = shouldDisplay;
@@ -280,14 +440,16 @@ UINavigationControllerDelegate
 {
     DDLogDebug(@"Source Process Image Dimensions: (w:%f, h:%f)", image.size.width, image.size.height);
     
-    CGFloat previewHeight = [_previewView getHeight];
-    CGFloat cameraDimensionScale = minimumCameraMaxDimension / image.size.height;
-    CGFloat yScale = (minimumCameraMaxDimension * cameraDimensionScale) / previewHeight;
-    CGFloat cropStartingY = yPreviewOffset * yScale;
+    BOOL imageIsLandscape = [Util imageIsLandscape:image];
+    CGFloat cameraDimensionScale = [Util cameraDimensionScaleFromImage:image];
+    CGFloat cropStartingY = yCameraImagePreviewOffset * cameraDimensionScale;
+    CGFloat minimumImageDimension = (imageIsLandscape) ? image.size.height : image.size.width;
+    CGFloat maximumImageDimension = (imageIsLandscape) ? image.size.width : image.size.height;
+    CGFloat xCenterAdjustment = (maximumImageDimension - minimumImageDimension) / 2.f;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
     {
-        UIImage *processedImage = [image croppedImage:CGRectMake(0.f, cropStartingY, image.size.width, image.size.width)
+        UIImage *processedImage = [image croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
                                                scaled:CGSizeMake(320.f, 320.f)];
         
         dispatch_async(dispatch_get_main_queue(), ^
