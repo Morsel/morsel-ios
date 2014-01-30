@@ -16,13 +16,10 @@
 #import "MRSLPost.h"
 #import "MRSLUser.h"
 
-#warning Possibly break out MorselAPIService to be separate Request classes to avoid this becoming colossal
-#warning Improve error handling for parameter dictionary elements being nil
-#warning Adjust calls to all go through common parameter creation so api_key logic doesn't need to be repeated
-#warning Update to fully support new response schema
-
 /*
 
+ Current Response Schema - 01.29.2014
+ 
 {
     "data": {} or [],
     "meta": {
@@ -39,7 +36,6 @@
     }
 }
  */
-
 
 @interface MorselAPIService ()
 
@@ -67,6 +63,7 @@
     {
         if (user.profileImage)
         {
+            DDLogDebug(@"Profile Image included for User!");
             [formData appendPartWithFileData:user.profileImage
                                         name:@"user[photo]"
                                     fileName:@"photo.jpg"
@@ -77,8 +74,8 @@
     {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
         
-        user.userID = [NSNumber numberWithInt:[responseObject[@"id"] intValue]];
-        user.authToken = responseObject[@"auth_token"];
+        user.userID = [NSNumber numberWithInt:[responseObject[@"data"][@"id"] intValue]];
+        user.authToken = responseObject[@"data"][@"auth_token"];
         
         [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                                   forKey:@"userID"];
@@ -88,7 +85,7 @@
                                                             object:user];
         if (userSuccessOrNil)
         {
-            userSuccessOrNil(responseObject);
+            userSuccessOrNil(responseObject[@"data"]);
         }
     }
                                  failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -113,7 +110,7 @@
      {
          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
          
-         NSNumber *userID = [NSNumber numberWithInt:[responseObject[@"id"] intValue]];
+         NSNumber *userID = [NSNumber numberWithInt:[responseObject[@"data"][@"id"] intValue]];
          
          MRSLUser *existingUser = [[ModelController sharedController] userWithID:userID];
          
@@ -300,15 +297,7 @@
         [morselDictionary setObject:morsel.morselDescription
                              forKey:@"description"];
     }
-    
-#warning Use Morsel Sort Order object instead
-    /*
-    if (morsel.sortOrder)
-    {
-        [morselDictionary setObject:morsel.sortOrder
-                             forKey:@"sort_order"];
-    }
-    */
+
     if ([morselDictionary count] > 0)
     {
         [parameters setObject:morselDictionary
@@ -363,8 +352,6 @@
     NSDictionary *parameters = @{@"morsel": @{@"description": morsel.morselDescription,
                                               @"post_id": morsel.post.postID},
                                  @"api_key": [ModelController sharedController].currentUser.userID};
-    
-#warning This does not currently update the image
     
     [[MorselAPIClient sharedClient] PUT:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
                              parameters:parameters

@@ -95,7 +95,8 @@ UserPostsViewControllerDelegate
 {
     [super viewWillAppear:animated];
     
-    if (!_morsel.morselPictureURL)
+    if (!_morsel.morselPictureURL &&
+        !_morsel.morselDescription)
     {
         // Entered through Morsel Creation
         

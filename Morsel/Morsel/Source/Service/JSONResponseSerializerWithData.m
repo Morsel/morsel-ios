@@ -25,8 +25,6 @@
 		}
         else
         {
-#warning Define error schema and apply to userInfo. Create separate keys for different error categories.
-            
             NSError* error = nil;
             NSDictionary* errorDictionary = [NSJSONSerialization JSONObjectWithData:data
                                                                             options:kNilOptions

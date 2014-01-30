@@ -33,8 +33,6 @@
     }
     
     self.userID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.userID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
-    
-#warning When retrieving user, pull posts that are included from return call. Post MTP.
 }
 
 - (BOOL)isCurrentUser

@@ -138,11 +138,13 @@
             
             if (!foundPost)
             {
-                // Create posts in temporary context but only if they don't already exist
-#warning Adjust this to REPLACE existing Posts
-                DDLogDebug(@"Post with ID (%d) DOES NOT EXIST ALREADY", [postDictionary[@"id"] intValue]);
                 MRSLPost *post = [MRSLPost MR_createInContext:_defaultContext];
                 [post setWithDictionary:postDictionary];
+                [_defaultContext MR_saveToPersistentStoreAndWait];
+            }
+            else
+            {
+                [foundPost setWithDictionary:postDictionary];
                 [_defaultContext MR_saveToPersistentStoreAndWait];
             }
         }];
@@ -168,12 +170,14 @@
               
               if (!foundPost)
               {
-                  // Create posts in temporary context but only if they don't already exist
-#warning Adjust this to REPLACE existing Posts
-                  DDLogDebug(@"Post with ID (%d) DOES NOT EXIST ALREADY", [postDictionary[@"id"] intValue]);
                   MRSLPost *post = [MRSLPost MR_createInContext:_defaultContext];
                   [post setWithDictionary:postDictionary];
                   
+                  [_defaultContext MR_saveToPersistentStoreAndWait];
+              }
+              else
+              {
+                  [foundPost setWithDictionary:postDictionary];
                   [_defaultContext MR_saveToPersistentStoreAndWait];
               }
           }];
