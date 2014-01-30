@@ -20,25 +20,25 @@ const struct MRSLSortOrderFetchedProperties MRSLSortOrderFetchedProperties = {
 
 @implementation _MRSLSortOrder
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"MRSLSortOrder" inManagedObjectContext:moc_];
 }
 
-+ (NSString*)entityName {
++ (NSString *)entityName {
 	return @"MRSLSortOrder";
 }
 
-+ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (NSEntityDescription *)entityInManagedObjectContext:(NSManagedObjectContext *)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription entityForName:@"MRSLSortOrder" inManagedObjectContext:moc_];
 }
 
-- (MRSLSortOrderID*)objectID {
-	return (MRSLSortOrderID*)[super objectID];
+- (MRSLSortOrderID *)objectID {
+	return (MRSLSortOrderID *)[super objectID];
 }
 
-+ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
 	if ([key isEqualToString:@"sortForPostIDValue"]) {

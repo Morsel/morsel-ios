@@ -11,10 +11,7 @@
 #import "ModelController.h"
 
 @interface LoginViewController ()
-
-<
-UITextFieldDelegate
->
+    <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -27,62 +24,55 @@ UITextFieldDelegate
 
 #pragma mark - Private Methods
 
-- (IBAction)logIn
-{
+- (IBAction)logIn {
     BOOL emailValid = [Util validateEmail:_emailTextField.text];
     BOOL passValid = ([_passwordTextField.text length] >= 8);
-    
-    if (!emailValid || !passValid)
-    {
+
+    if (!emailValid || !passValid) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Email or Password"
                                                         message:@"Email must be valid. Password must be at least 8 characters."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
-        
+
         return;
     }
-    
+
     [self.signInButton setEnabled:NO];
-    
+
     self.activityView.hidden = NO;
-    
+
     [[ModelController sharedController].morselApiService signInUserWithEmail:_emailTextField.text
                                                                  andPassword:_passwordTextField.text
                                                                      success:nil
-                                                                     failure:^(NSError *error) {
-                                                                         self.activityView.hidden = YES;
-                                                                         [self.signInButton setEnabled:YES];
-                                                                     }];
+                                                                     failure:^(NSError *error)
+    {
+        self.activityView.hidden = YES;
+        [self.signInButton setEnabled:YES];
+    }];
 }
 
-- (IBAction)goBack:(id)sender
-{
+- (IBAction)goBack:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITextFieldDelegate Methods
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self logIn];
-    
+
     return YES;
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    if ([string isEqualToString:@"\n"])
-    {
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
         return NO;
-    }
-    else
-    {
+    } else {
         return YES;
     }
-    
+
     return YES;
 }
 

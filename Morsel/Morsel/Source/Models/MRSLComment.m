@@ -1,12 +1,10 @@
 #import "MRSLComment.h"
 
-
 @interface MRSLComment ()
 
 // Private interface goes here.
 
 @end
-
 
 @implementation MRSLComment
 

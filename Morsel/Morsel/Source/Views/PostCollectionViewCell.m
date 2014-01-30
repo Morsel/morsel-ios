@@ -14,7 +14,7 @@
 @interface PostCollectionViewCell ()
 
 @property (nonatomic, weak) IBOutlet UIImageView *postThumbnailView;
-@property (nonatomic ,weak) IBOutlet UILabel *postCountLabel;
+@property (nonatomic, weak) IBOutlet UILabel *postCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *postStatusLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *postCheckmark;
 
@@ -22,92 +22,75 @@
 
 @implementation PostCollectionViewCell
 
-- (void)setPost:(MRSLPost *)post
-{
-    if (_post != post)
-    {
+- (void)setPost:(MRSLPost *)post {
+    if (_post != post) {
         [self reset];
-        
+
         _post = post;
-        
+
         if (_post &&
-            [_post.morsels count] > 0)
-        {
+            [_post.morsels count] > 0) {
             MRSLMorsel *firstMorsel = [_post.morsels firstObject];
-            
-            if (firstMorsel.isDraft)
-            {
-                if (firstMorsel.morselThumb)
-                {
+
+            if (firstMorsel.isDraft) {
+                if (firstMorsel.morselThumb) {
                     self.postThumbnailView.image = [UIImage imageWithData:firstMorsel.morselThumb];
+                } else {
                 }
-                else
-                {
-                    
-                }
-            }
-            else
-            {
-                __weak __typeof(self)weakSelf = self;
-                
-                if (firstMorsel.morselPictureURL)
-                {
+            } else {
+                __weak __typeof(self) weakSelf = self;
+
+                if (firstMorsel.morselPictureURL) {
                     [_postThumbnailView setImageWithURLRequest:[firstMorsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail]
                                               placeholderImage:nil
                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-                     {
-                         if (image)
-                         {
-                             weakSelf.postThumbnailView.image = image;
-                         }
-                     }
-                                                       failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)
-                     {
-                         DDLogError(@"Unable to set Morsel Thumbnail: %@", error.userInfo);
-                     }];
+                    {
+                        if (image) {
+                            weakSelf.postThumbnailView.image = image;
+                        }
+                    }
+                failure:
+                    ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error)
+                    {
+                        DDLogError(@"Unable to set Morsel Thumbnail: %@", error.userInfo);
+                    }];
                 }
             }
-            
-            self.postTitleLabel.text = _post.title ? : @"No title";
-            
+
+            self.postTitleLabel.text = _post.title ?: @"No title";
+
             self.postCountLabel.text = [NSString stringWithFormat:@"%lu MORSEL%@ |", (unsigned long)[_post.morsels count], ([_post.morsels count] > 1) ? @"S" : @""];
-            
+
             self.postStatusLabel.text = _post.isDraft ? @"UNPUBLISHED" : @"PUBLISHED";
             self.postStatusLabel.textColor = _post.isDraft ? [UIColor morselRed] : [UIColor morselGreen];
-            
+
             [_postCountLabel sizeToFit];
             [_postStatusLabel sizeToFit];
-            
+
             [_postStatusLabel setX:[_postCountLabel getX] + [_postCountLabel getWidth] + 5.f];
-        }
-        else
-        {
+        } else {
             DDLogError(@"PostCollectionViewCell assigned a Post with no Morsels. Post ID: %i", [_post.postID intValue]);
         }
     }
 }
 
-- (void)setHighlighted:(BOOL)highlighted
-{
+- (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
-    
+
     [self displaySelectedState:highlighted];
 }
 
-- (void)setSelected:(BOOL)selected
-{
+- (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
-    
+
     [self displaySelectedState:selected];
 }
 
-- (void)displaySelectedState:(BOOL)selected
-{
+- (void)displaySelectedState:(BOOL)selected {
     self.postCheckmark.image = [UIImage imageNamed:selected ? @"icon-checkmark-on" : @"icon-checkmark-off"];
 }
 
-- (void)reset
-{
+- (void)reset {
     self.postThumbnailView.image = nil;
     self.postTitleLabel.text = nil;
     self.postCountLabel.text = nil;

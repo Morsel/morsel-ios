@@ -25,16 +25,16 @@ extern const struct MRSLSortOrderFetchedProperties {
 @end
 
 @interface _MRSLSortOrder : NSManagedObject {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
-+ (NSString*)entityName;
-+ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (MRSLSortOrderID*)objectID;
++ (id)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
++ (NSString *)entityName;
++ (NSEntityDescription *)entityInManagedObjectContext:(NSManagedObjectContext *)moc_;
+- (MRSLSortOrderID *)objectID;
 
 
 
 
 
-@property (nonatomic, strong) NSNumber* sortForPostID;
+@property (nonatomic, strong) NSNumber *sortForPostID;
 
 
 
@@ -42,13 +42,13 @@ extern const struct MRSLSortOrderFetchedProperties {
 - (int16_t)sortForPostIDValue;
 - (void)setSortForPostIDValue:(int16_t)value_;
 
-//- (BOOL)validateSortForPostID:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateSortForPostID:(id *)value_ error:(NSError **)error_;
 
 
 
 
 
-@property (nonatomic, strong) NSNumber* sortOrder;
+@property (nonatomic, strong) NSNumber *sortOrder;
 
 
 
@@ -56,7 +56,7 @@ extern const struct MRSLSortOrderFetchedProperties {
 - (int16_t)sortOrderValue;
 - (void)setSortOrderValue:(int16_t)value_;
 
-//- (BOOL)validateSortOrder:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateSortOrder:(id *)value_ error:(NSError **)error_;
 
 
 
@@ -64,7 +64,7 @@ extern const struct MRSLSortOrderFetchedProperties {
 
 @property (nonatomic, strong) MRSLMorsel *morsel;
 
-//- (BOOL)validateMorsel:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateMorsel:(id *)value_ error:(NSError **)error_;
 
 
 
@@ -79,8 +79,8 @@ extern const struct MRSLSortOrderFetchedProperties {
 @interface _MRSLSortOrder (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSNumber*)primitiveSortForPostID;
-- (void)setPrimitiveSortForPostID:(NSNumber*)value;
+- (NSNumber *)primitiveSortForPostID;
+- (void)setPrimitiveSortForPostID:(NSNumber *)value;
 
 - (int16_t)primitiveSortForPostIDValue;
 - (void)setPrimitiveSortForPostIDValue:(int16_t)value_;
@@ -88,8 +88,8 @@ extern const struct MRSLSortOrderFetchedProperties {
 
 
 
-- (NSNumber*)primitiveSortOrder;
-- (void)setPrimitiveSortOrder:(NSNumber*)value;
+- (NSNumber *)primitiveSortOrder;
+- (void)setPrimitiveSortOrder:(NSNumber *)value;
 
 - (int16_t)primitiveSortOrderValue;
 - (void)setPrimitiveSortOrderValue:(int16_t)value_;
@@ -98,8 +98,8 @@ extern const struct MRSLSortOrderFetchedProperties {
 
 
 
-- (MRSLMorsel*)primitiveMorsel;
-- (void)setPrimitiveMorsel:(MRSLMorsel*)value;
+- (MRSLMorsel *)primitiveMorsel;
+- (void)setPrimitiveMorsel:(MRSLMorsel *)value;
 
 
 @end

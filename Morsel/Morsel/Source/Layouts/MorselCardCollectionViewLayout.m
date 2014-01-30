@@ -10,16 +10,14 @@
 
 @implementation MorselCardCollectionViewLayout
 
-- (id)init
-{
+- (id)init {
     self = [super init];
-    
-    if (self)
-    {
+
+    if (self) {
         self.itemSize = CGSizeMake(320.f, 200.f);
         self.scrollDirection = UICollectionViewScrollDirectionVertical;
     }
-    
+
     return self;
 }
 

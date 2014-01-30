@@ -11,36 +11,29 @@
 #import "GCPlaceholderTextView.h"
 
 @interface AddTextViewController ()
-
-<
-UITextViewDelegate
->
+    <UITextViewDelegate>
 
 @end
 
 @implementation AddTextViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     _textView.placeholder = @"Tap to add text";
 }
 
 #pragma mark - UITextViewDelegate Methods
 
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
+- (void)textViewDidBeginEditing:(UITextView *)textView {
     [self.textView setHeight:180.f];
-    
-    if ([self.delegate respondsToSelector:@selector(addTextViewDidBeginEditing)])
-    {
+
+    if ([self.delegate respondsToSelector:@selector(addTextViewDidBeginEditing)]) {
         [self.delegate addTextViewDidBeginEditing];
     }
 }
 
-- (void)textViewDidEndEditing:(UITextView *)textView
-{
+- (void)textViewDidEndEditing:(UITextView *)textView {
     [self.textView setHeight:264.f];
 }
 

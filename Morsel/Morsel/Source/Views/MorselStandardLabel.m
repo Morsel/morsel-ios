@@ -10,28 +10,23 @@
 
 @implementation MorselStandardLabel
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self)
-    {
+    if (self) {
         [self setUp];
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-    if (self)
-    {
+    if (self) {
         [self setUp];
     }
     return self;
 }
 
-- (void)setUp
-{
+- (void)setUp {
     [self setFont:[UIFont helveticaLightFontOfSize:self.font.pointSize]];
 }
 

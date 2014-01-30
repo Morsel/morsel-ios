@@ -17,12 +17,9 @@
 #import "MRSLUser.h"
 
 @interface SignUpViewController ()
-
-<
-UIImagePickerControllerDelegate,
-UINavigationControllerDelegate,
-UITextFieldDelegate
->
+    <UIImagePickerControllerDelegate,
+     UINavigationControllerDelegate,
+     UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet MorselStandardButton *addPhotoButton;
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
@@ -43,17 +40,16 @@ UITextFieldDelegate
 
 @implementation SignUpViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [_profileImageView addCornersWithRadius:36.f];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
@@ -62,73 +58,65 @@ UITextFieldDelegate
 
 #pragma mark - Private Methods
 
-- (IBAction)addPhoto:(id)sender
-{
+- (IBAction)addPhoto:(id)sender {
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
+
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     imagePicker.allowsEditing = NO;
     imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
     imagePicker.delegate = self;
-    
+
     [self presentViewController:imagePicker
                        animated:YES
                      completion:nil];
 }
 
-- (IBAction)signUp
-{
+- (IBAction)signUp {
     BOOL usernameValid = [Util validateUsername:_usernameField.text];
     BOOL emailValid = [Util validateEmail:_emailField.text];
     BOOL passValid = ([_passwordField.text length] >= 8);
-    
-    if (!usernameValid ||
-        !emailValid ||
-        !passValid)
-    {
+
+    if (!usernameValid || !emailValid || !passValid) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Username, Email or Password"
                                                         message:@"Username and Email must be valid. Password must be at least 8 characters."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
-        
+
         return;
     }
-    
+
     if ([_usernameField.text length] == 0 ||
         [_passwordField.text length] == 0 ||
         [_emailField.text length] == 0 ||
         [_firstNameField.text length] == 0 ||
         [_lastNameField.text length] == 0 ||
-        [_occupationTitleField.text length] == 0 ||
-        !_profileImageView.image)
-    {
+        [_occupationTitleField.text length] == 0 || !_profileImageView.image) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"All Fields Required"
                                                         message:@"Please fill in all fields and include a profile picture."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
-        
+
         return;
     }
-    
+
     [_continueButton setEnabled:NO];
-    
+
     self.activityView.hidden = NO;
-    
+
     MRSLUser *user = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
     user.firstName = _firstNameField.text;
     user.lastName = _lastNameField.text;
     user.userName = _usernameField.text;
     user.emailAddress = _emailField.text;
     user.occupationTitle = _occupationTitleField.text;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^
-    {
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         UIImage *profileImage = [_originalProfileImage thumbnailImage:_originalProfileImage.size.width
                                                  interpolationQuality:kCGInterpolationHigh];
         
@@ -150,89 +138,77 @@ UITextFieldDelegate
     });
 }
 
-- (void)keyboardWillShow:(NSNotification *)notification
-{
+- (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    [UIView animateWithDuration:.2f animations:^
-    {
+
+    [UIView animateWithDuration:.2f
+                     animations:^{
         [self.contentScrollView setHeight:self.view.frame.size.height - keyboardSize.height];
-    }];
-    
+                     }];
+
     [self.contentScrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - _continueButton.frame.size.height)];
 }
 
-- (void)keyboardWillHide
-{
-    [UIView animateWithDuration:.2f animations:^
-     {
+- (void)keyboardWillHide {
+    [UIView animateWithDuration:.2f
+                     animations:^{
          [self.contentScrollView setHeight:self.view.frame.size.height];
-     }];
+                     }];
 }
 
 #pragma mark - UIImagePickerControllerDelegate Methods
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage])
-    {
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
         self.originalProfileImage = info[UIImagePickerControllerOriginalImage];
-        
+
         [self.profileImageView addAndRenderImage:_originalProfileImage];
-        
+
         _addPhotoButton.hidden = YES;
     }
-    
+
     [self dismissViewControllerAnimated:YES
                              completion:nil];
-    
+
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES
                              completion:nil];
-    
+
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 #pragma mark - UITextFieldDelegate Methods
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
     CGRect centeredFrame = textField.frame;
     centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-    
+
     [self.contentScrollView scrollRectToVisible:centeredFrame
                                        animated:YES];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     CGRect centeredFrame = textField.frame;
     centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-    
+
     [self.contentScrollView scrollRectToVisible:centeredFrame
                                        animated:YES];
-    
-    if ([string isEqualToString:@"\n"])
-    {
+
+    if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
         return NO;
-    }
-    else
-    {
+    } else {
         return YES;
     }
-    
+
     return YES;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    if ([textField isEqual:_occupationTitleField])
-    {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isEqual:_occupationTitleField]) {
         [self signUp];
     }
     return YES;

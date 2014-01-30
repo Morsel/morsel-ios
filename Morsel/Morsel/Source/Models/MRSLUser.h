@@ -1,14 +1,12 @@
 #import "_MRSLUser.h"
 
-typedef NS_ENUM(NSUInteger, UserOccupationType)
-{
+typedef NS_ENUM(NSUInteger, UserOccupationType) {
     UserOccupationTypeChef,
     UserOccupationTypeDiner,
     UserOccupationTypeMedia
 };
 
-typedef NS_ENUM(NSUInteger, ProfileImageSizeType)
-{
+typedef NS_ENUM(NSUInteger, ProfileImageSizeType) {
     ProfileImageSizeTypeSmall,
     ProfileImageSizeTypeMedium
 };
