@@ -118,7 +118,7 @@ UINavigationControllerDelegate
 {
     [super viewDidLoad];
     
-    self.preferredFlashCaptureMode = AVCaptureFlashModeAuto;
+    self.preferredFlashCaptureMode = AVCaptureFlashModeOff;
     
     [self createSession];
 }

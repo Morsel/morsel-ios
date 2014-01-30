@@ -78,7 +78,6 @@
                  [mrsls addObject:morsel];
              }];
             
-#warning Compare Morsel order with new Sort Order object
             /*
             NSArray *sortedMrsls = [mrsls sortedArrayUsingComparator:^NSComparisonResult(MRSLMorsel *morselA, MRSLMorsel *morselB)
             {

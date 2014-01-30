@@ -34,7 +34,7 @@
     
     if (user)
     {
-        if (!user.profileImage)
+        if (user.profileImageURL)
         {
             NSURLRequest *profileImageURLRequest = [user userProfilePictureURLRequestForImageSizeType:(self.frame.size.width > 40.f) ?
                                                                           ProfileImageSizeTypeMedium : ProfileImageSizeTypeSmall];
@@ -64,12 +64,8 @@
         }
         else
         {
-            self.image = [UIImage imageWithData:user.profileImage];
+            self.image = nil;
         }
-    }
-    else
-    {
-        self.image = nil;
     }
 }
 

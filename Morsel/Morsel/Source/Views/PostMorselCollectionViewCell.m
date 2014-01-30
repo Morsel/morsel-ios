@@ -44,7 +44,7 @@
                 }
                 else
                 {
-#warning Determine what text-only thumbnails look like
+                    
                 }
             }
             else

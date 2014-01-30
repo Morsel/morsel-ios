@@ -62,8 +62,6 @@
     }
     else
     {
-#warning Should attempt to log user in (if data connection is present) and if there is an error, display login screen
-        
         [self displayHome];
     }
 }

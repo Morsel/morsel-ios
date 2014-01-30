@@ -39,7 +39,7 @@ UIScrollViewDelegate
     
     if ([_morsel.morselDescription length] > 0)
     {
-#warning Populate text version
+        // Text Version
     }
     
     if (_morsel.morselDescription)
@@ -64,14 +64,7 @@ UIScrollViewDelegate
     
     if (_morsel.morselPictureURL)
     {
-        if (_morsel.morselPicture)
-        {
-            UIImage *morselImage = [UIImage imageWithData:_morsel.morselPicture];
-            _morselImageView.image = morselImage;
-        }
-        
         if (_morsel.morselPictureURL &&
-            !_morsel.morselPicture &&
             !_morsel.isDraft)
         {
             __weak UIImageView *weakImageView = _morselImageView;
