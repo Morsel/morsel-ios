@@ -10,38 +10,32 @@
 
 @implementation UIFont (Myriad)
 
-+ (UIFont *)helveticaNeueLTStandardThinCondensedFontOfSize:(CGFloat)fontSize
-{
++ (UIFont *)helveticaNeueLTStandardThinCondensedFontOfSize:(CGFloat)fontSize {
     return [UIFont fontWithName:@"HelveticaNeueLTStd-ThCn"
                            size:fontSize];
 }
 
-+ (UIFont *)helveticaNeueLTStandardCondensedFontOfSize:(CGFloat)fontSize
-{
++ (UIFont *)helveticaNeueLTStandardCondensedFontOfSize:(CGFloat)fontSize {
     return [UIFont fontWithName:@"HelveticaNeueLTStd-Cn"
                            size:fontSize];
 }
 
-+ (UIFont *)helveticaNeueLTStandardCondensedObliqueFontOfSize:(CGFloat)fontSize
-{
++ (UIFont *)helveticaNeueLTStandardCondensedObliqueFontOfSize:(CGFloat)fontSize {
     return [UIFont fontWithName:@"HelveticaNeueLTStd-CnO"
                            size:fontSize];
 }
 
-+ (UIFont *)helveticaNeueLTStandardLightCondensedFontOfSize:(CGFloat)fontSize
-{
++ (UIFont *)helveticaNeueLTStandardLightCondensedFontOfSize:(CGFloat)fontSize {
     return [UIFont fontWithName:@"HelveticaNeueLTStd-LtCn"
                            size:fontSize];
 }
 
-+ (UIFont *)helveticaNeueLTStandardMediumFontOfSize:(CGFloat)fontSize
-{
++ (UIFont *)helveticaNeueLTStandardMediumFontOfSize:(CGFloat)fontSize {
     return [UIFont fontWithName:@"HelveticaNeueLTStd-MdCn"
                            size:fontSize];
 }
 
-+ (UIFont *)helveticaLightFontOfSize:(CGFloat)fontSize
-{
++ (UIFont *)helveticaLightFontOfSize:(CGFloat)fontSize {
     return [UIFont fontWithName:@"Helvetica-Light"
                            size:fontSize];
 }

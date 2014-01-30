@@ -10,8 +10,7 @@
 
 @implementation MorselTextField
 /*
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder  *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self)
     {
@@ -20,21 +19,18 @@
     return self;
 }
 
-- (void)drawPlaceholderInRect:(CGRect)rect
-{
+- (void)drawPlaceholderInRect:(CGRect)rect {
 #warning Deprecated in iOS 7. Make friendly.
     [[UIColor morselLightContent] setFill];
     [[self placeholder] drawInRect:rect
                           withFont:[UIFont helveticaLightFontOfSize:14.f]];
 }
 */
-- (CGRect)editingRectForBounds:(CGRect)bounds
-{
+- (CGRect)editingRectForBounds:(CGRect)bounds {
     return CGRectInset(bounds, 15.f, 15.f);
 }
 
-- (CGRect)textRectForBounds:(CGRect)bounds
-{
+- (CGRect)textRectForBounds:(CGRect)bounds {
     return CGRectInset(bounds, 15.f, 15.f);
 }
 

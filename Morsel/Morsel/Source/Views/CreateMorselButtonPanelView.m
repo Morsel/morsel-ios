@@ -23,37 +23,29 @@
 
 @implementation CreateMorselButtonPanelView
 
-- (IBAction)addButtonSelected:(UIButton *)sendingButton
-{
+- (IBAction)addButtonSelected:(UIButton *)sendingButton {
     [_buttons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop)
     {
-        if ([sendingButton isEqual:button])
-        {
+        if ([sendingButton isEqual:button]) {
             [sendingButton setEnabled:NO];
-            
-            [UIView animateWithDuration:.2f animations:^
-            {
+
+            [UIView animateWithDuration:.2f
+                             animations:^{
                 [_selectedPipeView setX:[sendingButton getX]];
-            }];
-        }
-        else
-        {
+                             }];
+        } else {
             [button setEnabled:YES];
         }
     }];
-    
-    if ([sendingButton isEqual:_addTextButton])
-    {
-        if ([self.delegate respondsToSelector:@selector(createMorselButtonPanelDidSelectAddText)])
-        {
+
+    if ([sendingButton isEqual:_addTextButton]) {
+        if ([self.delegate respondsToSelector:@selector(createMorselButtonPanelDidSelectAddText)]) {
             [self.delegate createMorselButtonPanelDidSelectAddText];
         }
     }
-    
-    if ([sendingButton isEqual:_addProgressionButton])
-    {
-        if ([self.delegate respondsToSelector:@selector(createMorselButtonPanelDidSelectAddProgression)])
-        {
+
+    if ([sendingButton isEqual:_addProgressionButton]) {
+        if ([self.delegate respondsToSelector:@selector(createMorselButtonPanelDidSelectAddProgression)]) {
             [self.delegate createMorselButtonPanelDidSelectAddProgression];
         }
     }

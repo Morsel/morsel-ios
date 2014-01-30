@@ -19,7 +19,7 @@
 
 @interface CaptureMediaViewController : UIViewController
 
-@property (nonatomic, weak) id <CaptureMediaViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<CaptureMediaViewControllerDelegate> delegate;
 
 @property (nonatomic, strong) MRSLMorsel *morsel;
 

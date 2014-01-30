@@ -1,6 +1,7 @@
 #import "_MRSLPost.h"
 
-@interface MRSLPost : _MRSLPost {}
+@interface MRSLPost : _MRSLPost {
+}
 
 - (BOOL)isDraft;
 

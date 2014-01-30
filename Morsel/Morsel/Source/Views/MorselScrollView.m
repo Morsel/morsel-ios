@@ -21,36 +21,32 @@
 
 #pragma mark - Public Methods
 
-- (void)setPost:(MRSLPost *)post
-{
+- (void)setPost:(MRSLPost *)post {
     _post = post;
-    
-    if (_post)
-    {
+
+    if (_post) {
         [_post.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop)
         {
             MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
             morselDetailPanelVC.view.frame = CGRectMake(0.f + (320.f * idx), 0.f, 320.f, self.frame.size.height);
             morselDetailPanelVC.morsel = morsel;
-            
+
             [self addSubview:morselDetailPanelVC.view];
             [self setContentSize:CGSizeMake(320.f * (idx + 1), 200.f)];
         }];
     }
 }
 
-- (void)scrollToMorsel:(MRSLMorsel *)morsel
-{
+- (void)scrollToMorsel:(MRSLMorsel *)morsel {
     NSUInteger morselIndex = [_post.morsels indexOfObject:morsel];
-    
+
     [self scrollRectToVisible:CGRectMake(self.frame.size.width * morselIndex, 0.f, self.frame.size.width, 1.f)
                      animated:NO];
 }
 
-- (void)reset
-{
+- (void)reset {
     self.post = nil;
-    
+
     [[self subviews] enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop)
     {
         [subview removeFromSuperview];
@@ -59,8 +55,7 @@
 
 #pragma mark - Private Methods
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self reset];
 }
 

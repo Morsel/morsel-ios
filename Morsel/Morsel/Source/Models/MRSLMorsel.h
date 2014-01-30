@@ -1,13 +1,13 @@
 #import "_MRSLMorsel.h"
 
-typedef NS_ENUM(NSUInteger, MorselImageSizeType)
-{
+typedef NS_ENUM(NSUInteger, MorselImageSizeType) {
     MorselImageSizeTypeCropped,
     MorselImageSizeTypeThumbnail,
     MorselImageSizeTypeFull
 };
 
-@interface MRSLMorsel : _MRSLMorsel {}
+@interface MRSLMorsel : _MRSLMorsel {
+}
 
 - (void)setWithDictionary:(NSDictionary *)dictionary;
 

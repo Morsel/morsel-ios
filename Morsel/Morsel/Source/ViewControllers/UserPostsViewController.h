@@ -17,10 +17,9 @@
 
 @end
 
-
 @interface UserPostsViewController : UIViewController
 
-@property (nonatomic, weak) id < UserPostsViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<UserPostsViewControllerDelegate> delegate;
 
 @property (nonatomic, weak) IBOutlet UICollectionView *postCollectionView;
 

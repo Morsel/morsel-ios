@@ -8,13 +8,11 @@
 
 @end
 
-
 @implementation MRSLUser
 
 #pragma mark - Instance Methods
 
-- (void)setWithDictionary:(NSDictionary *)dictionary
-{
+- (void)setWithDictionary:(NSDictionary *)dictionary {
     self.userName = ([dictionary[@"username"] isEqual:[NSNull null]]) ? self.userName : dictionary[@"username"];
     self.emailAddress = ([dictionary[@"email"] isEqual:[NSNull null]]) ? self.emailAddress : dictionary[@"email"];
     self.firstName = ([dictionary[@"first_name"] isEqual:[NSNull null]]) ? self.firstName : dictionary[@"first_name"];
@@ -23,75 +21,66 @@
     self.authToken = ([dictionary[@"auth_token"] isEqual:[NSNull null]]) ? self.authToken : dictionary[@"auth_token"];
     self.morselCount = ([dictionary[@"morsel_count"] isEqual:[NSNull null]]) ? self.morselCount : [NSNumber numberWithInt:[dictionary[@"morsel_count"] intValue]];
     self.likeCount = ([dictionary[@"like_count"] isEqual:[NSNull null]]) ? self.likeCount : [NSNumber numberWithInt:[dictionary[@"like_count"] intValue]];
-    
-    if (![dictionary[@"photos"] isEqual:[NSNull null]])
-    {
+
+    if (![dictionary[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = dictionary[@"photos"];
-        
+
         self.profileImageURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
-                                                                                   withString:@"IMAGE_SIZE"];
+                                                                                     withString:@"IMAGE_SIZE"];
     }
-    
+
     self.userID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.userID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
 }
 
-- (BOOL)isCurrentUser
-{
+- (BOOL)isCurrentUser {
     return ([[ModelController sharedController].currentUser.userID intValue] == [self.userID intValue]);
 }
 
-- (UserOccupationType)occupationTypeRaw
-{
+- (UserOccupationType)occupationTypeRaw {
     return (UserOccupationType)[self.occupationType intValue];
 }
 
-- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type
-{
+- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type {
     if (!self.profileImageURL) return nil;
-    
+
     BOOL isRetina = ([UIScreen mainScreen].scale == 2.f);
-    
+
     NSString *typeSizeString = nil;
-    
-    switch (type)
-    {
-        case ProfileImageSizeTypeSmall:
-            typeSizeString = (isRetina) ? @"_80x80" : @"_40x40";
-            break;
-        case ProfileImageSizeTypeMedium:
-            typeSizeString = (isRetina) ? @"_144x144" : @"_72x72";
-            break;
-        default:
-            DDLogError(@"Unsupported Profile Image Size Type Requested!");
-            return nil;
-            break;
+
+    switch (type) {
+    case ProfileImageSizeTypeSmall:
+        typeSizeString = (isRetina) ? @"_80x80" : @"_40x40";
+        break;
+    case ProfileImageSizeTypeMedium:
+        typeSizeString = (isRetina) ? @"_144x144" : @"_72x72";
+        break;
+    default:
+        DDLogError(@"Unsupported Profile Image Size Type Requested!");
+        return nil;
+        break;
     }
-    
+
     NSString *adjustedURLForType = [self.profileImageURL stringByReplacingOccurrencesOfString:@"IMAGE_SIZE"
-                                                                                    withString:typeSizeString];
-    
+                                                                                   withString:typeSizeString];
+
     return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
 }
 
-- (NSString *)fullName
-{
+- (NSString *)fullName {
     return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
 }
 
-- (void)addPost:(MRSLPost *)post
-{
+- (void)addPost:(MRSLPost *)post {
     [self.postsSet addObject:post];
 }
 
-- (void)setOccupationTypeRaw:(UserOccupationType)type
-{
+- (void)setOccupationTypeRaw:(UserOccupationType)type {
     [self setOccupationType:[NSNumber numberWithInt:type]];
 }
 
 #pragma mark - Private Methods
 
-+(NSSet *)keyPathsForValuesAffectingOccupationTypeRaw
-{
++ (NSSet *)keyPathsForValuesAffectingOccupationTypeRaw {
     return [NSSet setWithObject:@"occupationType"];
 }
 

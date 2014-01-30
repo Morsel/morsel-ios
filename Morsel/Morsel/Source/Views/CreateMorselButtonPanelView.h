@@ -18,6 +18,6 @@
 
 @interface CreateMorselButtonPanelView : UIView
 
-@property (nonatomic, weak) id <CreateMorselButtonPanelViewDelegate> delegate;
+@property (nonatomic, weak) id<CreateMorselButtonPanelViewDelegate> delegate;
 
 @end

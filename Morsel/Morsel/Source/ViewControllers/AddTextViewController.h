@@ -19,7 +19,7 @@
 
 @interface AddTextViewController : UIViewController
 
-@property (nonatomic, weak) id <AddTextViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<AddTextViewControllerDelegate> delegate;
 
 @property (nonatomic, weak) IBOutlet GCPlaceholderTextView *textView;
 
