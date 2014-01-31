@@ -27,6 +27,9 @@
 		062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062DF21618845B7D00C199D8 /* LoginViewController.m */; };
 		062E709C1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E709B1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m */; };
 		062E709F1892C681005D07B9 /* MorselThumbnailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E709E1892C681005D07B9 /* MorselThumbnailViewController.m */; };
+		062E8DFB189C17B2002A8CD4 /* MRSLSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E8DFA189C17B2002A8CD4 /* MRSLSideBarViewController.m */; };
+		062E8DFF189C1936002A8CD4 /* SideBarItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E8DFE189C1936002A8CD4 /* SideBarItemCell.m */; };
+		062E8E04189C1A1A002A8CD4 /* SideBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E8E03189C1A1A002A8CD4 /* SideBarItem.m */; };
 		063250CA1860E1DD00ADDF23 /* MorselRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063250C91860E1DD00ADDF23 /* MorselRootViewController.m */; };
 		063250D01860FC5400ADDF23 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 063250CF1860FC5400ADDF23 /* CoreData.framework */; };
 		063976DD186395FD00A17211 /* MorselCardCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 063976DC186395FD00A17211 /* MorselCardCollectionViewLayout.m */; };
@@ -146,6 +149,12 @@
 		062E709B1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselThumbnailCollectionViewCell.m; path = Source/Views/MorselThumbnailCollectionViewCell.m; sourceTree = "<group>"; };
 		062E709D1892C681005D07B9 /* MorselThumbnailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorselThumbnailViewController.h; sourceTree = "<group>"; };
 		062E709E1892C681005D07B9 /* MorselThumbnailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MorselThumbnailViewController.m; sourceTree = "<group>"; };
+		062E8DF9189C17B2002A8CD4 /* MRSLSideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSideBarViewController.h; sourceTree = "<group>"; };
+		062E8DFA189C17B2002A8CD4 /* MRSLSideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSideBarViewController.m; sourceTree = "<group>"; };
+		062E8DFD189C1936002A8CD4 /* SideBarItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SideBarItemCell.h; path = Source/Views/SideBarItemCell.h; sourceTree = "<group>"; };
+		062E8DFE189C1936002A8CD4 /* SideBarItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SideBarItemCell.m; path = Source/Views/SideBarItemCell.m; sourceTree = "<group>"; };
+		062E8E02189C1A1A002A8CD4 /* SideBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SideBarItem.h; path = Source/Models/SideBarItem.h; sourceTree = "<group>"; };
+		062E8E03189C1A1A002A8CD4 /* SideBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SideBarItem.m; path = Source/Models/SideBarItem.m; sourceTree = "<group>"; };
 		063250C81860E1DD00ADDF23 /* MorselRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorselRootViewController.h; sourceTree = "<group>"; };
 		063250C91860E1DD00ADDF23 /* MorselRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MorselRootViewController.m; sourceTree = "<group>"; };
 		063250CF1860FC5400ADDF23 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -418,6 +427,32 @@
 			name = Detail;
 			sourceTree = "<group>";
 		};
+		062E8DFC189C18D2002A8CD4 /* Side Bar */ = {
+			isa = PBXGroup;
+			children = (
+				062E8DFD189C1936002A8CD4 /* SideBarItemCell.h */,
+				062E8DFE189C1936002A8CD4 /* SideBarItemCell.m */,
+			);
+			name = "Side Bar";
+			sourceTree = "<group>";
+		};
+		062E8E00189C19F8002A8CD4 /* Data Objects */ = {
+			isa = PBXGroup;
+			children = (
+				062E8E01189C1A00002A8CD4 /* Side Bar */,
+			);
+			name = "Data Objects";
+			sourceTree = "<group>";
+		};
+		062E8E01189C1A00002A8CD4 /* Side Bar */ = {
+			isa = PBXGroup;
+			children = (
+				062E8E02189C1A1A002A8CD4 /* SideBarItem.h */,
+				062E8E03189C1A1A002A8CD4 /* SideBarItem.m */,
+			);
+			name = "Side Bar";
+			sourceTree = "<group>";
+		};
 		063250CB1860E85700ADDF23 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,6 +512,8 @@
 			children = (
 				063250C81860E1DD00ADDF23 /* MorselRootViewController.h */,
 				063250C91860E1DD00ADDF23 /* MorselRootViewController.m */,
+				062E8DF9189C17B2002A8CD4 /* MRSLSideBarViewController.h */,
+				062E8DFA189C17B2002A8CD4 /* MRSLSideBarViewController.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -686,6 +723,7 @@
 		066F5AE3185BCB8A00468210 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				062E8DFC189C18D2002A8CD4 /* Side Bar */,
 				0609B83D1894B4EF005A11A4 /* AV Capture */,
 				062E70991892C59E005D07B9 /* Detail */,
 				068602961891A68C000CD576 /* Text */,
@@ -745,6 +783,7 @@
 		0698CA8D18523AE2007AF442 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				062E8E00189C19F8002A8CD4 /* Data Objects */,
 				066F5ADC185BCA6D00468210 /* Model */,
 				066F5ADB185BCA6100468210 /* Human */,
 				0698CA96185240E2007AF442 /* Generated */,
@@ -1110,6 +1149,7 @@
 				066F5ACB185BCA3D00468210 /* _MRSLTag.m in Sources */,
 				06E89F8F1885ED3B00DA3A90 /* Util.m in Sources */,
 				066F5AD7185BCA4D00468210 /* MRSLComment.m in Sources */,
+				062E8DFF189C1936002A8CD4 /* SideBarItemCell.m in Sources */,
 				068602A51891AE26000CD576 /* UIView+Additions.m in Sources */,
 				0674A859185FBDF90089B672 /* MorselDetailViewController.m in Sources */,
 				06CE1882187F13A0009F9722 /* Constants.m in Sources */,
@@ -1140,10 +1180,12 @@
 				063976DD186395FD00A17211 /* MorselCardCollectionViewLayout.m in Sources */,
 				063BB6EC189835A50029DAF0 /* MRSLSortOrder.m in Sources */,
 				0698CA9C18524100007AF442 /* _MRSLUser.m in Sources */,
+				062E8E04189C1A1A002A8CD4 /* SideBarItem.m in Sources */,
 				0609B8401894B52E005A11A4 /* CameraPreviewView.m in Sources */,
 				067382E2187E1A19003CF1AD /* MorselAPIService.m in Sources */,
 				066F5B0B185BD05400468210 /* ModelController.m in Sources */,
 				066F5AED185BCC2000468210 /* MorselScrollView.m in Sources */,
+				062E8DFB189C17B2002A8CD4 /* MRSLSideBarViewController.m in Sources */,
 				068602AB1891C590000CD576 /* MorselStandardLabel.m in Sources */,
 				066F5AFF185BCD8500468210 /* TagView.m in Sources */,
 				0676B4A0189985E1001D7483 /* MorselLightCondensedLabel.m in Sources */,

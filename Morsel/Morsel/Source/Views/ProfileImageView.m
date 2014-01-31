@@ -58,6 +58,8 @@
         } else {
             self.image = nil;
         }
+    } else {
+        self.image = nil;
     }
 }
 

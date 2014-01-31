@@ -10,19 +10,21 @@
 
 #import "HomeViewController.h"
 #import "ModelController.h"
+#import "MRSLSideBarViewController.h"
 #import "ProfileViewController.h"
 
 #import "MRSLUser.h"
 
 @interface MorselRootViewController ()
+    <MRSLSideBarViewControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *navigationControllers;
 @property (nonatomic, strong) UIViewController *currentViewController;
 
-@property (weak, nonatomic) IBOutlet UIView *morselTabBarView;
-@property (weak, nonatomic) IBOutlet UIButton *homeButton;
-@property (weak, nonatomic) IBOutlet UIButton *createMorselButton;
-@property (weak, nonatomic) IBOutlet UIButton *profileButton;
+@property (nonatomic, strong) MRSLSideBarViewController *sideBarViewController;
+
+@property (weak, nonatomic) IBOutlet UIView *sideBarContainerView;
+@property (weak, nonatomic) IBOutlet UIView *rootContainerView;
 
 @end
 
@@ -34,44 +36,64 @@
     [super viewDidLoad];
 
     self.navigationControllers = [NSMutableArray array];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(shouldDisplaySidebar:)
+                                                 name:MRSLShouldDisplaySideBarNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userLoggedIn:)
+                                                 name:MRSLServiceDidLogInUserNotification
+                                               object:nil];
+    
+    self.sideBarViewController = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"MRSLSideBarViewController"];
+    _sideBarViewController.delegate = self;
+    
+    [self addChildViewController:_sideBarViewController];
+    [self.sideBarContainerView addSubview:_sideBarViewController.view];
 
     MRSLUser *currentUser = [ModelController sharedController].currentUser;
 
     if (!currentUser) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(userCreated:)
-                                                     name:MorselServiceDidCreateUserNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(userLoggedIn:)
-                                                     name:MorselServiceDidLogInNewUserNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(userLoggedIn:)
-                                                     name:MorselServiceDidLogInExistingUserNotification
-                                                   object:nil];
-
         double delayInSeconds = 0.f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-            [self displaySignUp];
+            [self displaySignUpAnimated:NO];
         });
     } else {
-        [self displayHome];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+                                                            object:nil];
     }
 }
 
 #pragma mark - Private Methods
 
-- (void)displaySignUp {
+- (void)shouldDisplaySidebar:(NSNotification *)notification {
+    BOOL shouldDisplay = [notification.object boolValue];
+    [self toggleSidebar:shouldDisplay];
+}
+
+- (void)toggleSidebar:(BOOL)shouldShow {
+    [[UIApplication sharedApplication] setStatusBarHidden:shouldShow
+                                            withAnimation:UIStatusBarAnimationFade];
+    
+    self.rootContainerView.userInteractionEnabled = !shouldShow;
+    self.sideBarContainerView.userInteractionEnabled = shouldShow;
+    
+    [UIView animateWithDuration:.3f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [_rootContainerView setX:shouldShow ? self.view.frame.size.width - 40.f : 0.f];
+    } completion:nil];
+}
+
+- (void)displaySignUpAnimated:(BOOL)animated {
     UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:@"SignUp"];
 
     [self presentViewController:signUpNC
-                       animated:NO
+                       animated:animated
                      completion:nil];
 }
 
-- (IBAction)presentCreateMorsel {
+- (void)presentCreateMorsel {
     UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorsel"];
 
     [self presentViewController:createMorselNC
@@ -79,72 +101,40 @@
                      completion:nil];
 }
 
-- (IBAction)displayHome {
+- (void)displayHome {
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
+}
+
+- (void)displayProfile {
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"];
+}
+
+- (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName {
     if (_currentViewController) {
         [_currentViewController removeFromParentViewController];
         [_currentViewController.view removeFromSuperview];
-
+        
         self.currentViewController = nil;
     }
-
-    _profileButton.enabled = YES;
-    _homeButton.enabled = NO;
-
-    UINavigationController *homeNC = [self getNavControllerWithClass:[HomeViewController class]];
-
-    if (!homeNC) {
-        homeNC = [[UIStoryboard homeStoryboard] instantiateViewControllerWithIdentifier:@"Home"];
-
-        [self.navigationControllers addObject:homeNC];
-
-        [self addChildViewController:homeNC];
-        [self.view addSubview:homeNC.view];
-
-        [self.view bringSubviewToFront:_morselTabBarView];
-    } else {
-        [self addChildViewController:homeNC];
-        [self.view addSubview:homeNC.view];
-
-        [self.view bringSubviewToFront:_morselTabBarView];
+    
+    Class viewControllerClass = NSClassFromString([NSString stringWithFormat:@"%@ViewController", classPrefixName]);
+    UINavigationController *viewControllerNC = [self getNavControllerWithClass:[viewControllerClass class]];
+    
+    if (!viewControllerNC) {
+        UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@_iPhone", classPrefixName]
+                                                                   bundle:nil];
+        viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:classPrefixName];
+        
+        [self.navigationControllers addObject:viewControllerNC];
     }
-
-    self.currentViewController = homeNC;
+    
+    [self addChildViewController:viewControllerNC];
+    [self.rootContainerView addSubview:viewControllerNC.view];
+    
+    self.currentViewController = viewControllerNC;
 }
 
-- (IBAction)displayProfile {
-    if (_currentViewController) {
-        [_currentViewController removeFromParentViewController];
-        [_currentViewController.view removeFromSuperview];
-
-        self.currentViewController = nil;
-    }
-
-    _profileButton.enabled = NO;
-    _homeButton.enabled = YES;
-
-    UINavigationController *profileNC = [self getNavControllerWithClass:[ProfileViewController class]];
-
-    if (!profileNC) {
-        profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"Profile"];
-
-        [self.navigationControllers addObject:profileNC];
-
-        [self addChildViewController:profileNC];
-        [self.view addSubview:profileNC.view];
-
-        [self.view bringSubviewToFront:_morselTabBarView];
-    } else {
-        [self addChildViewController:profileNC];
-        [self.view addSubview:profileNC.view];
-
-        [self.view bringSubviewToFront:_morselTabBarView];
-    }
-
-    self.currentViewController = profileNC;
-}
-
-- (UINavigationController *)getNavControllerWithClass:(Class) class
-                           {
+- (UINavigationController *)getNavControllerWithClass:(Class)class {
     __block UINavigationController *foundNC = nil;
 
     [_navigationControllers enumerateObjectsUsingBlock:^(UINavigationController *navigationController, NSUInteger idx, BOOL *stop)
@@ -161,25 +151,12 @@
 
     return foundNC;
 }
-- (void)userCreated : (NSNotification *)notification {
-    [self syncDataAndPresentHome];
-}
 
 - (void)userLoggedIn:(NSNotification *)notification {
     [self syncDataAndPresentHome];
 }
 
 - (void)syncDataAndPresentHome {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:MorselServiceDidCreateUserNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:MorselServiceDidLogInExistingUserNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:MorselServiceDidLogInNewUserNotification
-                                                  object:nil];
-
     [self displayHome];
 
     [self dismissViewControllerAnimated:YES
@@ -187,6 +164,36 @@
 
     [[ModelController sharedController] saveDataToStoreWithSuccess:nil
                                                            failure:nil];
+}
+
+#pragma mark - MRSLSideBarViewControllerDelegate
+
+- (void)sideBarDidSelectHideSideBar {
+    [self toggleSidebar:NO];
+}
+
+- (void)sideBarDidSelectDisplayHome {
+    [self toggleSidebar:NO];
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
+}
+
+- (void)sideBarDidSelectDisplayProfile {
+    [self toggleSidebar:NO];
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"];
+}
+
+- (void)sideBarDidSelectLogout {
+    [UIView animateWithDuration:.3f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [_rootContainerView setX:0.f];
+    } completion:^(BOOL finished) {
+        [_navigationControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
+            [viewController removeFromParentViewController];
+            [viewController.view removeFromSuperview];
+        }];
+        [_navigationControllers removeAllObjects];
+        [[ModelController sharedController] resetDataStore];
+    }];
+    [self displaySignUpAnimated:YES];
 }
 
 @end

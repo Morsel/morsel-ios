@@ -8,9 +8,9 @@
 
 #import "Constants.h"
 
-NSString *const MorselServiceDidCreateUserNotification = @"MorselServiceDidCreateUserNotification";
-NSString *const MorselServiceDidLogInNewUserNotification = @"MorselServiceDidLogInNewUserNotification";
-NSString *const MorselServiceDidLogInExistingUserNotification = @"MorselServiceDidLogInExistingUserNotification";
+NSString *const MRSLServiceDidLogInUserNotification = @"MRSLServiceDidLogInUserNotification";
+NSString *const MRSLServiceDidLogOutUserNotification = @"MRSLServiceDidLogOutUserNotification";
+NSString *const MRSLShouldDisplaySideBarNotification = @"MRSLShouldDisplaySideBarNotification";
 
 #ifdef DEBUG
 int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;

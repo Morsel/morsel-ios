@@ -74,6 +74,11 @@
 
 #pragma mark - Section Methods
 
+- (IBAction)displaySideBar {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
+                                                        object:@YES];
+}
+
 - (IBAction)addMorsel {
     UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorsel"];
 

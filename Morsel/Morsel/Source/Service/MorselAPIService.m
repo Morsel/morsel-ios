@@ -80,7 +80,7 @@
                                                   forKey:@"userID"];
         [[NSUserDefaults standardUserDefaults] synchronize];
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:MorselServiceDidCreateUserNotification
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                             object:user];
         if (userSuccessOrNil) userSuccessOrNil(responseObject[@"data"]);
     } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -120,7 +120,7 @@
                                                       forKey:@"userID"];
             [[NSUserDefaults standardUserDefaults] synchronize];
 
-            [[NSNotificationCenter defaultCenter] postNotificationName:MorselServiceDidLogInExistingUserNotification
+            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                                 object:nil];
         } else {
             DDLogDebug(@"User did not exist on device. Creating new.");
@@ -132,7 +132,7 @@
                                                       forKey:@"userID"];
             [[NSUserDefaults standardUserDefaults] synchronize];
 
-            [[NSNotificationCenter defaultCenter] postNotificationName:MorselServiceDidLogInNewUserNotification
+            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                                 object:nil];
         }
 
@@ -295,7 +295,7 @@
     } success: ^(AFHTTPRequestOperation * operation, id responseObject) {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
-        morsel.draft = [NSNumber numberWithBool:NO];
+        morsel.draft = @NO;
 
         [morsel setWithDictionary:responseObject[@"data"]];
 

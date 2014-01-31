@@ -45,5 +45,6 @@
 // Saves data in default context into the persistent store.
 - (void)saveDataToStoreWithSuccess:(MorselDataSuccessBlock)successOrNil
                            failure:(MorselDataFailureBlock)failureOrNil;
+- (void)resetDataStore;
 
 @end
