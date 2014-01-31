@@ -22,6 +22,7 @@ typedef void (^ MorselAPIArrayBlock)(NSArray *responseArray);
 typedef void (^ MorselAPILikeBlock)(BOOL doesLike);
 typedef void (^ MorselAPISuccessBlock)(id responseObject);
 typedef void (^ MorselAPIFailureBlock)(NSError *error);
+typedef void (^ MorselDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
 
 // It is assumed the standard image to be passed through will be 5 MP (approx. 1920 x 2560 resolution).
 // All calculations for captured image cropping, scaling, and centering will hinge on these numbers

@@ -13,6 +13,8 @@ typedef NS_ENUM(NSUInteger, ProfileImageSizeType) {
 
 @interface MRSLUser : _MRSLUser
 
++ (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldPostNotification:(BOOL)shouldPostNotifications;
+
 - (BOOL)isCurrentUser;
 - (UserOccupationType)occupationTypeRaw;
 - (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type;
