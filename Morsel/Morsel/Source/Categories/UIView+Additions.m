@@ -14,6 +14,12 @@
 
 #pragma mark - Effect Methods
 
+- (void)addBorderWithColor:(UIColor *)color
+                  andWidth:(CGFloat)width {
+    self.layer.borderColor = color.CGColor;
+    self.layer.borderWidth = width;
+}
+
 - (void)addStandardCorners {
     self.layer.cornerRadius = 5.f;
     self.layer.masksToBounds = YES;
@@ -45,6 +51,11 @@
     self.layer.needsDisplayOnBoundsChange = NO;
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     self.layer.shouldRasterize = YES;
+}
+
+- (void)removeBorder {
+    self.layer.borderWidth = 0.f;
+    self.layer.borderColor = nil;
 }
 
 - (void)removeStandardShadow {

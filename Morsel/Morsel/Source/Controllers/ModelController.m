@@ -40,18 +40,21 @@
 #pragma mark - Instance Methods
 
 - (id)init {
-    [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
-
-    // Create Persistent store for MorselPosts
+    
+    [self setupDatabase];
 
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
 
     self.morselApiService = [[MorselAPIService alloc] init];
 
-    self.defaultContext = [NSManagedObjectContext MR_defaultContext];
-
     return self;
+}
+
+- (void)setupDatabase {
+    [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
+    
+    self.defaultContext = [NSManagedObjectContext MR_defaultContext];
 }
 
 #pragma mark - User Methods
@@ -183,6 +186,23 @@
             }
         }
     }];
+}
+
+#pragma mark - Logout
+
+- (void)resetDataStore {
+    NSURL *persistentStoreURL = [NSPersistentStore MR_urlForStoreName:@"Morsel.sqlite"];
+    NSError *error = nil;
+    
+    [MagicalRecord cleanUp];
+    
+    [[NSFileManager defaultManager] removeItemAtURL:persistentStoreURL
+                                              error:&error];
+    if (error) {
+        DDLogError(@"Unable to destroy database: %@", error);
+    } else {
+        [self setupDatabase];
+    }
 }
 
 @end
