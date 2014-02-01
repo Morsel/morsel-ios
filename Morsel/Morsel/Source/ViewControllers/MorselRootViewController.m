@@ -70,10 +70,10 @@
 
 - (void)shouldDisplaySidebar:(NSNotification *)notification {
     BOOL shouldDisplay = [notification.object boolValue];
-    [self showSideBar:shouldDisplay];
+    [self toggleSidebar:shouldDisplay];
 }
 
-- (void)showSideBar:(BOOL)shouldShow {
+- (void)toggleSidebar:(BOOL)shouldShow {
     [[UIApplication sharedApplication] setStatusBarHidden:shouldShow
                                             withAnimation:UIStatusBarAnimationFade];
     
@@ -134,11 +134,13 @@
         [self.rootContainerView addSubview:viewControllerNC.view];
     }
     
+    [self addChildViewController:viewControllerNC];
+    [self.rootContainerView addSubview:viewControllerNC.view];
+    
     self.currentViewController = viewControllerNC;
 }
 
-- (UINavigationController *)getNavControllerWithClass:(Class) class
-                           {
+- (UINavigationController *)getNavControllerWithClass:(Class)class {
     __block UINavigationController *foundNC = nil;
 
     [_navigationControllers enumerateObjectsUsingBlock:^(UINavigationController *navigationController, NSUInteger idx, BOOL *stop)
@@ -173,16 +175,16 @@
 #pragma mark - MRSLSideBarViewControllerDelegate
 
 - (void)sideBarDidSelectHideSideBar {
-    [self showSideBar:NO];
+    [self toggleSidebar:NO];
 }
 
 - (void)sideBarDidSelectDisplayHome {
-    [self showSideBar:NO];
+    [self toggleSidebar:NO];
     [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
 }
 
 - (void)sideBarDidSelectDisplayProfile {
-    [self showSideBar:NO];
+    [self toggleSidebar:NO];
     [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"];
 }
 

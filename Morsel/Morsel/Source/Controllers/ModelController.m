@@ -192,14 +192,20 @@
 
 - (void)resetDataStore {
     NSURL *persistentStoreURL = [NSPersistentStore MR_urlForStoreName:@"Morsel.sqlite"];
+    NSURL *shmURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-shm"]];
+    NSURL *walURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-wal"]];
     NSError *error = nil;
     
     [MagicalRecord cleanUp];
     
     [[NSFileManager defaultManager] removeItemAtURL:persistentStoreURL
                                               error:&error];
+    [[NSFileManager defaultManager] removeItemAtURL:shmURL
+                                              error:&error];
+    [[NSFileManager defaultManager] removeItemAtURL:walURL
+                                              error:&error];
     if (error) {
-        DDLogError(@"Unable to destroy database: %@", error);
+        DDLogError(@"Error resetting data store: %@", error);
     } else {
         [self setupDatabase];
     }

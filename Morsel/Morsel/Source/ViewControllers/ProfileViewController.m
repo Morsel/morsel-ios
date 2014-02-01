@@ -109,7 +109,7 @@
 
 - (IBAction)displaySideBar:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
-                                                        object:[NSNumber numberWithBool:YES]];
+                                                        object:@YES];
 }
 
 - (IBAction)goBack:(id)sender {

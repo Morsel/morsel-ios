@@ -84,6 +84,7 @@
 
                 if (!existingPost) {
                     self.post.postID = postID;
+                    self.post.draft = @NO;
                 } else {
                     [[ModelController sharedController].defaultContext deleteObject:self.post];
 
@@ -100,6 +101,8 @@
         self.morselPicture = nil;
         self.morselPictureCropped = nil;
     }
+
+    self.draft = @NO;
 }
 
 - (BOOL)belongsToCurrentUser {

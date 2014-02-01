@@ -10,10 +10,12 @@
 
 @interface SideBarItem : NSObject
 
-@property (nonatomic) NSUInteger draftCount;
+@property (nonatomic) int badgeCount;
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) UIImage *iconImage;
 @property (nonatomic, strong) NSString *preferredCellType;
+
++ (SideBarItem *)sideBarItemWithTitle:(NSString *)title iconImageName:(NSString *)iconImageName cellType:(NSString *)cellType;
 
 @end

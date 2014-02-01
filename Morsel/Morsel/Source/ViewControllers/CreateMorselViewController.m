@@ -96,7 +96,7 @@
 
         if (!_morsel) {
             MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
-            morsel.draft = [NSNumber numberWithBool:YES];
+            morsel.draft = @YES;
 
             self.morsel = morsel;
         }
@@ -292,7 +292,7 @@
             // Creating a temporary draft post
 
             MRSLPost *post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
-            post.draft = [NSNumber numberWithBool:YES];
+            post.draft = @YES;
             post.author = [ModelController sharedController].currentUser;
 
             if (self.temporaryPostTitle) {
