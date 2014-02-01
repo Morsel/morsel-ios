@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) SideBarItem *sideBarItem;
 
+@property (nonatomic, weak) IBOutlet UIView *pipeView;
+
 @end

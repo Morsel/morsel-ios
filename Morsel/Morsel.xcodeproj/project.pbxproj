@@ -517,6 +517,7 @@
 		063976D8186361A400A17211 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
+				06ED0B7B189D852C00766BCF /* Drafts */,
 				0651315B189C58A400609294 /* Comments */,
 				0609B83C1894AA23005A11A4 /* Login */,
 				0609B83B1894AA11005A11A4 /* Profile */,
@@ -879,6 +880,13 @@
 				0698CAD318524359007AF442 /* Morsel-Integration-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		06ED0B7B189D852C00766BCF /* Drafts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Drafts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

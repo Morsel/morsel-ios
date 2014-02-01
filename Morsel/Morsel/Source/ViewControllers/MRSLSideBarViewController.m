@@ -14,10 +14,12 @@
 #import "SideBarItem.h"
 #import "SideBarItemCell.h"
 
+#import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
 @interface MRSLSideBarViewController ()
-    <UITableViewDataSource,
+    <NSFetchedResultsControllerDelegate,
+     UITableViewDataSource,
      UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *sideBarTableView;
@@ -27,6 +29,7 @@
 @property (nonatomic, strong) SideBarItem *draftSideBarItem;
 
 @property (nonatomic, strong) NSMutableArray *sideBarItems;
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -46,12 +49,19 @@
     
     SideBarItem *draftItem = [[SideBarItem alloc] init];
     draftItem.title = @"Drafts";
-    draftItem.iconImage = [UIImage imageNamed:@"icon-sidebar-draft"];
+    draftItem.iconImage = [UIImage imageNamed:@"icon-sidebar-edit"];
     draftItem.preferredCellType = @"SideBarDraftCell";
     
     self.draftSideBarItem = draftItem;
     
-    // Check for drafts with FetchRequest, if they exist, inject in sidebar item. If they don't, remove.
+    NSPredicate *draftMorselPredicate = [NSPredicate predicateWithFormat:@"draft == YES"];
+    
+    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+                                                          ascending:NO
+                                                      withPredicate:draftMorselPredicate
+                                                            groupBy:nil
+                                                           delegate:self
+                                                          inContext:[ModelController sharedController].defaultContext];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedIn:)
                                                  name:MRSLServiceDidLogInUserNotification
@@ -106,6 +116,8 @@
     SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
     SideBarItemCell *sideBarCell = [tableView dequeueReusableCellWithIdentifier:sideBarItem.preferredCellType];
     sideBarCell.sideBarItem = sideBarItem;
+    //sideBarCell.pipeView.hidden = (indexPath.row == [_sideBarItems count] - 1);
+    
     return sideBarCell;
 }
 
@@ -113,11 +125,43 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
+    
     if ([sideBarItem.title isEqualToString:@"Home"]) {
         if ([self.delegate respondsToSelector:@selector(sideBarDidSelectDisplayHome)]) {
             [self.delegate sideBarDidSelectDisplayHome];
         }
     }
+    if ([sideBarItem.title isEqualToString:@"Drafts"]) {
+        if ([self.delegate respondsToSelector:@selector(sideBarDidSelectDisplayDrafts)]) {
+            [self.delegate sideBarDidSelectDisplayDrafts];
+        }
+    }
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate Methods
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    NSUInteger fetchedObjectsCount = [[controller fetchedObjects] count];
+    
+    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu drafts.", (unsigned long)fetchedObjectsCount);
+    
+    if (fetchedObjectsCount > 0) {
+        self.draftSideBarItem.draftCount = fetchedObjectsCount;
+        if (![_sideBarItems containsObject:_draftSideBarItem]) {
+            [self.sideBarItems insertObject:_draftSideBarItem atIndex:0];
+        }
+    } else {
+        [self.sideBarItems removeObject:_draftSideBarItem];
+    }
+    
+    NSError *fetchError = nil;
+    [_fetchedResultsController performFetch:&fetchError];
+    
+    if (fetchError) {
+        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
+    }
+    
+    [self.sideBarTableView reloadData];
 }
 
 @end

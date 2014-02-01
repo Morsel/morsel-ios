@@ -19,6 +19,8 @@
         self.creationDate = [[ModelController sharedController].defaultDateFormatter dateFromString:dateString];
     }
 
+    // Post has been synced to server, so local draft flag is removed
+    self.draft = [NSNumber numberWithBool:NO];
     self.postID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.postID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
     self.title = ([dictionary[@"title"] isEqual:[NSNull null]]) ? self.title : dictionary[@"title"];
 

@@ -13,6 +13,7 @@
 @optional
 - (void)sideBarDidSelectDisplayHome;
 - (void)sideBarDidSelectDisplayProfile;
+- (void)sideBarDidSelectDisplayDrafts;
 - (void)sideBarDidSelectLogout;
 - (void)sideBarDidSelectHideSideBar;
 

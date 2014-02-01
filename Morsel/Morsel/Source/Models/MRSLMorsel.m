@@ -15,6 +15,7 @@
 - (void)setWithDictionary:(NSDictionary *)dictionary {
     self.liked = ([dictionary[@"liked"] isEqual:[NSNull null]]) ? self.liked : [NSNumber numberWithBool:[dictionary[@"liked"] boolValue]];
     self.morselID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.morselID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
+    self.draft = ([dictionary[@"draft"] isEqual:[NSNull null]]) ? self.draft : [NSNumber numberWithBool:[dictionary[@"draft"] boolValue]];
 
     if (![dictionary[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = dictionary[@"created_at"];
@@ -83,7 +84,6 @@
 
                 if (!existingPost) {
                     self.post.postID = postID;
-                    self.post.draft = [NSNumber numberWithBool:NO];
                 } else {
                     [[ModelController sharedController].defaultContext deleteObject:self.post];
 
@@ -100,8 +100,6 @@
         self.morselPicture = nil;
         self.morselPictureCropped = nil;
     }
-
-    self.draft = [NSNumber numberWithBool:NO];
 }
 
 - (BOOL)belongsToCurrentUser {

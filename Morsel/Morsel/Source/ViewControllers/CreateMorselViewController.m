@@ -318,38 +318,7 @@
         _morsel.creationDate = [NSDate date];
     }
 
-    if (_capturedImage) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self addMediaDataToCurrentMorsel];
-            
-            UIImage *thumbImage = [_capturedImage thumbnailImage:104.f
-                                            interpolationQuality:kCGInterpolationHigh];
-            
-            _morsel.morselThumb = UIImageJPEGRepresentation(thumbImage, 1.f);
-            
-            BOOL imageIsLandscape = [Util imageIsLandscape:_capturedImage];
-            CGFloat cameraDimensionScale = [Util cameraDimensionScaleFromImage:_capturedImage];
-            CGFloat cropStartingY = yCameraImagePreviewOffset * cameraDimensionScale;
-            CGFloat minimumImageDimension = (imageIsLandscape) ? _capturedImage.size.height : _capturedImage.size.width;
-            CGFloat maximumImageDimension = (imageIsLandscape) ? _capturedImage.size.width : _capturedImage.size.height;
-            CGFloat xCenterAdjustment = (maximumImageDimension - minimumImageDimension) / 2.f;
-            CGFloat cropHeightAmount = croppedImageHeightOffset * (imageIsLandscape ? cameraDimensionScale + 2.f : cameraDimensionScale);
-            
-            UIImage *croppedImage = [_capturedImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension - cropHeightAmount)
-                                                          scaled:CGSizeMake(320.f, 214.f)];
-            
-            _morsel.morselPictureCropped = UIImageJPEGRepresentation(croppedImage, 1.f);
-            
-            dispatch_async(dispatch_get_main_queue(), ^
-            {
-                [[ModelController sharedController] saveDataToStoreWithSuccess:nil
-                                                                       failure:nil];
-            });
-        });
-    }
-
-    [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:nil];
+    [self prepareMediaAndPostMorsel];
 }
 
 - (void)publishMorsel {
@@ -367,6 +336,10 @@
     if (self.addTextViewController.textView.text)
         _morsel.morselDescription = self.addTextViewController.textView.text;
 
+    [self prepareMediaAndPostMorsel];
+}
+
+- (void)prepareMediaAndPostMorsel {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self addMediaDataToCurrentMorsel];
         
@@ -378,22 +351,21 @@
          }
                                                                   failure:^(NSError *error)
          {
-             /*
+             NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+             NSString *errorString = [NSString stringWithFormat:@"%@ Morsel Error: %@", _morsel.draft ? @"Draft" : @"Publish", errorDictionary[@"errors"]];
+             
              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, error publishing Morsel."
-                                                             message:[NSString stringWithFormat:@"Error: %@", error.userInfo[JSONResponseSerializerWithDataKey]]
+                                                             message:errorString
                                                             delegate:nil
                                                    cancelButtonTitle:@"OK"
                                                    otherButtonTitles:nil];
              
              [alert show];
              
-             DDLogError(@"Error! Unable to create Morsel: %@", error.userInfo[JSONResponseSerializerWithDataKey]);
-             
-             self.activityView.hidden = YES;
-              */
+             DDLogError(@"Error! Unable to create Morsel: %@", errorString);
          }];
     });
-
+    
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
 }
@@ -423,6 +395,8 @@
 #pragma mark - Image Processing Methods
 
 - (void)addMediaDataToCurrentMorsel {
+    if (!_capturedImage) return;
+    
     BOOL imageIsLandscape = [Util imageIsLandscape:_capturedImage];
     CGFloat cameraDimensionScale = [Util cameraDimensionScaleFromImage:_capturedImage];
     CGFloat cropStartingY = yCameraImagePreviewOffset * cameraDimensionScale;

@@ -133,6 +133,11 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" id="tuB-ty-LrY">
+                                                    <rect key="frame" x="12" y="37" width="246" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" red="0.67450980392156867" green="0.62745098039215685" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -140,6 +145,7 @@
                                             <outlet property="draftCountLabel" destination="ZM9-Dz-Q44" id="heS-ZS-1kk"/>
                                             <outlet property="itemIconImageView" destination="yTT-zP-iZc" id="tRr-1Q-iG3"/>
                                             <outlet property="itemTitleLabel" destination="roD-XG-846" id="bhk-nm-QMC"/>
+                                            <outlet property="pipeView" destination="tuB-ty-LrY" id="HTk-t0-a9e"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SideBarItemCell" id="J0g-OJ-sXE" customClass="SideBarItemCell">
@@ -160,12 +166,18 @@
                                                     <color key="textColor" red="0.41568627450000001" green="0.46666666670000001" blue="0.40784313729999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" id="hmP-kX-Y1a">
+                                                    <rect key="frame" x="12" y="37" width="246" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" red="0.67450980390000004" green="0.62745098040000002" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="itemIconImageView" destination="aRv-3T-Ygp" id="Bwd-d2-5l3"/>
                                             <outlet property="itemTitleLabel" destination="4Wa-ki-aTT" id="zW3-bV-OIe"/>
+                                            <outlet property="pipeView" destination="hmP-kX-Y1a" id="E4U-Yf-UUp"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

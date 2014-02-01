@@ -10,7 +10,7 @@
 
 @interface SideBarItem : NSObject
 
-@property (nonatomic) int draftCount;
+@property (nonatomic) NSUInteger draftCount;
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) UIImage *iconImage;
