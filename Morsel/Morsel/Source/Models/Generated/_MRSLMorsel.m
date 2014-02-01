@@ -203,10 +203,10 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 @dynamic comments;
 
 	
-- (NSMutableSet*)commentsSet {
+- (NSMutableOrderedSet*)commentsSet {
 	[self willAccessValueForKey:@"comments"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"comments"];
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"comments"];
   
 	[self didAccessValueForKey:@"comments"];
 	return result;

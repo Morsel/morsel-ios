@@ -12,6 +12,7 @@
 
 #import "ModelController.h"
 #import "MorselStandardButton.h"
+#import "JSONResponseSerializerWithData.h"
 #import "ProfileImageView.h"
 
 #import "MRSLUser.h"
@@ -131,6 +132,17 @@
             {
                 self.activityView.hidden = YES;
                 [self.continueButton setEnabled:YES];
+                
+                NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+                
+                NSString *errorString = [NSString stringWithFormat:@"Sign Up Error: %@", errorDictionary[@"errors"]];
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, there's been a problem!"
+                                                                message:errorString
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
             }];
         });
         
@@ -199,18 +211,16 @@
 
     if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
+        
+        if ([textField isEqual:_occupationTitleField]) {
+            [self signUp];
+        }
+        
         return NO;
     } else {
         return YES;
     }
 
-    return YES;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if ([textField isEqual:_occupationTitleField]) {
-        [self signUp];
-    }
     return YES;
 }
 
