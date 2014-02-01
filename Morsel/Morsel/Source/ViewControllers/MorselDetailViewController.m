@@ -52,6 +52,7 @@
         } else {
             self.progressionPageControl.hidden = YES;
             [self.morselDetailNavigationView setHeight:64.f];
+            [self.profilePanelView setY:64.f];
         }
 
         self.postTitleLabel.text = _morsel.post.title ?: @"Morsel";
@@ -109,7 +110,8 @@
 }
 
 - (void)morselDetailPanelViewScrollOffsetChanged:(CGFloat)offset {
-    CGFloat profilePanelY = 80.f;
+    NSUInteger postMorselCount = [_morsel.post.morsels count];
+    CGFloat profilePanelY = (postMorselCount > 1) ? 80.f : 64.f;
     
     if (offset > 40.f) {
         profilePanelY = -20.f;
