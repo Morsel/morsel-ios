@@ -29,7 +29,7 @@
             self.itemTitleLabel.text = _sideBarItem.title;
             
             if (_draftCountLabel) {
-                self.draftCountLabel.text = [NSString stringWithFormat:@"%i", _sideBarItem.draftCount];
+                self.draftCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)_sideBarItem.draftCount];
             }
         }
     }
