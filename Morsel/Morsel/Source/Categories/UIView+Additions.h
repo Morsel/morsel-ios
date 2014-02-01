@@ -10,7 +10,7 @@
 
 @interface UIView (Additions)
 
-- (void)addBorderWithColor:(UIColor *)color
+- (void)setBorderWithColor:(UIColor *)color
                   andWidth:(CGFloat)width;
 - (void)addStandardCorners;
 - (void)addCornersWithRadius:(CGFloat)radius;

@@ -14,7 +14,7 @@
 
 #pragma mark - Effect Methods
 
-- (void)addBorderWithColor:(UIColor *)color
+- (void)setBorderWithColor:(UIColor *)color
                   andWidth:(CGFloat)width {
     self.layer.borderColor = color.CGColor;
     self.layer.borderWidth = width;

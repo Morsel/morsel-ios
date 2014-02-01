@@ -36,18 +36,16 @@
     [super viewDidLoad];
     
     [self.profileImageView addCornersWithRadius:20.f];
-    [self.profileImageView addBorderWithColor:[UIColor whiteColor]
+    [self.profileImageView setBorderWithColor:[UIColor whiteColor]
                                      andWidth:2.f];
     
-    SideBarItem *homeItem = [[SideBarItem alloc] init];
-    homeItem.title = @"Home";
-    homeItem.iconImage = [UIImage imageNamed:@"icon-sidebar-home"];
-    homeItem.preferredCellType = @"SideBarItemCell";
+    SideBarItem *homeItem = [SideBarItem sideBarItemWithTitle:@"Home"
+                                                iconImageName:@"icon-sidebar-home"
+                                                     cellType:@"SideBarItemCell"];
     
-    SideBarItem *draftItem = [[SideBarItem alloc] init];
-    draftItem.title = @"Drafts";
-    draftItem.iconImage = [UIImage imageNamed:@"icon-sidebar-draft"];
-    draftItem.preferredCellType = @"SideBarDraftCell";
+    SideBarItem *draftItem = [SideBarItem sideBarItemWithTitle:@"Drafts"
+                                                 iconImageName:@"icon-sidebar-draft"
+                                                      cellType:@"SideBarDraftCell"];
     
     self.draftSideBarItem = draftItem;
     

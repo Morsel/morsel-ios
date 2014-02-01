@@ -296,7 +296,7 @@
     } success: ^(AFHTTPRequestOperation * operation, id responseObject) {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
-        morsel.draft = [NSNumber numberWithBool:NO];
+        morsel.draft = @NO;
 
         [morsel setWithDictionary:responseObject[@"data"]];
 

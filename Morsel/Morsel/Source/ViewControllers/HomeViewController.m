@@ -76,7 +76,7 @@
 
 - (IBAction)displaySideBar {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
-                                                        object:[NSNumber numberWithBool:YES]];
+                                                        object:@YES];
 }
 
 - (IBAction)addMorsel {
