@@ -2,5 +2,7 @@
 
 @interface MRSLComment : _MRSLComment {
 }
-// Custom logic goes here.
+
+- (void)setWithDictionary:(NSDictionary *)dictionary;
+
 @end

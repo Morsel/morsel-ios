@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class MRSLComment;
+
 @interface CommentTableViewCell : UITableViewCell
+
+@property (nonatomic, strong) MRSLComment *comment;
+@property (nonatomic, weak) IBOutlet UIView *pipeView;
 
 @end

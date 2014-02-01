@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 
 #import "ModelController.h"
+#import "JSONResponseSerializerWithData.h"
 
 @interface LoginViewController ()
     <UITextFieldDelegate>
@@ -50,6 +51,17 @@
     {
         self.activityView.hidden = YES;
         [self.signInButton setEnabled:YES];
+        
+        NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+        
+        NSString *errorString = [NSString stringWithFormat:@"Login Error: %@", errorDictionary[@"errors"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, there's been a problem!"
+                                                        message:errorString
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
     }];
 }
 

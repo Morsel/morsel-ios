@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MRSLMorsel, MRSLPost, MRSLUser;
+@class MRSLComment, MRSLMorsel, MRSLPost, MRSLUser;
 
 @interface MorselAPIService : NSObject
 
@@ -50,6 +50,10 @@
              success:(MorselAPISuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil;
 
+- (void)getMorsel:(MRSLMorsel *)morsel
+          success:(MorselAPISuccessBlock)successOrNil
+          failure:(MorselAPIFailureBlock)failureOrNil;
+
 - (void)updateMorsel:(MRSLMorsel *)morsel
              success:(MorselAPISuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil;
@@ -71,5 +75,15 @@
 - (void)retrieveUserPosts:(MRSLUser *)user
                   success:(MorselAPIArrayBlock)success
                   failure:(MorselAPIFailureBlock)failureOrNil;
+
+#pragma mark - Comment Services
+
+- (void)getComments:(MRSLMorsel *)morsel
+            success:(MorselAPIArrayBlock)successOrNil
+            failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)postComment:(MRSLComment *)comment
+            success:(MorselAPIArrayBlock)successOrNil
+            failure:(MorselAPIFailureBlock)failureOrNil;
 
 @end

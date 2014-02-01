@@ -52,7 +52,7 @@ extern const struct MRSLCommentFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* creationDate;
+@property (nonatomic, strong) NSDate* creationDate;
 
 
 
@@ -105,8 +105,8 @@ extern const struct MRSLCommentFetchedProperties {
 
 
 
-- (NSString*)primitiveCreationDate;
-- (void)setPrimitiveCreationDate:(NSString*)value;
+- (NSDate*)primitiveCreationDate;
+- (void)setPrimitiveCreationDate:(NSDate*)value;
 
 
 

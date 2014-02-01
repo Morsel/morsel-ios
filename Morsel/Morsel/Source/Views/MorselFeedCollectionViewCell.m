@@ -182,9 +182,10 @@
         [self setLikeButtonImageForMorsel:_morsel];
     } failure: ^(NSError * error) {
         NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
-
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:errorDictionary ? [errorDictionary[@"errors"] objectAtIndex:0][@"msg"] : nil
+        NSString *errorString = [NSString stringWithFormat:@"Like Error: %@", errorDictionary[@"errors"]];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, there's been a problem!"
+                                                        message:errorString
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
