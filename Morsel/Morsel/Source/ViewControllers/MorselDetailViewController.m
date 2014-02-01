@@ -10,8 +10,9 @@
 
 #import <NSDate+TimeAgo/NSDate+TimeAgo.h>
 
+#import "AddCommentViewController.h"
 #import "ModelController.h"
-#import "MorselScrollView.h"
+#import "MorselDetailPanelViewController.h"
 #import "ProfileImageView.h"
 #import "ProfileViewController.h"
 
@@ -20,7 +21,8 @@
 #import "MRSLUser.h"
 
 @interface MorselDetailViewController ()
-    <UIScrollViewDelegate>
+    <UIScrollViewDelegate,
+     MorselDetailPanelViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *authorNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeSinceLabel;
@@ -29,8 +31,9 @@
 @property (weak, nonatomic) IBOutlet UIView *morselDetailNavigationView;
 @property (weak, nonatomic) IBOutlet UIView *profilePanelView;
 
-@property (weak, nonatomic) IBOutlet MorselScrollView *morselScrollView;
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
+
+@property (nonatomic, strong) MorselDetailPanelViewController *morselDetailPanelVC;
 
 @end
 
@@ -49,6 +52,7 @@
         } else {
             self.progressionPageControl.hidden = YES;
             [self.morselDetailNavigationView setHeight:64.f];
+            [self.profilePanelView setY:64.f];
         }
 
         self.postTitleLabel.text = _morsel.post.title ?: @"Morsel";
@@ -58,17 +62,33 @@
         self.profileImageView.user = _morsel.post.author;
         [_profileImageView addCornersWithRadius:20.f];
 
-        int morselIndex = (int)[_morsel.post.morsels indexOfObject:_morsel];
+        //int morselIndex = (int)[_morsel.post.morsels indexOfObject:_morsel];
 
-        self.morselScrollView.contentInset = UIEdgeInsetsMake(55.f, 0.f, 0.f, 0.f);
-        self.morselScrollView.post = _morsel.post;
-        [self.morselScrollView scrollToMorsel:_morsel];
-
-        [self displayMorselDetailForPage:morselIndex];
+        MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
+        morselDetailPanelVC.view.frame = CGRectMake(0.f, 76.f, 320.f, 492.f);
+        morselDetailPanelVC.morsel = _morsel;
+        morselDetailPanelVC.delegate = self;
+        
+        self.morselDetailPanelVC = morselDetailPanelVC;
+        
+        [self addChildViewController:morselDetailPanelVC];
+        [self.view addSubview:morselDetailPanelVC.view];
+        
+        [self.view bringSubviewToFront:_profilePanelView];
+        [self.view bringSubviewToFront:_morselDetailNavigationView];
     }
 }
 
-#pragma mark - Section Methods
+#pragma mark - Segue Methods
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"AddComment"]) {
+        AddCommentViewController *addCommentVC = [segue destinationViewController];
+        addCommentVC.morsel = _morsel;
+    }
+}
+
+#pragma mark - Action Methods
 
 - (IBAction)displayUserProfile {
     ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
@@ -78,47 +98,35 @@
                                          animated:YES];
 }
 
-#pragma mark - Private Methods
-
 - (IBAction)goBack {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)displayMorselDetailForPage:(int)page {
-    if ([_morsel.post.morsels count] < page)
-        return;
+#pragma mark - MorselDetailPanelViewControllerDelegate
 
-    MRSLMorsel *morsel = [_morsel.post.morsels objectAtIndex:page];
-
-    self.morsel = morsel;
-
-    self.progressionPageControl.currentPage = page;
+- (void)morselDetailPanelViewDidSelectAddComment {
+    [self performSegueWithIdentifier:@"AddComment"
+                              sender:nil];
 }
 
-- (void)changeMorselDetail {
-    CGFloat scrollWidth = _morselScrollView.frame.size.width;
-    float scrollPage = _morselScrollView.contentOffset.x / scrollWidth;
-    int actualPage = scrollPage;
-
-    [self displayMorselDetailForPage:actualPage];
-}
-
-#pragma mark - UIScrollViewDelegate Methods
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!decelerate) {
-        [self changeMorselDetail];
+- (void)morselDetailPanelViewScrollOffsetChanged:(CGFloat)offset {
+    NSUInteger postMorselCount = [_morsel.post.morsels count];
+    CGFloat profilePanelY = (postMorselCount > 1) ? 80.f : 64.f;
+    
+    if (offset > 40.f) {
+        profilePanelY = -20.f;
     }
+    
+    [UIView animateWithDuration:.2f animations:^{
+        [_profilePanelView setY:profilePanelY];
+    }];
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self changeMorselDetail];
-}
-
-#pragma mark - Destruction Methods
+#pragma mark - Destruction
 
 - (void)dealloc {
-    [self.morselScrollView reset];
+    [_morselDetailPanelVC removeFromParentViewController];
+    [_morselDetailPanelVC.view removeFromSuperview];
 }
 
 @end

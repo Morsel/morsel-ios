@@ -46,6 +46,7 @@
     SideBarItem *draftItem = [SideBarItem sideBarItemWithTitle:@"Drafts"
                                                  iconImageName:@"icon-sidebar-draft"
                                                       cellType:@"SideBarDraftCell"];
+    
     self.draftSideBarItem = draftItem;
     
     // Check for drafts with FetchRequest, if they exist, inject in sidebar item. If they don't, remove.

@@ -126,6 +126,12 @@
         viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:classPrefixName];
         
         [self.navigationControllers addObject:viewControllerNC];
+        
+        [self addChildViewController:viewControllerNC];
+        [self.rootContainerView addSubview:viewControllerNC.view];
+    } else {
+        [self addChildViewController:viewControllerNC];
+        [self.rootContainerView addSubview:viewControllerNC.view];
     }
     
     [self addChildViewController:viewControllerNC];

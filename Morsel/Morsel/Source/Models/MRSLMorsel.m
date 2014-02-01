@@ -2,6 +2,7 @@
 
 #import "ModelController.h"
 
+#import "MRSLComment.h"
 #import "MRSLPost.h"
 #import "MRSLUser.h"
 
@@ -27,6 +28,33 @@
 
         self.morselPictureURL = [photoDictionary[@"_104x104"] stringByReplacingOccurrencesOfString:@"_104x104"
                                                                                         withString:@"IMAGE_SIZE"];
+    }
+    
+    if (![dictionary[@"comments"] isEqual:[NSNull null]]) {
+        NSArray *commentArray = dictionary[@"comments"];
+        
+        if ([commentArray count] > 0) {
+            __block NSMutableArray *commentObjects = [NSMutableArray array];
+            
+            [commentArray enumerateObjectsUsingBlock:^(NSDictionary *commentDictionary, NSUInteger idx, BOOL *stop)
+             {
+                 NSNumber *commentID = [NSNumber numberWithInt:[commentDictionary[@"id"] intValue]];
+                 
+                 MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
+                                                                   withValue:commentID];
+                 
+                 if (!comment) {
+                     // Morsel not found. Creating.
+                     comment = [MRSLComment MR_createInContext:[ModelController sharedController].defaultContext];
+                 }
+                 
+                 [comment setWithDictionary:commentDictionary];
+                 
+                 [commentObjects addObject:comment];
+             }];
+            
+            self.comments = [NSOrderedSet orderedSetWithArray:commentObjects];
+        }
     }
 
     if (!self.post) {
