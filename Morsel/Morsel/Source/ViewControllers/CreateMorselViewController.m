@@ -28,7 +28,9 @@
      UITextViewDelegate,
      UserPostsViewControllerDelegate>
 
+@property (nonatomic) BOOL wasDraft;
 @property (nonatomic) BOOL saveDraft;
+@property (nonatomic) BOOL willPublish;
 @property (nonatomic) BOOL userIsEditing;
 @property (nonatomic) BOOL imageUpdated;
 
@@ -89,14 +91,14 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (!_morsel.morselPictureURL && !_morsel.morselDescription) {
+    if (!_morsel.morselPictureURL &&
+        !_morsel.morselDescription) {
         // Entered through Morsel Creation
 
         self.createTitleLabel.text = @"Add Morsel";
 
         if (!_morsel) {
             MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
-            morsel.draft = @YES;
 
             self.morsel = morsel;
         }
@@ -138,6 +140,8 @@
                                    forState:UIControlStateNormal];
         }
     }
+    
+    self.wasDraft = _morsel.draftValue;
 
     if (_post) {
         self.userPostsViewController.post = _post;
@@ -254,8 +258,16 @@
 
         [_morsel.post removeMorsel:_morsel];
         [_post addMorsel:_morsel];
-
+        
+        if (self.temporaryPostTitle) {
+            _post.title = _temporaryPostTitle;
+        }
+        
         _morsel.post = _post;
+    }
+    
+    if (_willPublish) {
+        _morsel.draft = @NO;
     }
 
     if (self.addTextViewController.textView.text)
@@ -316,6 +328,7 @@
             _morsel.morselDescription = self.addTextViewController.textView.text;
 
         _morsel.creationDate = [NSDate date];
+        _morsel.draft = @YES;
     }
 
     [self prepareMediaAndPostMorsel];
@@ -371,12 +384,6 @@
 }
 
 - (IBAction)displaySettings {
-    NSArray *buttonTitles = nil;
-
-    if (!_userIsEditing) {
-        buttonTitles = [NSArray arrayWithObjects:@"Publish Now", @"Save Draft", nil];
-    }
-
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Settings"
                                                              delegate:self
                                                     cancelButtonTitle:_userIsEditing ? @"Cancel" : nil
@@ -384,9 +391,12 @@
                                                     otherButtonTitles:nil];
 
     if (!_userIsEditing) {
+        NSArray *buttonTitles = @[@"Publish Now", @"Save Draft"];
         for (NSString *buttonTitle in buttonTitles) {
             [actionSheet addButtonWithTitle:buttonTitle];
         }
+    } else if (_wasDraft) {
+        [actionSheet addButtonWithTitle:(_willPublish) ? @"Publish Morsel" : @"Keep as Draft"];
     }
 
     [actionSheet showInView:self.view];
@@ -414,11 +424,9 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (_userIsEditing) {
-        if (buttonIndex == 0) {
+        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
             [[ModelController sharedController].morselApiService deleteMorsel:_morsel
-                                                                      success:^(BOOL success)
-            {
-
+                                                                      success:^(BOOL success) {
                 [self goBack];
             } failure: ^(NSError * error) {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops, something went wrong."
@@ -429,8 +437,9 @@
                 [alertView show];
             }];
         }
+        self.willPublish = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Publish Morsel"]);
     } else {
-        self.saveDraft = (buttonIndex == 1);
+        self.saveDraft = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save Draft"]);
 
         [self.postMorselButton setTitle:_saveDraft ? @"Save Morsel" : @"Publish Morsel"
                                forState:UIControlStateNormal];

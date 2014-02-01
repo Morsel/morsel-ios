@@ -26,8 +26,6 @@
 @property (nonatomic, weak) IBOutlet UICollectionView *postMorselsCollectionView;
 @property (weak, nonatomic) IBOutlet UITextField *postTitleLabel;
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-
 @end
 
 @implementation PostMorselsViewController

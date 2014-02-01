@@ -11,7 +11,6 @@
 #import "ModelController.h"
 
 #import "ProfileImageView.h"
-#import "SideBarItem.h"
 #import "SideBarItemCell.h"
 
 #import "MRSLMorsel.h"
@@ -44,14 +43,16 @@
     
     SideBarItem *homeItem = [SideBarItem sideBarItemWithTitle:@"Home"
                                                 iconImageName:@"icon-sidebar-home"
-                                                     cellType:@"SideBarItemCell"];
+                                               cellIdentifier:@"SideBarItemCell"
+                                                         type:SideBarMenuItemTypeHome];
     
     SideBarItem *draftItem = [SideBarItem sideBarItemWithTitle:@"Drafts"
                                                  iconImageName:@"icon-sidebar-draft"
-                                                      cellType:@"SideBarDraftCell"];
+                                                cellIdentifier:@"SideBarDraftCell"
+                                                          type:SideBarMenuItemTypeDrafts];
     
     self.draftSideBarItem = draftItem;
-    
+
     NSPredicate *draftMorselPredicate = [NSPredicate predicateWithFormat:@"draft == YES"];
     
     self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
@@ -60,7 +61,7 @@
                                                             groupBy:nil
                                                            delegate:self
                                                           inContext:[ModelController sharedController].defaultContext];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedIn:)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
@@ -86,20 +87,20 @@
 #pragma mark - Action
 
 - (IBAction)hideSideBar {
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectHideSideBar)]) {
-        [self.delegate sideBarDidSelectHideSideBar];
+    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
+        [self.delegate sideBarDidSelectMenuItemOfType:SideBarMenuItemTypeHide];
     }
 }
 
 - (IBAction)displayUserProfile {
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectDisplayProfile)]) {
-        [self.delegate sideBarDidSelectDisplayProfile];
+    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
+        [self.delegate sideBarDidSelectMenuItemOfType:SideBarMenuItemTypeProfile];
     }
 }
 
 - (IBAction)logout {
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectLogout)]) {
-        [self.delegate sideBarDidSelectLogout];
+    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
+        [self.delegate sideBarDidSelectMenuItemOfType:SideBarMenuItemTypeLogout];
     }
 }
 
@@ -112,9 +113,8 @@
 
 - (SideBarItemCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
-    SideBarItemCell *sideBarCell = [tableView dequeueReusableCellWithIdentifier:sideBarItem.preferredCellType];
+    SideBarItemCell *sideBarCell = [tableView dequeueReusableCellWithIdentifier:sideBarItem.cellIdentifier];
     sideBarCell.sideBarItem = sideBarItem;
-    //sideBarCell.pipeView.hidden = (indexPath.row == [_sideBarItems count] - 1);
     
     return sideBarCell;
 }
@@ -124,15 +124,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
     
-    if ([sideBarItem.title isEqualToString:@"Home"]) {
-        if ([self.delegate respondsToSelector:@selector(sideBarDidSelectDisplayHome)]) {
-            [self.delegate sideBarDidSelectDisplayHome];
-        }
-    }
-    if ([sideBarItem.title isEqualToString:@"Drafts"]) {
-        if ([self.delegate respondsToSelector:@selector(sideBarDidSelectDisplayDrafts)]) {
-            [self.delegate sideBarDidSelectDisplayDrafts];
-        }
+    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
+        [self.delegate sideBarDidSelectMenuItemOfType:sideBarItem.menuType];
     }
 }
 
@@ -144,7 +137,7 @@
     DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu drafts.", (unsigned long)fetchedObjectsCount);
     
     if (fetchedObjectsCount > 0) {
-        self.draftSideBarItem.draftCount = fetchedObjectsCount;
+        self.draftSideBarItem.badgeCount = fetchedObjectsCount;
         if (![_sideBarItems containsObject:_draftSideBarItem]) {
             [self.sideBarItems insertObject:_draftSideBarItem atIndex:0];
         }

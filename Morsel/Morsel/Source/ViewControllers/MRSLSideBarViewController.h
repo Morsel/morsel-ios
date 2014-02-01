@@ -8,14 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "SideBarItem.h"
+
 @protocol MRSLSideBarViewControllerDelegate <NSObject>
 
 @optional
-- (void)sideBarDidSelectDisplayHome;
-- (void)sideBarDidSelectDisplayProfile;
-- (void)sideBarDidSelectDisplayDrafts;
-- (void)sideBarDidSelectLogout;
-- (void)sideBarDidSelectHideSideBar;
+- (void)sideBarDidSelectMenuItemOfType:(SideBarMenuItemType)menuType;
 
 @end
 
