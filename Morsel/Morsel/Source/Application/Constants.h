@@ -10,9 +10,9 @@
 
 #import <CocoaLumberjack/DDLog.h>
 
-extern NSString *const MorselServiceDidCreateUserNotification;
-extern NSString *const MorselServiceDidLogInNewUserNotification;
-extern NSString *const MorselServiceDidLogInExistingUserNotification;
+extern NSString *const MRSLServiceDidLogInUserNotification;
+extern NSString *const MRSLServiceDidLogOutUserNotification;
+extern NSString *const MRSLShouldDisplaySideBarNotification;
 
 extern int LOG_LEVEL_DEF;
 

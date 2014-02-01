@@ -22,6 +22,7 @@
      NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *sideBarButton;
 @property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
@@ -58,6 +59,8 @@
 
     if ([self.navigationController.viewControllers count] == 1) {
         self.backButton.hidden = YES;
+    } else {
+        self.sideBarButton.hidden = YES;
     }
 
     NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.author.userID == %i) AND (draft == NO)", [_user.userID intValue]];
@@ -103,6 +106,11 @@
 }
 
 #pragma mark - Private Methods
+
+- (IBAction)displaySideBar:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
+                                                        object:@YES];
+}
 
 - (IBAction)goBack:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];

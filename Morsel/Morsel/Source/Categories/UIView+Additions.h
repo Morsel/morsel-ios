@@ -10,11 +10,16 @@
 
 @interface UIView (Additions)
 
+- (void)setBorderWithColor:(UIColor *)color
+                  andWidth:(CGFloat)width;
 - (void)addStandardCorners;
 - (void)addCornersWithRadius:(CGFloat)radius;
 - (void)addStandardShadow;
 - (void)addStandardShadowWithColor:(UIColor *)shadowColor;
+
+- (void)removeBorder;
 - (void)removeStandardShadow;
+
 - (void)addGradientWithTopColor:(UIColor *)topColor
                  andBottomColor:(UIColor *)bottomColor;
 
