@@ -28,7 +28,9 @@
      UITextViewDelegate,
      UserPostsViewControllerDelegate>
 
+@property (nonatomic) BOOL wasDraft;
 @property (nonatomic) BOOL saveDraft;
+@property (nonatomic) BOOL willPublish;
 @property (nonatomic) BOOL userIsEditing;
 @property (nonatomic) BOOL imageUpdated;
 
@@ -89,14 +91,14 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (!_morsel.morselPictureURL && !_morsel.morselDescription) {
+    if (!_morsel.morselPictureURL &&
+        !_morsel.morselDescription) {
         // Entered through Morsel Creation
 
         self.createTitleLabel.text = @"Add Morsel";
 
         if (!_morsel) {
             MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
-            morsel.draft = @YES;
 
             self.morsel = morsel;
         }
@@ -138,6 +140,8 @@
                                    forState:UIControlStateNormal];
         }
     }
+    
+    self.wasDraft = _morsel.draftValue;
 
     if (_post) {
         self.userPostsViewController.post = _post;
@@ -254,8 +258,16 @@
 
         [_morsel.post removeMorsel:_morsel];
         [_post addMorsel:_morsel];
-
+        
+        if (self.temporaryPostTitle) {
+            _post.title = _temporaryPostTitle;
+        }
+        
         _morsel.post = _post;
+    }
+    
+    if (_willPublish) {
+        _morsel.draft = @NO;
     }
 
     if (self.addTextViewController.textView.text)
@@ -316,40 +328,10 @@
             _morsel.morselDescription = self.addTextViewController.textView.text;
 
         _morsel.creationDate = [NSDate date];
+        _morsel.draft = @YES;
     }
 
-    if (_capturedImage) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self addMediaDataToCurrentMorsel];
-            
-            UIImage *thumbImage = [_capturedImage thumbnailImage:104.f
-                                            interpolationQuality:kCGInterpolationHigh];
-            
-            _morsel.morselThumb = UIImageJPEGRepresentation(thumbImage, 1.f);
-            
-            BOOL imageIsLandscape = [Util imageIsLandscape:_capturedImage];
-            CGFloat cameraDimensionScale = [Util cameraDimensionScaleFromImage:_capturedImage];
-            CGFloat cropStartingY = yCameraImagePreviewOffset * cameraDimensionScale;
-            CGFloat minimumImageDimension = (imageIsLandscape) ? _capturedImage.size.height : _capturedImage.size.width;
-            CGFloat maximumImageDimension = (imageIsLandscape) ? _capturedImage.size.width : _capturedImage.size.height;
-            CGFloat xCenterAdjustment = (maximumImageDimension - minimumImageDimension) / 2.f;
-            CGFloat cropHeightAmount = croppedImageHeightOffset * (imageIsLandscape ? cameraDimensionScale + 2.f : cameraDimensionScale);
-            
-            UIImage *croppedImage = [_capturedImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension - cropHeightAmount)
-                                                          scaled:CGSizeMake(320.f, 214.f)];
-            
-            _morsel.morselPictureCropped = UIImageJPEGRepresentation(croppedImage, 1.f);
-            
-            dispatch_async(dispatch_get_main_queue(), ^
-            {
-                [[ModelController sharedController] saveDataToStoreWithSuccess:nil
-                                                                       failure:nil];
-            });
-        });
-    }
-
-    [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:nil];
+    [self prepareMediaAndPostMorsel];
 }
 
 - (void)publishMorsel {
@@ -367,6 +349,10 @@
     if (self.addTextViewController.textView.text)
         _morsel.morselDescription = self.addTextViewController.textView.text;
 
+    [self prepareMediaAndPostMorsel];
+}
+
+- (void)prepareMediaAndPostMorsel {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self addMediaDataToCurrentMorsel];
         
@@ -378,33 +364,26 @@
          }
                                                                   failure:^(NSError *error)
          {
-             /*
+             NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+             NSString *errorString = [NSString stringWithFormat:@"%@ Morsel Error: %@", _morsel.draft ? @"Draft" : @"Publish", errorDictionary[@"errors"]];
+             
              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, error publishing Morsel."
-                                                             message:[NSString stringWithFormat:@"Error: %@", error.userInfo[JSONResponseSerializerWithDataKey]]
+                                                             message:errorString
                                                             delegate:nil
                                                    cancelButtonTitle:@"OK"
                                                    otherButtonTitles:nil];
              
              [alert show];
              
-             DDLogError(@"Error! Unable to create Morsel: %@", error.userInfo[JSONResponseSerializerWithDataKey]);
-             
-             self.activityView.hidden = YES;
-              */
+             DDLogError(@"Error! Unable to create Morsel: %@", errorString);
          }];
     });
-
+    
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
 }
 
 - (IBAction)displaySettings {
-    NSArray *buttonTitles = nil;
-
-    if (!_userIsEditing) {
-        buttonTitles = [NSArray arrayWithObjects:@"Publish Now", @"Save Draft", nil];
-    }
-
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Settings"
                                                              delegate:self
                                                     cancelButtonTitle:_userIsEditing ? @"Cancel" : nil
@@ -412,9 +391,12 @@
                                                     otherButtonTitles:nil];
 
     if (!_userIsEditing) {
+        NSArray *buttonTitles = @[@"Publish Now", @"Save Draft"];
         for (NSString *buttonTitle in buttonTitles) {
             [actionSheet addButtonWithTitle:buttonTitle];
         }
+    } else if (_wasDraft) {
+        [actionSheet addButtonWithTitle:(_willPublish) ? @"Publish Morsel" : @"Keep as Draft"];
     }
 
     [actionSheet showInView:self.view];
@@ -423,6 +405,8 @@
 #pragma mark - Image Processing Methods
 
 - (void)addMediaDataToCurrentMorsel {
+    if (!_capturedImage) return;
+    
     BOOL imageIsLandscape = [Util imageIsLandscape:_capturedImage];
     CGFloat cameraDimensionScale = [Util cameraDimensionScaleFromImage:_capturedImage];
     CGFloat cropStartingY = yCameraImagePreviewOffset * cameraDimensionScale;
@@ -440,11 +424,9 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (_userIsEditing) {
-        if (buttonIndex == 0) {
+        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
             [[ModelController sharedController].morselApiService deleteMorsel:_morsel
-                                                                      success:^(BOOL success)
-            {
-
+                                                                      success:^(BOOL success) {
                 [self goBack];
             } failure: ^(NSError * error) {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops, something went wrong."
@@ -455,8 +437,9 @@
                 [alertView show];
             }];
         }
+        self.willPublish = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Publish Morsel"]);
     } else {
-        self.saveDraft = (buttonIndex == 1);
+        self.saveDraft = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save Draft"]);
 
         [self.postMorselButton setTitle:_saveDraft ? @"Save Morsel" : @"Publish Morsel"
                                forState:UIControlStateNormal];

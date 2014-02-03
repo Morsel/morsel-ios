@@ -172,23 +172,7 @@
                                                            failure:nil];
 }
 
-#pragma mark - MRSLSideBarViewControllerDelegate
-
-- (void)sideBarDidSelectHideSideBar {
-    [self toggleSidebar:NO];
-}
-
-- (void)sideBarDidSelectDisplayHome {
-    [self toggleSidebar:NO];
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
-}
-
-- (void)sideBarDidSelectDisplayProfile {
-    [self toggleSidebar:NO];
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"];
-}
-
-- (void)sideBarDidSelectLogout {
+- (void)logUserOut {
     [UIView animateWithDuration:.3f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
         [_rootContainerView setX:0.f];
     } completion:^(BOOL finished) {
@@ -200,6 +184,29 @@
         [[ModelController sharedController] resetDataStore];
     }];
     [self displaySignUpAnimated:YES];
+}
+
+#pragma mark - MRSLSideBarViewControllerDelegate
+
+- (void)sideBarDidSelectMenuItemOfType:(SideBarMenuItemType)menuType {
+    [self toggleSidebar:NO];
+    
+    switch (menuType) {
+        case SideBarMenuItemTypeHome:
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
+            break;
+        case SideBarMenuItemTypeProfile:
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"];
+            break;
+        case SideBarMenuItemTypeDrafts:
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Drafts"];
+            break;
+        case SideBarMenuItemTypeLogout:
+            [self logUserOut];
+            break;
+        default:
+            break;
+    }
 }
 
 @end

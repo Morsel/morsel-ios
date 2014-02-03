@@ -15,6 +15,7 @@
 - (void)setWithDictionary:(NSDictionary *)dictionary {
     self.liked = ([dictionary[@"liked"] isEqual:[NSNull null]]) ? self.liked : [NSNumber numberWithBool:[dictionary[@"liked"] boolValue]];
     self.morselID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.morselID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
+    self.draft = ([dictionary[@"draft"] isEqual:[NSNull null]]) ? self.draft : [NSNumber numberWithBool:[dictionary[@"draft"] boolValue]];
 
     if (![dictionary[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = dictionary[@"created_at"];
@@ -56,42 +57,47 @@
             self.comments = [NSOrderedSet orderedSetWithArray:commentObjects];
         }
     }
-
-    if (!self.post) {
-        if (![dictionary[@"post_id"] isEqual:[NSNull null]]) {
+    
+    if (![dictionary[@"post_id"] isEqual:[NSNull null]]) {
+        if (!self.post) {
             NSNumber *postID = [NSNumber numberWithInt:[dictionary[@"post_id"] intValue]];
-
+            
             self.post = [[ModelController sharedController] postWithID:postID];
-
+            
             if (!self.post) {
                 self.post = [MRSLPost MR_createInContext:[ModelController sharedController].defaultContext];
                 self.post.postID = postID;
-
+                
                 [[ModelController sharedController].morselApiService getPost:self.post
                                                                      success:nil
                                                                      failure:nil];
             }
-        }
-    } else {
-        if (self.post.isDraft) {
-            // Created as a draft, should now be updated with real ID and converted to normal post. If post exists elsewhere, replace it.
-
-            if (![dictionary[@"post_id"] isEqual:[NSNull null]]) {
+        } else {
+            if (self.post.isDraft) {
+                // Created as a draft, should now be updated with real ID and converted to normal post. If post exists elsewhere, replace it.
                 NSNumber *postID = [NSNumber numberWithInt:[dictionary[@"post_id"] intValue]];
-
+                
                 MRSLPost *existingPost = [[ModelController sharedController] postWithID:postID];
-
+                
                 if (!existingPost) {
                     self.post.postID = postID;
                     self.post.draft = @NO;
                 } else {
                     [[ModelController sharedController].defaultContext deleteObject:self.post];
-
+                    
                     self.post = existingPost;
+                }
+            } else {
+                if ([dictionary[@"post_id"] intValue] != self.post.postIDValue) {
+                    // Parent post changed! Post should be updated
+                    [[ModelController sharedController].morselApiService updatePost:self.post
+                                                                            success:nil
+                                                                            failure:nil];
                 }
             }
         }
     }
+    
 
     if (self.isDraft) {
         // If Morsel is converted from draft, trash all the stored image data

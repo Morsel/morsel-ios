@@ -11,13 +11,14 @@
 #import "ModelController.h"
 
 #import "ProfileImageView.h"
-#import "SideBarItem.h"
 #import "SideBarItemCell.h"
 
+#import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
 @interface MRSLSideBarViewController ()
-    <UITableViewDataSource,
+    <NSFetchedResultsControllerDelegate,
+     UITableViewDataSource,
      UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *sideBarTableView;
@@ -27,6 +28,7 @@
 @property (nonatomic, strong) SideBarItem *draftSideBarItem;
 
 @property (nonatomic, strong) NSMutableArray *sideBarItems;
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -41,16 +43,25 @@
     
     SideBarItem *homeItem = [SideBarItem sideBarItemWithTitle:@"Home"
                                                 iconImageName:@"icon-sidebar-home"
-                                                     cellType:@"SideBarItemCell"];
+                                               cellIdentifier:@"SideBarItemCell"
+                                                         type:SideBarMenuItemTypeHome];
     
     SideBarItem *draftItem = [SideBarItem sideBarItemWithTitle:@"Drafts"
                                                  iconImageName:@"icon-sidebar-draft"
-                                                      cellType:@"SideBarDraftCell"];
+                                                cellIdentifier:@"SideBarDraftCell"
+                                                          type:SideBarMenuItemTypeDrafts];
     
     self.draftSideBarItem = draftItem;
+
+    NSPredicate *draftMorselPredicate = [NSPredicate predicateWithFormat:@"draft == YES"];
     
-    // Check for drafts with FetchRequest, if they exist, inject in sidebar item. If they don't, remove.
-    
+    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+                                                          ascending:NO
+                                                      withPredicate:draftMorselPredicate
+                                                            groupBy:nil
+                                                           delegate:self
+                                                          inContext:[ModelController sharedController].defaultContext];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedIn:)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
@@ -76,20 +87,20 @@
 #pragma mark - Action
 
 - (IBAction)hideSideBar {
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectHideSideBar)]) {
-        [self.delegate sideBarDidSelectHideSideBar];
+    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
+        [self.delegate sideBarDidSelectMenuItemOfType:SideBarMenuItemTypeHide];
     }
 }
 
 - (IBAction)displayUserProfile {
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectDisplayProfile)]) {
-        [self.delegate sideBarDidSelectDisplayProfile];
+    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
+        [self.delegate sideBarDidSelectMenuItemOfType:SideBarMenuItemTypeProfile];
     }
 }
 
 - (IBAction)logout {
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectLogout)]) {
-        [self.delegate sideBarDidSelectLogout];
+    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
+        [self.delegate sideBarDidSelectMenuItemOfType:SideBarMenuItemTypeLogout];
     }
 }
 
@@ -102,8 +113,9 @@
 
 - (SideBarItemCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
-    SideBarItemCell *sideBarCell = [tableView dequeueReusableCellWithIdentifier:sideBarItem.preferredCellType];
+    SideBarItemCell *sideBarCell = [tableView dequeueReusableCellWithIdentifier:sideBarItem.cellIdentifier];
     sideBarCell.sideBarItem = sideBarItem;
+    
     return sideBarCell;
 }
 
@@ -111,11 +123,36 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
-    if ([sideBarItem.title isEqualToString:@"Home"]) {
-        if ([self.delegate respondsToSelector:@selector(sideBarDidSelectDisplayHome)]) {
-            [self.delegate sideBarDidSelectDisplayHome];
-        }
+    
+    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
+        [self.delegate sideBarDidSelectMenuItemOfType:sideBarItem.menuType];
     }
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate Methods
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    NSUInteger fetchedObjectsCount = [[controller fetchedObjects] count];
+    
+    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu drafts.", (unsigned long)fetchedObjectsCount);
+    
+    if (fetchedObjectsCount > 0) {
+        self.draftSideBarItem.badgeCount = fetchedObjectsCount;
+        if (![_sideBarItems containsObject:_draftSideBarItem]) {
+            [self.sideBarItems insertObject:_draftSideBarItem atIndex:0];
+        }
+    } else {
+        [self.sideBarItems removeObject:_draftSideBarItem];
+    }
+    
+    NSError *fetchError = nil;
+    [_fetchedResultsController performFetch:&fetchError];
+    
+    if (fetchError) {
+        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
+    }
+    
+    [self.sideBarTableView reloadData];
 }
 
 @end

@@ -113,6 +113,8 @@
 		06A049651896D82500BD1C5B /* PostCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049641896D82500BD1C5B /* PostCollectionViewCell.m */; };
 		06CE1882187F13A0009F9722 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1881187F13A0009F9722 /* Constants.m */; };
 		06CE1885187F42EA009F9722 /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1884187F42EA009F9722 /* JSONResponseSerializerWithData.m */; };
+		06D12491189DB94F00492305 /* DraftsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D12490189DB94F00492305 /* DraftsViewController.m */; };
+		06D12494189DC30400492305 /* Drafts_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D12492189DC30400492305 /* Drafts_iPhone.storyboard */; };
 		06E89F8F1885ED3B00DA3A90 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E89F8E1885ED3B00DA3A90 /* Util.m */; };
 		06F11E7C1862465F003E64C8 /* MRSLPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F11E7B1862465F003E64C8 /* MRSLPost.m */; };
 		06F11E7F18624680003E64C8 /* _MRSLPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F11E7E18624680003E64C8 /* _MRSLPost.m */; };
@@ -294,6 +296,9 @@
 		06CE1881187F13A0009F9722 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		06CE1883187F42EA009F9722 /* JSONResponseSerializerWithData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONResponseSerializerWithData.h; sourceTree = "<group>"; };
 		06CE1884187F42EA009F9722 /* JSONResponseSerializerWithData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONResponseSerializerWithData.m; sourceTree = "<group>"; };
+		06D1248F189DB94F00492305 /* DraftsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftsViewController.h; sourceTree = "<group>"; };
+		06D12490189DB94F00492305 /* DraftsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftsViewController.m; sourceTree = "<group>"; };
+		06D12493189DC30400492305 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drafts_iPhone.storyboard; sourceTree = "<group>"; };
 		06E89F8D1885ED3B00DA3A90 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		06E89F8E1885ED3B00DA3A90 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		06F11E7A1862465F003E64C8 /* MRSLPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLPost.h; path = Source/Models/MRSLPost.h; sourceTree = "<group>"; };
@@ -517,6 +522,7 @@
 		063976D8186361A400A17211 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
+				06ED0B7B189D852C00766BCF /* Drafts */,
 				0651315B189C58A400609294 /* Comments */,
 				0609B83C1894AA23005A11A4 /* Login */,
 				0609B83B1894AA11005A11A4 /* Profile */,
@@ -555,12 +561,13 @@
 		063BB6F418983CD00029DAF0 /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				06D12492189DC30400492305 /* Drafts_iPhone.storyboard */,
+				063BB6F018983CC00029DAF0 /* Home_iPhone.storyboard */,
+				063BB6F918983D170029DAF0 /* Login_iPhone.storyboard */,
 				066066A218522E7900E780FC /* Main_iPhone.storyboard */,
 				063BB6FF18983E100029DAF0 /* MorselDetail_iPhone.storyboard */,
-				063BB6F018983CC00029DAF0 /* Home_iPhone.storyboard */,
-				063BB6F618983CF80029DAF0 /* Profile_iPhone.storyboard */,
-				063BB6F918983D170029DAF0 /* Login_iPhone.storyboard */,
 				063BB6FC18983D3F0029DAF0 /* MorselManagement_iPhone.storyboard */,
+				063BB6F618983CF80029DAF0 /* Profile_iPhone.storyboard */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -631,15 +638,15 @@
 			children = (
 				0698CA8E18523BBE007AF442 /* Application */,
 				0669C5101871FD370093132F /* Categories */,
+				066F5AE4185BCB8F00468210 /* Controllers */,
+				066066AB18522E7900E780FC /* Images.xcassets */,
+				0698CA8D18523AE2007AF442 /* Models */,
 				063976D918638D0C00A17211 /* Protocols */,
 				067382DC187E1A19003CF1AD /* Service */,
-				0698CA8D18523AE2007AF442 /* Models */,
-				066F5AE3185BCB8A00468210 /* Views */,
-				066F5AE4185BCB8F00468210 /* Controllers */,
-				0698CA9118523BBE007AF442 /* ViewControllers */,
-				063BB6F318983CCA0029DAF0 /* User Interface */,
-				066066AB18522E7900E780FC /* Images.xcassets */,
 				0660669718522E7900E780FC /* Supporting Files */,
+				063BB6F318983CCA0029DAF0 /* User Interface */,
+				0698CA9118523BBE007AF442 /* ViewControllers */,
+				066F5AE3185BCB8A00468210 /* Views */,
 			);
 			path = Morsel;
 			sourceTree = "<group>";
@@ -692,10 +699,10 @@
 				0686029B1891A7B7000CD576 /* UIFont+Morsel.m */,
 				0669C5111871FD370093132F /* UIImage+Resize.h */,
 				0669C5121871FD370093132F /* UIImage+Resize.m */,
-				068602A31891AE26000CD576 /* UIView+Additions.h */,
-				068602A41891AE26000CD576 /* UIView+Additions.m */,
 				068602A61891B43E000CD576 /* UIStoryboard+Morsel.h */,
 				068602A71891B43E000CD576 /* UIStoryboard+Morsel.m */,
+				068602A31891AE26000CD576 /* UIView+Additions.h */,
+				068602A41891AE26000CD576 /* UIView+Additions.m */,
 			);
 			name = Categories;
 			path = Morsel/Source/Categories;
@@ -806,9 +813,9 @@
 				0698CA9018523BBE007AF442 /* AppDelegate.m */,
 				06CE1880187F13A0009F9722 /* Constants.h */,
 				06CE1881187F13A0009F9722 /* Constants.m */,
+				06325115186107F200ADDF23 /* Defines.h */,
 				06E89F8D1885ED3B00DA3A90 /* Util.h */,
 				06E89F8E1885ED3B00DA3A90 /* Util.m */,
-				06325115186107F200ADDF23 /* Defines.h */,
 			);
 			name = Application;
 			path = Source/Application;
@@ -879,6 +886,15 @@
 				0698CAD318524359007AF442 /* Morsel-Integration-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		06ED0B7B189D852C00766BCF /* Drafts */ = {
+			isa = PBXGroup;
+			children = (
+				06D1248F189DB94F00492305 /* DraftsViewController.h */,
+				06D12490189DB94F00492305 /* DraftsViewController.m */,
+			);
+			name = Drafts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -952,9 +968,6 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Morsel;
 				TargetAttributes = {
-					0660668C18522E7900E780FC = {
-						DevelopmentTeam = E4J3AT53LV;
-					};
 					0698CAB01852432D007AF442 = {
 						TestTargetID = 0660668C18522E7900E780FC;
 					};
@@ -999,6 +1012,7 @@
 				068602B018920CBE000CD576 /* HelveticaNeueLTStd-Cn.otf in Resources */,
 				06613226188F276900E7C17A /* HelveticaNeueLTStd-ThCn.otf in Resources */,
 				066066AC18522E7900E780FC /* Images.xcassets in Resources */,
+				06D12494189DC30400492305 /* Drafts_iPhone.storyboard in Resources */,
 				063B177418922B5600ABFEAE /* HelveticaNeueLTStd-CnO.otf in Resources */,
 				066066A418522E7900E780FC /* Main_iPhone.storyboard in Resources */,
 				0660669B18522E7900E780FC /* InfoPlist.strings in Resources */,
@@ -1139,6 +1153,7 @@
 				063BB70718984A920029DAF0 /* PostMorselsViewController.m in Sources */,
 				0660669D18522E7900E780FC /* main.m in Sources */,
 				062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */,
+				06D12491189DB94F00492305 /* DraftsViewController.m in Sources */,
 				067382E1187E1A19003CF1AD /* MorselAPIClient.m in Sources */,
 				066F5AD9185BCA4D00468210 /* MRSLMorsel.m in Sources */,
 				066F5B05185BCFD600468210 /* CommentTableViewCell.m in Sources */,
@@ -1314,6 +1329,14 @@
 				0698CACF18524359007AF442 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		06D12492189DC30400492305 /* Drafts_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				06D12493189DC30400492305 /* Base */,
+			);
+			name = Drafts_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1685,7 +1708,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_DISPLAY_NAME_SUFFIX = " alpha";
 				BUNDLE_ID_SUFFIX = .alpha;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";

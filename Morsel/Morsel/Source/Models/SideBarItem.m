@@ -12,11 +12,13 @@
 
 + (SideBarItem *)sideBarItemWithTitle:(NSString *)title
                         iconImageName:(NSString *)iconImageName
-                             cellType:(NSString *)cellType {
+                             cellIdentifier:(NSString *)cellIdentifier
+                             type:(SideBarMenuItemType)menuType {
     SideBarItem *sideBarItem = [[SideBarItem alloc] init];
     sideBarItem.title = title;
     sideBarItem.iconImage = [UIImage imageNamed:iconImageName];
-    sideBarItem.preferredCellType = cellType;
+    sideBarItem.cellIdentifier = cellIdentifier;
+    sideBarItem.menuType = menuType;
     
     return sideBarItem;
 }

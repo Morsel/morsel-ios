@@ -270,17 +270,22 @@
         [morselDictionary setObject:morsel.morselDescription
                              forKey:@"description"];
     }
+    
+    [morselDictionary setObject:(morsel.draftValue) ? @"true" : @"false"
+                         forKey:@"draft"];
 
     if ([morselDictionary count] > 0) {
         [parameters setObject:morselDictionary
                        forKey:@"morsel"];
     }
 
-    if (morsel.post) {
+    if (morsel.post && !morsel.post.draftValue) {
         [parameters setObject:morsel.post.postID
                        forKey:@"post_id"];
-        [parameters setObject:morsel.post.title
-                       forKey:@"post_title"];
+        if (morsel.post.title) {
+            [parameters setObject:morsel.post.title
+                           forKey:@"post_title"];
+        }
     }
 
     [[MorselAPIClient sharedClient] POST:@"morsels"
@@ -295,11 +300,7 @@
         }
     } success: ^(AFHTTPRequestOperation * operation, id responseObject) {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-
-        morsel.draft = @NO;
-
         [morsel setWithDictionary:responseObject[@"data"]];
-
         if (successOrNil) successOrNil(responseObject);
     } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
         [self reportFailure:failureOrNil
@@ -343,7 +344,7 @@
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
         [morsel setWithDictionary:responseObject[@"data"]];
-
+        
         if (successOrNil) successOrNil(responseObject);
     } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
         [self reportFailure:failureOrNil
