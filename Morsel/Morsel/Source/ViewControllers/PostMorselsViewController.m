@@ -47,6 +47,11 @@
         _post.title = @"";
 
     [self.postMorselsCollectionView reloadData];
+    
+    if ([self.post.morsels count] == 0) {
+        [self.presentingViewController dismissViewControllerAnimated:YES
+                                                          completion:nil];
+    }
 }
 
 #pragma mark - Private Methods

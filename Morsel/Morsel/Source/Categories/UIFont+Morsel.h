@@ -16,5 +16,6 @@
 + (UIFont *)helveticaNeueLTStandardLightCondensedFontOfSize:(CGFloat)fontSize;
 + (UIFont *)helveticaNeueLTStandardMediumFontOfSize:(CGFloat)fontSize;
 + (UIFont *)helveticaLightFontOfSize:(CGFloat)fontSize;
++ (UIFont *)helveticaLightObliqueFontOfSize:(CGFloat)fontSize;
 
 @end

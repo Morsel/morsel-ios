@@ -71,6 +71,9 @@
                                         <state key="normal" image="icon-burger-bar">
                                             <color key="titleColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="displaySideBar" destination="ba8-k5-3AJ" eventType="touchUpInside" id="Lg0-gb-T8b"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Drafts" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HHr-FF-7zT" customClass="MorselThinCondensedLabel">
                                         <rect key="frame" x="47" y="30" width="226" height="30"/>

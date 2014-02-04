@@ -13,6 +13,8 @@
 extern NSString *const MRSLServiceDidLogInUserNotification;
 extern NSString *const MRSLServiceDidLogOutUserNotification;
 extern NSString *const MRSLShouldDisplaySideBarNotification;
+extern NSString *const MRSLUserDidCreateCommentNotification;
+extern NSString *const MRSLUserDidDeleteMorselNotification;
 
 extern int LOG_LEVEL_DEF;
 

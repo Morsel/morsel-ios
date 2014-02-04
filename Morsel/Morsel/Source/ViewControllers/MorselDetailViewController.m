@@ -27,7 +27,12 @@ static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
 
 @interface MorselDetailViewController ()
     <UIScrollViewDelegate,
-     MorselDetailPanelViewControllerDelegate>
+     MorselDetailPanelViewControllerDelegate,
+     ProfileImageViewDelegate>
+
+@property (nonatomic) int currentMorselID;
+
+@property (nonatomic) MRSLPost *morselPost;
 
 @property (weak, nonatomic) IBOutlet UILabel *authorNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeSinceLabel;
@@ -49,7 +54,10 @@ static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
     [super viewDidLoad];
 
     if (_morsel && _morsel.post) {
-        NSUInteger postMorselCount = [_morsel.post.morsels count];
+        self.currentMorselID = _morsel.morselIDValue;
+        self.morselPost = _morsel.post;
+        
+        NSUInteger postMorselCount = [_morselPost.morsels count];
 
         if (postMorselCount > 1) {
             self.progressionPageControl.numberOfPages = postMorselCount;
@@ -65,21 +73,22 @@ static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
         [self.viewControllerPanelContainerView setY:navigationViewHeight];
         [self.viewControllerPanelContainerView setHeight:[self.view getHeight] - navigationViewHeight];
 
-        self.postTitleLabel.text = _morsel.post.title ?: @"Morsel";
+        self.postTitleLabel.text = _morselPost.title ?: @"Morsel";
         self.timeSinceLabel.text = [_morsel.creationDate dateTimeAgo];
-        self.authorNameLabel.text = [_morsel.post.author fullName];
+        self.authorNameLabel.text = [_morselPost.author fullName];
 
-        self.profileImageView.user = _morsel.post.author;
+        self.profileImageView.user = _morselPost.author;
+        self.profileImageView.delegate = self;
         [_profileImageView addCornersWithRadius:20.f];
 
-        if ([_morsel.post.morsels count] > 1) {
-            NSUInteger morselIndex = [_morsel.post.morsels indexOfObject:_morsel];
+        if ([_morselPost.morsels count] > 1) {
+            NSUInteger morselIndex = [_morselPost.morsels indexOfObject:_morsel];
             
             self.progressionPageControl.currentPage = morselIndex;
             
             NSMutableArray *panelArray = [NSMutableArray array];
             
-            for (MRSLMorsel *morsel in _morsel.post.morsels) {
+            for (MRSLMorsel *morsel in _morselPost.morsels) {
                 MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
                 morselDetailPanelVC.morsel = morsel;
                 [panelArray addObject:morselDetailPanelVC];
@@ -102,6 +111,11 @@ static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
             [self addChildViewController:morselDetailPanelVC];
             [self.viewControllerPanelContainerView addSubview:morselDetailPanelVC.view];
         }
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(morselDeleted:)
+                                                     name:MRSLUserDidDeleteMorselNotification
+                                                   object:nil];
     }
 }
 
@@ -121,16 +135,47 @@ static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
                      animated:YES];
 }
 
-- (IBAction)displayUserProfile {
+- (void)displayUserProfileForUser:(MRSLUser *)user {
     ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
-    profileVC.user = _morsel.post.author;
-
+    profileVC.user = user;
+    
     [self.navigationController pushViewController:profileVC
                                          animated:YES];
 }
 
+- (IBAction)displayUserProfile {
+    [self displayUserProfileForUser:_morselPost.author];
+}
+
 - (IBAction)goBack {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - NSNotification
+
+- (void)morselDeleted:(NSNotification *)notification {
+    if (!_morselPost || [_morselPost.morsels count] == 0) {
+        self.morsel = nil;
+        self.morselPost = nil;
+        [self.navigationController popViewControllerAnimated:NO];
+    } else {
+        int deletedMorselID = [(NSNumber *)notification.object intValue];
+
+        [self reset];
+        
+        if (deletedMorselID == _currentMorselID) {
+            self.morsel = [_morselPost.morsels firstObject];
+            self.currentMorselID = _morsel.morselIDValue;
+        } else {
+            self.morsel = _morsel;
+        }
+    }
+}
+
+#pragma mark - ProfileImageViewDelegate
+
+- (void)profileImageViewDidSelectUser:(MRSLUser *)user {
+    [self displayUserProfileForUser:user];
 }
 
 #pragma mark - MorselDetailPanelViewControllerDelegate
@@ -138,6 +183,10 @@ static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
 - (void)morselDetailPanelViewDidSelectAddComment {
     [self performSegueWithIdentifier:@"AddComment"
                               sender:nil];
+}
+
+- (void)morselDetailPanelViewDidSelectUser:(MRSLUser *)user {
+    [self displayUserProfileForUser:user];
 }
 
 - (void)morselDetailPanelViewScrollOffsetChanged:(CGFloat)offset {
@@ -157,6 +206,9 @@ static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
 - (void)didUpdateCurrentPage:(NSUInteger)page {
     self.progressionPageControl.currentPage = page;
     
+    self.morsel = [_morselPost.morsels objectAtIndex:page];
+    self.currentMorselID = _morsel.morselIDValue;
+    
     if (self.previousExists) {
         MorselDetailPanelViewController *previousDetailPanelViewController = [self.swipeViewControllers objectAtIndex:self.previousPage];
         previousDetailPanelViewController.delegate = nil;
@@ -164,6 +216,12 @@ static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
     
     MorselDetailPanelViewController *detailPanelViewController = [self.swipeViewControllers objectAtIndex:page];
     detailPanelViewController.delegate = self;
+}
+
+#pragma mark - Destruction
+
+- (void)reset {
+    [super reset];
 }
 
 @end

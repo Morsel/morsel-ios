@@ -16,6 +16,7 @@
 #import "MRSLUser.h"
 
 @interface CommentTableViewCell  ()
+    <ProfileImageViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UILabel *timeAgoLabel;
 @property (nonatomic, weak) IBOutlet UILabel *userNameLabel;
@@ -26,17 +27,46 @@
 
 @implementation CommentTableViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    [_profileImageView addCornersWithRadius:20.f];
+}
+
 - (void)setComment:(MRSLComment *)comment {
     if (_comment != comment) {
+        [self reset];
+        
         _comment = comment;
         if (_comment) {
-            [_profileImageView addCornersWithRadius:20.f];
-            
             _profileImageView.user = _comment.user;
+            _profileImageView.delegate = self;
             _userNameLabel.text = _comment.user.fullName;
             _commentBodyLabel.text = _comment.text;
             _timeAgoLabel.text = [_comment.creationDate dateTimeAgo];
+            
+            CGSize bodySize = [_comment.text sizeWithFont:_commentBodyLabel.font
+                                        constrainedToSize:CGSizeMake(_commentBodyLabel.frame.size.width, CGFLOAT_MAX)
+                                            lineBreakMode:NSLineBreakByWordWrapping];
+            
+            [_commentBodyLabel setHeight:ceilf(bodySize.height)];
         }
+    }
+}
+
+- (void)reset {
+    self.profileImageView.user = nil;
+    self.userNameLabel.text = nil;
+    self.commentBodyLabel.text = nil;
+    self.timeAgoLabel.text = nil;
+    self.delegate = nil;
+}
+
+#pragma mark - ProfileImageViewDelegate
+
+- (void)profileImageViewDidSelectUser:(MRSLUser *)user {
+    if ([self.delegate respondsToSelector:@selector(commentTableViewCellDidSelectUser:)]) {
+        [self.delegate commentTableViewCellDidSelectUser:user];
     }
 }
 

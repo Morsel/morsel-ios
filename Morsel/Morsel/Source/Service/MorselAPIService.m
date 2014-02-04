@@ -366,13 +366,21 @@
 
             DDLogDebug(@"Morsel %i deleted from server. Attempting local.", morselID);
 
-            [morsel.post removeMorsel:morsel];
+            MRSLPost *morselPost = morsel.post;
+            
+            [morselPost removeMorsel:morsel];
+            
+            // Last Morsel, delete the entity
+            if ([morselPost.morsels count] == 0) [morselPost MR_deleteEntity];
 
             BOOL morselDeletedLocally = [morsel MR_deleteEntity];
 
             DDLogDebug(@"Morsel %i also deleted locally? %@", morselID, (morselDeletedLocally) ? @"YES" : @"NO");
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteMorselNotification
+                                                                object:[NSNumber numberWithInt:morselID]];
 
-            successOrNil(YES);
+            if (successOrNil) successOrNil(YES);
         } else {
             [self reportFailure:failureOrNil
                       withError:error
@@ -419,8 +427,10 @@
 
 - (void)retrieveFeedWithSuccess:(MorselAPIArrayBlock)success
                         failure:(MorselAPIFailureBlock)failureOrNil {
+
     [[MorselAPIClient sharedClient] GET:@"posts"
-                             parameters:@{@"api_key": [ModelController sharedController].currentUser.userID}
+                             parameters:@{@"include_drafts": @"true",
+                                          @"api_key": [ModelController sharedController].currentUser.userID}
                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
@@ -437,9 +447,16 @@
 - (void)retrieveUserPosts:(MRSLUser *)user
                   success:(MorselAPIArrayBlock)success
                   failure:(MorselAPIFailureBlock)failureOrNil {
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:[ModelController sharedController].currentUser.userID, @"api_key", user.userID, @"user_id", nil];
+    
+    if (user.isCurrentUser) {
+        [parameters setObject:@"true"
+                       forKey:@"include_drafts"];
+    }
+    
     [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/posts", [user.userID intValue]]
-                             parameters:@{@"user_id": user.userID,
-                                          @"api_key": user.userID}
+                             parameters:parameters
                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
@@ -499,11 +516,14 @@
                               parameters:@{@"comment": @{@"description": comment.text},
                                            @"api_key": [ModelController sharedController].currentUser.userID}
                                  success: ^(AFHTTPRequestOperation * operation, id responseObject) {
-         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-         
-         [comment setWithDictionary:responseObject[@"data"]];
-         
-         if (successOrNil) successOrNil(responseObject);
+                                     DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                     
+                                     [comment setWithDictionary:responseObject[@"data"]];
+                                     
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateCommentNotification
+                                                                                         object:nil];
+                                     
+                                     if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
          [self reportFailure:failureOrNil
                    withError:error

@@ -9,7 +9,7 @@
 #import "CaptureMediaViewController.h"
 
 #import <AVFoundation/AVFoundation.h>
-//#import <AssetsLibrary/AssetsLibrary.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
 #import "CameraPreviewView.h"
@@ -36,6 +36,7 @@ static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevice
 @property (weak, nonatomic) IBOutlet UIButton *addTextMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelMorselButton;
 @property (weak, nonatomic) IBOutlet UIImageView *approvalImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *cameraRollImageView;
 @property (weak, nonatomic) IBOutlet UIButton *toggleFlashButton;
 @property (weak, nonatomic) IBOutlet UIButton *toggleCameraButton;
 @property (weak, nonatomic) IBOutlet UIView *togglePipeView;
@@ -120,6 +121,10 @@ static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevice
     if (![self.session isRunning] && !_isSelectingImage) {
         [self beginCameraSession];
     }
+    
+    if ([self isDeviceAuthorized]) {
+        [self displayLatestCameraRollImage];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -199,6 +204,31 @@ static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevice
         [_toggleFlashButton setImage:flashImage
                             forState:UIControlStateNormal];
     });
+}
+
+- (void)displayLatestCameraRollImage {
+    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+    [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
+                                 usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+                                     if (nil != group) {
+                                         [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+                                         [group enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:group.numberOfAssets - 1]
+                                                                 options:0
+                                                              usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+                                                                  if (nil != result) {
+                                                                      ALAssetRepresentation *repr = [result defaultRepresentation];
+                                                                      UIImage *thumbnailImage = [[UIImage imageWithCGImage:[repr fullResolutionImage]] thumbnailImage:40.f interpolationQuality:kCGInterpolationHigh];
+                                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                                          [self.cameraRollImageView setImage:thumbnailImage];
+                                                                      });
+                                                                      *stop = YES;
+                                                                  }
+                                                              }];
+                                     }
+                                     *stop = NO;
+                                 } failureBlock:^(NSError *error) {
+                                     NSLog(@"error: %@", error);
+                                 }];
 }
 
 - (IBAction)toggleTargetCamera {
@@ -378,6 +408,7 @@ static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevice
 
 - (void)enableMainControls:(BOOL)shouldDisplay {
     self.cameraRollButton.hidden = !shouldDisplay;
+    self.cameraRollImageView.hidden = !shouldDisplay;
     self.captureImageButton.hidden = !shouldDisplay;
     self.addTextMorselButton.hidden = !shouldDisplay;
     self.toggleCameraButton.hidden = !shouldDisplay;
@@ -610,6 +641,7 @@ static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevice
             if (granted) {
                 //Granted access to mediaType
                 [self setDeviceAuthorized:YES];
+                [self displayLatestCameraRollImage];
             } else {
                 //Not granted access to mediaType
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -627,6 +659,7 @@ static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevice
         }];
     } else {
         [self setDeviceAuthorized:YES];
+        [self displayLatestCameraRollImage];
     }
 }
 

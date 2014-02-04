@@ -136,7 +136,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fIQ-WU-UDT">
-                                        <rect key="frame" x="20" y="20" width="24" height="21"/>
+                                        <rect key="frame" x="10" y="10" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" image="icon-like-inactive">
@@ -144,6 +144,18 @@
                                         </state>
                                         <connections>
                                             <action selector="toggleLikeMorsel" destination="0s7-dI-8vc" eventType="touchUpInside" id="MRO-uG-hZY"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YYq-GX-ZRQ">
+                                        <rect key="frame" x="10" y="10" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" image="icon-edit">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="editMorsel" destination="0s7-dI-8vc" eventType="touchUpInside" id="o1s-IF-RfF"/>
+                                            <action selector="toggleLikeMorsel" destination="0s7-dI-8vc" eventType="touchUpInside" id="apf-fs-NLM"/>
                                         </connections>
                                     </button>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-comment-pipe" id="Sfd-1y-yGc">
@@ -156,6 +168,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="0.0"/>
                                     </label>
                                 </subviews>
                                 <inset key="contentInset" minX="0.0" minY="35" maxX="0.0" maxY="0.0"/>
@@ -182,6 +195,7 @@
                         <outlet property="addCommentButton" destination="K9n-vs-MBt" id="Oa0-ES-yYX"/>
                         <outlet property="commentPipeView" destination="Sfd-1y-yGc" id="Lo9-gG-ntW"/>
                         <outlet property="contentScrollView" destination="gyn-6D-R7J" id="gyB-Ak-jML"/>
+                        <outlet property="editButton" destination="YYq-GX-ZRQ" id="YEz-tA-fju"/>
                         <outlet property="likeButton" destination="fIQ-WU-UDT" id="ZmU-lY-1cW"/>
                         <outlet property="morselDescriptionLabel" destination="6P2-Rx-Vw0" id="ygM-yb-ayy"/>
                         <outlet property="morselImageView" destination="gxC-j0-Omd" id="nGX-Nj-Lkj"/>
@@ -229,8 +243,8 @@
                                                     <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uEK-wa-G6L">
-                                                    <rect key="frame" x="72" y="60" width="228" height="14"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uEK-wa-G6L">
+                                                    <rect key="frame" x="72" y="60" width="192" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-LightOblique" family="Helvetica" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -345,6 +359,7 @@
     <resources>
         <image name="graphic-comment-pipe" width="270" height="24"/>
         <image name="icon-back" width="12" height="20"/>
+        <image name="icon-edit" width="24" height="24"/>
         <image name="icon-like-inactive" width="28" height="26"/>
         <image name="icon-location-light" width="20" height="30"/>
         <image name="icon-profile-light" width="30" height="30"/>

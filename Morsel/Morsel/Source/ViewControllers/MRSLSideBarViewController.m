@@ -21,11 +21,13 @@
      UITableViewDataSource,
      UITableViewDelegate>
 
+@property (nonatomic) NSUInteger draftCount;
+
 @property (weak, nonatomic) IBOutlet UITableView *sideBarTableView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
 
-@property (nonatomic, strong) SideBarItem *draftSideBarItem;
+@property (nonatomic, strong) SideBarItem *draftItem;
 
 @property (nonatomic, strong) NSMutableArray *sideBarItems;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -41,7 +43,7 @@
     [self.profileImageView setBorderWithColor:[UIColor whiteColor]
                                      andWidth:2.f];
     
-    SideBarItem *homeItem = [SideBarItem sideBarItemWithTitle:@"Home"
+    SideBarItem *homeItem = [SideBarItem sideBarItemWithTitle:@"Feed"
                                                 iconImageName:@"icon-sidebar-home"
                                                cellIdentifier:@"SideBarItemCell"
                                                          type:SideBarMenuItemTypeHome];
@@ -50,9 +52,9 @@
                                                  iconImageName:@"icon-sidebar-draft"
                                                 cellIdentifier:@"SideBarDraftCell"
                                                           type:SideBarMenuItemTypeDrafts];
-    
-    self.draftSideBarItem = draftItem;
 
+    self.draftItem = draftItem;
+    
     NSPredicate *draftMorselPredicate = [NSPredicate predicateWithFormat:@"draft == YES"];
     
     self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
@@ -69,7 +71,7 @@
                                                  name:MRSLServiceDidLogOutUserNotification
                                                object:nil];
     
-    self.sideBarItems = [NSMutableArray arrayWithObjects:homeItem, nil];
+    self.sideBarItems = [NSMutableArray arrayWithObjects:draftItem, homeItem, nil];
 }
 
 #pragma mark - NSNotification
@@ -132,18 +134,11 @@
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    NSUInteger fetchedObjectsCount = [[controller fetchedObjects] count];
+    self.draftCount = [[controller fetchedObjects] count];
     
-    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu drafts.", (unsigned long)fetchedObjectsCount);
+    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu drafts.", (unsigned long)_draftCount);
     
-    if (fetchedObjectsCount > 0) {
-        self.draftSideBarItem.badgeCount = fetchedObjectsCount;
-        if (![_sideBarItems containsObject:_draftSideBarItem]) {
-            [self.sideBarItems insertObject:_draftSideBarItem atIndex:0];
-        }
-    } else {
-        [self.sideBarItems removeObject:_draftSideBarItem];
-    }
+    self.draftItem.badgeCount = _draftCount;
     
     NSError *fetchError = nil;
     [_fetchedResultsController performFetch:&fetchError];

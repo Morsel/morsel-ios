@@ -102,6 +102,8 @@ static const CGFloat MRSLVelocityThresholdForPageChange = 800.f;
         [viewController.view removeFromSuperview];
     }
     
+    [_visibleViewControllers removeAllObjects];
+    
     NSMutableArray *currentViewControllers = [NSMutableArray array];
     
     if (_isFirstPage) {
@@ -110,7 +112,7 @@ static const CGFloat MRSLVelocityThresholdForPageChange = 800.f;
         pageIndex -= 1;
     }
     
-    for (int i = pageIndex; i < [self.swipeViewControllers count] ; i++) {
+    for (NSUInteger i = pageIndex; i < [self.swipeViewControllers count] ; i++) {
         UIViewController *swipeVC = [self.swipeViewControllers objectAtIndex:i];
         [currentViewControllers addObject:swipeVC];
         // If the amount of current view controllers is or exceeds 3, stop immediately. Only 3 items are necessary.
@@ -271,6 +273,22 @@ static const CGFloat MRSLVelocityThresholdForPageChange = 800.f;
             [self.panelViewRight setX:_panelRightInitialX + translationPoint.x];
         }
     }
+}
+
+#pragma mark - Destruction
+
+- (void)reset {
+    for (UIViewController *viewController in _visibleViewControllers) {
+        [viewController removeFromParentViewController];
+        [viewController.view removeFromSuperview];
+    }
+    
+    for (MRSLDetailHorizontalSwipePanelView *swipeView in _swipePanelViews) {
+        [swipeView removeFromSuperview];
+    }
+    
+    [_visibleViewControllers removeAllObjects];
+    [_swipePanelViews removeAllObjects];
 }
 
 @end

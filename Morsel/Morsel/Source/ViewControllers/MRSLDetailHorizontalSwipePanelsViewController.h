@@ -34,4 +34,6 @@ typedef NS_ENUM(NSUInteger, ScrollViewDirection)
 
 - (void)didUpdateCurrentPage:(NSUInteger)page;
 
+- (void)reset;
+
 @end

@@ -17,7 +17,8 @@
 @interface MorselDetailCommentsViewController ()
     <UITableViewDataSource,
      UITableViewDelegate,
-     NSFetchedResultsControllerDelegate>
+     NSFetchedResultsControllerDelegate,
+     CommentTableViewCellDelegate>
 
 @property (nonatomic) int commentCount;
 
@@ -56,11 +57,25 @@
     return _commentCount;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
+    CGSize bodySize = [comment.text sizeWithFont:[UIFont helveticaLightObliqueFontOfSize:12.f]
+                                constrainedToSize:CGSizeMake(192.f, CGFLOAT_MAX)
+                                    lineBreakMode:NSLineBreakByWordWrapping];
+    CGFloat defaultCellSize = 110.f;
+    
+    if (bodySize.height > 14.f) {
+        defaultCellSize = defaultCellSize + (bodySize.height - 14.f);
+    }
+    return defaultCellSize;
+}
+
 - (CommentTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
     
     CommentTableViewCell *commentCell = [self.commentsTableView dequeueReusableCellWithIdentifier:@"CommentCell"];
     commentCell.comment = comment;
+    commentCell.delegate = self;
     commentCell.pipeView.hidden = (indexPath.row == _commentCount - 1);
     
     return commentCell;
@@ -83,6 +98,14 @@
     }
     
     [self.commentsTableView reloadData];
+}
+
+#pragma mark - CommentTableViewCellDelegate
+
+- (void)commentTableViewCellDidSelectUser:(MRSLUser *)user {
+    if ([self.delegate respondsToSelector:@selector(morselDetailCommentsViewControllerDidSelectUser:)]) {
+        [self.delegate morselDetailCommentsViewControllerDidSelectUser:user];
+    }
 }
 
 @end

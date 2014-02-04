@@ -577,10 +577,14 @@
                                                     <action selector="addMorselText:" destination="BwI-mZ-112" eventType="touchUpInside" id="nTs-lm-0ig"/>
                                                 </connections>
                                             </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="AGl-11-lhO">
+                                                <rect key="frame" x="22" y="26" width="40" height="40"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.57647061349999995" green="0.64313727620000005" blue="0.56862747670000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="G7a-j5-2Pc">
                                                 <rect key="frame" x="22" y="26" width="40" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.57647061347961426" green="0.64313727617263794" blue="0.56862747669219971" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <state key="normal">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -666,6 +670,7 @@
                         <outlet property="addTextMorselButton" destination="JNg-jz-yj7" id="Wzj-GT-d5I"/>
                         <outlet property="approvalImageView" destination="lS7-8F-FBt" id="qrS-2z-Re9"/>
                         <outlet property="cameraRollButton" destination="G7a-j5-2Pc" id="MAp-bM-zZT"/>
+                        <outlet property="cameraRollImageView" destination="AGl-11-lhO" id="K4a-0O-HFn"/>
                         <outlet property="cancelMorselButton" destination="gkA-vf-fEe" id="OuP-Em-rRI"/>
                         <outlet property="captureImageButton" destination="Cea-jw-x1g" id="nEh-Du-DqW"/>
                         <outlet property="discardImageButton" destination="ToZ-5f-Lwr" id="ngb-La-J2q"/>

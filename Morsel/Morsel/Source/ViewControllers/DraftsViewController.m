@@ -58,6 +58,13 @@
                                                                         animated:YES];
 }
 
+#pragma mark - Action Methods
+
+- (IBAction)displaySideBar {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
+                                                        object:@YES];
+}
+
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
