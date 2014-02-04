@@ -86,6 +86,19 @@
     return user;
 }
 
+- (void)updateCurrentUserWithSuccess:(MorselAPISuccessBlock)successOrNil
+                             failure:(MorselAPIFailureBlock)failureOrNil {
+    [self.morselApiService getUserProfile:[self currentUser]
+                                  success:^(id responseObject) {
+                                      DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+
+                                      [MRSLUser createOrUpdateUserFromResponseObject:responseObject
+                                                             shouldPostNotification:NO];
+
+                                      if (successOrNil) successOrNil(responseObject);
+                                  } failure:failureOrNil];
+}
+
 #pragma mark - Morsel Methods
 
 - (MRSLMorsel *)morselWithID:(NSNumber *)morselID {

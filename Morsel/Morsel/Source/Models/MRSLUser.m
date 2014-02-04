@@ -10,6 +10,39 @@
 
 @implementation MRSLUser
 
+#pragma mark - Class Methods
+
++ (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldPostNotification:(BOOL)shouldPostNotifications {
+    NSNumber *userID = [NSNumber numberWithInt:[responseObject[@"data"][@"id"] intValue]];
+
+    MRSLUser *existingUser = [[ModelController sharedController] userWithID:userID];
+
+    if (existingUser) {
+        DDLogDebug(@"User existed on device. Updating information.");
+
+        [existingUser setWithDictionary:responseObject[@"data"]];
+
+        [[NSUserDefaults standardUserDefaults] setObject:existingUser.userID
+                                                  forKey:@"userID"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
+        if (shouldPostNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+                                                                                         object:nil];
+    } else {
+        DDLogDebug(@"User did not exist on device. Creating new.");
+
+        MRSLUser *user = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
+        [user setWithDictionary:responseObject[@"data"]];
+
+        [[NSUserDefaults standardUserDefaults] setObject:user.userID
+                                                  forKey:@"userID"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
+        if (shouldPostNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+                                                                                         object:nil];
+    }
+}
+
 #pragma mark - Instance Methods
 
 - (void)setWithDictionary:(NSDictionary *)dictionary {
@@ -21,6 +54,7 @@
     self.authToken = ([dictionary[@"auth_token"] isEqual:[NSNull null]]) ? self.authToken : dictionary[@"auth_token"];
     self.morselCount = ([dictionary[@"morsel_count"] isEqual:[NSNull null]]) ? self.morselCount : [NSNumber numberWithInt:[dictionary[@"morsel_count"] intValue]];
     self.likeCount = ([dictionary[@"like_count"] isEqual:[NSNull null]]) ? self.likeCount : [NSNumber numberWithInt:[dictionary[@"like_count"] intValue]];
+    self.twitterUsername = ([dictionary[@"twitter_username"] isEqual:[NSNull null]]) ? self.twitterUsername : dictionary[@"twitter_username"];
 
     if (![dictionary[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = dictionary[@"photos"];

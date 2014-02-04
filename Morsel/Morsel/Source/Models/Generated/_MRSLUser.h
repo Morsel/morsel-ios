@@ -16,6 +16,7 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *occupationType;
 	__unsafe_unretained NSString *profileImage;
 	__unsafe_unretained NSString *profileImageURL;
+	__unsafe_unretained NSString *twitterUsername;
 	__unsafe_unretained NSString *userID;
 	__unsafe_unretained NSString *userName;
 } MRSLUserAttributes;
@@ -30,6 +31,7 @@ extern const struct MRSLUserFetchedProperties {
 
 @class MRSLComment;
 @class MRSLPost;
+
 
 
 
@@ -180,6 +182,16 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* twitterUsername;
+
+
+
+//- (BOOL)validateTwitterUsername:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* userID;
 
 
@@ -309,6 +321,12 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSString*)primitiveProfileImageURL;
 - (void)setPrimitiveProfileImageURL:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveTwitterUsername;
+- (void)setPrimitiveTwitterUsername:(NSString*)value;
 
 
 

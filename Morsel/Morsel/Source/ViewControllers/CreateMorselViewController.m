@@ -15,10 +15,19 @@
 #import "JSONResponseSerializerWithData.h"
 #import "ModelController.h"
 #import "UserPostsViewController.h"
+#import "SocialService.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
 #import "MRSLUser.h"
+
+#import <Accounts/Accounts.h>
+#import <Social/Social.h>
+
+NS_ENUM(NSUInteger, CreateMorselActionSheet) {
+    CreateMorselActionSheetSettings = 1,
+    CreateMorselActionSheetTwitterAccounts
+};
 
 @interface CreateMorselViewController ()
     <AddTextViewControllerDelegate,
@@ -42,6 +51,7 @@
 @property (weak, nonatomic) IBOutlet UIView *activityView;
 @property (weak, nonatomic) IBOutlet UIView *titleAlertView;
 @property (weak, nonatomic) IBOutlet UITextField *postTitleField;
+@property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 
 @property (weak, nonatomic) IBOutlet CreateMorselButtonPanelView *createMorselButtonPanelView;
 
@@ -50,6 +60,7 @@
 @property (nonatomic, strong) AddTextViewController *addTextViewController;
 @property (nonatomic, strong) UserPostsViewController *userPostsViewController;
 @property (nonatomic, strong) MRSLPost *post;
+@property (nonatomic, strong) NSArray *twitterAccounts;
 
 @end
 
@@ -140,7 +151,7 @@
                                    forState:UIControlStateNormal];
         }
     }
-    
+
     self.wasDraft = _morsel.draftValue;
 
     if (_post) {
@@ -197,7 +208,7 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             UIImage *thumbnailImage = [_capturedImage thumbnailImage:70.f
                                                 interpolationQuality:kCGInterpolationHigh];
-            
+
             dispatch_async(dispatch_get_main_queue(), ^
             {
                 _thumbnailImageView.image = thumbnailImage;
@@ -220,6 +231,43 @@
     [self presentViewController:captureMediaVC
                        animated:YES
                      completion:nil];
+}
+
+- (IBAction)toggleTwitter:(UIButton *)button {
+    MRSLUser *currentUser = [[ModelController sharedController] currentUser];
+
+    if ([currentUser twitterUsername]) {
+        //  api already has a token, so just toggle the button
+        [button setSelected:!button.selected];
+    } else {
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+            ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+            //  Get a list of their Twitter accounts
+            _twitterAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]];
+
+            //  show actionsheet with accounts and 'Cancel'
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose an Account"
+                                                                     delegate:self
+                                                            cancelButtonTitle:nil
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:nil];
+
+            for (ACAccount *acct in _twitterAccounts) {
+                [actionSheet addButtonWithTitle:acct.username];
+            }
+
+            [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+            [actionSheet setTag:CreateMorselActionSheetTwitterAccounts];
+            [actionSheet showInView:self.view];
+        } else {
+            //      show alert saying no twitter accounts found on device
+            [[[UIAlertView alloc] initWithTitle:@"Error"
+                                       message:@"No Twitter Accounts found on this device."
+                                      delegate:nil
+                             cancelButtonTitle:@"OK"
+                             otherButtonTitles: nil] show];
+        }
+    }
 }
 
 - (IBAction)postMorsel {
@@ -258,14 +306,14 @@
 
         [_morsel.post removeMorsel:_morsel];
         [_post addMorsel:_morsel];
-        
+
         if (self.temporaryPostTitle) {
             _post.title = _temporaryPostTitle;
         }
-        
+
         _morsel.post = _post;
     }
-    
+
     if (_willPublish) {
         _morsel.draft = @NO;
     }
@@ -355,8 +403,9 @@
 - (void)prepareMediaAndPostMorsel {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self addMediaDataToCurrentMorsel];
-        
+
         [[ModelController sharedController].morselApiService createMorsel:_morsel
+                                                            postToTwitter:_twitterButton.selected
                                                                   success:^(id responseObject)
          {
              [[ModelController sharedController] saveDataToStoreWithSuccess:nil
@@ -366,19 +415,19 @@
          {
              NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
              NSString *errorString = [NSString stringWithFormat:@"%@ Morsel Error: %@", _morsel.draft ? @"Draft" : @"Publish", errorDictionary[@"errors"]];
-             
+
              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, error publishing Morsel."
                                                              message:errorString
                                                             delegate:nil
                                                    cancelButtonTitle:@"OK"
                                                    otherButtonTitles:nil];
-             
+
              [alert show];
-             
+
              DDLogError(@"Error! Unable to create Morsel: %@", errorString);
          }];
     });
-    
+
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
 }
@@ -399,6 +448,7 @@
         [actionSheet addButtonWithTitle:(_willPublish) ? @"Publish Morsel" : @"Keep as Draft"];
     }
 
+    [actionSheet setTag:CreateMorselActionSheetSettings];
     [actionSheet showInView:self.view];
 }
 
@@ -406,7 +456,7 @@
 
 - (void)addMediaDataToCurrentMorsel {
     if (!_capturedImage) return;
-    
+
     BOOL imageIsLandscape = [Util imageIsLandscape:_capturedImage];
     CGFloat cameraDimensionScale = [Util cameraDimensionScaleFromImage:_capturedImage];
     CGFloat cropStartingY = yCameraImagePreviewOffset * cameraDimensionScale;
@@ -423,26 +473,65 @@
 #pragma mark - UIActionSheetDelegate Methods
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (_userIsEditing) {
-        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
-            [[ModelController sharedController].morselApiService deleteMorsel:_morsel
-                                                                      success:^(BOOL success) {
-                [self goBack];
-            } failure: ^(NSError * error) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops, something went wrong."
-                                                                    message:@"Unable to delete Morsel!"
-                                                                   delegate:nil
-                                                          cancelButtonTitle:nil
-                                                          otherButtonTitles:@"OK", nil];
-                [alertView show];
-            }];
-        }
-        self.willPublish = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Publish Morsel"]);
-    } else {
-        self.saveDraft = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save Draft"]);
+    if (actionSheet.tag == CreateMorselActionSheetSettings) {
+        if (_userIsEditing) {
+            if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
+                [[ModelController sharedController].morselApiService deleteMorsel:_morsel
+                                                                          success:^(BOOL success) {
+                    [self goBack];
+                } failure: ^(NSError * error) {
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops, something went wrong."
+                                                                        message:@"Unable to delete Morsel!"
+                                                                       delegate:nil
+                                                              cancelButtonTitle:nil
+                                                              otherButtonTitles:@"OK", nil];
+                    [alertView show];
+                }];
+            }
+            self.willPublish = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Publish Morsel"]);
+        } else {
+            self.saveDraft = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save Draft"]);
 
-        [self.postMorselButton setTitle:_saveDraft ? @"Save Morsel" : @"Publish Morsel"
-                               forState:UIControlStateNormal];
+            [self.postMorselButton setTitle:_saveDraft ? @"Save Morsel" : @"Publish Morsel"
+                                   forState:UIControlStateNormal];
+        }
+    } else if (actionSheet.tag == CreateMorselActionSheetTwitterAccounts) {
+        if (buttonIndex == [_twitterAccounts count]) return;
+        ACAccount *selectedAccount = _twitterAccounts[buttonIndex];
+        SocialService *socialService = [[SocialService alloc] init];
+        [_twitterButton setEnabled:NO];
+
+        [socialService performReverseAuthForAccount:selectedAccount
+                                          withBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                              NSLog(@"Got: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+
+                                              __weak typeof(self) weakSelf = self;
+                                              [[ModelController sharedController].morselApiService createTwitterAuthorizationFromParamString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
+                                                                                                                                     forUser:[[ModelController sharedController] currentUser]
+                                                                                                                                     success:^(id responseObject) {
+                                                                                                                                         [[ModelController sharedController] updateCurrentUserWithSuccess:^(id userResponseObject) {
+                                                                                                                                             __strong __typeof(weakSelf) strongSelf = weakSelf;
+                                                                                                                                             [strongSelf->_twitterButton setEnabled:YES];
+                                                                                                                                             [strongSelf->_twitterButton setSelected:!strongSelf->_twitterButton.selected];
+                                                                                                                                         } failure:^(NSError *error) {
+                                                                                                                                             __strong __typeof(weakSelf) strongSelf = weakSelf;
+                                                                                                                                             [strongSelf->_twitterButton setEnabled:YES];
+                                                                                                                                             [[[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                                                                                                         message:[error localizedDescription]
+                                                                                                                                                                        delegate:nil
+                                                                                                                                                               cancelButtonTitle:@"OK"
+                                                                                                                                                               otherButtonTitles:nil] show];
+                                                                                                                                         }];
+                                                                                                                                     } failure:^(NSError *error) {
+                                                                                                                                         __strong __typeof(weakSelf) strongSelf = weakSelf;
+                                                                                                                                         [strongSelf->_twitterButton setEnabled:YES];
+                                                                                                                                         [[[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                                                                                                     message:[error localizedDescription]
+                                                                                                                                                                    delegate:nil
+                                                                                                                                                           cancelButtonTitle:@"OK"
+                                                                                                                                                           otherButtonTitles:nil] show];
+                                                                                                                                }];
+                                          }];
     }
 }
 
@@ -481,7 +570,7 @@
     if (_post && !_post.title) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view bringSubviewToFront:_titleAlertView];
-            
+
             self.titleAlertView.hidden = NO;
             [self.postTitleField becomeFirstResponder];
         });

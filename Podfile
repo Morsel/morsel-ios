@@ -11,6 +11,8 @@ pod 'GCPlaceholderTextView', '1.0.1'
 pod 'NullSafe', '~>1.2'
 pod 'GPUImage', '~> 0.1.2'
 pod 'NSDate+TimeAgo', '~> 1.0.2'
+pod 'OAuthCore', '~> 0.0.1'
+pod 'OHHTTPStubs', '~> 3.1.0'
 
 target 'Morsel-Integration' do
 	pod 'KIF'

@@ -108,34 +108,8 @@
     {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
-        NSNumber *userID = [NSNumber numberWithInt:[responseObject[@"data"][@"id"] intValue]];
-
-        MRSLUser *existingUser = [[ModelController sharedController] userWithID:userID];
-
-        if (existingUser) {
-            DDLogDebug(@"User existed on device. Updating information.");
-
-            [existingUser setWithDictionary:responseObject[@"data"]];
-
-            [[NSUserDefaults standardUserDefaults] setObject:existingUser.userID
-                                                      forKey:@"userID"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-
-            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
-                                                                object:nil];
-        } else {
-            DDLogDebug(@"User did not exist on device. Creating new.");
-
-            MRSLUser *user = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
-            [user setWithDictionary:responseObject[@"data"]];
-
-            [[NSUserDefaults standardUserDefaults] setObject:user.userID
-                                                      forKey:@"userID"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-
-            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
-                                                                object:nil];
-        }
+        [MRSLUser createOrUpdateUserFromResponseObject:responseObject
+                               shouldPostNotification:YES];
 
         if (successOrNil) successOrNil(responseObject);
     } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -196,6 +170,39 @@
                   withError:error
                    inMethod:NSStringFromSelector(_cmd)];
     }];
+}
+
+- (void)createTwitterAuthorizationFromParamString:(NSString *)paramString
+                                          forUser:(MRSLUser *)user
+                                          success:(MorselAPISuccessBlock)userSuccessOrNil
+                                          failure:(MorselAPIFailureBlock)failureOrNil {
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    //  Expected paramString format: oauth_token=j93g35f&oauth_token_secret=a1a4df5554&uid=1234567
+    for (NSString *param in [paramString componentsSeparatedByString:@"&"]) {
+        NSArray *brokenDownParam = [param componentsSeparatedByString:@"="];
+        [dict setObject:brokenDownParam[1] forKey:brokenDownParam[0]];
+    }
+
+    NSDictionary *parameters = @{
+                                 @"provider" : @"twitter",
+                                 @"token" : dict[@"oauth_token"],
+                                 @"secret" : dict[@"oauth_token_secret"],
+                                 @"api_key" : [ModelController sharedController].currentUser.userID
+                                 };
+
+    [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"users/%i/authorizations", [user.userID intValue]]
+                             parameters:parameters
+                                success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+
+         if (userSuccessOrNil) userSuccessOrNil(responseObject);
+     } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+         [self reportFailure:failureOrNil
+                   withError:error
+                    inMethod:NSStringFromSelector(_cmd)];
+     }];
 }
 
 #pragma mark - Post Services
@@ -260,6 +267,7 @@
 #pragma mark - Morsel Services
 
 - (void)createMorsel:(MRSLMorsel *)morsel
+       postToTwitter:(BOOL)postToTwitter
              success:(MorselAPISuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:[ModelController sharedController].currentUser.userID, @"api_key", nil];
@@ -270,7 +278,7 @@
         [morselDictionary setObject:morsel.morselDescription
                              forKey:@"description"];
     }
-    
+
     [morselDictionary setObject:(morsel.draftValue) ? @"true" : @"false"
                          forKey:@"draft"];
 
@@ -287,6 +295,9 @@
                            forKey:@"post_title"];
         }
     }
+
+    if (postToTwitter)
+        [parameters setObject:@"true" forKey:@"post_to_twitter"];
 
     [[MorselAPIClient sharedClient] POST:@"morsels"
                               parameters:parameters
@@ -309,15 +320,24 @@
     }];
 }
 
+- (void)createMorsel:(MRSLMorsel *)morsel
+             success:(MorselAPISuccessBlock)successOrNil
+             failure:(MorselAPIFailureBlock)failureOrNil {
+    [self createMorsel:morsel
+         postToTwitter:NO
+               success:successOrNil
+               failure:failureOrNil];
+}
+
 - (void)getMorsel:(MRSLMorsel *)morsel success:(MorselAPISuccessBlock)successOrNil failure:(MorselAPIFailureBlock)failureOrNil {
     [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
                              parameters:@{@"api_key": [ModelController sharedController].currentUser.userID}
                                 success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-         
+
          [morsel setWithDictionary:responseObject[@"data"]];
-         
+
          if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
          [self reportFailure:failureOrNil
@@ -344,7 +364,7 @@
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
         [morsel setWithDictionary:responseObject[@"data"]];
-        
+
         if (successOrNil) successOrNil(responseObject);
     } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
         [self reportFailure:failureOrNil
@@ -479,27 +499,27 @@
                              parameters:@{@"api_key": [ModelController sharedController].currentUser.userID}
                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-        
+
         if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
             NSArray *responseArray = responseObject[@"data"];
             DDLogDebug(@"%lu comments available for Morsel!", (unsigned long)[responseArray count]);
-            
+
             [responseArray enumerateObjectsUsingBlock:^(NSDictionary *commentDictionary, NSUInteger idx, BOOL *stop)
              {
                  MRSLComment *foundComment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
                                                                         withValue:[NSNumber numberWithInt:[commentDictionary[@"id"] intValue]]];
-                 
+
                  if (!foundComment) {
                      MRSLComment *comment = [MRSLComment MR_createInContext:[ModelController sharedController].defaultContext];
                      [comment setWithDictionary:commentDictionary];
-                     
+
                      [[ModelController sharedController].defaultContext MR_saveToPersistentStoreAndWait];
                  } else {
                      [foundComment setWithDictionary:commentDictionary];
                      [[ModelController sharedController].defaultContext MR_saveToPersistentStoreAndWait];
                  }
              }];
-            
+
             successOrNil(responseArray);
         }
     } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -516,10 +536,10 @@
                               parameters:@{@"comment": @{@"description": comment.text},
                                            @"api_key": [ModelController sharedController].currentUser.userID}
                                  success: ^(AFHTTPRequestOperation * operation, id responseObject) {
-                                     DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                     
-                                     [comment setWithDictionary:responseObject[@"data"]];
-                                     
+         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+
+         [comment setWithDictionary:responseObject[@"data"]];
+
                                      [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateCommentNotification
                                                                                          object:nil];
                                      

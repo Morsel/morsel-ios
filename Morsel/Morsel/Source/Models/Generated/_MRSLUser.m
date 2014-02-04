@@ -15,6 +15,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.occupationType = @"occupationType",
 	.profileImage = @"profileImage",
 	.profileImageURL = @"profileImageURL",
+	.twitterUsername = @"twitterUsername",
 	.userID = @"userID",
 	.userName = @"userName",
 };
@@ -208,6 +209,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 @dynamic profileImageURL;
+
+
+
+
+
+
+@dynamic twitterUsername;
 
 
 

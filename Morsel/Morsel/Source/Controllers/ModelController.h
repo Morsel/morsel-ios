@@ -25,6 +25,8 @@
 
 - (MRSLUser *)currentUser;
 - (MRSLUser *)userWithID:(NSNumber *)userID;
+- (void)updateCurrentUserWithSuccess:(MorselAPISuccessBlock)successOrNil
+                             failure:(MorselAPIFailureBlock)failureOrNil;
 
 // Morsel Methods
 
