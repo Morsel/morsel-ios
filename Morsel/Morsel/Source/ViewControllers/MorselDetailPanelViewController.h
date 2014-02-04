@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class MRSLDetailHorizontalSwipePanelsViewController;
+
 @protocol MorselDetailPanelViewControllerDelegate <NSObject>
 
 @optional
@@ -23,5 +25,7 @@
 @property (nonatomic, weak) id <MorselDetailPanelViewControllerDelegate> delegate;
 
 @property (nonatomic, strong) MRSLMorsel *morsel;
+
+- (void)addPanRecognizerSubscriber:(MRSLDetailHorizontalSwipePanelsViewController *)viewController;
 
 @end

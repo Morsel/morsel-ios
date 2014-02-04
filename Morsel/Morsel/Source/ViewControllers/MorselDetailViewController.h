@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MRSLDetailHorizontalSwipePanelsViewController.h"
+
 @class MRSLMorsel;
 
-@interface MorselDetailViewController : UIViewController
+@interface MorselDetailViewController : MRSLDetailHorizontalSwipePanelsViewController
 
 @property (nonatomic, strong) MRSLMorsel *morsel;
 

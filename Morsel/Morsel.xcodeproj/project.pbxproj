@@ -24,6 +24,9 @@
 		057749E490424AA8A501241D /* libPods-Morsel-Specs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F25ECEABED4243EAB69138D9 /* libPods-Morsel-Specs.a */; };
 		0609B8371894A9E6005A11A4 /* CaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* CaptureMediaViewController.m */; };
 		0609B8401894B52E005A11A4 /* CameraPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B83F1894B52E005A11A4 /* CameraPreviewView.m */; };
+		0618F8FD18A00CC7001713E0 /* MRSLDetailHorizontalSwipePanelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0618F8FC18A00CC7001713E0 /* MRSLDetailHorizontalSwipePanelsViewController.m */; };
+		0618F90418A02C1F001713E0 /* MRSLSwipePanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0618F90318A02C1F001713E0 /* MRSLSwipePanGestureRecognizer.m */; };
+		0618F90718A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0618F90618A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.m */; };
 		062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062DF21618845B7D00C199D8 /* LoginViewController.m */; };
 		062E709C1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E709B1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m */; };
 		062E709F1892C681005D07B9 /* MorselThumbnailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E709E1892C681005D07B9 /* MorselThumbnailViewController.m */; };
@@ -145,6 +148,12 @@
 		0609B8361894A9E6005A11A4 /* CaptureMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureMediaViewController.m; sourceTree = "<group>"; };
 		0609B83E1894B52E005A11A4 /* CameraPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraPreviewView.h; path = Source/Views/CameraPreviewView.h; sourceTree = "<group>"; };
 		0609B83F1894B52E005A11A4 /* CameraPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraPreviewView.m; path = Source/Views/CameraPreviewView.m; sourceTree = "<group>"; };
+		0618F8FB18A00CC7001713E0 /* MRSLDetailHorizontalSwipePanelsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLDetailHorizontalSwipePanelsViewController.h; sourceTree = "<group>"; };
+		0618F8FC18A00CC7001713E0 /* MRSLDetailHorizontalSwipePanelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLDetailHorizontalSwipePanelsViewController.m; sourceTree = "<group>"; };
+		0618F90218A02C1F001713E0 /* MRSLSwipePanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSwipePanGestureRecognizer.h; path = Source/Recognizers/MRSLSwipePanGestureRecognizer.h; sourceTree = "<group>"; };
+		0618F90318A02C1F001713E0 /* MRSLSwipePanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSwipePanGestureRecognizer.m; path = Source/Recognizers/MRSLSwipePanGestureRecognizer.m; sourceTree = "<group>"; };
+		0618F90518A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLDetailHorizontalSwipePanelView.h; path = Source/Views/MRSLDetailHorizontalSwipePanelView.h; sourceTree = "<group>"; };
+		0618F90618A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLDetailHorizontalSwipePanelView.m; path = Source/Views/MRSLDetailHorizontalSwipePanelView.m; sourceTree = "<group>"; };
 		062DF21518845B7D00C199D8 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		062DF21618845B7D00C199D8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		062E709A1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselThumbnailCollectionViewCell.h; path = Source/Views/MorselThumbnailCollectionViewCell.h; sourceTree = "<group>"; };
@@ -379,6 +388,8 @@
 				0674A858185FBDF90089B672 /* MorselDetailViewController.m */,
 				063B177818923BF200ABFEAE /* MorselDetailPanelViewController.h */,
 				063B177918923BF200ABFEAE /* MorselDetailPanelViewController.m */,
+				0618F8FB18A00CC7001713E0 /* MRSLDetailHorizontalSwipePanelsViewController.h */,
+				0618F8FC18A00CC7001713E0 /* MRSLDetailHorizontalSwipePanelsViewController.m */,
 			);
 			name = "Morsel Detail";
 			sourceTree = "<group>";
@@ -423,11 +434,22 @@
 			name = "AV Capture";
 			sourceTree = "<group>";
 		};
+		0618F90118A02B86001713E0 /* Recognizers */ = {
+			isa = PBXGroup;
+			children = (
+				0618F90218A02C1F001713E0 /* MRSLSwipePanGestureRecognizer.h */,
+				0618F90318A02C1F001713E0 /* MRSLSwipePanGestureRecognizer.m */,
+			);
+			name = Recognizers;
+			sourceTree = "<group>";
+		};
 		062E70991892C59E005D07B9 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
 				066F5AEB185BCC2000468210 /* MorselScrollView.h */,
 				066F5AEC185BCC2000468210 /* MorselScrollView.m */,
+				0618F90518A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.h */,
+				0618F90618A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.m */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -642,6 +664,7 @@
 				066066AB18522E7900E780FC /* Images.xcassets */,
 				0698CA8D18523AE2007AF442 /* Models */,
 				063976D918638D0C00A17211 /* Protocols */,
+				0618F90118A02B86001713E0 /* Recognizers */,
 				067382DC187E1A19003CF1AD /* Service */,
 				0660669718522E7900E780FC /* Supporting Files */,
 				063BB6F318983CCA0029DAF0 /* User Interface */,
@@ -738,15 +761,15 @@
 		066F5AE3185BCB8A00468210 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				062E8DFC189C18D2002A8CD4 /* Side Bar */,
 				0609B83D1894B4EF005A11A4 /* AV Capture */,
-				062E70991892C59E005D07B9 /* Detail */,
-				068602961891A68C000CD576 /* Text */,
-				063976DA186394A300A17211 /* Layouts */,
-				063250CD1860E88600ADDF23 /* Controls */,
 				063250CE1860E89500ADDF23 /* Comments */,
-				063250CC1860E86600ADDF23 /* Management */,
+				063250CD1860E88600ADDF23 /* Controls */,
+				062E70991892C59E005D07B9 /* Detail */,
 				063250CB1860E85700ADDF23 /* Feed */,
+				063976DA186394A300A17211 /* Layouts */,
+				063250CC1860E86600ADDF23 /* Management */,
+				062E8DFC189C18D2002A8CD4 /* Side Bar */,
+				068602961891A68C000CD576 /* Text */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1150,6 +1173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0618F8FD18A00CC7001713E0 /* MRSLDetailHorizontalSwipePanelsViewController.m in Sources */,
 				063BB70718984A920029DAF0 /* PostMorselsViewController.m in Sources */,
 				0660669D18522E7900E780FC /* main.m in Sources */,
 				062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */,
@@ -1164,6 +1188,7 @@
 				0698CA99185240F2007AF442 /* MRSLUser.m in Sources */,
 				06F2F4F31892F78A00977DEB /* MorselLargeButton.m in Sources */,
 				068602B318920D31000CD576 /* MorselCondensedLabel.m in Sources */,
+				0618F90418A02C1F001713E0 /* MRSLSwipePanGestureRecognizer.m in Sources */,
 				0669C5131871FD370093132F /* UIImage+Resize.m in Sources */,
 				066F5AEA185BCBF200468210 /* MorselFeedCollectionViewCell.m in Sources */,
 				06F11E7C1862465F003E64C8 /* MRSLPost.m in Sources */,
@@ -1184,6 +1209,7 @@
 				0676B48F1898514D001D7483 /* PostMorselCollectionViewCell.m in Sources */,
 				0676B4A3189985F3001D7483 /* MorselMediumLabel.m in Sources */,
 				0676B49918997CFC001D7483 /* AddTextViewController.m in Sources */,
+				0618F90718A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.m in Sources */,
 				06A049651896D82500BD1C5B /* PostCollectionViewCell.m in Sources */,
 				068602A21891AD2C000CD576 /* MorselStandardButton.m in Sources */,
 				066F5AE2185BCB6200468210 /* CreateMorselViewController.m in Sources */,
