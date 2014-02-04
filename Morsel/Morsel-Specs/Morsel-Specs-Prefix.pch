@@ -7,4 +7,12 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import <AFNetworking/UIImageView+AFNetworking.h>
+
+    #import "Defines.h"
+    #import "UIColor+Morsel.h"
+    #import "UIFont+Morsel.h"
+    #import "UIImage+Resize.h"
+    #import "UIStoryboard+Morsel.h"
+    #import "UIView+Additions.h"
 #endif

@@ -34,6 +34,11 @@
                success:(MorselAPISuccessBlock)userSuccessOrNil
                failure:(MorselAPIFailureBlock)failureOrNil;
 
+- (void)createTwitterAuthorizationFromParamString:(NSString *)paramString
+                                          forUser:(MRSLUser *)user
+                                          success:(MorselAPISuccessBlock)userSuccessOrNil
+                                          failure:(MorselAPIFailureBlock)failureOrNil;
+
 #pragma mark - Post Services
 
 - (void)updatePost:(MRSLPost *)post
@@ -45,6 +50,11 @@
         failure:(MorselAPIFailureBlock)failureOrNil;
 
 #pragma mark - Morsel Services
+
+- (void)createMorsel:(MRSLMorsel *)morsel
+       postToTwitter:(BOOL)postToTwitter
+             success:(MorselAPISuccessBlock)successOrNil
+             failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)createMorsel:(MRSLMorsel *)morsel
              success:(MorselAPISuccessBlock)successOrNil
