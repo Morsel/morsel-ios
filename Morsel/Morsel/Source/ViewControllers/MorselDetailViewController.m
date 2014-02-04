@@ -20,6 +20,11 @@
 #import "MRSLPost.h"
 #import "MRSLUser.h"
 
+static const CGFloat MRSLDetailSingleNavigationBarHeight = 64.f;
+static const CGFloat MRSLDetailProgressionNavigationBarHeight = 80.f;
+static const CGFloat MRSLProfilePanelHiddenY = -20.f;
+static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
+
 @interface MorselDetailViewController ()
     <UIScrollViewDelegate,
      MorselDetailPanelViewControllerDelegate>
@@ -30,10 +35,9 @@
 @property (weak, nonatomic) IBOutlet UIPageControl *progressionPageControl;
 @property (weak, nonatomic) IBOutlet UIView *morselDetailNavigationView;
 @property (weak, nonatomic) IBOutlet UIView *profilePanelView;
+@property (weak, nonatomic) IBOutlet UIView *viewControllerPanelContainerView;
 
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
-
-@property (nonatomic, strong) MorselDetailPanelViewController *morselDetailPanelVC;
 
 @end
 
@@ -49,11 +53,17 @@
 
         if (postMorselCount > 1) {
             self.progressionPageControl.numberOfPages = postMorselCount;
+            [self.morselDetailNavigationView setHeight:MRSLDetailProgressionNavigationBarHeight];
         } else {
             self.progressionPageControl.hidden = YES;
-            [self.morselDetailNavigationView setHeight:64.f];
-            [self.profilePanelView setY:64.f];
+            [self.morselDetailNavigationView setHeight:MRSLDetailSingleNavigationBarHeight];
         }
+        
+        CGFloat navigationViewHeight = [_morselDetailNavigationView getHeight];
+        
+        [self.profilePanelView setY:navigationViewHeight];
+        [self.viewControllerPanelContainerView setY:navigationViewHeight];
+        [self.viewControllerPanelContainerView setHeight:[self.view getHeight] - navigationViewHeight];
 
         self.postTitleLabel.text = _morsel.post.title ?: @"Morsel";
         self.timeSinceLabel.text = [_morsel.creationDate dateTimeAgo];
@@ -62,20 +72,36 @@
         self.profileImageView.user = _morsel.post.author;
         [_profileImageView addCornersWithRadius:20.f];
 
-        //int morselIndex = (int)[_morsel.post.morsels indexOfObject:_morsel];
-
-        MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
-        morselDetailPanelVC.view.frame = CGRectMake(0.f, 76.f, 320.f, 492.f);
-        morselDetailPanelVC.morsel = _morsel;
-        morselDetailPanelVC.delegate = self;
-        
-        self.morselDetailPanelVC = morselDetailPanelVC;
-        
-        [self addChildViewController:morselDetailPanelVC];
-        [self.view addSubview:morselDetailPanelVC.view];
-        
-        [self.view bringSubviewToFront:_profilePanelView];
-        [self.view bringSubviewToFront:_morselDetailNavigationView];
+        if ([_morsel.post.morsels count] > 1) {
+            NSUInteger morselIndex = [_morsel.post.morsels indexOfObject:_morsel];
+            
+            self.progressionPageControl.currentPage = morselIndex;
+            
+            NSMutableArray *panelArray = [NSMutableArray array];
+            
+            for (MRSLMorsel *morsel in _morsel.post.morsels) {
+                MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
+                morselDetailPanelVC.morsel = morsel;
+                [panelArray addObject:morselDetailPanelVC];
+            }
+            
+            [self addSwipeCollectionViewControllers:panelArray
+                                withinContainerView:_viewControllerPanelContainerView];
+            [self displayPanelForPage:morselIndex
+                             animated:NO];
+            
+            [self.progressionPageControl addTarget:self
+                                            action:@selector(changePage:)
+                                  forControlEvents:UIControlEventValueChanged];
+        } else {
+            MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
+            morselDetailPanelVC.view.frame = CGRectMake(0.f, 0.f, _viewControllerPanelContainerView.frame.size.width, _viewControllerPanelContainerView.frame.size.height);
+            morselDetailPanelVC.morsel = _morsel;
+            morselDetailPanelVC.delegate = self;
+            
+            [self addChildViewController:morselDetailPanelVC];
+            [self.viewControllerPanelContainerView addSubview:morselDetailPanelVC.view];
+        }
     }
 }
 
@@ -89,6 +115,11 @@
 }
 
 #pragma mark - Action Methods
+
+- (void)changePage:(UIPageControl *)pageControl {
+    [self displayPanelForPage:pageControl.currentPage
+                     animated:YES];
+}
 
 - (IBAction)displayUserProfile {
     ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
@@ -110,11 +141,10 @@
 }
 
 - (void)morselDetailPanelViewScrollOffsetChanged:(CGFloat)offset {
-    NSUInteger postMorselCount = [_morsel.post.morsels count];
-    CGFloat profilePanelY = (postMorselCount > 1) ? 80.f : 64.f;
+    CGFloat profilePanelY = [_morselDetailNavigationView getHeight];
     
-    if (offset > 40.f) {
-        profilePanelY = -20.f;
+    if (offset > MRSLProfilePanelHiddenTriggeringOffset) {
+        profilePanelY = MRSLProfilePanelHiddenY;
     }
     
     [UIView animateWithDuration:.2f animations:^{
@@ -122,11 +152,18 @@
     }];
 }
 
-#pragma mark - Destruction
+#pragma mark - MRSLDetailHorizontalSwipePanelsViewController+Additions
 
-- (void)dealloc {
-    [_morselDetailPanelVC removeFromParentViewController];
-    [_morselDetailPanelVC.view removeFromSuperview];
+- (void)didUpdateCurrentPage:(NSUInteger)page {
+    self.progressionPageControl.currentPage = page;
+    
+    if (self.previousExists) {
+        MorselDetailPanelViewController *previousDetailPanelViewController = [self.swipeViewControllers objectAtIndex:self.previousPage];
+        previousDetailPanelViewController.delegate = nil;
+    }
+    
+    MorselDetailPanelViewController *detailPanelViewController = [self.swipeViewControllers objectAtIndex:page];
+    detailPanelViewController.delegate = self;
 }
 
 @end

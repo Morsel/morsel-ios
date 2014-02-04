@@ -13,6 +13,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" id="Buk-7l-YjM">
+                                <rect key="frame" x="0.0" y="76" width="320" height="492"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" id="G3z-vX-sf4">
                                 <rect key="frame" x="0.0" y="80" width="320" height="55"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -106,6 +111,7 @@
                         <outlet property="profilePanelView" destination="G3z-vX-sf4" id="Nut-Lv-2kY"/>
                         <outlet property="progressionPageControl" destination="sk0-FI-cYB" id="NfH-7y-5MR"/>
                         <outlet property="timeSinceLabel" destination="9Ds-6H-gLF" id="gXY-Ud-pB1"/>
+                        <outlet property="viewControllerPanelContainerView" destination="Buk-7l-YjM" id="Z1Q-sT-HoY"/>
                         <segue destination="RDS-t2-YW3" kind="modal" identifier="AddComment" id="lED-nT-Y6i"/>
                     </connections>
                 </viewController>
@@ -146,7 +152,7 @@
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6P2-Rx-Vw0" customClass="MorselStandardLabel">
                                         <rect key="frame" x="30" y="240" width="260" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
