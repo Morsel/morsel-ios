@@ -209,7 +209,7 @@ static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevice
 - (void)displayLatestCameraRollImage {
     ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
     [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
-                                 usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+                                 usingBlock:^(ALAssetsGroup *group, BOOL *stopSavedPhotoEnumeration) {
                                      if (nil != group) {
                                          [group setAssetsFilter:[ALAssetsFilter allPhotos]];
                                          [group enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:group.numberOfAssets - 1]
@@ -225,7 +225,6 @@ static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevice
                                                                   }
                                                               }];
                                      }
-                                     *stop = NO;
                                  } failureBlock:^(NSError *error) {
                                      NSLog(@"error: %@", error);
                                  }];

@@ -118,7 +118,7 @@
     self.titleLabel.hidden = NO;
     self.descriptionLabel.hidden = NO;
     self.textOnlyLabel.hidden = NO;
-    
+
     self.titleLabel.text = nil;
     self.descriptionLabel.text = nil;
     self.profileImageView.user = nil;
@@ -126,7 +126,7 @@
 
     [self.titleLabel setY:148.f];
     [self.descriptionLabel setHeight:15.f];
-    
+
     if (self.morselThumbnailVC) {
         [self.morselThumbnailVC.view removeFromSuperview];
         self.morselThumbnailVC = nil;
@@ -222,7 +222,7 @@
 
 - (void)profileImageViewDidSelectUser:(MRSLUser *)user {
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectProfileForUser:)]) {
-        [self.delegate morselPostCollectionViewCellDidSelectProfileForUser:_morsel.post.author];
+        [self.delegate morselPostCollectionViewCellDidSelectProfileForUser:user];
     }
 }
 

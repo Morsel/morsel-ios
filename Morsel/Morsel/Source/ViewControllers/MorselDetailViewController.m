@@ -218,10 +218,4 @@ static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
     detailPanelViewController.delegate = self;
 }
 
-#pragma mark - Destruction
-
-- (void)reset {
-    [super reset];
-}
-
 @end

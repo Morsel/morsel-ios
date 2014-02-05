@@ -126,10 +126,8 @@ static const CGFloat MRSLCommentCellDefaultHeight = 110.f;
                                 placeholderImage:nil
                                          success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
          {
-             if (image) {
-                 __strong UIImageView *strongImageView = weakImageView;
-                 strongImageView.image = image;
-             }
+             __strong UIImageView *strongImageView = weakImageView;
+             strongImageView.image = image;
          } failure: ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
              DDLogError(@"Unable to set Morsel Image in ScrollView: %@", error.userInfo);
          }];
