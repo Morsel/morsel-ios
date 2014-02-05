@@ -29,7 +29,7 @@ describe(@"SocialService", ^{
                 it(@"throws an exception", ^{
                     [[[KWBlock blockWithBlock:^{
                         SocialService *socialService = [[SocialService alloc] init];
-                        [socialService performReverseAuthForAccount:nil
+                        [socialService performReverseAuthForTwitterAccount:nil
                                                           withBlock:^(NSData *data, NSURLResponse *response, NSError *error) {}];
                     }] should] raise];
                 });

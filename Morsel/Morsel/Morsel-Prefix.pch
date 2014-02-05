@@ -16,6 +16,7 @@
     #import <AFNetworking/UIImageView+AFNetworking.h>
 
     #import "Defines.h"
+    #import "UIAlertView+Additions.h"
     #import "UIColor+Morsel.h"
     #import "UIFont+Morsel.h"
     #import "UIImage+Resize.h"

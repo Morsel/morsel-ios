@@ -103,12 +103,16 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="x9Q-c3-Tbh">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="x9Q-c3-Tbh">
                                         <rect key="frame" x="138" y="16" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="icon-social-facebook">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="selected" image="icon-checkmark-on"/>
+                                        <connections>
+                                            <action selector="toggleFacebook:" destination="peM-UU-So4" eventType="touchUpInside" id="Qrr-kj-lYb"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FkS-q1-Urn">
                                         <rect key="frame" x="200" y="16" width="40" height="40"/>
@@ -220,6 +224,7 @@
                         <outlet property="createMorselButtonPanelView" destination="9rc-pL-t2s" id="4jK-aT-QeB"/>
                         <outlet property="createTitleLabel" destination="TbC-J6-pbH" id="Up4-C2-RMM"/>
                         <outlet property="doneButton" destination="vTU-W0-1HW" id="H3F-Qz-Ty7"/>
+                        <outlet property="facebookButton" destination="x9Q-c3-Tbh" id="8Gu-RT-cOf"/>
                         <outlet property="postMorselButton" destination="nXn-5m-ZND" id="2XI-TH-m6a"/>
                         <outlet property="settingsButton" destination="W9g-LF-yuZ" id="r8g-lA-jJU"/>
                         <outlet property="thumbnailImageView" destination="YVq-ej-sOr" id="p3l-if-TyS"/>

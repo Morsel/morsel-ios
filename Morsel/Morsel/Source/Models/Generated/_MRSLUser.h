@@ -8,6 +8,7 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *authToken;
 	__unsafe_unretained NSString *bio;
 	__unsafe_unretained NSString *emailAddress;
+	__unsafe_unretained NSString *facebookUID;
 	__unsafe_unretained NSString *firstName;
 	__unsafe_unretained NSString *lastName;
 	__unsafe_unretained NSString *likeCount;
@@ -31,6 +32,7 @@ extern const struct MRSLUserFetchedProperties {
 
 @class MRSLComment;
 @class MRSLPost;
+
 
 
 
@@ -85,6 +87,16 @@ extern const struct MRSLUserFetchedProperties {
 
 
 //- (BOOL)validateEmailAddress:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* facebookUID;
+
+
+
+//- (BOOL)validateFacebookUID:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -264,6 +276,12 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSString*)primitiveEmailAddress;
 - (void)setPrimitiveEmailAddress:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveFacebookUID;
+- (void)setPrimitiveFacebookUID:(NSString*)value;
 
 
 

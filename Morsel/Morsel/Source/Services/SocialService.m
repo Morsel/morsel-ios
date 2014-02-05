@@ -13,12 +13,13 @@
 
 #define TWITTER_CONSUMER_KEY @"<INSERT CONSUMER KEY HERE>"
 #define TWITTER_CONSUMER_SECRET @"<INSERT CONSUMER SECRET HERE>"
+#define FACEBOOK_APP_ID @"<INSERT APP ID HERE>"
 
 @implementation SocialService
 
 #pragma mark - Instance Methods
 
-- (void)performReverseAuthForAccount:(ACAccount *)account withBlock:(MorselDataURLResponseErrorBlock)block {
+- (void)performReverseAuthForTwitterAccount:(ACAccount *)account withBlock:(MorselDataURLResponseErrorBlock)block {
     NSParameterAssert(account);
 
     [self requestReverseAuthenticationSignatureWithBlock:^(NSData *reverseAuthenticationData, NSURLResponse *reverseAuthenticationResponse, NSError *reverseAuthenticationError) {
@@ -35,6 +36,24 @@
             });
         }
     }];
+}
+
+- (void)requestReadAndWriteForFacebookAccountsWithBlock:(ACAccountStoreRequestAccessCompletionHandler)block {
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    [accountStore requestAccessToAccountsWithType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
+                                          options:@{ ACFacebookAppIdKey : FACEBOOK_APP_ID,
+                                                     ACFacebookPermissionsKey: @[ @"basic_info", @"email" ] }
+                                       completion:^(BOOL readGranted, NSError *readError) {
+                                           if (readGranted) {
+                                               [accountStore requestAccessToAccountsWithType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
+                                                                                     options:@{ ACFacebookAppIdKey : FACEBOOK_APP_ID,
+                                                                                                ACFacebookAudienceKey: ACFacebookAudienceEveryone,
+                                                                                                ACFacebookPermissionsKey: @[ @"publish_stream" ] }
+                                                                                  completion:block];
+                                           } else {
+                                               if (block) block(nil, readError);
+                                           }
+                                       }];
 }
 
 
