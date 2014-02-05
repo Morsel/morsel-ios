@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class MRSLDetailHorizontalSwipePanelsViewController;
+@class MRSLDetailHorizontalSwipePanelsViewController, MRSLUser;
 
 @protocol MorselDetailPanelViewControllerDelegate <NSObject>
 
 @optional
 - (void)morselDetailPanelViewDidSelectAddComment;
+- (void)morselDetailPanelViewDidSelectUser:(MRSLUser *)user;
 - (void)morselDetailPanelViewScrollOffsetChanged:(CGFloat)offset;
 
 @end

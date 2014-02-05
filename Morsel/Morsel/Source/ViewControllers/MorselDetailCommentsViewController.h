@@ -8,14 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class MRSLMorsel, MRSLUser;
+
 @protocol MorselDetailCommentsViewControllerDelegate <NSObject>
 
 @optional
 - (void)morselDetailCommentsViewControllerDidUpdateWithAmountOfComments:(NSUInteger)amount;
+- (void)morselDetailCommentsViewControllerDidSelectUser:(MRSLUser *)user;
 
 @end
-
-@class MRSLMorsel;
 
 @interface MorselDetailCommentsViewController : UIViewController
 

@@ -8,9 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@class MRSLComment;
+@class MRSLComment, MRSLUser;
+
+@protocol CommentTableViewCellDelegate <NSObject>
+
+@optional
+- (void)commentTableViewCellDidSelectUser:(MRSLUser *)user;
+
+@end
 
 @interface CommentTableViewCell : UITableViewCell
+
+@property (nonatomic, weak) id <CommentTableViewCellDelegate> delegate;
 
 @property (nonatomic, strong) MRSLComment *comment;
 @property (nonatomic, weak) IBOutlet UIView *pipeView;

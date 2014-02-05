@@ -10,7 +10,16 @@
 
 @class MRSLUser;
 
+@protocol ProfileImageViewDelegate <NSObject>
+
+@optional
+- (void)profileImageViewDidSelectUser:(MRSLUser *)user;
+
+@end
+
 @interface ProfileImageView : UIImageView
+
+@property (nonatomic, weak) id <ProfileImageViewDelegate> delegate;
 
 @property (nonatomic, weak) MRSLUser *user;
 

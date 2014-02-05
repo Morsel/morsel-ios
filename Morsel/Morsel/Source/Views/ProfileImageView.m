@@ -18,48 +18,67 @@
 
 @property (nonatomic, strong) AFHTTPRequestOperation *imageRequestOperation;
 
+@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+
 @end
 
 @implementation ProfileImageView
 
-- (void)setUser:(MRSLUser *)user {
-    _user = user;
+#pragma mark - Instance Methods
 
-    if (self.imageRequestOperation) {
-        [self.imageRequestOperation cancel];
-        self.imageRequestOperation = nil;
+- (void)setDelegate:(id<ProfileImageViewDelegate>)delegate {
+    _delegate = delegate;
+    
+    if (!_tapRecognizer && _delegate) {
+        self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayUserProfile)];
+        
+        [self addGestureRecognizer:_tapRecognizer];
+        
+        self.userInteractionEnabled = YES;
     }
+}
 
-    if (user) {
-        if (user.profileImageURL) {
-            NSURLRequest *profileImageURLRequest = [user userProfilePictureURLRequestForImageSizeType:(self.frame.size.width > 40.f) ? ProfileImageSizeTypeMedium : ProfileImageSizeTypeSmall];
-            if (!profileImageURLRequest)
-                return;
-
-            __weak __typeof(self) weakSelf = self;
-
-            self.imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:profileImageURLRequest];
-
-            [_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, NSData *imageData)
-            {
-                user.profileImage = imageData;
-
-                UIImage *downloadedProfileImage = [UIImage imageWithData:imageData];
-                weakSelf.image = downloadedProfileImage;
-
-                weakSelf.imageRequestOperation = nil;
-            } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                DDLogError(@"Profile Image View Request Operation Failed: %@", error.userInfo);
-
-                weakSelf.imageRequestOperation = nil;
-            }];
-
-            [_imageRequestOperation start];
+- (void)setUser:(MRSLUser *)user {
+    if (_user != user) {
+        _user = user;
+        
+        if (self.imageRequestOperation) {
+            [self.imageRequestOperation cancel];
+            self.imageRequestOperation = nil;
+        }
+        
+        if (user) {
+            if (user.profileImageURL) {
+                NSURLRequest *profileImageURLRequest = [user userProfilePictureURLRequestForImageSizeType:(self.frame.size.width > 40.f) ? ProfileImageSizeTypeMedium : ProfileImageSizeTypeSmall];
+                if (!profileImageURLRequest)
+                    return;
+                
+                __weak __typeof(self) weakSelf = self;
+                
+                self.imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:profileImageURLRequest];
+                
+                [_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, NSData *imageData)
+                 {
+                     user.profileImage = imageData;
+                     
+                     UIImage *downloadedProfileImage = [UIImage imageWithData:imageData];
+                     weakSelf.image = downloadedProfileImage;
+                     
+                     weakSelf.imageRequestOperation = nil;
+                 } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                     DDLogError(@"Profile Image View Request Operation Failed: %@", error.userInfo);
+                     
+                     weakSelf.imageRequestOperation = nil;
+                 }];
+                
+                [_imageRequestOperation start];
+            } else {
+                self.image = nil;
+            }
         } else {
             self.image = nil;
+            self.delegate = nil;
         }
-    } else {
-        self.image = nil;
     }
 }
 
@@ -75,12 +94,25 @@
     });
 }
 
+#pragma mark - Private Methods
+
+- (void)displayUserProfile {
+    if ([self.delegate respondsToSelector:@selector(profileImageViewDidSelectUser:)] && _user) {
+        [self.delegate profileImageViewDidSelectUser:_user];
+    }
+}
+
 #pragma mark - Destruction Methods
 
 - (void)dealloc {
     if (self.imageRequestOperation) {
         [self.imageRequestOperation cancel];
         self.imageRequestOperation = nil;
+    }
+    
+    if (self.tapRecognizer) {
+        [self removeGestureRecognizer:_tapRecognizer];
+        self.tapRecognizer = nil;
     }
 }
 

@@ -40,4 +40,9 @@
                            size:fontSize];
 }
 
++ (UIFont *)helveticaLightObliqueFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Helvetica-LightOblique"
+                           size:fontSize];
+}
+
 @end

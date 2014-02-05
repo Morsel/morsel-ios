@@ -14,10 +14,14 @@
 #import "MRSLComment.h"
 #import "MRSLMorsel.h"
 
+static const CGFloat MRSLDefaultCommentLabelHeight = 14.f;
+static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
+
 @interface MorselDetailCommentsViewController ()
     <UITableViewDataSource,
      UITableViewDelegate,
-     NSFetchedResultsControllerDelegate>
+     NSFetchedResultsControllerDelegate,
+     CommentTableViewCellDelegate>
 
 @property (nonatomic) int commentCount;
 
@@ -56,11 +60,25 @@
     return _commentCount;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
+    CGSize bodySize = [comment.text sizeWithFont:[UIFont helveticaLightObliqueFontOfSize:12.f]
+                                constrainedToSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
+                                    lineBreakMode:NSLineBreakByWordWrapping];
+    CGFloat defaultCellSize = 110.f;
+    
+    if (bodySize.height > MRSLDefaultCommentLabelHeight) {
+        defaultCellSize = defaultCellSize + (bodySize.height - MRSLDefaultCommentLabelHeight);
+    }
+    return defaultCellSize;
+}
+
 - (CommentTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
     
     CommentTableViewCell *commentCell = [self.commentsTableView dequeueReusableCellWithIdentifier:@"CommentCell"];
     commentCell.comment = comment;
+    commentCell.delegate = self;
     commentCell.pipeView.hidden = (indexPath.row == _commentCount - 1);
     
     return commentCell;
@@ -83,6 +101,14 @@
     }
     
     [self.commentsTableView reloadData];
+}
+
+#pragma mark - CommentTableViewCellDelegate
+
+- (void)commentTableViewCellDidSelectUser:(MRSLUser *)user {
+    if ([self.delegate respondsToSelector:@selector(morselDetailCommentsViewControllerDidSelectUser:)]) {
+        [self.delegate morselDetailCommentsViewControllerDidSelectUser:user];
+    }
 }
 
 @end

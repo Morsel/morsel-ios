@@ -11,6 +11,7 @@
 #import "ModelController.h"
 #import "MorselDetailViewController.h"
 #import "MorselFeedCollectionViewCell.h"
+#import "PostMorselsViewController.h"
 #import "ProfileImageView.h"
 
 #import "MRSLMorsel.h"
@@ -182,6 +183,19 @@
     [self.feedCollectionView scrollToItemAtIndexPath:cellIndexPath
                                     atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                             animated:YES];
+}
+
+- (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel {
+    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"EditPostMorsels"];
+    
+    if ([editPostMorselsNC.viewControllers count] > 0) {
+        PostMorselsViewController *postMorselsVC = [editPostMorselsNC.viewControllers firstObject];
+        postMorselsVC.post = morsel.post;
+        
+        [self.navigationController presentViewController:editPostMorselsNC
+                                                animated:YES
+                                              completion:nil];
+    }
 }
 
 @end
