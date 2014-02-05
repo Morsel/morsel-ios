@@ -237,8 +237,30 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                      completion:nil];
 }
 
-- (void)showActionSheetWithAccounts:(NSArray *)accounts {
-    _facebookAccounts = accounts;
+- (void)showActionSheetWithAccountsForAccountTypeIdentifier:(NSString *)accountTypeIdentifier {
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    NSArray *accounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:accountTypeIdentifier]];
+    NSMutableArray *buttonTitles = [NSMutableArray array];
+    NSUInteger actionSheetTag = 0;
+
+    if ([accountTypeIdentifier isEqualToString:ACAccountTypeIdentifierFacebook]) {
+        for (ACAccount *account in accounts) {
+            NSString *fullName = [[account valueForKey:@"properties"] objectForKey:@"ACPropertyFullName"];
+            if (fullName.length > 0) {
+                [buttonTitles addObject:[NSString stringWithFormat:@"%@ (%@)", fullName, account.username]];
+            } else {
+                [buttonTitles addObject:account.username];
+            }
+        }
+        _facebookAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]];
+        actionSheetTag = CreateMorselActionSheetFacebookAccounts;
+    } else {
+        for (ACAccount *account in accounts) {
+            [buttonTitles addObject:account.username];
+        }
+        _twitterAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]];
+        actionSheetTag = CreateMorselActionSheetTwitterAccounts;
+    }
 
     dispatch_async(dispatch_get_main_queue(), ^{
         //  show actionsheet with accounts and 'Cancel'
@@ -248,20 +270,14 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                                                    destructiveButtonTitle:nil
                                                         otherButtonTitles:nil];
 
-        for (ACAccount *acct in _facebookAccounts) {
-            NSString *fullName = [[acct valueForKey:@"properties"] objectForKey:@"ACPropertyFullName"];
-            if (fullName.length > 0) {
-                [actionSheet addButtonWithTitle:[NSString stringWithFormat:@"%@ (%@)", fullName, acct.username]];
-            } else {
-                [actionSheet addButtonWithTitle:[NSString stringWithFormat:@"%@", acct.username]];
-            }
+        for (NSString *buttonTitle in buttonTitles) {
+            [actionSheet addButtonWithTitle:buttonTitle];
         }
 
         [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
-        [actionSheet setTag:CreateMorselActionSheetFacebookAccounts];
+        [actionSheet setTag:actionSheetTag];
         [actionSheet showInView:self.view];
     });
-
 }
 
 - (IBAction)toggleFacebook:(UIButton *)button {
@@ -279,12 +295,11 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                 SocialService *socialService = [[SocialService alloc] init];
                 __weak typeof(self) weakSelf = self;
                 [socialService requestReadAndWriteForFacebookAccountsWithBlock:^(BOOL granted, NSError *error) {
-                    ACAccountStore *updatedAccountStore = [[ACAccountStore alloc] init];
                     __strong typeof(weakSelf) strongSelf = weakSelf;
-                    [strongSelf showActionSheetWithAccounts:[updatedAccountStore accountsWithAccountType:[updatedAccountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]]];
+                    [strongSelf showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
                 }];
             } else {
-                [self showActionSheetWithAccounts:facebookAccounts];
+                [self showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
             }
         } else {
             [UIAlertView showAlertViewWithTitle:@"Error"
@@ -306,22 +321,19 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
             ACAccountStore *accountStore = [[ACAccountStore alloc] init];
             //  Get a list of their Twitter accounts
-            _twitterAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]];
+            NSArray *twitterAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]];
 
-            //  show actionsheet with accounts and 'Cancel'
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose an Account"
-                                                                     delegate:self
-                                                            cancelButtonTitle:nil
-                                                       destructiveButtonTitle:nil
-                                                            otherButtonTitles:nil];
-
-            for (ACAccount *acct in _twitterAccounts) {
-                [actionSheet addButtonWithTitle:acct.username];
+            if ([twitterAccounts count] == 0) {
+                //  Request to grab the accounts
+                SocialService *socialService = [[SocialService alloc] init];
+                __weak typeof(self) weakSelf = self;
+                [socialService requestReadAndWriteForTwitterAccountsWithBlock:^(BOOL granted, NSError *error) {
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    [strongSelf showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+                }];
+            } else {
+                [self showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
             }
-
-            [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
-            [actionSheet setTag:CreateMorselActionSheetTwitterAccounts];
-            [actionSheet showInView:self.view];
         } else {
             //      show alert saying no twitter accounts found on device
             [UIAlertView showAlertViewWithTitle:@"Error"

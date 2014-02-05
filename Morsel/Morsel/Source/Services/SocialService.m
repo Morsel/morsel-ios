@@ -38,6 +38,13 @@
     }];
 }
 
+- (void)requestReadAndWriteForTwitterAccountsWithBlock:(ACAccountStoreRequestAccessCompletionHandler)block {
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    [accountStore requestAccessToAccountsWithType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]
+                                          options:nil
+                                       completion:block];
+}
+
 - (void)requestReadAndWriteForFacebookAccountsWithBlock:(ACAccountStoreRequestAccessCompletionHandler)block {
     ACAccountStore *accountStore = [[ACAccountStore alloc] init];
     [accountStore requestAccessToAccountsWithType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
@@ -51,7 +58,7 @@
                                                                                                 ACFacebookPermissionsKey: @[ @"publish_stream" ] }
                                                                                   completion:block];
                                            } else {
-                                               if (block) block(nil, readError);
+                                               if (block) block(NO, readError);
                                            }
                                        }];
 }
