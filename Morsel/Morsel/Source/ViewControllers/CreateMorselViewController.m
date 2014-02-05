@@ -652,11 +652,11 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
 - (void)userPostsSelectedPost:(MRSLPost *)post {
     self.temporaryPostTitle = nil;
     self.post = post;
-    
+
     if (_post && !_post.title) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view bringSubviewToFront:_titleAlertView];
-            
+
             self.titleAlertView.hidden = NO;
             [self.postTitleField becomeFirstResponder];
         });
@@ -668,14 +668,14 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField.text.length > 0) {
         self.temporaryPostTitle = textField.text;
-        
+
         textField.text = @"";
-        
+
         self.userPostsViewController.temporaryPostTitle = _temporaryPostTitle;
-        
+
         self.titleAlertView.hidden = YES;
         [textField resignFirstResponder];
-        
+
         return YES;
     }
     return NO;
