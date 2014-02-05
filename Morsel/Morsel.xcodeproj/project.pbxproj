@@ -112,13 +112,15 @@
 		06A049621896D6E500BD1C5B /* UserPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049611896D6E500BD1C5B /* UserPostsViewController.m */; };
 		06A049651896D82500BD1C5B /* PostCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049641896D82500BD1C5B /* PostCollectionViewCell.m */; };
 		06CE1882187F13A0009F9722 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1881187F13A0009F9722 /* Constants.m */; };
-		06CE1885187F42EA009F9722 /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1884187F42EA009F9722 /* JSONResponseSerializerWithData.m */; };
 		06D12491189DB94F00492305 /* DraftsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D12490189DB94F00492305 /* DraftsViewController.m */; };
 		06D12494189DC30400492305 /* Drafts_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D12492189DC30400492305 /* Drafts_iPhone.storyboard */; };
 		06E89F8F1885ED3B00DA3A90 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E89F8E1885ED3B00DA3A90 /* Util.m */; };
 		06F11E7C1862465F003E64C8 /* MRSLPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F11E7B1862465F003E64C8 /* MRSLPost.m */; };
 		06F11E7F18624680003E64C8 /* _MRSLPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F11E7E18624680003E64C8 /* _MRSLPost.m */; };
 		06F2F4F31892F78A00977DEB /* MorselLargeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F2F4F21892F78A00977DEB /* MorselLargeButton.m */; };
+		4005ED8418A19965005B8484 /* UIAlertView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4005ED8318A19965005B8484 /* UIAlertView+Additions.m */; };
+		4005ED8518A19965005B8484 /* UIAlertView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4005ED8318A19965005B8484 /* UIAlertView+Additions.m */; };
+		4005ED8618A19965005B8484 /* UIAlertView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4005ED8318A19965005B8484 /* UIAlertView+Additions.m */; };
 		4069CB26189B127E001790F3 /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB1F189B127E001790F3 /* JSONResponseSerializerWithData.m */; };
 		4069CB27189B127E001790F3 /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB1F189B127E001790F3 /* JSONResponseSerializerWithData.m */; };
 		4069CB28189B127E001790F3 /* MorselAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB21189B127E001790F3 /* MorselAPIClient.m */; };
@@ -307,8 +309,6 @@
 		06A049641896D82500BD1C5B /* PostCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostCollectionViewCell.m; path = Source/Views/PostCollectionViewCell.m; sourceTree = "<group>"; };
 		06CE1880187F13A0009F9722 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		06CE1881187F13A0009F9722 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		06CE1883187F42EA009F9722 /* JSONResponseSerializerWithData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONResponseSerializerWithData.h; sourceTree = "<group>"; };
-		06CE1884187F42EA009F9722 /* JSONResponseSerializerWithData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONResponseSerializerWithData.m; sourceTree = "<group>"; };
 		06D1248F189DB94F00492305 /* DraftsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftsViewController.h; sourceTree = "<group>"; };
 		06D12490189DB94F00492305 /* DraftsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftsViewController.m; sourceTree = "<group>"; };
 		06D12493189DC30400492305 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drafts_iPhone.storyboard; sourceTree = "<group>"; };
@@ -322,6 +322,8 @@
 		06F2F4F21892F78A00977DEB /* MorselLargeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselLargeButton.m; path = Source/Views/MorselLargeButton.m; sourceTree = "<group>"; };
 		25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.xcconfig"; path = "../Pods/Pods-Morsel-Integration.xcconfig"; sourceTree = "<group>"; };
+		4005ED8218A19965005B8484 /* UIAlertView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Additions.h"; sourceTree = "<group>"; };
+		4005ED8318A19965005B8484 /* UIAlertView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Additions.m"; sourceTree = "<group>"; };
 		4069CB1E189B127E001790F3 /* JSONResponseSerializerWithData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONResponseSerializerWithData.h; sourceTree = "<group>"; };
 		4069CB1F189B127E001790F3 /* JSONResponseSerializerWithData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONResponseSerializerWithData.m; sourceTree = "<group>"; };
 		4069CB20189B127E001790F3 /* MorselAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorselAPIClient.h; sourceTree = "<group>"; };
@@ -733,6 +735,8 @@
 		0669C5101871FD370093132F /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				4005ED8218A19965005B8484 /* UIAlertView+Additions.h */,
+				4005ED8318A19965005B8484 /* UIAlertView+Additions.m */,
 				0686029D1891A8D3000CD576 /* UIColor+Morsel.h */,
 				0686029E1891A8D3000CD576 /* UIColor+Morsel.m */,
 				0686029A1891A7B7000CD576 /* UIFont+Morsel.h */,
@@ -1206,7 +1210,6 @@
 				0660669D18522E7900E780FC /* main.m in Sources */,
 				062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */,
 				06D12491189DB94F00492305 /* DraftsViewController.m in Sources */,
-				067382E1187E1A19003CF1AD /* MorselAPIClient.m in Sources */,
 				066F5AD9185BCA4D00468210 /* MRSLMorsel.m in Sources */,
 				066F5B05185BCFD600468210 /* CommentTableViewCell.m in Sources */,
 				4069CB2C189B127E001790F3 /* SocialService.m in Sources */,
@@ -1234,6 +1237,7 @@
 				0686029C1891A7B7000CD576 /* UIFont+Morsel.m in Sources */,
 				066F5ADF185BCB5000468210 /* ProfileViewController.m in Sources */,
 				062E709F1892C681005D07B9 /* MorselThumbnailViewController.m in Sources */,
+				4005ED8418A19965005B8484 /* UIAlertView+Additions.m in Sources */,
 				0686029F1891A8D3000CD576 /* UIColor+Morsel.m in Sources */,
 				068602A81891B43E000CD576 /* UIStoryboard+Morsel.m in Sources */,
 				0676B48F1898514D001D7483 /* PostMorselCollectionViewCell.m in Sources */,
@@ -1282,6 +1286,7 @@
 				4069CB2D189B127E001790F3 /* SocialService.m in Sources */,
 				4069CB30189B1324001790F3 /* SocialService_Spec.m in Sources */,
 				4069CB27189B127E001790F3 /* JSONResponseSerializerWithData.m in Sources */,
+				4005ED8518A19965005B8484 /* UIAlertView+Additions.m in Sources */,
 				4069CB2B189B127E001790F3 /* MorselAPIService.m in Sources */,
 				4069CB29189B127E001790F3 /* MorselAPIClient.m in Sources */,
 			);
@@ -1292,6 +1297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0698CAD218524359007AF442 /* Morsel_Integration.m in Sources */,
+				4005ED8618A19965005B8484 /* UIAlertView+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

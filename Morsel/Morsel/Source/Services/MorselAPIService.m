@@ -172,28 +172,19 @@
     }];
 }
 
-- (void)createTwitterAuthorizationFromParamString:(NSString *)paramString
-                                          forUser:(MRSLUser *)user
-                                          success:(MorselAPISuccessBlock)userSuccessOrNil
-                                          failure:(MorselAPIFailureBlock)failureOrNil {
-
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    //  Expected paramString format: oauth_token=j93g35f&oauth_token_secret=a1a4df5554&uid=1234567
-    for (NSString *param in [paramString componentsSeparatedByString:@"&"]) {
-        NSArray *brokenDownParam = [param componentsSeparatedByString:@"="];
-        [dict setObject:brokenDownParam[1] forKey:brokenDownParam[0]];
-    }
-
+- (void)createFacebookAuthorizationWithToken:(NSString *)token
+                                     forUser:(MRSLUser *)user
+                                     success:(MorselAPISuccessBlock)userSuccessOrNil
+                                     failure:(MorselAPIFailureBlock)failureOrNil {
     NSDictionary *parameters = @{
-                                 @"provider" : @"twitter",
-                                 @"token" : dict[@"oauth_token"],
-                                 @"secret" : dict[@"oauth_token_secret"],
+                                 @"provider" : @"facebook",
+                                 @"token" : token,
                                  @"api_key" : [ModelController sharedController].currentUser.userID
                                  };
 
     [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"users/%i/authorizations", [user.userID intValue]]
-                             parameters:parameters
-                                success:^(AFHTTPRequestOperation *operation, id responseObject)
+                              parameters:parameters
+                                 success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
@@ -203,6 +194,40 @@
                    withError:error
                     inMethod:NSStringFromSelector(_cmd)];
      }];
+}
+
+- (void)createTwitterAuthorizationWithToken:(NSString *)token
+                                     secret:(NSString *)secret
+                                    forUser:(MRSLUser *)user
+                                    success:(MorselAPISuccessBlock)userSuccessOrNil
+                                    failure:(MorselAPIFailureBlock)failureOrNil {
+    if (token && secret) {
+        NSDictionary *parameters = @{
+                                     @"provider" : @"twitter",
+                                     @"token" : token,
+                                     @"secret" : secret,
+                                     @"api_key" : [ModelController sharedController].currentUser.userID
+                                     };
+
+        [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"users/%i/authorizations", [user.userID intValue]]
+                                 parameters:parameters
+                                    success:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+
+             if (userSuccessOrNil) userSuccessOrNil(responseObject);
+         } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+             [self reportFailure:failureOrNil
+                       withError:error
+                        inMethod:NSStringFromSelector(_cmd)];
+         }];
+    } else {
+        [self reportFailure:failureOrNil
+                  withError:[NSError errorWithDomain:@"com.eatmorsel.missingparameters"
+                                                code:0
+                                            userInfo:@{ NSLocalizedFailureReasonErrorKey : @"Unable to Authenticate with Twitter" }]
+                   inMethod:NSStringFromSelector(_cmd)];
+    }
 }
 
 #pragma mark - Post Services
@@ -267,6 +292,7 @@
 #pragma mark - Morsel Services
 
 - (void)createMorsel:(MRSLMorsel *)morsel
+      postToFacebook:(BOOL)postToFacebook
        postToTwitter:(BOOL)postToTwitter
              success:(MorselAPISuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil {
@@ -296,6 +322,9 @@
         }
     }
 
+    if (postToFacebook)
+        [parameters setObject:@"true" forKey:@"post_to_facebook"];
+
     if (postToTwitter)
         [parameters setObject:@"true" forKey:@"post_to_twitter"];
 
@@ -324,6 +353,7 @@
              success:(MorselAPISuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil {
     [self createMorsel:morsel
+        postToFacebook:NO
          postToTwitter:NO
                success:successOrNil
                failure:failureOrNil];

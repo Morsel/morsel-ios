@@ -7,6 +7,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.authToken = @"authToken",
 	.bio = @"bio",
 	.emailAddress = @"emailAddress",
+	.facebookUID = @"facebookUID",
 	.firstName = @"firstName",
 	.lastName = @"lastName",
 	.likeCount = @"likeCount",
@@ -96,6 +97,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 @dynamic emailAddress;
+
+
+
+
+
+
+@dynamic facebookUID;
 
 
 

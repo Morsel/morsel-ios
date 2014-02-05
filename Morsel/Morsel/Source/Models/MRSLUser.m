@@ -55,6 +55,7 @@
     self.morselCount = ([dictionary[@"morsel_count"] isEqual:[NSNull null]]) ? self.morselCount : [NSNumber numberWithInt:[dictionary[@"morsel_count"] intValue]];
     self.likeCount = ([dictionary[@"like_count"] isEqual:[NSNull null]]) ? self.likeCount : [NSNumber numberWithInt:[dictionary[@"like_count"] intValue]];
     self.twitterUsername = ([dictionary[@"twitter_username"] isEqual:[NSNull null]]) ? self.twitterUsername : dictionary[@"twitter_username"];
+    self.facebookUID = ([dictionary[@"facebook_uid"] isEqual:[NSNull null]]) ? self.facebookUID : dictionary[@"facebook_uid"];
 
     if (![dictionary[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = dictionary[@"photos"];

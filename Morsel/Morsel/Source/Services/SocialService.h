@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Accounts/Accounts.h>
 
 @class ACAccount;
 @class SLRequestHandler;
 
 @interface SocialService : NSObject
 
-- (void)performReverseAuthForAccount:(ACAccount *)account withBlock:(MorselDataURLResponseErrorBlock)block;
+- (void)performReverseAuthForTwitterAccount:(ACAccount *)account withBlock:(MorselDataURLResponseErrorBlock)block;
+
+- (void)requestReadAndWriteForFacebookAccountsWithBlock:(ACAccountStoreRequestAccessCompletionHandler)block;
 
 @end
