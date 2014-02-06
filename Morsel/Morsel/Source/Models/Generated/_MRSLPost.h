@@ -6,14 +6,12 @@
 
 extern const struct MRSLPostAttributes {
 	__unsafe_unretained NSString *creationDate;
-	__unsafe_unretained NSString *draft;
-	__unsafe_unretained NSString *editing;
 	__unsafe_unretained NSString *postID;
 	__unsafe_unretained NSString *title;
 } MRSLPostAttributes;
 
 extern const struct MRSLPostRelationships {
-	__unsafe_unretained NSString *author;
+	__unsafe_unretained NSString *creator;
 	__unsafe_unretained NSString *morsels;
 } MRSLPostRelationships;
 
@@ -22,8 +20,6 @@ extern const struct MRSLPostFetchedProperties {
 
 @class MRSLUser;
 @class MRSLMorsel;
-
-
 
 
 
@@ -47,34 +43,6 @@ extern const struct MRSLPostFetchedProperties {
 
 
 //- (BOOL)validateCreationDate:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* draft;
-
-
-
-@property BOOL draftValue;
-- (BOOL)draftValue;
-- (void)setDraftValue:(BOOL)value_;
-
-//- (BOOL)validateDraft:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* editing;
-
-
-
-@property BOOL editingValue;
-- (BOOL)editingValue;
-- (void)setEditingValue:(BOOL)value_;
-
-//- (BOOL)validateEditing:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -104,9 +72,9 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-@property (nonatomic, strong) MRSLUser *author;
+@property (nonatomic, strong) MRSLUser *creator;
 
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateCreator:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -139,24 +107,6 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-- (NSNumber*)primitiveDraft;
-- (void)setPrimitiveDraft:(NSNumber*)value;
-
-- (BOOL)primitiveDraftValue;
-- (void)setPrimitiveDraftValue:(BOOL)value_;
-
-
-
-
-- (NSNumber*)primitiveEditing;
-- (void)setPrimitiveEditing:(NSNumber*)value;
-
-- (BOOL)primitiveEditingValue;
-- (void)setPrimitiveEditingValue:(BOOL)value_;
-
-
-
-
 - (NSNumber*)primitivePostID;
 - (void)setPrimitivePostID:(NSNumber*)value;
 
@@ -173,8 +123,8 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-- (MRSLUser*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(MRSLUser*)value;
+- (MRSLUser*)primitiveCreator;
+- (void)setPrimitiveCreator:(MRSLUser*)value;
 
 
 

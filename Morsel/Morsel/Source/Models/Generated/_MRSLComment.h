@@ -5,21 +5,21 @@
 
 
 extern const struct MRSLCommentAttributes {
+	__unsafe_unretained NSString *commentDescription;
 	__unsafe_unretained NSString *commentID;
 	__unsafe_unretained NSString *creationDate;
-	__unsafe_unretained NSString *text;
 } MRSLCommentAttributes;
 
 extern const struct MRSLCommentRelationships {
+	__unsafe_unretained NSString *creator;
 	__unsafe_unretained NSString *morsel;
-	__unsafe_unretained NSString *user;
 } MRSLCommentRelationships;
 
 extern const struct MRSLCommentFetchedProperties {
 } MRSLCommentFetchedProperties;
 
-@class MRSLMorsel;
 @class MRSLUser;
+@class MRSLMorsel;
 
 
 
@@ -33,6 +33,16 @@ extern const struct MRSLCommentFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (MRSLCommentID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSString* commentDescription;
+
+
+
+//- (BOOL)validateCommentDescription:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -62,12 +72,9 @@ extern const struct MRSLCommentFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* text;
+@property (nonatomic, strong) MRSLUser *creator;
 
-
-
-//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
-
+//- (BOOL)validateCreator:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -75,13 +82,6 @@ extern const struct MRSLCommentFetchedProperties {
 @property (nonatomic, strong) MRSLMorsel *morsel;
 
 //- (BOOL)validateMorsel:(id*)value_ error:(NSError**)error_;
-
-
-
-
-@property (nonatomic, strong) MRSLUser *user;
-
-//- (BOOL)validateUser:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -94,6 +94,12 @@ extern const struct MRSLCommentFetchedProperties {
 @end
 
 @interface _MRSLComment (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSString*)primitiveCommentDescription;
+- (void)setPrimitiveCommentDescription:(NSString*)value;
+
+
 
 
 - (NSNumber*)primitiveCommentID;
@@ -111,20 +117,14 @@ extern const struct MRSLCommentFetchedProperties {
 
 
 
-- (NSString*)primitiveText;
-- (void)setPrimitiveText:(NSString*)value;
 
-
+- (MRSLUser*)primitiveCreator;
+- (void)setPrimitiveCreator:(MRSLUser*)value;
 
 
 
 - (MRSLMorsel*)primitiveMorsel;
 - (void)setPrimitiveMorsel:(MRSLMorsel*)value;
-
-
-
-- (MRSLUser*)primitiveUser;
-- (void)setPrimitiveUser:(MRSLUser*)value;
 
 
 @end

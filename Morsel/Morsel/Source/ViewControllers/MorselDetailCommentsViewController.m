@@ -9,7 +9,6 @@
 #import "MorselDetailCommentsViewController.h"
 
 #import "CommentTableViewCell.h"
-#import "ModelController.h"
 
 #import "MRSLComment.h"
 #import "MRSLMorsel.h"
@@ -18,10 +17,10 @@ static const CGFloat MRSLDefaultCommentLabelHeight = 14.f;
 static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
 
 @interface MorselDetailCommentsViewController ()
-    <UITableViewDataSource,
-     UITableViewDelegate,
-     NSFetchedResultsControllerDelegate,
-     CommentTableViewCellDelegate>
+<UITableViewDataSource,
+UITableViewDelegate,
+NSFetchedResultsControllerDelegate,
+CommentTableViewCellDelegate>
 
 @property (nonatomic) int commentCount;
 
@@ -38,14 +37,14 @@ static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
         _morsel = morsel;
         if (_morsel && !_fetchedResultsController) {
             NSPredicate *commentsForMorselPredicate = [NSPredicate predicateWithFormat:@"morsel.morselID == %i", [_morsel.morselID intValue]];
-            
+
             self.fetchedResultsController = [MRSLComment MR_fetchAllSortedBy:@"creationDate"
                                                                    ascending:YES
                                                                withPredicate:commentsForMorselPredicate
                                                                      groupBy:nil
                                                                     delegate:self
-                                                                   inContext:[ModelController sharedController].defaultContext];
-            
+                                                                   inContext:Appdelegate.defaultContext];
+
             [self.commentsTableView reloadData];
         }
     }
@@ -56,17 +55,17 @@ static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     id<NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
     self.commentCount = [sectionInfo numberOfObjects];
-    
+
     return _commentCount;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
-    CGSize bodySize = [comment.text sizeWithFont:[UIFont helveticaLightObliqueFontOfSize:12.f]
-                                constrainedToSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
-                                    lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize bodySize = [comment.commentDescription sizeWithFont:[UIFont helveticaLightObliqueFontOfSize:12.f]
+                                             constrainedToSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
+                                                 lineBreakMode:NSLineBreakByWordWrapping];
     CGFloat defaultCellSize = 110.f;
-    
+
     if (bodySize.height > MRSLDefaultCommentLabelHeight) {
         defaultCellSize = defaultCellSize + (bodySize.height - MRSLDefaultCommentLabelHeight);
     }
@@ -75,12 +74,12 @@ static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
 
 - (CommentTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
-    
+
     CommentTableViewCell *commentCell = [self.commentsTableView dequeueReusableCellWithIdentifier:@"CommentCell"];
     commentCell.comment = comment;
     commentCell.delegate = self;
     commentCell.pipeView.hidden = (indexPath.row == _commentCount - 1);
-    
+
     return commentCell;
 }
 
@@ -88,18 +87,18 @@ static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu comments.", (unsigned long)[[controller fetchedObjects] count]);
-    
+
     if ([self.delegate respondsToSelector:@selector(morselDetailCommentsViewControllerDidUpdateWithAmountOfComments:)]) {
         [self.delegate morselDetailCommentsViewControllerDidUpdateWithAmountOfComments:[[controller fetchedObjects] count]];
     }
-    
+
     NSError *fetchError = nil;
     [_fetchedResultsController performFetch:&fetchError];
-    
+
     if (fetchError) {
         DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
     }
-    
+
     [self.commentsTableView reloadData];
 }
 

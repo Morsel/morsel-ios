@@ -1,11 +1,5 @@
 #import "_MRSLUser.h"
 
-typedef NS_ENUM(NSUInteger, UserOccupationType) {
-    UserOccupationTypeChef,
-    UserOccupationTypeDiner,
-    UserOccupationTypeMedia
-};
-
 typedef NS_ENUM(NSUInteger, ProfileImageSizeType) {
     ProfileImageSizeTypeSmall,
     ProfileImageSizeTypeMedium
@@ -13,16 +7,13 @@ typedef NS_ENUM(NSUInteger, ProfileImageSizeType) {
 
 @interface MRSLUser : _MRSLUser
 
++ (MRSLUser *)currentUser;
++ (NSString *)apiTokenForCurrentUser;
++ (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID;
 + (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldPostNotification:(BOOL)shouldPostNotifications;
 
 - (BOOL)isCurrentUser;
-- (UserOccupationType)occupationTypeRaw;
-- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type;
 - (NSString *)fullName;
-
-- (void)addPost:(MRSLPost *)post;
-
-- (void)setOccupationTypeRaw:(UserOccupationType)type;
-- (void)setWithDictionary:(NSDictionary *)dictionary;
+- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type;
 
 @end

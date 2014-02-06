@@ -9,18 +9,17 @@
 #import "DraftsViewController.h"
 
 #import "CreateMorselViewController.h"
-#import "ModelController.h"
 #import "PostMorselCollectionViewCell.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
 @interface DraftsViewController ()
-    <NSFetchedResultsControllerDelegate,
-     UIAlertViewDelegate,
-     UICollectionViewDataSource,
-     UICollectionViewDelegate,
-     UITextFieldDelegate>
+<NSFetchedResultsControllerDelegate,
+UIAlertViewDelegate,
+UICollectionViewDataSource,
+UICollectionViewDelegate,
+UITextFieldDelegate>
 
 @property (nonatomic) int postID;
 
@@ -37,18 +36,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    MRSLUser *user = [ModelController sharedController].currentUser;
-    
-    NSPredicate *userDraftsPredicate = [NSPredicate predicateWithFormat:@"(post.author.userID == %i) AND (draft == YES)", user.userIDValue];
-    
+
+    MRSLUser *user = [MRSLUser currentUser];
+
+    NSPredicate *userDraftsPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (draft == YES)", user.userIDValue];
+
     self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
                                                           ascending:NO
                                                       withPredicate:userDraftsPredicate
                                                             groupBy:nil
                                                            delegate:self
-                                                          inContext:[ModelController sharedController].defaultContext];
-    
+                                                          inContext:Appdelegate.defaultContext];
+
     [self.draftMorselsCollectionView reloadData];
 }
 
@@ -69,18 +68,18 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     id<NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
-    
+
     return [sectionInfo numberOfObjects];
 }
 
 - (PostMorselCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
-    
+
     PostMorselCollectionViewCell *postMorselCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PostMorselCell"
                                                                                              forIndexPath:indexPath];
     postMorselCell.morsel = morsel;
-    
+
     return postMorselCell;
 }
 
@@ -89,12 +88,25 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
     MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
-    
+
     CreateMorselViewController *createMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorselViewController"];
     createMorselVC.morsel = morsel;
-    
+
     [self.navigationController pushViewController:createMorselVC
                                          animated:YES];
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate Methods
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    NSError *fetchError = nil;
+    [_fetchedResultsController performFetch:&fetchError];
+
+    if (fetchError) {
+        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
+    }
+
+    [self.draftMorselsCollectionView reloadData];
 }
 
 @end

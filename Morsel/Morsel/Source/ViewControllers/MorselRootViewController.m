@@ -9,14 +9,13 @@
 #import "MorselRootViewController.h"
 
 #import "HomeViewController.h"
-#import "ModelController.h"
 #import "MRSLSideBarViewController.h"
 #import "ProfileViewController.h"
 
 #import "MRSLUser.h"
 
 @interface MorselRootViewController ()
-    <MRSLSideBarViewControllerDelegate>
+<MRSLSideBarViewControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *navigationControllers;
 @property (nonatomic, strong) UIViewController *currentViewController;
@@ -36,7 +35,7 @@
     [super viewDidLoad];
 
     self.navigationControllers = [NSMutableArray array];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(shouldDisplaySidebar:)
                                                  name:MRSLShouldDisplaySideBarNotification
@@ -45,14 +44,14 @@
                                              selector:@selector(userLoggedIn:)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
-    
+
     self.sideBarViewController = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"MRSLSideBarViewController"];
     _sideBarViewController.delegate = self;
-    
+
     [self addChildViewController:_sideBarViewController];
     [self.sideBarContainerView addSubview:_sideBarViewController.view];
 
-    MRSLUser *currentUser = [ModelController sharedController].currentUser;
+    MRSLUser *currentUser = [MRSLUser currentUser];
 
     if (!currentUser) {
         double delayInSeconds = 0.f;
@@ -76,10 +75,10 @@
 - (void)toggleSidebar:(BOOL)shouldShow {
     [[UIApplication sharedApplication] setStatusBarHidden:shouldShow
                                             withAnimation:UIStatusBarAnimationFade];
-    
+
     self.rootContainerView.userInteractionEnabled = !shouldShow;
     self.sideBarContainerView.userInteractionEnabled = shouldShow;
-    
+
     [UIView animateWithDuration:.3f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
         [_rootContainerView setX:shouldShow ? self.view.frame.size.width - 40.f : 0.f];
     } completion:nil];
@@ -113,30 +112,30 @@
     if (_currentViewController) {
         [_currentViewController removeFromParentViewController];
         [_currentViewController.view removeFromSuperview];
-        
+
         self.currentViewController = nil;
     }
-    
+
     Class viewControllerClass = NSClassFromString([NSString stringWithFormat:@"%@ViewController", classPrefixName]);
     UINavigationController *viewControllerNC = [self getNavControllerWithClass:[viewControllerClass class]];
-    
+
     if (!viewControllerNC) {
         UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@_iPhone", classPrefixName]
                                                                    bundle:nil];
         viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:classPrefixName];
-        
+
         [self.navigationControllers addObject:viewControllerNC];
-        
+
         [self addChildViewController:viewControllerNC];
         [self.rootContainerView addSubview:viewControllerNC.view];
     } else {
         [self addChildViewController:viewControllerNC];
         [self.rootContainerView addSubview:viewControllerNC.view];
     }
-    
+
     [self addChildViewController:viewControllerNC];
     [self.rootContainerView addSubview:viewControllerNC.view];
-    
+
     self.currentViewController = viewControllerNC;
 }
 
@@ -144,16 +143,16 @@
     __block UINavigationController *foundNC = nil;
 
     [_navigationControllers enumerateObjectsUsingBlock:^(UINavigationController *navigationController, NSUInteger idx, BOOL *stop)
-    {
-        if ([navigationController isKindOfClass:[UINavigationController class]]) {
-            if ([navigationController.viewControllers count] > 0) {
-                if ([[navigationController.viewControllers objectAtIndex:0] isKindOfClass:class]) {
-                    foundNC = navigationController;
-                    *stop = YES;
-                }
-            }
-        }
-    }];
+     {
+         if ([navigationController isKindOfClass:[UINavigationController class]]) {
+             if ([navigationController.viewControllers count] > 0) {
+                 if ([[navigationController.viewControllers objectAtIndex:0] isKindOfClass:class]) {
+                     foundNC = navigationController;
+                     *stop = YES;
+                 }
+             }
+         }
+     }];
 
     return foundNC;
 }
@@ -167,9 +166,6 @@
 
     [self dismissViewControllerAnimated:YES
                              completion:nil];
-
-    [[ModelController sharedController] saveDataToStoreWithSuccess:nil
-                                                           failure:nil];
 }
 
 - (void)logUserOut {
@@ -181,7 +177,7 @@
             [viewController.view removeFromSuperview];
         }];
         [_navigationControllers removeAllObjects];
-        [[ModelController sharedController] resetDataStore];
+        [Appdelegate resetDataStore];
     }];
     [self displaySignUpAnimated:YES];
 }
@@ -190,7 +186,7 @@
 
 - (void)sideBarDidSelectMenuItemOfType:(SideBarMenuItemType)menuType {
     [self toggleSidebar:NO];
-    
+
     switch (menuType) {
         case SideBarMenuItemTypeHome:
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
