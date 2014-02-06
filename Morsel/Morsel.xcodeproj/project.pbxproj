@@ -75,7 +75,6 @@
 		066F5AF9185BCD3700468210 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF8185BCD3700468210 /* ProfileImageView.m */; };
 		066F5AFF185BCD8500468210 /* TagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AFE185BCD8500468210 /* TagView.m */; };
 		066F5B05185BCFD600468210 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5B04185BCFD600468210 /* CommentTableViewCell.m */; };
-		066F5B0B185BD05400468210 /* ModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5B0A185BD05400468210 /* ModelController.m */; };
 		0674A859185FBDF90089B672 /* MorselDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0674A858185FBDF90089B672 /* MorselDetailViewController.m */; };
 		0676B48F1898514D001D7483 /* PostMorselCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B48E1898514D001D7483 /* PostMorselCollectionViewCell.m */; };
 		0676B49218996241001D7483 /* MorselThinButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B49118996241001D7483 /* MorselThinButton.m */; };
@@ -247,8 +246,6 @@
 		066F5AFE185BCD8500468210 /* TagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TagView.m; path = Source/Views/TagView.m; sourceTree = "<group>"; };
 		066F5B03185BCFD600468210 /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentTableViewCell.h; path = Source/Views/CommentTableViewCell.h; sourceTree = "<group>"; };
 		066F5B04185BCFD600468210 /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentTableViewCell.m; path = Source/Views/CommentTableViewCell.m; sourceTree = "<group>"; };
-		066F5B09185BD05400468210 /* ModelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelController.h; path = Source/Controllers/ModelController.h; sourceTree = "<group>"; };
-		066F5B0A185BD05400468210 /* ModelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelController.m; path = Source/Controllers/ModelController.m; sourceTree = "<group>"; };
 		0674A857185FBDF90089B672 /* MorselDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorselDetailViewController.h; sourceTree = "<group>"; };
 		0674A858185FBDF90089B672 /* MorselDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MorselDetailViewController.m; sourceTree = "<group>"; };
 		0676B48D1898514D001D7483 /* PostMorselCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostMorselCollectionViewCell.h; path = Source/Views/PostMorselCollectionViewCell.h; sourceTree = "<group>"; };
@@ -573,13 +570,6 @@
 			name = Sections;
 			sourceTree = "<group>";
 		};
-		063976D918638D0C00A17211 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Protocols;
-			sourceTree = "<group>";
-		};
 		063976DA186394A300A17211 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
@@ -679,10 +669,8 @@
 			children = (
 				0698CA8E18523BBE007AF442 /* Application */,
 				0669C5101871FD370093132F /* Categories */,
-				066F5AE4185BCB8F00468210 /* Controllers */,
 				066066AB18522E7900E780FC /* Images.xcassets */,
 				0698CA8D18523AE2007AF442 /* Models */,
-				063976D918638D0C00A17211 /* Protocols */,
 				0618F90118A02B86001713E0 /* Recognizers */,
 				4069CB1D189B127E001790F3 /* Services */,
 				0660669718522E7900E780FC /* Supporting Files */,
@@ -793,15 +781,6 @@
 				068602961891A68C000CD576 /* Text */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		066F5AE4185BCB8F00468210 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				066F5B09185BD05400468210 /* ModelController.h */,
-				066F5B0A185BD05400468210 /* ModelController.m */,
-			);
-			name = Controllers;
 			sourceTree = "<group>";
 		};
 		068602961891A68C000CD576 /* Text */ = {
@@ -1266,7 +1245,6 @@
 				062E8E04189C1A1A002A8CD4 /* SideBarItem.m in Sources */,
 				0651315E189C58C100609294 /* MorselDetailCommentsViewController.m in Sources */,
 				0609B8401894B52E005A11A4 /* CameraPreviewView.m in Sources */,
-				066F5B0B185BD05400468210 /* ModelController.m in Sources */,
 				066F5AED185BCC2000468210 /* MorselScrollView.m in Sources */,
 				062E8DFB189C17B2002A8CD4 /* MRSLSideBarViewController.m in Sources */,
 				068602AB1891C590000CD576 /* MorselStandardLabel.m in Sources */,

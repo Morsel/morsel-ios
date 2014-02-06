@@ -6,15 +6,13 @@
 
 extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *creationDate;
+	__unsafe_unretained NSString *creator_id;
 	__unsafe_unretained NSString *draft;
 	__unsafe_unretained NSString *liked;
 	__unsafe_unretained NSString *morselDescription;
 	__unsafe_unretained NSString *morselID;
-	__unsafe_unretained NSString *morselPicture;
-	__unsafe_unretained NSString *morselPictureCropped;
-	__unsafe_unretained NSString *morselPictureURL;
-	__unsafe_unretained NSString *morselThumb;
-	__unsafe_unretained NSString *morselThumbURL;
+	__unsafe_unretained NSString *morselPhoto;
+	__unsafe_unretained NSString *morselPhotoURL;
 } MRSLMorselAttributes;
 
 extern const struct MRSLMorselRelationships {
@@ -29,8 +27,6 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLComment;
 @class MRSLPost;
 @class MRSLTag;
-
-
 
 
 
@@ -59,6 +55,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validateCreationDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* creator_id;
+
+
+
+@property int16_t creator_idValue;
+- (int16_t)creator_idValue;
+- (void)setCreator_idValue:(int16_t)value_;
+
+//- (BOOL)validateCreator_id:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -116,51 +126,21 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSData* morselPicture;
+@property (nonatomic, strong) NSData* morselPhoto;
 
 
 
-//- (BOOL)validateMorselPicture:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSData* morselPictureCropped;
-
-
-
-//- (BOOL)validateMorselPictureCropped:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateMorselPhoto:(id*)value_ error:(NSError**)error_;
 
 
 
 
 
-@property (nonatomic, strong) NSString* morselPictureURL;
+@property (nonatomic, strong) NSString* morselPhotoURL;
 
 
 
-//- (BOOL)validateMorselPictureURL:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSData* morselThumb;
-
-
-
-//- (BOOL)validateMorselThumb:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSString* morselThumbURL;
-
-
-
-//- (BOOL)validateMorselThumbURL:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateMorselPhotoURL:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -213,6 +193,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSNumber*)primitiveCreator_id;
+- (void)setPrimitiveCreator_id:(NSNumber*)value;
+
+- (int16_t)primitiveCreator_idValue;
+- (void)setPrimitiveCreator_idValue:(int16_t)value_;
+
+
+
+
 - (NSNumber*)primitiveDraft;
 - (void)setPrimitiveDraft:(NSNumber*)value;
 
@@ -246,32 +235,14 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSData*)primitiveMorselPicture;
-- (void)setPrimitiveMorselPicture:(NSData*)value;
+- (NSData*)primitiveMorselPhoto;
+- (void)setPrimitiveMorselPhoto:(NSData*)value;
 
 
 
 
-- (NSData*)primitiveMorselPictureCropped;
-- (void)setPrimitiveMorselPictureCropped:(NSData*)value;
-
-
-
-
-- (NSString*)primitiveMorselPictureURL;
-- (void)setPrimitiveMorselPictureURL:(NSString*)value;
-
-
-
-
-- (NSData*)primitiveMorselThumb;
-- (void)setPrimitiveMorselThumb:(NSData*)value;
-
-
-
-
-- (NSString*)primitiveMorselThumbURL;
-- (void)setPrimitiveMorselThumbURL:(NSString*)value;
+- (NSString*)primitiveMorselPhotoURL;
+- (void)setPrimitiveMorselPhotoURL:(NSString*)value;
 
 
 

@@ -3,6 +3,4 @@
 @interface MRSLComment : _MRSLComment {
 }
 
-- (void)setWithDictionary:(NSDictionary *)dictionary;
-
 @end

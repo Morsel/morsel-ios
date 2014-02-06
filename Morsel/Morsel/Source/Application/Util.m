@@ -34,20 +34,20 @@
 
     return (image.size.width > image.size.height);
     /*
-    switch (image.imageOrientation)
-    {
-        case UIImageOrientationUp:
-        case UIImageOrientationUpMirrored:
-        case UIImageOrientationDown:
-        case UIImageOrientationDownMirrored:
-            // Portrait
-            return NO;
-            break;
-        default:
-            // Landscape
-            return YES;
-            break;
-    }
+     switch (image.imageOrientation)
+     {
+     case UIImageOrientationUp:
+     case UIImageOrientationUpMirrored:
+     case UIImageOrientationDown:
+     case UIImageOrientationDownMirrored:
+     // Portrait
+     return NO;
+     break;
+     default:
+     // Landscape
+     return YES;
+     break;
+     }
      */
 }
 

@@ -252,7 +252,7 @@
                                                 </label>
                                                 <view contentMode="scaleToFill" id="NOm-KT-x3e">
                                                     <rect key="frame" x="26" y="109" width="270" height="1"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <color key="backgroundColor" red="0.94509803921568625" green="0.93725490196078431" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
                                             </subviews>

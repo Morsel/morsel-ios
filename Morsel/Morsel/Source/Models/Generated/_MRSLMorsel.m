@@ -5,15 +5,13 @@
 
 const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.creationDate = @"creationDate",
+	.creator_id = @"creator_id",
 	.draft = @"draft",
 	.liked = @"liked",
 	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
-	.morselPicture = @"morselPicture",
-	.morselPictureCropped = @"morselPictureCropped",
-	.morselPictureURL = @"morselPictureURL",
-	.morselThumb = @"morselThumb",
-	.morselThumbURL = @"morselThumbURL",
+	.morselPhoto = @"morselPhoto",
+	.morselPhotoURL = @"morselPhotoURL",
 };
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
@@ -51,6 +49,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"creator_idValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"creator_id"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"draftValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"draft"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -75,6 +78,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic creationDate;
 
+
+
+
+
+
+@dynamic creator_id;
+
+
+
+- (int16_t)creator_idValue {
+	NSNumber *result = [self creator_id];
+	return [result shortValue];
+}
+
+- (void)setCreator_idValue:(int16_t)value_ {
+	[self setCreator_id:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveCreator_idValue {
+	NSNumber *result = [self primitiveCreator_id];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveCreator_idValue:(int16_t)value_ {
+	[self setPrimitiveCreator_id:[NSNumber numberWithShort:value_]];
+}
 
 
 
@@ -165,35 +194,14 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic morselPicture;
+@dynamic morselPhoto;
 
 
 
 
 
 
-@dynamic morselPictureCropped;
-
-
-
-
-
-
-@dynamic morselPictureURL;
-
-
-
-
-
-
-@dynamic morselThumb;
-
-
-
-
-
-
-@dynamic morselThumbURL;
+@dynamic morselPhotoURL;
 
 
 

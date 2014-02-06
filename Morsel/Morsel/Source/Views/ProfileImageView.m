@@ -10,7 +10,6 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-#import "ModelController.h"
 
 #import "MRSLUser.h"
 
@@ -48,7 +47,7 @@
         }
         
         if (user) {
-            if (user.profileImageURL) {
+            if (user.profilePhotoURL) {
                 NSURLRequest *profileImageURLRequest = [user userProfilePictureURLRequestForImageSizeType:(self.frame.size.width > 40.f) ? ProfileImageSizeTypeMedium : ProfileImageSizeTypeSmall];
                 if (!profileImageURLRequest)
                     return;
@@ -59,7 +58,7 @@
                 
                 [_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, NSData *imageData)
                  {
-                     user.profileImage = imageData;
+                     user.profilePhoto = imageData;
                      
                      UIImage *downloadedProfileImage = [UIImage imageWithData:imageData];
                      weakSelf.image = downloadedProfileImage;

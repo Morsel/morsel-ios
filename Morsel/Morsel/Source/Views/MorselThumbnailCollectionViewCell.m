@@ -22,7 +22,7 @@
     if (_morsel != morsel) {
         _morsel = morsel;
 
-        if (_morsel.morselPictureURL && !_morsel.isDraft) {
+        if (_morsel.morselPhotoURL) {
             __weak __typeof(self) weakSelf = self;
 
             [_thumbnailView setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail]
@@ -35,12 +35,6 @@
             } failure: ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
                 DDLogError(@"Unable to set Morsel Thumbnail: %@", error.userInfo);
             }];
-        }
-
-        if (!_morsel.isDraft && _morsel.morselThumb) {
-            // This Morsel is a draft!
-
-            self.thumbnailView.image = [UIImage imageWithData:_morsel.morselThumb];
         }
     }
 }

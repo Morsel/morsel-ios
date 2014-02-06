@@ -9,17 +9,16 @@
 #import "PostMorselsViewController.h"
 
 #import "CreateMorselViewController.h"
-#import "ModelController.h"
 #import "PostMorselCollectionViewCell.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
 
 @interface PostMorselsViewController ()
-    <UIAlertViewDelegate,
-     UICollectionViewDataSource,
-     UICollectionViewDelegate,
-     UITextFieldDelegate>
+<UIAlertViewDelegate,
+UICollectionViewDataSource,
+UICollectionViewDelegate,
+UITextFieldDelegate>
 
 @property (nonatomic) int postID;
 
@@ -38,7 +37,9 @@
     if (_post) {
         self.postID = [_post.postID intValue];
     } else {
-        self.post = [[ModelController sharedController] postWithID:[NSNumber numberWithInt:_postID]];
+        self.post = [MRSLPost MR_findFirstByAttribute:MRSLPostAttributes.postID
+                                            withValue:[NSNumber numberWithInt:_postID]
+                                            inContext:Appdelegate.defaultContext];
     }
 
     self.postTitleLabel.text = _post.title;
@@ -47,7 +48,7 @@
         _post.title = @"";
 
     [self.postMorselsCollectionView reloadData];
-    
+
     if ([self.post.morsels count] == 0) {
         [self.presentingViewController dismissViewControllerAnimated:YES
                                                           completion:nil];
@@ -78,7 +79,7 @@
 }
 
 - (PostMorselCollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                         cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+                          cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_post.morsels objectAtIndex:indexPath.row];
 
     PostMorselCollectionViewCell *postMorselCell = [self.postMorselsCollectionView dequeueReusableCellWithReuseIdentifier:@"PostMorselCell"
@@ -120,13 +121,9 @@
     if (buttonIndex == 1) {
         _post.title = _postTitleLabel.text;
 
-        [[ModelController sharedController].morselApiService updatePost:_post
-                                                                success:^(id responseObject)
-        {
-            [[ModelController sharedController] saveDataToStoreWithSuccess:nil
-                                                                   failure:nil];
-        }
-    failure:nil];
+        [Appdelegate.morselApiService updatePost:_post
+                                         success:nil
+                                         failure:nil];
     }
 
     [self.presentingViewController dismissViewControllerAnimated:YES

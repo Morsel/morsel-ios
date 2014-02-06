@@ -10,7 +10,6 @@
 
 #import <MobileCoreServices/MobileCoreServices.h>
 
-#import "ModelController.h"
 #import "MorselStandardButton.h"
 #import "JSONResponseSerializerWithData.h"
 #import "ProfileImageView.h"
@@ -18,9 +17,9 @@
 #import "MRSLUser.h"
 
 @interface SignUpViewController ()
-    <UIImagePickerControllerDelegate,
-     UINavigationControllerDelegate,
-     UITextFieldDelegate>
+<UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet MorselStandardButton *addPhotoButton;
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
@@ -110,42 +109,42 @@
 
     self.activityView.hidden = NO;
 
-    MRSLUser *user = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
-    user.firstName = _firstNameField.text;
-    user.lastName = _lastNameField.text;
-    user.userName = _usernameField.text;
-    user.emailAddress = _emailField.text;
-    user.occupationTitle = _occupationTitleField.text;
+    MRSLUser *user = [MRSLUser MR_createInContext:Appdelegate.defaultContext];
+    user.first_name = _firstNameField.text;
+    user.last_name = _lastNameField.text;
+    user.username = _usernameField.text;
+    user.email = _emailField.text;
+    user.title = _occupationTitleField.text;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         UIImage *profileImage = [_originalProfileImage thumbnailImage:_originalProfileImage.size.width
                                                  interpolationQuality:kCGInterpolationHigh];
-        
+
         dispatch_async(dispatch_get_main_queue(), ^
-        {
-            user.profileImage = UIImageJPEGRepresentation(profileImage, 1.f);
-            
-            [[ModelController sharedController].morselApiService createUser:user
-                                                               withPassword:_passwordField.text
-                                                                    success:nil
-                                                                    failure:^(NSError *error)
-            {
-                self.activityView.hidden = YES;
-                [self.continueButton setEnabled:YES];
-                
-                NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
-                
-                NSString *errorString = [NSString stringWithFormat:@"Sign Up Error: %@", errorDictionary[@"errors"]];
-                
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, there's been a problem!"
-                                                                message:errorString
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }];
-        });
-        
+                       {
+                           user.profilePhoto = UIImageJPEGRepresentation(profileImage, 1.f);
+
+                           [Appdelegate.morselApiService createUser:user
+                                                       withPassword:_passwordField.text
+                                                            success:nil
+                                                            failure:^(NSError *error)
+                            {
+                                self.activityView.hidden = YES;
+                                [self.continueButton setEnabled:YES];
+
+                                NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+
+                                NSString *errorString = [NSString stringWithFormat:@"Sign Up Error: %@", errorDictionary[@"errors"]];
+
+                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, there's been a problem!"
+                                                                                message:errorString
+                                                                               delegate:nil
+                                                                      cancelButtonTitle:@"OK"
+                                                                      otherButtonTitles:nil];
+                                [alert show];
+                            }];
+                       });
+
         self.originalProfileImage = nil;
     });
 }
@@ -155,7 +154,7 @@
 
     [UIView animateWithDuration:.2f
                      animations:^{
-        [self.contentScrollView setHeight:self.view.frame.size.height - keyboardSize.height];
+                         [self.contentScrollView setHeight:self.view.frame.size.height - keyboardSize.height];
                      }];
 
     [self.contentScrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - _continueButton.frame.size.height)];
@@ -164,7 +163,7 @@
 - (void)keyboardWillHide {
     [UIView animateWithDuration:.2f
                      animations:^{
-         [self.contentScrollView setHeight:self.view.frame.size.height];
+                         [self.contentScrollView setHeight:self.view.frame.size.height];
                      }];
 }
 
@@ -205,10 +204,10 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     CGRect centeredFrame = textField.frame;
     centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-
+    
     [self.contentScrollView scrollRectToVisible:centeredFrame
                                        animated:YES];
-
+    
     if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
         
@@ -220,7 +219,7 @@
     } else {
         return YES;
     }
-
+    
     return YES;
 }
 

@@ -5,21 +5,22 @@
 
 
 extern const struct MRSLUserAttributes {
-	__unsafe_unretained NSString *authToken;
+	__unsafe_unretained NSString *auth_token;
 	__unsafe_unretained NSString *bio;
-	__unsafe_unretained NSString *emailAddress;
-	__unsafe_unretained NSString *facebookUID;
-	__unsafe_unretained NSString *firstName;
-	__unsafe_unretained NSString *lastName;
-	__unsafe_unretained NSString *likeCount;
-	__unsafe_unretained NSString *morselCount;
-	__unsafe_unretained NSString *occupationTitle;
-	__unsafe_unretained NSString *occupationType;
-	__unsafe_unretained NSString *profileImage;
-	__unsafe_unretained NSString *profileImageURL;
-	__unsafe_unretained NSString *twitterUsername;
+	__unsafe_unretained NSString *creationDate;
+	__unsafe_unretained NSString *draft_count;
+	__unsafe_unretained NSString *email;
+	__unsafe_unretained NSString *facebook_uid;
+	__unsafe_unretained NSString *first_name;
+	__unsafe_unretained NSString *last_name;
+	__unsafe_unretained NSString *like_count;
+	__unsafe_unretained NSString *morsel_count;
+	__unsafe_unretained NSString *profilePhoto;
+	__unsafe_unretained NSString *profilePhotoURL;
+	__unsafe_unretained NSString *title;
+	__unsafe_unretained NSString *twitter_username;
 	__unsafe_unretained NSString *userID;
-	__unsafe_unretained NSString *userName;
+	__unsafe_unretained NSString *username;
 } MRSLUserAttributes;
 
 extern const struct MRSLUserRelationships {
@@ -32,6 +33,7 @@ extern const struct MRSLUserFetchedProperties {
 
 @class MRSLComment;
 @class MRSLPost;
+
 
 
 
@@ -62,11 +64,11 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* authToken;
+@property (nonatomic, strong) NSString* auth_token;
 
 
 
-//- (BOOL)validateAuthToken:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateAuth_token:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -82,123 +84,133 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* emailAddress;
+@property (nonatomic, strong) NSDate* creationDate;
 
 
 
-//- (BOOL)validateEmailAddress:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateCreationDate:(id*)value_ error:(NSError**)error_;
 
 
 
 
 
-@property (nonatomic, strong) NSString* facebookUID;
+@property (nonatomic, strong) NSNumber* draft_count;
 
 
 
-//- (BOOL)validateFacebookUID:(id*)value_ error:(NSError**)error_;
+@property int16_t draft_countValue;
+- (int16_t)draft_countValue;
+- (void)setDraft_countValue:(int16_t)value_;
 
+//- (BOOL)validateDraft_count:(id*)value_ error:(NSError**)error_;
 
 
 
 
-@property (nonatomic, strong) NSString* firstName;
 
+@property (nonatomic, strong) NSString* email;
 
 
-//- (BOOL)validateFirstName:(id*)value_ error:(NSError**)error_;
 
+//- (BOOL)validateEmail:(id*)value_ error:(NSError**)error_;
 
 
 
 
-@property (nonatomic, strong) NSString* lastName;
 
+@property (nonatomic, strong) NSString* facebook_uid;
 
 
-//- (BOOL)validateLastName:(id*)value_ error:(NSError**)error_;
 
+//- (BOOL)validateFacebook_uid:(id*)value_ error:(NSError**)error_;
 
 
 
 
-@property (nonatomic, strong) NSNumber* likeCount;
 
+@property (nonatomic, strong) NSString* first_name;
 
 
-@property int16_t likeCountValue;
-- (int16_t)likeCountValue;
-- (void)setLikeCountValue:(int16_t)value_;
 
-//- (BOOL)validateLikeCount:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateFirst_name:(id*)value_ error:(NSError**)error_;
 
 
 
 
 
-@property (nonatomic, strong) NSNumber* morselCount;
+@property (nonatomic, strong) NSString* last_name;
 
 
 
-@property int16_t morselCountValue;
-- (int16_t)morselCountValue;
-- (void)setMorselCountValue:(int16_t)value_;
+//- (BOOL)validateLast_name:(id*)value_ error:(NSError**)error_;
 
-//- (BOOL)validateMorselCount:(id*)value_ error:(NSError**)error_;
 
 
 
 
+@property (nonatomic, strong) NSNumber* like_count;
 
-@property (nonatomic, strong) NSString* occupationTitle;
 
 
+@property int16_t like_countValue;
+- (int16_t)like_countValue;
+- (void)setLike_countValue:(int16_t)value_;
 
-//- (BOOL)validateOccupationTitle:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateLike_count:(id*)value_ error:(NSError**)error_;
 
 
 
 
 
-@property (nonatomic, strong) NSNumber* occupationType;
+@property (nonatomic, strong) NSNumber* morsel_count;
 
 
 
-@property int16_t occupationTypeValue;
-- (int16_t)occupationTypeValue;
-- (void)setOccupationTypeValue:(int16_t)value_;
+@property int16_t morsel_countValue;
+- (int16_t)morsel_countValue;
+- (void)setMorsel_countValue:(int16_t)value_;
 
-//- (BOOL)validateOccupationType:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateMorsel_count:(id*)value_ error:(NSError**)error_;
 
 
 
 
 
-@property (nonatomic, strong) NSData* profileImage;
+@property (nonatomic, strong) NSData* profilePhoto;
 
 
 
-//- (BOOL)validateProfileImage:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateProfilePhoto:(id*)value_ error:(NSError**)error_;
 
 
 
 
 
-@property (nonatomic, strong) NSString* profileImageURL;
+@property (nonatomic, strong) NSString* profilePhotoURL;
 
 
 
-//- (BOOL)validateProfileImageURL:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateProfilePhotoURL:(id*)value_ error:(NSError**)error_;
 
 
 
 
 
-@property (nonatomic, strong) NSString* twitterUsername;
+@property (nonatomic, strong) NSString* title;
 
 
 
-//- (BOOL)validateTwitterUsername:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* twitter_username;
+
+
+
+//- (BOOL)validateTwitter_username:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -218,11 +230,11 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* userName;
+@property (nonatomic, strong) NSString* username;
 
 
 
-//- (BOOL)validateUserName:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateUsername:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -262,8 +274,8 @@ extern const struct MRSLUserFetchedProperties {
 @interface _MRSLUser (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSString*)primitiveAuthToken;
-- (void)setPrimitiveAuthToken:(NSString*)value;
+- (NSString*)primitiveAuth_token;
+- (void)setPrimitiveAuth_token:(NSString*)value;
 
 
 
@@ -274,77 +286,83 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSString*)primitiveEmailAddress;
-- (void)setPrimitiveEmailAddress:(NSString*)value;
+- (NSDate*)primitiveCreationDate;
+- (void)setPrimitiveCreationDate:(NSDate*)value;
 
 
 
 
-- (NSString*)primitiveFacebookUID;
-- (void)setPrimitiveFacebookUID:(NSString*)value;
+- (NSNumber*)primitiveDraft_count;
+- (void)setPrimitiveDraft_count:(NSNumber*)value;
+
+- (int16_t)primitiveDraft_countValue;
+- (void)setPrimitiveDraft_countValue:(int16_t)value_;
 
 
 
 
-- (NSString*)primitiveFirstName;
-- (void)setPrimitiveFirstName:(NSString*)value;
+- (NSString*)primitiveEmail;
+- (void)setPrimitiveEmail:(NSString*)value;
 
 
 
 
-- (NSString*)primitiveLastName;
-- (void)setPrimitiveLastName:(NSString*)value;
+- (NSString*)primitiveFacebook_uid;
+- (void)setPrimitiveFacebook_uid:(NSString*)value;
 
 
 
 
-- (NSNumber*)primitiveLikeCount;
-- (void)setPrimitiveLikeCount:(NSNumber*)value;
-
-- (int16_t)primitiveLikeCountValue;
-- (void)setPrimitiveLikeCountValue:(int16_t)value_;
+- (NSString*)primitiveFirst_name;
+- (void)setPrimitiveFirst_name:(NSString*)value;
 
 
 
 
-- (NSNumber*)primitiveMorselCount;
-- (void)setPrimitiveMorselCount:(NSNumber*)value;
-
-- (int16_t)primitiveMorselCountValue;
-- (void)setPrimitiveMorselCountValue:(int16_t)value_;
+- (NSString*)primitiveLast_name;
+- (void)setPrimitiveLast_name:(NSString*)value;
 
 
 
 
-- (NSString*)primitiveOccupationTitle;
-- (void)setPrimitiveOccupationTitle:(NSString*)value;
+- (NSNumber*)primitiveLike_count;
+- (void)setPrimitiveLike_count:(NSNumber*)value;
+
+- (int16_t)primitiveLike_countValue;
+- (void)setPrimitiveLike_countValue:(int16_t)value_;
 
 
 
 
-- (NSNumber*)primitiveOccupationType;
-- (void)setPrimitiveOccupationType:(NSNumber*)value;
+- (NSNumber*)primitiveMorsel_count;
+- (void)setPrimitiveMorsel_count:(NSNumber*)value;
 
-- (int16_t)primitiveOccupationTypeValue;
-- (void)setPrimitiveOccupationTypeValue:(int16_t)value_;
-
-
-
-
-- (NSData*)primitiveProfileImage;
-- (void)setPrimitiveProfileImage:(NSData*)value;
+- (int16_t)primitiveMorsel_countValue;
+- (void)setPrimitiveMorsel_countValue:(int16_t)value_;
 
 
 
 
-- (NSString*)primitiveProfileImageURL;
-- (void)setPrimitiveProfileImageURL:(NSString*)value;
+- (NSData*)primitiveProfilePhoto;
+- (void)setPrimitiveProfilePhoto:(NSData*)value;
 
 
 
 
-- (NSString*)primitiveTwitterUsername;
-- (void)setPrimitiveTwitterUsername:(NSString*)value;
+- (NSString*)primitiveProfilePhotoURL;
+- (void)setPrimitiveProfilePhotoURL:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveTwitter_username;
+- (void)setPrimitiveTwitter_username:(NSString*)value;
 
 
 
@@ -358,8 +376,8 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSString*)primitiveUserName;
-- (void)setPrimitiveUserName:(NSString*)value;
+- (NSString*)primitiveUsername;
+- (void)setPrimitiveUsername:(NSString*)value;
 
 
 
