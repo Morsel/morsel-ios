@@ -15,7 +15,6 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *last_name;
 	__unsafe_unretained NSString *like_count;
 	__unsafe_unretained NSString *morsel_count;
-	__unsafe_unretained NSString *occupationType;
 	__unsafe_unretained NSString *profilePhoto;
 	__unsafe_unretained NSString *profilePhotoURL;
 	__unsafe_unretained NSString *title;
@@ -34,7 +33,6 @@ extern const struct MRSLUserFetchedProperties {
 
 @class MRSLComment;
 @class MRSLPost;
-
 
 
 
@@ -173,20 +171,6 @@ extern const struct MRSLUserFetchedProperties {
 - (void)setMorsel_countValue:(int16_t)value_;
 
 //- (BOOL)validateMorsel_count:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* occupationType;
-
-
-
-@property int16_t occupationTypeValue;
-- (int16_t)occupationTypeValue;
-- (void)setOccupationTypeValue:(int16_t)value_;
-
-//- (BOOL)validateOccupationType:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -355,15 +339,6 @@ extern const struct MRSLUserFetchedProperties {
 
 - (int16_t)primitiveMorsel_countValue;
 - (void)setPrimitiveMorsel_countValue:(int16_t)value_;
-
-
-
-
-- (NSNumber*)primitiveOccupationType;
-- (void)setPrimitiveOccupationType:(NSNumber*)value;
-
-- (int16_t)primitiveOccupationTypeValue;
-- (void)setPrimitiveOccupationTypeValue:(int16_t)value_;
 
 
 

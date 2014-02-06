@@ -14,7 +14,6 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.last_name = @"last_name",
 	.like_count = @"like_count",
 	.morsel_count = @"morsel_count",
-	.occupationType = @"occupationType",
 	.profilePhoto = @"profilePhoto",
 	.profilePhotoURL = @"profilePhotoURL",
 	.title = @"title",
@@ -69,11 +68,6 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	}
 	if ([key isEqualToString:@"morsel_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"morsel_count"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"occupationTypeValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"occupationType"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -210,32 +204,6 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 - (void)setPrimitiveMorsel_countValue:(int16_t)value_ {
 	[self setPrimitiveMorsel_count:[NSNumber numberWithShort:value_]];
-}
-
-
-
-
-
-@dynamic occupationType;
-
-
-
-- (int16_t)occupationTypeValue {
-	NSNumber *result = [self occupationType];
-	return [result shortValue];
-}
-
-- (void)setOccupationTypeValue:(int16_t)value_ {
-	[self setOccupationType:[NSNumber numberWithShort:value_]];
-}
-
-- (int16_t)primitiveOccupationTypeValue {
-	NSNumber *result = [self primitiveOccupationType];
-	return [result shortValue];
-}
-
-- (void)setPrimitiveOccupationTypeValue:(int16_t)value_ {
-	[self setPrimitiveOccupationType:[NSNumber numberWithShort:value_]];
 }
 
 
