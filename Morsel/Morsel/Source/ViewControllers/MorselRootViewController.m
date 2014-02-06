@@ -12,6 +12,9 @@
 #import "MRSLSideBarViewController.h"
 #import "ProfileViewController.h"
 
+#import <TestFlight+OpenFeedback.h>
+
+
 #import "MRSLUser.h"
 
 @interface MorselRootViewController ()
@@ -64,6 +67,20 @@
                                                             object:nil];
     }
 }
+
+#ifndef RELEASE
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake) {
+        [TestFlight openFeedbackView];
+    }
+}
+
+#endif
 
 #pragma mark - Private Methods
 
