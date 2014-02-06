@@ -8,8 +8,6 @@
 
 #import "MRSLSideBarViewController.h"
 
-#import "ModelController.h"
-
 #import "ProfileImageView.h"
 #import "SideBarItemCell.h"
 
@@ -17,8 +15,7 @@
 #import "MRSLUser.h"
 
 @interface MRSLSideBarViewController ()
-    <NSFetchedResultsControllerDelegate,
-     UITableViewDataSource,
+    <UITableViewDataSource,
      UITableViewDelegate>
 
 @property (nonatomic) NSUInteger draftCount;
@@ -30,7 +27,6 @@
 @property (nonatomic, strong) SideBarItem *draftItem;
 
 @property (nonatomic, strong) NSMutableArray *sideBarItems;
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -54,21 +50,21 @@
                                                           type:SideBarMenuItemTypeDrafts];
 
     self.draftItem = draftItem;
-    
-    NSPredicate *draftMorselPredicate = [NSPredicate predicateWithFormat:@"draft == YES"];
-    
-    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
-                                                          ascending:NO
-                                                      withPredicate:draftMorselPredicate
-                                                            groupBy:nil
-                                                           delegate:self
-                                                          inContext:[ModelController sharedController].defaultContext];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedIn:)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedOut:)
                                                  name:MRSLServiceDidLogOutUserNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
+                                                 name:MRSLUserDidCreateMorselNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
+                                                 name:MRSLUserDidUpdateMorselNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
+                                                 name:MRSLUserDidDeleteMorselNotification
                                                object:nil];
     
     self.sideBarItems = [NSMutableArray arrayWithObjects:draftItem, homeItem, nil];
@@ -77,13 +73,28 @@
 #pragma mark - NSNotification
 
 - (void)userLoggedIn:(NSNotification *)notification {
-    self.userNameLabel.text = [ModelController sharedController].currentUser.fullName;
-    self.profileImageView.user = [ModelController sharedController].currentUser;
+    self.userNameLabel.text = [MRSLUser currentUser].fullName;
+    self.profileImageView.user = [MRSLUser currentUser];
+    self.draftItem.badgeCount = [MRSLUser currentUser].draft_countValue;
+
+    [self.sideBarTableView reloadData];
 }
 
 - (void)userLoggedOut:(NSNotification *)notification {
     self.userNameLabel.text = nil;
     self.profileImageView.user = nil;
+}
+
+- (void)userModifiedMorsel {
+    DDLogDebug(@"Detected Morsel update in side bar. Reloading user to get latest draft count.");
+    [Appdelegate.morselApiService getUserProfile:[MRSLUser currentUser]
+                                         success:^(id responseObject) {
+                                             DDLogDebug(@"User information successfully loaded. Updating draft count in side bar.");
+                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                 self.draftItem.badgeCount = [MRSLUser currentUser].draft_countValue;
+                                                 [self.sideBarTableView reloadData];
+                                             });
+                                         } failure:nil];
 }
 
 #pragma mark - Action
@@ -131,23 +142,10 @@
     }
 }
 
-#pragma mark - NSFetchedResultsControllerDelegate Methods
+#pragma mark - Destruction
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    self.draftCount = [[controller fetchedObjects] count];
-    
-    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu drafts.", (unsigned long)_draftCount);
-    
-    self.draftItem.badgeCount = _draftCount;
-    
-    NSError *fetchError = nil;
-    [_fetchedResultsController performFetch:&fetchError];
-    
-    if (fetchError) {
-        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
-    }
-    
-    [self.sideBarTableView reloadData];
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

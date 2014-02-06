@@ -4,14 +4,14 @@
 #import "_MRSLComment.h"
 
 const struct MRSLCommentAttributes MRSLCommentAttributes = {
+	.commentDescription = @"commentDescription",
 	.commentID = @"commentID",
 	.creationDate = @"creationDate",
-	.text = @"text",
 };
 
 const struct MRSLCommentRelationships MRSLCommentRelationships = {
+	.creator = @"creator",
 	.morsel = @"morsel",
-	.user = @"user",
 };
 
 const struct MRSLCommentFetchedProperties MRSLCommentFetchedProperties = {
@@ -55,6 +55,13 @@ const struct MRSLCommentFetchedProperties MRSLCommentFetchedProperties = {
 
 
 
+@dynamic commentDescription;
+
+
+
+
+
+
 @dynamic commentID;
 
 
@@ -88,18 +95,11 @@ const struct MRSLCommentFetchedProperties MRSLCommentFetchedProperties = {
 
 
 
-@dynamic text;
-
-
-
-
-
-
-@dynamic morsel;
+@dynamic creator;
 
 	
 
-@dynamic user;
+@dynamic morsel;
 
 	
 

@@ -9,12 +9,12 @@
 #import "MorselFeedCollectionViewCell.h"
 
 #import "JSONResponseSerializerWithData.h"
-#import "ModelController.h"
 #import "MorselThumbnailViewController.h"
 #import "ProfileImageView.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
+#import "MRSLUser.h"
 
 @interface MorselFeedCollectionViewCell ()
     <MorselThumbnailViewControllerDelegate,
@@ -48,7 +48,7 @@
         if (_morsel) {
             _progressionButton.hidden = ([_morsel.post.morsels count] == 1);
 
-            if (!_morsel.morselPictureURL && _morsel.morselDescription) {
+            if (!_morsel.morselPhotoURL && _morsel.morselDescription) {
                 self.titleLabel.hidden = YES;
                 self.descriptionLabel.hidden = YES;
                 
@@ -74,7 +74,7 @@
                 if ([self.titleLabel getWidth] > 240.f) [self.titleLabel setWidth:240.f];
             }
 
-            self.profileImageView.user = _morsel.post.author;
+            self.profileImageView.user = _morsel.post.creator;
             self.profileImageView.delegate = self;
 
             [self.profileImageView addCornersWithRadius:20.f];
@@ -83,7 +83,7 @@
 
             [self setLikeButtonImageForMorsel:_morsel];
 
-            if (_morsel.morselPictureURL) {
+            if (_morsel.morselPhotoURL) {
                 __weak __typeof(self) weakSelf = self;
 
                 [_morselImageView setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeCropped]
@@ -102,7 +102,7 @@
             }
         }
 
-        if (_morsel.belongsToCurrentUser) {
+        if ([MRSLUser currentUserOwnsMorselWithCreatorID:_morsel.morselIDValue]) {
             self.likeButton.hidden = YES;
             self.editButton.hidden = NO;
         } else {
@@ -187,7 +187,7 @@
 - (IBAction)toggleLikeMorsel {
     _likeButton.enabled = NO;
 
-    [[ModelController sharedController].morselApiService likeMorsel:_morsel
+    [Appdelegate.morselApiService likeMorsel:_morsel
                                                          shouldLike:!_morsel.likedValue
                                                             didLike:^(BOOL doesLike)
     {

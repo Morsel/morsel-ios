@@ -27,11 +27,11 @@
         if (_sideBarItem) {
             self.itemIconImageView.image = _sideBarItem.iconImage;
             self.itemTitleLabel.text = _sideBarItem.title;
-            
-            if (_draftCountLabel) {
-                self.draftCountLabel.text = [NSString stringWithFormat:@"%i", _sideBarItem.badgeCount];
-            }
         }
+    }
+
+    if (_draftCountLabel && _sideBarItem) {
+        self.draftCountLabel.text = [NSString stringWithFormat:@"%i", _sideBarItem.badgeCount];
     }
 }
 

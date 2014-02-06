@@ -32,29 +32,22 @@
                 _morselDescription.textColor = [UIColor morselDarkContent];
             }
 
-            if (_morsel.isDraft) {
-                if (_morsel.morselThumb) {
-                    self.morselThumbnail.image = [UIImage imageWithData:_morsel.morselThumb];
-                } else {
-                }
-            } else {
-                __weak __typeof(self) weakSelf = self;
+            __weak __typeof(self) weakSelf = self;
 
-                if (_morsel.morselPictureURL) {
-                    [_morselThumbnail setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail]
-                                              placeholderImage:nil
-                                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-                    {
-                        if (image) {
-                            weakSelf.morselThumbnail.image = image;
-                        }
-                    }
-                failure:
-                    ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error)
-                    {
-                        DDLogError(@"Unable to set Morsel Thumbnail: %@", error.userInfo);
-                    }];
-                }
+            if (_morsel.morselPhotoURL) {
+                [_morselThumbnail setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail]
+                                        placeholderImage:nil
+                                                 success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
+                 {
+                     if (image) {
+                         weakSelf.morselThumbnail.image = image;
+                     }
+                 }
+                                                 failure:
+                 ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error)
+                 {
+                     DDLogError(@"Unable to set Morsel Thumbnail: %@", error.userInfo);
+                 }];
             }
         }
     }

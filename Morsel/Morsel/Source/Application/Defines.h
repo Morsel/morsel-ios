@@ -33,3 +33,5 @@ static const int minimumCameraMaxDimension = 1920.f;
 static const int xCenteringLandscapeContent = 320.f;
 static const int yCameraImagePreviewOffset = 78.f;
 static const int croppedImageHeightOffset = 106.f;
+
+#define Appdelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate])
