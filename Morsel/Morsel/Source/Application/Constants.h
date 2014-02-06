@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import <CocoaLumberjack/DDLog.h>
-
 extern NSString *const MRSLServiceDidLogInUserNotification;
 extern NSString *const MRSLServiceDidLogOutUserNotification;
 extern NSString *const MRSLServiceDidUpdateUserNotification;

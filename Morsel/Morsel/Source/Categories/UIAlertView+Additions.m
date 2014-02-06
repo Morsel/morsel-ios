@@ -8,6 +8,8 @@
 
 #import "UIAlertView+Additions.h"
 
+#import "MRSLServiceErrorInfo.h"
+
 @implementation UIAlertView (Additions)
 
 #pragma mark - Class Methods
@@ -44,6 +46,15 @@
                               delegate:(id /*<UIAlertViewDelegate>*/)delegate {
     return [UIAlertView showAlertViewWithTitle:@"Error"
                                        message:[error localizedDescription]
+                                      delegate:delegate
+                             cancelButtonTitle:@"OK"
+                             otherButtonTitles:nil];
+}
+
++ (UIAlertView *)showAlertViewForServiceError:(MRSLServiceErrorInfo *)serviceError
+                                     delegate:(id /*<UIAlertViewDelegate>*/)delegate {
+    return [UIAlertView showAlertViewWithTitle:@"Oops, there's been a problem!"
+                                       message:[serviceError errorInfo]
                                       delegate:delegate
                              cancelButtonTitle:@"OK"
                              otherButtonTitles:nil];

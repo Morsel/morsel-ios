@@ -187,7 +187,7 @@
 - (IBAction)toggleLikeMorsel {
     _likeButton.enabled = NO;
 
-    [Appdelegate.morselApiService likeMorsel:_morsel
+    [_appDelegate.morselApiService likeMorsel:_morsel
                                                          shouldLike:!_morsel.likedValue
                                                             didLike:^(BOOL doesLike)
     {
@@ -195,15 +195,10 @@
 
         [self setLikeButtonImageForMorsel:_morsel];
     } failure: ^(NSError * error) {
-        NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
-        NSString *errorString = [NSString stringWithFormat:@"Like Error: %@", errorDictionary[@"errors"]];
+        MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, there's been a problem!"
-                                                        message:errorString
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
+        [UIAlertView showAlertViewForServiceError:serviceErrorInfo
+                                         delegate:nil];
 
         _likeButton.enabled = YES;
     }];

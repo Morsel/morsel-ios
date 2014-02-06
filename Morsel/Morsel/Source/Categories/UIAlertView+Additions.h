@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class MRSLServiceErrorInfo;
+
 @interface UIAlertView (Additions)
 
 + (UIAlertView *)showAlertViewWithTitle:(NSString *)title
@@ -18,5 +20,8 @@
 
 + (UIAlertView *)showAlertViewForError:(NSError *)error
                               delegate:(id /*<UIAlertViewDelegate>*/)delegate;
+
++ (UIAlertView *)showAlertViewForServiceError:(MRSLServiceErrorInfo *)serviceError
+                                     delegate:(id /*<UIAlertViewDelegate>*/)delegate;
 
 @end

@@ -12,6 +12,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.morselID = @"morselID",
 	.morselPhoto = @"morselPhoto",
 	.morselPhotoURL = @"morselPhotoURL",
+	.url = @"url",
 };
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
@@ -202,6 +203,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 @dynamic morselPhotoURL;
+
+
+
+
+
+
+@dynamic url;
 
 
 

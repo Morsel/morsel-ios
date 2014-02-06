@@ -51,7 +51,7 @@
 
 - (IBAction)postComment {
     if (_placeholderTextView.text.length > 0 && _morsel) {
-        [Appdelegate.morselApiService postCommentWithDescription:_placeholderTextView.text
+        [_appDelegate.morselApiService postCommentWithDescription:_placeholderTextView.text
                                                         toMorsel:_morsel
                                                          success:nil
                                                          failure:nil];

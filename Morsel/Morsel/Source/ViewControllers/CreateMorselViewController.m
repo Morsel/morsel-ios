@@ -111,7 +111,7 @@ UserPostsViewControllerDelegate>
         self.createTitleLabel.text = @"Add Morsel";
 
         if (!_morsel) {
-            MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:Appdelegate.defaultContext];
+            MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
 
             self.morsel = morsel;
         }
@@ -183,7 +183,7 @@ UserPostsViewControllerDelegate>
 
 - (IBAction)goBackToCaptureMedia:(id)sender {
     if (!_userIsEditing) {
-        [Appdelegate.defaultContext deleteObject:_morsel];
+        [[NSManagedObjectContext MR_defaultContext] deleteObject:_morsel];
 
         if (_capturedImage) {
             self.thumbnailImageView.image = nil;
@@ -387,8 +387,8 @@ UserPostsViewControllerDelegate>
 
     __weak __typeof(self) weakSelf = self;
 
-    [Appdelegate.morselApiService updateMorsel:_morsel
-                                       success:^(id responseObject)
+    [_appDelegate.morselApiService updateMorsel:_morsel
+                                        success:^(id responseObject)
      {
 
          if (weakSelf) {
@@ -408,7 +408,7 @@ UserPostsViewControllerDelegate>
         if (!self.post) {
             // Creating a temporary post
 
-            MRSLPost *post = [MRSLPost MR_createInContext:Appdelegate.defaultContext];
+            MRSLPost *post = [MRSLPost MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
             post.postID = nil;
             post.creator = [MRSLUser currentUser];
 
@@ -457,22 +457,19 @@ UserPostsViewControllerDelegate>
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self addMediaDataToCurrentMorsel];
 
-        [Appdelegate.morselApiService createMorsel:_morsel
-                                    postToFacebook:_facebookButton.selected
-                                     postToTwitter:_twitterButton.selected
-                                           success:nil
-                                           failure:^(NSError *error)
+        [_appDelegate.morselApiService createMorsel:_morsel
+                                     postToFacebook:_facebookButton.selected
+                                      postToTwitter:_twitterButton.selected
+                                            success:nil
+                                            failure:^(NSError *error)
          {
-             NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
-             NSString *errorString = [NSString stringWithFormat:@"%@ Morsel Error: %@", _morsel.draft ? @"Draft" : @"Publish", errorDictionary[@"errors"]];
+             MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
 
-             [UIAlertView showAlertViewWithTitle:@"Oops, error publishing Morsel."
-                                         message:errorString
+             [UIAlertView showAlertViewWithTitle:@"Oops, there was a problem creating your Morsel!"
+                                         message:[serviceErrorInfo errorInfo]
                                         delegate:nil
                                cancelButtonTitle:@"OK"
                                otherButtonTitles:nil];
-
-             DDLogError(@"Error! Unable to create Morsel: %@", errorString);
          }];
     });
 
@@ -525,16 +522,16 @@ UserPostsViewControllerDelegate>
     if (actionSheet.tag == CreateMorselActionSheetSettings) {
         if (_userIsEditing) {
             if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
-                [Appdelegate.morselApiService deleteMorsel:_morsel
-                                                   success:^(BOOL success) {
-                                                       [self goBack];
-                                                   } failure: ^(NSError * error) {
-                                                       [UIAlertView showAlertViewWithTitle:@"Oops, something went wrong."
-                                                                                   message:@"Unable to delete Morsel!"
-                                                                                  delegate:nil
-                                                                         cancelButtonTitle:@"OK"
-                                                                         otherButtonTitles:nil];
-                                                   }];
+                [_appDelegate.morselApiService deleteMorsel:_morsel
+                                                    success:^(BOOL success) {
+                                                        [self goBack];
+                                                    } failure: ^(NSError * error) {
+                                                        [UIAlertView showAlertViewWithTitle:@"Oops, something went wrong."
+                                                                                    message:@"Unable to delete Morsel!"
+                                                                                   delegate:nil
+                                                                          cancelButtonTitle:@"OK"
+                                                                          otherButtonTitles:nil];
+                                                    }];
             }
             if (![[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
                 self.willPublish = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Publish Morsel"]);
@@ -558,25 +555,25 @@ UserPostsViewControllerDelegate>
                 //  Get _facebookAccounts again after access has been granted, otherwise the account's credential will be nil
                 _facebookAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]];
                 ACAccount *selectedAccount = _facebookAccounts[buttonIndex];
-                [[Appdelegate morselApiService] createFacebookAuthorizationWithToken:[[selectedAccount credential] oauthToken]
-                                                                             forUser:[MRSLUser currentUser]
-                                                                             success:^(id responseObject) {
-                                                                                 [Appdelegate.morselApiService updateUser:[MRSLUser currentUser] success:^(id userResponseObject) {
-                                                                                     __strong __typeof(weakSelf) strongSelf = weakSelf;
-                                                                                     [strongSelf->_facebookButton setEnabled:YES];
-                                                                                     [strongSelf->_facebookButton setSelected:!strongSelf->_facebookButton.selected];
-                                                                                 } failure:^(NSError *error) {
-                                                                                     __strong __typeof(weakSelf) strongSelf = weakSelf;
-                                                                                     [strongSelf->_facebookButton setEnabled:YES];
-                                                                                     [UIAlertView showAlertViewForError:error
-                                                                                                               delegate:nil];
-                                                                                 }];
-                                                                             } failure:^(NSError *error) {
-                                                                                 __strong __typeof(weakSelf) strongSelf = weakSelf;
-                                                                                 [strongSelf->_facebookButton setEnabled:YES];
-                                                                                 [UIAlertView showAlertViewForError:error
-                                                                                                           delegate:nil];
-                                                                             }];
+                [_appDelegate.morselApiService createFacebookAuthorizationWithToken:[[selectedAccount credential] oauthToken]
+                                                                            forUser:[MRSLUser currentUser]
+                                                                            success:^(id responseObject) {
+                                                                                [_appDelegate.morselApiService updateUser:[MRSLUser currentUser] success:^(id userResponseObject) {
+                                                                                    __strong __typeof(weakSelf) strongSelf = weakSelf;
+                                                                                    [strongSelf->_facebookButton setEnabled:YES];
+                                                                                    [strongSelf->_facebookButton setSelected:!strongSelf->_facebookButton.selected];
+                                                                                } failure:^(NSError *error) {
+                                                                                    __strong __typeof(weakSelf) strongSelf = weakSelf;
+                                                                                    [strongSelf->_facebookButton setEnabled:YES];
+                                                                                    [UIAlertView showAlertViewForError:error
+                                                                                                              delegate:nil];
+                                                                                }];
+                                                                            } failure:^(NSError *error) {
+                                                                                __strong __typeof(weakSelf) strongSelf = weakSelf;
+                                                                                [strongSelf->_facebookButton setEnabled:YES];
+                                                                                [UIAlertView showAlertViewForError:error
+                                                                                                          delegate:nil];
+                                                                            }];
             }
         }];
     } else if (actionSheet.tag == CreateMorselActionSheetTwitterAccounts) {
@@ -589,26 +586,26 @@ UserPostsViewControllerDelegate>
                                                  withBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                      NSDictionary *params = [NSURL ab_parseURLQueryString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
                                                      __weak typeof(self) weakSelf = self;
-                                                     [Appdelegate.morselApiService createTwitterAuthorizationWithToken:params[@"oauth_token"]
-                                                                                                                secret:params[@"oauth_token_secret"]
-                                                                                                               forUser:[MRSLUser currentUser]
-                                                                                                               success:^(id responseObject) {
-                                                                                                                   [Appdelegate.morselApiService updateUser:[MRSLUser currentUser] success:^(id userResponseObject) {
-                                                                                                                       __strong __typeof(weakSelf) strongSelf = weakSelf;
-                                                                                                                       [strongSelf->_twitterButton setEnabled:YES];
-                                                                                                                       [strongSelf->_twitterButton setSelected:!strongSelf->_twitterButton.selected];
-                                                                                                                   } failure:^(NSError *error) {
-                                                                                                                       __strong __typeof(weakSelf) strongSelf = weakSelf;
-                                                                                                                       [strongSelf->_twitterButton setEnabled:YES];
-                                                                                                                       [UIAlertView showAlertViewForError:error
-                                                                                                                                                 delegate:nil];
-                                                                                                                   }];
-                                                                                                               } failure:^(NSError *error) {
-                                                                                                                   __strong __typeof(weakSelf) strongSelf = weakSelf;
-                                                                                                                   [strongSelf->_twitterButton setEnabled:YES];
-                                                                                                                   [UIAlertView showAlertViewForError:error
-                                                                                                                                             delegate:nil];
-                                                                                                               }];
+                                                     [_appDelegate.morselApiService createTwitterAuthorizationWithToken:params[@"oauth_token"]
+                                                                                                                 secret:params[@"oauth_token_secret"]
+                                                                                                                forUser:[MRSLUser currentUser]
+                                                                                                                success:^(id responseObject) {
+                                                                                                                    [_appDelegate.morselApiService updateUser:[MRSLUser currentUser] success:^(id userResponseObject) {
+                                                                                                                        __strong __typeof(weakSelf) strongSelf = weakSelf;
+                                                                                                                        [strongSelf->_twitterButton setEnabled:YES];
+                                                                                                                        [strongSelf->_twitterButton setSelected:!strongSelf->_twitterButton.selected];
+                                                                                                                    } failure:^(NSError *error) {
+                                                                                                                        __strong __typeof(weakSelf) strongSelf = weakSelf;
+                                                                                                                        [strongSelf->_twitterButton setEnabled:YES];
+                                                                                                                        [UIAlertView showAlertViewForError:error
+                                                                                                                                                  delegate:nil];
+                                                                                                                    }];
+                                                                                                                } failure:^(NSError *error) {
+                                                                                                                    __strong __typeof(weakSelf) strongSelf = weakSelf;
+                                                                                                                    [strongSelf->_twitterButton setEnabled:YES];
+                                                                                                                    [UIAlertView showAlertViewForError:error
+                                                                                                                                              delegate:nil];
+                                                                                                                }];
                                                  }];
     }
 }
@@ -660,14 +657,14 @@ UserPostsViewControllerDelegate>
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField.text.length > 0) {
         self.temporaryPostTitle = textField.text;
-
+        
         textField.text = @"";
-
+        
         self.userPostsViewController.temporaryPostTitle = _temporaryPostTitle;
-
+        
         self.titleAlertView.hidden = YES;
         [textField resignFirstResponder];
-
+        
         return YES;
     }
     return NO;

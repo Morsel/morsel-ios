@@ -13,6 +13,7 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *morselID;
 	__unsafe_unretained NSString *morselPhoto;
 	__unsafe_unretained NSString *morselPhotoURL;
+	__unsafe_unretained NSString *url;
 } MRSLMorselAttributes;
 
 extern const struct MRSLMorselRelationships {
@@ -27,6 +28,7 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLComment;
 @class MRSLPost;
 @class MRSLTag;
+
 
 
 
@@ -146,6 +148,16 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* url;
+
+
+
+//- (BOOL)validateUrl:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSOrderedSet *comments;
 
 - (NSMutableOrderedSet*)commentsSet;
@@ -243,6 +255,12 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSString*)primitiveMorselPhotoURL;
 - (void)setPrimitiveMorselPhotoURL:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveUrl;
+- (void)setPrimitiveUrl:(NSString*)value;
 
 
 

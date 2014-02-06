@@ -39,7 +39,7 @@ UITextFieldDelegate>
     } else {
         self.post = [MRSLPost MR_findFirstByAttribute:MRSLPostAttributes.postID
                                             withValue:[NSNumber numberWithInt:_postID]
-                                            inContext:Appdelegate.defaultContext];
+                                            inContext:[NSManagedObjectContext MR_defaultContext]];
     }
 
     self.postTitleLabel.text = _post.title;
@@ -121,7 +121,7 @@ UITextFieldDelegate>
     if (buttonIndex == 1) {
         _post.title = _postTitleLabel.text;
 
-        [Appdelegate.morselApiService updatePost:_post
+        [_appDelegate.morselApiService updatePost:_post
                                          success:nil
                                          failure:nil];
     }

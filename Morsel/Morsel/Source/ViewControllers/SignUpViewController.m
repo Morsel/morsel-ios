@@ -109,7 +109,7 @@ UITextFieldDelegate>
 
     self.activityView.hidden = NO;
 
-    MRSLUser *user = [MRSLUser MR_createInContext:Appdelegate.defaultContext];
+    MRSLUser *user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
     user.first_name = _firstNameField.text;
     user.last_name = _lastNameField.text;
     user.username = _usernameField.text;
@@ -124,7 +124,7 @@ UITextFieldDelegate>
                        {
                            user.profilePhoto = UIImageJPEGRepresentation(profileImage, 1.f);
 
-                           [Appdelegate.morselApiService createUser:user
+                           [_appDelegate.morselApiService createUser:user
                                                        withPassword:_passwordField.text
                                                             success:nil
                                                             failure:^(NSError *error)
@@ -132,16 +132,10 @@ UITextFieldDelegate>
                                 self.activityView.hidden = YES;
                                 [self.continueButton setEnabled:YES];
 
-                                NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+                                MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
 
-                                NSString *errorString = [NSString stringWithFormat:@"Sign Up Error: %@", errorDictionary[@"errors"]];
-
-                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, there's been a problem!"
-                                                                                message:errorString
-                                                                               delegate:nil
-                                                                      cancelButtonTitle:@"OK"
-                                                                      otherButtonTitles:nil];
-                                [alert show];
+                                [UIAlertView showAlertViewForServiceError:serviceErrorInfo
+                                                                 delegate:nil];
                             }];
                        });
 

@@ -54,7 +54,7 @@ UIGestureRecognizerDelegate>
     [fetchRequest setFetchBatchSize:10];
 
     NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                                               managedObjectContext:Appdelegate.defaultContext
+                                                                                               managedObjectContext:[NSManagedObjectContext MR_defaultContext]
                                                                                                  sectionNameKeyPath:nil
                                                                                                           cacheName:@"Home"];
     fetchedResultsController.delegate = self;
@@ -75,7 +75,7 @@ UIGestureRecognizerDelegate>
     if (![MRSLUser currentUser])
         return;
 
-    [Appdelegate.morselApiService getFeedWithSuccess:^(NSArray *responseArray)
+    [_appDelegate.morselApiService getFeedWithSuccess:^(NSArray *responseArray)
      {
          if ([responseArray count] > 0) {
              DDLogDebug(@"%lu feed posts available.", (unsigned long)[responseArray count]);

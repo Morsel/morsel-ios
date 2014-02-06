@@ -37,8 +37,20 @@
 - (void)didImport:(id)data {
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
-        self.creationDate = [Appdelegate.defaultDateFormatter dateFromString:dateString];
+        self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
+}
+
+- (NSDictionary *)objectToJSON {
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
+
+    if (self.commentDescription) [objectInfoJSON setObject:self.commentDescription
+                                                    forKey:@"description"];
+
+    NSDictionary *commentJSON = [NSDictionary dictionaryWithObject:objectInfoJSON
+                                                            forKey:@"comment"];
+
+    return commentJSON;
 }
 
 @end

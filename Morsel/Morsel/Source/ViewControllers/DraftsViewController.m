@@ -46,7 +46,7 @@ UITextFieldDelegate>
                                                       withPredicate:userDraftsPredicate
                                                             groupBy:nil
                                                            delegate:self
-                                                          inContext:Appdelegate.defaultContext];
+                                                          inContext:[NSManagedObjectContext MR_defaultContext]];
 
     [self.draftMorselsCollectionView reloadData];
 }

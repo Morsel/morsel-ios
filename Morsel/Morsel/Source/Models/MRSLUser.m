@@ -14,7 +14,7 @@
     NSNumber *currentUserID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
     MRSLUser *currentUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                     withValue:currentUserID
-                                                    inContext:Appdelegate.defaultContext];
+                                                    inContext:[NSManagedObjectContext MR_defaultContext]];
     return currentUser;
 }
 
@@ -34,11 +34,11 @@
 
     MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                              withValue:userID
-                                             inContext:Appdelegate.defaultContext];
+                                             inContext:[NSManagedObjectContext MR_defaultContext]];
 
     if (!user) {
         DDLogDebug(@"User did not exist on device. Creating new.");
-        user = [MRSLUser MR_createInContext:Appdelegate.defaultContext];
+        user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
     } else {
         DDLogDebug(@"User existed on device. Updating information.");
     }
@@ -99,6 +99,28 @@
     }
     
     [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
+}
+
+- (NSDictionary *)objectToJSON {
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
+
+    if (self.email) [objectInfoJSON setObject:self.email
+                                       forKey:@"email"];
+    if (self.username) [objectInfoJSON setObject:self.username
+                                          forKey:@"username"];
+    if (self.first_name) [objectInfoJSON setObject:self.first_name
+                                            forKey:@"first_name"];
+    if (self.last_name) [objectInfoJSON setObject:self.last_name
+                                           forKey:@"last_name"];
+    if (self.title) [objectInfoJSON setObject:self.title
+                                       forKey:@"title"];
+    if (self.bio) [objectInfoJSON setObject:self.bio
+                                     forKey:@"bio"];
+
+    NSMutableDictionary *userJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
+                                                                       forKey:@"user"];
+
+    return userJSON;
 }
 
 @end

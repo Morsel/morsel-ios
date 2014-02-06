@@ -87,7 +87,7 @@
 
 - (void)userModifiedMorsel {
     DDLogDebug(@"Detected Morsel update in side bar. Reloading user to get latest draft count.");
-    [Appdelegate.morselApiService getUserProfile:[MRSLUser currentUser]
+    [_appDelegate.morselApiService getUserProfile:[MRSLUser currentUser]
                                          success:^(id responseObject) {
                                              DDLogDebug(@"User information successfully loaded. Updating draft count in side bar.");
                                              dispatch_async(dispatch_get_main_queue(), ^{

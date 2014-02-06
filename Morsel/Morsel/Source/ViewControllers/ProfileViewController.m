@@ -69,7 +69,7 @@ NSFetchedResultsControllerDelegate>
                                                       withPredicate:currentUserPredicate
                                                             groupBy:nil
                                                            delegate:self
-                                                          inContext:Appdelegate.defaultContext];
+                                                          inContext:[NSManagedObjectContext MR_defaultContext]];
 
     [self.feedCollectionView reloadData];
 }
@@ -77,7 +77,7 @@ NSFetchedResultsControllerDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [Appdelegate.morselApiService getUserProfile:_user
+    [_appDelegate.morselApiService getUserProfile:_user
                                          success:^(id responseObject)
      {
          self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
@@ -91,7 +91,7 @@ NSFetchedResultsControllerDelegate>
     if (!_user)
         return;
 
-    [Appdelegate.morselApiService getUserPosts:_user
+    [_appDelegate.morselApiService getUserPosts:_user
                                        success:^(NSArray *responseArray)
      {
          if ([responseArray count] > 0) {

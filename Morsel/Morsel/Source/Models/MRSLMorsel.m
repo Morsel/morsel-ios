@@ -50,8 +50,34 @@
 
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
-        self.creationDate = [Appdelegate.defaultDateFormatter dateFromString:dateString];
+        self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
+}
+
+- (NSDictionary *)objectToJSON {
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
+
+    if (self.morselDescription) [objectInfoJSON setObject:self.morselDescription
+                                                    forKey:@"description"];
+
+    if (self.draft) [objectInfoJSON setObject:(self.draftValue) ? @"true" : @"false"
+                                                   forKey:@"draft"];
+
+    NSMutableDictionary *morselJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
+                                                                         forKey:@"morsel"];
+
+    if (self.post) {
+        if (self.post.postID) {
+            [morselJSON setObject:self.post.postID
+                           forKey:@"post_id"];
+        }
+        if (self.post.title) {
+            [morselJSON setObject:self.post.title
+                           forKey:@"post_title"];
+        }
+    }
+
+    return morselJSON;
 }
 
 @end

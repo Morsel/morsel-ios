@@ -1,6 +1,5 @@
 #import "_MRSLTag.h"
 
-@interface MRSLTag : _MRSLTag {
-}
-// Custom logic goes here.
+@interface MRSLTag : _MRSLTag
+
 @end

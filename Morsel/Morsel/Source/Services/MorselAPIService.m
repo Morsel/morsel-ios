@@ -8,6 +8,8 @@
 
 #import "MorselAPIService.h"
 
+#import "NSManagedObject+JSON.h"
+
 #import "MorselAPIClient.h"
 #import "JSONResponseSerializerWithData.h"
 
@@ -16,31 +18,40 @@
 #import "MRSLPost.h"
 #import "MRSLUser.h"
 
-/*
-
- Current Response Schema - 01.29.2014
- {
- "data": {} or [],
- "meta": {
- "total_results": 1245
- },
- "errors": {
- "username": [
- "is too long",
- "cannot contain special characters"
- ],
- "email": [
- "is invalid"
- ]
- }
- }
- */
-
 @interface MorselAPIService ()
 
 @end
 
 @implementation MorselAPIService
+
+#pragma mark - Parameters
+
+- (NSMutableDictionary *)parametersWithDictionary:(NSDictionary *)dictionaryOrNil
+                             includingMRSLObjects:(NSArray *)objects
+                           requiresAuthentication:(BOOL)requiresAuthentication {
+    __block NSMutableDictionary *parametersDictionary = [NSMutableDictionary dictionary];
+
+    // append initial dictionary
+    if (dictionaryOrNil) [parametersDictionary addEntriesFromDictionary:dictionaryOrNil];
+
+    // loop through objects and convert into JSON
+    for (NSManagedObject *managedObject in objects) {
+        if ([managedObject respondsToSelector:@selector(objectToJSON)]) {
+            NSDictionary *objectDictionary = [managedObject objectToJSON];
+            [parametersDictionary addEntriesFromDictionary:objectDictionary];
+        }
+    }
+
+    // apply authentication
+    if (requiresAuthentication) [parametersDictionary setObject:[MRSLUser apiTokenForCurrentUser]
+                                                         forKey:@"api_key"];
+
+    // apply device information
+    [parametersDictionary setObject:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"ipad" : @"iphone"
+                             forKey:@"device"];
+
+    return parametersDictionary;
+}
 
 #pragma mark - User Sign Up and Sign In Services
 
@@ -48,16 +59,9 @@
       withPassword:(NSString *)password
            success:(MorselAPISuccessBlock)userSuccessOrNil
            failure:(MorselAPIFailureBlock)failureOrNil {
-    NSDictionary *parameters = @{
-                                 @"user" : @{
-                                         @"username" : user.username,
-                                         @"email" : user.email,
-                                         @"password" : password,
-                                         @"first_name" : user.first_name,
-                                         @"last_name" : user.last_name,
-                                         @"title" : user.title
-                                         }
-                                 };
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:@[user]
+                                              requiresAuthentication:NO];
 
     [[MorselAPIClient sharedClient] POST:@"users"
                               parameters:parameters
@@ -88,12 +92,16 @@
                 andPassword:(NSString *)password
                     success:(MorselAPISuccessBlock)successOrNil
                     failure:(MorselAPIFailureBlock)failureOrNil {
-    NSDictionary *parameters = @{
+    NSDictionary *userParameters = @{
                                  @"user" : @{
                                          @"email" : emailAddress,
                                          @"password" : password
                                          }
                                  };
+
+    NSMutableDictionary *parameters = [self parametersWithDictionary:userParameters
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:NO];
 
     [[MorselAPIClient sharedClient] POST:@"users/sign_in"
                               parameters:parameters
@@ -117,16 +125,9 @@
 - (void)updateUser:(MRSLUser *)user
            success:(MorselAPISuccessBlock)userSuccessOrNil
            failure:(MorselAPIFailureBlock)failureOrNil {
-    NSDictionary *parameters = @{
-                                 @"user" : @{
-                                         @"username" : user.username,
-                                         @"email" : user.email,
-                                         @"first_name" : user.first_name,
-                                         @"last_name" : user.last_name,
-                                         @"title" : user.title
-                                         },
-                                 @"api_key" : [MRSLUser apiTokenForCurrentUser]
-                                 };
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
 
     [[MorselAPIClient sharedClient] PUT:[NSString stringWithFormat:@"users/%i", user.userIDValue]
                              parameters:parameters
@@ -148,9 +149,9 @@
 - (void)getUserProfile:(MRSLUser *)user
                success:(MorselAPISuccessBlock)userSuccessOrNil
                failure:(MorselAPIFailureBlock)failureOrNil {
-    NSDictionary *parameters = @{
-                                 @"api_key" : [MRSLUser apiTokenForCurrentUser]
-                                 };
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
 
     [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i", user.userIDValue]
                              parameters:parameters
@@ -172,11 +173,14 @@
                                      forUser:(MRSLUser *)user
                                      success:(MorselAPISuccessBlock)userSuccessOrNil
                                      failure:(MorselAPIFailureBlock)failureOrNil {
-    NSDictionary *parameters = @{
-                                 @"provider" : @"facebook",
-                                 @"token" : token,
-                                 @"api_key" : [MRSLUser apiTokenForCurrentUser]
-                                 };
+    NSDictionary *facebookParameters = @{
+                                         @"provider" : @"facebook",
+                                         @"token" : token
+                                         };
+
+    NSMutableDictionary *parameters = [self parametersWithDictionary:facebookParameters
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
 
     [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"users/%i/authorizations", user.userIDValue]
                               parameters:parameters
@@ -198,12 +202,14 @@
                                     success:(MorselAPISuccessBlock)userSuccessOrNil
                                     failure:(MorselAPIFailureBlock)failureOrNil {
     if (token && secret) {
-        NSDictionary *parameters = @{
-                                     @"provider" : @"twitter",
-                                     @"token" : token,
-                                     @"secret" : secret,
-                                     @"api_key" : [MRSLUser apiTokenForCurrentUser]
-                                     };
+        NSDictionary *twitterParameters = @{
+                                            @"provider" : @"twitter",
+                                            @"token" : token,
+                                            @"secret" : secret
+                                            };
+        NSMutableDictionary *parameters = [self parametersWithDictionary:twitterParameters
+                                                    includingMRSLObjects:nil
+                                                  requiresAuthentication:YES];
 
         [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"users/%i/authorizations", user.userIDValue]
                                   parameters:parameters
@@ -231,12 +237,9 @@
 - (void)updatePost:(MRSLPost *)post
            success:(MorselAPISuccessBlock)successOrNil
            failure:(MorselAPIFailureBlock)failureOrNil {
-    NSDictionary *parameters = @{
-                                 @"post" : @{
-                                         @"title" : post.title
-                                         },
-                                 @"api_key" : [MRSLUser apiTokenForCurrentUser]
-                                 };
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:@[post]
+                                              requiresAuthentication:YES];
 
     [[MorselAPIClient sharedClient] PUT:[NSString stringWithFormat:@"posts/%i", [post.postID intValue]]
                              parameters:parameters
@@ -257,9 +260,9 @@
 - (void)getPost:(MRSLPost *)post
         success:(MorselAPISuccessBlock)successOrNil
         failure:(MorselAPIFailureBlock)failureOrNil {
-    NSDictionary *parameters = @{
-                                 @"api_key" : [MRSLUser apiTokenForCurrentUser]
-                                 };
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
 
     [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"posts/%i", [post.postID intValue]]
                              parameters:parameters
@@ -282,31 +285,9 @@
        postToTwitter:(BOOL)postToTwitter
              success:(MorselAPISuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:[MRSLUser apiTokenForCurrentUser], @"api_key", nil];
-
-    NSMutableDictionary *morselDictionary = [NSMutableDictionary dictionary];
-
-    if (morsel.morselDescription) {
-        [morselDictionary setObject:morsel.morselDescription
-                             forKey:@"description"];
-    }
-
-    [morselDictionary setObject:(morsel.draftValue) ? @"true" : @"false"
-                         forKey:@"draft"];
-
-    if ([morselDictionary count] > 0) {
-        [parameters setObject:morselDictionary
-                       forKey:@"morsel"];
-    }
-
-    if (morsel.post && morsel.post.postID) {
-        [parameters setObject:morsel.post.postID
-                       forKey:@"post_id"];
-        if (morsel.post.title) {
-            [parameters setObject:morsel.post.title
-                           forKey:@"post_title"];
-        }
-    }
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:@[morsel]
+                                              requiresAuthentication:YES];
 
     if (postToFacebook)
         [parameters setObject:@"true" forKey:@"post_to_facebook"];
@@ -350,9 +331,15 @@
                failure:failureOrNil];
 }
 
-- (void)getMorsel:(MRSLMorsel *)morsel success:(MorselAPISuccessBlock)successOrNil failure:(MorselAPIFailureBlock)failureOrNil {
+- (void)getMorsel:(MRSLMorsel *)morsel
+          success:(MorselAPISuccessBlock)successOrNil
+          failure:(MorselAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+
     [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
-                             parameters:@{@"api_key": [MRSLUser apiTokenForCurrentUser]}
+                             parameters:parameters
                                 success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -370,14 +357,9 @@
 - (void)updateMorsel:(MRSLMorsel *)morsel
              success:(MorselAPISuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil {
-    NSDictionary *parameters = @{
-                                 @"morsel" : @{
-                                         @"description" : morsel.morselDescription,
-                                         @"post_id" : morsel.post.postID,
-                                         @"draft" : (morsel.draftValue) ? @"true" : @"false"
-                                         },
-                                 @"api_key" : [MRSLUser apiTokenForCurrentUser]
-                                 };
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:@[morsel]
+                                              requiresAuthentication:YES];
 
     [[MorselAPIClient sharedClient] PUT:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
                              parameters:parameters
@@ -405,8 +387,12 @@
 - (void)deleteMorsel:(MRSLMorsel *)morsel
              success:(MorselDataSuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+
     [[MorselAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
-                                parameters:@{@"api_key": [MRSLUser apiTokenForCurrentUser]}
+                                parameters:parameters
                                    success:nil
                                    failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                        if ([operation.response statusCode] == 200) {
@@ -437,9 +423,12 @@
         shouldLike:(BOOL)shouldLike
            didLike:(MorselAPILikeBlock)didLike
            failure:(MorselAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
     if (shouldLike) {
         [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"morsels/%i/like", [morsel.morselID intValue]]
-                                  parameters:@{@"api_key": [MRSLUser apiTokenForCurrentUser]}
+                                  parameters:parameters
                                      success:nil
                                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                          if ([operation.response statusCode] == 200) {
@@ -452,7 +441,7 @@
                                      }];
     } else {
         [[MorselAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"morsels/%i/like", [morsel.morselID intValue]]
-                                    parameters:@{@"api_key": [MRSLUser apiTokenForCurrentUser]}
+                                    parameters:parameters
                                        success:nil
                                        failure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
@@ -471,10 +460,11 @@
 
 - (void)getFeedWithSuccess:(MorselAPIArrayBlock)success
                    failure:(MorselAPIFailureBlock)failureOrNil {
-
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"include_drafts": @"true"}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
     [[MorselAPIClient sharedClient] GET:@"posts"
-                             parameters:@{@"include_drafts": @"true",
-                                          @"api_key": [MRSLUser apiTokenForCurrentUser]}
+                             parameters:parameters
                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                     DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
@@ -507,7 +497,9 @@
              success:(MorselAPIArrayBlock)success
              failure:(MorselAPIFailureBlock)failureOrNil {
 
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:[MRSLUser apiTokenForCurrentUser], @"api_key", user.userID, @"user_id", nil];
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:@[user]
+                                              requiresAuthentication:YES];
 
     if (user.isCurrentUser) {
         [parameters setObject:@"true"
@@ -547,8 +539,12 @@
 - (void)getComments:(MRSLMorsel *)morsel
             success:(MorselAPIArrayBlock)successOrNil
             failure:(MorselAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+
     [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i/comments", morsel.morselIDValue]
-                             parameters:@{@"api_key": [MRSLUser apiTokenForCurrentUser]}
+                             parameters:parameters
                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                     DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
@@ -578,9 +574,12 @@
                           toMorsel:(MRSLMorsel *)morsel
               success:(MorselAPISuccessBlock)successOrNil
               failure:(MorselAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"comment": @{@"description": description}}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+
     [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"morsels/%i/comments", morsel.morselIDValue]
-                              parameters:@{@"comment": @{@"description": description},
-                                           @"api_key": [MRSLUser apiTokenForCurrentUser]}
+                              parameters:parameters
                                  success: ^(AFHTTPRequestOperation * operation, id responseObject) {
                                      DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
@@ -608,12 +607,12 @@
 - (void)reportFailure:(MorselAPIFailureBlock)failureOrNil
             withError:(NSError *)error
              inMethod:(NSString *)methodName {
-    NSDictionary *userInfoDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+    MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
     
-    if (!userInfoDictionary) {
-        DDLogError(@"%@ Request Error: %@", methodName, error.userInfo);
+    if (!serviceErrorInfo) {
+        DDLogError(@"Request error in method (%@) with userInfo: %@", methodName, error.userInfo);
     } else {
-        DDLogError(@"%@ Request Error: %@", methodName, userInfoDictionary[@"errors"]);
+        DDLogError(@"Request error in method (%@) with serviceInfo: %@", methodName, [serviceErrorInfo errorInfo]);
     }
     
     if (failureOrNil)

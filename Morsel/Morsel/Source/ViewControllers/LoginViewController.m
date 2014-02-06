@@ -43,7 +43,7 @@
 
     self.activityView.hidden = NO;
 
-    [Appdelegate.morselApiService signInUserWithEmail:_emailTextField.text
+    [_appDelegate.morselApiService signInUserWithEmail:_emailTextField.text
                                           andPassword:_passwordTextField.text
                                               success:nil
                                               failure:^(NSError *error)
@@ -51,16 +51,10 @@
          self.activityView.hidden = YES;
          [self.signInButton setEnabled:YES];
 
-         NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
+         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
 
-         NSString *errorString = [NSString stringWithFormat:@"Login Error: %@", errorDictionary[@"errors"]];
-
-         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, there's been a problem!"
-                                                         message:errorString
-                                                        delegate:nil
-                                               cancelButtonTitle:@"OK"
-                                               otherButtonTitles:nil];
-         [alert show];
+         [UIAlertView showAlertViewForServiceError:serviceErrorInfo
+                                          delegate:nil];
      }];
 }
 

@@ -43,7 +43,7 @@ CommentTableViewCellDelegate>
                                                                withPredicate:commentsForMorselPredicate
                                                                      groupBy:nil
                                                                     delegate:self
-                                                                   inContext:Appdelegate.defaultContext];
+                                                                   inContext:[NSManagedObjectContext MR_defaultContext]];
 
             [self.commentsTableView reloadData];
         }

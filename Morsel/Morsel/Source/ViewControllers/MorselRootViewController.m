@@ -194,7 +194,7 @@
             [viewController.view removeFromSuperview];
         }];
         [_navigationControllers removeAllObjects];
-        [Appdelegate resetDataStore];
+        [_appDelegate resetDataStore];
     }];
     [self displaySignUpAnimated:YES];
 }
