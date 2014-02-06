@@ -45,7 +45,7 @@
 }
 
 - (MorselThumbnailCollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                              cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+                               cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_post.morsels objectAtIndex:indexPath.row];
 
     MorselThumbnailCollectionViewCell *morselCell = [self.thumbnailCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"

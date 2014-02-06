@@ -10,7 +10,6 @@
 
 #import "CreateMorselViewController.h"
 #import "PostMorselsViewController.h"
-#import "ModelController.h"
 #import "MorselFeedCollectionViewCell.h"
 #import "MorselDetailViewController.h"
 #import "PostMorselsViewController.h"
@@ -18,13 +17,14 @@
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
+#import "MRSLUser.h"
 
 @interface HomeViewController ()
-    <MorselFeedCollectionViewCellDelegate,
-     NSFetchedResultsControllerDelegate,
-     UICollectionViewDataSource,
-     UICollectionViewDelegate,
-     UIGestureRecognizerDelegate>
+<MorselFeedCollectionViewCellDelegate,
+NSFetchedResultsControllerDelegate,
+UICollectionViewDataSource,
+UICollectionViewDelegate,
+UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
 
@@ -44,12 +44,27 @@
 
     NSPredicate *publishedMorselPredicate = [NSPredicate predicateWithFormat:@"draft == NO"];
 
-    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
-                                                          ascending:NO
-                                                      withPredicate:publishedMorselPredicate
-                                                            groupBy:nil
-                                                           delegate:self
-                                                          inContext:[ModelController sharedController].defaultContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:[MRSLMorsel MR_entityDescription]];
+
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"creationDate"
+                                                         ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+    [fetchRequest setPredicate:publishedMorselPredicate];
+    [fetchRequest setFetchBatchSize:10];
+
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                                               managedObjectContext:Appdelegate.defaultContext
+                                                                                                 sectionNameKeyPath:nil
+                                                                                                          cacheName:@"Home"];
+    fetchedResultsController.delegate = self;
+
+    self.fetchedResultsController = fetchedResultsController;
+
+    NSError *fetchError = nil;
+	if (![self.fetchedResultsController performFetch:&fetchError]) {
+		DDLogDebug(@"Fetch Failed! %@", fetchError.userInfo);
+	}
 
     [self.feedCollectionView reloadData];
 }
@@ -57,19 +72,19 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if (![ModelController sharedController].currentUser)
+    if (![MRSLUser currentUser])
         return;
 
-    [[ModelController sharedController] getFeedWithSuccess:^(NSArray *responseArray)
-    {
-        if ([responseArray count] > 0) {
-            DDLogDebug(@"%lu feed posts available.", (unsigned long)[responseArray count]);
-        } else {
-            DDLogDebug(@"No feed posts available");
-        }
-    } failure: ^(NSError * error) {
-        DDLogError(@"Error loading feed posts: %@", error.userInfo);
-    }];
+    [Appdelegate.morselApiService getFeedWithSuccess:^(NSArray *responseArray)
+     {
+         if ([responseArray count] > 0) {
+             DDLogDebug(@"%lu feed posts available.", (unsigned long)[responseArray count]);
+         } else {
+             DDLogDebug(@"No feed posts available");
+         }
+     } failure: ^(NSError * error) {
+         DDLogError(@"Error loading feed posts: %@", error.userInfo);
+     }];
 }
 
 #pragma mark - Section Methods
@@ -112,7 +127,7 @@
 }
 
 - (MorselFeedCollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                         cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+                          cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
 
     MorselFeedCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
@@ -130,21 +145,6 @@
     self.selectedMorsel = morsel;
 
     [self displayMorselDetail];
-}
-
-#pragma mark - NSFetchedResultsControllerDelegate Methods
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
-
-    NSError *fetchError = nil;
-    [_fetchedResultsController performFetch:&fetchError];
-
-    if (fetchError) {
-        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
-    }
-
-    [self.feedCollectionView reloadData];
 }
 
 #pragma mark - MorselFeedCollectionViewCellDelegate Methods
@@ -179,6 +179,21 @@
                                                 animated:YES
                                               completion:nil];
     }
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate Methods
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+
+    NSError *fetchError = nil;
+    [_fetchedResultsController performFetch:&fetchError];
+
+    if (fetchError) {
+        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
+    }
+
+    [self.feedCollectionView reloadData];
 }
 
 @end

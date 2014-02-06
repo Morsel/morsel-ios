@@ -9,7 +9,6 @@
 #import "MorselRootViewController.h"
 
 #import "HomeViewController.h"
-#import "ModelController.h"
 #import "MRSLSideBarViewController.h"
 #import "ProfileViewController.h"
 
@@ -19,7 +18,7 @@
 #import "MRSLUser.h"
 
 @interface MorselRootViewController ()
-    <MRSLSideBarViewControllerDelegate>
+<MRSLSideBarViewControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *navigationControllers;
 @property (nonatomic, strong) UIViewController *currentViewController;
@@ -55,7 +54,7 @@
     [self addChildViewController:_sideBarViewController];
     [self.sideBarContainerView addSubview:_sideBarViewController.view];
 
-    MRSLUser *currentUser = [ModelController sharedController].currentUser;
+    MRSLUser *currentUser = [MRSLUser currentUser];
 
     if (!currentUser) {
         double delayInSeconds = 0.f;
@@ -161,16 +160,16 @@
     __block UINavigationController *foundNC = nil;
 
     [_navigationControllers enumerateObjectsUsingBlock:^(UINavigationController *navigationController, NSUInteger idx, BOOL *stop)
-    {
-        if ([navigationController isKindOfClass:[UINavigationController class]]) {
-            if ([navigationController.viewControllers count] > 0) {
-                if ([[navigationController.viewControllers objectAtIndex:0] isKindOfClass:class]) {
-                    foundNC = navigationController;
-                    *stop = YES;
-                }
-            }
-        }
-    }];
+     {
+         if ([navigationController isKindOfClass:[UINavigationController class]]) {
+             if ([navigationController.viewControllers count] > 0) {
+                 if ([[navigationController.viewControllers objectAtIndex:0] isKindOfClass:class]) {
+                     foundNC = navigationController;
+                     *stop = YES;
+                 }
+             }
+         }
+     }];
 
     return foundNC;
 }
@@ -184,9 +183,6 @@
 
     [self dismissViewControllerAnimated:YES
                              completion:nil];
-
-    [[ModelController sharedController] saveDataToStoreWithSuccess:nil
-                                                           failure:nil];
 }
 
 - (void)logUserOut {
@@ -198,7 +194,7 @@
             [viewController.view removeFromSuperview];
         }];
         [_navigationControllers removeAllObjects];
-        [[ModelController sharedController] resetDataStore];
+        [Appdelegate resetDataStore];
     }];
     [self displaySignUpAnimated:YES];
 }

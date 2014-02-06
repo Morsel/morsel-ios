@@ -39,13 +39,13 @@
         
         _comment = comment;
         if (_comment) {
-            _profileImageView.user = _comment.user;
+            _profileImageView.user = _comment.creator;
             _profileImageView.delegate = self;
-            _userNameLabel.text = _comment.user.fullName;
-            _commentBodyLabel.text = _comment.text;
+            _userNameLabel.text = _comment.creator.fullName;
+            _commentBodyLabel.text = _comment.commentDescription;
             _timeAgoLabel.text = [_comment.creationDate dateTimeAgo];
             
-            CGSize bodySize = [_comment.text sizeWithFont:_commentBodyLabel.font
+            CGSize bodySize = [_comment.commentDescription sizeWithFont:_commentBodyLabel.font
                                         constrainedToSize:CGSizeMake(_commentBodyLabel.frame.size.width, CGFLOAT_MAX)
                                             lineBreakMode:NSLineBreakByWordWrapping];
             

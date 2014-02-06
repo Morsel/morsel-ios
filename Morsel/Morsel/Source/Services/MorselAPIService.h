@@ -86,12 +86,12 @@
 
 #pragma mark - Feed Services
 
-- (void)retrieveFeedWithSuccess:(MorselAPIArrayBlock)success
-                        failure:(MorselAPIFailureBlock)failureOrNil;
+- (void)getFeedWithSuccess:(MorselAPIArrayBlock)success
+                   failure:(MorselAPIFailureBlock)failureOrNil;
 
-- (void)retrieveUserPosts:(MRSLUser *)user
-                  success:(MorselAPIArrayBlock)success
-                  failure:(MorselAPIFailureBlock)failureOrNil;
+- (void)getUserPosts:(MRSLUser *)user
+             success:(MorselAPIArrayBlock)success
+             failure:(MorselAPIFailureBlock)failureOrNil;
 
 #pragma mark - Comment Services
 
@@ -99,8 +99,9 @@
             success:(MorselAPIArrayBlock)successOrNil
             failure:(MorselAPIFailureBlock)failureOrNil;
 
-- (void)postComment:(MRSLComment *)comment
-            success:(MorselAPIArrayBlock)successOrNil
-            failure:(MorselAPIFailureBlock)failureOrNil;
+- (void)postCommentWithDescription:(NSString *)description
+                          toMorsel:(MRSLMorsel *)morsel
+                           success:(MorselAPISuccessBlock)successOrNil
+                           failure:(MorselAPIFailureBlock)failureOrNil;
 
 @end

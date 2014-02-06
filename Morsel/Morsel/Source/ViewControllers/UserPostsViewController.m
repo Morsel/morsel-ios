@@ -8,7 +8,6 @@
 
 #import "UserPostsViewController.h"
 
-#import "ModelController.h"
 #import "PostCollectionViewCell.h"
 
 #import "MRSLPost.h"
@@ -34,14 +33,14 @@
 
     self.postCount = 0;
 
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(author.userID == %i)", [[ModelController sharedController].currentUser.userID intValue]];
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(creator.userID == %i)", [MRSLUser currentUser].userIDValue];
 
     self.fetchedResultsController = [MRSLPost MR_fetchAllSortedBy:@"creationDate"
                                                         ascending:NO
                                                     withPredicate:currentUserPredicate
                                                           groupBy:nil
                                                          delegate:self
-                                                        inContext:[ModelController sharedController].defaultContext];
+                                                        inContext:Appdelegate.defaultContext];
 
     [self.postCollectionView reloadData];
 }
