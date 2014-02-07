@@ -2,8 +2,6 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-#import "ModelController.h"
-
 @interface MRSLUser ()
 
 @end
@@ -12,111 +10,117 @@
 
 #pragma mark - Class Methods
 
-+ (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldPostNotification:(BOOL)shouldPostNotifications {
-    NSNumber *userID = [NSNumber numberWithInt:[responseObject[@"data"][@"id"] intValue]];
++ (MRSLUser *)currentUser {
+    NSNumber *currentUserID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
+    MRSLUser *currentUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                                    withValue:currentUserID
+                                                    inContext:[NSManagedObjectContext MR_defaultContext]];
+    return currentUser;
+}
 
-    MRSLUser *existingUser = [[ModelController sharedController] userWithID:userID];
++ (NSString *)apiTokenForCurrentUser {
+    MRSLUser *currentUser = [MRSLUser currentUser];
 
-    if (existingUser) {
-        DDLogDebug(@"User existed on device. Updating information.");
+    return [NSString stringWithFormat:@"%i:%@", currentUser.userIDValue, currentUser.auth_token];
+}
 
-        [existingUser setWithDictionary:responseObject[@"data"]];
++ (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID {
+    return ([MRSLUser currentUser].userIDValue == creatorID);
+}
 
-        [[NSUserDefaults standardUserDefaults] setObject:existingUser.userID
-                                                  forKey:@"userID"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
++ (void)createOrUpdateUserFromResponseObject:(id)userDictionary
+                      shouldPostNotification:(BOOL)shouldPostNotifications {
+    NSNumber *userID = [NSNumber numberWithInt:[userDictionary[@"id"] intValue]];
 
-        if (shouldPostNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
-                                                                                         object:nil];
-    } else {
+    MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                             withValue:userID
+                                             inContext:[NSManagedObjectContext MR_defaultContext]];
+
+    if (!user) {
         DDLogDebug(@"User did not exist on device. Creating new.");
-
-        MRSLUser *user = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
-        [user setWithDictionary:responseObject[@"data"]];
-
-        [[NSUserDefaults standardUserDefaults] setObject:user.userID
-                                                  forKey:@"userID"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-
-        if (shouldPostNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
-                                                                                         object:nil];
+        user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+    } else {
+        DDLogDebug(@"User existed on device. Updating information.");
     }
+
+    [user MR_importValuesForKeysWithObject:userDictionary];
+
+    [[NSUserDefaults standardUserDefaults] setObject:user.userID
+                                              forKey:@"userID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    if (shouldPostNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+                                                                                     object:nil];
 }
 
 #pragma mark - Instance Methods
 
-- (void)setWithDictionary:(NSDictionary *)dictionary {
-    self.userName = ([dictionary[@"username"] isEqual:[NSNull null]]) ? self.userName : dictionary[@"username"];
-    self.emailAddress = ([dictionary[@"email"] isEqual:[NSNull null]]) ? self.emailAddress : dictionary[@"email"];
-    self.firstName = ([dictionary[@"first_name"] isEqual:[NSNull null]]) ? self.firstName : dictionary[@"first_name"];
-    self.lastName = ([dictionary[@"last_name"] isEqual:[NSNull null]]) ? self.lastName : dictionary[@"last_name"];
-    self.occupationTitle = ([dictionary[@"title"] isEqual:[NSNull null]]) ? self.occupationTitle : dictionary[@"title"];
-    self.authToken = ([dictionary[@"auth_token"] isEqual:[NSNull null]]) ? self.authToken : dictionary[@"auth_token"];
-    self.morselCount = ([dictionary[@"morsel_count"] isEqual:[NSNull null]]) ? self.morselCount : [NSNumber numberWithInt:[dictionary[@"morsel_count"] intValue]];
-    self.likeCount = ([dictionary[@"like_count"] isEqual:[NSNull null]]) ? self.likeCount : [NSNumber numberWithInt:[dictionary[@"like_count"] intValue]];
-    self.twitterUsername = ([dictionary[@"twitter_username"] isEqual:[NSNull null]]) ? self.twitterUsername : dictionary[@"twitter_username"];
-    self.facebookUID = ([dictionary[@"facebook_uid"] isEqual:[NSNull null]]) ? self.facebookUID : dictionary[@"facebook_uid"];
-
-    if (![dictionary[@"photos"] isEqual:[NSNull null]]) {
-        NSDictionary *photoDictionary = dictionary[@"photos"];
-
-        self.profileImageURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
-                                                                                     withString:@"IMAGE_SIZE"];
-    }
-
-    self.userID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.userID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
-}
-
 - (BOOL)isCurrentUser {
-    return ([[ModelController sharedController].currentUser.userID intValue] == [self.userID intValue]);
+    NSNumber *currentUserID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
+    return ([currentUserID intValue] == self.userIDValue);
 }
 
-- (UserOccupationType)occupationTypeRaw {
-    return (UserOccupationType)[self.occupationType intValue];
+- (NSString *)fullName {
+    return [NSString stringWithFormat:@"%@ %@", self.first_name, self.last_name];
 }
 
 - (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type {
-    if (!self.profileImageURL) return nil;
+    if (!self.profilePhotoURL) return nil;
 
     BOOL isRetina = ([UIScreen mainScreen].scale == 2.f);
 
     NSString *typeSizeString = nil;
 
     switch (type) {
-    case ProfileImageSizeTypeSmall:
-        typeSizeString = (isRetina) ? @"_80x80" : @"_40x40";
-        break;
-    case ProfileImageSizeTypeMedium:
-        typeSizeString = (isRetina) ? @"_144x144" : @"_72x72";
-        break;
-    default:
-        DDLogError(@"Unsupported Profile Image Size Type Requested!");
-        return nil;
-        break;
+        case ProfileImageSizeTypeSmall:
+            typeSizeString = (isRetina) ? @"_80x80" : @"_40x40";
+            break;
+        case ProfileImageSizeTypeMedium:
+            typeSizeString = (isRetina) ? @"_144x144" : @"_72x72";
+            break;
+        default:
+            DDLogError(@"Unsupported Profile Image Size Type Requested!");
+            return nil;
+            break;
     }
 
-    NSString *adjustedURLForType = [self.profileImageURL stringByReplacingOccurrencesOfString:@"IMAGE_SIZE"
+    NSString *adjustedURLForType = [self.profilePhotoURL stringByReplacingOccurrencesOfString:@"IMAGE_SIZE"
                                                                                    withString:typeSizeString];
 
     return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
 }
 
-- (NSString *)fullName {
-    return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+- (void)didImport:(id)data {
+    if (![data[@"photos"] isEqual:[NSNull null]]) {
+        NSDictionary *photoDictionary = data[@"photos"];
+
+        self.profilePhotoURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
+                                                                                     withString:@"IMAGE_SIZE"];
+    }
+    
+    [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
 }
 
-- (void)addPost:(MRSLPost *)post {
-    [self.postsSet addObject:post];
-}
+- (NSDictionary *)objectToJSON {
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
 
-- (void)setOccupationTypeRaw:(UserOccupationType)type {
-    [self setOccupationType:[NSNumber numberWithInt:type]];
-}
+    if (self.email) [objectInfoJSON setObject:self.email
+                                       forKey:@"email"];
+    if (self.username) [objectInfoJSON setObject:self.username
+                                          forKey:@"username"];
+    if (self.first_name) [objectInfoJSON setObject:self.first_name
+                                            forKey:@"first_name"];
+    if (self.last_name) [objectInfoJSON setObject:self.last_name
+                                           forKey:@"last_name"];
+    if (self.title) [objectInfoJSON setObject:self.title
+                                       forKey:@"title"];
+    if (self.bio) [objectInfoJSON setObject:self.bio
+                                     forKey:@"bio"];
 
-#pragma mark - Private Methods
+    NSMutableDictionary *userJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
+                                                                       forKey:@"user"];
 
-+ (NSSet *)keyPathsForValuesAffectingOccupationTypeRaw {
-    return [NSSet setWithObject:@"occupationType"];
+    return userJSON;
 }
 
 @end

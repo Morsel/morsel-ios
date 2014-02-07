@@ -10,8 +10,11 @@
 
 NSString *const MRSLServiceDidLogInUserNotification = @"MRSLServiceDidLogInUserNotification";
 NSString *const MRSLServiceDidLogOutUserNotification = @"MRSLServiceDidLogOutUserNotification";
+NSString *const MRSLServiceDidUpdateUserNotification = @"MRSLServiceDidUpdateUserNotification";
 NSString *const MRSLShouldDisplaySideBarNotification = @"MRSLShouldDisplaySideBarNotification";
 NSString *const MRSLUserDidCreateCommentNotification = @"MRSLUserDidCreateCommentNotification";
+NSString *const MRSLUserDidCreateMorselNotification = @"MRSLUserDidCreateMorselNotification";
+NSString *const MRSLUserDidUpdateMorselNotification = @"MRSLUserDidUpdateMorselNotification";
 NSString *const MRSLUserDidDeleteMorselNotification = @"MRSLUserDidDeleteMorselNotification";
 
 #ifdef DEBUG

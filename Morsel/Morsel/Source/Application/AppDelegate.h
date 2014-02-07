@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class MorselAPIService;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+@property (nonatomic, strong) MorselAPIService *morselApiService;
+@property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
 @property (strong, nonatomic) UIWindow *window;
+
+- (void)resetDataStore;
 
 @end

@@ -10,12 +10,11 @@
 
 #import <GCPlaceholderTextView/GCPlaceholderTextView.h>
 
-#import "ModelController.h"
-
 #import "MRSLComment.h"
+#import "MRSLUser.h"
 
 @interface AddCommentViewController ()
-    <UITextViewDelegate>
+<UITextViewDelegate>
 
 @property (nonatomic, weak) IBOutlet GCPlaceholderTextView *placeholderTextView;
 
@@ -25,26 +24,26 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
-    
+
     self.placeholderTextView.placeholder = @"Add a comment...";
-    
+
     [self.placeholderTextView becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+
     [self.placeholderTextView resignFirstResponder];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
+
     [self.placeholderTextView setHeight:self.view.frame.size.height - keyboardSize.height];
 }
 
@@ -52,14 +51,10 @@
 
 - (IBAction)postComment {
     if (_placeholderTextView.text.length > 0 && _morsel) {
-        MRSLComment *comment = [MRSLComment MR_createInContext:[ModelController sharedController].defaultContext];
-        comment.text = _placeholderTextView.text;
-        comment.morsel = _morsel;
-        comment.user = [ModelController sharedController].currentUser;
-        
-        [[ModelController sharedController].morselApiService postComment:comment
-                                                                 success:nil
-                                                                 failure:nil];
+        [_appDelegate.morselApiService postCommentWithDescription:_placeholderTextView.text
+                                                        toMorsel:_morsel
+                                                         success:nil
+                                                         failure:nil];
         [self.presentingViewController dismissViewControllerAnimated:YES
                                                           completion:nil];
 
@@ -87,7 +82,7 @@
     } else {
         return YES;
     }
-    
+
     return YES;
 }
 

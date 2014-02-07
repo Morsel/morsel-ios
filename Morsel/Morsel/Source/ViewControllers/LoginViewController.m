@@ -8,11 +8,10 @@
 
 #import "LoginViewController.h"
 
-#import "ModelController.h"
 #import "JSONResponseSerializerWithData.h"
 
 @interface LoginViewController ()
-    <UITextFieldDelegate>
+<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -44,25 +43,19 @@
 
     self.activityView.hidden = NO;
 
-    [[ModelController sharedController].morselApiService signInUserWithEmail:_emailTextField.text
-                                                                 andPassword:_passwordTextField.text
-                                                                     success:nil
-                                                                     failure:^(NSError *error)
-    {
-        self.activityView.hidden = YES;
-        [self.signInButton setEnabled:YES];
-        
-        NSDictionary *errorDictionary = error.userInfo[JSONResponseSerializerWithDataKey];
-        
-        NSString *errorString = [NSString stringWithFormat:@"Login Error: %@", errorDictionary[@"errors"]];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops, there's been a problem!"
-                                                        message:errorString
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-    }];
+    [_appDelegate.morselApiService signInUserWithEmail:_emailTextField.text
+                                          andPassword:_passwordTextField.text
+                                              success:nil
+                                              failure:^(NSError *error)
+     {
+         self.activityView.hidden = YES;
+         [self.signInButton setEnabled:YES];
+
+         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+
+         [UIAlertView showAlertViewForServiceError:serviceErrorInfo
+                                          delegate:nil];
+     }];
 }
 
 - (IBAction)goBack:(id)sender {

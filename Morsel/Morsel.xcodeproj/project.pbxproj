@@ -50,6 +50,7 @@
 		063BB70118983E100029DAF0 /* MorselDetail_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 063BB6FF18983E100029DAF0 /* MorselDetail_iPhone.storyboard */; };
 		063BB70718984A920029DAF0 /* PostMorselsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063BB70618984A920029DAF0 /* PostMorselsViewController.m */; };
 		0640FF32187DB89300BE2F0D /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0640FF31187DB89300BE2F0D /* SignUpViewController.m */; };
+		064A0F5818A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */; };
 		0651315E189C58C100609294 /* MorselDetailCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651315D189C58C100609294 /* MorselDetailCommentsViewController.m */; };
 		06513161189CA9B400609294 /* AddCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06513160189CA9B400609294 /* AddCommentViewController.m */; };
 		0660669118522E7900E780FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0660669018522E7900E780FC /* Foundation.framework */; };
@@ -75,7 +76,6 @@
 		066F5AF9185BCD3700468210 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF8185BCD3700468210 /* ProfileImageView.m */; };
 		066F5AFF185BCD8500468210 /* TagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AFE185BCD8500468210 /* TagView.m */; };
 		066F5B05185BCFD600468210 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5B04185BCFD600468210 /* CommentTableViewCell.m */; };
-		066F5B0B185BD05400468210 /* ModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5B0A185BD05400468210 /* ModelController.m */; };
 		0674A859185FBDF90089B672 /* MorselDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0674A858185FBDF90089B672 /* MorselDetailViewController.m */; };
 		0676B48F1898514D001D7483 /* PostMorselCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B48E1898514D001D7483 /* PostMorselCollectionViewCell.m */; };
 		0676B49218996241001D7483 /* MorselThinButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B49118996241001D7483 /* MorselThinButton.m */; };
@@ -85,6 +85,7 @@
 		0676B49D18998563001D7483 /* HelveticaNeueLTStd-MdCn.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0676B49B18998563001D7483 /* HelveticaNeueLTStd-MdCn.otf */; };
 		0676B4A0189985E1001D7483 /* MorselLightCondensedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B49F189985E1001D7483 /* MorselLightCondensedLabel.m */; };
 		0676B4A3189985F3001D7483 /* MorselMediumLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B4A2189985F3001D7483 /* MorselMediumLabel.m */; };
+		0680411318A42AF5000B7E71 /* NSManagedObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 0680411218A42AF5000B7E71 /* NSManagedObject+JSON.m */; };
 		068602991891A6C5000CD576 /* MorselTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 068602981891A6C5000CD576 /* MorselTextField.m */; };
 		0686029C1891A7B7000CD576 /* UIFont+Morsel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0686029B1891A7B7000CD576 /* UIFont+Morsel.m */; };
 		0686029F1891A8D3000CD576 /* UIColor+Morsel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0686029E1891A8D3000CD576 /* UIColor+Morsel.m */; };
@@ -202,6 +203,8 @@
 		063BB70618984A920029DAF0 /* PostMorselsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostMorselsViewController.m; sourceTree = "<group>"; };
 		0640FF30187DB89300BE2F0D /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		0640FF31187DB89300BE2F0D /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		064A0F5618A3FAE700C6ADF7 /* MRSLServiceErrorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLServiceErrorInfo.h; sourceTree = "<group>"; };
+		064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLServiceErrorInfo.m; sourceTree = "<group>"; };
 		0651315C189C58C100609294 /* MorselDetailCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorselDetailCommentsViewController.h; sourceTree = "<group>"; };
 		0651315D189C58C100609294 /* MorselDetailCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MorselDetailCommentsViewController.m; sourceTree = "<group>"; };
 		0651315F189CA9B400609294 /* AddCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCommentViewController.h; sourceTree = "<group>"; };
@@ -247,8 +250,6 @@
 		066F5AFE185BCD8500468210 /* TagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TagView.m; path = Source/Views/TagView.m; sourceTree = "<group>"; };
 		066F5B03185BCFD600468210 /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentTableViewCell.h; path = Source/Views/CommentTableViewCell.h; sourceTree = "<group>"; };
 		066F5B04185BCFD600468210 /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentTableViewCell.m; path = Source/Views/CommentTableViewCell.m; sourceTree = "<group>"; };
-		066F5B09185BD05400468210 /* ModelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelController.h; path = Source/Controllers/ModelController.h; sourceTree = "<group>"; };
-		066F5B0A185BD05400468210 /* ModelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelController.m; path = Source/Controllers/ModelController.m; sourceTree = "<group>"; };
 		0674A857185FBDF90089B672 /* MorselDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorselDetailViewController.h; sourceTree = "<group>"; };
 		0674A858185FBDF90089B672 /* MorselDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MorselDetailViewController.m; sourceTree = "<group>"; };
 		0676B48D1898514D001D7483 /* PostMorselCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostMorselCollectionViewCell.h; path = Source/Views/PostMorselCollectionViewCell.h; sourceTree = "<group>"; };
@@ -265,6 +266,8 @@
 		0676B49F189985E1001D7483 /* MorselLightCondensedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselLightCondensedLabel.m; path = Source/Views/MorselLightCondensedLabel.m; sourceTree = "<group>"; };
 		0676B4A1189985F3001D7483 /* MorselMediumLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselMediumLabel.h; path = Source/Views/MorselMediumLabel.h; sourceTree = "<group>"; };
 		0676B4A2189985F3001D7483 /* MorselMediumLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselMediumLabel.m; path = Source/Views/MorselMediumLabel.m; sourceTree = "<group>"; };
+		0680411118A42AF5000B7E71 /* NSManagedObject+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+JSON.h"; sourceTree = "<group>"; };
+		0680411218A42AF5000B7E71 /* NSManagedObject+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+JSON.m"; sourceTree = "<group>"; };
 		068602971891A6C5000CD576 /* MorselTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselTextField.h; path = Source/Views/MorselTextField.h; sourceTree = "<group>"; };
 		068602981891A6C5000CD576 /* MorselTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselTextField.m; path = Source/Views/MorselTextField.m; sourceTree = "<group>"; };
 		0686029A1891A7B7000CD576 /* UIFont+Morsel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Morsel.h"; sourceTree = "<group>"; };
@@ -573,13 +576,6 @@
 			name = Sections;
 			sourceTree = "<group>";
 		};
-		063976D918638D0C00A17211 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Protocols;
-			sourceTree = "<group>";
-		};
 		063976DA186394A300A17211 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
@@ -618,6 +614,17 @@
 				066066A518522E7900E780FC /* Main_iPad.storyboard */,
 			);
 			name = iPad;
+			sourceTree = "<group>";
+		};
+		064A0F5518A3FA9000C6ADF7 /* Serializers */ = {
+			isa = PBXGroup;
+			children = (
+				4069CB1E189B127E001790F3 /* JSONResponseSerializerWithData.h */,
+				4069CB1F189B127E001790F3 /* JSONResponseSerializerWithData.m */,
+				064A0F5618A3FAE700C6ADF7 /* MRSLServiceErrorInfo.h */,
+				064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */,
+			);
+			name = Serializers;
 			sourceTree = "<group>";
 		};
 		0651315B189C58A400609294 /* Comments */ = {
@@ -679,10 +686,8 @@
 			children = (
 				0698CA8E18523BBE007AF442 /* Application */,
 				0669C5101871FD370093132F /* Categories */,
-				066F5AE4185BCB8F00468210 /* Controllers */,
 				066066AB18522E7900E780FC /* Images.xcassets */,
 				0698CA8D18523AE2007AF442 /* Models */,
-				063976D918638D0C00A17211 /* Protocols */,
 				0618F90118A02B86001713E0 /* Recognizers */,
 				4069CB1D189B127E001790F3 /* Services */,
 				0660669718522E7900E780FC /* Supporting Files */,
@@ -747,6 +752,8 @@
 				068602A71891B43E000CD576 /* UIStoryboard+Morsel.m */,
 				068602A31891AE26000CD576 /* UIView+Additions.h */,
 				068602A41891AE26000CD576 /* UIView+Additions.m */,
+				0680411118A42AF5000B7E71 /* NSManagedObject+JSON.h */,
+				0680411218A42AF5000B7E71 /* NSManagedObject+JSON.m */,
 			);
 			name = Categories;
 			path = Morsel/Source/Categories;
@@ -793,15 +800,6 @@
 				068602961891A68C000CD576 /* Text */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		066F5AE4185BCB8F00468210 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				066F5B09185BD05400468210 /* ModelController.h */,
-				066F5B0A185BD05400468210 /* ModelController.m */,
-			);
-			name = Controllers;
 			sourceTree = "<group>";
 		};
 		068602961891A68C000CD576 /* Text */ = {
@@ -931,8 +929,7 @@
 		4069CB1D189B127E001790F3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				4069CB1E189B127E001790F3 /* JSONResponseSerializerWithData.h */,
-				4069CB1F189B127E001790F3 /* JSONResponseSerializerWithData.m */,
+				064A0F5518A3FA9000C6ADF7 /* Serializers */,
 				4069CB20189B127E001790F3 /* MorselAPIClient.h */,
 				4069CB21189B127E001790F3 /* MorselAPIClient.m */,
 				4069CB22189B127E001790F3 /* MorselAPIService.h */,
@@ -1208,6 +1205,7 @@
 				0618F8FD18A00CC7001713E0 /* MRSLDetailHorizontalSwipePanelsViewController.m in Sources */,
 				063BB70718984A920029DAF0 /* PostMorselsViewController.m in Sources */,
 				0660669D18522E7900E780FC /* main.m in Sources */,
+				0680411318A42AF5000B7E71 /* NSManagedObject+JSON.m in Sources */,
 				062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */,
 				06D12491189DB94F00492305 /* DraftsViewController.m in Sources */,
 				066F5AD9185BCA4D00468210 /* MRSLMorsel.m in Sources */,
@@ -1237,6 +1235,7 @@
 				0686029C1891A7B7000CD576 /* UIFont+Morsel.m in Sources */,
 				066F5ADF185BCB5000468210 /* ProfileViewController.m in Sources */,
 				062E709F1892C681005D07B9 /* MorselThumbnailViewController.m in Sources */,
+				064A0F5818A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m in Sources */,
 				4005ED8418A19965005B8484 /* UIAlertView+Additions.m in Sources */,
 				0686029F1891A8D3000CD576 /* UIColor+Morsel.m in Sources */,
 				068602A81891B43E000CD576 /* UIStoryboard+Morsel.m in Sources */,
@@ -1266,7 +1265,6 @@
 				062E8E04189C1A1A002A8CD4 /* SideBarItem.m in Sources */,
 				0651315E189C58C100609294 /* MorselDetailCommentsViewController.m in Sources */,
 				0609B8401894B52E005A11A4 /* CameraPreviewView.m in Sources */,
-				066F5B0B185BD05400468210 /* ModelController.m in Sources */,
 				066F5AED185BCC2000468210 /* MorselScrollView.m in Sources */,
 				062E8DFB189C17B2002A8CD4 /* MRSLSideBarViewController.m in Sources */,
 				068602AB1891C590000CD576 /* MorselStandardLabel.m in Sources */,

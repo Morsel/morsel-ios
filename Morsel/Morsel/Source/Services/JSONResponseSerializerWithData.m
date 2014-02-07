@@ -20,13 +20,19 @@
     if (*error != nil) {
         NSMutableDictionary *userInfo = [(*error).userInfo mutableCopy];
         if (data == nil) {
-            userInfo[JSONResponseSerializerWithDataKey] = nil;
+            userInfo[JSONResponseSerializerWithDictionaryKey] = nil;
+            userInfo[JSONResponseSerializerWithServiceErrorInfoKey] = nil;
         } else {
             NSError *error = nil;
             NSDictionary *errorDictionary = [NSJSONSerialization JSONObjectWithData:data
                                                                             options:kNilOptions
                                                                               error:&error];
-            if (!error) userInfo[JSONResponseSerializerWithDataKey] = errorDictionary;
+            if (!error) {
+                MRSLServiceErrorInfo *serviceErrorInfo = [MRSLServiceErrorInfo serviceErrorInfoFromDictionary:errorDictionary];
+
+                userInfo[JSONResponseSerializerWithDictionaryKey] = errorDictionary;
+                userInfo[JSONResponseSerializerWithServiceErrorInfoKey] = serviceErrorInfo;
+            }
         }
         NSError *newError = [NSError errorWithDomain:(*error).domain
                                                 code:(*error).code

@@ -8,8 +8,12 @@
 
 #import "AFURLResponseSerialization.h"
 
-/// NSError userInfo key that will contain response data
-static NSString *const JSONResponseSerializerWithDataKey = @"JSONResponseSerializerWithDataKey";
+#import "MRSLServiceErrorInfo.h"
+
+/// NSError userInfo key that will contain raw response dictionary
+static NSString *const JSONResponseSerializerWithDictionaryKey = @"JSONResponseSerializerWithDictionaryKey";
+/// NSError userInfo key that will contain
+static NSString *const JSONResponseSerializerWithServiceErrorInfoKey = @"JSONResponseSerializerWithServiceErrorInfoKey";
 
 @interface JSONResponseSerializerWithData : AFJSONResponseSerializer
 

@@ -4,21 +4,22 @@
 #import "_MRSLUser.h"
 
 const struct MRSLUserAttributes MRSLUserAttributes = {
-	.authToken = @"authToken",
+	.auth_token = @"auth_token",
 	.bio = @"bio",
-	.emailAddress = @"emailAddress",
-	.facebookUID = @"facebookUID",
-	.firstName = @"firstName",
-	.lastName = @"lastName",
-	.likeCount = @"likeCount",
-	.morselCount = @"morselCount",
-	.occupationTitle = @"occupationTitle",
-	.occupationType = @"occupationType",
-	.profileImage = @"profileImage",
-	.profileImageURL = @"profileImageURL",
-	.twitterUsername = @"twitterUsername",
+	.creationDate = @"creationDate",
+	.draft_count = @"draft_count",
+	.email = @"email",
+	.facebook_uid = @"facebook_uid",
+	.first_name = @"first_name",
+	.last_name = @"last_name",
+	.like_count = @"like_count",
+	.morsel_count = @"morsel_count",
+	.profilePhoto = @"profilePhoto",
+	.profilePhotoURL = @"profilePhotoURL",
+	.title = @"title",
+	.twitter_username = @"twitter_username",
 	.userID = @"userID",
-	.userName = @"userName",
+	.username = @"username",
 };
 
 const struct MRSLUserRelationships MRSLUserRelationships = {
@@ -55,18 +56,18 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
-	if ([key isEqualToString:@"likeCountValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"likeCount"];
+	if ([key isEqualToString:@"draft_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"draft_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"morselCountValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"morselCount"];
+	if ([key isEqualToString:@"like_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"occupationTypeValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"occupationType"];
+	if ([key isEqualToString:@"morsel_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"morsel_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -82,7 +83,7 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic authToken;
+@dynamic auth_token;
 
 
 
@@ -96,134 +97,141 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic emailAddress;
+@dynamic creationDate;
 
 
 
 
 
 
-@dynamic facebookUID;
+@dynamic draft_count;
 
 
 
-
-
-
-@dynamic firstName;
-
-
-
-
-
-
-@dynamic lastName;
-
-
-
-
-
-
-@dynamic likeCount;
-
-
-
-- (int16_t)likeCountValue {
-	NSNumber *result = [self likeCount];
+- (int16_t)draft_countValue {
+	NSNumber *result = [self draft_count];
 	return [result shortValue];
 }
 
-- (void)setLikeCountValue:(int16_t)value_ {
-	[self setLikeCount:[NSNumber numberWithShort:value_]];
+- (void)setDraft_countValue:(int16_t)value_ {
+	[self setDraft_count:[NSNumber numberWithShort:value_]];
 }
 
-- (int16_t)primitiveLikeCountValue {
-	NSNumber *result = [self primitiveLikeCount];
+- (int16_t)primitiveDraft_countValue {
+	NSNumber *result = [self primitiveDraft_count];
 	return [result shortValue];
 }
 
-- (void)setPrimitiveLikeCountValue:(int16_t)value_ {
-	[self setPrimitiveLikeCount:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveDraft_countValue:(int16_t)value_ {
+	[self setPrimitiveDraft_count:[NSNumber numberWithShort:value_]];
 }
 
 
 
 
 
-@dynamic morselCount;
+@dynamic email;
 
 
 
-- (int16_t)morselCountValue {
-	NSNumber *result = [self morselCount];
+
+
+
+@dynamic facebook_uid;
+
+
+
+
+
+
+@dynamic first_name;
+
+
+
+
+
+
+@dynamic last_name;
+
+
+
+
+
+
+@dynamic like_count;
+
+
+
+- (int16_t)like_countValue {
+	NSNumber *result = [self like_count];
 	return [result shortValue];
 }
 
-- (void)setMorselCountValue:(int16_t)value_ {
-	[self setMorselCount:[NSNumber numberWithShort:value_]];
+- (void)setLike_countValue:(int16_t)value_ {
+	[self setLike_count:[NSNumber numberWithShort:value_]];
 }
 
-- (int16_t)primitiveMorselCountValue {
-	NSNumber *result = [self primitiveMorselCount];
+- (int16_t)primitiveLike_countValue {
+	NSNumber *result = [self primitiveLike_count];
 	return [result shortValue];
 }
 
-- (void)setPrimitiveMorselCountValue:(int16_t)value_ {
-	[self setPrimitiveMorselCount:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveLike_countValue:(int16_t)value_ {
+	[self setPrimitiveLike_count:[NSNumber numberWithShort:value_]];
 }
 
 
 
 
 
-@dynamic occupationTitle;
+@dynamic morsel_count;
 
 
 
-
-
-
-@dynamic occupationType;
-
-
-
-- (int16_t)occupationTypeValue {
-	NSNumber *result = [self occupationType];
+- (int16_t)morsel_countValue {
+	NSNumber *result = [self morsel_count];
 	return [result shortValue];
 }
 
-- (void)setOccupationTypeValue:(int16_t)value_ {
-	[self setOccupationType:[NSNumber numberWithShort:value_]];
+- (void)setMorsel_countValue:(int16_t)value_ {
+	[self setMorsel_count:[NSNumber numberWithShort:value_]];
 }
 
-- (int16_t)primitiveOccupationTypeValue {
-	NSNumber *result = [self primitiveOccupationType];
+- (int16_t)primitiveMorsel_countValue {
+	NSNumber *result = [self primitiveMorsel_count];
 	return [result shortValue];
 }
 
-- (void)setPrimitiveOccupationTypeValue:(int16_t)value_ {
-	[self setPrimitiveOccupationType:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveMorsel_countValue:(int16_t)value_ {
+	[self setPrimitiveMorsel_count:[NSNumber numberWithShort:value_]];
 }
 
 
 
 
 
-@dynamic profileImage;
+@dynamic profilePhoto;
 
 
 
 
 
 
-@dynamic profileImageURL;
+@dynamic profilePhotoURL;
 
 
 
 
 
 
-@dynamic twitterUsername;
+@dynamic title;
+
+
+
+
+
+
+@dynamic twitter_username;
 
 
 
@@ -256,7 +264,7 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic userName;
+@dynamic username;
 
 
 

@@ -8,7 +8,6 @@
 
 #import "ProfileViewController.h"
 
-#import "ModelController.h"
 #import "MorselDetailViewController.h"
 #import "MorselFeedCollectionViewCell.h"
 #import "PostMorselsViewController.h"
@@ -19,8 +18,8 @@
 #import "MRSLUser.h"
 
 @interface ProfileViewController ()
-    <MorselFeedCollectionViewCellDelegate,
-     NSFetchedResultsControllerDelegate>
+<MorselFeedCollectionViewCellDelegate,
+NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *sideBarButton;
@@ -45,14 +44,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if (!_user)
-        self.user = [ModelController sharedController].currentUser;
+    if (!_user) self.user = [MRSLUser currentUser];
 
     self.userNameLabel.text = _user.fullName;
-    self.userTitleLabel.text = _user.occupationTitle;
+    self.userTitleLabel.text = _user.title;
     self.profileImageView.user = _user;
-    self.likeCountLabel.text = [NSString stringWithFormat:@"%i", [_user.likeCount intValue]];
-    self.morselCountLabel.text = [NSString stringWithFormat:@"%i", [_user.morselCount intValue]];
+    self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
+    self.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
 
     [_profileImageView addCornersWithRadius:36.f];
     _profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -64,14 +62,14 @@
         self.sideBarButton.hidden = YES;
     }
 
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.author.userID == %i) AND (draft == NO)", [_user.userID intValue]];
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (draft == NO)", [_user.userID intValue]];
 
     self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
                                                           ascending:NO
                                                       withPredicate:currentUserPredicate
                                                             groupBy:nil
                                                            delegate:self
-                                                          inContext:[ModelController sharedController].defaultContext];
+                                                          inContext:[NSManagedObjectContext MR_defaultContext]];
 
     [self.feedCollectionView reloadData];
 }
@@ -79,12 +77,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [[ModelController sharedController].morselApiService getUserProfile:_user
-                                                                success:^(id responseObject)
-    {
-        self.likeCountLabel.text = [NSString stringWithFormat:@"%i", [_user.likeCount intValue]];
-        self.morselCountLabel.text = [NSString stringWithFormat:@"%i", [_user.morselCount intValue]];
-    } failure:nil];
+    [_appDelegate.morselApiService getUserProfile:_user
+                                         success:^(id responseObject)
+     {
+         self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
+         self.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
+     } failure:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -93,17 +91,17 @@
     if (!_user)
         return;
 
-    [[ModelController sharedController] getUserPosts:_user
-                                             success:^(NSArray *responseArray)
-    {
-        if ([responseArray count] > 0) {
-            DDLogDebug(@"%lu profile posts available.", (unsigned long)[responseArray count]);
-        } else {
-            DDLogDebug(@"No profile posts available");
-        }
-    } failure: ^(NSError * error) {
-        DDLogError(@"Error loading profile posts: %@", error.userInfo);
-    }];
+    [_appDelegate.morselApiService getUserPosts:_user
+                                       success:^(NSArray *responseArray)
+     {
+         if ([responseArray count] > 0) {
+             DDLogDebug(@"%lu profile posts available.", (unsigned long)[responseArray count]);
+         } else {
+             DDLogDebug(@"No profile posts available");
+         }
+     } failure: ^(NSError * error) {
+         DDLogError(@"Error loading profile posts: %@", error.userInfo);
+     }];
 }
 
 #pragma mark - Private Methods
@@ -187,11 +185,11 @@
 
 - (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel {
     UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"EditPostMorsels"];
-    
+
     if ([editPostMorselsNC.viewControllers count] > 0) {
         PostMorselsViewController *postMorselsVC = [editPostMorselsNC.viewControllers firstObject];
         postMorselsVC.post = morsel.post;
-        
+
         [self.navigationController presentViewController:editPostMorselsNC
                                                 animated:YES
                                               completion:nil];

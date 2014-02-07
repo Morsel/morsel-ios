@@ -1,6 +1,5 @@
 #import "MRSLPost.h"
 
-#import "ModelController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
@@ -13,83 +12,43 @@
 
 #pragma mark - Instance Methods
 
-- (void)setWithDictionary:(NSDictionary *)dictionary {
-    if (![dictionary[@"created_at"] isEqual:[NSNull null]]) {
-        NSString *dateString = dictionary[@"created_at"];
-        self.creationDate = [[ModelController sharedController].defaultDateFormatter dateFromString:dateString];
-    }
+- (BOOL)isPublished {
+    __block BOOL isPublished = NO;
 
-    // Post has been synced to server, so local draft flag is removed
-    self.draft = [NSNumber numberWithBool:NO];
-    self.postID = ([dictionary[@"id"] isEqual:[NSNull null]]) ? self.postID : [NSNumber numberWithInt:[dictionary[@"id"] intValue]];
-    self.title = ([dictionary[@"title"] isEqual:[NSNull null]]) ? self.title : dictionary[@"title"];
-
-    if (![dictionary[@"creator"] isEqual:[NSNull null]]) {
-        if (![dictionary[@"creator"][@"id"] isEqual:[NSNull null]]) {
-            NSNumber *userID = dictionary[@"creator"][@"id"];
-
-            MRSLUser *author = [[ModelController sharedController] userWithID:userID];
-
-            if (!author) {
-                author = [MRSLUser MR_createInContext:[ModelController sharedController].defaultContext];
-                author.userID = userID;
-            }
-
-            if (!dictionary[@"creator"]) {
-                [[ModelController sharedController].morselApiService getUserProfile:author
-                                                                            success:nil
-                                                                            failure:nil];
-            } else {
-                [author setWithDictionary:dictionary[@"creator"]];
-            }
-
-            self.author = author;
+    [self.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
+        if (!morsel.draftValue) {
+            isPublished = YES;
+            *stop = YES;
         }
+    }];
+    return isPublished;
+}
+
+- (void)didImport:(id)data {
+    if (![data[@"creator_id"] isEqual:[NSNull null]] &&
+        !self.creator) {
+        NSNumber *creatorID = data[@"creator_id"];
+        self.creator = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                               withValue:creatorID
+                                               inContext:self.managedObjectContext];
     }
 
-    if (![dictionary[@"morsels"] isEqual:[NSNull null]]) {
-        NSArray *morsels = dictionary[@"morsels"];
-
-        if ([morsels count] > 0) {
-            __block NSMutableArray *mrsls = [NSMutableArray array];
-
-            [morsels enumerateObjectsUsingBlock:^(NSDictionary *morselDictionary, NSUInteger idx, BOOL *stop)
-            {
-                NSNumber *morselID = [NSNumber numberWithInt:[morselDictionary[@"id"] intValue]];
-
-                MRSLMorsel *morsel = [[ModelController sharedController] morselWithID:morselID];
-
-                if (!morsel) {
-                    // Morsel not found. Creating.
-                    morsel = [MRSLMorsel MR_createInContext:[ModelController sharedController].defaultContext];
-                }
-
-                [morsel setWithDictionary:morselDictionary];
-
-                [mrsls addObject:morsel];
-            }];
-
-            /*
-            NSArray *sortedMrsls = [mrsls sortedArrayUsingComparator:^NSComparisonResult(MRSLMorsel *morselA, MRSLMorsel *morselB)
-            {
-                return [morselA.sortOrder compare:morselB.sortOrder];
-            }];
-            */
-            self.morsels = [NSOrderedSet orderedSetWithArray:mrsls];
-        }
+    if (![data[@"created_at"] isEqual:[NSNull null]]) {
+        NSString *dateString = data[@"created_at"];
+        self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
 }
 
-- (void)addMorsel:(MRSLMorsel *)morsel {
-    [self.morselsSet addObject:morsel];
-}
+- (NSDictionary *)objectToJSON {
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
 
-- (void)removeMorsel:(MRSLMorsel *)morsel {
-    [self.morselsSet removeObject:morsel];
-}
+    if (self.title) [objectInfoJSON setObject:self.title
+                                                   forKey:@"title"];
 
-- (BOOL)isDraft {
-    return [self.draft boolValue];
+    NSMutableDictionary *postJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
+                                                                         forKey:@"post"];
+
+    return postJSON;
 }
 
 @end

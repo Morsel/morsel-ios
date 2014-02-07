@@ -6,13 +6,8 @@ typedef NS_ENUM(NSUInteger, MorselImageSizeType) {
     MorselImageSizeTypeFull
 };
 
-@interface MRSLMorsel : _MRSLMorsel {
-}
+@interface MRSLMorsel : _MRSLMorsel
 
-- (void)setWithDictionary:(NSDictionary *)dictionary;
-
-- (BOOL)belongsToCurrentUser;
-- (BOOL)isDraft;
 - (NSURLRequest *)morselPictureURLRequestForImageSizeType:(MorselImageSizeType)type;
 
 @end
