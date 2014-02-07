@@ -40,6 +40,20 @@
     return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
 }
 
+- (NSString *)socialMessage {
+    NSString *message = nil;
+
+    if (self.post && self.post.title && self.morselDescription && self.url) {
+        message = [NSString stringWithFormat:@"%@: %@ %@", self.post.title, self.morselDescription, self.url];
+    } else if (self.morselDescription) {
+        message = [NSString stringWithFormat:@"%@ %@", self.morselDescription, self.url];
+    } else if (self.url) {
+        message = self.url;
+    }
+
+    return message;
+}
+
 - (void)didImport:(id)data {
     if (![data[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = data[@"photos"];
