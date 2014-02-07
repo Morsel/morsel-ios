@@ -15,6 +15,12 @@
 #define TWITTER_CONSUMER_SECRET @"<INSERT CONSUMER SECRET HERE>"
 #define FACEBOOK_APP_ID @"<INSERT APP ID HERE>"
 
+#ifdef RELEASE
+#define FACEBOOK_PUBLISH_AUDIENCE ACFacebookAudienceEveryone
+#else
+#define FACEBOOK_PUBLISH_AUDIENCE ACFacebookAudienceOnlyMe
+#endif
+
 @implementation SocialService
 
 #pragma mark - Instance Methods
@@ -54,7 +60,7 @@
                                            if (readGranted) {
                                                [accountStore requestAccessToAccountsWithType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
                                                                                      options:@{ ACFacebookAppIdKey : FACEBOOK_APP_ID,
-                                                                                                ACFacebookAudienceKey: ACFacebookAudienceEveryone,
+                                                                                                ACFacebookAudienceKey: FACEBOOK_PUBLISH_AUDIENCE,
                                                                                                 ACFacebookPermissionsKey: @[ @"publish_stream" ] }
                                                                                   completion:block];
                                            } else {
