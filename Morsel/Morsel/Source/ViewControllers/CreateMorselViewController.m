@@ -36,7 +36,8 @@ CaptureMediaViewControllerDelegate,
 CreateMorselButtonPanelViewDelegate,
 UIActionSheetDelegate,
 UITextViewDelegate,
-UserPostsViewControllerDelegate>
+UserPostsViewControllerDelegate,
+UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic) BOOL wasDraft;
 @property (nonatomic) BOOL saveDraft;
@@ -53,6 +54,7 @@ UserPostsViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *postTitleField;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
+@property (weak, nonatomic) IBOutlet UIButton *instagramButton;
 
 @property (weak, nonatomic) IBOutlet CreateMorselButtonPanelView *createMorselButtonPanelView;
 
@@ -63,6 +65,7 @@ UserPostsViewControllerDelegate>
 @property (nonatomic, strong) MRSLPost *post;
 @property (nonatomic, strong) NSArray *twitterAccounts;
 @property (nonatomic, strong) NSArray *facebookAccounts;
+@property (nonatomic, strong) UIDocumentInteractionController *documentInteractionController;
 
 @end
 
@@ -296,12 +299,25 @@ UserPostsViewControllerDelegate>
                 [self showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
             }
         } else {
-            [UIAlertView showAlertViewWithTitle:@"Error"
-                                        message:@"No Facebook Account found on this device."
-                                       delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
+            [UIAlertView showAlertViewForErrorString:@"Please add a Facebook Account to this device"
+                                            delegate:nil];
         }
+    }
+}
+
+- (IBAction)toggleInstagram:(UIButton *)button {
+    if ([button isSelected]) {
+        [button setSelected:NO];
+    } else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://app"]]) {
+        if (_capturedImage || _morsel.morselPhoto) {
+            [button setSelected:YES];
+        } else {
+            [UIAlertView showAlertViewForErrorString:@"Please add a photo to post to Instagram"
+                                            delegate:nil];
+        }
+    } else {
+        [UIAlertView showAlertViewForErrorString:@"Please install Instagram to post your Morsel there"
+                                        delegate:nil];
     }
 }
 
@@ -329,25 +345,20 @@ UserPostsViewControllerDelegate>
                 [self showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
             }
         } else {
-            //      show alert saying no twitter accounts found on device
-            [UIAlertView showAlertViewWithTitle:@"Error"
-                                        message:@"No Twitter Accounts found on this device."
-                                       delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
+            [UIAlertView showAlertViewForErrorString:@"Please add a Twitter Account to this device"
+                                            delegate:nil];
         }
     }
 }
 
 - (IBAction)postMorsel {
     if (!self.addTextViewController.textView.text && !_capturedImage) {
-        [UIAlertView showAlertViewWithTitle:@"Post Error"
-                                    message:@"Please add content to the Morsel."
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil];
+        [UIAlertView showAlertViewForErrorString:@"Please add content to this Morsel"
+                                        delegate:nil];
         return;
     }
+
+    _postMorselButton.enabled = NO;
 
     if (_userIsEditing) {
         [self updateMorsel];
@@ -390,16 +401,14 @@ UserPostsViewControllerDelegate>
     [_appDelegate.morselApiService updateMorsel:_morsel
                                         success:^(id responseObject)
      {
-
+         _postMorselButton.enabled = YES;
          if (weakSelf) {
              [weakSelf goBack];
          }
      } failure: ^(NSError * error) {
-         [UIAlertView showAlertViewWithTitle:@"Oops, something went wrong"
-                                     message:@"Unable to update Morsel!"
-                                    delegate:nil
-                           cancelButtonTitle:@"OK"
-                           otherButtonTitles:nil];
+         _postMorselButton.enabled = YES;
+         [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel"
+                                         delegate:nil];
      }];
 }
 
@@ -453,28 +462,48 @@ UserPostsViewControllerDelegate>
     [self prepareMediaAndPostMorsel];
 }
 
+- (void)sendToInstagram {
+    NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
+    [_morsel.morselPhoto writeToFile:photoFilePath atomically:YES];
+    
+    _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
+    _documentInteractionController.UTI = @"com.instagram.exclusivegram";
+    _documentInteractionController.delegate = self;
+    NSString *socialMessage = [_morsel socialMessage];
+    if (socialMessage) {
+        _documentInteractionController.annotation = [NSDictionary dictionaryWithObject:socialMessage
+                                                                                forKey:@"InstagramCaption"];
+    }
+    [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
+                                                       inView:self.view
+                                                     animated:YES];
+}
+
 - (void)prepareMediaAndPostMorsel {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self addMediaDataToCurrentMorsel];
 
+        __weak typeof(self) weakSelf = self;
         [_appDelegate.morselApiService createMorsel:_morsel
                                      postToFacebook:_facebookButton.selected
                                       postToTwitter:_twitterButton.selected
-                                            success:nil
-                                            failure:^(NSError *error)
+                                            success:^(id responseObject) {
+             __strong typeof(weakSelf) strongSelf = weakSelf;
+             if ([strongSelf->_instagramButton isSelected]) {
+                 [strongSelf sendToInstagram];
+             } else {
+                 [strongSelf.presentingViewController dismissViewControllerAnimated:YES
+                                                                         completion:nil];
+             }
+            strongSelf->_postMorselButton.enabled = YES;
+         }
+                                                                  failure:^(NSError *error)
          {
-             MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-
-             [UIAlertView showAlertViewWithTitle:@"Oops, there was a problem creating your Morsel!"
-                                         message:[serviceErrorInfo errorInfo]
-                                        delegate:nil
-                               cancelButtonTitle:@"OK"
-                               otherButtonTitles:nil];
+             _postMorselButton.enabled = YES;
+             [UIAlertView showAlertViewForServiceError:error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey]
+                                              delegate:nil];
          }];
     });
-
-    [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:nil];
 }
 
 - (IBAction)displaySettings {
@@ -526,11 +555,8 @@ UserPostsViewControllerDelegate>
                                                     success:^(BOOL success) {
                                                         [self goBack];
                                                     } failure: ^(NSError * error) {
-                                                        [UIAlertView showAlertViewWithTitle:@"Oops, something went wrong."
-                                                                                    message:@"Unable to delete Morsel!"
-                                                                                   delegate:nil
-                                                                          cancelButtonTitle:@"OK"
-                                                                          otherButtonTitles:nil];
+                                                        [UIAlertView showAlertViewForErrorString:@"Unable to delete Morsel"
+                                                                                          delegate:nil];
                                                     }];
             }
             if (![[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
@@ -657,17 +683,31 @@ UserPostsViewControllerDelegate>
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField.text.length > 0) {
         self.temporaryPostTitle = textField.text;
-        
+
         textField.text = @"";
-        
+
         self.userPostsViewController.temporaryPostTitle = _temporaryPostTitle;
-        
+
         self.titleAlertView.hidden = YES;
         [textField resignFirstResponder];
-        
+
         return YES;
     }
     return NO;
 }
+
+#pragma mark - UIDocumentInteractionControllerDelegate Methods
+
+- (void)documentInteractionController:(UIDocumentInteractionController *)controller
+        willBeginSendingToApplication:(NSString *)application {
+    [self.presentingViewController dismissViewControllerAnimated:YES
+                                                      completion:nil];
+}
+
+- (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
+    [self.presentingViewController dismissViewControllerAnimated:YES
+                                                      completion:nil];
+}
+
 
 @end
