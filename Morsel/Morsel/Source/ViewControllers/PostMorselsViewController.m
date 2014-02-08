@@ -22,6 +22,8 @@ UITextFieldDelegate>
 
 @property (nonatomic) int postID;
 
+@property (nonatomic, strong) NSArray *morsels;
+
 @property (nonatomic, weak) IBOutlet UICollectionView *postMorselsCollectionView;
 @property (weak, nonatomic) IBOutlet UITextField *postTitleLabel;
 
@@ -49,7 +51,9 @@ UITextFieldDelegate>
 
     [self.postMorselsCollectionView reloadData];
 
-    if ([self.post.morsels count] == 0) {
+    self.morsels = self.post.morselsArray;
+
+    if ([_morsels count] == 0) {
         [self.presentingViewController dismissViewControllerAnimated:YES
                                                           completion:nil];
     }
@@ -75,12 +79,12 @@ UITextFieldDelegate>
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_post.morsels count];
+    return [_morsels count];
 }
 
 - (PostMorselCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_post.morsels objectAtIndex:indexPath.row];
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
     PostMorselCollectionViewCell *postMorselCell = [self.postMorselsCollectionView dequeueReusableCellWithReuseIdentifier:@"PostMorselCell"
                                                                                                              forIndexPath:indexPath];
@@ -92,7 +96,7 @@ UITextFieldDelegate>
 #pragma mark - UICollectionViewDelegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_post.morsels objectAtIndex:indexPath.row];
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
     CreateMorselViewController *createMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorselViewController"];
     createMorselVC.morsel = morsel;

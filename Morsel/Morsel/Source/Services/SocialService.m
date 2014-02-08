@@ -15,7 +15,26 @@
 #define TWITTER_CONSUMER_SECRET @"<INSERT CONSUMER SECRET HERE>"
 #define FACEBOOK_APP_ID @"<INSERT APP ID HERE>"
 
+@interface SocialService ()
+
+// Adding a strong reference due to potential bug of accountType being prematurely nil. This is added on top of the solution below for extra safety.
+/*
+ Further information on this issue can be found on SO:
+ http://stackoverflow.com/questions/13349187/strange-behaviour-when-trying-to-use-twitter-acaccount
+ */
+@property (nonatomic, strong) ACAccountStore *accountStore;
+
+@end
+
 @implementation SocialService
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.accountStore = [[ACAccountStore alloc] init];
+    }
+    return self;
+}
 
 #pragma mark - Instance Methods
 
@@ -39,20 +58,18 @@
 }
 
 - (void)requestReadAndWriteForTwitterAccountsWithBlock:(ACAccountStoreRequestAccessCompletionHandler)block {
-    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-    [accountStore requestAccessToAccountsWithType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]
+    [_accountStore requestAccessToAccountsWithType:[_accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]
                                           options:nil
                                        completion:block];
 }
 
 - (void)requestReadAndWriteForFacebookAccountsWithBlock:(ACAccountStoreRequestAccessCompletionHandler)block {
-    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-    [accountStore requestAccessToAccountsWithType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
+    [_accountStore requestAccessToAccountsWithType:[_accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
                                           options:@{ ACFacebookAppIdKey : FACEBOOK_APP_ID,
                                                      ACFacebookPermissionsKey: @[ @"basic_info", @"email" ] }
                                        completion:^(BOOL readGranted, NSError *readError) {
                                            if (readGranted) {
-                                               [accountStore requestAccessToAccountsWithType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
+                                               [_accountStore requestAccessToAccountsWithType:[_accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
                                                                                      options:@{ ACFacebookAppIdKey : FACEBOOK_APP_ID,
                                                                                                 ACFacebookAudienceKey: ACFacebookAudienceEveryone,
                                                                                                 ACFacebookPermissionsKey: @[ @"publish_stream" ] }

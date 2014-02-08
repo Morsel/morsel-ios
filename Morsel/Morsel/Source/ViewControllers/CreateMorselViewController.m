@@ -24,6 +24,9 @@
 #import <OAuthCore/OAuth+Additions.h>
 #import <Social/Social.h>
 
+static const CGFloat MRSLSubContentHeight = 304.f;
+static const CGFloat MRSLSubContentHeightExpanded = 380.f;
+
 NS_ENUM(NSUInteger, CreateMorselActionSheet) {
     CreateMorselActionSheetSettings = 1,
     CreateMorselActionSheetFacebookAccounts,
@@ -49,6 +52,7 @@ UserPostsViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (weak, nonatomic) IBOutlet UIButton *postMorselButton;
+@property (weak, nonatomic) IBOutlet UIView *socialButtonsView;
 @property (weak, nonatomic) IBOutlet UIView *titleAlertView;
 @property (weak, nonatomic) IBOutlet UITextField *postTitleField;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
@@ -75,7 +79,7 @@ UserPostsViewControllerDelegate>
 
     self.createMorselButtonPanelView.delegate = self;
 
-#warning This is a temporary navigation solution and loads both subcontent views immediately.
+    // This is a temporary navigation solution and loads both subcontent views immediately.
 
     self.addTextViewController = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"AddTextViewController"];
     self.addTextViewController.delegate = self;
@@ -83,7 +87,7 @@ UserPostsViewControllerDelegate>
     self.userPostsViewController = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"UserPostsViewController"];
     self.userPostsViewController.delegate = self;
 
-    CGRect subContentFrame = CGRectMake(0.f, 134.f, 320.f, 304.f);
+    CGRect subContentFrame = CGRectMake(0.f, 134.f, 320.f, MRSLSubContentHeight);
 
     [_addTextViewController.view setFrame:subContentFrame];
     [_userPostsViewController.view setFrame:subContentFrame];
@@ -118,7 +122,11 @@ UserPostsViewControllerDelegate>
     } else {
         // Entered through Edit Morsel. Setting states.
 
-        self.createTitleLabel.text = @"Edit Morsel";
+        self.wasDraft = _morsel.draftValue;
+
+        self.createTitleLabel.text = _wasDraft ? @"Edit Draft" : @"Edit Morsel";
+
+        [self hideSocialView:_wasDraft];
 
         self.userIsEditing = YES;
 
@@ -150,26 +158,18 @@ UserPostsViewControllerDelegate>
         }
     }
 
-    self.wasDraft = _morsel.draftValue;
-
     if (_post) {
         self.userPostsViewController.post = _post;
         self.userPostsViewController.temporaryPostTitle = _temporaryPostTitle;
     }
+    
+    self.userPostsViewController.morsel = _morsel;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
     [self.view endEditing:YES];
-}
-
-- (void)setCapturedImage:(UIImage *)capturedImage {
-    if (_capturedImage != capturedImage) {
-        _capturedImage = capturedImage;
-
-        [self renderThumbnail];
-    }
 }
 
 #pragma mark - Private Methods
@@ -201,20 +201,6 @@ UserPostsViewControllerDelegate>
     [self.view endEditing:YES];
 }
 
-- (void)renderThumbnail {
-    if (_capturedImage) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            UIImage *thumbnailImage = [_capturedImage thumbnailImage:70.f
-                                                interpolationQuality:kCGInterpolationHigh];
-
-            dispatch_async(dispatch_get_main_queue(), ^
-                           {
-                               _thumbnailImageView.image = thumbnailImage;
-                           });
-        });
-    }
-}
-
 - (IBAction)changeMedia {
     if (!_userIsEditing) {
         [self goBackToCaptureMedia:nil];
@@ -231,47 +217,28 @@ UserPostsViewControllerDelegate>
                      completion:nil];
 }
 
-- (void)showActionSheetWithAccountsForAccountTypeIdentifier:(NSString *)accountTypeIdentifier {
-    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-    NSArray *accounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:accountTypeIdentifier]];
-    NSMutableArray *buttonTitles = [NSMutableArray array];
-    NSUInteger actionSheetTag = 0;
+- (IBAction)displaySettings {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Settings"
+                                                             delegate:self
+                                                    cancelButtonTitle:_userIsEditing ? @"Cancel" : nil
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:nil];
 
-    if ([accountTypeIdentifier isEqualToString:ACAccountTypeIdentifierFacebook]) {
-        for (ACAccount *account in accounts) {
-            NSString *fullName = [[account valueForKey:@"properties"] objectForKey:@"ACPropertyFullName"];
-            if (fullName.length > 0) {
-                [buttonTitles addObject:[NSString stringWithFormat:@"%@ (%@)", fullName, account.username]];
-            } else {
-                [buttonTitles addObject:account.username];
-            }
-        }
-        _facebookAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]];
-        actionSheetTag = CreateMorselActionSheetFacebookAccounts;
-    } else {
-        for (ACAccount *account in accounts) {
-            [buttonTitles addObject:account.username];
-        }
-        _twitterAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]];
-        actionSheetTag = CreateMorselActionSheetTwitterAccounts;
-    }
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //  show actionsheet with accounts and 'Cancel'
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose an Account"
-                                                                 delegate:self
-                                                        cancelButtonTitle:nil
-                                                   destructiveButtonTitle:nil
-                                                        otherButtonTitles:nil];
-
+    if (!_userIsEditing) {
+        NSArray *buttonTitles = @[@"Publish Now", @"Save Draft"];
         for (NSString *buttonTitle in buttonTitles) {
             [actionSheet addButtonWithTitle:buttonTitle];
         }
+    } else if (_wasDraft) {
+        [actionSheet addButtonWithTitle:(!_willPublish) ? @"Publish Morsel" : @"Keep as Draft"];
+    }
 
-        [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
-        [actionSheet setTag:actionSheetTag];
-        [actionSheet showInView:self.view];
-    });
+    if (_wasDraft || _userIsEditing) {
+        [actionSheet addButtonWithTitle:@"Delete Morsel"];
+    }
+
+    [actionSheet setTag:CreateMorselActionSheetSettings];
+    [actionSheet showInView:self.view];
 }
 
 - (IBAction)toggleFacebook:(UIButton *)button {
@@ -339,6 +306,61 @@ UserPostsViewControllerDelegate>
     }
 }
 
+- (void)showActionSheetWithAccountsForAccountTypeIdentifier:(NSString *)accountTypeIdentifier {
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    NSArray *accounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:accountTypeIdentifier]];
+    NSMutableArray *buttonTitles = [NSMutableArray array];
+    NSUInteger actionSheetTag = 0;
+
+    if ([accountTypeIdentifier isEqualToString:ACAccountTypeIdentifierFacebook]) {
+        for (ACAccount *account in accounts) {
+            NSString *fullName = [[account valueForKey:@"properties"] objectForKey:@"ACPropertyFullName"];
+            if (fullName.length > 0) {
+                [buttonTitles addObject:[NSString stringWithFormat:@"%@ (%@)", fullName, account.username]];
+            } else {
+                [buttonTitles addObject:account.username];
+            }
+        }
+        _facebookAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]];
+        actionSheetTag = CreateMorselActionSheetFacebookAccounts;
+    } else {
+        for (ACAccount *account in accounts) {
+            [buttonTitles addObject:account.username];
+        }
+        _twitterAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]];
+        actionSheetTag = CreateMorselActionSheetTwitterAccounts;
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //  show actionsheet with accounts and 'Cancel'
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose an Account"
+                                                                 delegate:self
+                                                        cancelButtonTitle:nil
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:nil];
+
+        for (NSString *buttonTitle in buttonTitles) {
+            [actionSheet addButtonWithTitle:buttonTitle];
+        }
+
+        [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+        [actionSheet setTag:actionSheetTag];
+        [actionSheet showInView:self.view];
+    });
+}
+
+- (void)hideSocialView:(BOOL)hide {
+    self.socialButtonsView.hidden = hide;
+
+    [self.addTextViewController.view setHeight:hide ? MRSLSubContentHeightExpanded : MRSLSubContentHeight];
+    [self.userPostsViewController.view setHeight:hide ? MRSLSubContentHeightExpanded : MRSLSubContentHeight];
+
+    [self.facebookButton setSelected:NO];
+    [self.twitterButton setSelected:NO];
+}
+
+#pragma mark - Post Morsel
+
 - (IBAction)postMorsel {
     if (!self.addTextViewController.textView.text && !_capturedImage) {
         [UIAlertView showAlertViewWithTitle:@"Post Error"
@@ -371,6 +393,12 @@ UserPostsViewControllerDelegate>
         if (self.temporaryPostTitle) {
             _post.title = _temporaryPostTitle;
         }
+
+        if ([_morsel.post.morsels count] == 1) {
+            DDLogDebug(@"Post no longer has any Morsels. Able to delete? %@", ([_morsel.post MR_deleteInContext:[NSManagedObjectContext MR_defaultContext]]) ? @"YES" : @"NO");
+        }
+
+        [_post addMorselsObject:_morsel];
 
         _morsel.post = _post;
     }
@@ -405,50 +433,46 @@ UserPostsViewControllerDelegate>
 
 - (void)saveAsDraft {
     if (_morsel) {
-        if (!self.post) {
-            // Creating a temporary post
-
-            MRSLPost *post = [MRSLPost MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
-            post.postID = nil;
-            post.creator = [MRSLUser currentUser];
-
-            if (self.temporaryPostTitle) {
-                post.title = _temporaryPostTitle;
-            }
-
-            _morsel.post = post;
-        } else {
-            // Adding Draft Morsel to existing Post!
+        if (self.post) {
+            DDLogDebug(@"Adding Draft Morsel (%i) to existing Post (%i)!", _morsel.morselIDValue, _post.postIDValue);
 
             if (self.temporaryPostTitle) {
                 _post.title = _temporaryPostTitle;
             }
 
+            [_post addMorselsObject:_morsel];
             _morsel.post = _post;
         }
 
-        if (self.addTextViewController.textView.text)
-            _morsel.morselDescription = self.addTextViewController.textView.text;
+        if (self.addTextViewController.textView.text) _morsel.morselDescription = self.addTextViewController.textView.text;
 
         _morsel.draft = @YES;
     }
+
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    int currentDraftCount = currentUser.draft_countValue;
+    int updatedDraftCount = currentDraftCount + 1;
+
+    currentUser.draft_count = [NSNumber numberWithInt:updatedDraftCount];
+
+    [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
 
     [self prepareMediaAndPostMorsel];
 }
 
 - (void)publishMorsel {
     if (self.post) {
+        DDLogDebug(@"Publishing Morsel (%i) to existing Post (%i)!", _morsel.morselIDValue, _post.postIDValue);
+
         if (self.temporaryPostTitle) {
             _post.title = _temporaryPostTitle;
         }
 
-        _post.creator = [MRSLUser currentUser];
-
+        [_post addMorselsObject:_morsel];
         _morsel.post = _post;
     }
 
-    if (self.addTextViewController.textView.text)
-        _morsel.morselDescription = self.addTextViewController.textView.text;
+    if (self.addTextViewController.textView.text) _morsel.morselDescription = self.addTextViewController.textView.text;
 
     [self prepareMediaAndPostMorsel];
 }
@@ -477,28 +501,29 @@ UserPostsViewControllerDelegate>
                                                       completion:nil];
 }
 
-- (IBAction)displaySettings {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Settings"
-                                                             delegate:self
-                                                    cancelButtonTitle:_userIsEditing ? @"Cancel" : nil
-                                               destructiveButtonTitle:nil
-                                                    otherButtonTitles:nil];
+#pragma mark - Image Processing Methods
 
-    if (!_userIsEditing) {
-        NSArray *buttonTitles = @[@"Publish Now", @"Save Draft"];
-        for (NSString *buttonTitle in buttonTitles) {
-            [actionSheet addButtonWithTitle:buttonTitle];
-        }
-    } else if (_wasDraft) {
-        [actionSheet addButtonWithTitle:(!_willPublish) ? @"Publish Morsel" : @"Keep as Draft"];
-        [actionSheet addButtonWithTitle:@"Delete Morsel"];
+- (void)setCapturedImage:(UIImage *)capturedImage {
+    if (_capturedImage != capturedImage) {
+        _capturedImage = capturedImage;
+
+        [self renderThumbnail];
     }
-
-    [actionSheet setTag:CreateMorselActionSheetSettings];
-    [actionSheet showInView:self.view];
 }
 
-#pragma mark - Image Processing Methods
+- (void)renderThumbnail {
+    if (_capturedImage) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            UIImage *thumbnailImage = [_capturedImage thumbnailImage:70.f
+                                                interpolationQuality:kCGInterpolationHigh];
+
+            dispatch_async(dispatch_get_main_queue(), ^
+                           {
+                               _thumbnailImageView.image = thumbnailImage;
+                           });
+        });
+    }
+}
 
 - (void)addMediaDataToCurrentMorsel {
     if (!_capturedImage) return;
@@ -535,9 +560,16 @@ UserPostsViewControllerDelegate>
             }
             if (![[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
                 self.willPublish = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Publish Morsel"]);
+
+                [self.postMorselButton setTitle:_willPublish ? @"Publish" : @"Save Changes"
+                                       forState:UIControlStateNormal];
+
+                [self hideSocialView:!_willPublish];
             }
         } else {
             self.saveDraft = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save Draft"]);
+
+            [self hideSocialView:_saveDraft];
 
             [self.postMorselButton setTitle:_saveDraft ? @"Save Morsel" : @"Publish Morsel"
                                    forState:UIControlStateNormal];
@@ -652,19 +684,21 @@ UserPostsViewControllerDelegate>
     }
 }
 
+- (void)userPostsSelectedOriginalMorsel {
+    self.temporaryPostTitle = nil;
+    self.post = self.morsel.post;
+}
+
 #pragma mark - UITextFieldDelegate Methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField.text.length > 0) {
         self.temporaryPostTitle = textField.text;
-        
-        textField.text = @"";
-        
         self.userPostsViewController.temporaryPostTitle = _temporaryPostTitle;
-        
         self.titleAlertView.hidden = YES;
+
+        [textField setText:nil];
         [textField resignFirstResponder];
-        
         return YES;
     }
     return NO;

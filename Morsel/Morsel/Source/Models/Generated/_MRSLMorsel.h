@@ -158,9 +158,9 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSOrderedSet *comments;
+@property (nonatomic, strong) NSSet *comments;
 
-- (NSMutableOrderedSet*)commentsSet;
+- (NSMutableSet*)commentsSet;
 
 
 
@@ -184,8 +184,8 @@ extern const struct MRSLMorselFetchedProperties {
 
 @interface _MRSLMorsel (CoreDataGeneratedAccessors)
 
-- (void)addComments:(NSOrderedSet*)value_;
-- (void)removeComments:(NSOrderedSet*)value_;
+- (void)addComments:(NSSet*)value_;
+- (void)removeComments:(NSSet*)value_;
 - (void)addCommentsObject:(MRSLComment*)value_;
 - (void)removeCommentsObject:(MRSLComment*)value_;
 
@@ -266,8 +266,8 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSMutableOrderedSet*)primitiveComments;
-- (void)setPrimitiveComments:(NSMutableOrderedSet*)value;
+- (NSMutableSet*)primitiveComments;
+- (void)setPrimitiveComments:(NSMutableSet*)value;
 
 
 

@@ -53,9 +53,14 @@ UIScrollViewDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselUpdated:)
+                                                 name:MRSLUserDidUpdateMorselNotification
+                                               object:nil];
+
     if (self.delegate) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(commentPosted)
+                                                 selector:@selector(commentPosted:)
                                                      name:MRSLUserDidCreateCommentNotification
                                                    object:nil];
     }
@@ -67,11 +72,6 @@ UIScrollViewDelegate>
     }
 
     [self alignAndResizeContent];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -91,6 +91,14 @@ UIScrollViewDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (void)morselUpdated:(NSNotification *)notification {
+    MRSLMorsel *updatedMorsel = notification.object;
+
+    if (updatedMorsel.morselIDValue == _morsel.morselIDValue) {
+        [self displayMorselContent];
+    }
+}
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
     if (_morsel != morsel) {
@@ -131,6 +139,12 @@ UIScrollViewDelegate>
          } failure: ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
              DDLogError(@"Unable to set Morsel Image in ScrollView: %@", error.userInfo);
          }];
+    }
+
+    if (_morselDetailCommentsVC) {
+        self.morselDetailCommentsVC.delegate = self;
+        [self.morselDetailCommentsVC removeFromParentViewController];
+        [self.morselDetailCommentsVC.view removeFromSuperview];
     }
 
     self.morselDetailCommentsVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailCommentsViewController"];
@@ -183,7 +197,7 @@ UIScrollViewDelegate>
 - (CGFloat)getHeightForAvailableComments {
     __block CGFloat totalCommentHeight = 0.f;
 
-    [_morsel.comments enumerateObjectsUsingBlock:^(MRSLComment *comment, NSUInteger idx, BOOL *stop) {
+    [[_morsel.comments allObjects] enumerateObjectsUsingBlock:^(MRSLComment *comment, NSUInteger idx, BOOL *stop) {
         CGSize bodySize = [comment.commentDescription sizeWithFont:[UIFont helveticaLightObliqueFontOfSize:12.f]
                                                  constrainedToSize:CGSizeMake(192.f, CGFLOAT_MAX)
                                                      lineBreakMode:NSLineBreakByWordWrapping];
@@ -236,7 +250,11 @@ UIScrollViewDelegate>
     [self alignAndResizeContent];
 }
 
-- (void)commentPosted {
+- (void)commentPosted:(NSNotification *)notification {
+    MRSLMorsel *updatedMorsel = notification.object;
+
+    if (updatedMorsel.morselIDValue != _morsel.morselIDValue) return;
+
     CGRect focusedFrame = CGRectMake(1.f, self.contentScrollView.contentSize.height - 5.f, 5.f, 5.f);
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -328,7 +346,10 @@ UIScrollViewDelegate>
 #pragma mark - Destruction
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     _contentScrollView.delegate = nil;
+
     if (_subscribeablePanGestureRecognizer) {
         [_contentScrollView removeGestureRecognizer:_subscribeablePanGestureRecognizer];
         self.subscribeablePanGestureRecognizer = nil;

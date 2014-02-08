@@ -79,13 +79,11 @@ UITextFieldDelegate>
     BOOL passValid = ([_passwordField.text length] >= 8);
 
     if (!usernameValid || !emailValid || !passValid) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Username, Email or Password"
-                                                        message:@"Username and Email must be valid. Password must be at least 8 characters."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-
+        [UIAlertView showAlertViewWithTitle:@"Invalid Username, Email or Password"
+                                    message:@"Username and Email must be valid. Password must be at least 8 characters."
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil];
         return;
     }
 
@@ -94,14 +92,13 @@ UITextFieldDelegate>
         [_emailField.text length] == 0 ||
         [_firstNameField.text length] == 0 ||
         [_lastNameField.text length] == 0 ||
-        [_occupationTitleField.text length] == 0 || !_profileImageView.image) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"All Fields Required"
-                                                        message:@"Please fill in all fields and include a profile picture."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-
+        [_occupationTitleField.text length] == 0 ||
+        !_profileImageView.image) {
+        [UIAlertView showAlertViewWithTitle:@"All Fields Required"
+                                    message:@"Please fill in all fields and include a profile picture."
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil];
         return;
     }
 

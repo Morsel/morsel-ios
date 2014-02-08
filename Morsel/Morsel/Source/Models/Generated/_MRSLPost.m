@@ -102,10 +102,10 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 @dynamic morsels;
 
 	
-- (NSMutableOrderedSet*)morselsSet {
+- (NSMutableSet*)morselsSet {
 	[self willAccessValueForKey:@"morsels"];
   
-	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"morsels"];
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"morsels"];
   
 	[self didAccessValueForKey:@"morsels"];
 	return result;

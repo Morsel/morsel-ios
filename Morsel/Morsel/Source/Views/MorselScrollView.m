@@ -15,6 +15,8 @@
 
 @interface MorselScrollView ()
 
+@property (nonatomic, strong) NSArray *morsels;
+
 @end
 
 @implementation MorselScrollView
@@ -25,20 +27,21 @@
     _post = post;
 
     if (_post) {
-        [_post.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop)
-        {
-            MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
-            morselDetailPanelVC.view.frame = CGRectMake(0.f + (320.f * idx), 0.f, 320.f, self.frame.size.height);
-            morselDetailPanelVC.morsel = morsel;
+        self.morsels = _post.morselsArray;
+        [_morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop)
+         {
+             MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
+             morselDetailPanelVC.view.frame = CGRectMake(0.f + (320.f * idx), 0.f, 320.f, self.frame.size.height);
+             morselDetailPanelVC.morsel = morsel;
 
-            [self addSubview:morselDetailPanelVC.view];
-            [self setContentSize:CGSizeMake(320.f * (idx + 1), 200.f)];
-        }];
+             [self addSubview:morselDetailPanelVC.view];
+             [self setContentSize:CGSizeMake(320.f * (idx + 1), 200.f)];
+         }];
     }
 }
 
 - (void)scrollToMorsel:(MRSLMorsel *)morsel {
-    NSUInteger morselIndex = [_post.morsels indexOfObject:morsel];
+    NSUInteger morselIndex = [_morsels indexOfObject:morsel];
 
     [self scrollRectToVisible:CGRectMake(self.frame.size.width * morselIndex, 0.f, self.frame.size.width, 1.f)
                      animated:NO];
@@ -48,9 +51,9 @@
     self.post = nil;
 
     [[self subviews] enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop)
-    {
-        [subview removeFromSuperview];
-    }];
+     {
+         [subview removeFromSuperview];
+     }];
 }
 
 #pragma mark - Private Methods

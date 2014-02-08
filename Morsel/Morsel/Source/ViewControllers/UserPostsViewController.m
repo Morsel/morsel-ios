@@ -20,6 +20,8 @@
 
 @property (nonatomic) int postCount;
 
+@property (nonatomic, strong) NSArray *nonEmptyPostsArray;
+
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
@@ -33,7 +35,7 @@
 
     self.postCount = 0;
 
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(creator.userID == %i)", [MRSLUser currentUser].userIDValue];
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"creator.userID == %i", [MRSLUser currentUser].userIDValue];
 
     self.fetchedResultsController = [MRSLPost MR_fetchAllSortedBy:@"creationDate"
                                                         ascending:NO
@@ -65,7 +67,10 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     id<NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
 
-    self.postCount = [sectionInfo numberOfObjects];
+    NSPredicate *nonEmptyPredicate = [NSPredicate predicateWithFormat:@"morsels[SIZE] > 0"];
+    self.nonEmptyPostsArray = [[sectionInfo objects] filteredArrayUsingPredicate:nonEmptyPredicate];
+
+    self.postCount = [_nonEmptyPostsArray count];
 
     return _postCount;
 }
@@ -83,7 +88,9 @@
     // Last one hides pipe
     postCell.postPipeView.hidden = (indexPath.row == _postCount - 1);
 
-    if (_temporaryPostTitle && !post.title && ([post.postID intValue] == [_post.postID intValue])) {
+    if (_temporaryPostTitle &&
+        !post.title &&
+        (post.postIDValue == _post.postIDValue)) {
         postCell.postTitleLabel.text = _temporaryPostTitle;
     }
 
@@ -95,21 +102,16 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.temporaryPostTitle = nil;
 
-    MRSLPost *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+    self.post = [_fetchedResultsController objectAtIndexPath:indexPath];
 
-    if (_post) {
-        self.post = ([post.postID intValue] == [_post.postID intValue]) ? nil : post;
+    if ([self.post.morsels containsObject:_morsel]) {
+        if ([self.delegate respondsToSelector:@selector(userPostsSelectedOriginalMorsel)]) {
+            [self.delegate userPostsSelectedOriginalMorsel];
+        }
     } else {
-        self.post = post;
-    }
-
-    if (!_post) {
-        PostCollectionViewCell *postCell = (PostCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-        [postCell setHighlighted:NO];
-    }
-
-    if ([self.delegate respondsToSelector:@selector(userPostsSelectedPost:)]) {
-        [self.delegate userPostsSelectedPost:_post];
+        if ([self.delegate respondsToSelector:@selector(userPostsSelectedPost:)]) {
+            [self.delegate userPostsSelectedPost:_post];
+        }
     }
 }
 

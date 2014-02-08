@@ -287,10 +287,10 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 @dynamic posts;
 
 	
-- (NSMutableOrderedSet*)postsSet {
+- (NSMutableSet*)postsSet {
 	[self willAccessValueForKey:@"posts"];
   
-	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"posts"];
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"posts"];
   
 	[self didAccessValueForKey:@"posts"];
 	return result;

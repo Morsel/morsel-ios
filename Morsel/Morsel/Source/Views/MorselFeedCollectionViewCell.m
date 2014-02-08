@@ -102,7 +102,7 @@
             }
         }
 
-        if ([MRSLUser currentUserOwnsMorselWithCreatorID:_morsel.morselIDValue]) {
+        if ([MRSLUser currentUserOwnsMorselWithCreatorID:_morsel.creator_idValue]) {
             self.likeButton.hidden = YES;
             self.editButton.hidden = NO;
         } else {

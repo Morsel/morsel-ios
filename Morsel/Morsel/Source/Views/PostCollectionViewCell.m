@@ -30,8 +30,7 @@
 
         if (_post &&
             [_post.morsels count] > 0) {
-            MRSLMorsel *firstMorsel = [_post.morsels firstObject];
-
+            MRSLMorsel *firstMorsel = [_post.morselsArray firstObject];
 
                 __weak __typeof(self) weakSelf = self;
 

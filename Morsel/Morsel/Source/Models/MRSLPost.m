@@ -15,7 +15,7 @@
 - (BOOL)isPublished {
     __block BOOL isPublished = NO;
 
-    [self.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
+    [[self.morsels allObjects] enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
         if (!morsel.draftValue) {
             isPublished = YES;
             *stop = YES;
@@ -23,6 +23,26 @@
     }];
     return isPublished;
 }
+
+- (NSArray *)morselsArray {
+    NSSortDescriptor *idSort = [NSSortDescriptor sortDescriptorWithKey:@"morselID"
+                                                                       ascending:NO];
+    return [[self.morsels allObjects] sortedArrayUsingDescriptors:@[idSort]];
+}
+
+- (NSDictionary *)objectToJSON {
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
+
+    [objectInfoJSON setObject:self.title ?: [NSNull null]
+                       forKey:@"title"];
+
+    NSMutableDictionary *postJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
+                                                                         forKey:@"post"];
+
+    return postJSON;
+}
+
+#pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
     if (![data[@"creator_id"] isEqual:[NSNull null]] &&
@@ -37,18 +57,11 @@
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
-}
 
-- (NSDictionary *)objectToJSON {
-    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
-
-    if (self.title) [objectInfoJSON setObject:self.title
-                                                   forKey:@"title"];
-
-    NSMutableDictionary *postJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
-                                                                         forKey:@"post"];
-
-    return postJSON;
+    if ([self.morsels count] == 0) {
+        DDLogDebug(@"Post contained no Morsels. Removing.");
+        [self MR_deleteInContext:self.managedObjectContext];
+    }
 }
 
 @end

@@ -25,7 +25,9 @@
 }
 
 + (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID {
-    return ([MRSLUser currentUser].userIDValue == creatorID);
+    MRSLUser *currentUser = [MRSLUser currentUser];
+
+    return (currentUser.userIDValue == creatorID);
 }
 
 + (void)createOrUpdateUserFromResponseObject:(id)userDictionary

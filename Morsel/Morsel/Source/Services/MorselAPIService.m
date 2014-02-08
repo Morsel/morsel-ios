@@ -59,7 +59,7 @@
       withPassword:(NSString *)password
            success:(MorselAPISuccessBlock)userSuccessOrNil
            failure:(MorselAPIFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user[password]": password}
                                                 includingMRSLObjects:@[user]
                                               requiresAuthentication:NO];
 
@@ -240,7 +240,7 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[post]
                                               requiresAuthentication:YES];
-
+    
     [[MorselAPIClient sharedClient] PUT:[NSString stringWithFormat:@"posts/%i", [post.postID intValue]]
                              parameters:parameters
                                 success:^(AFHTTPRequestOperation *operation, id responseObject)
@@ -295,6 +295,9 @@
     if (postToTwitter)
         [parameters setObject:@"true" forKey:@"post_to_twitter"];
 
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateMorselNotification
+                                                        object:nil];
+
     [[MorselAPIClient sharedClient] POST:@"morsels"
                               parameters:parameters
                constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
@@ -309,9 +312,6 @@
          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
          [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
-
-         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateMorselNotification
-                                                             object:nil];
 
          if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -361,6 +361,9 @@
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
 
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidUpdateMorselNotification
+                                                        object:morsel];
+
     [[MorselAPIClient sharedClient] PUT:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
                              parameters:parameters
                                 success:^(AFHTTPRequestOperation *operation, id responseObject)
@@ -369,12 +372,11 @@
 
          [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
 
-         [self updatePost:morsel.post
-                  success:nil
-                  failure:nil];
-
-         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidUpdateMorselNotification
-                                                             object:nil];
+         if (morsel.post) {
+             [self updatePost:morsel.post
+                      success:nil
+                      failure:nil];
+         }
 
          if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -399,6 +401,16 @@
                                            int morselID = [morsel.morselID intValue];
 
                                            DDLogDebug(@"Morsel %i deleted from server. Attempting local.", morselID);
+
+                                           if (morsel.draftValue) {
+                                               MRSLUser *currentUser = [MRSLUser currentUser];
+                                               int currentDraftCount = currentUser.draft_countValue;
+                                               int updatedDraftCount = currentDraftCount - 1;
+
+                                               currentUser.draft_count = [NSNumber numberWithInt:updatedDraftCount];
+
+                                               [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
+                                           }
 
                                            MRSLPost *morselPost = morsel.post;
 
@@ -591,7 +603,7 @@
                                          [comment MR_importValuesForKeysWithObject:responseObject[@"data"]];
 
                                          [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateCommentNotification
-                                                                                             object:nil];
+                                                                                             object:morsel];
                                      }];
                                      
                                      if (successOrNil) successOrNil(responseObject);

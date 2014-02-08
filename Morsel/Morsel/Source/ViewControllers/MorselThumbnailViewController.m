@@ -14,11 +14,21 @@
 
 @interface MorselThumbnailViewController ()
 
+@property (nonatomic, strong) NSArray *morsels;
+
 @property (nonatomic, weak) IBOutlet UICollectionView *thumbnailCollectionView;
 
 @end
 
 @implementation MorselThumbnailViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    if (self.post) {
+        self.morsels = self.post.morselsArray;
+    }
+}
 
 #pragma mark - Instance Methods
 
@@ -46,7 +56,7 @@
 
 - (MorselThumbnailCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                                cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_post.morsels objectAtIndex:indexPath.row];
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
     MorselThumbnailCollectionViewCell *morselCell = [self.thumbnailCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
                                                                                                             forIndexPath:indexPath];
@@ -59,7 +69,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(morselThumbnailDidSelectMorsel:)]) {
-        MRSLMorsel *morsel = [_post.morsels objectAtIndex:indexPath.row];
+        MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
         [self.delegate morselThumbnailDidSelectMorsel:morsel];
     }
