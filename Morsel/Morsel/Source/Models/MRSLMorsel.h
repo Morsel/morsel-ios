@@ -10,4 +10,6 @@ typedef NS_ENUM(NSUInteger, MorselImageSizeType) {
 
 - (NSURLRequest *)morselPictureURLRequestForImageSizeType:(MorselImageSizeType)type;
 
+- (NSString *)socialMessage;
+
 @end

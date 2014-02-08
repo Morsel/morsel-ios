@@ -44,20 +44,23 @@
 
 + (UIAlertView *)showAlertViewForError:(NSError *)error
                               delegate:(id /*<UIAlertViewDelegate>*/)delegate {
-    return [UIAlertView showAlertViewWithTitle:@"Error"
-                                       message:[error localizedDescription]
+    return [UIAlertView showAlertViewForErrorString:[error localizedDescription]
+                                           delegate:delegate];
+}
+
++ (UIAlertView *)showAlertViewForErrorString:(NSString *)errorString
+                                    delegate:(id /*<UIAlertViewDelegate>*/)delegate {
+    return [UIAlertView showAlertViewWithTitle:@"Oops, something went wrong"
+                                       message:errorString
                                       delegate:delegate
-                             cancelButtonTitle:@"OK"
+                             cancelButtonTitle:@"Close"
                              otherButtonTitles:nil];
 }
 
 + (UIAlertView *)showAlertViewForServiceError:(MRSLServiceErrorInfo *)serviceError
                                      delegate:(id /*<UIAlertViewDelegate>*/)delegate {
-    return [UIAlertView showAlertViewWithTitle:@"Oops, there's been a problem!"
-                                       message:[serviceError errorInfo]
-                                      delegate:delegate
-                             cancelButtonTitle:@"OK"
-                             otherButtonTitles:nil];
+    return [UIAlertView showAlertViewForErrorString:[serviceError errorInfo]
+                                           delegate:delegate];
 }
 
 @end

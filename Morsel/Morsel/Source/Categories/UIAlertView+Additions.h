@@ -24,4 +24,7 @@
 + (UIAlertView *)showAlertViewForServiceError:(MRSLServiceErrorInfo *)serviceError
                                      delegate:(id /*<UIAlertViewDelegate>*/)delegate;
 
++ (UIAlertView *)showAlertViewForErrorString:(NSString *)errorString
+                                    delegate:(id /*<UIAlertViewDelegate>*/)delegate;
+
 @end

@@ -15,13 +15,21 @@
 #define TWITTER_CONSUMER_SECRET @"<INSERT CONSUMER SECRET HERE>"
 #define FACEBOOK_APP_ID @"<INSERT APP ID HERE>"
 
+#ifdef RELEASE
+#define FACEBOOK_PUBLISH_AUDIENCE ACFacebookAudienceEveryone
+#else
+#define FACEBOOK_PUBLISH_AUDIENCE ACFacebookAudienceOnlyMe
+#endif
+
 @interface SocialService ()
 
-// Adding a strong reference due to potential bug of accountType being prematurely nil. This is added on top of the solution below for extra safety.
 /*
+ Adding a strong reference due to potential bug of accountType being prematurely nil. This is added on top of the solution below for extra safety.
+
  Further information on this issue can be found on SO:
  http://stackoverflow.com/questions/13349187/strange-behaviour-when-trying-to-use-twitter-acaccount
  */
+
 @property (nonatomic, strong) ACAccountStore *accountStore;
 
 @end
@@ -71,7 +79,7 @@
                                            if (readGranted) {
                                                [_accountStore requestAccessToAccountsWithType:[_accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
                                                                                      options:@{ ACFacebookAppIdKey : FACEBOOK_APP_ID,
-                                                                                                ACFacebookAudienceKey: ACFacebookAudienceEveryone,
+                                                                                                ACFacebookAudienceKey: FACEBOOK_PUBLISH_AUDIENCE,
                                                                                                 ACFacebookPermissionsKey: @[ @"publish_stream" ] }
                                                                                   completion:block];
                                            } else {
