@@ -118,7 +118,7 @@ UIDocumentInteractionControllerDelegate>
         self.createTitleLabel.text = @"Add Morsel";
 
         if (!_morsel) {
-            MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+            MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:_appDelegate.createMorselContext];
 
             self.morsel = morsel;
         }
@@ -166,7 +166,10 @@ UIDocumentInteractionControllerDelegate>
         self.userPostsViewController.temporaryPostTitle = _temporaryPostTitle;
     }
 
-    self.userPostsViewController.morsel = _morsel;
+    if (_morsel) {
+        self.userPostsViewController.morsel = _morsel;
+    }
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -186,7 +189,7 @@ UIDocumentInteractionControllerDelegate>
 
 - (IBAction)goBackToCaptureMedia:(id)sender {
     if (!_userIsEditing) {
-        [[NSManagedObjectContext MR_defaultContext] deleteObject:_morsel];
+        [_morsel.managedObjectContext deleteObject:_morsel];
 
         if (_capturedImage) {
             self.thumbnailImageView.image = nil;
@@ -487,47 +490,51 @@ UIDocumentInteractionControllerDelegate>
 }
 
 - (void)sendToInstagram {
-    NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
-    [_morsel.morselPhoto writeToFile:photoFilePath atomically:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
+        [_morsel.morselPhoto writeToFile:photoFilePath atomically:YES];
 
-    _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
-    _documentInteractionController.UTI = @"com.instagram.exclusivegram";
-    _documentInteractionController.delegate = self;
-    NSString *socialMessage = [_morsel socialMessage];
-    if (socialMessage) {
-        _documentInteractionController.annotation = [NSDictionary dictionaryWithObject:socialMessage
-                                                                                forKey:@"InstagramCaption"];
-    }
-    [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
-                                                       inView:self.view
-                                                     animated:YES];
+        _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
+        _documentInteractionController.UTI = @"com.instagram.exclusivegram";
+        _documentInteractionController.delegate = self;
+        NSString *socialMessage = [_morsel socialMessage];
+        if (socialMessage) {
+            _documentInteractionController.annotation = [NSDictionary dictionaryWithObject:socialMessage
+                                                                                    forKey:@"InstagramCaption"];
+        }
+        [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
+                                                           inView:self.view
+                                                         animated:YES];
+    });
 }
 
 - (void)prepareMediaAndPostMorsel {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self addMediaDataToCurrentMorsel];
+    [self addMediaDataToCurrentMorsel];
 
-        __weak typeof(self) weakSelf = self;
-        [_appDelegate.morselApiService createMorsel:_morsel
-                                     postToFacebook:_facebookButton.selected
-                                      postToTwitter:_twitterButton.selected
-                                            success:^(id responseObject) {
-                                                __strong typeof(weakSelf) strongSelf = weakSelf;
+    __weak typeof(self) weakSelf = self;
+    [_appDelegate.morselApiService createMorsel:_morsel
+                                 postToFacebook:_facebookButton.selected
+                                  postToTwitter:_twitterButton.selected
+                                        success:^(id responseObject) {
+                                            __strong typeof(weakSelf) strongSelf = weakSelf;
+                                            if (strongSelf) {
                                                 if ([strongSelf->_instagramButton isSelected]) {
                                                     [strongSelf sendToInstagram];
-                                                } else {
-                                                    [strongSelf.presentingViewController dismissViewControllerAnimated:YES
-                                                                                                            completion:nil];
                                                 }
                                                 strongSelf->_postMorselButton.enabled = YES;
                                             }
-                                            failure:^(NSError *error)
-         {
-             _postMorselButton.enabled = YES;
-             [UIAlertView showAlertViewForServiceError:error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey]
-                                              delegate:nil];
-         }];
-    });
+                                        }
+                                        failure:^(NSError *error)
+     {
+         _postMorselButton.enabled = YES;
+         [UIAlertView showAlertViewForServiceError:error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey]
+                                          delegate:nil];
+     }];
+
+    if (!self.instagramButton.selected) {
+        [self.presentingViewController dismissViewControllerAnimated:YES
+                                                          completion:nil];
+    }
 }
 
 #pragma mark - Image Processing Methods

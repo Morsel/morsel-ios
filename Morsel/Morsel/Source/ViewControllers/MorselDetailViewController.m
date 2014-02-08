@@ -81,13 +81,15 @@ ProfileImageViewDelegate>
         [_profileImageView addCornersWithRadius:20.f];
 
         if ([_morselPost.morsels count] > 1) {
-            NSUInteger morselIndex = [_morselPost.morselsArray indexOfObject:_morsel];
+            NSArray *orderedMorselsArray = _morselPost.morselsArray;
+
+            NSUInteger morselIndex = [orderedMorselsArray indexOfObject:_morsel];
 
             self.progressionPageControl.currentPage = morselIndex;
 
             NSMutableArray *panelArray = [NSMutableArray array];
 
-            for (MRSLMorsel *morsel in _morselPost.morsels) {
+            for (MRSLMorsel *morsel in orderedMorselsArray) {
                 MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
                 morselDetailPanelVC.morsel = morsel;
                 [panelArray addObject:morselDetailPanelVC];

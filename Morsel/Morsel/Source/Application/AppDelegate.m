@@ -37,6 +37,8 @@
 
 - (void)setupDatabase {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
+
+    self.createMorselContext = [NSManagedObjectContext MR_context];
 }
 
 #pragma mark - Logout

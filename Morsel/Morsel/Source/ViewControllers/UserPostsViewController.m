@@ -10,6 +10,7 @@
 
 #import "PostCollectionViewCell.h"
 
+#import "MRSLMorsel.h"
 #import "MRSLPost.h"
 #import "MRSLUser.h"
 
@@ -34,22 +35,29 @@
     [super viewDidLoad];
 
     self.postCount = 0;
+}
 
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"creator.userID == %i", [MRSLUser currentUser].userIDValue];
+- (void)setMorsel:(MRSLMorsel *)morsel {
+    if (_morsel != morsel) {
+        _morsel = morsel;
 
-    self.fetchedResultsController = [MRSLPost MR_fetchAllSortedBy:@"creationDate"
-                                                        ascending:NO
-                                                    withPredicate:currentUserPredicate
-                                                          groupBy:nil
-                                                         delegate:self
-                                                        inContext:[NSManagedObjectContext MR_defaultContext]];
+        NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"creator.userID == %i", [MRSLUser currentUser].userIDValue];
 
-    [self.postCollectionView reloadData];
+        self.fetchedResultsController = [MRSLPost MR_fetchAllSortedBy:@"creationDate"
+                                                            ascending:NO
+                                                        withPredicate:currentUserPredicate
+                                                              groupBy:nil
+                                                             delegate:self
+                                                            inContext:_morsel.managedObjectContext];
+
+        [self.postCollectionView reloadData];
+    }
 }
 
 - (void)setPost:(MRSLPost *)post {
     if (_post != post) {
         _post = post;
+
         [self.postCollectionView reloadData];
     }
 }

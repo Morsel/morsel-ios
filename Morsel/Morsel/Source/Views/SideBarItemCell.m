@@ -49,7 +49,9 @@
 
 - (void)userModifiedMorsel {
     MRSLUser *currentUser = [MRSLUser currentUser];
-    self.draftCountLabel.text = [NSString stringWithFormat:@"%i", currentUser.draft_countValue];
+    dispatch_async(dispatch_get_main_queue(), ^{
+         self.draftCountLabel.text = [NSString stringWithFormat:@"%i", currentUser.draft_countValue];
+    });
 }
 
 - (void)dealloc {
