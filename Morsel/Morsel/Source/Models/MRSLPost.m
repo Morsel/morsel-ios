@@ -31,18 +31,21 @@
 }
 
 - (NSDictionary *)objectToJSON {
-    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
-
-    [objectInfoJSON setObject:self.title ?: [NSNull null]
-                       forKey:@"title"];
-
-    NSMutableDictionary *postJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
-                                                                         forKey:@"post"];
-
-    return postJSON;
+    return @{@"post" : @{@"title" : (!self.title || self.title.length == 0) ? [NSNull null] : self.title}};
 }
 
 #pragma mark - MagicalRecord
+
+- (BOOL)shouldImport:(id)data {
+    if (![data[@"morsels"] isEqual:[NSNull null]]) {
+        NSArray *morsels = data[@"morsels"];
+        if ([morsels count] == 0) {
+            DDLogDebug(@"Post contained no Morsels. Aborting import.");
+            return NO;
+        }
+    }
+    return YES;
+}
 
 - (void)didImport:(id)data {
     if (![data[@"creator_id"] isEqual:[NSNull null]] &&
@@ -56,11 +59,6 @@
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
-    }
-
-    if ([self.morsels count] == 0) {
-        DDLogDebug(@"Post contained no Morsels. Removing.");
-        [self MR_deleteInContext:self.managedObjectContext];
     }
 }
 

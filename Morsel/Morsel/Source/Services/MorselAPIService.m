@@ -372,12 +372,6 @@
 
          [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
 
-         if (morsel.post) {
-             [self updatePost:morsel.post
-                      success:nil
-                      failure:nil];
-         }
-
          if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
          [self reportFailure:failureOrNil
@@ -403,13 +397,7 @@
                                            DDLogDebug(@"Morsel %i deleted from server. Attempting local.", morselID);
 
                                            if (morsel.draftValue) {
-                                               MRSLUser *currentUser = [MRSLUser currentUser];
-                                               int currentDraftCount = currentUser.draft_countValue;
-                                               int updatedDraftCount = currentDraftCount - 1;
-
-                                               currentUser.draft_count = [NSNumber numberWithInt:updatedDraftCount];
-
-                                               [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
+                                               [[MRSLUser currentUser] decrementDraftCountAndSave];
                                            }
 
                                            MRSLPost *morselPost = morsel.post;
@@ -420,7 +408,7 @@
                                            if ([morselPost.morsels count] == 0) [morselPost MR_deleteEntity];
 
                                            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteMorselNotification
-                                                                                               object:[NSNumber numberWithInt:morselID]];
+                                                                                               object:@(morselID)];
 
                                            if (successOrNil) successOrNil(YES);
                                        } else {

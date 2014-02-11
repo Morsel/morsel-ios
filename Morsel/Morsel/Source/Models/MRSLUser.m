@@ -25,14 +25,12 @@
 }
 
 + (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID {
-    MRSLUser *currentUser = [MRSLUser currentUser];
-
-    return (currentUser.userIDValue == creatorID);
+    return ([MRSLUser currentUser].userIDValue == creatorID);
 }
 
 + (void)createOrUpdateUserFromResponseObject:(id)userDictionary
                       shouldPostNotification:(BOOL)shouldPostNotifications {
-    NSNumber *userID = [NSNumber numberWithInt:[userDictionary[@"id"] intValue]];
+    NSNumber *userID = @([userDictionary[@"id"] intValue]);
 
     MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                              withValue:userID
@@ -91,6 +89,27 @@
 
     return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
 }
+
+- (void)incrementDraftCountAndSave {
+    int currentDraftCount = self.draft_countValue;
+    int updatedDraftCount = currentDraftCount + 1;
+
+    self.draft_count = @(updatedDraftCount);
+
+    [self.managedObjectContext MR_saveOnlySelfAndWait];
+}
+
+- (void)decrementDraftCountAndSave {
+    int currentDraftCount = self.draft_countValue;
+    int updatedDraftCount = currentDraftCount - 1;
+
+    self.draft_count = @(updatedDraftCount);
+
+    [self.managedObjectContext MR_saveOnlySelfAndWait];
+}
+
+
+#pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
     if (![data[@"photos"] isEqual:[NSNull null]]) {

@@ -2,6 +2,4 @@
 
 @interface MRSLComment : _MRSLComment
 
-- (NSDictionary *)objectToJSON;
-
 @end

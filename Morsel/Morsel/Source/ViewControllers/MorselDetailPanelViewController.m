@@ -141,18 +141,16 @@ UIScrollViewDelegate>
          }];
     }
 
-    if (_morselDetailCommentsVC) {
-        self.morselDetailCommentsVC.delegate = self;
-        [self.morselDetailCommentsVC removeFromParentViewController];
-        [self.morselDetailCommentsVC.view removeFromSuperview];
+    if (!_morselDetailCommentsVC) {
+        self.morselDetailCommentsVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailCommentsViewController"];
+        _morselDetailCommentsVC.delegate = self;
+
+        [self addChildViewController:_morselDetailCommentsVC];
+        [self.contentScrollView addSubview:_morselDetailCommentsVC.view];
     }
 
-    self.morselDetailCommentsVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailCommentsViewController"];
-    _morselDetailCommentsVC.morsel = _morsel;
-    _morselDetailCommentsVC.delegate = self;
+    self.morselDetailCommentsVC.morsel = _morsel;
 
-    [self addChildViewController:_morselDetailCommentsVC];
-    [self.contentScrollView addSubview:_morselDetailCommentsVC.view];
 
     if ([MRSLUser currentUserOwnsMorselWithCreatorID:_morsel.creator_idValue]) {
         self.likeButton.hidden = YES;

@@ -16,6 +16,8 @@
 
 #import "MRSLUser.h"
 
+static const CGFloat MRSLSignUpFieldsHeight = 448.f;
+
 @interface SignUpViewController ()
 <UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
@@ -44,6 +46,8 @@ UITextFieldDelegate>
     [super viewDidLoad];
 
     [_profileImageView addCornersWithRadius:36.f];
+
+    self.contentScrollView.contentSize = CGSizeMake([self.view getWidth], MRSLSignUpFieldsHeight);
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -79,10 +83,10 @@ UITextFieldDelegate>
     BOOL passValid = ([_passwordField.text length] >= 8);
 
     if (!usernameValid || !emailValid || !passValid) {
-        [UIAlertView showAlertViewWithTitle:@"Invalid Username, Email or Password"
+        [UIAlertView showAlertViewWithTitle:@"Invalid Username, Email, or Password"
                                     message:@"Username and Email must be valid. Password must be at least 8 characters."
                                    delegate:nil
-                          cancelButtonTitle:@"OK"
+                          cancelButtonTitle:@"Close"
                           otherButtonTitles:nil];
         return;
     }
@@ -97,7 +101,7 @@ UITextFieldDelegate>
         [UIAlertView showAlertViewWithTitle:@"All Fields Required"
                                     message:@"Please fill in all fields and include a profile picture."
                                    delegate:nil
-                          cancelButtonTitle:@"OK"
+                          cancelButtonTitle:@"Close"
                           otherButtonTitles:nil];
         return;
     }
@@ -154,7 +158,7 @@ UITextFieldDelegate>
 - (void)keyboardWillHide {
     [UIView animateWithDuration:.2f
                      animations:^{
-                         [self.contentScrollView setHeight:self.view.frame.size.height];
+                         [self.contentScrollView setHeight:self.view.frame.size.height - 120.f];
                      }];
 }
 
@@ -193,12 +197,6 @@ UITextFieldDelegate>
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    CGRect centeredFrame = textField.frame;
-    centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-    
-    [self.contentScrollView scrollRectToVisible:centeredFrame
-                                       animated:YES];
-    
     if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
         
@@ -208,6 +206,12 @@ UITextFieldDelegate>
         
         return NO;
     } else {
+        CGRect centeredFrame = textField.frame;
+        centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
+
+        [self.contentScrollView scrollRectToVisible:centeredFrame
+                                           animated:YES];
+
         return YES;
     }
     

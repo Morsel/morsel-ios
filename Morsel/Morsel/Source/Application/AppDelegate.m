@@ -26,8 +26,7 @@
 
     self.morselApiService = [[MorselAPIService alloc] init];
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
-    NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-    [_defaultDateFormatter setTimeZone:gmt];
+    [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
 
     return YES;

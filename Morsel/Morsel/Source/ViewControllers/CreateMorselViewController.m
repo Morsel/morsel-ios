@@ -129,7 +129,7 @@ UIDocumentInteractionControllerDelegate>
 
         self.createTitleLabel.text = _wasDraft ? @"Edit Draft" : @"Edit Morsel";
 
-        [self hideSocialView:_wasDraft];
+        [self shouldHideSocialView:_wasDraft];
 
         self.userIsEditing = YES;
 
@@ -226,7 +226,7 @@ UIDocumentInteractionControllerDelegate>
 - (IBAction)displaySettings {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Settings"
                                                              delegate:self
-                                                    cancelButtonTitle:_userIsEditing ? @"Cancel" : nil
+                                                    cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:nil];
 
@@ -364,14 +364,15 @@ UIDocumentInteractionControllerDelegate>
     });
 }
 
-- (void)hideSocialView:(BOOL)hide {
-    self.socialButtonsView.hidden = hide;
+- (void)shouldHideSocialView:(BOOL)shouldHide {
+    self.socialButtonsView.hidden = shouldHide;
 
-    [self.addTextViewController.view setHeight:hide ? MRSLSubContentHeightExpanded : MRSLSubContentHeight];
-    [self.userPostsViewController.view setHeight:hide ? MRSLSubContentHeightExpanded : MRSLSubContentHeight];
+    [self.addTextViewController.view setHeight:shouldHide ? MRSLSubContentHeightExpanded : MRSLSubContentHeight];
+    [self.userPostsViewController.view setHeight:shouldHide ? MRSLSubContentHeightExpanded : MRSLSubContentHeight];
 
     [self.facebookButton setSelected:NO];
     [self.twitterButton setSelected:NO];
+    [self.instagramButton setSelected:NO];
 }
 
 #pragma mark - Post Morsel
@@ -406,6 +407,10 @@ UIDocumentInteractionControllerDelegate>
 
         if (self.temporaryPostTitle) {
             _post.title = _temporaryPostTitle;
+
+            [_appDelegate.morselApiService updatePost:_post
+                                              success:nil
+                                              failure:nil];
         }
 
         if ([_morsel.post.morsels count] == 1) {
@@ -428,6 +433,8 @@ UIDocumentInteractionControllerDelegate>
         [self addMediaDataToCurrentMorsel];
 
     __weak __typeof(self) weakSelf = self;
+
+
 
     [_appDelegate.morselApiService updateMorsel:_morsel
                                         success:^(id responseObject)
@@ -461,13 +468,7 @@ UIDocumentInteractionControllerDelegate>
         _morsel.draft = @YES;
     }
 
-    MRSLUser *currentUser = [MRSLUser currentUser];
-    int currentDraftCount = currentUser.draft_countValue;
-    int updatedDraftCount = currentDraftCount + 1;
-
-    currentUser.draft_count = [NSNumber numberWithInt:updatedDraftCount];
-
-    [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
+    [[MRSLUser currentUser] incrementDraftCountAndSave];
 
     [self prepareMediaAndPostMorsel];
 }
@@ -597,12 +598,12 @@ UIDocumentInteractionControllerDelegate>
                 [self.postMorselButton setTitle:_willPublish ? @"Publish" : @"Save Changes"
                                        forState:UIControlStateNormal];
 
-                [self hideSocialView:!_willPublish];
+                [self shouldHideSocialView:!_willPublish];
             }
         } else {
             self.saveDraft = ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save Draft"]);
 
-            [self hideSocialView:_saveDraft];
+            [self shouldHideSocialView:_saveDraft];
 
             [self.postMorselButton setTitle:_saveDraft ? @"Save Morsel" : @"Publish Morsel"
                                    forState:UIControlStateNormal];

@@ -40,7 +40,7 @@ UITextFieldDelegate>
         self.postID = [_post.postID intValue];
     } else {
         self.post = [MRSLPost MR_findFirstByAttribute:MRSLPostAttributes.postID
-                                            withValue:[NSNumber numberWithInt:_postID]
+                                            withValue:@(_postID)
                                             inContext:[NSManagedObjectContext MR_defaultContext]];
     }
 

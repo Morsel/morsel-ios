@@ -50,6 +50,7 @@
 
     self.sideBarViewController = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"MRSLSideBarViewController"];
     _sideBarViewController.delegate = self;
+    [_sideBarViewController.view setY:0.f];
 
     [self addChildViewController:_sideBarViewController];
     [self.sideBarContainerView addSubview:_sideBarViewController.view];
