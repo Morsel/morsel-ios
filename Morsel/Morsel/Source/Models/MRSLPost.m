@@ -15,13 +15,36 @@
 - (BOOL)isPublished {
     __block BOOL isPublished = NO;
 
-    [self.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
+    [[self.morsels allObjects] enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
         if (!morsel.draftValue) {
             isPublished = YES;
             *stop = YES;
         }
     }];
     return isPublished;
+}
+
+- (NSArray *)morselsArray {
+    NSSortDescriptor *idSort = [NSSortDescriptor sortDescriptorWithKey:@"morselID"
+                                                                       ascending:YES];
+    return [[self.morsels allObjects] sortedArrayUsingDescriptors:@[idSort]];
+}
+
+- (NSDictionary *)objectToJSON {
+    return @{@"post" : @{@"title" : (!self.title || self.title.length == 0) ? [NSNull null] : self.title}};
+}
+
+#pragma mark - MagicalRecord
+
+- (BOOL)shouldImport:(id)data {
+    if (![data[@"morsels"] isEqual:[NSNull null]]) {
+        NSArray *morsels = data[@"morsels"];
+        if ([morsels count] == 0) {
+            DDLogDebug(@"Post contained no Morsels. Aborting import.");
+            return NO;
+        }
+    }
+    return YES;
 }
 
 - (void)didImport:(id)data {
@@ -37,18 +60,6 @@
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
-}
-
-- (NSDictionary *)objectToJSON {
-    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
-
-    if (self.title) [objectInfoJSON setObject:self.title
-                                                   forKey:@"title"];
-
-    NSMutableDictionary *postJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
-                                                                         forKey:@"post"];
-
-    return postJSON;
 }
 
 @end

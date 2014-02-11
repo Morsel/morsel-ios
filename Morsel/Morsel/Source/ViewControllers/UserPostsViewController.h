@@ -14,6 +14,7 @@
 
 @optional
 - (void)userPostsSelectedPost:(MRSLPost *)post;
+- (void)userPostsSelectedOriginalMorsel;
 
 @end
 
@@ -26,5 +27,6 @@
 @property (nonatomic, strong) NSString *temporaryPostTitle;
 
 @property (nonatomic, strong) MRSLPost *post;
+@property (nonatomic, strong) MRSLMorsel *morsel;
 
 @end

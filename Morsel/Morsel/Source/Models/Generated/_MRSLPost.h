@@ -79,9 +79,9 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSOrderedSet *morsels;
+@property (nonatomic, strong) NSSet *morsels;
 
-- (NSMutableOrderedSet*)morselsSet;
+- (NSMutableSet*)morselsSet;
 
 
 
@@ -91,8 +91,8 @@ extern const struct MRSLPostFetchedProperties {
 
 @interface _MRSLPost (CoreDataGeneratedAccessors)
 
-- (void)addMorsels:(NSOrderedSet*)value_;
-- (void)removeMorsels:(NSOrderedSet*)value_;
+- (void)addMorsels:(NSSet*)value_;
+- (void)removeMorsels:(NSSet*)value_;
 - (void)addMorselsObject:(MRSLMorsel*)value_;
 - (void)removeMorselsObject:(MRSLMorsel*)value_;
 
@@ -128,8 +128,8 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-- (NSMutableOrderedSet*)primitiveMorsels;
-- (void)setPrimitiveMorsels:(NSMutableOrderedSet*)value;
+- (NSMutableSet*)primitiveMorsels;
+- (void)setPrimitiveMorsels:(NSMutableSet*)value;
 
 
 @end

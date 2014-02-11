@@ -4,4 +4,6 @@
 
 - (BOOL)isPublished;
 
+- (NSArray *)morselsArray;
+
 @end

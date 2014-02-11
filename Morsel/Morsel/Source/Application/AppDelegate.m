@@ -26,6 +26,7 @@
 
     self.morselApiService = [[MorselAPIService alloc] init];
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
+    [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
 
     return YES;
@@ -35,6 +36,8 @@
 
 - (void)setupDatabase {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
+
+    self.createMorselContext = [NSManagedObjectContext MR_context];
 }
 
 #pragma mark - Logout

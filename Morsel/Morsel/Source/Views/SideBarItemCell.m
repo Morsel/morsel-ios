@@ -10,6 +10,8 @@
 
 #import "SideBarItem.h"
 
+#import "MRSLUser.h"
+
 @interface SideBarItemCell ()
 
 @property (nonatomic, weak) IBOutlet UIImageView *itemIconImageView;
@@ -31,8 +33,29 @@
     }
 
     if (_draftCountLabel && _sideBarItem) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
+                                                     name:MRSLUserDidCreateMorselNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
+                                                     name:MRSLUserDidUpdateMorselNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
+                                                     name:MRSLUserDidDeleteMorselNotification
+                                                   object:nil];
+
         self.draftCountLabel.text = [NSString stringWithFormat:@"%i", _sideBarItem.badgeCount];
     }
+}
+
+- (void)userModifiedMorsel {
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    dispatch_async(dispatch_get_main_queue(), ^{
+         self.draftCountLabel.text = [NSString stringWithFormat:@"%i", currentUser.draft_countValue];
+    });
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

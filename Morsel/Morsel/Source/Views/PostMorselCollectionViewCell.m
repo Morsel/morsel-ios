@@ -73,6 +73,10 @@
         self.morselThumbnail.layer.borderColor = [UIColor whiteColor].CGColor;
         self.morselThumbnail.layer.borderWidth = selected ? 2.f : 0.f;
     }
+
+    if (_morsel.morselDescription.length == 0 && !selected) {
+        _morselDescription.textColor = [UIColor morselLightContent];
+    }
 }
 
 - (void)reset {

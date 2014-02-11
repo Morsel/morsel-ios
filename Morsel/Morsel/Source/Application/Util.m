@@ -30,7 +30,7 @@
 }
 
 + (BOOL)imageIsLandscape:(UIImage *)image {
-#warning Temporarily using width to height comparison due to jpegStillImageNSDataRepresentation: not capturing image orientation
+    // Temporarily using width to height comparison due to jpegStillImageNSDataRepresentation: not capturing image orientation
 
     return (image.size.width > image.size.height);
     /*

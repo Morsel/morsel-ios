@@ -13,6 +13,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) MorselAPIService *morselApiService;
+@property (nonatomic, strong) NSManagedObjectContext *createMorselContext;
 @property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
 @property (strong, nonatomic) UIWindow *window;
 

@@ -15,5 +15,7 @@ typedef NS_ENUM(NSUInteger, ProfileImageSizeType) {
 - (BOOL)isCurrentUser;
 - (NSString *)fullName;
 - (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type;
+- (void)incrementDraftCountAndSave;
+- (void)decrementDraftCountAndSave;
 
 @end

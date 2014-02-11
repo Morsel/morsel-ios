@@ -57,15 +57,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedOut:)
                                                  name:MRSLServiceDidLogOutUserNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
-                                                 name:MRSLUserDidCreateMorselNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
-                                                 name:MRSLUserDidUpdateMorselNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
-                                                 name:MRSLUserDidDeleteMorselNotification
-                                               object:nil];
     
     self.sideBarItems = [NSMutableArray arrayWithObjects:draftItem, homeItem, nil];
 }
@@ -83,18 +74,6 @@
 - (void)userLoggedOut:(NSNotification *)notification {
     self.userNameLabel.text = nil;
     self.profileImageView.user = nil;
-}
-
-- (void)userModifiedMorsel {
-    DDLogDebug(@"Detected Morsel update in side bar. Reloading user to get latest draft count.");
-    [_appDelegate.morselApiService getUserProfile:[MRSLUser currentUser]
-                                         success:^(id responseObject) {
-                                             DDLogDebug(@"User information successfully loaded. Updating draft count in side bar.");
-                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                                 self.draftItem.badgeCount = [MRSLUser currentUser].draft_countValue;
-                                                 [self.sideBarTableView reloadData];
-                                             });
-                                         } failure:nil];
 }
 
 #pragma mark - Action

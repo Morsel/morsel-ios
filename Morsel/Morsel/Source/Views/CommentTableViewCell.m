@@ -43,7 +43,7 @@
             _profileImageView.delegate = self;
             _userNameLabel.text = _comment.creator.fullName;
             _commentBodyLabel.text = _comment.commentDescription;
-            _timeAgoLabel.text = [_comment.creationDate dateTimeAgo];
+            _timeAgoLabel.text = [_comment.creationDate timeAgo];
             
             CGSize bodySize = [_comment.commentDescription sizeWithFont:_commentBodyLabel.font
                                         constrainedToSize:CGSizeMake(_commentBodyLabel.frame.size.width, CGFLOAT_MAX)

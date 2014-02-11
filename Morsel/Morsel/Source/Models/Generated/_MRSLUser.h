@@ -247,9 +247,9 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSOrderedSet *posts;
+@property (nonatomic, strong) NSSet *posts;
 
-- (NSMutableOrderedSet*)postsSet;
+- (NSMutableSet*)postsSet;
 
 
 
@@ -264,8 +264,8 @@ extern const struct MRSLUserFetchedProperties {
 - (void)addCommentsObject:(MRSLComment*)value_;
 - (void)removeCommentsObject:(MRSLComment*)value_;
 
-- (void)addPosts:(NSOrderedSet*)value_;
-- (void)removePosts:(NSOrderedSet*)value_;
+- (void)addPosts:(NSSet*)value_;
+- (void)removePosts:(NSSet*)value_;
 - (void)addPostsObject:(MRSLPost*)value_;
 - (void)removePostsObject:(MRSLPost*)value_;
 
@@ -388,8 +388,8 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSMutableOrderedSet*)primitivePosts;
-- (void)setPrimitivePosts:(NSMutableOrderedSet*)value;
+- (NSMutableSet*)primitivePosts;
+- (void)setPrimitivePosts:(NSMutableSet*)value;
 
 
 @end

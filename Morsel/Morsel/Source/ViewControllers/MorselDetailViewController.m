@@ -73,7 +73,7 @@ ProfileImageViewDelegate>
         [self.viewControllerPanelContainerView setHeight:[self.view getHeight] - navigationViewHeight];
 
         self.postTitleLabel.text = _morselPost.title ?: @"Morsel";
-        self.timeSinceLabel.text = [_morsel.creationDate dateTimeAgo];
+        self.timeSinceLabel.text = [_morsel.creationDate timeAgo];
         self.authorNameLabel.text = [_morselPost.creator fullName];
 
         self.profileImageView.user = _morselPost.creator;
@@ -81,13 +81,15 @@ ProfileImageViewDelegate>
         [_profileImageView addCornersWithRadius:20.f];
 
         if ([_morselPost.morsels count] > 1) {
-            NSUInteger morselIndex = [_morselPost.morsels indexOfObject:_morsel];
+            NSArray *orderedMorselsArray = _morselPost.morselsArray;
+
+            NSUInteger morselIndex = [orderedMorselsArray indexOfObject:_morsel];
 
             self.progressionPageControl.currentPage = morselIndex;
 
             NSMutableArray *panelArray = [NSMutableArray array];
 
-            for (MRSLMorsel *morsel in _morselPost.morsels) {
+            for (MRSLMorsel *morsel in orderedMorselsArray) {
                 MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
                 morselDetailPanelVC.morsel = morsel;
                 [panelArray addObject:morselDetailPanelVC];
@@ -115,6 +117,14 @@ ProfileImageViewDelegate>
                                                  selector:@selector(morselDeleted:)
                                                      name:MRSLUserDidDeleteMorselNotification
                                                    object:nil];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    if (_morsel) {
+        self.timeSinceLabel.text = [_morsel.creationDate timeAgo];
     }
 }
 
@@ -163,7 +173,7 @@ ProfileImageViewDelegate>
         [self reset];
 
         if (deletedMorselID == _currentMorselID) {
-            self.morsel = [_morselPost.morsels firstObject];
+            self.morsel = [_morselPost.morselsArray firstObject];
             self.currentMorselID = _morsel.morselIDValue;
         } else {
             self.morsel = _morsel;
@@ -205,7 +215,7 @@ ProfileImageViewDelegate>
 - (void)didUpdateCurrentPage:(NSUInteger)page {
     self.progressionPageControl.currentPage = page;
 
-    self.morsel = [_morselPost.morsels objectAtIndex:page];
+    self.morsel = [_morselPost.morselsArray objectAtIndex:page];
     self.currentMorselID = _morsel.morselIDValue;
 
     if (self.previousExists) {
