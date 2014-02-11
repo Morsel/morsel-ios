@@ -34,7 +34,7 @@
 
     if (_draftCountLabel && _sideBarItem) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
-                                                     name:MRSLUserDidCreateMorselNotification
+                                                     name:MRSLUserDidBeginCreateMorselNotification
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userModifiedMorsel)
                                                      name:MRSLUserDidUpdateMorselNotification

@@ -66,6 +66,9 @@
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
+
+    self.didFailUpload = @NO;
+    self.isUploading = @NO;
 }
 
 - (NSDictionary *)objectToJSON {

@@ -18,7 +18,9 @@
     <entity name="MRSLMorsel" representedClassName="MRSLMorsel" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="creator_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="didFailUpload" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="draft" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isUploading" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="morselDescription" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -32,6 +34,7 @@
         </attribute>
         <attribute name="morselPhoto" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="morselPhotoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="morselThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="morsel" inverseEntity="MRSLComment" syncable="YES">
             <userInfo>
@@ -63,7 +66,7 @@
                 <entry key="relatedByAttribute" value="userID"/>
             </userInfo>
         </relationship>
-        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="post" inverseEntity="MRSLMorsel" syncable="YES">
+        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLMorsel" inverseName="post" inverseEntity="MRSLMorsel" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="morselID"/>
             </userInfo>

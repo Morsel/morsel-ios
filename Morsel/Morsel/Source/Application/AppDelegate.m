@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <TestFlight.h>
@@ -29,6 +30,8 @@
     [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
 
+    AFNetworkActivityIndicatorManager.sharedManager.enabled = YES;
+
     return YES;
 }
 
@@ -36,8 +39,6 @@
 
 - (void)setupDatabase {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
-
-    self.createMorselContext = [NSManagedObjectContext MR_context];
 }
 
 #pragma mark - Logout

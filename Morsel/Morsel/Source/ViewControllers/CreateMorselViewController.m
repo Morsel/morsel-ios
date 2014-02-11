@@ -118,7 +118,7 @@ UIDocumentInteractionControllerDelegate>
         self.createTitleLabel.text = @"Add Morsel";
 
         if (!_morsel) {
-            MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:_appDelegate.createMorselContext];
+            MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
 
             self.morsel = morsel;
         }
@@ -465,6 +465,7 @@ UIDocumentInteractionControllerDelegate>
 
         if (self.addTextViewController.textView.text) _morsel.morselDescription = self.addTextViewController.textView.text;
 
+        _morsel.creationDate = [NSDate date];
         _morsel.draft = @YES;
     }
 
@@ -484,6 +485,9 @@ UIDocumentInteractionControllerDelegate>
         [_post addMorselsObject:_morsel];
         _morsel.post = _post;
     }
+
+    _morsel.creationDate = [NSDate date];
+    _morsel.draft = @NO;
 
     if (self.addTextViewController.textView.text) _morsel.morselDescription = self.addTextViewController.textView.text;
 
@@ -513,6 +517,7 @@ UIDocumentInteractionControllerDelegate>
     [self addMediaDataToCurrentMorsel];
 
     __weak typeof(self) weakSelf = self;
+
     [_appDelegate.morselApiService createMorsel:_morsel
                                  postToFacebook:_facebookButton.selected
                                   postToTwitter:_twitterButton.selected
@@ -564,6 +569,9 @@ UIDocumentInteractionControllerDelegate>
 
 - (void)addMediaDataToCurrentMorsel {
     if (!_capturedImage) return;
+
+    _morsel.morselThumb = UIImageJPEGRepresentation([_capturedImage thumbnailImage:30.f
+                                                              interpolationQuality:kCGInterpolationHigh], .8f);
 
     BOOL imageIsLandscape = [Util imageIsLandscape:_capturedImage];
     CGFloat cameraDimensionScale = [Util cameraDimensionScaleFromImage:_capturedImage];
@@ -698,6 +706,7 @@ UIDocumentInteractionControllerDelegate>
 }
 
 - (void)createMorselButtonPanelDidSelectAddProgression {
+    [self.view endEditing:YES];
     self.addTextViewController.view.hidden = YES;
     self.userPostsViewController.view.hidden = NO;
 }

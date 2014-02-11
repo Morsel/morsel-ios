@@ -48,7 +48,10 @@
 
     // apply device information
     [parametersDictionary setObject:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"ipad" : @"iphone"
-                             forKey:@"device"];
+                             forKey:@"client[device]"];
+
+    [parametersDictionary setObject:[Util appMajorMinorPatchString]
+                             forKey:@"client[version]"];
 
     return parametersDictionary;
 }
@@ -295,7 +298,12 @@
     if (postToTwitter)
         [parameters setObject:@"true" forKey:@"post_to_twitter"];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateMorselNotification
+    morsel.isUploading = @YES;
+    morsel.didFailUpload = @NO;
+
+    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidBeginCreateMorselNotification
                                                         object:nil];
 
     [[MorselAPIClient sharedClient] POST:@"morsels"
@@ -310,11 +318,26 @@
          }
      } success: ^(AFHTTPRequestOperation * operation, id responseObject) {
          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+         morsel.isUploading = @NO;
+         morsel.didFailUpload = @NO;
 
          [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
 
+         [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+
+         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLMorselUploadDidCompleteNotification
+                                                             object:nil];
+
          if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+         morsel.isUploading = @NO;
+         morsel.didFailUpload = @YES;
+
+         [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+
+         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLMorselUploadDidFailNotification
+                                                             object:nil];
+
          [self reportFailure:failureOrNil
                    withError:error
                     inMethod:NSStringFromSelector(_cmd)];
@@ -460,7 +483,7 @@
 
 - (void)getFeedWithSuccess:(MorselAPIArrayBlock)success
                    failure:(MorselAPIFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"include_drafts": @"true"}
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     [[MorselAPIClient sharedClient] GET:@"posts"
@@ -494,14 +517,15 @@
 }
 
 - (void)getUserPosts:(MRSLUser *)user
+       includeDrafts:(BOOL)shouldIncludeDrafts
              success:(MorselAPIArrayBlock)success
              failure:(MorselAPIFailureBlock)failureOrNil {
 
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[user]
+                                                includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 
-    if (user.isCurrentUser) {
+    if (shouldIncludeDrafts) {
         [parameters setObject:@"true"
                        forKey:@"include_drafts"];
     }
