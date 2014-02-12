@@ -69,6 +69,10 @@
 
     self.didFailUpload = @NO;
     self.isUploading = @NO;
+
+    if (!self.draft) {
+        self.draft = @NO;
+    }
 }
 
 - (NSDictionary *)objectToJSON {

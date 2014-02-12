@@ -503,7 +503,6 @@
                                                                                          inContext:localContext];
                                                 if (!post) post = [MRSLPost MR_createInContext:localContext];
                                                 [post MR_importValuesForKeysWithObject:postDictionary];
-
                                             }];
                                         }];
 

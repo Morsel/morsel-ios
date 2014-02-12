@@ -118,8 +118,6 @@ UIGestureRecognizerDelegate>
     [self.morsels addObjectsFromArray:_uploadingMorsels];
     [self.morsels addObjectsFromArray:_feedMorsels];
 
-    [self.morsels addObjectsFromArray:[_feedFetchedResultsController fetchedObjects]];
-
     [self.feedCollectionView reloadData];
 }
 
