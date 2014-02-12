@@ -30,6 +30,7 @@ UICollectionViewDelegateFlowLayout,
 UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
+@property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @property (nonatomic, strong) NSFetchedResultsController *feedFetchedResultsController;
 @property (nonatomic, strong) NSFetchedResultsController *uploadingMorselsFetchedResultsController;
@@ -65,22 +66,66 @@ UIGestureRecognizerDelegate>
     self.feedCollectionView.alwaysBounceVertical = YES;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(morselUploaded)
+                                             selector:@selector(morselUploaded:)
                                                  name:MRSLMorselUploadDidCompleteNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(localContentPurged)
+                                                 name:MRSLServiceWillPurgeDataNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(localContentRestored)
+                                                 name:MRSLServiceWillRestoreDataNotification
                                                object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 
     if (![MRSLUser currentUser] || self.feedFetchedResultsController) return;
 
     [self setupFeedFetchRequest];
-
+    [self populateContent];
     [self refreshFeed];
 }
 
+#pragma mark - Notification Methods
+
+- (void)morselUploaded:(NSNotification *)notification {
+    MRSLMorsel *uploadedMorsel = notification.object;
+    if (!uploadedMorsel.draftValue) {
+        [self refreshFeed];
+    }
+}
+
+- (void)localContentPurged {
+    [NSFetchedResultsController deleteCacheWithName:@"Home"];
+
+    self.feedFetchedResultsController.delegate = nil;
+    self.uploadingMorselsFetchedResultsController.delegate = nil;
+
+    self.feedFetchedResultsController = nil;
+    self.uploadingMorselsFetchedResultsController = nil;
+}
+
+- (void)localContentRestored {
+    if (_feedFetchedResultsController || _uploadingMorselsFetchedResultsController) return;
+    
+    [self.feedMorsels removeAllObjects];
+    [self.uploadingMorsels removeAllObjects];
+    [self.morsels removeAllObjects];
+
+    [self setupFeedFetchRequest];
+    [self populateContent];
+
+    self.activityView.hidden = YES;
+}
+
+#pragma mark - Private Methods
+
 - (void)setupFeedFetchRequest {
+    if (_feedFetchedResultsController || _uploadingMorselsFetchedResultsController) return;
+
     NSPredicate *publishedMorselPredicate = [NSPredicate predicateWithFormat:@"draft == NO AND (isUploading == NO AND didFailUpload == NO)"];
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -106,28 +151,40 @@ UIGestureRecognizerDelegate>
                                                                             groupBy:nil
                                                                            delegate:self
                                                                           inContext:[NSManagedObjectContext MR_defaultContext]];
+}
 
+- (void)populateContent {
     NSError *fetchError = nil;
 
-	[_feedFetchedResultsController performFetch:&fetchError];
+    [_feedFetchedResultsController performFetch:&fetchError];
     [_uploadingMorselsFetchedResultsController performFetch:&fetchError];
 
-    [self.uploadingMorsels addObjectsFromArray:[_uploadingMorselsFetchedResultsController fetchedObjects]];
-    [self.feedMorsels addObjectsFromArray:[_feedFetchedResultsController fetchedObjects]];
+    if (_feedFetchedResultsController) {
+        [self.feedMorsels removeAllObjects];
+        [self.feedMorsels addObjectsFromArray:[_feedFetchedResultsController fetchedObjects]];
+    }
 
+    if (_uploadingMorselsFetchedResultsController) {
+        [self.uploadingMorsels removeAllObjects];
+        [self.uploadingMorsels addObjectsFromArray:[_uploadingMorselsFetchedResultsController fetchedObjects]];
+        if ([_uploadingMorsels count] > 0) {
+            [self.feedCollectionView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)
+                                                animated:YES];
+        }
+    }
+
+    [self.morsels removeAllObjects];
     [self.morsels addObjectsFromArray:_uploadingMorsels];
     [self.morsels addObjectsFromArray:_feedMorsels];
 
     [self.feedCollectionView reloadData];
 }
 
-- (void)morselUploaded {
-    [self refreshFeed];
-}
-
 #pragma mark - Section Methods
 
 - (void)refreshFeed {
+    self.activityView.hidden = NO;
+
     [_appDelegate.morselApiService getFeedWithSuccess:^(NSArray *responseArray)
      {
          if ([responseArray count] > 0) {
@@ -268,31 +325,8 @@ UIGestureRecognizerDelegate>
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    NSError *fetchError = nil;
-    [controller performFetch:&fetchError];
-
-    if (fetchError) {
-        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
-    }
-
-    if ([controller isEqual:_feedFetchedResultsController]) {
-        DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
-        [self.feedMorsels removeAllObjects];
-        [self.feedMorsels addObjectsFromArray:[controller fetchedObjects]];
-
-    } else {
-        DDLogDebug(@"Fetch controller detected uploading Morsels. Prepending %lu items to feed. Scrolling to top.", (unsigned long)[[controller fetchedObjects] count]);
-        [self.uploadingMorsels removeAllObjects];
-        [self.uploadingMorsels addObjectsFromArray:[controller fetchedObjects]];
-        [self.feedCollectionView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)
-                                            animated:YES];
-    }
-
-    [self.morsels removeAllObjects];
-    [self.morsels addObjectsFromArray:_uploadingMorsels];
-    [self.morsels addObjectsFromArray:_feedMorsels];
-    
-    [self.feedCollectionView reloadData];
+    DDLogDebug(@"Feed detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+    [self populateContent];
 }
 
 #pragma mark - Destruction

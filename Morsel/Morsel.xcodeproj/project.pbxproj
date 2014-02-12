@@ -72,7 +72,6 @@
 		066F5ADF185BCB5000468210 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5ADE185BCB5000468210 /* ProfileViewController.m */; };
 		066F5AE2185BCB6200468210 /* CreateMorselViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AE1185BCB6200468210 /* CreateMorselViewController.m */; };
 		066F5AEA185BCBF200468210 /* MorselFeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AE9185BCBF200468210 /* MorselFeedCollectionViewCell.m */; };
-		066F5AED185BCC2000468210 /* MorselScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AEC185BCC2000468210 /* MorselScrollView.m */; };
 		066F5AF9185BCD3700468210 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF8185BCD3700468210 /* ProfileImageView.m */; };
 		066F5AFF185BCD8500468210 /* TagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AFE185BCD8500468210 /* TagView.m */; };
 		066F5B05185BCFD600468210 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5B04185BCFD600468210 /* CommentTableViewCell.m */; };
@@ -244,8 +243,6 @@
 		066F5AE1185BCB6200468210 /* CreateMorselViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMorselViewController.m; sourceTree = "<group>"; };
 		066F5AE8185BCBF200468210 /* MorselFeedCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselFeedCollectionViewCell.h; path = Source/Views/MorselFeedCollectionViewCell.h; sourceTree = "<group>"; };
 		066F5AE9185BCBF200468210 /* MorselFeedCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselFeedCollectionViewCell.m; path = Source/Views/MorselFeedCollectionViewCell.m; sourceTree = "<group>"; };
-		066F5AEB185BCC2000468210 /* MorselScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselScrollView.h; path = Source/Views/MorselScrollView.h; sourceTree = "<group>"; };
-		066F5AEC185BCC2000468210 /* MorselScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselScrollView.m; path = Source/Views/MorselScrollView.m; sourceTree = "<group>"; };
 		066F5AF7185BCD3700468210 /* ProfileImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileImageView.h; path = Source/Views/ProfileImageView.h; sourceTree = "<group>"; };
 		066F5AF8185BCD3700468210 /* ProfileImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileImageView.m; path = Source/Views/ProfileImageView.m; sourceTree = "<group>"; };
 		066F5AFD185BCD8500468210 /* TagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TagView.h; path = Source/Views/TagView.h; sourceTree = "<group>"; };
@@ -473,8 +470,6 @@
 		062E70991892C59E005D07B9 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				066F5AEB185BCC2000468210 /* MorselScrollView.h */,
-				066F5AEC185BCC2000468210 /* MorselScrollView.m */,
 				0618F90518A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.h */,
 				0618F90618A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.m */,
 			);
@@ -1291,7 +1286,6 @@
 				062E8E04189C1A1A002A8CD4 /* SideBarItem.m in Sources */,
 				0651315E189C58C100609294 /* MorselDetailCommentsViewController.m in Sources */,
 				0609B8401894B52E005A11A4 /* CameraPreviewView.m in Sources */,
-				066F5AED185BCC2000468210 /* MorselScrollView.m in Sources */,
 				062E8DFB189C17B2002A8CD4 /* MRSLSideBarViewController.m in Sources */,
 				068602AB1891C590000CD576 /* MorselStandardLabel.m in Sources */,
 				066F5AFF185BCD8500468210 /* TagView.m in Sources */,
@@ -1671,7 +1665,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1696,8 +1691,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_DISPLAY_NAME_SUFFIX = " beta";
 				BUNDLE_ID_SUFFIX = .beta;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1803,7 +1798,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_DISPLAY_NAME_SUFFIX = " alpha";
 				BUNDLE_ID_SUFFIX = .alpha;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";

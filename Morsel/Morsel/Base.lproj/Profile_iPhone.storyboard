@@ -176,6 +176,17 @@
                                     <outlet property="delegate" destination="MYi-AS-SvG" id="PoE-SA-5Y8"/>
                                 </connections>
                             </collectionView>
+                            <view hidden="YES" contentMode="scaleToFill" id="exG-hy-nul">
+                                <rect key="frame" x="0.0" y="170" width="320" height="398"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" id="sy7-uH-imy">
+                                        <rect key="frame" x="142" y="180" width="37" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="0.5" colorSpace="calibratedRGB"/>
+                            </view>
                             <view contentMode="scaleToFill" id="Rgm-kf-Yfp">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -218,10 +229,11 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Profile" id="fQx-I9-biz"/>
                     <connections>
+                        <outlet property="activityView" destination="exG-hy-nul" id="Bk0-iS-dyK"/>
                         <outlet property="backButton" destination="0I4-QQ-Hxf" id="dZI-PM-XpI"/>
-                        <outlet property="feedCollectionView" destination="nOm-Tm-KKG" id="qVY-md-iOW"/>
                         <outlet property="likeCountLabel" destination="9CE-Ru-IqV" id="W35-s2-vbc"/>
                         <outlet property="morselCountLabel" destination="yaa-Ju-YGf" id="PzQ-qA-adT"/>
+                        <outlet property="profileCollectionView" destination="nOm-Tm-KKG" id="RBq-7I-Q43"/>
                         <outlet property="profileImageView" destination="GMc-6J-rv2" id="dHf-Xc-76b"/>
                         <outlet property="sideBarButton" destination="BsM-QS-3FT" id="J8Q-ks-Pbf"/>
                         <outlet property="userNameLabel" destination="DXf-MG-zfq" id="p0O-Vu-mIj"/>

@@ -58,12 +58,17 @@
     MRSLUser *currentUser = [MRSLUser currentUser];
 
     if (!currentUser) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         double delayInSeconds = 0.f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
             [self displaySignUpAnimated:NO];
         });
     } else {
+        [_appDelegate.morselApiService getUserProfile:currentUser
+                                              success:nil
+                                              failure:nil];
+
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                             object:nil];
     }
@@ -180,6 +185,11 @@
 }
 
 - (void)syncDataAndPresentHome {
+    if ([UIApplication sharedApplication].statusBarHidden) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO
+                                                withAnimation:UIStatusBarAnimationSlide];
+    }
+
     [self displayHome];
 
     [self dismissViewControllerAnimated:YES

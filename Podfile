@@ -14,6 +14,7 @@ pod 'NSDate+TimeAgo', '~> 1.0.2'
 pod 'OAuthCore', '~> 0.0.1'
 pod 'OHHTTPStubs', '~> 3.1.0'
 pod 'TestFlightSDK', '~> 2.2.1-beta'
+pod 'Mixpanel', '~> 2.3.1'
 
 # TODO: Remove this for production
 pod 'TestFlightFeedback', '~> 1.0.0'

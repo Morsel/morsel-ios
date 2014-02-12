@@ -10,8 +10,16 @@
 
 #import "JSONResponseSerializerWithData.h"
 
-static NSString *const MORSEL_STAGING_BASE_URL = @"http://api-staging.eatmorsel.com/";
-static NSString *const MORSEL_PRODUCTION_BASE_URL = @"https://api.eatmorsel.com/";
+#if (defined(MORSEL_BETA) || defined(RELEASE))
+
+#define MORSEL_API_BASE_URL @"https://api.eatmorsel.com/"
+
+#else
+
+#define MORSEL_API_BASE_URL @"http://api-staging.eatmorsel.com/"
+
+#endif
+
 
 @implementation MorselAPIClient
 
@@ -22,7 +30,7 @@ static NSString *const MORSEL_PRODUCTION_BASE_URL = @"https://api.eatmorsel.com/
     static dispatch_once_t once;
 
     dispatch_once(&once, ^{
-        _sharedClient = [[MorselAPIClient alloc] initWithBaseURL:[NSURL URLWithString:MORSEL_STAGING_BASE_URL]];
+        _sharedClient = [[MorselAPIClient alloc] initWithBaseURL:[NSURL URLWithString:MORSEL_API_BASE_URL]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         [_sharedClient.requestSerializer setValue:@"application/json"
                                forHTTPHeaderField:@"ACCEPT"];

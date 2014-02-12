@@ -152,10 +152,6 @@ ProfileImageViewDelegate>
                                          animated:YES];
 }
 
-- (IBAction)displayUserProfile {
-    [self displayUserProfileForUser:_morselPost.creator];
-}
-
 - (IBAction)goBack {
     [self.navigationController popViewControllerAnimated:YES];
 }

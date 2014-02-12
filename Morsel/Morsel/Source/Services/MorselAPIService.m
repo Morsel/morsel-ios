@@ -298,9 +298,6 @@
     if (postToTwitter)
         [parameters setObject:@"true" forKey:@"post_to_twitter"];
 
-    morsel.isUploading = @YES;
-    morsel.didFailUpload = @NO;
-
     [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidBeginCreateMorselNotification
@@ -326,7 +323,7 @@
          [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
 
          [[NSNotificationCenter defaultCenter] postNotificationName:MRSLMorselUploadDidCompleteNotification
-                                                             object:nil];
+                                                             object:morsel];
 
          if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -336,8 +333,7 @@
          [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
 
          [[NSNotificationCenter defaultCenter] postNotificationName:MRSLMorselUploadDidFailNotification
-                                                             object:nil];
-
+                                                             object:morsel];
          [self reportFailure:failureOrNil
                    withError:error
                     inMethod:NSStringFromSelector(_cmd)];
@@ -423,12 +419,8 @@
                                                [[MRSLUser currentUser] decrementDraftCountAndSave];
                                            }
 
-                                           MRSLPost *morselPost = morsel.post;
-
                                            [morsel MR_deleteEntity];
-
-                                           // Last Morsel, delete the entity
-                                           if ([morselPost.morsels count] == 0) [morselPost MR_deleteEntity];
+                                           [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
 
                                            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteMorselNotification
                                                                                                object:@(morselID)];
@@ -483,15 +475,22 @@
 
 - (void)getFeedWithSuccess:(MorselAPIArrayBlock)success
                    failure:(MorselAPIFailureBlock)failureOrNil {
+
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceWillPurgeDataNotification
+                                                        object:nil];
+
     [[MorselAPIClient sharedClient] GET:@"posts"
                              parameters:parameters
                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                     DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-
                                     if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+                                        NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(draft == NO) AND (isUploading == NO) AND (didFailUpload == NO)"];
+                                        [MRSLMorsel MR_deleteAllMatchingPredicate:currentUserPredicate];
+                                        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
 
                                         NSArray *feedArray = responseObject[@"data"];
 
@@ -504,6 +503,21 @@
                                                 if (!post) post = [MRSLPost MR_createInContext:localContext];
                                                 [post MR_importValuesForKeysWithObject:postDictionary];
                                             }];
+                                        } completion:^(BOOL success, NSError *error) {
+                                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                                NSManagedObjectContext *threadContext = [NSManagedObjectContext MR_context];
+                                                NSPredicate *emptyPostsPredicate = [NSPredicate predicateWithFormat:@"morsels[SIZE] == 0"];
+                                                NSArray *emptyPostsArray = [[MRSLPost MR_findAllInContext:threadContext] filteredArrayUsingPredicate:emptyPostsPredicate];
+                                                if ([emptyPostsArray count] > 0) {
+                                                    for (MRSLPost *post in emptyPostsArray) {
+                                                        [post MR_deleteEntity];
+                                                    }
+                                                    [threadContext MR_saveOnlySelfAndWait];
+                                                }
+                                            });
+
+                                            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceWillRestoreDataNotification
+                                                                                                object:nil];
                                         }];
 
                                         success(feedArray);
@@ -529,12 +543,18 @@
                        forKey:@"include_drafts"];
     }
 
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceWillPurgeDataNotification
+                                                        object:nil];
+
     [[MorselAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/posts", user.userIDValue]
                              parameters:parameters
                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                     DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
                                     if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+                                        NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (draft == %i) AND (isUploading == NO) AND (didFailUpload == NO)", [[MRSLUser currentUser].userID intValue], shouldIncludeDrafts ? 1 : 0];
+                                        [MRSLMorsel MR_deleteAllMatchingPredicate:currentUserPredicate];
+                                        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
 
                                         NSArray *userPostsArray = responseObject[@"data"];
 
@@ -546,6 +566,9 @@
                                                 if (!post) post = [MRSLPost MR_createInContext:localContext];
                                                 [post MR_importValuesForKeysWithObject:postDictionary];
                                             }];
+                                        } completion:^(BOOL success, NSError *error) {
+                                            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceWillRestoreDataNotification
+                                                                                                object:nil];
                                         }];
 
                                         success(userPostsArray);
@@ -574,6 +597,9 @@
                                     if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
                                         NSArray *commentsArray = responseObject[@"data"];
                                         DDLogDebug(@"%lu comments available for Morsel!", (unsigned long)[commentsArray count]);
+
+                                        [MRSLComment MR_truncateAll];
+                                        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
 
                                         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                             [commentsArray enumerateObjectsUsingBlock:^(NSDictionary *commentDictionary, NSUInteger idx, BOOL *stop) {

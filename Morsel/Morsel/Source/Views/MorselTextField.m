@@ -9,29 +9,30 @@
 #import "MorselTextField.h"
 
 @implementation MorselTextField
-/*
+
 - (id)initWithCoder:(NSCoder  *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self.font = [UIFont helveticaLightFontOfSize:14.f];
+        self.font = [UIFont helveticaLightFontOfSize:self.font.pointSize];
     }
     return self;
 }
 
 - (void)drawPlaceholderInRect:(CGRect)rect {
-#warning Deprecated in iOS 7. Make friendly.
     [[UIColor morselLightContent] setFill];
+    // Pushing down placeholder to align with textfield user added text. This only works with 14 point font.
+    rect.origin.y += 6.f;
     [[self placeholder] drawInRect:rect
-                          withFont:[UIFont helveticaLightFontOfSize:14.f]];
+                          withFont:[UIFont helveticaLightFontOfSize:self.font.pointSize]];
 }
-*/
+
 - (CGRect)editingRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds, 15.f, 15.f);
+    return CGRectInset(bounds, 5.f, 5.f);
 }
 
 - (CGRect)textRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds, 15.f, 15.f);
+    return CGRectInset(bounds, 5.f, 5.f);
 }
 
 @end

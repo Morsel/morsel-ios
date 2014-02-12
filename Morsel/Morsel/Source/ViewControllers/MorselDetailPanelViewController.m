@@ -234,10 +234,16 @@ UIScrollViewDelegate>
 }
 
 - (void)updateMorselInformation {
-    [_appDelegate.morselApiService getComments:_morsel
-                                      success:^(NSArray *responseArray) {
-                                          [self updateCommentTableViewWithAmount:[responseArray count]];
-                                      } failure:nil];
+    __weak __typeof(self)weakSelf = self;
+
+    [_appDelegate.morselApiService getMorsel:_morsel
+                                     success:^(id responseObject) {
+                                         [weakSelf alignAndResizeContent];
+                                         [_appDelegate.morselApiService getComments:weakSelf.morsel
+                                                                            success:^(NSArray *responseArray) {
+                                                                                [weakSelf updateCommentTableViewWithAmount:[responseArray count]];
+                                                                            } failure:nil];
+                                     } failure:nil];
 }
 
 - (void)updateCommentTableViewWithAmount:(NSUInteger)amount {
