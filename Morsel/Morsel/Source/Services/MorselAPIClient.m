@@ -24,6 +24,8 @@ static NSString *const MORSEL_PRODUCTION_BASE_URL = @"https://api.eatmorsel.com/
     dispatch_once(&once, ^{
         _sharedClient = [[MorselAPIClient alloc] initWithBaseURL:[NSURL URLWithString:MORSEL_STAGING_BASE_URL]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
+        [_sharedClient.requestSerializer setValue:@"application/json"
+                               forHTTPHeaderField:@"ACCEPT"];
         _sharedClient.responseSerializer = [JSONResponseSerializerWithData serializer];
     });
 

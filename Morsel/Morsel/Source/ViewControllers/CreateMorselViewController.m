@@ -226,7 +226,7 @@ UIDocumentInteractionControllerDelegate>
 - (IBAction)displaySettings {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Settings"
                                                              delegate:self
-                                                    cancelButtonTitle:@"Cancel"
+                                                    cancelButtonTitle:nil
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:nil];
 
@@ -243,6 +243,7 @@ UIDocumentInteractionControllerDelegate>
         [actionSheet addButtonWithTitle:@"Delete Morsel"];
     }
 
+    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
     [actionSheet setTag:CreateMorselActionSheetSettings];
     [actionSheet showInView:self.view];
 }
