@@ -13,9 +13,11 @@ NSString *const MRSLServiceDidLogOutUserNotification = @"MRSLServiceDidLogOutUse
 NSString *const MRSLServiceDidUpdateUserNotification = @"MRSLServiceDidUpdateUserNotification";
 NSString *const MRSLShouldDisplaySideBarNotification = @"MRSLShouldDisplaySideBarNotification";
 NSString *const MRSLUserDidCreateCommentNotification = @"MRSLUserDidCreateCommentNotification";
-NSString *const MRSLUserDidCreateMorselNotification = @"MRSLUserDidCreateMorselNotification";
+NSString *const MRSLUserDidBeginCreateMorselNotification = @"MRSLUserDidBeginCreateMorselNotification";
 NSString *const MRSLUserDidUpdateMorselNotification = @"MRSLUserDidUpdateMorselNotification";
 NSString *const MRSLUserDidDeleteMorselNotification = @"MRSLUserDidDeleteMorselNotification";
+NSString *const MRSLMorselUploadDidCompleteNotification = @"MRSLMorselUploadDidCompleteNotification";
+NSString *const MRSLMorselUploadDidFailNotification = @"MRSLMorselUploadDidFailNotification";
 
 #ifdef DEBUG
 int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;

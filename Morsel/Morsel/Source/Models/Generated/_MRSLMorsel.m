@@ -6,12 +6,15 @@
 const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.creationDate = @"creationDate",
 	.creator_id = @"creator_id",
+	.didFailUpload = @"didFailUpload",
 	.draft = @"draft",
+	.isUploading = @"isUploading",
 	.liked = @"liked",
 	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
 	.morselPhoto = @"morselPhoto",
 	.morselPhotoURL = @"morselPhotoURL",
+	.morselThumb = @"morselThumb",
 	.url = @"url",
 };
 
@@ -55,8 +58,18 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"didFailUploadValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"didFailUpload"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"draftValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"draft"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"isUploadingValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"isUploading"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -110,6 +123,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+@dynamic didFailUpload;
+
+
+
+- (BOOL)didFailUploadValue {
+	NSNumber *result = [self didFailUpload];
+	return [result boolValue];
+}
+
+- (void)setDidFailUploadValue:(BOOL)value_ {
+	[self setDidFailUpload:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveDidFailUploadValue {
+	NSNumber *result = [self primitiveDidFailUpload];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveDidFailUploadValue:(BOOL)value_ {
+	[self setPrimitiveDidFailUpload:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
 @dynamic draft;
 
 
@@ -130,6 +169,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 - (void)setPrimitiveDraftValue:(BOOL)value_ {
 	[self setPrimitiveDraft:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic isUploading;
+
+
+
+- (BOOL)isUploadingValue {
+	NSNumber *result = [self isUploading];
+	return [result boolValue];
+}
+
+- (void)setIsUploadingValue:(BOOL)value_ {
+	[self setIsUploading:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsUploadingValue {
+	NSNumber *result = [self primitiveIsUploading];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsUploadingValue:(BOOL)value_ {
+	[self setPrimitiveIsUploading:[NSNumber numberWithBool:value_]];
 }
 
 
@@ -203,6 +268,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 @dynamic morselPhotoURL;
+
+
+
+
+
+
+@dynamic morselThumb;
 
 
 

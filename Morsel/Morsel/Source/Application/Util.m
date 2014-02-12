@@ -65,4 +65,16 @@
     return dimensionScale;
 }
 
++ (NSString *)appVersionBuildString {
+    NSString * versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString * buildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    return [NSString stringWithFormat:@"Version: %@ (%@)", versionString, buildString];
+}
+
++ (NSString *)appMajorMinorPatchString {
+    NSString * versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString * buildString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    return [NSString stringWithFormat:@"%@.%@", versionString, buildString];
+}
+
 @end

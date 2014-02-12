@@ -8,7 +8,7 @@
         <!--Profile View Controller - Profile-->
         <scene sceneID="9xs-cV-Unn">
             <objects>
-                <viewController storyboardIdentifier="ProfileViewController" id="MYi-AS-SvG" customClass="ProfileViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" automaticallyAdjustsScrollViewInsets="NO" id="MYi-AS-SvG" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6iG-bC-U3X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -73,22 +73,22 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MorselCell" id="CJH-d8-4a6" customClass="MorselFeedCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MorselCell" id="Ptr-1u-y5Z" customClass="MorselFeedCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="HJS-U0-yNO">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="902-iW-WkH">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="effect-morsel-gradient" id="AhR-Xm-6or">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="effect-morsel-gradient" id="WOA-ET-cfB">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="q2l-R9-CS2">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3bx-4X-Ard">
                                                     <rect key="frame" x="60" y="0.0" width="60" height="60"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -96,18 +96,18 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Tnm-Pr-9TA">
-                                                    <rect key="frame" x="2" y="0.0" width="60" height="60"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="KID-iv-7Xg">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal" image="icon-like-inactive">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="toggleLikeMorsel" destination="CJH-d8-4a6" eventType="touchUpInside" id="YSh-k9-k9p"/>
+                                                        <action selector="toggleLikeMorsel" destination="Ptr-1u-y5Z" eventType="touchUpInside" id="hPf-3c-hRx"/>
                                                     </connections>
                                                 </button>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Q1g-W4-dT5">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Icu-bP-0LF">
                                                     <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -115,10 +115,10 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="editMorsel:" destination="CJH-d8-4a6" eventType="touchUpInside" id="Dai-sg-cVJ"/>
+                                                        <action selector="editMorsel:" destination="Ptr-1u-y5Z" eventType="touchUpInside" id="xyr-zc-pXZ"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="phJ-TW-Y6k">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5ls-Ht-oZ7">
                                                     <rect key="frame" x="260" y="0.0" width="60" height="60"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -126,31 +126,31 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="displayAssociatedMorsels:" destination="CJH-d8-4a6" eventType="touchUpInside" id="Zqc-aH-4Th"/>
+                                                        <action selector="displayAssociatedMorsels:" destination="Ptr-1u-y5Z" eventType="touchUpInside" id="ZgQ-4m-SFw"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q5J-Yo-acH" customClass="MorselThinCondensedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xGP-PN-N3n" customClass="MorselThinCondensedLabel">
                                                     <rect key="frame" x="16" y="148" width="240" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Only" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="elw-vi-jcc" customClass="MorselThinCondensedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Only" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5oq-1O-Fpd" customClass="MorselThinCondensedLabel">
                                                     <rect key="frame" x="16" y="45" width="284" height="100"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="m5E-V4-dBe" customClass="MorselStandardLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZL3-g5-MoZ" customClass="MorselStandardLabel">
                                                     <rect key="frame" x="16" y="172" width="240" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.81568627449999997" green="0.83529411760000005" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ssi-c0-Jne" customClass="ProfileImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="M4y-GE-l5c" customClass="ProfileImageView">
                                                     <rect key="frame" x="266" y="156" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                     <gestureRecognizers/>
@@ -159,15 +159,15 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <outlet property="descriptionLabel" destination="m5E-V4-dBe" id="C86-re-UIn"/>
-                                            <outlet property="editButton" destination="Q1g-W4-dT5" id="Rug-Nb-GdK"/>
-                                            <outlet property="likeButton" destination="Tnm-Pr-9TA" id="4Ut-iH-vgl"/>
-                                            <outlet property="morselImageView" destination="HJS-U0-yNO" id="d9t-5Z-nE0"/>
-                                            <outlet property="plateButton" destination="q2l-R9-CS2" id="35O-eb-6DU"/>
-                                            <outlet property="profileImageView" destination="ssi-c0-Jne" id="8Up-TO-mrE"/>
-                                            <outlet property="progressionButton" destination="phJ-TW-Y6k" id="cVC-In-FGT"/>
-                                            <outlet property="textOnlyLabel" destination="elw-vi-jcc" id="sar-GP-hhY"/>
-                                            <outlet property="titleLabel" destination="Q5J-Yo-acH" id="w5K-IU-Qgf"/>
+                                            <outlet property="descriptionLabel" destination="ZL3-g5-MoZ" id="F5F-4x-Zye"/>
+                                            <outlet property="editButton" destination="Icu-bP-0LF" id="9hu-Yg-Zoi"/>
+                                            <outlet property="likeButton" destination="KID-iv-7Xg" id="rdI-95-hEO"/>
+                                            <outlet property="morselImageView" destination="902-iW-WkH" id="5tR-uY-KGT"/>
+                                            <outlet property="plateButton" destination="3bx-4X-Ard" id="KDF-Tw-nlA"/>
+                                            <outlet property="profileImageView" destination="M4y-GE-l5c" id="0hL-aS-Ydn"/>
+                                            <outlet property="progressionButton" destination="5ls-Ht-oZ7" id="IJj-1d-J62"/>
+                                            <outlet property="textOnlyLabel" destination="5oq-1O-Fpd" id="D5h-kC-OL2"/>
+                                            <outlet property="titleLabel" destination="xGP-PN-N3n" id="jia-FM-GBz"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

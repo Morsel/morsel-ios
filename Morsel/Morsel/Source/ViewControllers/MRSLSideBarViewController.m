@@ -22,6 +22,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *sideBarTableView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
 
 @property (nonatomic, strong) SideBarItem *draftItem;
@@ -34,6 +35,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.versionLabel.text = [Util appVersionBuildString];
     
     [self.profileImageView addCornersWithRadius:20.f];
     [self.profileImageView setBorderWithColor:[UIColor whiteColor]

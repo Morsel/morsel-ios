@@ -16,4 +16,7 @@
 + (BOOL)imageIsLandscape:(UIImage *)image;
 + (CGFloat)cameraDimensionScaleFromImage:(UIImage *)image;
 
++ (NSString *)appVersionBuildString;
++ (NSString *)appMajorMinorPatchString;
+
 @end

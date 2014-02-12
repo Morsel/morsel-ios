@@ -7,12 +7,15 @@
 extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *creator_id;
+	__unsafe_unretained NSString *didFailUpload;
 	__unsafe_unretained NSString *draft;
+	__unsafe_unretained NSString *isUploading;
 	__unsafe_unretained NSString *liked;
 	__unsafe_unretained NSString *morselDescription;
 	__unsafe_unretained NSString *morselID;
 	__unsafe_unretained NSString *morselPhoto;
 	__unsafe_unretained NSString *morselPhotoURL;
+	__unsafe_unretained NSString *morselThumb;
 	__unsafe_unretained NSString *url;
 } MRSLMorselAttributes;
 
@@ -28,6 +31,9 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLComment;
 @class MRSLPost;
 @class MRSLTag;
+
+
+
 
 
 
@@ -76,6 +82,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* didFailUpload;
+
+
+
+@property BOOL didFailUploadValue;
+- (BOOL)didFailUploadValue;
+- (void)setDidFailUploadValue:(BOOL)value_;
+
+//- (BOOL)validateDidFailUpload:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* draft;
 
 
@@ -85,6 +105,20 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)setDraftValue:(BOOL)value_;
 
 //- (BOOL)validateDraft:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* isUploading;
+
+
+
+@property BOOL isUploadingValue;
+- (BOOL)isUploadingValue;
+- (void)setIsUploadingValue:(BOOL)value_;
+
+//- (BOOL)validateIsUploading:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -143,6 +177,16 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validateMorselPhotoURL:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSData* morselThumb;
+
+
+
+//- (BOOL)validateMorselThumb:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -214,11 +258,29 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSNumber*)primitiveDidFailUpload;
+- (void)setPrimitiveDidFailUpload:(NSNumber*)value;
+
+- (BOOL)primitiveDidFailUploadValue;
+- (void)setPrimitiveDidFailUploadValue:(BOOL)value_;
+
+
+
+
 - (NSNumber*)primitiveDraft;
 - (void)setPrimitiveDraft:(NSNumber*)value;
 
 - (BOOL)primitiveDraftValue;
 - (void)setPrimitiveDraftValue:(BOOL)value_;
+
+
+
+
+- (NSNumber*)primitiveIsUploading;
+- (void)setPrimitiveIsUploading:(NSNumber*)value;
+
+- (BOOL)primitiveIsUploadingValue;
+- (void)setPrimitiveIsUploadingValue:(BOOL)value_;
 
 
 
@@ -255,6 +317,12 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSString*)primitiveMorselPhotoURL;
 - (void)setPrimitiveMorselPhotoURL:(NSString*)value;
+
+
+
+
+- (NSData*)primitiveMorselThumb;
+- (void)setPrimitiveMorselThumb:(NSData*)value;
 
 
 

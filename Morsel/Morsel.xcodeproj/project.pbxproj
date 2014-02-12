@@ -115,6 +115,8 @@
 		06CE1882187F13A0009F9722 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1881187F13A0009F9722 /* Constants.m */; };
 		06D12491189DB94F00492305 /* DraftsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D12490189DB94F00492305 /* DraftsViewController.m */; };
 		06D12494189DC30400492305 /* Drafts_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D12492189DC30400492305 /* Drafts_iPhone.storyboard */; };
+		06D9908518A9F72A000158EE /* MorselUploadCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D9908418A9F72A000158EE /* MorselUploadCollectionViewCell.m */; };
+		06D9908818A9F784000158EE /* MorselUploadFailureCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D9908718A9F784000158EE /* MorselUploadFailureCollectionViewCell.m */; };
 		06E89F8F1885ED3B00DA3A90 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E89F8E1885ED3B00DA3A90 /* Util.m */; };
 		06F11E7C1862465F003E64C8 /* MRSLPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F11E7B1862465F003E64C8 /* MRSLPost.m */; };
 		06F11E7F18624680003E64C8 /* _MRSLPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F11E7E18624680003E64C8 /* _MRSLPost.m */; };
@@ -315,6 +317,10 @@
 		06D1248F189DB94F00492305 /* DraftsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftsViewController.h; sourceTree = "<group>"; };
 		06D12490189DB94F00492305 /* DraftsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftsViewController.m; sourceTree = "<group>"; };
 		06D12493189DC30400492305 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drafts_iPhone.storyboard; sourceTree = "<group>"; };
+		06D9908318A9F72A000158EE /* MorselUploadCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselUploadCollectionViewCell.h; path = Source/Views/MorselUploadCollectionViewCell.h; sourceTree = "<group>"; };
+		06D9908418A9F72A000158EE /* MorselUploadCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselUploadCollectionViewCell.m; path = Source/Views/MorselUploadCollectionViewCell.m; sourceTree = "<group>"; };
+		06D9908618A9F784000158EE /* MorselUploadFailureCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorselUploadFailureCollectionViewCell.h; path = Source/Views/MorselUploadFailureCollectionViewCell.h; sourceTree = "<group>"; };
+		06D9908718A9F784000158EE /* MorselUploadFailureCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselUploadFailureCollectionViewCell.m; path = Source/Views/MorselUploadFailureCollectionViewCell.m; sourceTree = "<group>"; };
 		06E89F8D1885ED3B00DA3A90 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		06E89F8E1885ED3B00DA3A90 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		06F11E7A1862465F003E64C8 /* MRSLPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLPost.h; path = Source/Models/MRSLPost.h; sourceTree = "<group>"; };
@@ -508,6 +514,10 @@
 				066F5AE9185BCBF200468210 /* MorselFeedCollectionViewCell.m */,
 				062E709A1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.h */,
 				062E709B1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m */,
+				06D9908318A9F72A000158EE /* MorselUploadCollectionViewCell.h */,
+				06D9908418A9F72A000158EE /* MorselUploadCollectionViewCell.m */,
+				06D9908618A9F784000158EE /* MorselUploadFailureCollectionViewCell.h */,
+				06D9908718A9F784000158EE /* MorselUploadFailureCollectionViewCell.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -961,6 +971,7 @@
 				0660668A18522E7900E780FC /* Frameworks */,
 				0660668B18522E7900E780FC /* Resources */,
 				2D110345279C4A75AB205E62 /* Copy Pods Resources */,
+				06D9908918AADB20000158EE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1105,6 +1116,19 @@
 			shellScript = "command -v /usr/local/bin/mogenerator > /dev/null 2>&1 || { echo >&2 \"mogenerator is not installed. Run 'brew install mogenerator' and try again.\"; exit 1; }\n\ncd $PROJECT_DIR/$PROJECT_NAME/Source/Models\n\n/usr/local/bin/mogenerator \\\n--model \"$PROJECT_NAME.xcdatamodeld/Morsel.xcdatamodel\"/ \\\n--human-dir $PROJECT_DIR/$PROJECT_NAME/Source/Models \\\n--machine-dir $PROJECT_DIR/$PROJECT_NAME/Source/Models/Generated \\\n--template-var arc=true";
 			showEnvVarsInLog = 0;
 		};
+		06D9908918AADB20000158EE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(date +%Y%m%d%H%M)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
+		};
 		0D0C88280C5B4C4C98D9296F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1212,6 +1236,7 @@
 				066F5B05185BCFD600468210 /* CommentTableViewCell.m in Sources */,
 				4069CB2C189B127E001790F3 /* SocialService.m in Sources */,
 				063250CA1860E1DD00ADDF23 /* MorselRootViewController.m in Sources */,
+				06D9908818A9F784000158EE /* MorselUploadFailureCollectionViewCell.m in Sources */,
 				066F5AC8185BCA3D00468210 /* _MRSLComment.m in Sources */,
 				068602991891A6C5000CD576 /* MorselTextField.m in Sources */,
 				066F5ACA185BCA3D00468210 /* _MRSLMorsel.m in Sources */,
@@ -1244,6 +1269,7 @@
 				0676B49918997CFC001D7483 /* AddTextViewController.m in Sources */,
 				0618F90718A07904001713E0 /* MRSLDetailHorizontalSwipePanelView.m in Sources */,
 				4069CB26189B127E001790F3 /* JSONResponseSerializerWithData.m in Sources */,
+				06D9908518A9F72A000158EE /* MorselUploadCollectionViewCell.m in Sources */,
 				06A049651896D82500BD1C5B /* PostCollectionViewCell.m in Sources */,
 				068602A21891AD2C000CD576 /* MorselStandardButton.m in Sources */,
 				066F5AE2185BCB6200468210 /* CreateMorselViewController.m in Sources */,

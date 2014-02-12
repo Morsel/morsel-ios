@@ -23,7 +23,7 @@ NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *sideBarButton;
-@property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *feedCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *morselCountLabel;
@@ -32,6 +32,7 @@ NSFetchedResultsControllerDelegate>
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @property (nonatomic, strong) MRSLMorsel *selectedMorsel;
 
@@ -72,6 +73,17 @@ NSFetchedResultsControllerDelegate>
                                                           inContext:[NSManagedObjectContext MR_defaultContext]];
 
     [self.feedCollectionView reloadData];
+
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    _refreshControl.tintColor = [UIColor morselLightContent];
+    [_refreshControl addTarget:self
+                        action:@selector(refreshUserPosts)
+              forControlEvents:UIControlEventValueChanged];
+
+    [self.feedCollectionView addSubview:_refreshControl];
+    self.feedCollectionView.alwaysBounceVertical = YES;
+
+    [self refreshUserPosts];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -85,26 +97,24 @@ NSFetchedResultsControllerDelegate>
      } failure:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+#pragma mark - Private Methods
 
-    if (!_user)
-        return;
-
+- (void)refreshUserPosts {
     [_appDelegate.morselApiService getUserPosts:_user
-                                       success:^(NSArray *responseArray)
+                                  includeDrafts:NO
+                                        success:^(NSArray *responseArray)
      {
          if ([responseArray count] > 0) {
              DDLogDebug(@"%lu profile posts available.", (unsigned long)[responseArray count]);
          } else {
              DDLogDebug(@"No profile posts available");
          }
+         [_refreshControl endRefreshing];
      } failure: ^(NSError * error) {
-         DDLogError(@"Error loading profile posts: %@", error.userInfo);
+         DDLogError(@"Error profile draft posts: %@", error.userInfo);
+         [_refreshControl endRefreshing];
      }];
 }
-
-#pragma mark - Private Methods
 
 - (IBAction)displaySideBar:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification

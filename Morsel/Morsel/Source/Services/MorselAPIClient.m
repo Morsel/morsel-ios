@@ -10,8 +10,6 @@
 
 #import "JSONResponseSerializerWithData.h"
 
-// @"https://morsel-api-staging.herokuapp.com/";
-
 static NSString *const MORSEL_STAGING_BASE_URL = @"http://api-staging.eatmorsel.com/";
 static NSString *const MORSEL_PRODUCTION_BASE_URL = @"https://api.eatmorsel.com/";
 

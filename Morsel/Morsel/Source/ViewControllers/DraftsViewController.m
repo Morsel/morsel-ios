@@ -9,6 +9,8 @@
 #import "DraftsViewController.h"
 
 #import "CreateMorselViewController.h"
+#import "MorselUploadCollectionViewCell.h"
+#import "MorselUploadFailureCollectionViewCell.h"
 #import "PostMorselCollectionViewCell.h"
 
 #import "MRSLMorsel.h"
@@ -19,14 +21,20 @@
 UIAlertViewDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
+UICollectionViewDelegateFlowLayout,
 UITextFieldDelegate>
 
 @property (nonatomic) int postID;
 
 @property (nonatomic, weak) IBOutlet UICollectionView *draftMorselsCollectionView;
 
+@property (nonatomic, strong) NSMutableArray *feedMorsels;
+@property (nonatomic, strong) NSMutableArray *uploadingMorsels;
+@property (nonatomic, strong) NSMutableArray *morsels;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *draftFetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *uploadingMorselsFetchedResultsController;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -37,18 +45,57 @@ UITextFieldDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.feedMorsels = [NSMutableArray array];
+    self.uploadingMorsels = [NSMutableArray array];
+    self.morsels = [NSMutableArray array];
+
     MRSLUser *user = [MRSLUser currentUser];
 
-    NSPredicate *userDraftsPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (draft == YES)", user.userIDValue];
+    NSPredicate *userDraftsPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (draft == YES) AND (isUploading == NO) AND (didFailUpload == NO)", user.userIDValue];
 
-    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
-                                                          ascending:NO
-                                                      withPredicate:userDraftsPredicate
-                                                            groupBy:nil
-                                                           delegate:self
-                                                          inContext:[NSManagedObjectContext MR_defaultContext]];
+    self.draftFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+                                                               ascending:NO
+                                                           withPredicate:userDraftsPredicate
+                                                                 groupBy:nil
+                                                                delegate:self
+                                                               inContext:[NSManagedObjectContext MR_defaultContext]];
+
+    NSPredicate *uploadingMorselPredicate = [NSPredicate predicateWithFormat:@"draft == YES AND (isUploading == YES OR didFailUpload == YES)"];
+
+    self.uploadingMorselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+                                                                          ascending:NO
+                                                                      withPredicate:uploadingMorselPredicate
+                                                                            groupBy:nil
+                                                                           delegate:self
+                                                                          inContext:[NSManagedObjectContext MR_defaultContext]];
+
+    NSError *fetchError = nil;
+    [_draftFetchedResultsController performFetch:&fetchError];
+    [_uploadingMorselsFetchedResultsController performFetch:&fetchError];
+
+    [self.uploadingMorsels addObjectsFromArray:[_uploadingMorselsFetchedResultsController fetchedObjects]];
+    [self.feedMorsels addObjectsFromArray:[_draftFetchedResultsController fetchedObjects]];
+
+    [self.morsels addObjectsFromArray:_uploadingMorsels];
+    [self.morsels addObjectsFromArray:_feedMorsels];
 
     [self.draftMorselsCollectionView reloadData];
+
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    _refreshControl.tintColor = [UIColor morselLightContent];
+    [_refreshControl addTarget:self
+                        action:@selector(refreshDrafts)
+              forControlEvents:UIControlEventValueChanged];
+
+    [self.draftMorselsCollectionView addSubview:_refreshControl];
+    self.draftMorselsCollectionView.alwaysBounceVertical = YES;
+
+    [self refreshDrafts];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselUploaded)
+                                                 name:MRSLMorselUploadDidCompleteNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -57,7 +104,28 @@ UITextFieldDelegate>
                                                                         animated:YES];
 }
 
+- (void)morselUploaded {
+    [self refreshDrafts];
+}
+
 #pragma mark - Action Methods
+
+- (void)refreshDrafts {
+    [_appDelegate.morselApiService getUserPosts:[MRSLUser currentUser]
+                                  includeDrafts:YES
+                                        success:^(NSArray *responseArray)
+     {
+         if ([responseArray count] > 0) {
+             DDLogDebug(@"%lu draft posts available.", (unsigned long)[responseArray count]);
+         } else {
+             DDLogDebug(@"No draft posts available");
+         }
+         [_refreshControl endRefreshing];
+     } failure: ^(NSError * error) {
+         DDLogError(@"Error loading draft posts: %@", error.userInfo);
+         [_refreshControl endRefreshing];
+     }];
+}
 
 - (IBAction)displaySideBar {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
@@ -67,27 +135,42 @@ UITextFieldDelegate>
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
-
-    return [sectionInfo numberOfObjects];
+    return [_morsels count];
 }
 
-- (PostMorselCollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                          cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
-    PostMorselCollectionViewCell *postMorselCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PostMorselCell"
-                                                                                             forIndexPath:indexPath];
-    postMorselCell.morsel = morsel;
+    UICollectionViewCell *feedCell = nil;
 
-    return postMorselCell;
+    if (!morsel.isUploadingValue && !morsel.didFailUploadValue) {
+        PostMorselCollectionViewCell *postMorselCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PostMorselCell"
+                                                                                                 forIndexPath:indexPath];
+        postMorselCell.morsel = morsel;
+        feedCell = postMorselCell;
+    } else if (morsel.isUploadingValue && !morsel.didFailUploadValue) {
+        MorselUploadCollectionViewCell *uploadCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UploadProgressCell"
+                                                                                               forIndexPath:indexPath];
+        uploadCell.morsel = morsel;
+
+        feedCell = uploadCell;
+    } else if (!morsel.isUploadingValue && morsel.didFailUploadValue) {
+        MorselUploadFailureCollectionViewCell *uploadCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UploadFailCell"
+                                                                                                      forIndexPath:indexPath];
+        uploadCell.morsel = morsel;
+
+        feedCell = uploadCell;
+    }
+
+    return feedCell;
 }
 
 #pragma mark - UICollectionViewDelegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
-    MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
     CreateMorselViewController *createMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorselViewController"];
     createMorselVC.morsel = morsel;
@@ -96,17 +179,49 @@ UITextFieldDelegate>
                                          animated:YES];
 }
 
+#pragma mark - UICollectionViewDelegateFlowLayout Methods
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
+    CGSize morselCellSize = CGSizeMake(320.f, (!morsel.isUploadingValue && !morsel.didFailUploadValue) ? 60.f : 50.f);
+    return morselCellSize;
+}
+
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     NSError *fetchError = nil;
-    [_fetchedResultsController performFetch:&fetchError];
+    [controller performFetch:&fetchError];
 
     if (fetchError) {
         DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
     }
 
+    if ([controller isEqual:_draftFetchedResultsController]) {
+        DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+        [self.feedMorsels removeAllObjects];
+        [self.feedMorsels addObjectsFromArray:[controller fetchedObjects]];
+    } else {
+        DDLogDebug(@"Fetch controller detected uploading Morsels. Prepending %lu items to feed. Scrolling to top.", (unsigned long)[[controller fetchedObjects] count]);
+        [self.uploadingMorsels removeAllObjects];
+        [self.uploadingMorsels addObjectsFromArray:[controller fetchedObjects]];
+        [self.draftMorselsCollectionView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)
+                                                    animated:YES];
+    }
+
+    [self.morsels removeAllObjects];
+    [self.morsels addObjectsFromArray:_uploadingMorsels];
+    [self.morsels addObjectsFromArray:_feedMorsels];
+    
     [self.draftMorselsCollectionView reloadData];
+}
+
+#pragma mark - Destruction
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

@@ -198,6 +198,13 @@
                                     <action selector="hideSideBar" destination="DNW-bo-EtN" eventType="touchUpInside" id="fNH-dE-1qz"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="y0Z-38-Ywc">
+                                <rect key="frame" x="16" y="541" width="244" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
+                                <color key="textColor" red="0.57647061347961426" green="0.64313727617263794" blue="0.56862747669219971" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -208,6 +215,7 @@
                         <outlet property="profileImageView" destination="1Hm-lP-Jlg" id="ldG-4o-2oM"/>
                         <outlet property="sideBarTableView" destination="BMw-Qp-Xoc" id="YbF-dP-KsR"/>
                         <outlet property="userNameLabel" destination="bBR-wC-tlD" id="ljD-Mz-hD5"/>
+                        <outlet property="versionLabel" destination="y0Z-38-Ywc" id="Ftu-es-HnA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VUe-PL-88z" userLabel="First Responder" sceneMemberID="firstResponder"/>

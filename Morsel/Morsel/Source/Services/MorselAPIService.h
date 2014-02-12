@@ -90,6 +90,7 @@
                    failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)getUserPosts:(MRSLUser *)user
+       includeDrafts:(BOOL)shouldIncludeDrafts
              success:(MorselAPIArrayBlock)success
              failure:(MorselAPIFailureBlock)failureOrNil;
 
