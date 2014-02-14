@@ -86,20 +86,23 @@ CommentTableViewCellDelegate>
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu comments.", (unsigned long)[[controller fetchedObjects] count]);
+    NSArray *comments = [controller fetchedObjects];
 
-    if ([self.delegate respondsToSelector:@selector(morselDetailCommentsViewControllerDidUpdateWithAmountOfComments:)]) {
-        [self.delegate morselDetailCommentsViewControllerDidUpdateWithAmountOfComments:[[controller fetchedObjects] count]];
+    if ([comments count] > 0) {
+        DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu comments.", (unsigned long)[comments count]);
+        if ([self.delegate respondsToSelector:@selector(morselDetailCommentsViewControllerDidUpdateWithAmountOfComments:)]) {
+            [self.delegate morselDetailCommentsViewControllerDidUpdateWithAmountOfComments:[comments count]];
+        }
+
+        NSError *fetchError = nil;
+        [_fetchedResultsController performFetch:&fetchError];
+
+        if (fetchError) {
+            DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
+        }
+        
+        [self.commentsTableView reloadData];
     }
-
-    NSError *fetchError = nil;
-    [_fetchedResultsController performFetch:&fetchError];
-
-    if (fetchError) {
-        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
-    }
-
-    [self.commentsTableView reloadData];
 }
 
 #pragma mark - CommentTableViewCellDelegate

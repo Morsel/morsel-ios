@@ -39,12 +39,18 @@
 
 - (void)setupDatabase {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
+
+    [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
+}
+
+- (void)cancelAllNetworkOperations {
+    [[MorselAPIClient sharedClient].operationQueue cancelAllOperations];
 }
 
 #pragma mark - Logout
 
 - (void)resetDataStore {
-    [[MorselAPIClient sharedClient].operationQueue cancelAllOperations];
+    [self cancelAllNetworkOperations];
 
     NSURL *persistentStoreURL = [NSPersistentStore MR_urlForStoreName:@"Morsel.sqlite"];
     NSURL *shmURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-shm"]];

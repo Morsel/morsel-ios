@@ -20,8 +20,8 @@
     if (*error != nil) {
         NSMutableDictionary *userInfo = [(*error).userInfo mutableCopy];
         if (data == nil) {
-            userInfo[JSONResponseSerializerWithDictionaryKey] = nil;
-            userInfo[JSONResponseSerializerWithServiceErrorInfoKey] = nil;
+            userInfo[JSONResponseSerializerWithDictionaryKey] = [NSDictionary dictionary];
+            userInfo[JSONResponseSerializerWithServiceErrorInfoKey] = [NSDictionary dictionary];
         } else {
             NSError *error = nil;
             NSDictionary *errorDictionary = [NSJSONSerialization JSONObjectWithData:data

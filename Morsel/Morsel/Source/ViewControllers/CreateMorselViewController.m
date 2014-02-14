@@ -80,6 +80,10 @@ UIDocumentInteractionControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+#if (defined(MORSEL_BETA))
+    self.socialButtonsView.hidden = YES;
+#endif
+
     self.createMorselButtonPanelView.delegate = self;
 
     // This is a temporary navigation solution and loads both subcontent views immediately.
@@ -119,6 +123,8 @@ UIDocumentInteractionControllerDelegate>
 
         if (!_morsel) {
             MRSLMorsel *morsel = [MRSLMorsel MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+            morsel.isUploading = @YES;
+            morsel.didFailUpload = @NO;
 
             self.morsel = morsel;
         }
@@ -227,7 +233,7 @@ UIDocumentInteractionControllerDelegate>
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Settings"
                                                              delegate:self
                                                     cancelButtonTitle:nil
-                                               destructiveButtonTitle:nil
+                                               destructiveButtonTitle:(_wasDraft || _userIsEditing) ? @"Delete Morsel" : nil
                                                     otherButtonTitles:nil];
 
     if (!_userIsEditing) {
@@ -237,10 +243,6 @@ UIDocumentInteractionControllerDelegate>
         }
     } else if (_wasDraft) {
         [actionSheet addButtonWithTitle:(!_willPublish) ? @"Publish Morsel" : @"Keep as Draft"];
-    }
-
-    if (_wasDraft || _userIsEditing) {
-        [actionSheet addButtonWithTitle:@"Delete Morsel"];
     }
 
     [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
@@ -366,6 +368,9 @@ UIDocumentInteractionControllerDelegate>
 }
 
 - (void)shouldHideSocialView:(BOOL)shouldHide {
+#if (defined(MORSEL_BETA))
+    return;
+#endif
     self.socialButtonsView.hidden = shouldHide;
 
     [self.addTextViewController.view setHeight:shouldHide ? MRSLSubContentHeightExpanded : MRSLSubContentHeight];
@@ -379,7 +384,7 @@ UIDocumentInteractionControllerDelegate>
 #pragma mark - Post Morsel
 
 - (IBAction)postMorsel {
-    if (!self.addTextViewController.textView.text && !_capturedImage) {
+    if ([self.addTextViewController.textView.text length] == 0 && !_capturedImage) {
         [UIAlertView showAlertViewForErrorString:@"Please add content to this Morsel"
                                         delegate:nil];
         return;

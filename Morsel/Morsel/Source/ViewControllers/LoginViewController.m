@@ -10,6 +10,9 @@
 
 #import "JSONResponseSerializerWithData.h"
 
+static const CGFloat MRSLLoginScrollViewHeight = 508.f;
+static const CGFloat MRSLLoginContentHeight = 385.f;
+
 @interface LoginViewController ()
 <UITextFieldDelegate>
 
@@ -17,10 +20,37 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIView *activityView;
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *loginScrollView;
 
 @end
 
 @implementation LoginViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+#if (defined(MORSEL_BETA))
+    self.backButton.hidden = YES;
+#endif
+
+    self.loginScrollView.contentSize = CGSizeMake([self.view getWidth], MRSLLoginContentHeight);
+
+    [self.emailTextField setBorderWithColor:[UIColor morselLightContent]
+                                   andWidth:1.f];
+    [self.passwordTextField setBorderWithColor:[UIColor morselLightContent]
+                                      andWidth:1.f];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
 
 #pragma mark - Private Methods
 
@@ -62,23 +92,47 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - UITextFieldDelegate Methods
+- (void)keyboardWillShow:(NSNotification *)notification {
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self logIn];
-
-    return YES;
+    [UIView animateWithDuration:.2f
+                     animations:^{
+                         [self.loginScrollView setHeight:[self.view getHeight] - keyboardSize.height];
+                         [self.loginScrollView scrollRectToVisible:CGRectMake(0.f, MRSLLoginContentHeight - 5.f, 5.f, 5.f)
+                                                          animated:NO];
+                     }];
 }
+
+- (void)keyboardWillHide {
+    [UIView animateWithDuration:.2f
+                     animations:^{
+                         [self.loginScrollView setHeight:MRSLLoginScrollViewHeight];
+                     }];
+}
+
+#pragma mark - UITextFieldDelegate Methods
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if ([string isEqualToString:@"\n"]) {
-        [textField resignFirstResponder];
+
+        if ([textField isEqual:_emailTextField]) {
+            [_passwordTextField becomeFirstResponder];
+        } else if ([textField isEqual:_passwordTextField]) {
+            [textField resignFirstResponder];
+            [self logIn];
+        }
         return NO;
     } else {
         return YES;
     }
 
     return YES;
+}
+
+#pragma mark - Destruction
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

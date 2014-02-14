@@ -16,10 +16,12 @@
 
 #import "MRSLUser.h"
 
-static const CGFloat MRSLSignUpFieldsHeight = 448.f;
+static const CGFloat MRSLSignUpScrollViewHeight = 448.f;
+static const CGFloat MRSLSignUpContentHeight = 440.f;
 
 @interface SignUpViewController ()
-<UIImagePickerControllerDelegate,
+<UIActionSheetDelegate,
+UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 UITextFieldDelegate>
 
@@ -29,9 +31,9 @@ UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *activityView;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameField;
-@property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *occupationTitleField;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
@@ -45,9 +47,29 @@ UITextFieldDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+#if (defined(MORSEL_BETA))
+    [self performSegueWithIdentifier:@"DisplayLogin"
+                              sender:nil];
+#endif
+
     [_profileImageView addCornersWithRadius:36.f];
 
-    self.contentScrollView.contentSize = CGSizeMake([self.view getWidth], MRSLSignUpFieldsHeight);
+    [self.profileImageView setBorderWithColor:[UIColor morselLightContent]
+                                     andWidth:1.f];
+    [self.usernameField setBorderWithColor:[UIColor morselLightContent]
+                                  andWidth:1.f];
+    [self.passwordField setBorderWithColor:[UIColor morselLightContent]
+                                  andWidth:1.f];
+    [self.emailField setBorderWithColor:[UIColor morselLightContent]
+                               andWidth:1.f];
+    [self.firstNameField setBorderWithColor:[UIColor morselLightContent]
+                                   andWidth:1.f];
+    [self.lastNameField setBorderWithColor:[UIColor morselLightContent]
+                                  andWidth:1.f];
+    [self.occupationTitleField setBorderWithColor:[UIColor morselLightContent]
+                                         andWidth:1.f];
+
+    self.contentScrollView.contentSize = CGSizeMake([self.view getWidth], MRSLSignUpContentHeight);
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -63,18 +85,17 @@ UITextFieldDelegate>
 #pragma mark - Private Methods
 
 - (IBAction)addPhoto:(id)sender {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [self.view endEditing:YES];
 
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-    imagePicker.allowsEditing = NO;
-    imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
-    imagePicker.delegate = self;
+    UIActionSheet *profileActionSheet = [[UIActionSheet alloc] initWithTitle:@"Add a Profile Photo"
+                                                                    delegate:self
+                                                           cancelButtonTitle:nil
+                                                      destructiveButtonTitle:nil
+                                                           otherButtonTitles:@"Take Photo", @"Select from Library", nil];
 
-    [self presentViewController:imagePicker
-                       animated:YES
-                     completion:nil];
+    [profileActionSheet setCancelButtonIndex:[profileActionSheet addButtonWithTitle:@"Cancel"]];
+
+    [profileActionSheet showInView:self.view];
 }
 
 - (IBAction)signUp {
@@ -126,9 +147,9 @@ UITextFieldDelegate>
                            user.profilePhoto = UIImageJPEGRepresentation(profileImage, 1.f);
 
                            [_appDelegate.morselApiService createUser:user
-                                                       withPassword:_passwordField.text
-                                                            success:nil
-                                                            failure:^(NSError *error)
+                                                        withPassword:_passwordField.text
+                                                             success:nil
+                                                             failure:^(NSError *error)
                             {
                                 self.activityView.hidden = YES;
                                 [self.continueButton setEnabled:YES];
@@ -149,17 +170,38 @@ UITextFieldDelegate>
 
     [UIView animateWithDuration:.2f
                      animations:^{
-                         [self.contentScrollView setHeight:self.view.frame.size.height - keyboardSize.height];
+                         [self.contentScrollView setHeight:[self.view getHeight] - keyboardSize.height];
                      }];
-
-    [self.contentScrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - _continueButton.frame.size.height)];
 }
 
 - (void)keyboardWillHide {
     [UIView animateWithDuration:.2f
                      animations:^{
-                         [self.contentScrollView setHeight:self.view.frame.size.height - 120.f];
+                         [self.contentScrollView setHeight:MRSLSignUpScrollViewHeight];
                      }];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) return;
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take Photo"]) {
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+    } else {
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+
+    imagePicker.allowsEditing = YES;
+    imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
+    imagePicker.delegate = self;
+
+    [self presentViewController:imagePicker
+                       animated:YES
+                     completion:nil];
 }
 
 #pragma mark - UIImagePickerControllerDelegate Methods
@@ -198,24 +240,41 @@ UITextFieldDelegate>
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if ([string isEqualToString:@"\n"]) {
-        [textField resignFirstResponder];
-        
-        if ([textField isEqual:_occupationTitleField]) {
+        if ([textField isEqual:_usernameField]) {
+            [_passwordField becomeFirstResponder];
+        } else if ([textField isEqual:_passwordField]) {
+            [_emailField becomeFirstResponder];
+        } else if ([textField isEqual:_emailField]) {
+            [_firstNameField becomeFirstResponder];
+        } else if ([textField isEqual:_firstNameField]) {
+            [_lastNameField becomeFirstResponder];
+        } else if ([textField isEqual:_lastNameField]) {
+            [_occupationTitleField becomeFirstResponder];
+        } else if ([textField isEqual:_occupationTitleField]) {
+            [textField resignFirstResponder];
             [self signUp];
+            [self.contentScrollView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)
+                                               animated:YES];
         }
-        
+
         return NO;
     } else {
         CGRect centeredFrame = textField.frame;
         centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-
+        
         [self.contentScrollView scrollRectToVisible:centeredFrame
                                            animated:YES];
-
+        
         return YES;
     }
     
     return YES;
+}
+
+#pragma mark - Destruction
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

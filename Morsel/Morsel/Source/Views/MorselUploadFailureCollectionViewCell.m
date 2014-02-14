@@ -41,6 +41,8 @@
 #pragma mark - Action
 
 - (IBAction)retryUpload {
+    _morsel.isUploading = @YES;
+    _morsel.didFailUpload = @NO;
     [_appDelegate.morselApiService createMorsel:_morsel
                                         success:nil
                                         failure:nil];
@@ -48,6 +50,7 @@
 
 - (IBAction)deleteMorsel {
     [_morsel MR_deleteEntity];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
 }
 
 @end

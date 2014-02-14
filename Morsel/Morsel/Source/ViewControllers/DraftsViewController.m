@@ -27,6 +27,7 @@ UITextFieldDelegate>
 @property (nonatomic) int postID;
 
 @property (nonatomic, weak) IBOutlet UICollectionView *draftMorselsCollectionView;
+@property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @property (nonatomic, strong) NSMutableArray *feedMorsels;
 @property (nonatomic, strong) NSMutableArray *uploadingMorsels;
@@ -49,6 +50,77 @@ UITextFieldDelegate>
     self.uploadingMorsels = [NSMutableArray array];
     self.morsels = [NSMutableArray array];
 
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    _refreshControl.tintColor = [UIColor morselLightContent];
+    [_refreshControl addTarget:self
+                        action:@selector(refreshDrafts)
+              forControlEvents:UIControlEventValueChanged];
+
+    [self.draftMorselsCollectionView addSubview:_refreshControl];
+    self.draftMorselsCollectionView.alwaysBounceVertical = YES;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselUploaded:)
+                                                 name:MRSLMorselUploadDidCompleteNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(localContentPurged)
+                                                 name:MRSLServiceWillPurgeDataNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(localContentRestored)
+                                                 name:MRSLServiceWillRestoreDataNotification
+                                               object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    if (_selectedIndexPath) [_draftMorselsCollectionView deselectItemAtIndexPath:_selectedIndexPath
+                                                                        animated:YES];
+
+    if (![MRSLUser currentUser] || self.draftFetchedResultsController) return;
+
+    [self setupFeedFetchRequest];
+    [self populateContent];
+    [self refreshDrafts];
+}
+
+#pragma mark - Notification Methods
+
+- (void)morselUploaded:(NSNotification *)notification {
+    MRSLMorsel *uploadedMorsel = notification.object;
+    if (uploadedMorsel.draftValue) {
+        [self refreshDrafts];
+    }
+}
+
+- (void)localContentPurged {
+    [NSFetchedResultsController deleteCacheWithName:@"Home"];
+
+    self.draftFetchedResultsController.delegate = nil;
+    self.uploadingMorselsFetchedResultsController.delegate = nil;
+
+    self.draftFetchedResultsController = nil;
+    self.uploadingMorselsFetchedResultsController = nil;
+}
+
+- (void)localContentRestored {
+    [self.feedMorsels removeAllObjects];
+    [self.uploadingMorsels removeAllObjects];
+    [self.morsels removeAllObjects];
+
+    [self setupFeedFetchRequest];
+    [self populateContent];
+
+    self.activityView.hidden = YES;
+}
+
+#pragma mark - Private Methods
+
+- (void)setupFeedFetchRequest {
+    if (_draftFetchedResultsController || _uploadingMorselsFetchedResultsController) return;
+
     MRSLUser *user = [MRSLUser currentUser];
 
     NSPredicate *userDraftsPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (draft == YES) AND (isUploading == NO) AND (didFailUpload == NO)", user.userIDValue];
@@ -68,49 +140,38 @@ UITextFieldDelegate>
                                                                             groupBy:nil
                                                                            delegate:self
                                                                           inContext:[NSManagedObjectContext MR_defaultContext]];
+}
 
+- (void)populateContent {
     NSError *fetchError = nil;
+
     [_draftFetchedResultsController performFetch:&fetchError];
     [_uploadingMorselsFetchedResultsController performFetch:&fetchError];
 
-    [self.uploadingMorsels addObjectsFromArray:[_uploadingMorselsFetchedResultsController fetchedObjects]];
-    [self.feedMorsels addObjectsFromArray:[_draftFetchedResultsController fetchedObjects]];
+    if (_draftFetchedResultsController) {
+        [self.feedMorsels removeAllObjects];
+        [self.feedMorsels addObjectsFromArray:[_draftFetchedResultsController fetchedObjects]];
+    }
 
+    if (_uploadingMorselsFetchedResultsController) {
+        [self.uploadingMorsels removeAllObjects];
+        [self.uploadingMorsels addObjectsFromArray:[_uploadingMorselsFetchedResultsController fetchedObjects]];
+        [self.draftMorselsCollectionView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)
+                                                    animated:YES];
+    }
+
+    [self.morsels removeAllObjects];
     [self.morsels addObjectsFromArray:_uploadingMorsels];
     [self.morsels addObjectsFromArray:_feedMorsels];
 
     [self.draftMorselsCollectionView reloadData];
-
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    _refreshControl.tintColor = [UIColor morselLightContent];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshDrafts)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.draftMorselsCollectionView addSubview:_refreshControl];
-    self.draftMorselsCollectionView.alwaysBounceVertical = YES;
-
-    [self refreshDrafts];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(morselUploaded)
-                                                 name:MRSLMorselUploadDidCompleteNotification
-                                               object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if (_selectedIndexPath) [_draftMorselsCollectionView deselectItemAtIndexPath:_selectedIndexPath
-                                                                        animated:YES];
-}
-
-- (void)morselUploaded {
-    [self refreshDrafts];
 }
 
 #pragma mark - Action Methods
 
 - (void)refreshDrafts {
+    self.activityView.hidden = NO;
+
     [_appDelegate.morselApiService getUserPosts:[MRSLUser currentUser]
                                   includeDrafts:YES
                                         success:^(NSArray *responseArray)
@@ -192,30 +253,8 @@ UITextFieldDelegate>
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    NSError *fetchError = nil;
-    [controller performFetch:&fetchError];
-
-    if (fetchError) {
-        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
-    }
-
-    if ([controller isEqual:_draftFetchedResultsController]) {
-        DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
-        [self.feedMorsels removeAllObjects];
-        [self.feedMorsels addObjectsFromArray:[controller fetchedObjects]];
-    } else {
-        DDLogDebug(@"Fetch controller detected uploading Morsels. Prepending %lu items to feed. Scrolling to top.", (unsigned long)[[controller fetchedObjects] count]);
-        [self.uploadingMorsels removeAllObjects];
-        [self.uploadingMorsels addObjectsFromArray:[controller fetchedObjects]];
-        [self.draftMorselsCollectionView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)
-                                                    animated:YES];
-    }
-
-    [self.morsels removeAllObjects];
-    [self.morsels addObjectsFromArray:_uploadingMorsels];
-    [self.morsels addObjectsFromArray:_feedMorsels];
-    
-    [self.draftMorselsCollectionView reloadData];
+    DDLogDebug(@"Feed detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+    [self populateContent];
 }
 
 #pragma mark - Destruction

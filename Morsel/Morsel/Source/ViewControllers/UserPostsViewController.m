@@ -85,7 +85,7 @@
 
 - (PostCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                    cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLPost *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+    MRSLPost *post = [_nonEmptyPostsArray objectAtIndex:indexPath.row];
 
     PostCollectionViewCell *postCell = [self.postCollectionView dequeueReusableCellWithReuseIdentifier:@"PostCell"
                                                                                           forIndexPath:indexPath];
@@ -110,7 +110,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.temporaryPostTitle = nil;
 
-    self.post = [_fetchedResultsController objectAtIndexPath:indexPath];
+    self.post = [_nonEmptyPostsArray objectAtIndex:indexPath.row];
 
     if ([self.post.morsels containsObject:_morsel]) {
         if ([self.delegate respondsToSelector:@selector(userPostsSelectedOriginalMorsel)]) {

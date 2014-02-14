@@ -34,6 +34,7 @@ PODS:
   - MagicalRecord (2.2):
     - MagicalRecord/Core
   - MagicalRecord/Core (2.2)
+  - Mixpanel (2.3.1)
   - NSData+Base64 (1.0.0)
   - NSDate+TimeAgo (1.0.2)
   - NullSafe (1.2)
@@ -55,6 +56,7 @@ DEPENDENCIES:
   - KIF
   - Kiwi/XCTest
   - MagicalRecord (~> 2.2)
+  - Mixpanel (~> 2.3.1)
   - NSDate+TimeAgo (~> 1.0.2)
   - NullSafe (~> 1.2)
   - OAuthCore (~> 0.0.1)
@@ -70,6 +72,7 @@ SPEC CHECKSUMS:
   KIF: ff3b46deb62ce3f8e99c6a2c786729e1eea241ba
   Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
   MagicalRecord: 95d49d74ef752cd52f6ad87bcb474817fc3978cf
+  Mixpanel: 8d189c58bcaac429de9cb4f18a54621df99b7e38
   NSData+Base64: 4819562faee4544e3cf5703f2139820b09732b28
   NSDate+TimeAgo: fe93d3042e83093ae3630bc47ae7d57f782733f6
   NullSafe: ec359e864f3b8d9c2d81aaa2bdbac8280bba1be2

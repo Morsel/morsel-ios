@@ -23,15 +23,17 @@ NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *sideBarButton;
-@property (weak, nonatomic) IBOutlet UICollectionView *feedCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *profileCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *morselCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userTitleLabel;
+@property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) NSMutableArray *morsels;
+@property (nonatomic, strong) NSFetchedResultsController *userPostsFetchedResultsController;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @property (nonatomic, strong) MRSLMorsel *selectedMorsel;
@@ -44,6 +46,8 @@ NSFetchedResultsControllerDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.morsels = [NSMutableArray array];
 
     if (!_user) self.user = [MRSLUser currentUser];
 
@@ -63,43 +67,117 @@ NSFetchedResultsControllerDelegate>
         self.sideBarButton.hidden = YES;
     }
 
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (draft == NO)", [_user.userID intValue]];
-
-    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
-                                                          ascending:NO
-                                                      withPredicate:currentUserPredicate
-                                                            groupBy:nil
-                                                           delegate:self
-                                                          inContext:[NSManagedObjectContext MR_defaultContext]];
-
-    [self.feedCollectionView reloadData];
-
     self.refreshControl = [[UIRefreshControl alloc] init];
     _refreshControl.tintColor = [UIColor morselLightContent];
     [_refreshControl addTarget:self
-                        action:@selector(refreshUserPosts)
+                        action:@selector(refreshUserPostsAndProfile)
               forControlEvents:UIControlEventValueChanged];
 
-    [self.feedCollectionView addSubview:_refreshControl];
-    self.feedCollectionView.alwaysBounceVertical = YES;
+    [self.profileCollectionView addSubview:_refreshControl];
+    self.profileCollectionView.alwaysBounceVertical = YES;
 
-    [self refreshUserPosts];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselUploaded:)
+                                                 name:MRSLMorselUploadDidCompleteNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(localContentPurged)
+                                                 name:MRSLServiceWillPurgeDataNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(localContentRestored)
+                                                 name:MRSLServiceWillRestoreDataNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [_appDelegate.morselApiService getUserProfile:_user
-                                         success:^(id responseObject)
-     {
-         self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
-         self.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
-     } failure:nil];
+    if (!self.userPostsFetchedResultsController) {
+        [self setupUserPostsFetchRequest];
+        [self populateContent];
+        [self refreshUserPostsAndProfile];
+    }
+}
+#pragma mark - Notification Methods
+
+- (void)morselUploaded:(NSNotification *)notification {
+    MRSLMorsel *uploadedMorsel = notification.object;
+    if (uploadedMorsel.draftValue && [_user isCurrentUser]) {
+        [self refreshUserPostsAndProfile];
+    }
+}
+
+- (void)localContentPurged {
+    [NSFetchedResultsController deleteCacheWithName:@"Home"];
+
+    self.userPostsFetchedResultsController.delegate = nil;
+
+    self.userPostsFetchedResultsController = nil;
+}
+
+- (void)localContentRestored {
+    [self.morsels removeAllObjects];
+
+    [self setupUserPostsFetchRequest];
+    [self populateContent];
+
+    self.activityView.hidden = YES;
 }
 
 #pragma mark - Private Methods
 
-- (void)refreshUserPosts {
+- (void)setupUserPostsFetchRequest {
+    if (_userPostsFetchedResultsController) return;
+
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (draft == NO)", [_user.userID intValue]];
+
+    self.userPostsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+                                                                   ascending:NO
+                                                               withPredicate:currentUserPredicate
+                                                                     groupBy:nil
+                                                                    delegate:self
+                                                                   inContext:[NSManagedObjectContext MR_defaultContext]];
+}
+
+- (void)populateContent {
+    NSError *fetchError = nil;
+    [_userPostsFetchedResultsController performFetch:&fetchError];
+
+    if (_userPostsFetchedResultsController) {
+        [self.morsels removeAllObjects];
+        [self.morsels addObjectsFromArray:[_userPostsFetchedResultsController fetchedObjects]];
+    }
+
+    [self.profileCollectionView reloadData];
+}
+
+#pragma mark - Section Methods
+
+- (IBAction)displaySideBar:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
+                                                        object:@YES];
+}
+
+- (IBAction)goBack:(id)sender {
+    [_appDelegate cancelAllNetworkOperations];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)refreshUserPostsAndProfile {
+    self.activityView.hidden = NO;
+
+    __weak __typeof(self)weakSelf = self;
+
+    [_appDelegate.morselApiService getUserProfile:_user
+                                          success:^(id responseObject)
+     {
+         if (weakSelf) {
+             weakSelf.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
+             weakSelf.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
+         }
+     } failure:nil];
+
     [_appDelegate.morselApiService getUserPosts:_user
                                   includeDrafts:NO
                                         success:^(NSArray *responseArray)
@@ -109,23 +187,12 @@ NSFetchedResultsControllerDelegate>
          } else {
              DDLogDebug(@"No profile posts available");
          }
-         [_refreshControl endRefreshing];
+         if (weakSelf) [weakSelf.refreshControl endRefreshing];
      } failure: ^(NSError * error) {
          DDLogError(@"Error profile draft posts: %@", error.userInfo);
-         [_refreshControl endRefreshing];
+         if (weakSelf) [weakSelf.refreshControl endRefreshing];
      }];
 }
-
-- (IBAction)displaySideBar:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
-                                                        object:@YES];
-}
-
-- (IBAction)goBack:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-#pragma mark - Section Methods
 
 - (void)displayMorselDetail {
     MorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailViewController"];
@@ -138,16 +205,14 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
-
-    return [sectionInfo numberOfObjects];
+    return [_morsels count];
 }
 
 - (MorselFeedCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
-    MorselFeedCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
-                                                                                                  forIndexPath:indexPath];
+    MorselFeedCollectionViewCell *morselCell = [self.profileCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
+                                                                                                     forIndexPath:indexPath];
     morselCell.delegate = self;
     morselCell.morsel = morsel;
 
@@ -157,25 +222,10 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_fetchedResultsController objectAtIndexPath:indexPath];
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
     self.selectedMorsel = morsel;
 
     [self displayMorselDetail];
-}
-
-#pragma mark - NSFetchedResultsControllerDelegate Methods
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
-
-    NSError *fetchError = nil;
-    [_fetchedResultsController performFetch:&fetchError];
-
-    if (fetchError) {
-        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
-    }
-
-    [self.feedCollectionView reloadData];
 }
 
 #pragma mark - MorselFeedCollectionViewCellDelegate Methods
@@ -187,10 +237,10 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)morselPostCollectionViewCellDidDisplayProgression:(MorselFeedCollectionViewCell *)cell {
-    NSIndexPath *cellIndexPath = [self.feedCollectionView indexPathForCell:cell];
-    [self.feedCollectionView scrollToItemAtIndexPath:cellIndexPath
-                                    atScrollPosition:UICollectionViewScrollPositionCenteredVertically
-                                            animated:YES];
+    NSIndexPath *cellIndexPath = [self.profileCollectionView indexPathForCell:cell];
+    [self.profileCollectionView scrollToItemAtIndexPath:cellIndexPath
+                                       atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                               animated:YES];
 }
 
 - (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel {
@@ -204,6 +254,19 @@ NSFetchedResultsControllerDelegate>
                                                 animated:YES
                                               completion:nil];
     }
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate Methods
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    DDLogDebug(@"Feed detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+    [self populateContent];
+}
+
+#pragma mark - Destruction
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
