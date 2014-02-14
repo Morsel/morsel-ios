@@ -67,7 +67,11 @@
     } else {
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         [mixpanel identify:[NSString stringWithFormat:@"%i", currentUser.userIDValue]];
-
+        [mixpanel.people set:@{@"first_name": currentUser.first_name,
+                               @"last_name": currentUser.last_name,
+                               @"created_at": currentUser.creationDate,
+                               @"title": currentUser.title,
+                               @"username": currentUser.username}];
         [_appDelegate.morselApiService getUserProfile:currentUser
                                               success:nil
                                               failure:nil];

@@ -148,8 +148,8 @@
 - (IBAction)editMorsel:(id)sender {
     [[Mixpanel sharedInstance] track:@"Tapped Edit Post"
                           properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                       @"morsel_id": _morsel.morselID ?: @"No Server ID",
-                                       @"post_id": _morsel.post.postID ?: @"No Server ID"}];
+                                       @"morsel_id": _morsel.morselID ?: [NSNull null],
+                                       @"post_id": _morsel.post.postID ?: [NSNull null]}];
 
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectEditMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectEditMorsel:self.morsel];
@@ -159,7 +159,7 @@
 - (IBAction)displayAssociatedMorsels:(id)sender {
     [[Mixpanel sharedInstance] track:@"Tapped Open Progression Thumbnail View"
                           properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                       @"morsel_id": _morsel.morselID ?: @"No Server ID"}];
+                                       @"morsel_id": _morsel.morselID ?: [NSNull null]}];
 
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidDisplayProgression:)]) {
         [self.delegate morselPostCollectionViewCellDidDisplayProgression:self];
@@ -236,7 +236,7 @@
 - (void)morselThumbnailDidSelectMorsel:(MRSLMorsel *)morsel {
     [[Mixpanel sharedInstance] track:@"Tapped Morsel Thumbnail"
                           properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                       @"morsel_id": morsel.morselID ?: @"No Server ID"}];
+                                       @"morsel_id": morsel.morselID ?: [NSNull null]}];
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectMorsel:morsel];
     }
@@ -246,7 +246,7 @@
     if (self.morselThumbnailVC) {
         [[Mixpanel sharedInstance] track:@"Tapped Close Progression Thumbnail View"
                               properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                           @"morsel_id": _morsel.morselID ?: @"No Server ID"}];
+                                           @"morsel_id": _morsel.morselID ?: [NSNull null]}];
 
         _progressionButton.enabled = YES;
         _likeButton.enabled = YES;
