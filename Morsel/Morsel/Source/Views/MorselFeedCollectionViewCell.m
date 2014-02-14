@@ -146,13 +146,20 @@
 #pragma mark - Private Methods
 
 - (IBAction)editMorsel:(id)sender {
+    [[Mixpanel sharedInstance] track:@"Tapped Edit Post"
+                          properties:@{@"view": @"MorselFeedCollectionViewCell",
+                                       @"morsel_id": _morsel.morselID ?: @"No Server ID",
+                                       @"post_id": _morsel.post.postID ?: @"No Server ID"}];
+
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectEditMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectEditMorsel:self.morsel];
     }
 }
 
 - (IBAction)displayAssociatedMorsels:(id)sender {
-    // Perform blur
+    [[Mixpanel sharedInstance] track:@"Tapped Open Progression Thumbnail View"
+                          properties:@{@"view": @"MorselFeedCollectionViewCell",
+                                       @"morsel_id": _morsel.morselID ?: @"No Server ID"}];
 
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidDisplayProgression:)]) {
         [self.delegate morselPostCollectionViewCellDidDisplayProgression:self];
@@ -191,6 +198,9 @@
                                                          shouldLike:!_morsel.likedValue
                                                             didLike:^(BOOL doesLike)
     {
+        [[Mixpanel sharedInstance] track:(doesLike) ? @"Liked Morsel" : @"Unliked Morsel"
+                              properties:@{@"view": @"MorselFeedCollectionViewCell",
+                                           @"morsel_id": _morsel.morselID}];
         [_morsel setLikedValue:doesLike];
 
         [self setLikeButtonImageForMorsel:_morsel];
@@ -224,6 +234,9 @@
 #pragma mark - MorselThumbnailViewControllerDelegate Methods
 
 - (void)morselThumbnailDidSelectMorsel:(MRSLMorsel *)morsel {
+    [[Mixpanel sharedInstance] track:@"Tapped Morsel Thumbnail"
+                          properties:@{@"view": @"MorselFeedCollectionViewCell",
+                                       @"morsel_id": morsel.morselID ?: @"No Server ID"}];
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectMorsel:morsel];
     }
@@ -231,7 +244,10 @@
 
 - (void)morselThumbnailDidSelectClose {
     if (self.morselThumbnailVC) {
-        
+        [[Mixpanel sharedInstance] track:@"Tapped Close Progression Thumbnail View"
+                              properties:@{@"view": @"MorselFeedCollectionViewCell",
+                                           @"morsel_id": _morsel.morselID ?: @"No Server ID"}];
+
         _progressionButton.enabled = YES;
         _likeButton.enabled = YES;
         _plateButton.enabled = YES;

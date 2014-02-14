@@ -312,6 +312,9 @@ UINavigationControllerDelegate>
 }
 
 - (IBAction)displayCameraRoll:(id)sender {
+    [[Mixpanel sharedInstance] track:@"Tapped Gallery Icon"
+                          properties:@{@"view": @"CaptureMediaViewController"}];
+
     [self endCameraSession];
 
     self.isSelectingImage = YES;
@@ -335,6 +338,8 @@ UINavigationControllerDelegate>
 }
 
 - (IBAction)discardImage:(id)sender {
+    [[Mixpanel sharedInstance] track:@"Tapped Re-take Photo"
+                          properties:@{@"view": @"CaptureMediaViewController"}];
     self.isSelectingImage = NO;
 
     self.approvalImageView.image = nil;
@@ -346,6 +351,8 @@ UINavigationControllerDelegate>
 }
 
 - (IBAction)acceptImage:(id)sender {
+    [[Mixpanel sharedInstance] track:@"Tapped Accept Photo"
+                          properties:@{@"view": @"CaptureMediaViewController"}];
     if (_userIsEditing) {
         if ([self.delegate respondsToSelector:@selector(captureMediaViewControllerDidAcceptImage:)]) {
             [self.delegate captureMediaViewControllerDidAcceptImage:_capturedImage];
@@ -360,6 +367,8 @@ UINavigationControllerDelegate>
 }
 
 - (IBAction)snapStillImage:(id)sender {
+    [[Mixpanel sharedInstance] track:@"Tapped Take Photo"
+                          properties:@{@"view": @"CaptureMediaViewController"}];
     dispatch_async(self.sessionQueue, ^{
 		// Update the orientation on the still image output video connection before capturing.
 		[[self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer  *)self.previewView.layer connection] videoOrientation]];
@@ -666,6 +675,8 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
+        [[Mixpanel sharedInstance] track:@"Added Photo from Camera Roll"
+                              properties:@{@"view": @"CaptureMediaViewController"}];
         UIImage *image = info[UIImagePickerControllerOriginalImage];
 
         self.capturedImage = image;

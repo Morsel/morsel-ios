@@ -17,6 +17,5 @@
 @property (strong, nonatomic) UIWindow *window;
 
 - (void)resetDataStore;
-- (void)cancelAllNetworkOperations;
 
 @end

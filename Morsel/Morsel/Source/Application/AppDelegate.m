@@ -15,42 +15,57 @@
 
 #import "MorselAPIClient.h"
 
+#import "MRSLUser.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
 
     [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
 
-    [self setupDatabase];
+    [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
 
     self.morselApiService = [[MorselAPIService alloc] init];
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
     [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
 
-    AFNetworkActivityIndicatorManager.sharedManager.enabled = YES;
+    [self setupDatabase];
 
+    [[Mixpanel sharedInstance] track:@"Open app"
+                          properties:@{@"view": @"AppDelegate"}];
     return YES;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    if ([MRSLUser currentUser]) {
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel.people increment:@"open_count"
+                                by:@(1)];
+    }
 }
 
 #pragma mark - Data Methods
 
 - (void)setupDatabase {
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel registerSuperPropertiesOnce:@{@"client_device": (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"ipad" : @"iphone"}];
+    [mixpanel registerSuperProperties:@{@"client_version": [Util appMajorMinorPatchString]}];
+
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
 
     [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
 }
 
-- (void)cancelAllNetworkOperations {
-    [[MorselAPIClient sharedClient].operationQueue cancelAllOperations];
-}
-
 #pragma mark - Logout
 
 - (void)resetDataStore {
-    [self cancelAllNetworkOperations];
+    [[Mixpanel sharedInstance] reset];
+    [[MorselAPIClient sharedClient].operationQueue cancelAllOperations];
 
     NSURL *persistentStoreURL = [NSPersistentStore MR_urlForStoreName:@"Morsel.sqlite"];
     NSURL *shmURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-shm"]];

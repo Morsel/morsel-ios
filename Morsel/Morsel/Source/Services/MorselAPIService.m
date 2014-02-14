@@ -65,7 +65,7 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user[password]": password}
                                                 includingMRSLObjects:@[user]
                                               requiresAuthentication:NO];
-
+    
     [[MorselAPIClient sharedClient] POST:@"users"
                               parameters:parameters
                constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
@@ -325,8 +325,19 @@
          [[NSNotificationCenter defaultCenter] postNotificationName:MRSLMorselUploadDidCompleteNotification
                                                              object:morsel];
 
+         [[Mixpanel sharedInstance] track:@"Published Morsel"
+                               properties:@{@"view": @"MorselAPIService",
+                                            @"morsel_id": morsel.morselID,
+                                            @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
+
          if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+
+         [[Mixpanel sharedInstance] track:@"Failed to Publish Morsel"
+                               properties:@{@"view": @"MorselAPIService",
+                                            @"morsel_id": morsel.morselID,
+                                            @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
+
          morsel.isUploading = @NO;
          morsel.didFailUpload = @YES;
 
@@ -390,6 +401,11 @@
          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
          [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
+
+         [[Mixpanel sharedInstance] track:@"Updated Morsel"
+                               properties:@{@"view": @"MorselAPIService",
+                                            @"morsel_id": morsel.morselID,
+                                            @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
 
          if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -632,6 +648,11 @@
                                  success: ^(AFHTTPRequestOperation * operation, id responseObject) {
                                      DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
+                                     [[Mixpanel sharedInstance] track:@"Added Comment"
+                                                           properties:@{@"view": @"AddCommentViewController",
+                                                                        @"morsel_id": morsel.morselID,
+                                                                        @"comment_id": responseObject[@"data"][@"id"]}];
+
                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                          MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
                                                                                            withValue:responseObject[@"data"][@"id"]
@@ -661,6 +682,9 @@
     if (!serviceErrorInfo) {
         DDLogError(@"Request error in method (%@) with userInfo: %@", methodName, error.userInfo);
     } else {
+        [[Mixpanel sharedInstance] track:@"Service Request Error"
+                              properties:@{@"view": @"MorselAPIService",
+                                           @"error_message": [serviceErrorInfo errorInfo]}];
         DDLogError(@"Request error in method (%@) with serviceInfo: %@", methodName, [serviceErrorInfo errorInfo]);
     }
     

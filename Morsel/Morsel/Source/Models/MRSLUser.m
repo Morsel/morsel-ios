@@ -45,6 +45,16 @@
 
     [user MR_importValuesForKeysWithObject:userDictionary];
 
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel identify:[NSString stringWithFormat:@"%i", user.userIDValue]];
+    [mixpanel.people setOnce:@{@"first_name": user.first_name,
+                               @"last_name": user.last_name,
+                               @"created_at": userDictionary[@"created_at"],
+                               @"title": user.title,
+                               @"username": user.username}];
+    [mixpanel.people increment:@"open_count"
+                            by:@(1)];
+
     [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                               forKey:@"userID"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -118,7 +128,7 @@
         self.profilePhotoURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
                                                                                      withString:@"IMAGE_SIZE"];
     }
-    
+
     [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
 }
 
@@ -140,7 +150,7 @@
 
     NSMutableDictionary *userJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
                                                                        forKey:@"user"];
-
+    
     return userJSON;
 }
 
