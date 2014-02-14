@@ -295,6 +295,10 @@ UIScrollViewDelegate>
                                   shouldLike:!_morsel.likedValue
                                      didLike:^(BOOL doesLike)
      {
+         [[Mixpanel sharedInstance] track:(doesLike) ? @"Liked Morsel" : @"Unliked Morsel"
+                               properties:@{@"view": @"MorselFeedCollectionViewCell",
+                                            @"morsel_id": _morsel.morselID}];
+
          [_morsel setLikedValue:doesLike];
 
          [self setLikeButtonImageForMorsel:_morsel];

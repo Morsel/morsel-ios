@@ -8,6 +8,7 @@
 
 #import "ProfileViewController.h"
 
+#import "MorselAPIClient.h"
 #import "MorselDetailViewController.h"
 #import "MorselFeedCollectionViewCell.h"
 #import "PostMorselsViewController.h"
@@ -160,7 +161,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (IBAction)goBack:(id)sender {
-    [_appDelegate cancelAllNetworkOperations];
+    [[MorselAPIClient sharedClient].operationQueue cancelAllOperations];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

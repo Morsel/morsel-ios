@@ -55,6 +55,9 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
 #pragma mark - Private Methods
 
 - (IBAction)logIn {
+    [[Mixpanel sharedInstance] track:@"Tapped Log in"
+                          properties:@{@"view": @"LoginViewController"}];
+
     BOOL emailValid = [Util validateEmail:_emailTextField.text];
     BOOL passValid = ([_passwordTextField.text length] >= 8);
 
@@ -99,7 +102,7 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
                      animations:^{
                          [self.loginScrollView setHeight:[self.view getHeight] - keyboardSize.height];
                          [self.loginScrollView scrollRectToVisible:CGRectMake(0.f, MRSLLoginContentHeight - 5.f, 5.f, 5.f)
-                                                          animated:NO];
+                                                          animated:YES];
                      }];
 }
 
@@ -116,8 +119,12 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
     if ([string isEqualToString:@"\n"]) {
 
         if ([textField isEqual:_emailTextField]) {
+            [[Mixpanel sharedInstance] track:@"Filled Email Field"
+                                  properties:@{@"view": @"LoginViewController"}];
             [_passwordTextField becomeFirstResponder];
         } else if ([textField isEqual:_passwordTextField]) {
+            [[Mixpanel sharedInstance] track:@"Filled Password Field"
+                                  properties:@{@"view": @"LoginViewController"}];
             [textField resignFirstResponder];
             [self logIn];
         }

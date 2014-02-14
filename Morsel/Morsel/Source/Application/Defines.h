@@ -8,8 +8,9 @@
 
 #pragma mark - Frameworks
 
-#import <CocoaLumberjack/DDLog.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import <CocoaLumberjack/DDLog.h>
+#import <Mixpanel/Mixpanel.h>
 
 #pragma mark - Blocks
 
@@ -41,12 +42,16 @@ static const int croppedImageHeightOffset = 106.f;
 
 #if defined(MORSEL_ALPHA)
 #define TESTFLIGHT_APP_TOKEN @"5d37b39e-9417-4e2d-9401-05afbeabbc74"
+#define MIXPANEL_TOKEN @"41dd2e748949236fef948e1fab8c22fb"
 #elif defined(MORSEL_BETA)
 #define TESTFLIGHT_APP_TOKEN @"2965a315-a1b2-4fee-a287-f9722a75ad87"
+#define MIXPANEL_TOKEN @"f3c03a3b048ff1779730a445d63ac2de"
 #elif defined(RELEASE)
 #define TESTFLIGHT_APP_TOKEN @"1e7bb15e-fd13-4dd1-bd2e-0aa617af22ae"
+#define MIXPANEL_TOKEN @"f3c03a3b048ff1779730a445d63ac2de"
 #else
 #define TESTFLIGHT_APP_TOKEN @"872ef690-a80c-4b91-beb2-0d383bc19150"
+#define MIXPANEL_TOKEN @"fc91c2a6f8d8388f077f6b9618e90499"
 #endif
 
 #pragma mark - Defines

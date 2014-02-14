@@ -65,6 +65,13 @@
             [self displaySignUpAnimated:NO];
         });
     } else {
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel identify:[NSString stringWithFormat:@"%i", currentUser.userIDValue]];
+        [mixpanel.people set:@{@"first_name": currentUser.first_name,
+                               @"last_name": currentUser.last_name,
+                               @"created_at": currentUser.creationDate,
+                               @"title": currentUser.title,
+                               @"username": currentUser.username}];
         [_appDelegate.morselApiService getUserProfile:currentUser
                                               success:nil
                                               failure:nil];
@@ -96,6 +103,9 @@
 }
 
 - (void)toggleSidebar:(BOOL)shouldShow {
+    [[Mixpanel sharedInstance] track:(shouldShow) ? @"Opened Side Bar" : @"Closed Side Bar"
+                          properties:@{@"view": @"MorselRootViewController"}];
+
     [[UIApplication sharedApplication] setStatusBarHidden:shouldShow
                                             withAnimation:UIStatusBarAnimationFade];
 
@@ -116,6 +126,9 @@
 }
 
 - (void)presentCreateMorsel {
+    [[Mixpanel sharedInstance] track:@"Tapped Add Morsel Camera Icon"
+                          properties:@{@"view": @"MorselRootViewController"}];
+
     UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorsel"];
 
     [self presentViewController:createMorselNC
@@ -217,15 +230,23 @@
 
     switch (menuType) {
         case SideBarMenuItemTypeHome:
+            [[Mixpanel sharedInstance] track:@"Tapped Home"
+                                  properties:@{@"view": @"MRSLSideBarViewController"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
             break;
         case SideBarMenuItemTypeProfile:
+            [[Mixpanel sharedInstance] track:@"Tapped View Profile"
+                                  properties:@{@"view": @"MRSLSideBarViewController"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"];
             break;
         case SideBarMenuItemTypeDrafts:
+            [[Mixpanel sharedInstance] track:@"Tapped Drafts"
+                                  properties:@{@"view": @"MRSLSideBarViewController"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Drafts"];
             break;
         case SideBarMenuItemTypeLogout:
+            [[Mixpanel sharedInstance] track:@"Tapped Logout"
+                                  properties:@{@"view": @"MRSLSideBarViewController"}];
             [self logUserOut];
             break;
         default:
