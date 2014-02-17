@@ -59,12 +59,8 @@
                                                           completion:nil];
 
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"Sorry, you can't submit a comment without text!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
+        [UIAlertView showAlertViewForErrorString:@"Please add some text to submit a comment!"
+                                        delegate:nil];
     }
 }
 

@@ -24,7 +24,9 @@
                                                        delegate:delegate
                                               cancelButtonTitle:cancelButtonTitle
                                               otherButtonTitles:nil];
-
+    [[Mixpanel sharedInstance] track:@"Displayed Alert to User"
+                          properties:@{@"view": @"UIAlertView",
+                                       @"message": message}];
     if (otherButtonTitles != nil) {
         [alertView addButtonWithTitle:otherButtonTitles];
         va_list args;
@@ -44,12 +46,18 @@
 
 + (UIAlertView *)showAlertViewForError:(NSError *)error
                               delegate:(id /*<UIAlertViewDelegate>*/)delegate {
+    [[Mixpanel sharedInstance] track:@"Displayed Alert to User"
+                          properties:@{@"view": @"UIAlertView",
+                                       @"message": [error localizedDescription]}];
     return [UIAlertView showAlertViewForErrorString:[error localizedDescription]
                                            delegate:delegate];
 }
 
 + (UIAlertView *)showAlertViewForErrorString:(NSString *)errorString
                                     delegate:(id /*<UIAlertViewDelegate>*/)delegate {
+    [[Mixpanel sharedInstance] track:@"Displayed Alert to User"
+                          properties:@{@"view": @"UIAlertView",
+                                       @"message": errorString}];
     return [UIAlertView showAlertViewWithTitle:@"Oops, something went wrong"
                                        message:errorString
                                       delegate:delegate
@@ -59,6 +67,9 @@
 
 + (UIAlertView *)showAlertViewForServiceError:(MRSLServiceErrorInfo *)serviceError
                                      delegate:(id /*<UIAlertViewDelegate>*/)delegate {
+    [[Mixpanel sharedInstance] track:@"Displayed Alert to User"
+                          properties:@{@"view": @"UIAlertView",
+                                       @"message": [serviceError errorInfo]}];
     return [UIAlertView showAlertViewForErrorString:[serviceError errorInfo]
                                            delegate:delegate];
 }
