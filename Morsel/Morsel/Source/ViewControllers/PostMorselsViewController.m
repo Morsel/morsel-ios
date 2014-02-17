@@ -98,9 +98,9 @@ UITextFieldDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
-    [[Mixpanel sharedInstance] track:@"Tapped Edit Morsel"
+    [[MRSLEventManager sharedManager] track:@"Tapped Edit Morsel"
                           properties:@{@"view": @"PostMorselsViewController",
-                                       @"morsel_id": morsel.morselID ?: [NSNull null]}];
+                                       @"morsel_id": NULLIFNIL(morsel.morselID)}];
 
     CreateMorselViewController *createMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorselViewController"];
     createMorselVC.morsel = morsel;
@@ -127,9 +127,9 @@ UITextFieldDelegate>
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-        [[Mixpanel sharedInstance] track:@"Tapped Update Post"
+        [[MRSLEventManager sharedManager] track:@"Tapped Update Post"
                               properties:@{@"view": @"PostMorselsViewController",
-                                           @"post_id": _post.postID ?: [NSNull null]}];
+                                           @"post_id": NULLIFNIL(_post.postID)}];
         _post.title = _postTitleLabel.text;
 
         [_appDelegate.morselApiService updatePost:_post

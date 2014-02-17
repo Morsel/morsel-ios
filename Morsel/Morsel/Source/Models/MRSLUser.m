@@ -47,11 +47,11 @@
 
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel identify:[NSString stringWithFormat:@"%i", user.userIDValue]];
-    [mixpanel.people set:@{@"first_name": user.first_name,
-                           @"last_name": user.last_name,
-                           @"created_at": userDictionary[@"created_at"],
-                           @"title": user.title,
-                           @"username": user.username}];
+    [mixpanel.people set:@{@"first_name": NULLIFNIL(user.first_name),
+                           @"last_name": NULLIFNIL(user.last_name),
+                           @"created_at": NULLIFNIL(userDictionary[@"created_at"]),
+                           @"title": NULLIFNIL(user.title),
+                           @"username": NULLIFNIL(user.username)}];
     [mixpanel.people increment:@"open_count"
                             by:@(1)];
 
@@ -68,6 +68,11 @@
 - (BOOL)isCurrentUser {
     NSNumber *currentUserID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
     return ([currentUserID intValue] == self.userIDValue);
+}
+
+- (BOOL)shouldTrack {
+    // This still allows anonymous tracking to appear before a user signs in
+    return !(!self.title || self.title.length == 0);
 }
 
 - (NSString *)fullName {

@@ -57,6 +57,7 @@ static const int croppedImageHeightOffset = 106.f;
 #pragma mark - Defines
 
 #define _appDelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate])
+#define NULLIFNIL(obj) ((obj == nil) ? [NSNull null] : obj)
 
 #pragma mark - Imports
 
@@ -65,6 +66,7 @@ static const int croppedImageHeightOffset = 106.f;
 #import "CoreData+MagicalRecord.h"
 #import "Util.h"
 #import "MorselAPIService.h"
+#import "MRSLEventManager.h"
 
 #import "UIAlertView+Additions.h"
 #import "UIColor+Morsel.h"

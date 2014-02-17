@@ -213,7 +213,7 @@ UIGestureRecognizerDelegate>
 }
 
 - (void)displayUserProfile {
-    [[Mixpanel sharedInstance] track:@"Tapped User Profile Picture"
+    [[MRSLEventManager sharedManager] track:@"Tapped User Profile Picture"
                           properties:@{@"view": @"HomeViewController",
                                        @"user_id": _currentUser.userID}];
     ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
@@ -224,7 +224,7 @@ UIGestureRecognizerDelegate>
 }
 
 - (void)displayMorselDetail {
-    [[Mixpanel sharedInstance] track:@"Tapped Morsel"
+    [[MRSLEventManager sharedManager] track:@"Tapped Morsel"
                           properties:@{@"view": @"HomeViewController",
                                        @"morsel_id": _selectedMorsel.morselID}];
     MorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailViewController"];
