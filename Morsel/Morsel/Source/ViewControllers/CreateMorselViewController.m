@@ -105,6 +105,9 @@ UIDocumentInteractionControllerDelegate>
     [self.view addSubview:_addTextViewController.view];
     [self.view addSubview:_userPostsViewController.view];
 
+    [self.view bringSubviewToFront:_socialButtonsView];
+    [self.view bringSubviewToFront:_postMorselButton];
+
     _userPostsViewController.view.hidden = YES;
 
     if (!_thumbnailImageView.image) {
@@ -405,7 +408,7 @@ UIDocumentInteractionControllerDelegate>
 #pragma mark - Post Morsel
 
 - (IBAction)postMorsel {
-    if ([self.addTextViewController.textView.text length] == 0 && !_capturedImage) {
+    if ([self.addTextViewController.textView.text length] == 0 && (!_capturedImage && !_thumbnailImageView.image)) {
         [UIAlertView showAlertViewForErrorString:@"Please add content to this Morsel"
                                         delegate:nil];
         return;
@@ -431,29 +434,6 @@ UIDocumentInteractionControllerDelegate>
                                        @"morsel_id": _morsel.morselID ?: [NSNull null],
                                        @"morsel_draft":(_morsel.draftValue) ? @"true" : @"false"}];
 
-    int originalPostID = [_morsel.post.postID intValue];
-    int potentialPostID = [_post.postID intValue];
-
-    if (originalPostID != potentialPostID) {
-        DDLogDebug(@"Post Association for Morsel Changed from Post %i to Post %i!", originalPostID, potentialPostID);
-
-        if (self.temporaryPostTitle) {
-            _post.title = _temporaryPostTitle;
-
-            [_appDelegate.morselApiService updatePost:_post
-                                              success:nil
-                                              failure:nil];
-        }
-
-        if ([_morsel.post.morsels count] == 1) {
-            DDLogDebug(@"Post no longer has any Morsels. Able to delete? %@", ([_morsel.post MR_deleteInContext:[NSManagedObjectContext MR_defaultContext]]) ? @"YES" : @"NO");
-        }
-
-        [_post addMorselsObject:_morsel];
-
-        _morsel.post = _post;
-    }
-
     if (_willPublish) {
         _morsel.draft = @NO;
     }
@@ -464,22 +444,37 @@ UIDocumentInteractionControllerDelegate>
     if (_imageUpdated)
         [self addMediaDataToCurrentMorsel];
 
+
+    int originalPostID = [_morsel.post.postID intValue];
+    int potentialPostID = [_post.postID intValue];
+
+    if (originalPostID != potentialPostID) {
+        DDLogDebug(@"Post Association for Morsel Changed from Post %i to Post %i!", originalPostID, potentialPostID);
+
+        if (self.temporaryPostTitle) {
+            _post.title = _temporaryPostTitle;
+            [_appDelegate.morselApiService updatePost:_post
+                                              success:nil
+                                              failure:^(NSError *error) {
+                                                  [UIAlertView showAlertViewForErrorString:@"Unable to Update Post Title"
+                                                                                  delegate:nil];
+                                              }];
+        }
+    }
+
     __weak __typeof(self) weakSelf = self;
 
-
-
     [_appDelegate.morselApiService updateMorsel:_morsel
-                                        success:^(id responseObject)
-     {
-
-         if (weakSelf) {
-             [weakSelf goBack];
-         }
-     } failure: ^(NSError * error) {
-         _postMorselButton.enabled = YES;
-         [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel"
-                                         delegate:nil];
-     }];
+                                        andPost:(originalPostID != potentialPostID) ? _post : nil
+                                        success:^(id responseObject) {
+                                            if (weakSelf) {
+                                                [weakSelf goBack];
+                                            }
+                                        } failure: ^(NSError * error) {
+                                            _postMorselButton.enabled = YES;
+                                            [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel"
+                                                                            delegate:nil];
+                                        }];
 }
 
 - (void)saveAsDraft {
@@ -537,7 +532,7 @@ UIDocumentInteractionControllerDelegate>
     [[Mixpanel sharedInstance] track:@"Presented Instagram Document Interaction Controller"
                           properties:@{@"view": @"CreateMorselViewController",
                                        @"morsel_id": _morsel.morselID ?: [NSNull null]}];
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
         [_morsel.morselPhoto writeToFile:photoFilePath atomically:YES];
@@ -818,7 +813,7 @@ UIDocumentInteractionControllerDelegate>
         self.temporaryPostTitle = textField.text;
         self.userPostsViewController.temporaryPostTitle = _temporaryPostTitle;
         self.titleAlertView.hidden = YES;
-        
+
         [textField setText:nil];
         [textField resignFirstResponder];
         return YES;
