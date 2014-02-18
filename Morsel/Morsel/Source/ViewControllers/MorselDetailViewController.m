@@ -132,7 +132,7 @@ ProfileImageViewDelegate>
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"AddComment"]) {
-        [[Mixpanel sharedInstance] track:@"Tapped Add Comment"
+        [[MRSLEventManager sharedManager] track:@"Tapped Add Comment"
                               properties:@{@"view": @"MorselDetailViewController",
                                            @"morsel_id": _morsel.morselID}];
         AddCommentViewController *addCommentVC = [segue destinationViewController];

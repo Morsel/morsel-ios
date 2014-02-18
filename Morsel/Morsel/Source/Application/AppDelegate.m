@@ -36,15 +36,14 @@
 
     [self setupDatabase];
 
-    [[Mixpanel sharedInstance] track:@"Open app"
+    [[MRSLEventManager sharedManager] track:@"Open app"
                           properties:@{@"view": @"AppDelegate"}];
     return YES;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     if ([MRSLUser currentUser]) {
-        Mixpanel *mixpanel = [Mixpanel sharedInstance];
-        [mixpanel.people increment:@"open_count"
+        [[Mixpanel sharedInstance].people increment:@"open_count"
                                 by:@(1)];
     }
 }

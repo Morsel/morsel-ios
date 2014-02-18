@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, ProfileImageSizeType) {
 + (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldPostNotification:(BOOL)shouldPostNotifications;
 
 - (BOOL)isCurrentUser;
+- (BOOL)shouldTrack;
 - (NSString *)fullName;
 - (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type;
 - (void)incrementDraftCountAndSave;

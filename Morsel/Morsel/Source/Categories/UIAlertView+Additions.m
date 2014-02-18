@@ -24,7 +24,7 @@
                                                        delegate:delegate
                                               cancelButtonTitle:cancelButtonTitle
                                               otherButtonTitles:nil];
-    [[Mixpanel sharedInstance] track:@"Displayed Alert to User"
+    [[MRSLEventManager sharedManager] track:@"Displayed Alert to User"
                           properties:@{@"view": @"UIAlertView",
                                        @"message": message}];
     if (otherButtonTitles != nil) {
@@ -46,7 +46,7 @@
 
 + (UIAlertView *)showAlertViewForError:(NSError *)error
                               delegate:(id /*<UIAlertViewDelegate>*/)delegate {
-    [[Mixpanel sharedInstance] track:@"Displayed Alert to User"
+    [[MRSLEventManager sharedManager] track:@"Displayed Alert to User"
                           properties:@{@"view": @"UIAlertView",
                                        @"message": [error localizedDescription]}];
     return [UIAlertView showAlertViewForErrorString:[error localizedDescription]
@@ -55,7 +55,7 @@
 
 + (UIAlertView *)showAlertViewForErrorString:(NSString *)errorString
                                     delegate:(id /*<UIAlertViewDelegate>*/)delegate {
-    [[Mixpanel sharedInstance] track:@"Displayed Alert to User"
+    [[MRSLEventManager sharedManager] track:@"Displayed Alert to User"
                           properties:@{@"view": @"UIAlertView",
                                        @"message": errorString}];
     return [UIAlertView showAlertViewWithTitle:@"Oops, something went wrong"
@@ -67,7 +67,7 @@
 
 + (UIAlertView *)showAlertViewForServiceError:(MRSLServiceErrorInfo *)serviceError
                                      delegate:(id /*<UIAlertViewDelegate>*/)delegate {
-    [[Mixpanel sharedInstance] track:@"Displayed Alert to User"
+    [[MRSLEventManager sharedManager] track:@"Displayed Alert to User"
                           properties:@{@"view": @"UIAlertView",
                                        @"message": [serviceError errorInfo]}];
     return [UIAlertView showAlertViewForErrorString:[serviceError errorInfo]

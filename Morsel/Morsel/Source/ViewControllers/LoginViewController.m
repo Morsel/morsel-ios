@@ -55,7 +55,7 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
 #pragma mark - Private Methods
 
 - (IBAction)logIn {
-    [[Mixpanel sharedInstance] track:@"Tapped Log in"
+    [[MRSLEventManager sharedManager] track:@"Tapped Log in"
                           properties:@{@"view": @"LoginViewController"}];
 
     BOOL emailValid = [Util validateEmail:_emailTextField.text];
@@ -113,15 +113,26 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
 
 #pragma mark - UITextFieldDelegate Methods
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if ([textField isEqual:_emailTextField]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Email Field"
+                                     properties:@{@"view": @"LoginViewController"}];
+    } else if ([textField isEqual:_passwordTextField]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Password Field"
+                                     properties:@{@"view": @"LoginViewController"}];
+    }
+    return YES;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if ([string isEqualToString:@"\n"]) {
 
         if ([textField isEqual:_emailTextField]) {
-            [[Mixpanel sharedInstance] track:@"Filled Email Field"
+            [[MRSLEventManager sharedManager] track:@"Filled Email Field"
                                   properties:@{@"view": @"LoginViewController"}];
             [_passwordTextField becomeFirstResponder];
         } else if ([textField isEqual:_passwordTextField]) {
-            [[Mixpanel sharedInstance] track:@"Filled Password Field"
+            [[MRSLEventManager sharedManager] track:@"Filled Password Field"
                                   properties:@{@"view": @"LoginViewController"}];
             [textField resignFirstResponder];
             [self logIn];

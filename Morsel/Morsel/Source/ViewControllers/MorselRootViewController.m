@@ -67,11 +67,11 @@
     } else {
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         [mixpanel identify:[NSString stringWithFormat:@"%i", currentUser.userIDValue]];
-        [mixpanel.people set:@{@"first_name": currentUser.first_name,
-                               @"last_name": currentUser.last_name,
-                               @"created_at": currentUser.creationDate ?: [NSNull null],
-                               @"title": currentUser.title,
-                               @"username": currentUser.username}];
+        [mixpanel.people set:@{@"first_name": NULLIFNIL(currentUser.first_name),
+                               @"last_name": NULLIFNIL(currentUser.last_name),
+                               @"created_at": NULLIFNIL(currentUser.creationDate),
+                               @"title": NULLIFNIL(currentUser.title),
+                               @"username": NULLIFNIL(currentUser.username)}];
         [_appDelegate.morselApiService getUserProfile:currentUser
                                               success:nil
                                               failure:nil];
@@ -103,7 +103,7 @@
 }
 
 - (void)toggleSidebar:(BOOL)shouldShow {
-    [[Mixpanel sharedInstance] track:(shouldShow) ? @"Opened Side Bar" : @"Closed Side Bar"
+    [[MRSLEventManager sharedManager] track:(shouldShow) ? @"Opened Side Bar" : @"Closed Side Bar"
                           properties:@{@"view": @"MorselRootViewController"}];
 
     [[UIApplication sharedApplication] setStatusBarHidden:shouldShow
@@ -126,7 +126,7 @@
 }
 
 - (void)presentCreateMorsel {
-    [[Mixpanel sharedInstance] track:@"Tapped Add Morsel Camera Icon"
+    [[MRSLEventManager sharedManager] track:@"Tapped Add Morsel Camera Icon"
                           properties:@{@"view": @"MorselRootViewController"}];
 
     UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorsel"];
@@ -230,22 +230,22 @@
 
     switch (menuType) {
         case SideBarMenuItemTypeHome:
-            [[Mixpanel sharedInstance] track:@"Tapped Home"
+            [[MRSLEventManager sharedManager] track:@"Tapped Home"
                                   properties:@{@"view": @"MRSLSideBarViewController"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
             break;
         case SideBarMenuItemTypeProfile:
-            [[Mixpanel sharedInstance] track:@"Tapped View Profile"
+            [[MRSLEventManager sharedManager] track:@"Tapped View Profile"
                                   properties:@{@"view": @"MRSLSideBarViewController"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"];
             break;
         case SideBarMenuItemTypeDrafts:
-            [[Mixpanel sharedInstance] track:@"Tapped Drafts"
+            [[MRSLEventManager sharedManager] track:@"Tapped Drafts"
                                   properties:@{@"view": @"MRSLSideBarViewController"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Drafts"];
             break;
         case SideBarMenuItemTypeLogout:
-            [[Mixpanel sharedInstance] track:@"Tapped Logout"
+            [[MRSLEventManager sharedManager] track:@"Tapped Logout"
                                   properties:@{@"view": @"MRSLSideBarViewController"}];
             [self logUserOut];
             break;

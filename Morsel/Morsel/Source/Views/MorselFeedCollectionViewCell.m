@@ -146,10 +146,10 @@
 #pragma mark - Private Methods
 
 - (IBAction)editMorsel:(id)sender {
-    [[Mixpanel sharedInstance] track:@"Tapped Edit Post"
+    [[MRSLEventManager sharedManager] track:@"Tapped Edit Post"
                           properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                       @"morsel_id": _morsel.morselID ?: [NSNull null],
-                                       @"post_id": _morsel.post.postID ?: [NSNull null]}];
+                                       @"morsel_id": NULLIFNIL(_morsel.morselID),
+                                       @"post_id": NULLIFNIL(_morsel.post.postID)}];
 
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectEditMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectEditMorsel:self.morsel];
@@ -157,9 +157,9 @@
 }
 
 - (IBAction)displayAssociatedMorsels:(id)sender {
-    [[Mixpanel sharedInstance] track:@"Tapped Open Progression Thumbnail View"
+    [[MRSLEventManager sharedManager] track:@"Tapped Open Progression Thumbnail View"
                           properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                       @"morsel_id": _morsel.morselID ?: [NSNull null]}];
+                                       @"morsel_id": NULLIFNIL(_morsel.morselID)}];
 
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidDisplayProgression:)]) {
         [self.delegate morselPostCollectionViewCellDidDisplayProgression:self];
@@ -198,7 +198,7 @@
                                                          shouldLike:!_morsel.likedValue
                                                             didLike:^(BOOL doesLike)
     {
-        [[Mixpanel sharedInstance] track:(doesLike) ? @"Liked Morsel" : @"Unliked Morsel"
+        [[MRSLEventManager sharedManager] track:(doesLike) ? @"Liked Morsel" : @"Unliked Morsel"
                               properties:@{@"view": @"MorselFeedCollectionViewCell",
                                            @"morsel_id": _morsel.morselID}];
         [_morsel setLikedValue:doesLike];
@@ -234,9 +234,9 @@
 #pragma mark - MorselThumbnailViewControllerDelegate Methods
 
 - (void)morselThumbnailDidSelectMorsel:(MRSLMorsel *)morsel {
-    [[Mixpanel sharedInstance] track:@"Tapped Morsel Thumbnail"
+    [[MRSLEventManager sharedManager] track:@"Tapped Morsel Thumbnail"
                           properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                       @"morsel_id": morsel.morselID ?: [NSNull null]}];
+                                       @"morsel_id": NULLIFNIL(morsel.morselID)}];
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectMorsel:morsel];
     }
@@ -244,9 +244,9 @@
 
 - (void)morselThumbnailDidSelectClose {
     if (self.morselThumbnailVC) {
-        [[Mixpanel sharedInstance] track:@"Tapped Close Progression Thumbnail View"
+        [[MRSLEventManager sharedManager] track:@"Tapped Close Progression Thumbnail View"
                               properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                           @"morsel_id": _morsel.morselID ?: [NSNull null]}];
+                                           @"morsel_id": NULLIFNIL(_morsel.morselID)}];
 
         _progressionButton.enabled = YES;
         _likeButton.enabled = YES;
