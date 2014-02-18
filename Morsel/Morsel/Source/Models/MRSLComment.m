@@ -10,17 +10,6 @@
 @implementation MRSLComment
 
 - (BOOL)shouldImport:(id)data {
-    if (![data[@"creator_id"] isEqual:[NSNull null]]) {
-        NSNumber *creatorID = data[@"creator_id"];
-        self.creator = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                               withValue:creatorID
-                                               inContext:self.managedObjectContext];
-
-        if (!self.creator) {
-            return NO;
-        }
-    }
-
     if (![data[@"morsel_id"] isEqual:[NSNull null]]) {
         NSNumber *morselID = data[@"morsel_id"];
         self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID

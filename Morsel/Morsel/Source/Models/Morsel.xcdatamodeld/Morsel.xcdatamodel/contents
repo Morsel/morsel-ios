@@ -12,8 +12,16 @@
             </userInfo>
         </attribute>
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="comments" inverseEntity="MRSLUser" syncable="YES"/>
-        <relationship name="morsel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="comments" inverseEntity="MRSLMorsel" syncable="YES"/>
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="comments" inverseEntity="MRSLUser" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="userID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="morsel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="comments" inverseEntity="MRSLMorsel" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="morselID"/>
+            </userInfo>
+        </relationship>
     </entity>
     <entity name="MRSLMorsel" representedClassName="MRSLMorsel" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>

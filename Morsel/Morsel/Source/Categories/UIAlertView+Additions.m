@@ -69,7 +69,7 @@
                                      delegate:(id /*<UIAlertViewDelegate>*/)delegate {
     [[MRSLEventManager sharedManager] track:@"Displayed Alert to User"
                           properties:@{@"view": @"UIAlertView",
-                                       @"message": [serviceError errorInfo]}];
+                                       @"message": NULLIFNIL([serviceError errorInfo])}];
     return [UIAlertView showAlertViewForErrorString:[serviceError errorInfo]
                                            delegate:delegate];
 }
