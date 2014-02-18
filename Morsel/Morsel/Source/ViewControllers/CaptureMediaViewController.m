@@ -209,24 +209,26 @@ UINavigationControllerDelegate>
 - (void)displayLatestCameraRollImage {
     ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
     [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
-                                 usingBlock:^(ALAssetsGroup *group, BOOL *stopSavedPhotoEnumeration) {
-                                     if (nil != group) {
-                                         [group setAssetsFilter:[ALAssetsFilter allPhotos]];
-                                         [group enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:group.numberOfAssets - 1]
-                                                                 options:0
-                                                              usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                                                                  if (nil != result) {
-                                                                      ALAssetRepresentation *repr = [result defaultRepresentation];
-                                                                      UIImage *thumbnailImage = [[UIImage imageWithCGImage:[repr fullResolutionImage]] thumbnailImage:40.f interpolationQuality:kCGInterpolationHigh];
-                                                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                                                          [self.cameraRollImageView setImage:thumbnailImage];
-                                                                      });
-                                                                      *stop = YES;
-                                                                  }
-                                                              }];
+                                 usingBlock:^(ALAssetsGroup *assetsGroup, BOOL *stopSavedPhotoEnumeration) {
+                                     if (assetsGroup) {
+                                         [assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
+                                         if (assetsGroup.numberOfAssets > 0) {
+                                             [assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:assetsGroup.numberOfAssets - 1]
+                                                                           options:0
+                                                                        usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop) {
+                                                                            if (asset) {
+                                                                                ALAssetRepresentation *repr = [asset defaultRepresentation];
+                                                                                UIImage *thumbnailImage = [[UIImage imageWithCGImage:[repr fullResolutionImage]] thumbnailImage:40.f interpolationQuality:kCGInterpolationHigh];
+                                                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                    [self.cameraRollImageView setImage:thumbnailImage];
+                                                                                });
+                                                                                *stop = YES;
+                                                                            }
+                                                                        }];
+                                         }
                                      }
                                  } failureBlock:^(NSError *error) {
-                                     NSLog(@"error: %@", error);
+                                     DDLogError(@"Unable to display latest Camera Roll image: %@", error);
                                  }];
 }
 
@@ -313,7 +315,7 @@ UINavigationControllerDelegate>
 
 - (IBAction)displayCameraRoll:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Gallery Icon"
-                          properties:@{@"view": @"CaptureMediaViewController"}];
+                                 properties:@{@"view": @"CaptureMediaViewController"}];
 
     [self endCameraSession];
 
@@ -339,7 +341,7 @@ UINavigationControllerDelegate>
 
 - (IBAction)discardImage:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Re-take Photo"
-                          properties:@{@"view": @"CaptureMediaViewController"}];
+                                 properties:@{@"view": @"CaptureMediaViewController"}];
     self.isSelectingImage = NO;
 
     self.approvalImageView.image = nil;
@@ -352,7 +354,7 @@ UINavigationControllerDelegate>
 
 - (IBAction)acceptImage:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Accept Photo"
-                          properties:@{@"view": @"CaptureMediaViewController"}];
+                                 properties:@{@"view": @"CaptureMediaViewController"}];
     if (_userIsEditing) {
         if ([self.delegate respondsToSelector:@selector(captureMediaViewControllerDidAcceptImage:)]) {
             [self.delegate captureMediaViewControllerDidAcceptImage:_capturedImage];
@@ -368,7 +370,7 @@ UINavigationControllerDelegate>
 
 - (IBAction)snapStillImage:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Take Photo"
-                          properties:@{@"view": @"CaptureMediaViewController"}];
+                                 properties:@{@"view": @"CaptureMediaViewController"}];
     dispatch_async(self.sessionQueue, ^{
 		// Update the orientation on the still image output video connection before capturing.
 		[[self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer  *)self.previewView.layer connection] videoOrientation]];
@@ -676,14 +678,14 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
         [[MRSLEventManager sharedManager] track:@"Added Photo from Camera Roll"
-                              properties:@{@"view": @"CaptureMediaViewController"}];
+                                     properties:@{@"view": @"CaptureMediaViewController"}];
         UIImage *image = info[UIImagePickerControllerOriginalImage];
 
         self.capturedImage = image;
 
         [self processImage:image];
     }
-    
+
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }

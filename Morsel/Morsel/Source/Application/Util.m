@@ -54,13 +54,13 @@
 + (CGFloat)cameraDimensionScaleFromImage:(UIImage *)image {
     BOOL isLandscape = [self imageIsLandscape:image];
 
-    //NSLog(@"Image is Landscape? %@", (isLandscape) ? @"YES" : @"NO");
+    //DDLogDebug(@"Image is Landscape? %@", (isLandscape) ? @"YES" : @"NO");
 
     CGFloat cameraResolutionScale = ((isLandscape) ? image.size.height : image.size.width) / minimumCameraMaxDimension;
     CGFloat dimensionScale = ((isLandscape) ? standardCameraDimensionLandscapeMultiplier : standardCameraDimensionPortraitMultiplier)  *cameraResolutionScale;
 
-    //NSLog(@"Camera Resolution Scale: %f", cameraResolutionScale);
-    //NSLog(@"Camera Dimension Scale Multiplier: %f", dimensionScale);
+    //DDLogDebug(@"Camera Resolution Scale: %f", cameraResolutionScale);
+    //DDLogDebug(@"Camera Dimension Scale Multiplier: %f", dimensionScale);
 
     return dimensionScale;
 }
