@@ -196,7 +196,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)displayMorselDetail {
-    MorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailViewController"];
+    MorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailViewController"];
     morselDetailVC.morsel = _selectedMorsel;
 
     [self.navigationController pushViewController:morselDetailVC
@@ -212,7 +212,7 @@ NSFetchedResultsControllerDelegate>
 - (MorselFeedCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
-    MorselFeedCollectionViewCell *morselCell = [self.profileCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
+    MorselFeedCollectionViewCell *morselCell = [self.profileCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselCell"
                                                                                                      forIndexPath:indexPath];
     morselCell.delegate = self;
     morselCell.morsel = morsel;
@@ -245,7 +245,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel {
-    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"EditPostMorsels"];
+    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_EditPostMorsels"];
 
     if ([editPostMorselsNC.viewControllers count] > 0) {
         PostMorselsViewController *postMorselsVC = [editPostMorselsNC.viewControllers firstObject];

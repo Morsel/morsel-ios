@@ -26,9 +26,9 @@ PODS:
   - GCPlaceholderTextView (1.0.1)
   - GPUImage (0.1.2)
   - KIF (2.0.0)
-  - Kiwi/ARC (2.2.3)
-  - Kiwi/NonARC (2.2.3)
-  - Kiwi/XCTest (2.2.3):
+  - Kiwi/ARC (HEAD based on 2.2.3)
+  - Kiwi/NonARC (HEAD based on 2.2.3)
+  - Kiwi/XCTest (HEAD based on 2.2.3):
     - Kiwi/ARC
     - Kiwi/NonARC
   - MagicalRecord (2.2):
@@ -54,7 +54,7 @@ DEPENDENCIES:
   - GCPlaceholderTextView (= 1.0.1)
   - GPUImage (~> 0.1.2)
   - KIF
-  - Kiwi/XCTest
+  - Kiwi/XCTest (HEAD)
   - MagicalRecord (~> 2.2)
   - Mixpanel (~> 2.3.1)
   - NSDate+TimeAgo (~> 1.0.2)

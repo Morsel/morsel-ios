@@ -40,7 +40,9 @@
 - (void)setMorsel:(MRSLMorsel *)morsel {
     if (_morsel != morsel) {
         _morsel = morsel;
-
+        if (!morsel || self.fetchedResultsController) return;
+        MRSLUser *currentUser = [MRSLUser currentUser];
+        if (!currentUser) return;
         NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"creator.userID == %i", [MRSLUser currentUser].userIDValue];
 
         self.fetchedResultsController = [MRSLPost MR_fetchAllSortedBy:@"creationDate"
@@ -48,7 +50,7 @@
                                                         withPredicate:currentUserPredicate
                                                               groupBy:nil
                                                              delegate:self
-                                                            inContext:_morsel.managedObjectContext];
+                                                            inContext:[NSManagedObjectContext MR_defaultContext]];
 
         [self.postCollectionView reloadData];
     }
@@ -87,7 +89,7 @@
                    cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLPost *post = [_nonEmptyPostsArray objectAtIndex:indexPath.row];
 
-    PostCollectionViewCell *postCell = [self.postCollectionView dequeueReusableCellWithReuseIdentifier:@"PostCell"
+    PostCollectionViewCell *postCell = [self.postCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PostCell"
                                                                                           forIndexPath:indexPath];
     postCell.post = post;
 

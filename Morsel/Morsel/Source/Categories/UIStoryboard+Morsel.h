@@ -16,5 +16,6 @@
 + (UIStoryboard *)loginStoryboard;
 + (UIStoryboard *)morselDetailStoryboard;
 + (UIStoryboard *)morselManagementStoryboard;
++ (UIStoryboard *)specsStoryboardInBundle:(NSBundle *)bundleOrNil;
 
 @end

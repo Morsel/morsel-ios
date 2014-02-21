@@ -205,7 +205,7 @@ UIGestureRecognizerDelegate>
 }
 
 - (IBAction)addMorsel {
-    UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorsel"];
+    UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CreateMorsel"];
 
     [self presentViewController:createMorselNC
                        animated:YES
@@ -216,7 +216,7 @@ UIGestureRecognizerDelegate>
     [[MRSLEventManager sharedManager] track:@"Tapped User Profile Picture"
                           properties:@{@"view": @"HomeViewController",
                                        @"user_id": _currentUser.userID}];
-    ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+    ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfileViewController"];
     profileVC.user = _currentUser;
 
     [self.navigationController pushViewController:profileVC
@@ -227,7 +227,7 @@ UIGestureRecognizerDelegate>
     [[MRSLEventManager sharedManager] track:@"Tapped Morsel"
                           properties:@{@"view": @"HomeViewController",
                                        @"morsel_id": _selectedMorsel.morselID}];
-    MorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailViewController"];
+    MorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailViewController"];
     morselDetailVC.morsel = _selectedMorsel;
 
     [self.navigationController pushViewController:morselDetailVC
@@ -247,20 +247,20 @@ UIGestureRecognizerDelegate>
     UICollectionViewCell *feedCell = nil;
 
     if (!morsel.isUploadingValue && !morsel.didFailUploadValue) {
-        MorselFeedCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
+        MorselFeedCollectionViewCell *morselCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselCell"
                                                                                                       forIndexPath:indexPath];
         morselCell.delegate = self;
         morselCell.morsel = morsel;
 
         feedCell = morselCell;
     } else if (morsel.isUploadingValue && !morsel.didFailUploadValue) {
-        MorselUploadCollectionViewCell *uploadCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"UploadProgressCell"
+        MorselUploadCollectionViewCell *uploadCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_UploadProgressCell"
                                                                                                         forIndexPath:indexPath];
         uploadCell.morsel = morsel;
 
         feedCell = uploadCell;
     } else if (!morsel.isUploadingValue && morsel.didFailUploadValue) {
-        MorselUploadFailureCollectionViewCell *uploadCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"UploadFailCell"
+        MorselUploadFailureCollectionViewCell *uploadCell = [self.feedCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_UploadFailCell"
                                                                                                                forIndexPath:indexPath];
         uploadCell.morsel = morsel;
 
@@ -316,7 +316,7 @@ UIGestureRecognizerDelegate>
 }
 
 - (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel {
-    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"EditPostMorsels"];
+    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_EditPostMorsels"];
 
     if ([editPostMorselsNC.viewControllers count] > 0) {
         PostMorselsViewController *postMorselsVC = [editPostMorselsNC.viewControllers firstObject];

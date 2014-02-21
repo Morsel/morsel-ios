@@ -47,11 +47,11 @@
 
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel identify:[NSString stringWithFormat:@"%i", user.userIDValue]];
-    [mixpanel.people set:@{@"first_name": NULLIFNIL(user.first_name),
-                           @"last_name": NULLIFNIL(user.last_name),
-                           @"created_at": NULLIFNIL(userDictionary[@"created_at"]),
-                           @"title": NULLIFNIL(user.title),
-                           @"username": NULLIFNIL(user.username)}];
+    [mixpanel.people set:@{@"first_name": NSNullIfNil(user.first_name),
+                           @"last_name": NSNullIfNil(user.last_name),
+                           @"created_at": NSNullIfNil(userDictionary[@"created_at"]),
+                           @"title": NSNullIfNil(user.title),
+                           @"username": NSNullIfNil(user.username)}];
     [mixpanel.people increment:@"open_count"
                             by:@(1)];
 

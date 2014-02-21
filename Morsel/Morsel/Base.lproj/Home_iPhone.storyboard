@@ -8,7 +8,7 @@
         <!--Home View Controller-->
         <scene sceneID="l9p-W4-fY5">
             <objects>
-                <viewController storyboardIdentifier="HomeViewController" automaticallyAdjustsScrollViewInsets="NO" id="nQ7-fm-uMk" customClass="HomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_HomeViewController" automaticallyAdjustsScrollViewInsets="NO" id="nQ7-fm-uMk" customClass="HomeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8zH-du-ty7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -24,7 +24,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MorselCell" id="JCe-TP-COz" customClass="MorselFeedCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselCell" id="JCe-TP-COz" customClass="MorselFeedCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -121,7 +121,7 @@
                                             <outlet property="titleLabel" destination="zBy-3c-hXJ" id="c4s-nr-WgP"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UploadFailCell" id="otf-Ek-pwX" customClass="MorselUploadFailureCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_UploadFailCell" id="otf-Ek-pwX" customClass="MorselUploadFailureCollectionViewCell">
                                         <rect key="frame" x="0.0" y="216" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -172,7 +172,7 @@
                                             <outlet property="thumbnailImageView" destination="8uW-n7-4EH" id="Uv3-dK-Sey"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UploadProgressCell" id="a30-lW-YT1" customClass="MorselUploadCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_UploadProgressCell" id="a30-lW-YT1" customClass="MorselUploadCollectionViewCell">
                                         <rect key="frame" x="0.0" y="268" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -269,7 +269,7 @@
         <!--Morsel Thumbnail View Controller-->
         <scene sceneID="lUa-ne-GB3">
             <objects>
-                <viewController storyboardIdentifier="MorselThumbnailViewController" id="Pos-Pc-hE1" customClass="MorselThumbnailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselThumbnailViewController" id="Pos-Pc-hE1" customClass="MorselThumbnailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Wx3-ux-ftS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -286,7 +286,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MorselCell" id="mI3-dS-eJs" customClass="MorselThumbnailCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselCell" id="mI3-dS-eJs" customClass="MorselThumbnailCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -309,7 +309,7 @@
                                             <outlet property="thumbnailView" destination="hYb-Zw-U1C" id="D1i-qD-uJO"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MoreCell" id="RNk-66-KtI" customClass="MorselThumbnailCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MoreCell" id="RNk-66-KtI" customClass="MorselThumbnailCollectionViewCell">
                                         <rect key="frame" x="108" y="0.0" width="104" height="104"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -365,7 +365,7 @@
         <!--Navigation Controller - Home-->
         <scene sceneID="PDw-fc-RSM">
             <objects>
-                <navigationController storyboardIdentifier="Home" title="Home" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="hhS-Tr-n28" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Home" title="Home" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="hhS-Tr-n28" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="icon-tab-home-active" id="VC8-Dg-ebR"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="e48-Fj-r2S">

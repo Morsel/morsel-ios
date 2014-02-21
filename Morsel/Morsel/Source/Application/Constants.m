@@ -20,6 +20,7 @@ NSString *const MRSLUserDidCreateCommentNotification = @"MRSLUserDidCreateCommen
 NSString *const MRSLUserDidBeginCreateMorselNotification = @"MRSLUserDidBeginCreateMorselNotification";
 NSString *const MRSLUserDidUpdateMorselNotification = @"MRSLUserDidUpdateMorselNotification";
 NSString *const MRSLUserDidDeleteMorselNotification = @"MRSLUserDidDeleteMorselNotification";
+NSString *const MRSLUserDidUpdatePostNotification = @"MRSLUserDidUpdatePostNotification";
 
 NSString *const MRSLMorselUploadDidCompleteNotification = @"MRSLMorselUploadDidCompleteNotification";
 NSString *const MRSLMorselUploadDidFailNotification = @"MRSLMorselUploadDidFailNotification";
@@ -27,7 +28,7 @@ NSString *const MRSLMorselUploadDidFailNotification = @"MRSLMorselUploadDidFailN
 #ifdef DEBUG
 int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;
 #else
-int LOG_LEVEL_DEF = LOG_LEVEL_ERROR;
+int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;
 #endif
 
 @implementation Constants

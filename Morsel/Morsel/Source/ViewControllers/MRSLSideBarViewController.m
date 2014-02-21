@@ -44,12 +44,12 @@
     
     SideBarItem *homeItem = [SideBarItem sideBarItemWithTitle:@"Feed"
                                                 iconImageName:@"icon-sidebar-home"
-                                               cellIdentifier:@"SideBarItemCell"
+                                               cellIdentifier:@"ruid_SideBarItemCell"
                                                          type:SideBarMenuItemTypeHome];
     
     SideBarItem *draftItem = [SideBarItem sideBarItemWithTitle:@"Drafts"
                                                  iconImageName:@"icon-sidebar-draft"
-                                                cellIdentifier:@"SideBarDraftCell"
+                                                cellIdentifier:@"ruid_SideBarDraftCell"
                                                           type:SideBarMenuItemTypeDrafts];
 
     self.draftItem = draftItem;

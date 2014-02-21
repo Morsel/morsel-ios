@@ -54,31 +54,8 @@ ProfileImageViewDelegate>
 
     if (_morsel && _morsel.post) {
         self.currentMorselID = _morsel.morselIDValue;
-        self.morselPost = _morsel.post;
 
-        NSUInteger postMorselCount = [_morselPost.morsels count];
-
-        if (postMorselCount > 1) {
-            self.progressionPageControl.numberOfPages = postMorselCount;
-            [self.morselDetailNavigationView setHeight:MRSLDetailProgressionNavigationBarHeight];
-        } else {
-            self.progressionPageControl.hidden = YES;
-            [self.morselDetailNavigationView setHeight:MRSLDetailSingleNavigationBarHeight];
-        }
-
-        CGFloat navigationViewHeight = [_morselDetailNavigationView getHeight];
-
-        [self.profilePanelView setY:navigationViewHeight];
-        [self.viewControllerPanelContainerView setY:navigationViewHeight];
-        [self.viewControllerPanelContainerView setHeight:[self.view getHeight] - navigationViewHeight];
-
-        self.postTitleLabel.text = _morselPost.title ?: @"Morsel";
-        self.timeSinceLabel.text = [_morsel.creationDate timeAgo];
-        self.authorNameLabel.text = [_morselPost.creator fullName];
-
-        self.profileImageView.user = _morselPost.creator;
-        self.profileImageView.delegate = self;
-        [_profileImageView addCornersWithRadius:20.f];
+        [self displayAndLayoutContent];
 
         if ([_morselPost.morsels count] > 1) {
             NSArray *orderedMorselsArray = _morselPost.morselsArray;
@@ -90,7 +67,7 @@ ProfileImageViewDelegate>
             NSMutableArray *panelArray = [NSMutableArray array];
 
             for (MRSLMorsel *morsel in orderedMorselsArray) {
-                MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
+                MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailPanel"];
                 morselDetailPanelVC.morsel = morsel;
                 [panelArray addObject:morselDetailPanelVC];
             }
@@ -104,7 +81,7 @@ ProfileImageViewDelegate>
                                             action:@selector(changePage:)
                                   forControlEvents:UIControlEventValueChanged];
         } else {
-            MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailPanel"];
+            MorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailPanel"];
             morselDetailPanelVC.view.frame = CGRectMake(0.f, 0.f, _viewControllerPanelContainerView.frame.size.width, _viewControllerPanelContainerView.frame.size.height);
             morselDetailPanelVC.morsel = _morsel;
             morselDetailPanelVC.delegate = self;
@@ -113,6 +90,10 @@ ProfileImageViewDelegate>
             [self.viewControllerPanelContainerView addSubview:morselDetailPanelVC.view];
         }
 
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(postUpdated)
+                                                     name:MRSLUserDidUpdatePostNotification
+                                                   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(morselDeleted:)
                                                      name:MRSLUserDidDeleteMorselNotification
@@ -123,18 +104,24 @@ ProfileImageViewDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (_morsel) {
+    if (_morsel.managedObjectContext) {
         self.timeSinceLabel.text = [_morsel.creationDate timeAgo];
+    } else {
+        self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                withValue:@(_currentMorselID)];
+        if (_morsel.managedObjectContext) {
+            [self displayAndLayoutContent];
+        }
     }
 }
 
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"AddComment"]) {
+    if ([segue.identifier isEqualToString:@"seg_AddComment"]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Add Comment"
                               properties:@{@"view": @"MorselDetailViewController",
-                                           @"morsel_id": _morsel.morselID}];
+                                           @"morsel_id": NSNullIfNil(_morsel.morselID)}];
         AddCommentViewController *addCommentVC = [segue destinationViewController];
         addCommentVC.morsel = _morsel;
     }
@@ -142,13 +129,41 @@ ProfileImageViewDelegate>
 
 #pragma mark - Action Methods
 
+- (void)displayAndLayoutContent {
+    self.morselPost = _morsel.post;
+
+    NSUInteger postMorselCount = [_morselPost.morsels count];
+
+    if (postMorselCount > 1) {
+        self.progressionPageControl.numberOfPages = postMorselCount;
+        [self.morselDetailNavigationView setHeight:MRSLDetailProgressionNavigationBarHeight];
+    } else {
+        self.progressionPageControl.hidden = YES;
+        [self.morselDetailNavigationView setHeight:MRSLDetailSingleNavigationBarHeight];
+    }
+
+    CGFloat navigationViewHeight = [_morselDetailNavigationView getHeight];
+
+    [self.profilePanelView setY:navigationViewHeight];
+    [self.viewControllerPanelContainerView setY:navigationViewHeight];
+    [self.viewControllerPanelContainerView setHeight:[self.view getHeight] - navigationViewHeight];
+
+    self.postTitleLabel.text = _morselPost.title ?: @"Morsel";
+    self.timeSinceLabel.text = [_morsel.creationDate timeAgo];
+    self.authorNameLabel.text = [_morselPost.creator fullName];
+
+    self.profileImageView.user = _morselPost.creator;
+    self.profileImageView.delegate = self;
+    [_profileImageView addCornersWithRadius:20.f];
+}
+
 - (void)changePage:(UIPageControl *)pageControl {
     [self displayPanelForPage:pageControl.currentPage
                      animated:YES];
 }
 
 - (void)displayUserProfileForUser:(MRSLUser *)user {
-    ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+    ProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfileViewController"];
     profileVC.user = user;
 
     [self.navigationController pushViewController:profileVC
@@ -160,6 +175,10 @@ ProfileImageViewDelegate>
 }
 
 #pragma mark - NSNotification
+
+- (void)postUpdated {
+    self.postTitleLabel.text = _morselPost.title ?: @"Morsel";
+}
 
 - (void)morselDeleted:(NSNotification *)notification {
     if (!_morselPost || [_morselPost.morsels count] == 0) {
@@ -189,7 +208,7 @@ ProfileImageViewDelegate>
 #pragma mark - MorselDetailPanelViewControllerDelegate
 
 - (void)morselDetailPanelViewDidSelectAddComment {
-    [self performSegueWithIdentifier:@"AddComment"
+    [self performSegueWithIdentifier:@"seg_AddComment"
                               sender:nil];
 }
 
@@ -224,6 +243,12 @@ ProfileImageViewDelegate>
 
     MorselDetailPanelViewController *detailPanelViewController = [self.swipeViewControllers objectAtIndex:page];
     detailPanelViewController.delegate = self;
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

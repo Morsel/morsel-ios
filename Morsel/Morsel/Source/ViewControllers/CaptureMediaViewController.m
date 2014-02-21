@@ -150,7 +150,7 @@ UINavigationControllerDelegate>
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"DisplayCreateMorsel"]) {
+    if ([[segue identifier] isEqualToString:@"seg_DisplayCreateMorsel"]) {
         CreateMorselViewController *createMorselVC = [segue destinationViewController];
         createMorselVC.capturedImage = _capturedImage ?: nil;
 
@@ -335,8 +335,13 @@ UINavigationControllerDelegate>
 }
 
 - (IBAction)addMorselText:(id)sender {
-    [self performSegueWithIdentifier:@"DisplayCreateMorsel"
-                              sender:nil];
+    if (_userIsEditing) {
+        [self.presentingViewController dismissViewControllerAnimated:YES
+                                                          completion:nil];
+    } else {
+        [self performSegueWithIdentifier:@"seg_DisplayCreateMorsel"
+                                  sender:nil];
+    }
 }
 
 - (IBAction)discardImage:(id)sender {
@@ -363,7 +368,7 @@ UINavigationControllerDelegate>
         [self.presentingViewController dismissViewControllerAnimated:YES
                                                           completion:nil];
     } else {
-        [self performSegueWithIdentifier:@"DisplayCreateMorsel"
+        [self performSegueWithIdentifier:@"seg_DisplayCreateMorsel"
                                   sender:nil];
     }
 }
@@ -550,18 +555,23 @@ monitorSubjectAreaChange:NO];
     if ([self.session isRunning]) {
         dispatch_async(self.sessionQueue, ^{
             [self.session stopRunning];
+            @try {
+                [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                                name:AVCaptureDeviceSubjectAreaDidChangeNotification
+                                                              object:[self.videoDeviceInput device]];
 
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:AVCaptureDeviceSubjectAreaDidChangeNotification
-                                                          object:[self.videoDeviceInput device]];
+                [[NSNotificationCenter defaultCenter] removeObserver:[self runtimeErrorHandlingObserver]];
 
-            [[NSNotificationCenter defaultCenter] removeObserver:[self runtimeErrorHandlingObserver]];
+                [self removeObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized"
+                             context:SessionRunningAndDeviceAuthorizedContext];
 
-            [self removeObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized"
-                         context:SessionRunningAndDeviceAuthorizedContext];
-
-            [self removeObserver:self forKeyPath:@"stillImageOutput.capturingStillImage"
-                         context:CapturingStillImageContext];
+                [self removeObserver:self forKeyPath:@"stillImageOutput.capturingStillImage"
+                             context:CapturingStillImageContext];
+            }
+            @catch (NSException *exception) {
+                DDLogError(@"Unable to remove session observers because they do not exist.");
+            }
+            
         });
     }
 }

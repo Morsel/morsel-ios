@@ -88,10 +88,10 @@ UIDocumentInteractionControllerDelegate>
 
     // This is a temporary navigation solution and loads both subcontent views immediately.
 
-    self.addTextViewController = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"AddTextViewController"];
+    self.addTextViewController = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_AddTextViewController"];
     self.addTextViewController.delegate = self;
 
-    self.userPostsViewController = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"UserPostsViewController"];
+    self.userPostsViewController = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_UserPostsViewController"];
     self.userPostsViewController.delegate = self;
 
     CGRect subContentFrame = CGRectMake(0.f, 134.f, 320.f, MRSLSubContentHeight);
@@ -178,7 +178,6 @@ UIDocumentInteractionControllerDelegate>
     if (_morsel) {
         self.userPostsViewController.morsel = _morsel;
     }
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -192,7 +191,7 @@ UIDocumentInteractionControllerDelegate>
 - (void)goBack {
     [[MRSLEventManager sharedManager] track:@"Tapped Go Back"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     self.settingsButton.hidden = NO;
     self.doneButton.hidden = YES;
 
@@ -201,7 +200,7 @@ UIDocumentInteractionControllerDelegate>
 
 - (IBAction)goBackToCaptureMedia:(id)sender {
     if (!_userIsEditing) {
-        [_morsel.managedObjectContext deleteObject:_morsel];
+        [_morsel MR_deleteEntity];
 
         if (_capturedImage) {
             self.thumbnailImageView.image = nil;
@@ -226,7 +225,7 @@ UIDocumentInteractionControllerDelegate>
         return;
     }
 
-    CaptureMediaViewController *captureMediaVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CaptureMediaViewController"];
+    CaptureMediaViewController *captureMediaVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CaptureMediaViewController"];
     captureMediaVC.morsel = _morsel;
     captureMediaVC.delegate = self;
 
@@ -261,12 +260,12 @@ UIDocumentInteractionControllerDelegate>
 
     [[MRSLEventManager sharedManager] track:@"Tapped Toggle Facebook"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
 
     if ([currentUser facebook_uid]) {
         [[MRSLEventManager sharedManager] track:@"User Already Authorized with Facebook"
                                      properties:@{@"view": @"CreateMorselViewController",
-                                                  @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
         //  api already has a token, so just toggle the button
         [button setSelected:!button.selected];
     } else {
@@ -295,7 +294,7 @@ UIDocumentInteractionControllerDelegate>
 - (IBAction)toggleInstagram:(UIButton *)button {
     [[MRSLEventManager sharedManager] track:@"Tapped Toggle Instagram"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
 
     if ([button isSelected]) {
         [button setSelected:NO];
@@ -315,13 +314,13 @@ UIDocumentInteractionControllerDelegate>
 - (IBAction)toggleTwitter:(UIButton *)button {
     [[MRSLEventManager sharedManager] track:@"Tapped Toggle Twitter"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     MRSLUser *currentUser = [MRSLUser currentUser];
 
     if ([currentUser twitter_username]) {
         [[MRSLEventManager sharedManager] track:@"User Already Authorized with Twitter"
                                      properties:@{@"view": @"CreateMorselViewController",
-                                                  @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
         //  api already has a token, so just toggle the button
         [button setSelected:!button.selected];
     } else {
@@ -431,7 +430,7 @@ UIDocumentInteractionControllerDelegate>
 - (void)updateMorsel {
     [[MRSLEventManager sharedManager] track:@"Tapped Save Morsel"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID),
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"morsel_draft":(_morsel.draftValue) ? @"true" : @"false"}];
 
     if (_willPublish) {
@@ -480,7 +479,7 @@ UIDocumentInteractionControllerDelegate>
 - (void)saveAsDraft {
     [[MRSLEventManager sharedManager] track:@"Tapped Save Morsel as Draft"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     if (_morsel) {
         if (self.post) {
             DDLogDebug(@"Adding Draft Morsel (%i) to existing Post (%i)!", _morsel.morselIDValue, _post.postIDValue);
@@ -507,7 +506,7 @@ UIDocumentInteractionControllerDelegate>
 - (void)publishMorsel {
     [[MRSLEventManager sharedManager] track:@"Tapped Publish Morsel"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID),
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"morsel_draft":(_morsel.draftValue) ? @"true" : @"false"}];
     if (self.post) {
         DDLogDebug(@"Publishing Morsel (%i) to existing Post (%i)!", _morsel.morselIDValue, _post.postIDValue);
@@ -531,7 +530,7 @@ UIDocumentInteractionControllerDelegate>
 - (void)sendToInstagram {
     [[MRSLEventManager sharedManager] track:@"Presented Instagram Document Interaction Controller"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
@@ -632,7 +631,7 @@ UIDocumentInteractionControllerDelegate>
             if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
                 [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
                                              properties:@{@"view": @"CreateMorselViewController",
-                                                          @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                                          @"morsel_id": NSNullIfNil(_morsel.morselID)}];
                 [_appDelegate.morselApiService deleteMorsel:_morsel
                                                     success:^(BOOL success) {
                                                         [self goBack];
@@ -676,14 +675,14 @@ UIDocumentInteractionControllerDelegate>
                                                                                 [_appDelegate.morselApiService updateUser:[MRSLUser currentUser] success:^(id userResponseObject) {
                                                                                     [[MRSLEventManager sharedManager] track:@"User Authorized with Facebook"
                                                                                                                  properties:@{@"view": @"CreateMorselViewController",
-                                                                                                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                                                                                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
                                                                                     __strong __typeof(weakSelf) strongSelf = weakSelf;
                                                                                     [strongSelf->_facebookButton setEnabled:YES];
                                                                                     [strongSelf->_facebookButton setSelected:!strongSelf->_facebookButton.selected];
                                                                                 } failure:^(NSError *error) {
                                                                                     [[MRSLEventManager sharedManager] track:@"User Unable to Authorize with Facebook"
                                                                                                                  properties:@{@"view": @"CreateMorselViewController",
-                                                                                                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                                                                                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
                                                                                     __strong __typeof(weakSelf) strongSelf = weakSelf;
                                                                                     [strongSelf->_facebookButton setEnabled:YES];
                                                                                     [UIAlertView showAlertViewForError:error
@@ -692,7 +691,7 @@ UIDocumentInteractionControllerDelegate>
                                                                             } failure:^(NSError *error) {
                                                                                 [[MRSLEventManager sharedManager] track:@"User Unable to Authorize with Facebook"
                                                                                                              properties:@{@"view": @"CreateMorselViewController",
-                                                                                                                          @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                                                                                                          @"morsel_id": NSNullIfNil(_morsel.morselID)}];
                                                                                 __strong __typeof(weakSelf) strongSelf = weakSelf;
                                                                                 [strongSelf->_facebookButton setEnabled:YES];
                                                                                 [UIAlertView showAlertViewForError:error
@@ -717,14 +716,14 @@ UIDocumentInteractionControllerDelegate>
                                                                                                                     [_appDelegate.morselApiService updateUser:[MRSLUser currentUser] success:^(id userResponseObject) {
                                                                                                                         [[MRSLEventManager sharedManager] track:@"User Authorized with Twitter"
                                                                                                                                                      properties:@{@"view": @"CreateMorselViewController",
-                                                                                                                                                                  @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                                                                                                                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
                                                                                                                         __strong __typeof(weakSelf) strongSelf = weakSelf;
                                                                                                                         [strongSelf->_twitterButton setEnabled:YES];
                                                                                                                         [strongSelf->_twitterButton setSelected:!strongSelf->_twitterButton.selected];
                                                                                                                     } failure:^(NSError *error) {
                                                                                                                         [[MRSLEventManager sharedManager] track:@"User Unable to Authorize with Twitter"
                                                                                                                                                      properties:@{@"view": @"CreateMorselViewController",
-                                                                                                                                                                  @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                                                                                                                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
                                                                                                                         __strong __typeof(weakSelf) strongSelf = weakSelf;
                                                                                                                         [strongSelf->_twitterButton setEnabled:YES];
                                                                                                                         [UIAlertView showAlertViewForError:error
@@ -733,7 +732,7 @@ UIDocumentInteractionControllerDelegate>
                                                                                                                 } failure:^(NSError *error) {
                                                                                                                     [[MRSLEventManager sharedManager] track:@"User Unable to Authorize with Twitter"
                                                                                                                                                  properties:@{@"view": @"CreateMorselViewController",
-                                                                                                                                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                                                                                                                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
                                                                                                                     __strong __typeof(weakSelf) strongSelf = weakSelf;
                                                                                                                     [strongSelf->_twitterButton setEnabled:YES];
                                                                                                                     [UIAlertView showAlertViewForError:error
@@ -762,7 +761,7 @@ UIDocumentInteractionControllerDelegate>
 - (void)createMorselButtonPanelDidSelectAddText {
     [[MRSLEventManager sharedManager] track:@"Tapped Add Text to Morsel"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     self.addTextViewController.view.hidden = NO;
     self.userPostsViewController.view.hidden = YES;
 }
@@ -770,8 +769,9 @@ UIDocumentInteractionControllerDelegate>
 - (void)createMorselButtonPanelDidSelectAddProgression {
     [[MRSLEventManager sharedManager] track:@"Tapped Associate Morsel with Progression Icon"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     [self.view endEditing:YES];
+    self.userPostsViewController.morsel = _morsel;
     self.addTextViewController.view.hidden = YES;
     self.userPostsViewController.view.hidden = NO;
 }
@@ -784,8 +784,8 @@ UIDocumentInteractionControllerDelegate>
 
     [[MRSLEventManager sharedManager] track:@"Tapped Associate Morsel to Progression"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID),
-                                              @"post_id": NULLIFNIL(_post.postID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                              @"post_id": NSNullIfNil(_post.postID)}];
 
     if (_post && !_post.title) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -800,8 +800,8 @@ UIDocumentInteractionControllerDelegate>
 - (void)userPostsSelectedOriginalMorsel {
     [[MRSLEventManager sharedManager] track:@"Tapped Revert Morsel to Original Progression"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID),
-                                              @"post_id": NULLIFNIL(_morsel.post.postID)}];
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                              @"post_id": NSNullIfNil(_morsel.post.postID)}];
     self.temporaryPostTitle = nil;
     self.post = self.morsel.post;
 }
@@ -827,7 +827,7 @@ UIDocumentInteractionControllerDelegate>
         willBeginSendingToApplication:(NSString *)application {
     [[MRSLEventManager sharedManager] track:@"Tapped Send to Instagram"
                                  properties:@{@"view": @"CreateMorselViewController",
-                                              @"morsel_id": NULLIFNIL(_morsel.morselID),
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"morsel_social_message": _morsel.socialMessage}];
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];

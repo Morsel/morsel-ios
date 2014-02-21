@@ -24,5 +24,5 @@ target 'Morsel-Integration' do
 end
 
 target 'Morsel-Specs' do
-	pod 'Kiwi/XCTest'
+	pod 'Kiwi/XCTest', :head
 end

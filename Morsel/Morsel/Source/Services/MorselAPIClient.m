@@ -10,17 +10,6 @@
 
 #import "JSONResponseSerializerWithData.h"
 
-#if (defined(MORSEL_BETA) || defined(RELEASE))
-
-#define MORSEL_API_BASE_URL @"https://api.eatmorsel.com/"
-
-#else
-
-#define MORSEL_API_BASE_URL @"http://api-staging.eatmorsel.com/"
-
-#endif
-
-
 @implementation MorselAPIClient
 
 #pragma mark - Class Methods

@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+#ifdef SPEC_TESTING
+
+#import "MRSLSpecsAppDelegate.h"
+
+int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([MRSLSpecsAppDelegate class]));
+    }
+}
+
+#else
+
 #import "AppDelegate.h"
 
 int main(int argc, char * argv[]) {
@@ -15,3 +27,5 @@ int main(int argc, char * argv[]) {
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }
+
+#endif

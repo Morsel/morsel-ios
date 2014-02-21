@@ -206,18 +206,18 @@ UITextFieldDelegate>
     UICollectionViewCell *feedCell = nil;
 
     if (!morsel.isUploadingValue && !morsel.didFailUploadValue) {
-        PostMorselCollectionViewCell *postMorselCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PostMorselCell"
+        PostMorselCollectionViewCell *postMorselCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PostMorselCell"
                                                                                                  forIndexPath:indexPath];
         postMorselCell.morsel = morsel;
         feedCell = postMorselCell;
     } else if (morsel.isUploadingValue && !morsel.didFailUploadValue) {
-        MorselUploadCollectionViewCell *uploadCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UploadProgressCell"
+        MorselUploadCollectionViewCell *uploadCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_UploadProgressCell"
                                                                                                forIndexPath:indexPath];
         uploadCell.morsel = morsel;
 
         feedCell = uploadCell;
     } else if (!morsel.isUploadingValue && morsel.didFailUploadValue) {
-        MorselUploadFailureCollectionViewCell *uploadCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UploadFailCell"
+        MorselUploadFailureCollectionViewCell *uploadCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_UploadFailCell"
                                                                                                       forIndexPath:indexPath];
         uploadCell.morsel = morsel;
 
@@ -233,7 +233,7 @@ UITextFieldDelegate>
     self.selectedIndexPath = indexPath;
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
-    CreateMorselViewController *createMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorselViewController"];
+    CreateMorselViewController *createMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CreateMorselViewController"];
     createMorselVC.morsel = morsel;
 
     [self.navigationController pushViewController:createMorselVC

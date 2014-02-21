@@ -56,12 +56,28 @@ static const int croppedImageHeightOffset = 106.f;
 
 #pragma mark - Defines
 
-#define _appDelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate])
-#define NULLIFNIL(obj) ((obj == nil) ? [NSNull null] : obj)
+#if (defined(MORSEL_BETA) || defined(RELEASE))
+
+#define MORSEL_API_BASE_URL @"https://api.eatmorsel.com"
+
+#else
+
+#define MORSEL_API_BASE_URL @"http://api-staging.eatmorsel.com"
+
+#endif
+
+#ifdef SPEC_TESTING
+#import "MRSLSpecsAppDelegate.h"
+    #define _appDelegate ((MRSLSpecsAppDelegate *)[[UIApplication sharedApplication] delegate])
+#else
+#import "AppDelegate.h"
+    #define _appDelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate])
+#endif
+
+#define NSNullIfNil(obj) ((obj == nil) ? [NSNull null] : obj)
 
 #pragma mark - Imports
 
-#import "AppDelegate.h"
 #import "Constants.h"
 #import "CoreData+MagicalRecord.h"
 #import "Util.h"

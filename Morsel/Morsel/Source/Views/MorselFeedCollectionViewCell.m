@@ -148,8 +148,8 @@
 - (IBAction)editMorsel:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Edit Post"
                           properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                       @"morsel_id": NULLIFNIL(_morsel.morselID),
-                                       @"post_id": NULLIFNIL(_morsel.post.postID)}];
+                                       @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                       @"post_id": NSNullIfNil(_morsel.post.postID)}];
 
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectEditMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectEditMorsel:self.morsel];
@@ -159,13 +159,13 @@
 - (IBAction)displayAssociatedMorsels:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Open Progression Thumbnail View"
                           properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                       @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                       @"morsel_id": NSNullIfNil(_morsel.morselID)}];
 
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidDisplayProgression:)]) {
         [self.delegate morselPostCollectionViewCellDidDisplayProgression:self];
     }
 
-    self.morselThumbnailVC = [[UIStoryboard homeStoryboard] instantiateViewControllerWithIdentifier:@"MorselThumbnailViewController"];
+    self.morselThumbnailVC = [[UIStoryboard homeStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselThumbnailViewController"];
     _morselThumbnailVC.delegate = self;
     _morselThumbnailVC.post = _morsel.post;
     [_morselThumbnailVC.view setX:self.frame.size.width];
@@ -236,7 +236,7 @@
 - (void)morselThumbnailDidSelectMorsel:(MRSLMorsel *)morsel {
     [[MRSLEventManager sharedManager] track:@"Tapped Morsel Thumbnail"
                           properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                       @"morsel_id": NULLIFNIL(morsel.morselID)}];
+                                       @"morsel_id": NSNullIfNil(morsel.morselID)}];
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectMorsel:morsel];
     }
@@ -246,7 +246,7 @@
     if (self.morselThumbnailVC) {
         [[MRSLEventManager sharedManager] track:@"Tapped Close Progression Thumbnail View"
                               properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                           @"morsel_id": NULLIFNIL(_morsel.morselID)}];
+                                           @"morsel_id": NSNullIfNil(_morsel.morselID)}];
 
         _progressionButton.enabled = YES;
         _likeButton.enabled = YES;

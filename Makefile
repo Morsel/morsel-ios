@@ -4,6 +4,7 @@ setup:
 	@echo Setting up environment
 
 	@which pod || gem install cocoapod
+	@which storyboardlint || gem install storyboardlint
 	@pod setup
 	@pod install
 	@brew upgrade xctool || brew install xctool

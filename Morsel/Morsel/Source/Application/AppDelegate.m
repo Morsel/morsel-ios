@@ -29,15 +29,11 @@
 
     [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
 
-    self.morselApiService = [[MorselAPIService alloc] init];
-    self.defaultDateFormatter = [[NSDateFormatter alloc] init];
-    [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
-    [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
-
-    [self setupDatabase];
+    [self setupMorselEnvironment];
 
     [[MRSLEventManager sharedManager] track:@"Open app"
-                          properties:@{@"view": @"AppDelegate"}];
+                                 properties:@{@"view": @"AppDelegate"}];
+
     return YES;
 }
 
@@ -46,6 +42,22 @@
         [[Mixpanel sharedInstance].people increment:@"open_count"
                                 by:@(1)];
     }
+}
+
+#pragma mark - Instance Methods
+
+- (void)setupMorselEnvironment {
+    self.defaultDateFormatter = [[NSDateFormatter alloc] init];
+    [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
+    self.morselApiService = [[MorselAPIService alloc] init];
+
+    [self setupDatabase];
+
+    UIViewController *viewController = [[UIStoryboard mainStoryboard] instantiateInitialViewController];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = viewController;
+    [self.window makeKeyAndVisible];
 }
 
 #pragma mark - Data Methods

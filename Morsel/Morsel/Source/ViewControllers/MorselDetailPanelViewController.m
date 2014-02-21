@@ -28,6 +28,8 @@ static const CGFloat MRSLCommentCellDefaultHeight = 110.f;
 UIGestureRecognizerDelegate,
 UIScrollViewDelegate>
 
+@property (nonatomic) int morselID;
+
 @property (nonatomic) NSUInteger commentCount;
 
 @property (weak, nonatomic) IBOutlet UIButton *addCommentButton;
@@ -63,6 +65,14 @@ UIScrollViewDelegate>
                                                  selector:@selector(commentPosted:)
                                                      name:MRSLUserDidCreateCommentNotification
                                                    object:nil];
+    }
+
+    if (!_morsel.managedObjectContext) {
+        self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                withValue:@(_morselID)];
+        if (_morsel.managedObjectContext) {
+            [self displayMorselContent];
+        }
     }
 
     _contentScrollView.delegate = self;
@@ -104,8 +114,12 @@ UIScrollViewDelegate>
     if (_morsel != morsel) {
         _morsel = morsel;
 
-        if(_morselDescriptionLabel) {
-            [self displayMorselContent];
+        if (_morsel) {
+            self.morselID = morsel.morselIDValue;
+
+            if(_morselDescriptionLabel) {
+                [self displayMorselContent];
+            }
         }
     }
 }
@@ -142,7 +156,7 @@ UIScrollViewDelegate>
     }
 
     if (!_morselDetailCommentsVC) {
-        self.morselDetailCommentsVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"MorselDetailCommentsViewController"];
+        self.morselDetailCommentsVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailCommentsViewController"];
         _morselDetailCommentsVC.delegate = self;
 
         [self addChildViewController:_morselDetailCommentsVC];
@@ -276,7 +290,7 @@ UIScrollViewDelegate>
 }
 
 - (IBAction)editMorsel {
-    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"EditPostMorsels"];
+    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_EditPostMorsels"];
 
     if ([editPostMorselsNC.viewControllers count] > 0) {
         PostMorselsViewController *postMorselsVC = [editPostMorselsNC.viewControllers firstObject];
