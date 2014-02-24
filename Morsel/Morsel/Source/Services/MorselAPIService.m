@@ -185,7 +185,7 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 
-    [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"users/%i/authorizations", user.userIDValue]
+    [[MorselAPIClient sharedClient] POST:@"users/authorizations"
                               parameters:parameters
                                  success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
@@ -214,7 +214,7 @@
                                                     includingMRSLObjects:nil
                                                   requiresAuthentication:YES];
 
-        [[MorselAPIClient sharedClient] POST:[NSString stringWithFormat:@"users/%i/authorizations", user.userIDValue]
+        [[MorselAPIClient sharedClient] POST:@"users/authorizations"
                                   parameters:parameters
                                      success:^(AFHTTPRequestOperation *operation, id responseObject)
          {
