@@ -46,16 +46,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0698CAB01852432D007AF442"
-               BuildableName = "Morsel-Specs.xctest"
-               BlueprintName = "Morsel-Specs"
-               ReferencedContainer = "container:Morsel.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0698CAC618524359007AF442"
                BuildableName = "Morsel-Integration.xctest"
                BlueprintName = "Morsel-Integration"

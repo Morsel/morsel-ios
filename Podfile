@@ -20,7 +20,7 @@ pod 'Mixpanel', '~> 2.3.1'
 pod 'TestFlightFeedback', '~> 1.0.0'
 
 target 'Morsel-Integration' do
-	pod 'KIF'
+	pod 'Kiwi-KIF/XCTest', '~>1.0.1'
 end
 
 target 'Morsel-Specs' do

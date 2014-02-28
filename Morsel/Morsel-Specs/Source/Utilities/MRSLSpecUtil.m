@@ -16,22 +16,16 @@
 
 + (void)stubMorselAPIRequestsWithJSONFileName:(NSString *)fileName
                                 forRequestPath:(NSString *)urlParametersToMatch {
-
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSRange apiHostRange = [MORSEL_API_BASE_URL rangeOfString:request.URL.host];
-        BOOL stagingAndParametersMatch = (apiHostRange.location != NSNotFound);
-
-        NSString *requestToStub = [NSString stringWithFormat:@"%@%@?", request.URL.host, urlParametersToMatch];
-
-        NSString *requestAbsoluteString = request.URL.absoluteString;
-        NSRange apiRequestRange = [requestAbsoluteString rangeOfString:requestToStub];
-        stagingAndParametersMatch = (apiRequestRange.location != NSNotFound);
-
-        return stagingAndParametersMatch;
+        NSString *requestToStub = [NSString stringWithFormat:@"%@%@", request.URL.host, urlParametersToMatch];
+        NSRange apiRequestRange = [request.URL.absoluteString rangeOfString:requestToStub];
+        return (apiRequestRange.location != NSNotFound);
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        NSString *jsonPath = [[NSBundle bundleForClass:self] pathForResource:[fileName stringByDeletingPathExtension] ofType:[fileName pathExtension]];
-
-        return [OHHTTPStubsResponse responseWithFileAtPath:jsonPath statusCode:200 headers:nil];
+        NSString *jsonPath = [[NSBundle bundleForClass:self] pathForResource:[fileName stringByDeletingPathExtension]
+                                                                      ofType:[fileName pathExtension]];
+        return [OHHTTPStubsResponse responseWithFileAtPath:jsonPath
+                                                statusCode:200
+                                                   headers:@{@"Content-Type": @"application/json"}];
     }];
 };
 

@@ -26,6 +26,9 @@ PODS:
   - GCPlaceholderTextView (1.0.1)
   - GPUImage (0.1.2)
   - KIF (2.0.0)
+  - Kiwi-KIF/XCTest (1.0.1):
+    - KIF (~> 2.0.0)
+    - Kiwi/XCTest (~> 2.2.3)
   - Kiwi/ARC (HEAD based on 2.2.3)
   - Kiwi/NonARC (HEAD based on 2.2.3)
   - Kiwi/XCTest (HEAD based on 2.2.3):
@@ -53,7 +56,7 @@ DEPENDENCIES:
   - CocoaLumberjack (~> 1.6.5.1)
   - GCPlaceholderTextView (= 1.0.1)
   - GPUImage (~> 0.1.2)
-  - KIF
+  - Kiwi-KIF/XCTest (~> 1.0.1)
   - Kiwi/XCTest (HEAD)
   - MagicalRecord (~> 2.2)
   - Mixpanel (~> 2.3.1)
@@ -71,6 +74,7 @@ SPEC CHECKSUMS:
   GPUImage: 007145faa0e27f1ddbcab93e07f026c9776e2fa2
   KIF: ff3b46deb62ce3f8e99c6a2c786729e1eea241ba
   Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
+  Kiwi-KIF: b5391f7f57e91f43fdb2d4227d64277a67cf9e09
   MagicalRecord: 95d49d74ef752cd52f6ad87bcb474817fc3978cf
   Mixpanel: 8d189c58bcaac429de9cb4f18a54621df99b7e38
   NSData+Base64: 4819562faee4544e3cf5703f2139820b09732b28
