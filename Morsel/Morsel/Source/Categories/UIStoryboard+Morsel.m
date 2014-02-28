@@ -40,4 +40,9 @@
                                      bundle:nil];
 }
 
++ (UIStoryboard *)specsStoryboardInBundle:(NSBundle *)bundleOrNil {
+    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Specs_iPad" : @"Specs_iPhone"
+                                     bundle:bundleOrNil];
+}
+
 @end

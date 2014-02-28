@@ -58,7 +58,7 @@
                                cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
-    MorselThumbnailCollectionViewCell *morselCell = [self.thumbnailCollectionView dequeueReusableCellWithReuseIdentifier:@"MorselCell"
+    MorselThumbnailCollectionViewCell *morselCell = [self.thumbnailCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselCell"
                                                                                                             forIndexPath:indexPath];
     morselCell.morsel = morsel;
 

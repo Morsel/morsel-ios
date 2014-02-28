@@ -8,7 +8,7 @@
         <!--Drafts View Controller-->
         <scene sceneID="pD8-pF-KEg">
             <objects>
-                <viewController storyboardIdentifier="DraftsViewController" automaticallyAdjustsScrollViewInsets="NO" id="ba8-k5-3AJ" customClass="DraftsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_DraftsViewController" automaticallyAdjustsScrollViewInsets="NO" id="ba8-k5-3AJ" customClass="DraftsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fdd-RU-NAI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -24,7 +24,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PostMorselCell" id="k8l-0d-smH" customClass="PostMorselCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_PostMorselCell" id="k8l-0d-smH" customClass="PostMorselCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -55,7 +55,7 @@
                                             <outlet property="morselThumbnail" destination="jgo-91-AaM" id="6rl-R0-LjM"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UploadFailCell" id="Hwy-gf-tzP" customClass="MorselUploadFailureCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_UploadFailCell" id="Hwy-gf-tzP" customClass="MorselUploadFailureCollectionViewCell">
                                         <rect key="frame" x="0.0" y="60" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -106,7 +106,7 @@
                                             <outlet property="thumbnailImageView" destination="6ME-3a-c6C" id="Qk1-FM-8I7"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UploadProgressCell" id="sHr-be-bFN" customClass="MorselUploadCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_UploadProgressCell" id="sHr-be-bFN" customClass="MorselUploadCollectionViewCell">
                                         <rect key="frame" x="0.0" y="110" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -196,7 +196,7 @@
         <!--Navigation Controller-->
         <scene sceneID="rGv-ga-vGV">
             <objects>
-                <navigationController storyboardIdentifier="Drafts" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Jgf-ry-POT" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Drafts" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Jgf-ry-POT" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NZd-aZ-tqt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

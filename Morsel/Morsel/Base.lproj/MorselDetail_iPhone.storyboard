@@ -8,7 +8,7 @@
         <!--Morsel Detail View Controller-->
         <scene sceneID="6PX-57-iCp">
             <objects>
-                <viewController storyboardIdentifier="MorselDetailViewController" id="68g-YW-5HD" customClass="MorselDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailViewController" id="68g-YW-5HD" customClass="MorselDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LCm-WB-Vi6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -88,7 +88,7 @@
                         <outlet property="progressionPageControl" destination="sk0-FI-cYB" id="NfH-7y-5MR"/>
                         <outlet property="timeSinceLabel" destination="9Ds-6H-gLF" id="gXY-Ud-pB1"/>
                         <outlet property="viewControllerPanelContainerView" destination="Buk-7l-YjM" id="Z1Q-sT-HoY"/>
-                        <segue destination="RDS-t2-YW3" kind="modal" identifier="AddComment" id="lED-nT-Y6i"/>
+                        <segue destination="RDS-t2-YW3" kind="modal" identifier="seg_AddComment" id="lED-nT-Y6i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gvM-qC-Z9w" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -98,7 +98,7 @@
         <!--Morsel Detail Panel View Controller-->
         <scene sceneID="Dc1-vO-w8d">
             <objects>
-                <viewController storyboardIdentifier="MorselDetailPanel" id="0s7-dI-8vc" customClass="MorselDetailPanelViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailPanel" id="0s7-dI-8vc" customClass="MorselDetailPanelViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gKG-w1-Nk4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="492"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -184,7 +184,7 @@
         <!--Morsel Detail Comments View Controller-->
         <scene sceneID="UbM-UN-e3D">
             <objects>
-                <viewController storyboardIdentifier="MorselDetailCommentsViewController" id="1VI-dl-Qnf" customClass="MorselDetailCommentsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailCommentsViewController" id="1VI-dl-Qnf" customClass="MorselDetailCommentsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MbU-IK-bvU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -194,7 +194,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CommentCell" id="rug-8m-UR0" customClass="CommentTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_CommentCell" id="rug-8m-UR0" customClass="CommentTableViewCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="110"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rug-8m-UR0" id="BeO-u2-xYG">
@@ -265,7 +265,7 @@
         <!--Add Comment View Controller-->
         <scene sceneID="jJA-n2-Rcw">
             <objects>
-                <viewController storyboardIdentifier="AddCommentViewController" id="RDS-t2-YW3" customClass="AddCommentViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_AddCommentViewController" id="RDS-t2-YW3" customClass="AddCommentViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nfI-Wr-60X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

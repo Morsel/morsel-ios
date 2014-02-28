@@ -38,7 +38,7 @@
         <!--Side Bar View Controller-->
         <scene sceneID="JcU-37-114">
             <objects>
-                <viewController storyboardIdentifier="MRSLSideBarViewController" id="DNW-bo-EtN" customClass="MRSLSideBarViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLSideBarViewController" id="DNW-bo-EtN" customClass="MRSLSideBarViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eEE-Bz-R1h">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -104,7 +104,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.67450980392156867" green="0.62745098039215685" blue="0.58039215686274503" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SideBarDraftCell" id="hFl-u5-mAh" customClass="SideBarItemCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ruid_SideBarDraftCell" id="hFl-u5-mAh" customClass="SideBarItemCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="38"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hFl-u5-mAh" id="3vf-wr-5el">
@@ -148,7 +148,7 @@
                                             <outlet property="pipeView" destination="tuB-ty-LrY" id="HTk-t0-a9e"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SideBarItemCell" id="J0g-OJ-sXE" customClass="SideBarItemCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ruid_SideBarItemCell" id="J0g-OJ-sXE" customClass="SideBarItemCell">
                                         <rect key="frame" x="0.0" y="60" width="320" height="38"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="J0g-OJ-sXE" id="iOB-LD-C0e">

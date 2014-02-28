@@ -86,7 +86,7 @@ UITextFieldDelegate>
                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
 
-    PostMorselCollectionViewCell *postMorselCell = [self.postMorselsCollectionView dequeueReusableCellWithReuseIdentifier:@"PostMorselCell"
+    PostMorselCollectionViewCell *postMorselCell = [self.postMorselsCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PostMorselCell"
                                                                                                              forIndexPath:indexPath];
     postMorselCell.morsel = morsel;
 
@@ -100,9 +100,9 @@ UITextFieldDelegate>
 
     [[MRSLEventManager sharedManager] track:@"Tapped Edit Morsel"
                           properties:@{@"view": @"PostMorselsViewController",
-                                       @"morsel_id": NULLIFNIL(morsel.morselID)}];
+                                       @"morsel_id": NSNullIfNil(morsel.morselID)}];
 
-    CreateMorselViewController *createMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorselViewController"];
+    CreateMorselViewController *createMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CreateMorselViewController"];
     createMorselVC.morsel = morsel;
 
     [self.navigationController pushViewController:createMorselVC
@@ -129,7 +129,7 @@ UITextFieldDelegate>
     if (buttonIndex == 1) {
         [[MRSLEventManager sharedManager] track:@"Tapped Update Post"
                               properties:@{@"view": @"PostMorselsViewController",
-                                           @"post_id": NULLIFNIL(_post.postID)}];
+                                           @"post_id": NSNullIfNil(_post.postID)}];
         _post.title = _postTitleLabel.text;
 
         [_appDelegate.morselApiService updatePost:_post

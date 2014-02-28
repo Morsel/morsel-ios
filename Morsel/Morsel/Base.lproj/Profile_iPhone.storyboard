@@ -8,7 +8,7 @@
         <!--Profile View Controller - Profile-->
         <scene sceneID="9xs-cV-Unn">
             <objects>
-                <viewController storyboardIdentifier="ProfileViewController" automaticallyAdjustsScrollViewInsets="NO" id="MYi-AS-SvG" customClass="ProfileViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_ProfileViewController" automaticallyAdjustsScrollViewInsets="NO" id="MYi-AS-SvG" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6iG-bC-U3X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -73,7 +73,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MorselCell" id="Ptr-1u-y5Z" customClass="MorselFeedCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselCell" id="Ptr-1u-y5Z" customClass="MorselFeedCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -247,7 +247,7 @@
         <!--Navigation Controller - Profile-->
         <scene sceneID="mBO-ua-4aU">
             <objects>
-                <navigationController storyboardIdentifier="Profile" title="Profile" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="mgU-9x-CbA" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Profile" title="Profile" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="mgU-9x-CbA" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="icon-tab-profile-inactive" id="BaB-9l-OEF"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="FCa-cq-4iJ">

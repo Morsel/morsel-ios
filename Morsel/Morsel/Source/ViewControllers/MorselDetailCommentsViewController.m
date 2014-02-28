@@ -75,7 +75,7 @@ CommentTableViewCellDelegate>
 - (CommentTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
 
-    CommentTableViewCell *commentCell = [self.commentsTableView dequeueReusableCellWithIdentifier:@"CommentCell"];
+    CommentTableViewCell *commentCell = [self.commentsTableView dequeueReusableCellWithIdentifier:@"ruid_CommentCell"];
     commentCell.comment = comment;
     commentCell.delegate = self;
     commentCell.pipeView.hidden = (indexPath.row == _commentCount - 1);

@@ -48,7 +48,7 @@
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
 
-    self.sideBarViewController = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"MRSLSideBarViewController"];
+    self.sideBarViewController = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLSideBarViewController"];
     _sideBarViewController.delegate = self;
     [_sideBarViewController.view setY:0.f];
 
@@ -67,11 +67,11 @@
     } else {
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         [mixpanel identify:[NSString stringWithFormat:@"%i", currentUser.userIDValue]];
-        [mixpanel.people set:@{@"first_name": NULLIFNIL(currentUser.first_name),
-                               @"last_name": NULLIFNIL(currentUser.last_name),
-                               @"created_at": NULLIFNIL(currentUser.creationDate),
-                               @"title": NULLIFNIL(currentUser.title),
-                               @"username": NULLIFNIL(currentUser.username)}];
+        [mixpanel.people set:@{@"first_name": NSNullIfNil(currentUser.first_name),
+                               @"last_name": NSNullIfNil(currentUser.last_name),
+                               @"created_at": NSNullIfNil(currentUser.creationDate),
+                               @"title": NSNullIfNil(currentUser.title),
+                               @"username": NSNullIfNil(currentUser.username)}];
         [_appDelegate.morselApiService getUserProfile:currentUser
                                               success:nil
                                               failure:nil];
@@ -118,7 +118,7 @@
 }
 
 - (void)displaySignUpAnimated:(BOOL)animated {
-    UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:@"SignUp"];
+    UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:@"sb_SignUp"];
 
     [self presentViewController:signUpNC
                        animated:animated
@@ -129,7 +129,7 @@
     [[MRSLEventManager sharedManager] track:@"Tapped Add Morsel Camera Icon"
                           properties:@{@"view": @"MorselRootViewController"}];
 
-    UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"CreateMorsel"];
+    UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CreateMorsel"];
 
     [self presentViewController:createMorselNC
                        animated:YES
@@ -137,14 +137,17 @@
 }
 
 - (void)displayHome {
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Home"
+                                                  andStoryboardPrefix:@"Home"];
 }
 
 - (void)displayProfile {
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"];
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Profile"
+                                                  andStoryboardPrefix:@"Profile"];
 }
 
-- (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName {
+- (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
+                                                andStoryboardPrefix:(NSString *)storyboardPrefixName {
     if (_currentViewController) {
         [_currentViewController removeFromParentViewController];
         [_currentViewController.view removeFromSuperview];
@@ -156,7 +159,7 @@
     UINavigationController *viewControllerNC = [self getNavControllerWithClass:[viewControllerClass class]];
 
     if (!viewControllerNC) {
-        UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@_iPhone", classPrefixName]
+        UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@_iPhone", storyboardPrefixName]
                                                                    bundle:nil];
         viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:classPrefixName];
 
@@ -232,17 +235,20 @@
         case SideBarMenuItemTypeHome:
             [[MRSLEventManager sharedManager] track:@"Tapped Home"
                                   properties:@{@"view": @"MRSLSideBarViewController"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Home"
+                                                          andStoryboardPrefix:@"Home"];
             break;
         case SideBarMenuItemTypeProfile:
             [[MRSLEventManager sharedManager] track:@"Tapped View Profile"
                                   properties:@{@"view": @"MRSLSideBarViewController"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Profile"
+                                                          andStoryboardPrefix:@"Profile"];
             break;
         case SideBarMenuItemTypeDrafts:
             [[MRSLEventManager sharedManager] track:@"Tapped Drafts"
                                   properties:@{@"view": @"MRSLSideBarViewController"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Drafts"];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Drafts"
+                                                          andStoryboardPrefix:@"Drafts"];
             break;
         case SideBarMenuItemTypeLogout:
             [[MRSLEventManager sharedManager] track:@"Tapped Logout"
