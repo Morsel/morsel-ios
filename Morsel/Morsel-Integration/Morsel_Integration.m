@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <KIF/KIF.h>
 
 @interface Morsel_Integration : XCTestCase
 

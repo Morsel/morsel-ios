@@ -9,21 +9,17 @@
 
 @implementation MRSLComment
 
-- (BOOL)shouldImport:(id)data {
+- (void)didImport:(id)data {
     if (![data[@"morsel_id"] isEqual:[NSNull null]]) {
         NSNumber *morselID = data[@"morsel_id"];
-        self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                               withValue:morselID
-                                                inContext:self.managedObjectContext];
-
-        if (!self.morsel) {
-            return NO;
+        MRSLMorsel *potentialMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                                withValue:morselID
+                                                                inContext:self.managedObjectContext];
+        if (potentialMorsel) {
+            self.morsel = potentialMorsel;
+            [self.morsel addCommentsObject:self];
         }
     }
-    return YES;
-}
-
-- (void)didImport:(id)data {
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];

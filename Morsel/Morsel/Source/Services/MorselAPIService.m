@@ -674,15 +674,12 @@
                                         NSArray *commentsArray = responseObject[@"data"];
                                         DDLogDebug(@"%lu comments available for Morsel!", (unsigned long)[commentsArray count]);
 
-                                        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                             [commentsArray enumerateObjectsUsingBlock:^(NSDictionary *commentDictionary, NSUInteger idx, BOOL *stop) {
                                                 MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
-                                                                                                  withValue:commentDictionary[@"id"]
-                                                                                                  inContext:localContext];
-                                                if (!comment) comment = [MRSLComment MR_createInContext:localContext];
+                                                                                                  withValue:commentDictionary[@"id"]];
+                                                if (!comment) comment = [MRSLComment MR_createEntity];
                                                 [comment MR_importValuesForKeysWithObject:commentDictionary];
                                             }];
-                                        }];
                                         if (successOrNil) successOrNil(commentsArray);
                                     }
                                 } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -710,16 +707,13 @@
                                                                         @"morsel_id": NSNullIfNil(morsel.morselID),
                                                                         @"comment_id": NSNullIfNil(responseObject[@"data"][@"id"])}];
 
-                                     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                          MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
-                                                                                           withValue:responseObject[@"data"][@"id"]
-                                                                                           inContext:localContext];
-                                         if (!comment) comment = [MRSLComment MR_createInContext:localContext];
+                                                                                           withValue:responseObject[@"data"][@"id"]];
+                                         if (!comment) comment = [MRSLComment MR_createEntity];
                                          [comment MR_importValuesForKeysWithObject:responseObject[@"data"]];
 
                                          [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateCommentNotification
                                                                                              object:morsel];
-                                     }];
 
                                      if (successOrNil) successOrNil(responseObject);
                                  } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {

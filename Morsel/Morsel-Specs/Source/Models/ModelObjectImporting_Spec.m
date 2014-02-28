@@ -8,6 +8,7 @@
 
 #import <Kiwi/Kiwi.h>
 
+#import "MRSLComment.h"
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
 #import "MRSLUser.h"
@@ -22,6 +23,8 @@ describe(@"Importing from the API", ^{
         beforeAll(^{
             MRSLPost *morselPost = [MRSLPost MR_createEntity];
             morselPost.postID = @40;
+            morselPost.title = @"GET DOWN";
+            
             [MRSLSpecUtil stubMorselAPIRequestsWithJSONFileName:@"mrsl-morsel-authenticated.json"
                                                  forRequestPath:@"/morsels/2"];
             [_appDelegate.morselApiService getMorsel:morsel
@@ -49,22 +52,30 @@ describe(@"Importing from the API", ^{
         it(@"has url", ^{
             [[[morsel url] shouldEventually] equal:@"http://eatmorsel.com/marty/1-butter/1"];
         });
-        it(@"has post", ^{
+        it(@"should have a valid post", ^{
             [[[morsel post] shouldEventually] beNonNil];
+            [[[[morsel post] title] shouldEventually] equal:@"GET DOWN"];
         });
 
         context(@"has comments", ^{
             __block MRSLMorsel *morselWithComments = [MRSLMorsel MR_createEntity];
             morselWithComments.morselID = @40;
+
+            __block MRSLComment *comment = nil;
             beforeAll(^{
                 [MRSLSpecUtil stubMorselAPIRequestsWithJSONFileName:@"mrsl-comment.json"
                                                      forRequestPath:@"/morsels/40/comments"];
                 [_appDelegate.morselApiService getComments:morselWithComments
-                                                   success:nil
-                                                   failure:nil];
+                                                   success:^(NSArray *responseArray) {
+                                                       comment = [[[morselWithComments comments] allObjects] firstObject];
+                                                   } failure:nil];
             });
-            pending(@"should have one comment", ^{
+            it(@"should have a valid comment", ^{
                 [[expectFutureValue(theValue([[morselWithComments comments] count])) shouldEventually] equal:theValue(1)];
+                [[expectFutureValue(theValue([comment commentIDValue])) shouldEventually] equal:theValue(4)];
+                [[[comment commentDescription] shouldEventually] equal:@"Wow! Are those Swedish Fish caviar???!?!?!one!?!11!?1?!"];
+                [[[comment creator] shouldEventually] beNonNil];
+                [[[comment creationDate] shouldEventually] beKindOfClass:[NSDate class]];
             });
         });
     });
@@ -92,8 +103,8 @@ describe(@"Importing from the API", ^{
         it(@"has creationDate that is of kind NSDate", ^{
             [[[post creationDate] shouldEventually] beKindOfClass:[NSDate class]];
         });
-        pending(@"has one morsel", ^{
-            [[expectFutureValue(theValue([[post morsels] count])) should] equal:theValue(1)];
+        it(@"has one morsel", ^{
+            [[expectFutureValue(theValue([[post morsels] count])) shouldEventually] equal:theValue(1)];
         });
     });
 
@@ -107,7 +118,7 @@ describe(@"Importing from the API", ^{
                                                        success:nil
                                                        failure:nil];
         });
-        pending(@"has id of 3", ^{
+        it(@"has id of 3", ^{
             [[expectFutureValue(theValue([[MRSLUser currentUser] userIDValue])) shouldEventually] equal:theValue(3)];
         });
         it(@"has username 'turdferg'", ^{
@@ -134,13 +145,13 @@ describe(@"Importing from the API", ^{
         it(@"has auth_token 'butt-sack'", ^{
             [[[[MRSLUser currentUser] auth_token] shouldEventually] equal:@"butt-sack"];
         });
-        pending(@"has draft_count of 10", ^{
+        it(@"has draft_count of 10", ^{
             [[expectFutureValue(theValue([[MRSLUser currentUser] draft_countValue])) shouldEventually] equal:theValue(10)];
         });
-        pending(@"has like_count of 3", ^{
+        it(@"has like_count of 3", ^{
             [[expectFutureValue(theValue([[MRSLUser currentUser] like_countValue])) shouldEventually] equal:theValue(3)];
         });
-        pending(@"has morsel_count of 1", ^{
+        it(@"has morsel_count of 1", ^{
             [[expectFutureValue(theValue([[MRSLUser currentUser] morsel_countValue])) shouldEventually] equal:theValue(1)];
         });
     });
