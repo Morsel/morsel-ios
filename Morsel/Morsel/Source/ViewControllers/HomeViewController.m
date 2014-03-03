@@ -52,6 +52,8 @@ UIGestureRecognizerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.feedCollectionView.accessibilityLabel = @"Feed";
+
     self.feedMorsels = [NSMutableArray array];
     self.uploadingMorsels = [NSMutableArray array];
     self.morsels = [NSMutableArray array];

@@ -53,6 +53,9 @@
 		064A0F5818A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */; };
 		0651315E189C58C100609294 /* MorselDetailCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651315D189C58C100609294 /* MorselDetailCommentsViewController.m */; };
 		06513161189CA9B400609294 /* AddCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06513160189CA9B400609294 /* AddCommentViewController.m */; };
+		065E523918C147220040C391 /* KIFUITestActor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 065E523818C147220040C391 /* KIFUITestActor+Additions.m */; };
+		065E523C18C147280040C391 /* FeedFlow_Integration.m in Sources */ = {isa = PBXBuildFile; fileRef = 065E523A18C147280040C391 /* FeedFlow_Integration.m */; };
+		065E523D18C147280040C391 /* LoginFlow_Integration.m in Sources */ = {isa = PBXBuildFile; fileRef = 065E523B18C147280040C391 /* LoginFlow_Integration.m */; };
 		0660669118522E7900E780FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0660669018522E7900E780FC /* Foundation.framework */; };
 		0660669318522E7900E780FC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0660669218522E7900E780FC /* CoreGraphics.framework */; };
 		0660669518522E7900E780FC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0660669418522E7900E780FC /* UIKit.framework */; };
@@ -120,7 +123,6 @@
 		0698CAC918524359007AF442 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0660669018522E7900E780FC /* Foundation.framework */; };
 		0698CACA18524359007AF442 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0660669418522E7900E780FC /* UIKit.framework */; };
 		0698CAD018524359007AF442 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0698CACE18524359007AF442 /* InfoPlist.strings */; };
-		0698CAD218524359007AF442 /* Morsel_Integration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0698CAD118524359007AF442 /* Morsel_Integration.m */; };
 		069AE51918B7ED23002F63D5 /* UserPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049611896D6E500BD1C5B /* UserPostsViewController.m */; };
 		069AE51A18B80FDF002F63D5 /* CaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* CaptureMediaViewController.m */; };
 		06A049621896D6E500BD1C5B /* UserPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049611896D6E500BD1C5B /* UserPostsViewController.m */; };
@@ -236,6 +238,10 @@
 		0651315D189C58C100609294 /* MorselDetailCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MorselDetailCommentsViewController.m; sourceTree = "<group>"; };
 		0651315F189CA9B400609294 /* AddCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCommentViewController.h; sourceTree = "<group>"; };
 		06513160189CA9B400609294 /* AddCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCommentViewController.m; sourceTree = "<group>"; };
+		065E523718C147220040C391 /* KIFUITestActor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIFUITestActor+Additions.h"; path = "Source/Actors/KIFUITestActor+Additions.h"; sourceTree = "<group>"; };
+		065E523818C147220040C391 /* KIFUITestActor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFUITestActor+Additions.m"; path = "Source/Actors/KIFUITestActor+Additions.m"; sourceTree = "<group>"; };
+		065E523A18C147280040C391 /* FeedFlow_Integration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedFlow_Integration.m; path = Source/Flows/FeedFlow_Integration.m; sourceTree = "<group>"; };
+		065E523B18C147280040C391 /* LoginFlow_Integration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginFlow_Integration.m; path = Source/Flows/LoginFlow_Integration.m; sourceTree = "<group>"; };
 		0660668D18522E7900E780FC /* Morsel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Morsel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0660669018522E7900E780FC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0660669218522E7900E780FC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -328,7 +334,6 @@
 		0698CAC718524359007AF442 /* Morsel-Integration.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Morsel-Integration.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0698CACD18524359007AF442 /* Morsel-Integration-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Morsel-Integration-Info.plist"; sourceTree = "<group>"; };
 		0698CACF18524359007AF442 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		0698CAD118524359007AF442 /* Morsel_Integration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Morsel_Integration.m; sourceTree = "<group>"; };
 		0698CAD318524359007AF442 /* Morsel-Integration-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Morsel-Integration-Prefix.pch"; sourceTree = "<group>"; };
 		06A049601896D6E500BD1C5B /* UserPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPostsViewController.h; sourceTree = "<group>"; };
 		06A049611896D6E500BD1C5B /* UserPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPostsViewController.m; sourceTree = "<group>"; };
@@ -707,6 +712,24 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		065E522D18C13BE60040C391 /* Flows */ = {
+			isa = PBXGroup;
+			children = (
+				065E523A18C147280040C391 /* FeedFlow_Integration.m */,
+				065E523B18C147280040C391 /* LoginFlow_Integration.m */,
+			);
+			name = Flows;
+			sourceTree = "<group>";
+		};
+		065E523218C13FA30040C391 /* Actors */ = {
+			isa = PBXGroup;
+			children = (
+				065E523718C147220040C391 /* KIFUITestActor+Additions.h */,
+				065E523818C147220040C391 /* KIFUITestActor+Additions.m */,
+			);
+			name = Actors;
+			sourceTree = "<group>";
+		};
 		0660668418522E7900E780FC = {
 			isa = PBXGroup;
 			children = (
@@ -976,7 +999,8 @@
 		0698CACB18524359007AF442 /* Morsel-Integration */ = {
 			isa = PBXGroup;
 			children = (
-				0698CAD118524359007AF442 /* Morsel_Integration.m */,
+				065E523218C13FA30040C391 /* Actors */,
+				065E522D18C13BE60040C391 /* Flows */,
 				0698CACC18524359007AF442 /* Supporting Files */,
 			);
 			path = "Morsel-Integration";
@@ -1486,7 +1510,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0698CAD218524359007AF442 /* Morsel_Integration.m in Sources */,
+				065E523C18C147280040C391 /* FeedFlow_Integration.m in Sources */,
+				065E523918C147220040C391 /* KIFUITestActor+Additions.m in Sources */,
+				065E523D18C147280040C391 /* LoginFlow_Integration.m in Sources */,
 				4005ED8618A19965005B8484 /* UIAlertView+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1607,6 +1633,126 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		062A71C518C153C80011F108 /* Integration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"INTEGRATION_TESTING=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Integration;
+		};
+		062A71C618C153C80011F108 /* Integration */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				BUNDLE_DISPLAY_NAME_SUFFIX = " integration";
+				BUNDLE_ID_SUFFIX = .integration;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
+				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Integration;
+		};
+		062A71C718C153C80011F108 /* Integration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Integration;
+		};
+		062A71C818C153C80011F108 /* Integration */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Morsel-Specs/Morsel-Specs-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Integration;
+		};
+		062A71C918C153C80011F108 /* Integration */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Morsel-Integration/Morsel-Integration-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Integration;
+		};
 		066066C018522E7900E780FC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2175,6 +2321,7 @@
 			buildConfigurations = (
 				066066C018522E7900E780FC /* Debug */,
 				06F567D918BBB8070067FCD4 /* Specs */,
+				062A71C518C153C80011F108 /* Integration */,
 				066066C118522E7900E780FC /* Release */,
 				40ED5B17185F68B10096C9D7 /* Beta */,
 				40ED5B1C185F68C30096C9D7 /* Alpha */,
@@ -2187,6 +2334,7 @@
 			buildConfigurations = (
 				066066C318522E7900E780FC /* Debug */,
 				06F567DA18BBB8070067FCD4 /* Specs */,
+				062A71C618C153C80011F108 /* Integration */,
 				066066C418522E7900E780FC /* Release */,
 				40ED5B18185F68B10096C9D7 /* Beta */,
 				40ED5B1D185F68C30096C9D7 /* Alpha */,
@@ -2199,6 +2347,7 @@
 			buildConfigurations = (
 				0698CA87185239CD007AF442 /* Debug */,
 				06F567DB18BBB8070067FCD4 /* Specs */,
+				062A71C718C153C80011F108 /* Integration */,
 				0698CA88185239CD007AF442 /* Release */,
 				40ED5B1A185F68B10096C9D7 /* Beta */,
 				40ED5B1F185F68C30096C9D7 /* Alpha */,
@@ -2211,6 +2360,7 @@
 			buildConfigurations = (
 				0698CAC11852432D007AF442 /* Debug */,
 				06F567DC18BBB8070067FCD4 /* Specs */,
+				062A71C818C153C80011F108 /* Integration */,
 				0698CAC21852432D007AF442 /* Release */,
 				40ED5B19185F68B10096C9D7 /* Beta */,
 				40ED5B1E185F68C30096C9D7 /* Alpha */,
@@ -2223,6 +2373,7 @@
 			buildConfigurations = (
 				0698CAD718524359007AF442 /* Debug */,
 				06F567DD18BBB8070067FCD4 /* Specs */,
+				062A71C918C153C80011F108 /* Integration */,
 				0698CAD818524359007AF442 /* Release */,
 				40ED5B1B185F68B10096C9D7 /* Beta */,
 				40ED5B20185F68C30096C9D7 /* Alpha */,

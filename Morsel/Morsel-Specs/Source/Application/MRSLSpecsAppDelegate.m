@@ -11,6 +11,8 @@
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 
+#import "MorselAPIClient.h"
+
 #import "MRSLComment.h"
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
@@ -22,7 +24,7 @@
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
 
-    [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
+    [Mixpanel sharedInstanceWithToken:@""];
 
     [self setupSpecTestingEnvironment];
     
@@ -31,27 +33,62 @@
 
 - (void)setupSpecTestingEnvironment {
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
-    [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
-    [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
+    [self.defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    [self.defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
     
     self.morselApiService = [[MorselAPIService alloc] init];
 
+    [self setupDatabase];
+
+#ifdef INTEGRATION_TESTING
+    UIViewController *viewController = [[UIStoryboard mainStoryboard] instantiateInitialViewController];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = viewController;
+    [self.window makeKeyAndVisible];
+#else
+    UIViewController *viewController = [[UIStoryboard specsStoryboardInBundle:[NSBundle bundleForClass:[self class]]] instantiateInitialViewController];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = viewController;
+    [self.window makeKeyAndVisible];
+#endif
+}
+
+- (void)setupDatabase {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel-Specs.sqlite"];
     [MRSLUser MR_truncateAll];
     [MRSLPost MR_truncateAll];
     [MRSLMorsel MR_truncateAll];
     [MRSLComment MR_truncateAll];
+
     [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
     [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
-
-    UIViewController *viewController = [[UIStoryboard specsStoryboardInBundle:[NSBundle bundleForClass:[self class]]] instantiateInitialViewController];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = viewController;
-    [self.window makeKeyAndVisible];
 }
 
 - (void)resetDataStore {
-    // Only exists to please compiler
+    [[Mixpanel sharedInstance] reset];
+    [[MorselAPIClient sharedClient].operationQueue cancelAllOperations];
+
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
+                                                       forName:[[NSBundle mainBundle] bundleIdentifier]];
+
+    NSURL *persistentStoreURL = [NSPersistentStore MR_urlForStoreName:@"Morsel-Specs.sqlite"];
+    NSURL *shmURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-shm"]];
+    NSURL *walURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-wal"]];
+    NSError *error = nil;
+
+    [MagicalRecord cleanUp];
+
+    [[NSFileManager defaultManager] removeItemAtURL:persistentStoreURL
+                                              error:&error];
+    [[NSFileManager defaultManager] removeItemAtURL:shmURL
+                                              error:&error];
+    [[NSFileManager defaultManager] removeItemAtURL:walURL
+                                              error:&error];
+    if (error) {
+        DDLogError(@"Error resetting data store: %@", error);
+    } else {
+        [self setupDatabase];
+    }
 }
 
 @end
