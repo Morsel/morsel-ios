@@ -155,11 +155,6 @@ NSFetchedResultsControllerDelegate>
 
 #pragma mark - Section Methods
 
-- (IBAction)displaySideBar:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
-                                                        object:@YES];
-}
-
 - (IBAction)goBack:(id)sender {
     [[MorselAPIClient sharedClient].operationQueue cancelAllOperations];
     [self.navigationController popViewControllerAnimated:YES];

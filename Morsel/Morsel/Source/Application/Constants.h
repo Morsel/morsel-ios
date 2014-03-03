@@ -9,12 +9,11 @@
 #import <Foundation/Foundation.h>
 
 extern NSString *const MRSLServiceDidLogInUserNotification;
+extern NSString *const MRSLServiceShouldLogOutUserNotification;
 extern NSString *const MRSLServiceDidLogOutUserNotification;
 extern NSString *const MRSLServiceDidUpdateUserNotification;
 extern NSString *const MRSLServiceWillPurgeDataNotification;
 extern NSString *const MRSLServiceWillRestoreDataNotification;
-
-extern NSString *const MRSLShouldDisplaySideBarNotification;
 
 extern NSString *const MRSLUserDidCreateCommentNotification;
 extern NSString *const MRSLUserDidBeginCreateMorselNotification;

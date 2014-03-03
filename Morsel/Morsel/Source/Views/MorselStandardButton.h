@@ -10,4 +10,6 @@
 
 @interface MorselStandardButton : UIButton
 
+- (void)setUp;
+
 @end

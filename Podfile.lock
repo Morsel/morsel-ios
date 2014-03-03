@@ -44,12 +44,7 @@ PODS:
   - OAuthCore (0.0.1):
     - NSData+Base64
   - OHHTTPStubs (3.1.0)
-  - TestFlightFeedback (1.0.0):
-    - TestFlightFeedback/Core
-    - TestFlightSDK (~> 2.0.0)
-  - TestFlightFeedback/Core (1.0.0):
-    - TestFlightSDK (~> 2.0.0)
-  - TestFlightSDK (2.2.1-beta)
+  - TestFlightSDK (3.0.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
@@ -64,8 +59,7 @@ DEPENDENCIES:
   - NullSafe (~> 1.2)
   - OAuthCore (~> 0.0.1)
   - OHHTTPStubs (~> 3.1.0)
-  - TestFlightFeedback (~> 1.0.0)
-  - TestFlightSDK (~> 2.2.1-beta)
+  - TestFlightSDK (~> 3.0)
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
@@ -82,7 +76,6 @@ SPEC CHECKSUMS:
   NullSafe: ec359e864f3b8d9c2d81aaa2bdbac8280bba1be2
   OAuthCore: 4164eec5e28c68f794953446e68f91054ffe570c
   OHHTTPStubs: d67c42c0212f0883ddb8592375aa0dc00dc50a36
-  TestFlightFeedback: 012c560be6f1e8f14b31dd5ab28f43ddf9205eb7
-  TestFlightSDK: 4249c2f70e621bcfbdebf019073169c8fe36be13
+  TestFlightSDK: 71e3e78d3a46144dbad975a4bf80a14dae6a818a
 
 COCOAPODS: 0.29.0
