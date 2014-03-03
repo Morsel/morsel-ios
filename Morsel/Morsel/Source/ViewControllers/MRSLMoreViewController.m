@@ -26,9 +26,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
-@property (nonatomic, strong) MRSLMoreItem *draftItem;
+@property (strong, nonatomic) MRSLMoreItem *draftItem;
 
-@property (nonatomic, strong) NSMutableArray *sideBarItems;
+@property (strong, nonatomic) NSMutableArray *sideBarItems;
 
 @end
 
@@ -42,12 +42,7 @@
     [self.profileImageView addCornersWithRadius:20.f];
     [self.profileImageView setBorderWithColor:[UIColor whiteColor]
                                      andWidth:1.f];
-    
-    MRSLMoreItem *homeItem = [MRSLMoreItem sideBarItemWithTitle:@"Feed"
-                                                iconImageName:@"icon-sidebar-home"
-                                               cellIdentifier:@"ruid_SideBarItemCell"
-                                                         type:SideBarMenuItemTypeHome];
-    
+    /*
     MRSLMoreItem *draftItem = [MRSLMoreItem sideBarItemWithTitle:@"Drafts"
                                                  iconImageName:@"icon-sidebar-edit"
                                                 cellIdentifier:@"ruid_SideBarDraftCell"
@@ -56,7 +51,7 @@
     self.draftItem = draftItem;
     
     self.sideBarItems = [NSMutableArray arrayWithObjects:draftItem, homeItem, nil];
-
+*/
     self.userNameLabel.text = [MRSLUser currentUser].fullName;
     self.profileImageView.user = [MRSLUser currentUser];
     self.draftItem.badgeCount = [MRSLUser currentUser].draft_countValue;

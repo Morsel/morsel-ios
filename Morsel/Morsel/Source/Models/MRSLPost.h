@@ -2,8 +2,7 @@
 
 @interface MRSLPost : _MRSLPost
 
-- (BOOL)isPublished;
-
+- (NSDate *)latestUpdatedDate;
 - (NSArray *)morselsArray;
 
 @end

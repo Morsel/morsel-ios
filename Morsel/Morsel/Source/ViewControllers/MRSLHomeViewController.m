@@ -8,14 +8,12 @@
 
 #import "MRSLHomeViewController.h"
 
-#import "MRSLCreateMorselViewController.h"
-#import "MRSLPostMorselsViewController.h"
 #import "MRSLFeedCollectionViewCell.h"
-#import "MRSLDetailViewController.h"
+#import "MRSLMorselDetailViewController.h"
 #import "MRSLUploadCollectionViewCell.h"
 #import "MRSLUploadFailureCollectionViewCell.h"
-#import "MRSLPostMorselsViewController.h"
 #import "MRSLProfileViewController.h"
+#import "MRSLStoryEditViewController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
@@ -29,19 +27,19 @@ UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
 UIGestureRecognizerDelegate>
 
-@property (nonatomic, weak) IBOutlet UICollectionView *feedCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *feedCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *activityView;
 
-@property (nonatomic, strong) NSFetchedResultsController *feedFetchedResultsController;
-@property (nonatomic, strong) NSFetchedResultsController *uploadingMorselsFetchedResultsController;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSFetchedResultsController *feedFetchedResultsController;
+@property (strong, nonatomic) NSFetchedResultsController *uploadingMorselsFetchedResultsController;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
-@property (nonatomic, strong) NSMutableArray *feedMorsels;
-@property (nonatomic, strong) NSMutableArray *uploadingMorsels;
-@property (nonatomic, strong) NSMutableArray *morsels;
+@property (strong, nonatomic) NSMutableArray *feedMorsels;
+@property (strong, nonatomic) NSMutableArray *uploadingMorsels;
+@property (strong, nonatomic) NSMutableArray *morsels;
 
-@property (nonatomic, strong) MRSLMorsel *selectedMorsel;
-@property (nonatomic, strong) MRSLUser *currentUser;
+@property (strong, nonatomic) MRSLMorsel *selectedMorsel;
+@property (strong, nonatomic) MRSLUser *currentUser;
 
 @end
 
@@ -68,10 +66,6 @@ UIGestureRecognizerDelegate>
     self.feedCollectionView.alwaysBounceVertical = YES;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(morselUploaded:)
-                                                 name:MRSLMorselUploadDidCompleteNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(localContentPurged)
                                                  name:MRSLServiceWillPurgeDataNotification
                                                object:nil];
@@ -93,13 +87,6 @@ UIGestureRecognizerDelegate>
 
 #pragma mark - Notification Methods
 
-- (void)morselUploaded:(NSNotification *)notification {
-    MRSLMorsel *uploadedMorsel = notification.object;
-    if (!uploadedMorsel.draftValue) {
-        [self refreshFeed];
-    }
-}
-
 - (void)localContentPurged {
     [NSFetchedResultsController deleteCacheWithName:@"Home"];
 
@@ -112,7 +99,9 @@ UIGestureRecognizerDelegate>
 
 - (void)localContentRestored {
     if (_feedFetchedResultsController || _uploadingMorselsFetchedResultsController) return;
-    
+
+    [_refreshControl endRefreshing];
+
     [self.feedMorsels removeAllObjects];
     [self.uploadingMorsels removeAllObjects];
     [self.morsels removeAllObjects];
@@ -128,7 +117,7 @@ UIGestureRecognizerDelegate>
 - (void)setupFeedFetchRequest {
     if (_feedFetchedResultsController || _uploadingMorselsFetchedResultsController) return;
 
-    NSPredicate *publishedMorselPredicate = [NSPredicate predicateWithFormat:@"draft == NO AND (isUploading == NO AND didFailUpload == NO)"];
+    NSPredicate *publishedMorselPredicate = [NSPredicate predicateWithFormat:@"(post.draft == NO) AND (isUploading == NO AND didFailUpload == NO)"];
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:[MRSLMorsel MR_entityDescription]];
@@ -145,7 +134,7 @@ UIGestureRecognizerDelegate>
                                                                                        cacheName:@"Home"];
     _feedFetchedResultsController.delegate = self;
 
-    NSPredicate *uploadingMorselPredicate = [NSPredicate predicateWithFormat:@"draft == NO AND (isUploading == YES OR didFailUpload == YES)"];
+    NSPredicate *uploadingMorselPredicate = [NSPredicate predicateWithFormat:@"(post.draft == NO) AND (isUploading == YES OR didFailUpload == YES)"];
 
     self.uploadingMorselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
                                                                           ascending:NO
@@ -187,18 +176,8 @@ UIGestureRecognizerDelegate>
 - (void)refreshFeed {
     self.activityView.hidden = NO;
 
-    [_appDelegate.morselApiService getFeedWithSuccess:^(NSArray *responseArray)
-     {
-         if ([responseArray count] > 0) {
-             DDLogDebug(@"%lu feed posts available.", (unsigned long)[responseArray count]);
-         } else {
-             DDLogDebug(@"No feed posts available");
-         }
-         [_refreshControl endRefreshing];
-     } failure: ^(NSError * error) {
-         DDLogError(@"Error loading feed posts: %@", error.userInfo);
-         [_refreshControl endRefreshing];
-     }];
+    [_appDelegate.morselApiService getFeedWithSuccess:nil
+                                              failure:nil];
 }
 
 - (void)displayUserProfile {
@@ -216,7 +195,7 @@ UIGestureRecognizerDelegate>
     [[MRSLEventManager sharedManager] track:@"Tapped Morsel"
                           properties:@{@"view": @"MRSLHomeViewController",
                                        @"morsel_id": _selectedMorsel.morselID}];
-    MRSLDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailViewController"];
+    MRSLMorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailViewController"];
     morselDetailVC.morsel = _selectedMorsel;
 
     [self.navigationController pushViewController:morselDetailVC
@@ -305,16 +284,14 @@ UIGestureRecognizerDelegate>
 }
 
 - (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel {
-    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_EditPostMorsels"];
+    MRSLStoryEditViewController *editStoryVC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryEditViewController"];
 
-    if ([editPostMorselsNC.viewControllers count] > 0) {
-        MRSLPostMorselsViewController *postMorselsVC = [editPostMorselsNC.viewControllers firstObject];
-        postMorselsVC.post = morsel.post;
+    editStoryVC.postID = morsel.post.postID;
 
-        [self.navigationController presentViewController:editPostMorselsNC
-                                                animated:YES
-                                              completion:nil];
-    }
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editStoryVC];
+    [self.navigationController presentViewController:navController
+                                            animated:YES
+                                          completion:nil];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

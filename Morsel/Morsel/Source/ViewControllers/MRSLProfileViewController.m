@@ -9,10 +9,10 @@
 #import "MRSLProfileViewController.h"
 
 #import "MRSLAPIClient.h"
-#import "MRSLDetailViewController.h"
+#import "MRSLMorselDetailViewController.h"
 #import "MRSLFeedCollectionViewCell.h"
-#import "MRSLPostMorselsViewController.h"
 #import "MRSLProfileImageView.h"
+#import "MRSLStoryEditViewController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
@@ -23,7 +23,6 @@
 NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIButton *sideBarButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *profileCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
@@ -33,11 +32,11 @@ NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
-@property (nonatomic, strong) NSMutableArray *morsels;
-@property (nonatomic, strong) NSFetchedResultsController *userPostsFetchedResultsController;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSMutableArray *morsels;
+@property (strong, nonatomic) NSFetchedResultsController *userPostsFetchedResultsController;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
-@property (nonatomic, strong) MRSLMorsel *selectedMorsel;
+@property (strong, nonatomic) MRSLMorsel *selectedMorsel;
 
 @end
 
@@ -64,8 +63,6 @@ NSFetchedResultsControllerDelegate>
 
     if ([self.navigationController.viewControllers count] == 1) {
         self.backButton.hidden = YES;
-    } else {
-        self.sideBarButton.hidden = YES;
     }
 
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -77,10 +74,6 @@ NSFetchedResultsControllerDelegate>
     [self.profileCollectionView addSubview:_refreshControl];
     self.profileCollectionView.alwaysBounceVertical = YES;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(morselUploaded:)
-                                                 name:MRSLMorselUploadDidCompleteNotification
-                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(localContentPurged)
                                                  name:MRSLServiceWillPurgeDataNotification
@@ -102,13 +95,6 @@ NSFetchedResultsControllerDelegate>
 }
 #pragma mark - Notification Methods
 
-- (void)morselUploaded:(NSNotification *)notification {
-    MRSLMorsel *uploadedMorsel = notification.object;
-    if (uploadedMorsel.draftValue && [_user isCurrentUser]) {
-        [self refreshUserPostsAndProfile];
-    }
-}
-
 - (void)localContentPurged {
     [NSFetchedResultsController deleteCacheWithName:@"Home"];
 
@@ -118,6 +104,10 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)localContentRestored {
+    if (_userPostsFetchedResultsController) return;
+
+    [_refreshControl endRefreshing];
+
     [self.morsels removeAllObjects];
 
     [self setupUserPostsFetchRequest];
@@ -131,7 +121,7 @@ NSFetchedResultsControllerDelegate>
 - (void)setupUserPostsFetchRequest {
     if (_userPostsFetchedResultsController) return;
 
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (draft == NO)", [_user.userID intValue]];
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (post.draft == NO)", [_user.userID intValue]];
 
     self.userPostsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
                                                                    ascending:NO
@@ -166,8 +156,7 @@ NSFetchedResultsControllerDelegate>
     __weak __typeof(self)weakSelf = self;
 
     [_appDelegate.morselApiService getUserProfile:_user
-                                          success:^(id responseObject)
-     {
+                                          success:^(id responseObject) {
          if (weakSelf) {
              weakSelf.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
              weakSelf.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
@@ -175,23 +164,12 @@ NSFetchedResultsControllerDelegate>
      } failure:nil];
 
     [_appDelegate.morselApiService getUserPosts:_user
-                                  includeDrafts:NO
-                                        success:^(NSArray *responseArray)
-     {
-         if ([responseArray count] > 0) {
-             DDLogDebug(@"%lu profile posts available.", (unsigned long)[responseArray count]);
-         } else {
-             DDLogDebug(@"No profile posts available");
-         }
-         if (weakSelf) [weakSelf.refreshControl endRefreshing];
-     } failure: ^(NSError * error) {
-         DDLogError(@"Error profile draft posts: %@", error.userInfo);
-         if (weakSelf) [weakSelf.refreshControl endRefreshing];
-     }];
+                                        success:nil
+                                        failure:nil];
 }
 
 - (void)displayMorselDetail {
-    MRSLDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailViewController"];
+    MRSLMorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailViewController"];
     morselDetailVC.morsel = _selectedMorsel;
 
     [self.navigationController pushViewController:morselDetailVC
@@ -240,16 +218,14 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel {
-    UINavigationController *editPostMorselsNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_EditPostMorsels"];
+    MRSLStoryEditViewController *editStoryVC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryEditViewController"];
 
-    if ([editPostMorselsNC.viewControllers count] > 0) {
-        MRSLPostMorselsViewController *postMorselsVC = [editPostMorselsNC.viewControllers firstObject];
-        postMorselsVC.post = morsel.post;
+    editStoryVC.postID = morsel.post.postID;
 
-        [self.navigationController presentViewController:editPostMorselsNC
-                                                animated:YES
-                                              completion:nil];
-    }
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editStoryVC];
+    [self.navigationController presentViewController:navController
+                                            animated:YES
+                                          completion:nil];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

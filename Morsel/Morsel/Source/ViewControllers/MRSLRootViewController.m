@@ -8,8 +8,7 @@
 
 #import "MRSLRootViewController.h"
 
-#import "MRSLHomeViewController.h"
-#import "MRSLProfileViewController.h"
+#import "MRSLStoryAddViewController.h"
 
 #import "MRSLTabBarView.h"
 
@@ -18,8 +17,8 @@
 @interface MRSLRootViewController ()
 <MRSLTabBarViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray *navigationControllers;
-@property (nonatomic, strong) UIViewController *currentViewController;
+@property (strong, nonatomic) NSMutableArray *navigationControllers;
+@property (strong, nonatomic) UIViewController *currentViewController;
 
 @property (weak, nonatomic) IBOutlet UIView *rootContainerView;
 
@@ -88,13 +87,6 @@
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
                                                 andStoryboardPrefix:(NSString *)storyboardPrefixName {
-    if (_currentViewController) {
-        [_currentViewController removeFromParentViewController];
-        [_currentViewController.view removeFromSuperview];
-
-        self.currentViewController = nil;
-    }
-
     Class viewControllerClass = NSClassFromString([NSString stringWithFormat:@"MRSL%@ViewController", classPrefixName]);
     UINavigationController *viewControllerNC = [self getNavControllerWithClass:[viewControllerClass class]];
 
@@ -104,18 +96,29 @@
         viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:[NSString stringWithFormat:@"%@_%@", @"sb", classPrefixName]];
 
         [self.navigationControllers addObject:viewControllerNC];
-
-        [self addChildViewController:viewControllerNC];
-        [self.rootContainerView addSubview:viewControllerNC.view];
     } else {
-        [self addChildViewController:viewControllerNC];
-        [self.rootContainerView addSubview:viewControllerNC.view];
+        if (self.currentViewController != viewControllerNC) {
+            UINavigationController *navController = (UINavigationController *)viewControllerNC;
+            if ([[navController.viewControllers firstObject] isKindOfClass:[MRSLStoryAddViewController class]]) {
+                [navController popToRootViewControllerAnimated:NO];
+            }
+        }
     }
 
-    [self addChildViewController:viewControllerNC];
-    [self.rootContainerView addSubview:viewControllerNC.view];
+    if ([_currentViewController isEqual:viewControllerNC]) {
+        UINavigationController *navController = (UINavigationController *)self.currentViewController;
+        [navController popToRootViewControllerAnimated:YES];
+    } else {
+        [_currentViewController removeFromParentViewController];
+        [_currentViewController.view removeFromSuperview];
 
-    self.currentViewController = viewControllerNC;
+        self.currentViewController = nil;
+
+        [self addChildViewController:viewControllerNC];
+        [self.rootContainerView addSubview:viewControllerNC.view];
+
+        self.currentViewController = viewControllerNC;
+    }
 }
 
 - (UINavigationController *)getNavControllerWithClass:(Class)class {
@@ -183,8 +186,8 @@
         case MRSLTabBarButtonTypeAdd:
             [[MRSLEventManager sharedManager] track:@"Tapped View Add Story"
                                          properties:@{@"view": @"MRSLRootViewController"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"CaptureMedia"
-                                                          andStoryboardPrefix:@"MorselManagement"];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"StoryAdd"
+                                                          andStoryboardPrefix:@"StoryManagement"];
             break;
         case MRSLTabBarButtonTypeMyStuff:
             [[MRSLEventManager sharedManager] track:@"Tapped View My Stuff"

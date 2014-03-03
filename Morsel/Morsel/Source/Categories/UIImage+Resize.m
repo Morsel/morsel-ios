@@ -60,7 +60,7 @@
     if (!CGSizeEqualToSize(scaleSizeOrSizeZero, CGSizeZero)) {
         CGRect scaledImgRect = CGRectMake(0, 0, (scaleSizeOrSizeZero.width * 2), (scaleSizeOrSizeZero.height * 2));
 
-        UIGraphicsBeginImageContextWithOptions(scaledImgRect.size, NO, [UIScreen mainScreen].scale);
+        UIGraphicsBeginImageContextWithOptions(scaledImgRect.size, NO, 1.f);
 
         [croppedImage drawInRect:scaledImgRect];
 

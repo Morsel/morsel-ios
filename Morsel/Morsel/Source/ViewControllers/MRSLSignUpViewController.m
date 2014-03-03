@@ -38,7 +38,7 @@ UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
 
-@property (nonatomic, strong) UIImage *originalProfileImage;
+@property (strong, nonatomic) UIImage *originalProfileImage;
 
 @end
 

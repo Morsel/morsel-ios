@@ -10,14 +10,13 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-
 #import "MRSLUser.h"
 
 @interface MRSLProfileImageView ()
 
-@property (nonatomic, strong) AFHTTPRequestOperation *imageRequestOperation;
+@property (strong, nonatomic) AFHTTPRequestOperation *imageRequestOperation;
 
-@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
 
 @end
 

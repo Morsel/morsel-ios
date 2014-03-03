@@ -12,7 +12,7 @@
 
 @interface MRSLEventManager ()
 
-@property (nonatomic, strong) MRSLUser *currentUser;
+@property (strong, nonatomic) MRSLUser *currentUser;
 
 @end
 

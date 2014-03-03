@@ -22,9 +22,9 @@
 
 @interface MRSLFeedCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, weak) id<MorselFeedCollectionViewCellDelegate> delegate;
+@property (weak, nonatomic) id<MorselFeedCollectionViewCellDelegate> delegate;
 
-@property (nonatomic, weak) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 - (void)reset;
 

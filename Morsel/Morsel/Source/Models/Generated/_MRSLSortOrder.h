@@ -34,7 +34,7 @@ extern const struct MRSLSortOrderFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber *sortForPostID;
+@property (strong, nonatomic) NSNumber *sortForPostID;
 
 
 
@@ -48,7 +48,7 @@ extern const struct MRSLSortOrderFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber *sortOrder;
+@property (strong, nonatomic) NSNumber *sortOrder;
 
 
 
@@ -62,7 +62,7 @@ extern const struct MRSLSortOrderFetchedProperties {
 
 
 
-@property (nonatomic, strong) MRSLMorsel *morsel;
+@property (strong, nonatomic) MRSLMorsel *morsel;
 
 //- (BOOL)validateMorsel:(id *)value_ error:(NSError **)error_;
 

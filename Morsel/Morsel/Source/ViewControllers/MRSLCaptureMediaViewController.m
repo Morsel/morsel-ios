@@ -11,51 +11,47 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <ALAssetsLibrary-CustomPhotoAlbum/ALAssetsLibrary+CustomPhotoAlbum.h>
+#import <ELCImagePickerController/ELCImagePickerController.h>
 
 #import "MRSLCameraPreviewView.h"
-#import "MRSLCreateMorselViewController.h"
+#import "MRSLCapturePreviewsViewController.h"
+#import "MRSLMediaItem.h"
 
 static void *CapturingStillImageContext = &CapturingStillImageContext;
 static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDeviceAuthorizedContext;
 
 @interface MRSLCaptureMediaViewController ()
 <UIImagePickerControllerDelegate,
-UINavigationControllerDelegate>
+UINavigationControllerDelegate,
+ELCImagePickerControllerDelegate>
 
-@property (nonatomic) BOOL isSelectingImage;
-@property (nonatomic) BOOL userIsEditing;
+@property (weak, nonatomic) IBOutlet MRSLCameraPreviewView *previewView;
 
-@property (nonatomic) AVCaptureFlashMode preferredFlashCaptureMode;
-
-@property (nonatomic, weak) IBOutlet MRSLCameraPreviewView *previewView;
-
-@property (weak, nonatomic) IBOutlet UIButton *acceptImageButton;
-@property (nonatomic, weak) IBOutlet UIButton *captureImageButton;
-@property (weak, nonatomic) IBOutlet UIButton *discardImageButton;
 @property (weak, nonatomic) IBOutlet UIButton *cameraRollButton;
-@property (weak, nonatomic) IBOutlet UIButton *addTextMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelMorselButton;
-@property (weak, nonatomic) IBOutlet UIImageView *approvalImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *cameraRollImageView;
+@property (weak, nonatomic) IBOutlet UIButton *captureImageButton;
 @property (weak, nonatomic) IBOutlet UIButton *toggleFlashButton;
 @property (weak, nonatomic) IBOutlet UIButton *toggleCameraButton;
-@property (weak, nonatomic) IBOutlet UIView *togglePipeView;
+@property (weak, nonatomic) IBOutlet UIImageView *approvalImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *cameraRollImageView;
 
-// Image Data
-@property (nonatomic, strong) UIImage *capturedImage;
-@property (nonatomic, strong) UIImagePickerController *imagePicker;
+@property (nonatomic, getter = isDeviceAuthorized) BOOL deviceAuthorized;
+@property (nonatomic, readonly, getter = isSessionRunningAndDeviceAuthorized) BOOL sessionRunningAndDeviceAuthorized;
+@property (nonatomic) id runtimeErrorHandlingObserver;
 
-// Session management
-@property (nonatomic) dispatch_queue_t sessionQueue; // Communicate with the session and other session objects on this queue.
+@property (weak, nonatomic) MRSLCapturePreviewsViewController *capturePreviewsViewController;
+
+// Asset and Image Management
+@property (strong, nonatomic) ALAssetsLibrary *assetsLibrary;
+@property (strong, nonatomic) NSMutableArray *capturedMediaItems;
+
+// Session and AV Management
+@property (nonatomic) dispatch_queue_t sessionQueue;
+@property (nonatomic) AVCaptureFlashMode preferredFlashCaptureMode;
 @property (nonatomic) AVCaptureSession *session;
 @property (nonatomic) AVCaptureDeviceInput *videoDeviceInput;
 @property (nonatomic) AVCaptureStillImageOutput *stillImageOutput;
-
-// Utilities
-@property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
-@property (nonatomic, getter=isDeviceAuthorized) BOOL deviceAuthorized;
-@property (nonatomic, readonly, getter=isSessionRunningAndDeviceAuthorized) BOOL sessionRunningAndDeviceAuthorized;
-@property (nonatomic) id runtimeErrorHandlingObserver;
 
 @end
 
@@ -105,7 +101,16 @@ UINavigationControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.assetsLibrary = [[ALAssetsLibrary alloc] init];
+    self.capturedMediaItems = [NSMutableArray array];
     self.preferredFlashCaptureMode = AVCaptureFlashModeOff;
+
+    if ([self.childViewControllers count] > 0) {
+        UIViewController *firstChildVC = [self.childViewControllers firstObject];
+        if ([firstChildVC isKindOfClass:[MRSLCapturePreviewsViewController class]]) {
+            self.capturePreviewsViewController = (MRSLCapturePreviewsViewController *)firstChildVC;
+        }
+    }
 
     [self createSession];
 }
@@ -113,14 +118,9 @@ UINavigationControllerDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (_morsel) self.userIsEditing = YES;
-
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationSlide];
-
-    if (![self.session isRunning] && !_isSelectingImage) {
-        [self beginCameraSession];
-    }
+    [self beginCameraSession];
 
     if ([self isDeviceAuthorized]) {
         [self displayLatestCameraRollImage];
@@ -137,25 +137,7 @@ UINavigationControllerDelegate>
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 
-    if (self.approvalImageView.image) {
-        self.approvalImageView.image = nil;
-
-        [self enableMainControls:YES];
-    }
-
     [self endCameraSession];
-}
-
-#pragma mark - Segue Methods
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue
-                 sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"seg_DisplayCreateMorsel"]) {
-        MRSLCreateMorselViewController *createMorselVC = [segue destinationViewController];
-        createMorselVC.capturedImage = _capturedImage ?: nil;
-
-        self.capturedImage = nil;
-    }
 }
 
 #pragma mark - Action Methods
@@ -178,7 +160,7 @@ UINavigationControllerDelegate>
     [self setFlashImageForMode:_preferredFlashCaptureMode];
 
     [MRSLCaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
-                                   forDevice:[self.videoDeviceInput device]];
+                                       forDevice:[self.videoDeviceInput device]];
 }
 
 - (void)setFlashImageForMode:(AVCaptureFlashMode)mode {
@@ -207,29 +189,28 @@ UINavigationControllerDelegate>
 }
 
 - (void)displayLatestCameraRollImage {
-    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-    [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
-                                 usingBlock:^(ALAssetsGroup *assetsGroup, BOOL *stopSavedPhotoEnumeration) {
-                                     if (assetsGroup) {
-                                         [assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
-                                         if (assetsGroup.numberOfAssets > 0) {
-                                             [assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:assetsGroup.numberOfAssets - 1]
-                                                                           options:0
-                                                                        usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop) {
-                                                                            if (asset) {
-                                                                                ALAssetRepresentation *repr = [asset defaultRepresentation];
-                                                                                UIImage *thumbnailImage = [[UIImage imageWithCGImage:[repr fullResolutionImage]] thumbnailImage:40.f interpolationQuality:kCGInterpolationHigh];
-                                                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                    [self.cameraRollImageView setImage:thumbnailImage];
-                                                                                });
-                                                                                *stop = YES;
-                                                                            }
-                                                                        }];
-                                         }
-                                     }
-                                 } failureBlock:^(NSError *error) {
-                                     DDLogError(@"Unable to display latest Camera Roll image: %@", error);
-                                 }];
+    [_assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
+                                  usingBlock:^(ALAssetsGroup *assetsGroup, BOOL *stopSavedPhotoEnumeration) {
+                                      if (assetsGroup) {
+                                          [assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
+                                          if (assetsGroup.numberOfAssets > 0) {
+                                              [assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:assetsGroup.numberOfAssets - 1]
+                                                                            options:0
+                                                                         usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop) {
+                                                                             if (asset) {
+                                                                                 ALAssetRepresentation *repr = [asset defaultRepresentation];
+                                                                                 UIImage *thumbnailImage = [[UIImage imageWithCGImage:[repr fullResolutionImage]] thumbnailImage:40.f interpolationQuality:kCGInterpolationHigh];
+                                                                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                     [self.cameraRollImageView setImage:thumbnailImage];
+                                                                                 });
+                                                                                 *stop = YES;
+                                                                             }
+                                                                         }];
+                                          }
+                                      }
+                                  } failureBlock:^(NSError *error) {
+                                      DDLogError(@"Unable to display latest Camera Roll image: %@", error);
+                                  }];
 }
 
 - (IBAction)toggleTargetCamera {
@@ -241,8 +222,7 @@ UINavigationControllerDelegate>
 		AVCaptureDevicePosition preferredPosition = AVCaptureDevicePositionUnspecified;
 		AVCaptureDevicePosition currentPosition = [currentVideoDevice position];
 
-		switch (currentPosition)
-		{
+		switch (currentPosition) {
 			case AVCaptureDevicePositionUnspecified:
 				preferredPosition = AVCaptureDevicePositionBack;
 				break;
@@ -255,7 +235,7 @@ UINavigationControllerDelegate>
 		}
 
 		AVCaptureDevice *videoDevice = [MRSLCaptureMediaViewController deviceWithMediaType:AVMediaTypeVideo
-                                                                    preferringPosition:preferredPosition];
+                                                                        preferringPosition:preferredPosition];
 
 		AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice
                                                                                        error:nil];
@@ -264,24 +244,20 @@ UINavigationControllerDelegate>
 
 		[self.session removeInput:[self videoDeviceInput]];
 
-		if ([self.session canAddInput:videoDeviceInput])
-		{
+		if ([self.session canAddInput:videoDeviceInput]) {
 			[[NSNotificationCenter defaultCenter] removeObserver:self
                                                             name:AVCaptureDeviceSubjectAreaDidChangeNotification
                                                           object:currentVideoDevice];
-			if (preferredPosition == AVCaptureDevicePositionFront)
-            {
+			if (preferredPosition == AVCaptureDevicePositionFront) {
                 self.toggleFlashButton.enabled = NO;
                 [MRSLCaptureMediaViewController setFlashMode:AVCaptureFlashModeOff
-                                               forDevice:videoDevice];
+                                                   forDevice:videoDevice];
 
                 [self setFlashImageForMode:AVCaptureFlashModeOff];
-            }
-            else
-            {
+            } else {
                 self.toggleFlashButton.enabled = YES;
                 [MRSLCaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
-                                               forDevice:videoDevice];
+                                                   forDevice:videoDevice];
                 [self setFlashImageForMode:_preferredFlashCaptureMode];
             }
 
@@ -292,23 +268,30 @@ UINavigationControllerDelegate>
 
 			[self.session addInput:videoDeviceInput];
 			[self setVideoDeviceInput:videoDeviceInput];
-		}
-		else
-		{
+		} else {
 			[self.session addInput:[self videoDeviceInput]];
 		}
 
 		[self.session commitConfiguration];
 
-		dispatch_async(dispatch_get_main_queue(), ^
-                       {
-                           self.captureImageButton.enabled = YES;
-                           self.toggleCameraButton.enabled = YES;
-                       });
+		dispatch_async(dispatch_get_main_queue(), ^{
+            self.captureImageButton.enabled = YES;
+            self.toggleCameraButton.enabled = YES;
+        });
     });
 }
 
-- (IBAction)cancelMorselCreation:(id)sender {
+- (IBAction)cancelMediaCapture:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES
+                                                      completion:nil];
+}
+
+- (IBAction)completeMediaCapture:(id)sender {
+    if ([self.capturedMediaItems count] > 0) {
+        if ([self.delegate respondsToSelector:@selector(captureMediaViewControllerDidFinishCapturingMediaItems:)]) {
+            [self.delegate captureMediaViewControllerDidFinishCapturingMediaItems:_capturedMediaItems];
+        }
+    }
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
 }
@@ -319,58 +302,15 @@ UINavigationControllerDelegate>
 
     [self endCameraSession];
 
-    self.isSelectingImage = YES;
+    // Create the image picker
+    ELCImagePickerController *imagePicker = [[ELCImagePickerController alloc] init];
+    imagePicker.maximumImagesCount = 4;
+    imagePicker.imagePickerDelegate = self;
 
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    imagePicker.allowsEditing = NO;
-    imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
-    imagePicker.delegate = self;
-
-    self.imagePicker = imagePicker;
-
+    //Present modally
     [self presentViewController:imagePicker
                        animated:YES
                      completion:nil];
-}
-
-- (IBAction)addMorselText:(id)sender {
-    if (_userIsEditing) {
-        [self.presentingViewController dismissViewControllerAnimated:YES
-                                                          completion:nil];
-    } else {
-        [self performSegueWithIdentifier:@"seg_DisplayCreateMorsel"
-                                  sender:nil];
-    }
-}
-
-- (IBAction)discardImage:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Re-take Photo"
-                                 properties:@{@"view": @"MRSLCaptureMediaViewController"}];
-    self.isSelectingImage = NO;
-
-    self.approvalImageView.image = nil;
-    self.capturedImage = nil;
-
-    [self beginCameraSession];
-
-    [self enableMainControls:YES];
-}
-
-- (IBAction)acceptImage:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Accept Photo"
-                                 properties:@{@"view": @"MRSLCaptureMediaViewController"}];
-    if (_userIsEditing) {
-        if ([self.delegate respondsToSelector:@selector(captureMediaViewControllerDidAcceptImage:)]) {
-            [self.delegate captureMediaViewControllerDidAcceptImage:_capturedImage];
-        }
-
-        [self.presentingViewController dismissViewControllerAnimated:YES
-                                                          completion:nil];
-    } else {
-        [self performSegueWithIdentifier:@"seg_DisplayCreateMorsel"
-                                  sender:nil];
-    }
 }
 
 - (IBAction)snapStillImage:(id)sender {
@@ -382,34 +322,36 @@ UINavigationControllerDelegate>
 
 		// Flash set to Auto for Still Capture
 		[MRSLCaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
-                                       forDevice:[self.videoDeviceInput device]];
+                                           forDevice:[self.videoDeviceInput device]];
 
 		// Capture a still image.
 		[self.stillImageOutput captureStillImageAsynchronouslyFromConnection:[self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo]
-                                                           completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
-         {
-             if (imageDataSampleBuffer)
-             {
-                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                                                           completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+                                                               if (imageDataSampleBuffer) {
+                                                                   NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
 
-                 self.capturedImage = [[UIImage alloc] initWithData:imageData];
+                                                                   UIImage *capturedImage = [[UIImage alloc] initWithData:imageData];
 
-                 [self processImage:_capturedImage];
+                                                                   [_assetsLibrary saveImage:capturedImage
+                                                                                     toAlbum:@"Morsel"
+                                                                                  completion:nil
+                                                                                     failure:nil];
 
-                 // Hanging onto this as it might be useful for saving to device later
-                 //[[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
-             }
-         }];
+                                                                   MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
+                                                                   mediaItem.mediaFullImage = capturedImage;
+
+                                                                   [self processMediaItem:mediaItem];
+                                                               }
+                                                           }];
     });
 }
 
 - (IBAction)focusAndExposeTap:(UIGestureRecognizer *)gestureRecognizer {
-    CGPoint devicePoint = [(AVCaptureVideoPreviewLayer *)self.previewView.layer captureDevicePointOfInterestForPoint:[gestureRecognizer locationInView:[gestureRecognizer view]]];
+    CGPoint devicePoint = [(AVCaptureVideoPreviewLayer *)self.previewView.layer captureDevicePointOfInterestForPoint:[gestureRecognizer locationInView:gestureRecognizer.view]];
 
     [self focusWithMode:AVCaptureFocusModeAutoFocus
          exposeWithMode:AVCaptureExposureModeAutoExpose
-          atDevicePoint:devicePoint
-monitorSubjectAreaChange:YES];
+          atDevicePoint:devicePoint monitorSubjectAreaChange:YES];
 }
 
 - (void)subjectAreaDidChange:(NSNotification *)notification {
@@ -417,51 +359,35 @@ monitorSubjectAreaChange:YES];
 
     [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus
          exposeWithMode:AVCaptureExposureModeContinuousAutoExposure
-          atDevicePoint:devicePoint
-monitorSubjectAreaChange:NO];
-}
-
-- (void)enableMainControls:(BOOL)shouldDisplay {
-    self.cameraRollButton.hidden = !shouldDisplay;
-    self.cameraRollImageView.hidden = !shouldDisplay;
-    self.captureImageButton.hidden = !shouldDisplay;
-    self.addTextMorselButton.hidden = !shouldDisplay;
-    self.toggleCameraButton.hidden = !shouldDisplay;
-    self.toggleFlashButton.hidden = !shouldDisplay;
-    self.cancelMorselButton.hidden = !shouldDisplay;
-
-    self.togglePipeView.hidden = shouldDisplay;
-    self.acceptImageButton.hidden = shouldDisplay;
-    self.discardImageButton.hidden = shouldDisplay;
-    self.approvalImageView.hidden = shouldDisplay;
+          atDevicePoint:devicePoint monitorSubjectAreaChange:NO];
 }
 
 #pragma mark - Device Camera Methods
 
-- (void)processImage:(UIImage *)image {
-    DDLogDebug(@"Source Process Image Dimensions: (w:%f, h:%f)", image.size.width, image.size.height);
-
-    BOOL imageIsLandscape = [MRSLUtil imageIsLandscape:image];
-    CGFloat cameraDimensionScale = [MRSLUtil cameraDimensionScaleFromImage:image];
+- (void)processMediaItem:(MRSLMediaItem *)mediaItem {
+    __block UIImage *fullSizeImage = mediaItem.mediaFullImage;
+    mediaItem.mediaFullImage = nil;
+    DDLogDebug(@"Source Process Image Dimensions: (w:%f, h:%f)", fullSizeImage.size.width, fullSizeImage.size.height);
+    BOOL imageIsLandscape = [MRSLUtil imageIsLandscape:fullSizeImage];
+    CGFloat cameraDimensionScale = [MRSLUtil cameraDimensionScaleFromImage:fullSizeImage];
     CGFloat cropStartingY = yCameraImagePreviewOffset * cameraDimensionScale;
-    CGFloat minimumImageDimension = (imageIsLandscape) ? image.size.height : image.size.width;
-    CGFloat maximumImageDimension = (imageIsLandscape) ? image.size.width : image.size.height;
+    CGFloat minimumImageDimension = (imageIsLandscape) ? fullSizeImage.size.height : fullSizeImage.size.width;
+    CGFloat maximumImageDimension = (imageIsLandscape) ? fullSizeImage.size.width : fullSizeImage.size.height;
     CGFloat xCenterAdjustment = (maximumImageDimension - minimumImageDimension) / 2.f;
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *processedImage = [image croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
-                                               scaled:CGSizeMake(320.f, 320.f)];
-
-        dispatch_async(dispatch_get_main_queue(), ^
-                       {
-                           self.approvalImageView.image = processedImage;
-                           [self enableMainControls:NO];
-
-                           if ([self.session isRunning])
-                           {
-                               [self endCameraSession];
-                           }
-                       });
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        mediaItem.mediaFullImage = [fullSizeImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
+                                                        scaled:CGSizeMake(960.f, 960.f)];
+        fullSizeImage = nil;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        mediaItem.mediaCroppedImage = [mediaItem.mediaFullImage resizedImage:CGSizeMake(320.f, 320.f)
+                                                        interpolationQuality:kCGInterpolationHigh];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_capturedMediaItems addObject:mediaItem];
+                [self.capturePreviewsViewController addPreviewMediaItems:_capturedMediaItems];
+                self.approvalImageView.image = mediaItem.mediaCroppedImage;
+            });
+        });
     });
 }
 
@@ -484,25 +410,21 @@ monitorSubjectAreaChange:NO];
         NSError *error = nil;
 
         AVCaptureDevice *videoDevice = [MRSLCaptureMediaViewController deviceWithMediaType:AVMediaTypeVideo
-                                                                    preferringPosition:AVCaptureDevicePositionBack];
+                                                                        preferringPosition:AVCaptureDevicePositionBack];
         AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice
                                                                                        error:&error];
-
-        if (error)
-        {
+        if (error) {
             DDLogError(@"Error setting AVCaptureDeviceInput: %@", error);
         }
 
-        if ([session canAddInput:videoDeviceInput])
-        {
+        if ([session canAddInput:videoDeviceInput]) {
             [session addInput:videoDeviceInput];
             [self setVideoDeviceInput:videoDeviceInput];
         }
 
         AVCaptureStillImageOutput *stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
 
-        if ([session canAddOutput:stillImageOutput])
-        {
+        if ([session canAddOutput:stillImageOutput]) {
             [stillImageOutput setOutputSettings:@{AVVideoCodecKey : AVVideoCodecJPEG}];
             [session addOutput:stillImageOutput];
             [self setStillImageOutput:stillImageOutput];
@@ -536,15 +458,13 @@ monitorSubjectAreaChange:NO];
                                                    addObserverForName:AVCaptureSessionRuntimeErrorNotification
                                                    object:self.session
                                                    queue:nil
-                                                   usingBlock:^(NSNotification *note)
-                                                   {
+                                                   usingBlock:^(NSNotification *note) {
                                                        MRSLCaptureMediaViewController *strongSelf = weakSelf;
 
-                                                       dispatch_async(strongSelf.sessionQueue, ^
-                                                                      {
-                                                                          // Manually restarting the session since it must have been stopped due to an error.
-                                                                          [strongSelf.session startRunning];
-                                                                      });
+                                                       dispatch_async(strongSelf.sessionQueue, ^{
+                                                           // Manually restarting the session since it must have been stopped due to an error.
+                                                           [strongSelf.session startRunning];
+                                                       });
                                                    }]];
             [self.session startRunning];
         });
@@ -567,11 +487,10 @@ monitorSubjectAreaChange:NO];
 
                 [self removeObserver:self forKeyPath:@"stillImageOutput.capturingStillImage"
                              context:CapturingStillImageContext];
-            }
-            @catch (NSException *exception) {
+            } @catch (NSException *exception) {
                 DDLogError(@"Unable to remove session observers because they do not exist.");
             }
-            
+
         });
     }
 }
@@ -590,12 +509,9 @@ monitorSubjectAreaChange:NO];
         BOOL isRunning = [change[NSKeyValueChangeNewKey] boolValue];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (isRunning)
-            {
+            if (isRunning) {
                 [self.captureImageButton setEnabled:YES];
-            }
-            else
-            {
+            } else {
                 [self.captureImageButton setEnabled:NO];
             }
         });
@@ -615,25 +531,20 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 		AVCaptureDevice *device = [self.videoDeviceInput device];
 		NSError *error = nil;
 
-		if ([device lockForConfiguration:&error])
-		{
-			if ([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:focusMode])
-			{
+		if ([device lockForConfiguration:&error]) {
+			if ([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:focusMode]) {
 				[device setFocusMode:focusMode];
 				[device setFocusPointOfInterest:point];
 			}
 
-			if ([device isExposurePointOfInterestSupported] && [device isExposureModeSupported:exposureMode])
-			{
+			if ([device isExposurePointOfInterestSupported] && [device isExposureModeSupported:exposureMode]) {
 				[device setExposureMode:exposureMode];
 				[device setExposurePointOfInterest:point];
 			}
 
 			[device setSubjectAreaChangeMonitoringEnabled:monitorSubjectAreaChange];
 			[device unlockForConfiguration];
-		}
-		else
-		{
+		} else {
 			DDLogError(@"%@", error);
 		}
     });
@@ -643,68 +554,60 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 
 - (void)runStillImageCaptureAnimation {
     dispatch_async(dispatch_get_main_queue(), ^{
-		[self.previewView.layer setOpacity:0.0];
+		[self.previewView.layer setOpacity:0.f];
 
-		[UIView animateWithDuration:.25 animations:^
-         {
-             [self.previewView.layer setOpacity:1.0];
-         }];
+		[UIView animateWithDuration:.25f animations:^{
+            [self.previewView.layer setOpacity:1.f];
+        }];
     });
 }
 
 - (void)checkDeviceAuthorizationStatus {
     NSString *mediaType = AVMediaTypeVideo;
 
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted)
-         {
-             if (granted) {
-                 //Granted access to mediaType
-                 [self setDeviceAuthorized:YES];
-                 [self displayLatestCameraRollImage];
-             } else {
-                 //Not granted access to mediaType
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                     DDLogError(@"Camera access permission denied. Cannot create AV session!");
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.f) {
+        [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
+            if (granted) {
+                //Granted access to mediaType
+                [self setDeviceAuthorized:YES];
+                [self displayLatestCameraRollImage];
+            } else {
+                //Not granted access to mediaType
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    DDLogError(@"Camera access permission denied. Cannot create AV session!");
 
-                     [[[UIAlertView alloc] initWithTitle:@"Permission Denied"
-                                                 message:@"Morsel doesn't have permission to use the Camera, please change your privacy settings!"
-                                                delegate:self
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil] show];
+                    [UIAlertView showAlertViewWithTitle:@"Permission Denied"
+                                                message:@"Morsel doesn't have permission to use the Camera, please change your privacy settings!"
+                                               delegate:self
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil];
 
-                     [self setDeviceAuthorized:NO];
-                 });
-             }
-         }];
+                    [self setDeviceAuthorized:NO];
+                });
+            }
+        }];
     } else {
         [self setDeviceAuthorized:YES];
         [self displayLatestCameraRollImage];
     }
 }
 
-#pragma mark - UIImagePickerController Methods
+#pragma mark - ELCImagePickerControllerDelegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
-        [[MRSLEventManager sharedManager] track:@"Added Photo from Camera Roll"
-                                     properties:@{@"view": @"MRSLCaptureMediaViewController"}];
-        UIImage *image = info[UIImagePickerControllerOriginalImage];
-
-        self.capturedImage = image;
-
-        [self processImage:image];
-    }
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    [[MRSLEventManager sharedManager] track:@"Added Photo from Device"
+                                 properties:@{@"view": @"MRSLCaptureMediaViewController"}];
+    [info enumerateObjectsUsingBlock:^(NSDictionary *mediaInfo, NSUInteger idx, BOOL *stop) {
+        MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
+        mediaItem.mediaFullImage = mediaInfo[UIImagePickerControllerOriginalImage];
+        [self processMediaItem:mediaItem];
+    }];
 
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    self.isSelectingImage = NO;
-    
-    [self beginCameraSession];
-    
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }

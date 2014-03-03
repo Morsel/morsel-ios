@@ -22,9 +22,9 @@ typedef NS_ENUM(NSUInteger, SideBarMenuItemType) {
 
 @property (nonatomic) SideBarMenuItemType menuType;
 
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) UIImage *iconImage;
-@property (nonatomic, strong) NSString *cellIdentifier;
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) UIImage *iconImage;
+@property (strong, nonatomic) NSString *cellIdentifier;
 
 + (MRSLMoreItem *)sideBarItemWithTitle:(NSString *)title
                         iconImageName:(NSString *)iconImageName

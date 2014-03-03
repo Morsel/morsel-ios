@@ -20,8 +20,8 @@
 
 @interface MRSLThumbnailViewController : UIViewController
 
-@property (nonatomic, weak) id<MorselThumbnailViewControllerDelegate> delegate;
+@property (weak, nonatomic) id<MorselThumbnailViewControllerDelegate> delegate;
 
-@property (nonatomic, strong) MRSLPost *post;
+@property (strong, nonatomic) MRSLPost *post;
 
 @end

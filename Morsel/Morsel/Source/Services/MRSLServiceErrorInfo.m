@@ -10,8 +10,8 @@
 
 @interface MRSLServiceErrorInfo ()
 
-@property (nonatomic, strong) NSDictionary *meta;
-@property (nonatomic, strong) NSDictionary *errors;
+@property (strong, nonatomic) NSDictionary *meta;
+@property (strong, nonatomic) NSDictionary *errors;
 
 @end
 

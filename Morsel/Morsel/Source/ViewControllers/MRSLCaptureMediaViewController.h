@@ -11,16 +11,13 @@
 @protocol CaptureMediaViewControllerDelegate <NSObject>
 
 @optional
-- (void)captureMediaViewControllerDidAcceptImage:(UIImage *)updatedImage;
+// Returns an array of MediaItem objects
+- (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSMutableArray *)capturedMedia;
 
 @end
 
-@class MRSLMorsel;
-
 @interface MRSLCaptureMediaViewController : UIViewController
 
-@property (nonatomic, weak) id<CaptureMediaViewControllerDelegate> delegate;
-
-@property (nonatomic, strong) MRSLMorsel *morsel;
+@property (weak, nonatomic) id<CaptureMediaViewControllerDelegate> delegate;
 
 @end

@@ -10,7 +10,6 @@
 #import <Kiwi/Kiwi.h>
 
 #import "MRSLCaptureMediaViewController.h"
-#import "MRSLUserPostsViewController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
@@ -20,12 +19,6 @@
 @property (nonatomic) AVCaptureSession *session;
 
 - (void)endCameraSession;
-
-@end
-
-@interface MRSLUserPostsViewController (Private)
-
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -66,31 +59,11 @@ describe(@"AlertView", ^{
 
 /*
  Testflight Crash Reports associated to this case:
- * https://www.testflightapp.com/dashboard/builds/crashes/9549606/23486775/
-*/
-
-describe(@"UserPostsViewController", ^{
-    MRSLUserPostsViewController *userPostsVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_UserPostsViewController"];
-    context(@"- setMorsel:", ^{
-        [MRSLUser stub:@selector(currentUser)
-             andReturn:nil];
-        it(@"should not crash when current user is nil", ^{
-            [[[MRSLUser currentUser] should] beNil];
-
-            MRSLMorsel *morsel = [MRSLMorsel MR_createEntity];
-            morsel.morselID = @(1);
-            [userPostsVC setMorsel:morsel];
-        });
-    });
-});
-
-/*
- Testflight Crash Reports associated to this case:
  * https://www.testflightapp.com/dashboard/builds/crashes/9549606/23413879/
 */
 
 describe(@"CaptureMediaViewController", ^{
-    MRSLCaptureMediaViewController *captureMediaVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CaptureMediaViewController"];
+    MRSLCaptureMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLCaptureMediaViewController"];
     context(@"attempts to end camera session in quick succession", ^{
             [captureMediaVC endCameraSession];
             [captureMediaVC endCameraSession];

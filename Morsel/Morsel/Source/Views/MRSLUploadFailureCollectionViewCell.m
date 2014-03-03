@@ -32,8 +32,8 @@
 - (void)setMorsel:(MRSLMorsel *)morsel {
     if (_morsel != morsel) {
         _morsel = morsel;
-        if (_morsel.morselThumb) {
-            self.thumbnailImageView.image = [UIImage imageWithData:_morsel.morselThumb];
+        if (_morsel.morselPhotoThumb) {
+            self.thumbnailImageView.image = [UIImage imageWithData:_morsel.morselPhotoThumb];
         }
     }
 }

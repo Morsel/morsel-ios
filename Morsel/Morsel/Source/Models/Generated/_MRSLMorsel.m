@@ -7,14 +7,17 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.creationDate = @"creationDate",
 	.creator_id = @"creator_id",
 	.didFailUpload = @"didFailUpload",
-	.draft = @"draft",
 	.isUploading = @"isUploading",
+	.lastUpdatedDate = @"lastUpdatedDate",
 	.liked = @"liked",
+	.localUUID = @"localUUID",
 	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
 	.morselPhoto = @"morselPhoto",
+	.morselPhotoCropped = @"morselPhotoCropped",
+	.morselPhotoThumb = @"morselPhotoThumb",
 	.morselPhotoURL = @"morselPhotoURL",
-	.morselThumb = @"morselThumb",
+	.sort_order = @"sort_order",
 	.url = @"url",
 };
 
@@ -63,11 +66,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"draftValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"draft"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
 	if ([key isEqualToString:@"isUploadingValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"isUploading"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -80,6 +78,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"morselIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"morselID"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"sort_orderValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"sort_order"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -149,32 +152,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic draft;
-
-
-
-- (BOOL)draftValue {
-	NSNumber *result = [self draft];
-	return [result boolValue];
-}
-
-- (void)setDraftValue:(BOOL)value_ {
-	[self setDraft:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveDraftValue {
-	NSNumber *result = [self primitiveDraft];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveDraftValue:(BOOL)value_ {
-	[self setPrimitiveDraft:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
 @dynamic isUploading;
 
 
@@ -201,6 +178,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+@dynamic lastUpdatedDate;
+
+
+
+
+
+
 @dynamic liked;
 
 
@@ -222,6 +206,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 - (void)setPrimitiveLikedValue:(BOOL)value_ {
 	[self setPrimitiveLiked:[NSNumber numberWithBool:value_]];
 }
+
+
+
+
+
+@dynamic localUUID;
+
 
 
 
@@ -267,6 +258,20 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+@dynamic morselPhotoCropped;
+
+
+
+
+
+
+@dynamic morselPhotoThumb;
+
+
+
+
+
+
 @dynamic morselPhotoURL;
 
 
@@ -274,8 +279,27 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic morselThumb;
+@dynamic sort_order;
 
+
+
+- (int16_t)sort_orderValue {
+	NSNumber *result = [self sort_order];
+	return [result shortValue];
+}
+
+- (void)setSort_orderValue:(int16_t)value_ {
+	[self setSort_order:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveSort_orderValue {
+	NSNumber *result = [self primitiveSort_order];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveSort_orderValue:(int16_t)value_ {
+	[self setPrimitiveSort_order:[NSNumber numberWithShort:value_]];
+}
 
 
 

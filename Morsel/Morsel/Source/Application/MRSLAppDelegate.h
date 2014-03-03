@@ -12,8 +12,8 @@
 
 @interface MRSLAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (nonatomic, strong) MRSLAPIService *morselApiService;
-@property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
+@property (strong, nonatomic) MRSLAPIService *morselApiService;
+@property (strong, nonatomic) NSDateFormatter *defaultDateFormatter;
 @property (strong, nonatomic) UIWindow *window;
 
 - (void)resetDataStore;

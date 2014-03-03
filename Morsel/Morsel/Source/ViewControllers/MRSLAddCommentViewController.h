@@ -12,6 +12,6 @@
 
 @interface MRSLAddCommentViewController : UIViewController
 
-@property (nonatomic, strong) MRSLMorsel *morsel;
+@property (strong, nonatomic) MRSLMorsel *morsel;
 
 @end

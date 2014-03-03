@@ -10,8 +10,8 @@
 
 @interface MRSLLargeButton ()
 
-@property (nonatomic, strong) UIColor *originalBackgroundColor;
-@property (nonatomic, strong) UIColor *highlightedBackgroundColor;
+@property (strong, nonatomic) UIColor *originalBackgroundColor;
+@property (strong, nonatomic) UIColor *highlightedBackgroundColor;
 
 @end
 

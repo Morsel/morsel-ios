@@ -8,6 +8,8 @@ typedef NS_ENUM(NSUInteger, MorselImageSizeType) {
 
 @interface MRSLMorsel : _MRSLMorsel
 
++ (MRSLMorsel *)localUniqueMorsel;
+
 - (NSURLRequest *)morselPictureURLRequestForImageSizeType:(MorselImageSizeType)type;
 
 - (NSString *)socialMessage;

@@ -12,40 +12,39 @@
 
 #pragma mark - Instance Methods
 
-- (BOOL)isPublished {
-    __block BOOL isPublished = NO;
+- (NSDate *)latestUpdatedDate {
+    __block NSDate *latestUpdated = self.lastUpdatedDate;
 
-    [[self.morsels allObjects] enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
-        if (!morsel.draftValue) {
-            isPublished = YES;
-            *stop = YES;
+    [self.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, BOOL *stop) {
+        NSDate *morselUpdatedDate = [latestUpdated laterDate:morsel.lastUpdatedDate];
+
+        if (![morselUpdatedDate isEqualToDate:latestUpdated]) {
+            latestUpdated = morsel.lastUpdatedDate;
         }
     }];
-    return isPublished;
+    return latestUpdated;
 }
 
 - (NSArray *)morselsArray {
-    NSSortDescriptor *idSort = [NSSortDescriptor sortDescriptorWithKey:@"morselID"
+    NSSortDescriptor *idSort = [NSSortDescriptor sortDescriptorWithKey:@"sort_order"
                                                                        ascending:YES];
     return [[self.morsels allObjects] sortedArrayUsingDescriptors:@[idSort]];
 }
 
 - (NSDictionary *)objectToJSON {
-    return @{@"post" : @{@"title" : (!self.title || self.title.length == 0) ? [NSNull null] : self.title}};
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
+    [objectInfoJSON setObject:(self.title) ? self.title : [NSNull null]
+                       forKey:@"title"];
+    if (self.draft) [objectInfoJSON setObject:(self.draftValue) ? @"true" : @"false"
+                                       forKey:@"draft"];
+
+    NSMutableDictionary *postJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
+                                                                         forKey:@"post"];
+
+    return postJSON;
 }
 
 #pragma mark - MagicalRecord
-
-- (BOOL)shouldImport:(id)data {
-    if (![data[@"morsels"] isEqual:[NSNull null]]) {
-        NSArray *morsels = data[@"morsels"];
-        if ([morsels count] == 0) {
-            DDLogDebug(@"Post contained no Morsels. Aborting import.");
-            return NO;
-        }
-    }
-    return YES;
-}
 
 - (void)didImport:(id)data {
     if (![data[@"creator_id"] isEqual:[NSNull null]] &&
@@ -59,6 +58,20 @@
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
+    }
+
+    if (![data[@"published_at"] isEqual:[NSNull null]]) {
+        NSString *updateString = data[@"published_at"];
+        self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
+    }
+
+    if (![data[@"updated_at"] isEqual:[NSNull null]]) {
+        NSString *updateString = data[@"updated_at"];
+        self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
+    }
+    
+    if (!self.draft) {
+        self.draft = @NO;
     }
 }
 

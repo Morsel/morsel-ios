@@ -10,7 +10,7 @@
 
 @interface MRSLTabBarView ()
 
-@property (nonatomic, strong) IBOutletCollection(UIButton) NSArray *tabBarButtons;
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *tabBarButtons;
 
 @end
 
@@ -25,7 +25,7 @@
 - (IBAction)selectedButton:(MRSLTabBarButton *)targetButton {
     [_tabBarButtons enumerateObjectsUsingBlock:^(MRSLTabBarButton *tabBarButton, NSUInteger idx, BOOL *stop) {
         BOOL targetEqualsButton = [tabBarButton isEqual:targetButton];
-        tabBarButton.enabled = !targetEqualsButton;
+        tabBarButton.selected = targetEqualsButton;
         if (targetEqualsButton) {
             if ([self.delegate respondsToSelector:@selector(tabBarDidSelectButtonOfType:)]) {
                 [self.delegate tabBarDidSelectButtonOfType:tabBarButton.tabBarButtonType];
@@ -47,7 +47,7 @@
 
 - (void)reset {
     [_tabBarButtons enumerateObjectsUsingBlock:^(MRSLTabBarButton *tabBarButton, NSUInteger idx, BOOL *stop) {
-        tabBarButton.enabled = YES;
+        tabBarButton.selected = NO;
     }];
 }
 

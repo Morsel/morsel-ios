@@ -7,6 +7,7 @@
 //
 
 #import "MRSLAppDelegate.h"
+#import "MRSLAppDelegate+SetupAppearance.h"
 
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import <CocoaLumberjack/DDASLLogger.h>
@@ -28,6 +29,8 @@
     [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
 
     [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
+
+    [MRSLAppDelegate setupTheme];
 
     [self setupMorselEnvironment];
 

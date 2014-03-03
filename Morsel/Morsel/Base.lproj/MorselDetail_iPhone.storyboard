@@ -5,16 +5,16 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
-        <!--Detail View Controller-->
+        <!--Morsel Detail View Controller-->
         <scene sceneID="6PX-57-iCp">
             <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailViewController" id="68g-YW-5HD" customClass="MRSLDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailViewController" id="68g-YW-5HD" customClass="MRSLMorselDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LCm-WB-Vi6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="Buk-7l-YjM">
-                                <rect key="frame" x="0.0" y="76" width="320" height="492"/>
+                                <rect key="frame" x="0.0" y="76" width="320" height="432"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -100,16 +100,16 @@
             </objects>
             <point key="canvasLocation" x="-56" y="-209"/>
         </scene>
-        <!--Detail Panel View Controller-->
+        <!--Morsel Detail Panel View Controller-->
         <scene sceneID="Dc1-vO-w8d">
             <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailPanel" id="0s7-dI-8vc" customClass="MRSLDetailPanelViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailPanel" id="0s7-dI-8vc" customClass="MRSLMorselDetailPanelViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gKG-w1-Nk4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="492"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" id="gyn-6D-R7J">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="492"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="gxC-j0-Omd">
@@ -155,7 +155,7 @@
                                 <inset key="contentInset" minX="0.0" minY="35" maxX="0.0" maxY="0.0"/>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K9n-vs-MBt" customClass="MRSLLargeButton">
-                                <rect key="frame" x="0.0" y="432" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="488" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>

@@ -12,6 +12,6 @@
 
 @interface MRSLThumbnailCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, weak) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end
