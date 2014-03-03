@@ -8,24 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-#ifdef SPEC_TESTING
-
-#import "MRSLSpecsAppDelegate.h"
-
-int main(int argc, char * argv[]) {
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([MRSLSpecsAppDelegate class]));
-    }
-}
-
+#if defined (SPEC_TESTING) || defined (INTEGRATION_TESTING)
+#define _appDelClassString @"MRSLSpecsAppDelegate"
 #else
-
-#import "AppDelegate.h"
+#define _appDelClassString @"AppDelegate"
+#endif
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, _appDelClassString);
     }
 }
-
-#endif

@@ -78,6 +78,9 @@
     [[Mixpanel sharedInstance] reset];
     [[MorselAPIClient sharedClient].operationQueue cancelAllOperations];
 
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
+                                                       forName:[[NSBundle mainBundle] bundleIdentifier]];
+
     NSURL *persistentStoreURL = [NSPersistentStore MR_urlForStoreName:@"Morsel.sqlite"];
     NSURL *shmURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-shm"]];
     NSURL *walURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-wal"]];
