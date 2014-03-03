@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
-        <!--Morsel Detail View Controller-->
+        <!--Detail View Controller-->
         <scene sceneID="6PX-57-iCp">
             <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailViewController" id="68g-YW-5HD" customClass="MorselDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailViewController" id="68g-YW-5HD" customClass="MRSLDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LCm-WB-Vi6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -22,18 +22,18 @@
                                 <rect key="frame" x="0.0" y="80" width="320" height="55"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zNk-uN-naa" customClass="MorselCondensedLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zNk-uN-naa" customClass="MRSLCondensedLabel">
                                         <rect key="frame" x="58" y="26" width="170" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                                         <color key="textColor" red="0.47450980390000003" green="0.47450980390000003" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hW7-Fk-4sQ" customClass="ProfileImageView">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hW7-Fk-4sQ" customClass="MRSLProfileImageView">
                                         <rect key="frame" x="12" y="8" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Ds-6H-gLF" customClass="MorselCondensedObliqueLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Ds-6H-gLF" customClass="MRSLCondensedObliqueLabel">
                                         <rect key="frame" x="58" y="10" width="170" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Helvetica-LightOblique" family="Helvetica" pointSize="14"/>
@@ -59,7 +59,7 @@
                                             <action selector="goBack" destination="68g-YW-5HD" eventType="touchUpInside" id="mkQ-WI-qRr"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Morsel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lz4-TP-i4U" customClass="MorselThinCondensedLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Morsel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lz4-TP-i4U" customClass="MRSLThinCondensedLabel">
                                         <rect key="frame" x="47" y="30" width="226" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="Story Title"/>
@@ -100,10 +100,10 @@
             </objects>
             <point key="canvasLocation" x="-56" y="-209"/>
         </scene>
-        <!--Morsel Detail Panel View Controller-->
+        <!--Detail Panel View Controller-->
         <scene sceneID="Dc1-vO-w8d">
             <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailPanel" id="0s7-dI-8vc" customClass="MorselDetailPanelViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailPanel" id="0s7-dI-8vc" customClass="MRSLDetailPanelViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gKG-w1-Nk4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="492"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -143,7 +143,7 @@
                                         <rect key="frame" x="25" y="382" width="270" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6P2-Rx-Vw0" customClass="MorselStandardLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6P2-Rx-Vw0" customClass="MRSLStandardLabel">
                                         <rect key="frame" x="30" y="240" width="260" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -154,7 +154,7 @@
                                 </subviews>
                                 <inset key="contentInset" minX="0.0" minY="35" maxX="0.0" maxY="0.0"/>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K9n-vs-MBt" customClass="MorselLargeButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K9n-vs-MBt" customClass="MRSLLargeButton">
                                 <rect key="frame" x="0.0" y="432" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -186,10 +186,10 @@
             </objects>
             <point key="canvasLocation" x="-56" y="555"/>
         </scene>
-        <!--Morsel Detail Comments View Controller-->
+        <!--Detail Comments View Controller-->
         <scene sceneID="UbM-UN-e3D">
             <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailCommentsViewController" id="1VI-dl-Qnf" customClass="MorselDetailCommentsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailCommentsViewController" id="1VI-dl-Qnf" customClass="MRSLDetailCommentsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MbU-IK-bvU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -199,25 +199,25 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_CommentCell" id="rug-8m-UR0" customClass="CommentTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_CommentCell" id="rug-8m-UR0" customClass="MRSLCommentTableViewCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="110"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rug-8m-UR0" id="BeO-u2-xYG">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ItF-7r-ryG" customClass="ProfileImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ItF-7r-ryG" customClass="MRSLProfileImageView">
                                                     <rect key="frame" x="24" y="24" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0uf-Fk-6eB" customClass="MorselCondensedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0uf-Fk-6eB" customClass="MRSLCondensedLabel">
                                                     <rect key="frame" x="72" y="26" width="174" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.6588235294117647" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g7L-Tg-MFQ" customClass="MorselCondensedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g7L-Tg-MFQ" customClass="MRSLCondensedLabel">
                                                     <rect key="frame" x="72" y="40" width="192" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -270,7 +270,7 @@
         <!--Add Comment View Controller-->
         <scene sceneID="jJA-n2-Rcw">
             <objects>
-                <viewController storyboardIdentifier="sb_AddCommentViewController" id="RDS-t2-YW3" customClass="AddCommentViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_AddCommentViewController" id="RDS-t2-YW3" customClass="MRSLAddCommentViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nfI-Wr-60X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -303,7 +303,7 @@
                                             <action selector="cancelComment" destination="RDS-t2-YW3" eventType="touchUpInside" id="bMD-PH-BXY"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comment" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JCZ-FU-zmp" customClass="MorselThinCondensedLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comment" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JCZ-FU-zmp" customClass="MRSLThinCondensedLabel">
                                         <rect key="frame" x="47" y="30" width="226" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>

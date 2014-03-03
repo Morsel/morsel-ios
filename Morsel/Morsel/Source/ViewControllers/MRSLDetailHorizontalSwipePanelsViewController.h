@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, ScrollViewDirection)
     ScrollViewDirectionHorizontal
 };
 
-@class MorselDetailPanelViewController;
+@class MRSLDetailPanelViewController;
 
 @interface MRSLDetailHorizontalSwipePanelsViewController : UIViewController
 

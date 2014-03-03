@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MorselStandardButton.h"
+#import "MRSLStandardButton.h"
 
 typedef NS_ENUM(NSUInteger, MRSLTabBarButtonType) {
     MRSLTabBarButtonTypeHome,
@@ -16,7 +16,7 @@ typedef NS_ENUM(NSUInteger, MRSLTabBarButtonType) {
     MRSLTabBarButtonTypeMore
 };
 
-@interface MRSLTabBarButton : MorselStandardButton
+@interface MRSLTabBarButton : MRSLStandardButton
 
 @property (nonatomic) MRSLTabBarButtonType tabBarButtonType;
 

@@ -11,7 +11,7 @@
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 
-#import "MorselAPIClient.h"
+#import "MRSLAPIClient.h"
 
 #import "MRSLComment.h"
 #import "MRSLMorsel.h"
@@ -36,7 +36,7 @@
     [self.defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [self.defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
     
-    self.morselApiService = [[MorselAPIService alloc] init];
+    self.morselApiService = [[MRSLAPIService alloc] init];
 
     [self setupDatabase];
 
@@ -66,7 +66,7 @@
 
 - (void)resetDataStore {
     [[Mixpanel sharedInstance] reset];
-    [[MorselAPIClient sharedClient].operationQueue cancelAllOperations];
+    [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
 
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
                                                        forName:[[NSBundle mainBundle] bundleIdentifier]];

@@ -8,9 +8,9 @@
 
 #import "MRSLMoreViewController.h"
 
-#import "ProfileImageView.h"
-#import "SideBarItem.h"
-#import "SideBarItemCell.h"
+#import "MRSLProfileImageView.h"
+#import "MRSLMoreItem.h"
+#import "MRSLMoreItemCell.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
@@ -24,9 +24,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *sideBarTableView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
-@property (weak, nonatomic) IBOutlet ProfileImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
-@property (nonatomic, strong) SideBarItem *draftItem;
+@property (nonatomic, strong) MRSLMoreItem *draftItem;
 
 @property (nonatomic, strong) NSMutableArray *sideBarItems;
 
@@ -37,18 +37,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.versionLabel.text = [Util appVersionBuildString];
+    self.versionLabel.text = [MRSLUtil appVersionBuildString];
     
     [self.profileImageView addCornersWithRadius:20.f];
     [self.profileImageView setBorderWithColor:[UIColor whiteColor]
                                      andWidth:1.f];
     
-    SideBarItem *homeItem = [SideBarItem sideBarItemWithTitle:@"Feed"
+    MRSLMoreItem *homeItem = [MRSLMoreItem sideBarItemWithTitle:@"Feed"
                                                 iconImageName:@"icon-sidebar-home"
                                                cellIdentifier:@"ruid_SideBarItemCell"
                                                          type:SideBarMenuItemTypeHome];
     
-    SideBarItem *draftItem = [SideBarItem sideBarItemWithTitle:@"Drafts"
+    MRSLMoreItem *draftItem = [MRSLMoreItem sideBarItemWithTitle:@"Drafts"
                                                  iconImageName:@"icon-sidebar-edit"
                                                 cellIdentifier:@"ruid_SideBarDraftCell"
                                                           type:SideBarMenuItemTypeDrafts];
@@ -77,9 +77,9 @@
     return [_sideBarItems count];
 }
 
-- (SideBarItemCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
-    SideBarItemCell *sideBarCell = [tableView dequeueReusableCellWithIdentifier:sideBarItem.cellIdentifier];
+- (MRSLMoreItemCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLMoreItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
+    MRSLMoreItemCell *sideBarCell = [tableView dequeueReusableCellWithIdentifier:sideBarItem.cellIdentifier];
     sideBarCell.sideBarItem = sideBarItem;
     
     return sideBarCell;
