@@ -70,18 +70,18 @@ static const int croppedImageHeightOffset = 106.f;
 #import "MRSLSpecsAppDelegate.h"
     #define _appDelegate ((MRSLSpecsAppDelegate *)[[UIApplication sharedApplication] delegate])
 #else
-#import "AppDelegate.h"
-    #define _appDelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate])
+#import "MRSLAppDelegate.h"
+    #define _appDelegate ((MRSLAppDelegate *)[[UIApplication sharedApplication] delegate])
 #endif
 
 #define NSNullIfNil(obj) ((obj == nil) ? [NSNull null] : obj)
 
 #pragma mark - Imports
 
-#import "Constants.h"
+#import "MRSLConstants.h"
 #import "CoreData+MagicalRecord.h"
-#import "Util.h"
-#import "MorselAPIService.h"
+#import "MRSLUtil.h"
+#import "MRSLAPIService.h"
 #import "MRSLEventManager.h"
 
 #import "UIAlertView+Additions.h"

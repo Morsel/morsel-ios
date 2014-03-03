@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
-        <!--Morsel Root View Controller-->
+        <!--Root View Controller-->
         <scene sceneID="TE9-G8-7lO">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Qbi-Wx-vRl" customClass="MorselRootViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Qbi-Wx-vRl" customClass="MRSLRootViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Xp-rR-es0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

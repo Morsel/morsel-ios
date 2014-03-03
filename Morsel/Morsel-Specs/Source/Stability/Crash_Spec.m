@@ -9,13 +9,13 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Kiwi/Kiwi.h>
 
-#import "CaptureMediaViewController.h"
-#import "UserPostsViewController.h"
+#import "MRSLCaptureMediaViewController.h"
+#import "MRSLUserPostsViewController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
-@interface CaptureMediaViewController (Private)
+@interface MRSLCaptureMediaViewController (Private)
 
 @property (nonatomic) AVCaptureSession *session;
 
@@ -23,7 +23,7 @@
 
 @end
 
-@interface UserPostsViewController (Private)
+@interface MRSLUserPostsViewController (Private)
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
@@ -70,7 +70,7 @@ describe(@"AlertView", ^{
 */
 
 describe(@"UserPostsViewController", ^{
-    UserPostsViewController *userPostsVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_UserPostsViewController"];
+    MRSLUserPostsViewController *userPostsVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_UserPostsViewController"];
     context(@"- setMorsel:", ^{
         [MRSLUser stub:@selector(currentUser)
              andReturn:nil];
@@ -90,7 +90,7 @@ describe(@"UserPostsViewController", ^{
 */
 
 describe(@"CaptureMediaViewController", ^{
-    CaptureMediaViewController *captureMediaVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CaptureMediaViewController"];
+    MRSLCaptureMediaViewController *captureMediaVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CaptureMediaViewController"];
     context(@"attempts to end camera session in quick succession", ^{
             [captureMediaVC endCameraSession];
             [captureMediaVC endCameraSession];

@@ -10,10 +10,10 @@
 #import <Accounts/Accounts.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
-#import "SocialService.h"
+#import "MRSLSocialService.h"
 #import <Social/SLRequest.h>
 
-@interface SocialService (PRIVATE)
+@interface MRSLSocialService (PRIVATE)
 
 - (void)requestReverseAuthenticationSignatureWithBlock:(MorselDataURLResponseErrorBlock)block;
 - (void)requestAccessTokenForAccount:(ACAccount *)account signature:(NSString *)signedReverseAuthenticationSignature withBlock:(MorselDataURLResponseErrorBlock)block;
@@ -28,7 +28,7 @@ describe(@"SocialService", ^{
             context(@"nil Twitter account", ^{
                 it(@"throws an exception", ^{
                     [[[KWBlock blockWithBlock:^{
-                        SocialService *socialService = [[SocialService alloc] init];
+                        MRSLSocialService *socialService = [[MRSLSocialService alloc] init];
                         [socialService performReverseAuthForTwitterAccount:nil
                                                           withBlock:^(NSData *data, NSURLResponse *response, NSError *error) {}];
                     }] should] raise];
@@ -53,7 +53,7 @@ describe(@"SocialService", ^{
                                                          headers:@{ @"Content-Type": @"applications/json" }];
                 }];
 
-                SocialService *socialService = [[SocialService alloc] init];
+                MRSLSocialService *socialService = [[MRSLSocialService alloc] init];
 
                 __block BOOL success = NO;
 
@@ -78,7 +78,7 @@ describe(@"SocialService", ^{
                 ACAccount *dummyAccount = [[ACAccount alloc] initWithAccountType:twitterAccountType];
                 NSString *dummySignature = @"OAuth oauth_some_stuff=\"whatever\"";
 
-                SocialService *socialService = [[SocialService alloc] init];
+                MRSLSocialService *socialService = [[MRSLSocialService alloc] init];
 
                 __block BOOL success = NO;
 

@@ -8,7 +8,7 @@
         <!--Create Morsel View Controller-->
         <scene sceneID="Q0m-P0-DXb">
             <objects>
-                <viewController storyboardIdentifier="sb_CreateMorselViewController" id="peM-UU-So4" customClass="CreateMorselViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_CreateMorselViewController" id="peM-UU-So4" customClass="MRSLCreateMorselViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fUn-Y4-0hu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -21,14 +21,14 @@
                                         <rect key="frame" x="25" y="84" width="270" height="99"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Title to Progression" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5hp-D9-GsU" customClass="MorselThinCondensedLabel">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Title to Progression" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5hp-D9-GsU" customClass="MRSLThinCondensedLabel">
                                                 <rect key="frame" x="20" y="20" width="230" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" minimumFontSize="17" id="tLL-v9-eiN" customClass="MorselTextField">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" minimumFontSize="17" id="tLL-v9-eiN" customClass="MRSLTextField">
                                                 <rect key="frame" x="20" y="49" width="230" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -48,7 +48,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9JE-Zq-LDp" customClass="MorselStandardButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9JE-Zq-LDp" customClass="MRSLStandardButton">
                                         <rect key="frame" x="0.0" y="20" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -59,7 +59,7 @@
                                             <action selector="goBackToCaptureMedia:" destination="peM-UU-So4" eventType="touchUpInside" id="Fr7-Dm-x2X"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="W9g-LF-yuZ" customClass="MorselStandardButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="W9g-LF-yuZ" customClass="MRSLStandardButton">
                                         <rect key="frame" x="260" y="10" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -70,7 +70,7 @@
                                             <action selector="displaySettings" destination="peM-UU-So4" eventType="touchUpInside" id="gTX-3r-iwy"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vTU-W0-1HW" customClass="MorselStandardButton">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vTU-W0-1HW" customClass="MRSLStandardButton">
                                         <rect key="frame" x="260" y="10" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
@@ -81,7 +81,7 @@
                                             <action selector="resignKeyboard" destination="peM-UU-So4" eventType="touchUpInside" id="oK6-UP-ZdU"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Morsel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TbC-J6-pbH" customClass="MorselThinCondensedLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Morsel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TbC-J6-pbH" customClass="MRSLThinCondensedLabel">
                                         <rect key="frame" x="47" y="30" width="226" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
@@ -109,7 +109,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nXn-5m-ZND" customClass="MorselLargeButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nXn-5m-ZND" customClass="MRSLLargeButton">
                                 <rect key="frame" x="0.0" y="513" width="320" height="55"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -165,7 +165,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" id="9rc-pL-t2s" customClass="CreateMorselButtonPanelView">
+                            <view contentMode="scaleToFill" id="9rc-pL-t2s" customClass="MRSLCreateMorselButtonPanelView">
                                 <rect key="frame" x="70" y="64" width="250" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -281,7 +281,7 @@
         <!--Post Morsels View Controller-->
         <scene sceneID="ZLR-Td-Oim">
             <objects>
-                <viewController storyboardIdentifier="sb_PostMorselsViewController" id="NKO-8r-wmh" customClass="PostMorselsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_PostMorselsViewController" id="NKO-8r-wmh" customClass="MRSLPostMorselsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nY4-4X-ESO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -290,7 +290,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YIc-TK-YEj" customClass="MorselStandardButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YIc-TK-YEj" customClass="MRSLStandardButton">
                                         <rect key="frame" x="260" y="10" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
@@ -301,7 +301,7 @@
                                             <action selector="cancelEditing:" destination="NKO-8r-wmh" eventType="touchUpInside" id="RPM-II-DNq"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MhT-S5-P0k" customClass="MorselThinCondensedLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MhT-S5-P0k" customClass="MRSLThinCondensedLabel">
                                         <rect key="frame" x="47" y="30" width="226" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
@@ -323,7 +323,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_PostMorselCell" id="dLy-yN-9TD" customClass="PostMorselCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_PostMorselCell" id="dLy-yN-9TD" customClass="MRSLPostMorselCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -339,7 +339,7 @@
                                                     <rect key="frame" x="20" y="5" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Psl-D9-2dn" customClass="MorselMediumLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Psl-D9-2dn" customClass="MRSLMediumLabel">
                                                     <rect key="frame" x="78" y="14" width="208" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
@@ -386,7 +386,7 @@
         <!--User Posts View Controller-->
         <scene sceneID="3gf-jz-S3p">
             <objects>
-                <viewController storyboardIdentifier="sb_UserPostsViewController" id="zvO-LL-AX5" customClass="UserPostsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_UserPostsViewController" id="zvO-LL-AX5" customClass="MRSLUserPostsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7IM-p7-DAh">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="304"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -402,7 +402,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_PostCell" id="G36-YH-WNg" customClass="PostCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_PostCell" id="G36-YH-WNg" customClass="MRSLPostCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -413,21 +413,21 @@
                                                     <rect key="frame" x="46" y="5" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TN5-Zx-Z3R" customClass="MorselMediumLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TN5-Zx-Z3R" customClass="MRSLMediumLabel">
                                                     <rect key="frame" x="106" y="14" width="180" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Cbl-Ct-Xcf" customClass="MorselCondensedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Cbl-Ct-Xcf" customClass="MRSLCondensedLabel">
                                                     <rect key="frame" x="106" y="36" width="50" height="10"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.71372549019607845" green="0.71372549019607845" blue="0.71372549019607845" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hQl-Sg-4cs" customClass="MorselCondensedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hQl-Sg-4cs" customClass="MRSLCondensedLabel">
                                                     <rect key="frame" x="164" y="36" width="50" height="10"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -461,7 +461,7 @@
                                     <outlet property="delegate" destination="zvO-LL-AX5" id="r9a-fK-Y85"/>
                                 </connections>
                             </collectionView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add this Morsel to an existing Progression" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qvr-45-RQ5" customClass="MorselLightCondensedLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add this Morsel to an existing Progression" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qvr-45-RQ5" customClass="MRSLLightCondensedLabel">
                                 <rect key="frame" x="12" y="10" width="296" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
@@ -487,7 +487,7 @@
         <!--Add Text View Controller-->
         <scene sceneID="AQO-me-Ycz">
             <objects>
-                <viewController storyboardIdentifier="sb_AddTextViewController" id="J22-mV-Hl8" customClass="AddTextViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_AddTextViewController" id="J22-mV-Hl8" customClass="MRSLAddTextViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M5h-Iu-LmK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="304"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -508,7 +508,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.96862745100000003" green="0.97647058819999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Why is this interesting?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="czA-Ta-Yuq" customClass="MorselLightCondensedLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Why is this interesting?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="czA-Ta-Yuq" customClass="MRSLLightCondensedLabel">
                                 <rect key="frame" x="12" y="10" width="218" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
@@ -533,12 +533,12 @@
         <!--Capture Media View Controller-->
         <scene sceneID="nNB-da-z3Q">
             <objects>
-                <viewController storyboardIdentifier="sb_CaptureMediaViewController" id="BwI-mZ-112" customClass="CaptureMediaViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_CaptureMediaViewController" id="BwI-mZ-112" customClass="MRSLCaptureMediaViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hgD-nC-dLE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="yzI-6H-pOW" customClass="CameraPreviewView">
+                            <view contentMode="scaleToFill" id="yzI-6H-pOW" customClass="MRSLCameraPreviewView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -603,7 +603,7 @@
                                 <rect key="frame" x="0.0" y="476" width="320" height="92"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ToZ-5f-Lwr" customClass="MorselThinButton">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ToZ-5f-Lwr" customClass="MRSLThinButton">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="92"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -615,7 +615,7 @@
                                             <action selector="discardImage:" destination="BwI-mZ-112" eventType="touchUpInside" id="5YA-OX-Gpe"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ahD-yu-NPb" customClass="MorselThinButton">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ahD-yu-NPb" customClass="MRSLThinButton">
                                         <rect key="frame" x="160" y="0.0" width="160" height="92"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="34"/>
@@ -708,7 +708,7 @@
         <!--Navigation Controller - CreateMorsel-->
         <scene sceneID="Obb-oY-lM8">
             <objects>
-                <navigationController storyboardIdentifier="sb_CreateMorsel" title="CreateMorsel" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="AWa-Iz-a2i" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_CaptureMedia" title="CreateMorsel" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="AWa-Iz-a2i" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="icon-tab-add-morsel" id="gzG-Gn-yo1"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xdr-ux-qQA">
