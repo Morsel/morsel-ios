@@ -1,20 +1,21 @@
 //
-//  MRSLSideBarViewController.m
+//  MRSLMoreViewController.m
 //  Morsel
 //
 //  Created by Javier Otero on 1/31/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLSideBarViewController.h"
+#import "MRSLMoreViewController.h"
 
 #import "ProfileImageView.h"
+#import "SideBarItem.h"
 #import "SideBarItemCell.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
-@interface MRSLSideBarViewController ()
+@interface MRSLMoreViewController ()
     <UITableViewDataSource,
      UITableViewDelegate>
 
@@ -31,7 +32,7 @@
 
 @end
 
-@implementation MRSLSideBarViewController
+@implementation MRSLMoreViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,7 +41,7 @@
     
     [self.profileImageView addCornersWithRadius:20.f];
     [self.profileImageView setBorderWithColor:[UIColor whiteColor]
-                                     andWidth:2.f];
+                                     andWidth:1.f];
     
     SideBarItem *homeItem = [SideBarItem sideBarItemWithTitle:@"Feed"
                                                 iconImageName:@"icon-sidebar-home"
@@ -48,25 +49,14 @@
                                                          type:SideBarMenuItemTypeHome];
     
     SideBarItem *draftItem = [SideBarItem sideBarItemWithTitle:@"Drafts"
-                                                 iconImageName:@"icon-sidebar-draft"
+                                                 iconImageName:@"icon-sidebar-edit"
                                                 cellIdentifier:@"ruid_SideBarDraftCell"
                                                           type:SideBarMenuItemTypeDrafts];
 
     self.draftItem = draftItem;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedIn:)
-                                                 name:MRSLServiceDidLogInUserNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedOut:)
-                                                 name:MRSLServiceDidLogOutUserNotification
-                                               object:nil];
     
     self.sideBarItems = [NSMutableArray arrayWithObjects:draftItem, homeItem, nil];
-}
 
-#pragma mark - NSNotification
-
-- (void)userLoggedIn:(NSNotification *)notification {
     self.userNameLabel.text = [MRSLUser currentUser].fullName;
     self.profileImageView.user = [MRSLUser currentUser];
     self.draftItem.badgeCount = [MRSLUser currentUser].draft_countValue;
@@ -74,31 +64,12 @@
     [self.sideBarTableView reloadData];
 }
 
-- (void)userLoggedOut:(NSNotification *)notification {
-    self.userNameLabel.text = nil;
-    self.profileImageView.user = nil;
-}
-
 #pragma mark - Action
 
-- (IBAction)hideSideBar {
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
-        [self.delegate sideBarDidSelectMenuItemOfType:SideBarMenuItemTypeHide];
-    }
-}
-
-- (IBAction)displayUserProfile {
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
-        [self.delegate sideBarDidSelectMenuItemOfType:SideBarMenuItemTypeProfile];
-    }
-}
-
 - (IBAction)logout {
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
-        [self.delegate sideBarDidSelectMenuItemOfType:SideBarMenuItemTypeLogout];
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                        object:nil];
 }
-
 
 #pragma mark - UITableViewDataSource
 
@@ -117,11 +88,9 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
-    
-    if ([self.delegate respondsToSelector:@selector(sideBarDidSelectMenuItemOfType:)]) {
-        [self.delegate sideBarDidSelectMenuItemOfType:sideBarItem.menuType];
-    }
+    //SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
+
+    // Display content based on type: sideBarItem.menuType
 }
 
 #pragma mark - Destruction

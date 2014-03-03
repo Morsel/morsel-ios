@@ -40,6 +40,16 @@
                                      bundle:nil];
 }
 
++ (UIStoryboard *)moreStoryboard {
+    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"More_iPad" : @"More_iPhone"
+                                     bundle:nil];
+}
+
++ (UIStoryboard *)activityStoryboard {
+    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Activity_iPad" : @"Activity_iPhone"
+                                     bundle:nil];
+}
+
 + (UIStoryboard *)specsStoryboardInBundle:(NSBundle *)bundleOrNil {
     return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Specs_iPad" : @"Specs_iPhone"
                                      bundle:bundleOrNil];

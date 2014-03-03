@@ -9,12 +9,11 @@
 #import "Constants.h"
 
 NSString *const MRSLServiceDidLogInUserNotification = @"MRSLServiceDidLogInUserNotification";
+NSString *const MRSLServiceShouldLogOutUserNotification = @"MRSLServiceShouldLogOutUserNotification";
 NSString *const MRSLServiceDidLogOutUserNotification = @"MRSLServiceDidLogOutUserNotification";
 NSString *const MRSLServiceDidUpdateUserNotification = @"MRSLServiceDidUpdateUserNotification";
 NSString *const MRSLServiceWillPurgeDataNotification = @"MRSLServiceWillPurgeDataNotification";
 NSString *const MRSLServiceWillRestoreDataNotification = @"MRSLServiceWillRestoreDataNotification";
-
-NSString *const MRSLShouldDisplaySideBarNotification = @"MRSLShouldDisplaySideBarNotification";
 
 NSString *const MRSLUserDidCreateCommentNotification = @"MRSLUserDidCreateCommentNotification";
 NSString *const MRSLUserDidBeginCreateMorselNotification = @"MRSLUserDidBeginCreateMorselNotification";

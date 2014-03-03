@@ -30,7 +30,7 @@
 		062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062DF21618845B7D00C199D8 /* LoginViewController.m */; };
 		062E709C1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E709B1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m */; };
 		062E709F1892C681005D07B9 /* MorselThumbnailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E709E1892C681005D07B9 /* MorselThumbnailViewController.m */; };
-		062E8DFB189C17B2002A8CD4 /* MRSLSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E8DFA189C17B2002A8CD4 /* MRSLSideBarViewController.m */; };
+		062E8DFB189C17B2002A8CD4 /* MRSLMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E8DFA189C17B2002A8CD4 /* MRSLMoreViewController.m */; };
 		062E8DFF189C1936002A8CD4 /* SideBarItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E8DFE189C1936002A8CD4 /* SideBarItemCell.m */; };
 		062E8E04189C1A1A002A8CD4 /* SideBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 062E8E03189C1A1A002A8CD4 /* SideBarItem.m */; };
 		063250CA1860E1DD00ADDF23 /* MorselRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063250C91860E1DD00ADDF23 /* MorselRootViewController.m */; };
@@ -49,7 +49,14 @@
 		063BB6FE18983D3F0029DAF0 /* MorselManagement_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 063BB6FC18983D3F0029DAF0 /* MorselManagement_iPhone.storyboard */; };
 		063BB70118983E100029DAF0 /* MorselDetail_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 063BB6FF18983E100029DAF0 /* MorselDetail_iPhone.storyboard */; };
 		063BB70718984A920029DAF0 /* PostMorselsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063BB70618984A920029DAF0 /* PostMorselsViewController.m */; };
+		063E6D9618C4EAE200CE9529 /* MRSLTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 063E6D9518C4EAE200CE9529 /* MRSLTabBarButton.m */; };
+		063E6D9A18C4F05E00CE9529 /* MRSLTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 063E6D9918C4F05E00CE9529 /* MRSLTabBarView.m */; };
+		063E6D9D18C5045B00CE9529 /* More_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 063E6D9B18C5045B00CE9529 /* More_iPhone.storyboard */; };
 		0640FF32187DB89300BE2F0D /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0640FF31187DB89300BE2F0D /* SignUpViewController.m */; };
+		064566F418C50BDD00C9CCBF /* Activity_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064566F218C50BDD00C9CCBF /* Activity_iPhone.storyboard */; };
+		064566F818C50CB200C9CCBF /* MRSLActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064566F718C50CB200C9CCBF /* MRSLActivityViewController.m */; };
+		064566FB18C50D7800C9CCBF /* MyStuff_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064566F918C50D7800C9CCBF /* MyStuff_iPhone.storyboard */; };
+		064566FE18C50DF300C9CCBF /* MRSLMyStuffViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064566FD18C50DF300C9CCBF /* MRSLMyStuffViewController.m */; };
 		064A0F5818A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */; };
 		0651315E189C58C100609294 /* MorselDetailCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651315D189C58C100609294 /* MorselDetailCommentsViewController.m */; };
 		06513161189CA9B400609294 /* AddCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06513160189CA9B400609294 /* AddCommentViewController.m */; };
@@ -200,8 +207,8 @@
 		062E709B1892C5FE005D07B9 /* MorselThumbnailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MorselThumbnailCollectionViewCell.m; path = Source/Views/MorselThumbnailCollectionViewCell.m; sourceTree = "<group>"; };
 		062E709D1892C681005D07B9 /* MorselThumbnailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorselThumbnailViewController.h; sourceTree = "<group>"; };
 		062E709E1892C681005D07B9 /* MorselThumbnailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MorselThumbnailViewController.m; sourceTree = "<group>"; };
-		062E8DF9189C17B2002A8CD4 /* MRSLSideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSideBarViewController.h; sourceTree = "<group>"; };
-		062E8DFA189C17B2002A8CD4 /* MRSLSideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSideBarViewController.m; sourceTree = "<group>"; };
+		062E8DF9189C17B2002A8CD4 /* MRSLMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMoreViewController.h; sourceTree = "<group>"; };
+		062E8DFA189C17B2002A8CD4 /* MRSLMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMoreViewController.m; sourceTree = "<group>"; };
 		062E8DFD189C1936002A8CD4 /* SideBarItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SideBarItemCell.h; path = Source/Views/SideBarItemCell.h; sourceTree = "<group>"; };
 		062E8DFE189C1936002A8CD4 /* SideBarItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SideBarItemCell.m; path = Source/Views/SideBarItemCell.m; sourceTree = "<group>"; };
 		062E8E02189C1A1A002A8CD4 /* SideBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SideBarItem.h; path = Source/Models/SideBarItem.h; sourceTree = "<group>"; };
@@ -230,8 +237,19 @@
 		063BB70018983E100029DAF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MorselDetail_iPhone.storyboard; sourceTree = "<group>"; };
 		063BB70518984A920029DAF0 /* PostMorselsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostMorselsViewController.h; sourceTree = "<group>"; };
 		063BB70618984A920029DAF0 /* PostMorselsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostMorselsViewController.m; sourceTree = "<group>"; };
+		063E6D9418C4EAE200CE9529 /* MRSLTabBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLTabBarButton.h; path = Source/Views/MRSLTabBarButton.h; sourceTree = "<group>"; };
+		063E6D9518C4EAE200CE9529 /* MRSLTabBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLTabBarButton.m; path = Source/Views/MRSLTabBarButton.m; sourceTree = "<group>"; };
+		063E6D9818C4F05E00CE9529 /* MRSLTabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLTabBarView.h; path = Source/Views/MRSLTabBarView.h; sourceTree = "<group>"; };
+		063E6D9918C4F05E00CE9529 /* MRSLTabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLTabBarView.m; path = Source/Views/MRSLTabBarView.m; sourceTree = "<group>"; };
+		063E6D9C18C5045B00CE9529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/More_iPhone.storyboard; sourceTree = "<group>"; };
 		0640FF30187DB89300BE2F0D /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		0640FF31187DB89300BE2F0D /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		064566F318C50BDD00C9CCBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Activity_iPhone.storyboard; sourceTree = "<group>"; };
+		064566F618C50CB200C9CCBF /* MRSLActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLActivityViewController.h; sourceTree = "<group>"; };
+		064566F718C50CB200C9CCBF /* MRSLActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLActivityViewController.m; sourceTree = "<group>"; };
+		064566FA18C50D7800C9CCBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyStuff_iPhone.storyboard; sourceTree = "<group>"; };
+		064566FC18C50DF300C9CCBF /* MRSLMyStuffViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMyStuffViewController.h; sourceTree = "<group>"; };
+		064566FD18C50DF300C9CCBF /* MRSLMyStuffViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMyStuffViewController.m; sourceTree = "<group>"; };
 		064A0F5618A3FAE700C6ADF7 /* MRSLServiceErrorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLServiceErrorInfo.h; sourceTree = "<group>"; };
 		064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLServiceErrorInfo.m; sourceTree = "<group>"; };
 		0651315C189C58C100609294 /* MorselDetailCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorselDetailCommentsViewController.h; sourceTree = "<group>"; };
@@ -478,6 +496,8 @@
 			children = (
 				066F5ADD185BCB5000468210 /* ProfileViewController.h */,
 				066F5ADE185BCB5000468210 /* ProfileViewController.m */,
+				064566FC18C50DF300C9CCBF /* MRSLMyStuffViewController.h */,
+				064566FD18C50DF300C9CCBF /* MRSLMyStuffViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -592,6 +612,8 @@
 				0676B49118996241001D7483 /* MorselThinButton.m */,
 				06F2F4F11892F78A00977DEB /* MorselLargeButton.h */,
 				06F2F4F21892F78A00977DEB /* MorselLargeButton.m */,
+				063E6D9418C4EAE200CE9529 /* MRSLTabBarButton.h */,
+				063E6D9518C4EAE200CE9529 /* MRSLTabBarButton.m */,
 				066F5AF7185BCD3700468210 /* ProfileImageView.h */,
 				066F5AF8185BCD3700468210 /* ProfileImageView.m */,
 				066F5AFD185BCD8500468210 /* TagView.h */,
@@ -614,8 +636,8 @@
 			children = (
 				063250C81860E1DD00ADDF23 /* MorselRootViewController.h */,
 				063250C91860E1DD00ADDF23 /* MorselRootViewController.m */,
-				062E8DF9189C17B2002A8CD4 /* MRSLSideBarViewController.h */,
-				062E8DFA189C17B2002A8CD4 /* MRSLSideBarViewController.m */,
+				062E8DF9189C17B2002A8CD4 /* MRSLMoreViewController.h */,
+				062E8DFA189C17B2002A8CD4 /* MRSLMoreViewController.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -623,6 +645,7 @@
 		063976D8186361A400A17211 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
+				064566F518C50C9F00C9CCBF /* Activity */,
 				06ED0B7B189D852C00766BCF /* Drafts */,
 				0651315B189C58A400609294 /* Comments */,
 				0609B83C1894AA23005A11A4 /* Login */,
@@ -655,13 +678,16 @@
 		063BB6F418983CD00029DAF0 /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				064566F218C50BDD00C9CCBF /* Activity_iPhone.storyboard */,
 				06D12492189DC30400492305 /* Drafts_iPhone.storyboard */,
 				063BB6F018983CC00029DAF0 /* Home_iPhone.storyboard */,
 				063BB6F918983D170029DAF0 /* Login_iPhone.storyboard */,
 				066066A218522E7900E780FC /* Main_iPhone.storyboard */,
+				063E6D9B18C5045B00CE9529 /* More_iPhone.storyboard */,
 				063BB6FF18983E100029DAF0 /* MorselDetail_iPhone.storyboard */,
 				063BB6FC18983D3F0029DAF0 /* MorselManagement_iPhone.storyboard */,
 				063BB6F618983CF80029DAF0 /* Profile_iPhone.storyboard */,
+				064566F918C50D7800C9CCBF /* MyStuff_iPhone.storyboard */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -672,6 +698,24 @@
 				066066A518522E7900E780FC /* Main_iPad.storyboard */,
 			);
 			name = iPad;
+			sourceTree = "<group>";
+		};
+		063E6D9718C4F04600CE9529 /* Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				063E6D9818C4F05E00CE9529 /* MRSLTabBarView.h */,
+				063E6D9918C4F05E00CE9529 /* MRSLTabBarView.m */,
+			);
+			name = "Tab Bar";
+			sourceTree = "<group>";
+		};
+		064566F518C50C9F00C9CCBF /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				064566F618C50CB200C9CCBF /* MRSLActivityViewController.h */,
+				064566F718C50CB200C9CCBF /* MRSLActivityViewController.m */,
+			);
+			name = Activity;
 			sourceTree = "<group>";
 		};
 		064A0F5518A3FA9000C6ADF7 /* Serializers */ = {
@@ -882,6 +926,7 @@
 		066F5AE3185BCB8A00468210 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				063E6D9718C4F04600CE9529 /* Tab Bar */,
 				0609B83D1894B4EF005A11A4 /* AV Capture */,
 				063250CE1860E89500ADDF23 /* Comments */,
 				063250CD1860E88600ADDF23 /* Controls */,
@@ -1225,9 +1270,12 @@
 				066066A718522E7900E780FC /* Main_iPad.storyboard in Resources */,
 				063BB6FE18983D3F0029DAF0 /* MorselManagement_iPhone.storyboard in Resources */,
 				063BB70118983E100029DAF0 /* MorselDetail_iPhone.storyboard in Resources */,
+				063E6D9D18C5045B00CE9529 /* More_iPhone.storyboard in Resources */,
 				06D12494189DC30400492305 /* Drafts_iPhone.storyboard in Resources */,
+				064566FB18C50D7800C9CCBF /* MyStuff_iPhone.storyboard in Resources */,
 				066066A418522E7900E780FC /* Main_iPhone.storyboard in Resources */,
 				063BB6FB18983D170029DAF0 /* Login_iPhone.storyboard in Resources */,
+				064566F418C50BDD00C9CCBF /* Activity_iPhone.storyboard in Resources */,
 				06ECF68C18BFEEB500577F9C /* Specs_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1405,6 +1453,7 @@
 				062DF21718845B7E00C199D8 /* LoginViewController.m in Sources */,
 				06D12491189DB94F00492305 /* DraftsViewController.m in Sources */,
 				066F5AD9185BCA4D00468210 /* MRSLMorsel.m in Sources */,
+				063E6D9A18C4F05E00CE9529 /* MRSLTabBarView.m in Sources */,
 				066F5B05185BCFD600468210 /* CommentTableViewCell.m in Sources */,
 				4069CB2C189B127E001790F3 /* SocialService.m in Sources */,
 				063250CA1860E1DD00ADDF23 /* MorselRootViewController.m in Sources */,
@@ -1435,6 +1484,7 @@
 				062E709F1892C681005D07B9 /* MorselThumbnailViewController.m in Sources */,
 				064A0F5818A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m in Sources */,
 				4005ED8418A19965005B8484 /* UIAlertView+Additions.m in Sources */,
+				064566F818C50CB200C9CCBF /* MRSLActivityViewController.m in Sources */,
 				0686029F1891A8D3000CD576 /* UIColor+Morsel.m in Sources */,
 				068602A81891B43E000CD576 /* UIStoryboard+Morsel.m in Sources */,
 				0676B48F1898514D001D7483 /* PostMorselCollectionViewCell.m in Sources */,
@@ -1450,8 +1500,10 @@
 				0698CA8C18523A8C007AF442 /* Morsel.xcdatamodeld in Sources */,
 				06F11E7F18624680003E64C8 /* _MRSLPost.m in Sources */,
 				063BB6EF189835B30029DAF0 /* _MRSLSortOrder.m in Sources */,
+				064566FE18C50DF300C9CCBF /* MRSLMyStuffViewController.m in Sources */,
 				0640FF32187DB89300BE2F0D /* SignUpViewController.m in Sources */,
 				0698CA9518523BBE007AF442 /* HomeViewController.m in Sources */,
+				063E6D9618C4EAE200CE9529 /* MRSLTabBarButton.m in Sources */,
 				063B177A18923BF200ABFEAE /* MorselDetailPanelViewController.m in Sources */,
 				06513161189CA9B400609294 /* AddCommentViewController.m in Sources */,
 				068602AE1891C603000CD576 /* MorselThinCondensedLabel.m in Sources */,
@@ -1464,7 +1516,7 @@
 				062E8E04189C1A1A002A8CD4 /* SideBarItem.m in Sources */,
 				0651315E189C58C100609294 /* MorselDetailCommentsViewController.m in Sources */,
 				0609B8401894B52E005A11A4 /* CameraPreviewView.m in Sources */,
-				062E8DFB189C17B2002A8CD4 /* MRSLSideBarViewController.m in Sources */,
+				062E8DFB189C17B2002A8CD4 /* MRSLMoreViewController.m in Sources */,
 				068602AB1891C590000CD576 /* MorselStandardLabel.m in Sources */,
 				066F5AFF185BCD8500468210 /* TagView.m in Sources */,
 				0676B4A0189985E1001D7483 /* MorselLightCondensedLabel.m in Sources */,
@@ -1571,6 +1623,30 @@
 				063BB70018983E100029DAF0 /* Base */,
 			);
 			name = MorselDetail_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		063E6D9B18C5045B00CE9529 /* More_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				063E6D9C18C5045B00CE9529 /* Base */,
+			);
+			name = More_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		064566F218C50BDD00C9CCBF /* Activity_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				064566F318C50BDD00C9CCBF /* Base */,
+			);
+			name = Activity_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		064566F918C50D7800C9CCBF /* MyStuff_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				064566FA18C50D7800C9CCBF /* Base */,
+			);
+			name = MyStuff_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 		0660669918522E7900E780FC /* InfoPlist.strings */ = {

@@ -9,24 +9,21 @@
 #import "MorselRootViewController.h"
 
 #import "HomeViewController.h"
-#import "MRSLSideBarViewController.h"
 #import "ProfileViewController.h"
 
-#import <TestFlight+OpenFeedback.h>
-
+#import "MRSLTabBarView.h"
 
 #import "MRSLUser.h"
 
 @interface MorselRootViewController ()
-<MRSLSideBarViewControllerDelegate>
+<MRSLTabBarViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *navigationControllers;
 @property (nonatomic, strong) UIViewController *currentViewController;
 
-@property (nonatomic, strong) MRSLSideBarViewController *sideBarViewController;
-
-@property (weak, nonatomic) IBOutlet UIView *sideBarContainerView;
 @property (weak, nonatomic) IBOutlet UIView *rootContainerView;
+
+@property (weak, nonatomic) IBOutlet MRSLTabBarView *tabBarView;
 
 @end
 
@@ -38,22 +35,15 @@
     [super viewDidLoad];
 
     self.navigationControllers = [NSMutableArray array];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(shouldDisplaySidebar:)
-                                                 name:MRSLShouldDisplaySideBarNotification
-                                               object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLoggedIn:)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
-
-    self.sideBarViewController = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLSideBarViewController"];
-    _sideBarViewController.delegate = self;
-    [_sideBarViewController.view setY:0.f];
-
-    [self addChildViewController:_sideBarViewController];
-    [self.sideBarContainerView addSubview:_sideBarViewController.view];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(logUserOut)
+                                                 name:MRSLServiceShouldLogOutUserNotification
+                                               object:nil];
 
     MRSLUser *currentUser = [MRSLUser currentUser];
 
@@ -81,41 +71,7 @@
     }
 }
 
-#ifndef RELEASE
-
-- (BOOL)canBecomeFirstResponder {
-    return YES;
-}
-
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    if (motion == UIEventSubtypeMotionShake) {
-        [TestFlight openFeedbackView];
-    }
-}
-
-#endif
-
 #pragma mark - Private Methods
-
-- (void)shouldDisplaySidebar:(NSNotification *)notification {
-    BOOL shouldDisplay = [notification.object boolValue];
-    [self toggleSidebar:shouldDisplay];
-}
-
-- (void)toggleSidebar:(BOOL)shouldShow {
-    [[MRSLEventManager sharedManager] track:(shouldShow) ? @"Opened Side Bar" : @"Closed Side Bar"
-                          properties:@{@"view": @"MorselRootViewController"}];
-
-    [[UIApplication sharedApplication] setStatusBarHidden:shouldShow
-                                            withAnimation:UIStatusBarAnimationFade];
-
-    self.rootContainerView.userInteractionEnabled = !shouldShow;
-    self.sideBarContainerView.userInteractionEnabled = shouldShow;
-
-    [UIView animateWithDuration:.3f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [_rootContainerView setX:shouldShow ? self.view.frame.size.width - 40.f : 0.f];
-    } completion:nil];
-}
 
 - (void)displaySignUpAnimated:(BOOL)animated {
     UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:@"sb_SignUp"];
@@ -125,25 +81,9 @@
                      completion:nil];
 }
 
-- (void)presentCreateMorsel {
-    [[MRSLEventManager sharedManager] track:@"Tapped Add Morsel Camera Icon"
-                          properties:@{@"view": @"MorselRootViewController"}];
-
-    UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CreateMorsel"];
-
-    [self presentViewController:createMorselNC
-                       animated:YES
-                     completion:nil];
-}
-
 - (void)displayHome {
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Home"
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"
                                                   andStoryboardPrefix:@"Home"];
-}
-
-- (void)displayProfile {
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Profile"
-                                                  andStoryboardPrefix:@"Profile"];
 }
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
@@ -161,7 +101,7 @@
     if (!viewControllerNC) {
         UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@_iPhone", storyboardPrefixName]
                                                                    bundle:nil];
-        viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:classPrefixName];
+        viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:[NSString stringWithFormat:@"%@_%@", @"sb", classPrefixName]];
 
         [self.navigationControllers addObject:viewControllerNC];
 
@@ -213,47 +153,50 @@
 }
 
 - (void)logUserOut {
-    [UIView animateWithDuration:.3f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [_rootContainerView setX:0.f];
-    } completion:^(BOOL finished) {
-        [_navigationControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
-            [viewController removeFromParentViewController];
-            [viewController.view removeFromSuperview];
-        }];
-        [_navigationControllers removeAllObjects];
-        [_appDelegate resetDataStore];
-    }];
     [self displaySignUpAnimated:YES];
+    
+    [_navigationControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
+        [viewController removeFromParentViewController];
+        [viewController.view removeFromSuperview];
+    }];
+    [_navigationControllers removeAllObjects];
+    [_tabBarView reset];
+    [_appDelegate resetDataStore];
 }
 
-#pragma mark - MRSLSideBarViewControllerDelegate
+#pragma mark - MRSLTabBarViewDelegate
 
-- (void)sideBarDidSelectMenuItemOfType:(SideBarMenuItemType)menuType {
-    [self toggleSidebar:NO];
-
-    switch (menuType) {
-        case SideBarMenuItemTypeHome:
-            [[MRSLEventManager sharedManager] track:@"Tapped Home"
-                                  properties:@{@"view": @"MRSLSideBarViewController"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Home"
+- (void)tabBarDidSelectButtonOfType:(MRSLTabBarButtonType)buttonType {
+    switch (buttonType) {
+        case MRSLTabBarButtonTypeHome:
+            [[MRSLEventManager sharedManager] track:@"Tapped View Home"
+                                         properties:@{@"view": @"MorselRootViewController"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"
                                                           andStoryboardPrefix:@"Home"];
             break;
-        case SideBarMenuItemTypeProfile:
-            [[MRSLEventManager sharedManager] track:@"Tapped View Profile"
-                                  properties:@{@"view": @"MRSLSideBarViewController"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Profile"
-                                                          andStoryboardPrefix:@"Profile"];
+        case MRSLTabBarButtonTypeActivity:
+            [[MRSLEventManager sharedManager] track:@"Tapped View Activity"
+                                         properties:@{@"view": @"MorselRootViewController"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Activity"
+                                                          andStoryboardPrefix:@"Activity"];
             break;
-        case SideBarMenuItemTypeDrafts:
-            [[MRSLEventManager sharedManager] track:@"Tapped Drafts"
-                                  properties:@{@"view": @"MRSLSideBarViewController"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"sb_Drafts"
-                                                          andStoryboardPrefix:@"Drafts"];
+        case MRSLTabBarButtonTypeAdd:
+            [[MRSLEventManager sharedManager] track:@"Tapped View Add Story"
+                                         properties:@{@"view": @"MorselRootViewController"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"CreateMorsel"
+                                                          andStoryboardPrefix:@"MorselManagement"];
             break;
-        case SideBarMenuItemTypeLogout:
-            [[MRSLEventManager sharedManager] track:@"Tapped Logout"
-                                  properties:@{@"view": @"MRSLSideBarViewController"}];
-            [self logUserOut];
+        case MRSLTabBarButtonTypeMyStuff:
+            [[MRSLEventManager sharedManager] track:@"Tapped View My Stuff"
+                                         properties:@{@"view": @"MorselRootViewController"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"MyStuff"
+                                                          andStoryboardPrefix:@"MyStuff"];
+            break;
+        case MRSLTabBarButtonTypeMore:
+            [[MRSLEventManager sharedManager] track:@"Tapped View More"
+                                         properties:@{@"view": @"MorselRootViewController"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"More"
+                                                          andStoryboardPrefix:@"More"];
             break;
         default:
             break;

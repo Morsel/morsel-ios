@@ -201,11 +201,6 @@ UIGestureRecognizerDelegate>
      }];
 }
 
-- (IBAction)displaySideBar {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLShouldDisplaySideBarNotification
-                                                        object:@YES];
-}
-
 - (IBAction)addMorsel {
     UINavigationController *createMorselNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_CreateMorsel"];
 

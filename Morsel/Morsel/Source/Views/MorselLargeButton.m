@@ -17,22 +17,6 @@
 
 @implementation MorselLargeButton
 
-- (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setUp];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self setUp];
-    }
-    return self;
-}
-
 - (void)setUp {
     [self addObserver:self
            forKeyPath:@"highlighted"
