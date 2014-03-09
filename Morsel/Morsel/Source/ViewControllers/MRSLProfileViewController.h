@@ -12,6 +12,6 @@
 
 @interface MRSLProfileViewController : UIViewController
 
-@property (nonatomic, strong) MRSLUser *user;
+@property (strong, nonatomic) MRSLUser *user;
 
 @end

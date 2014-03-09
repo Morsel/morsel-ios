@@ -15,7 +15,8 @@
 + (UIStoryboard *)profileStoryboard;
 + (UIStoryboard *)loginStoryboard;
 + (UIStoryboard *)morselDetailStoryboard;
-+ (UIStoryboard *)morselManagementStoryboard;
++ (UIStoryboard *)mediaManagementStoryboard;
++ (UIStoryboard *)storyManagementStoryboard;
 + (UIStoryboard *)moreStoryboard;
 + (UIStoryboard *)activityStoryboard;
 + (UIStoryboard *)specsStoryboardInBundle:(NSBundle *)bundleOrNil;

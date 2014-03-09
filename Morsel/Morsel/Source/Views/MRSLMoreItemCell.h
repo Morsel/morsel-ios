@@ -12,8 +12,8 @@
 
 @interface MRSLMoreItemCell : UITableViewCell
 
-@property (nonatomic, strong) MRSLMoreItem *sideBarItem;
+@property (strong, nonatomic) MRSLMoreItem *sideBarItem;
 
-@property (nonatomic, weak) IBOutlet UIView *pipeView;
+@property (weak, nonatomic) IBOutlet UIView *pipeView;
 
 @end

@@ -15,6 +15,8 @@ pod 'OAuthCore', '~> 0.0.1'
 pod 'OHHTTPStubs', '~> 3.1.0'
 pod 'TestFlightSDK', '~> 3.0'
 pod 'Mixpanel', '~> 2.3.1'
+pod 'ALAssetsLibrary-CustomPhotoAlbum', '~> 1.1'
+pod 'ELCImagePickerController', '~> 0.2'
 
 target 'Morsel-Integration' do
 	pod 'Kiwi-KIF/XCTest', '~>1.0.1'

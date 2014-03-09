@@ -16,7 +16,7 @@
 @interface MRSLAddCommentViewController ()
 <UITextViewDelegate>
 
-@property (nonatomic, weak) IBOutlet GCPlaceholderTextView *placeholderTextView;
+@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *placeholderTextView;
 
 @end
 

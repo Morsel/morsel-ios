@@ -14,9 +14,9 @@
 
 @interface MRSLThumbnailViewController ()
 
-@property (nonatomic, strong) NSArray *morsels;
+@property (strong, nonatomic) NSArray *morsels;
 
-@property (nonatomic, weak) IBOutlet UICollectionView *thumbnailCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *thumbnailCollectionView;
 
 @end
 

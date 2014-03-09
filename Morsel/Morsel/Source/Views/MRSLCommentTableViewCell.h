@@ -19,9 +19,9 @@
 
 @interface MRSLCommentTableViewCell : UITableViewCell
 
-@property (nonatomic, weak) id <CommentTableViewCellDelegate> delegate;
+@property (weak, nonatomic) id <CommentTableViewCellDelegate> delegate;
 
-@property (nonatomic, strong) MRSLComment *comment;
-@property (nonatomic, weak) IBOutlet UIView *pipeView;
+@property (strong, nonatomic) MRSLComment *comment;
+@property (weak, nonatomic) IBOutlet UIView *pipeView;
 
 @end

@@ -24,9 +24,9 @@ CommentTableViewCellDelegate>
 
 @property (nonatomic) int commentCount;
 
-@property (nonatomic, weak) IBOutlet UITableView *commentsTableView;
+@property (weak, nonatomic) IBOutlet UITableView *commentsTableView;
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
 

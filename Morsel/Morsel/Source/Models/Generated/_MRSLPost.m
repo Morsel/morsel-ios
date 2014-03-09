@@ -5,6 +5,8 @@
 
 const struct MRSLPostAttributes MRSLPostAttributes = {
 	.creationDate = @"creationDate",
+	.draft = @"draft",
+	.lastUpdatedDate = @"lastUpdatedDate",
 	.postID = @"postID",
 	.title = @"title",
 };
@@ -43,6 +45,11 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"draftValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"draft"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"postIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"postID"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -56,6 +63,39 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 
 
 @dynamic creationDate;
+
+
+
+
+
+
+@dynamic draft;
+
+
+
+- (BOOL)draftValue {
+	NSNumber *result = [self draft];
+	return [result boolValue];
+}
+
+- (void)setDraftValue:(BOOL)value_ {
+	[self setDraft:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveDraftValue {
+	NSNumber *result = [self primitiveDraft];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveDraftValue:(BOOL)value_ {
+	[self setPrimitiveDraft:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic lastUpdatedDate;
 
 
 

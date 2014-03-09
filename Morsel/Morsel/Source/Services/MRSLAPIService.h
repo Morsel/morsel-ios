@@ -47,6 +47,10 @@
 
 #pragma mark - Post Services
 
+- (void)createPost:(MRSLPost *)post
+           success:(MorselAPISuccessBlock)successOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil;
+
 - (void)updatePost:(MRSLPost *)post
            success:(MorselAPISuccessBlock)successOrNil
            failure:(MorselAPIFailureBlock)failureOrNil;
@@ -101,9 +105,11 @@
                    failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)getUserPosts:(MRSLUser *)user
-       includeDrafts:(BOOL)shouldIncludeDrafts
              success:(MorselAPIArrayBlock)success
              failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)getUserDraftsWithSuccess:(MorselAPIArrayBlock)success
+                         failure:(MorselAPIFailureBlock)failureOrNil;
 
 #pragma mark - Comment Services
 

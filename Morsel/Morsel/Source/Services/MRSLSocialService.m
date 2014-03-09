@@ -40,7 +40,7 @@
  http://stackoverflow.com/questions/13349187/strange-behaviour-when-trying-to-use-twitter-acaccount
  */
 
-@property (nonatomic, strong) ACAccountStore *accountStore;
+@property (strong, nonatomic) ACAccountStore *accountStore;
 
 @end
 

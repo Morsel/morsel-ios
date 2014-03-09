@@ -8,14 +8,17 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *creator_id;
 	__unsafe_unretained NSString *didFailUpload;
-	__unsafe_unretained NSString *draft;
 	__unsafe_unretained NSString *isUploading;
+	__unsafe_unretained NSString *lastUpdatedDate;
 	__unsafe_unretained NSString *liked;
+	__unsafe_unretained NSString *localUUID;
 	__unsafe_unretained NSString *morselDescription;
 	__unsafe_unretained NSString *morselID;
 	__unsafe_unretained NSString *morselPhoto;
+	__unsafe_unretained NSString *morselPhotoCropped;
+	__unsafe_unretained NSString *morselPhotoThumb;
 	__unsafe_unretained NSString *morselPhotoURL;
-	__unsafe_unretained NSString *morselThumb;
+	__unsafe_unretained NSString *sort_order;
 	__unsafe_unretained NSString *url;
 } MRSLMorselAttributes;
 
@@ -31,6 +34,9 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLComment;
 @class MRSLPost;
 @class MRSLTag;
+
+
+
 
 
 
@@ -96,20 +102,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* draft;
-
-
-
-@property BOOL draftValue;
-- (BOOL)draftValue;
-- (void)setDraftValue:(BOOL)value_;
-
-//- (BOOL)validateDraft:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSNumber* isUploading;
 
 
@@ -124,6 +116,16 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSDate* lastUpdatedDate;
+
+
+
+//- (BOOL)validateLastUpdatedDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* liked;
 
 
@@ -133,6 +135,16 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)setLikedValue:(BOOL)value_;
 
 //- (BOOL)validateLiked:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* localUUID;
+
+
+
+//- (BOOL)validateLocalUUID:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -172,6 +184,26 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSData* morselPhotoCropped;
+
+
+
+//- (BOOL)validateMorselPhotoCropped:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSData* morselPhotoThumb;
+
+
+
+//- (BOOL)validateMorselPhotoThumb:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* morselPhotoURL;
 
 
@@ -182,11 +214,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSData* morselThumb;
+@property (nonatomic, strong) NSNumber* sort_order;
 
 
 
-//- (BOOL)validateMorselThumb:(id*)value_ error:(NSError**)error_;
+@property int16_t sort_orderValue;
+- (int16_t)sort_orderValue;
+- (void)setSort_orderValue:(int16_t)value_;
+
+//- (BOOL)validateSort_order:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -267,15 +303,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSNumber*)primitiveDraft;
-- (void)setPrimitiveDraft:(NSNumber*)value;
-
-- (BOOL)primitiveDraftValue;
-- (void)setPrimitiveDraftValue:(BOOL)value_;
-
-
-
-
 - (NSNumber*)primitiveIsUploading;
 - (void)setPrimitiveIsUploading:(NSNumber*)value;
 
@@ -285,11 +312,23 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSDate*)primitiveLastUpdatedDate;
+- (void)setPrimitiveLastUpdatedDate:(NSDate*)value;
+
+
+
+
 - (NSNumber*)primitiveLiked;
 - (void)setPrimitiveLiked:(NSNumber*)value;
 
 - (BOOL)primitiveLikedValue;
 - (void)setPrimitiveLikedValue:(BOOL)value_;
+
+
+
+
+- (NSString*)primitiveLocalUUID;
+- (void)setPrimitiveLocalUUID:(NSString*)value;
 
 
 
@@ -315,14 +354,29 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSData*)primitiveMorselPhotoCropped;
+- (void)setPrimitiveMorselPhotoCropped:(NSData*)value;
+
+
+
+
+- (NSData*)primitiveMorselPhotoThumb;
+- (void)setPrimitiveMorselPhotoThumb:(NSData*)value;
+
+
+
+
 - (NSString*)primitiveMorselPhotoURL;
 - (void)setPrimitiveMorselPhotoURL:(NSString*)value;
 
 
 
 
-- (NSData*)primitiveMorselThumb;
-- (void)setPrimitiveMorselThumb:(NSData*)value;
+- (NSNumber*)primitiveSort_order;
+- (void)setPrimitiveSort_order:(NSNumber*)value;
+
+- (int16_t)primitiveSort_orderValue;
+- (void)setPrimitiveSort_orderValue:(int16_t)value_;
 
 
 

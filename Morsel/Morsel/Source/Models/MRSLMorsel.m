@@ -11,6 +11,26 @@
 
 @implementation MRSLMorsel
 
+#pragma mark - Class Methods
+
++ (MRSLMorsel *)localUniqueMorsel {
+    MRSLMorsel *morsel = [MRSLMorsel MR_createEntity];
+
+    NSString *uniqueUUID = [[NSUUID UUID] UUIDString];
+
+    while ([MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.localUUID withValue:uniqueUUID]) {
+        uniqueUUID = [[NSUUID UUID] UUIDString];
+    }
+
+    morsel.localUUID = uniqueUUID;
+    morsel.creationDate = [NSDate date];
+    morsel.morselID = nil;
+
+    return morsel;
+}
+
+#pragma mark - Instance Methods
+
 - (NSURLRequest *)morselPictureURLRequestForImageSizeType:(MorselImageSizeType)type {
     if (!self.morselPhotoURL) return nil;
 
@@ -58,8 +78,8 @@
     if (![data[@"post_id"] isEqual:[NSNull null]]) {
         NSNumber *postID = data[@"post_id"];
         MRSLPost *potentialPost = [MRSLPost MR_findFirstByAttribute:MRSLPostAttributes.postID
-                                            withValue:postID
-                                            inContext:self.managedObjectContext];
+                                                          withValue:postID
+                                                          inContext:self.managedObjectContext];
         if (potentialPost) {
             self.post = potentialPost;
             [self.post addMorselsObject:self];
@@ -70,17 +90,25 @@
 
         self.morselPhotoURL = [photoDictionary[@"_104x104"] stringByReplacingOccurrencesOfString:@"_104x104"
                                                                                       withString:@"IMAGE_SIZE"];
+        self.morselPhoto = nil;
+        self.morselPhotoThumb = nil;
+        self.morselPhotoCropped = nil;
     }
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
+    if (![data[@"updated_at"] isEqual:[NSNull null]]) {
+        NSString *updateString = data[@"updated_at"];
+        self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
+    }
 
     self.didFailUpload = @NO;
     self.isUploading = @NO;
+    self.localUUID = nil;
 
-    if (!self.draft) {
-        self.draft = @NO;
+    if (!self.sort_order) {
+        self.sort_order = @(0);
     }
 }
 
@@ -90,21 +118,16 @@
     if (self.morselDescription) [objectInfoJSON setObject:self.morselDescription
                                                    forKey:@"description"];
 
-    if (self.draft) [objectInfoJSON setObject:(self.draftValue) ? @"true" : @"false"
-                                       forKey:@"draft"];
-
     NSMutableDictionary *morselJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
                                                                          forKey:@"morsel"];
 
     if (self.post) {
-        if (self.post.postID) {
-            [morselJSON setObject:self.post.postID
-                           forKey:@"post_id"];
-        }
-        if (self.post.title) {
-            [morselJSON setObject:self.post.title
-                           forKey:@"post_title"];
-        }
+        if (self.post.postID) [morselJSON setObject:self.post.postID
+                                             forKey:@"post_id"];
+        if (self.post.title) [morselJSON setObject:self.post.title
+                                            forKey:@"post_title"];
+        if (self.sort_order) [morselJSON setObject:self.sort_order
+                                            forKey:@"sort_order"];
     }
 
     return morselJSON;

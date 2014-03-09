@@ -21,8 +21,10 @@
 
 - (void)drawPlaceholderInRect:(CGRect)rect {
     [[UIColor morselLightContent] setFill];
-    // Pushing down placeholder to align with textfield user added text. This only works with 14 point font.
-    rect.origin.y += 6.f;
+    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
+        // Pushing down placeholder to align with textfield user added text. This only works with 14 point font.
+        rect.origin.y += 6.f;
+    }
     [[self placeholder] drawInRect:rect
                           withFont:[UIFont helveticaLightFontOfSize:self.font.pointSize]];
 }

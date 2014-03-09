@@ -21,17 +21,17 @@
      ProfileImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
-@property (nonatomic, weak) IBOutlet UIButton *likeButton;
+@property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *plateButton;
 @property (weak, nonatomic) IBOutlet UIButton *progressionButton;
 @property (weak, nonatomic) IBOutlet UILabel *textOnlyLabel;
-@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
-@property (nonatomic, weak) IBOutlet UILabel *descriptionLabel;
-@property (nonatomic, weak) IBOutlet UIImageView *morselImageView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *morselImageView;
 
-@property (nonatomic, weak) IBOutlet MRSLProfileImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
-@property (nonatomic, strong) MRSLThumbnailViewController *morselThumbnailVC;
+@property (strong, nonatomic) MRSLThumbnailViewController *morselThumbnailVC;
 
 @end
 

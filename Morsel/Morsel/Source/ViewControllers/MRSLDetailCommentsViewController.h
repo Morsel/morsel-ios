@@ -20,8 +20,8 @@
 
 @interface MRSLDetailCommentsViewController : UIViewController
 
-@property (nonatomic, weak) id <MorselDetailCommentsViewControllerDelegate> delegate;
+@property (weak, nonatomic) id <MorselDetailCommentsViewControllerDelegate> delegate;
 
-@property (nonatomic, strong) MRSLMorsel *morsel;
+@property (strong, nonatomic) MRSLMorsel *morsel;
 
 @end

@@ -11,47 +11,52 @@
 @implementation UIStoryboard (Morsel)
 
 + (UIStoryboard *)mainStoryboard {
-    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Main_iPad" : @"Main_iPhone"
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Main_iPad" : @"Main_iPhone"
                                      bundle:nil];
 }
 
 + (UIStoryboard *)homeStoryboard {
-    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Home_iPad" : @"Home_iPhone"
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Home_iPad" : @"Home_iPhone"
                                      bundle:nil];
 }
 
 + (UIStoryboard *)profileStoryboard {
-    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Profile_iPad" : @"Profile_iPhone"
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Profile_iPad" : @"Profile_iPhone"
                                      bundle:nil];
 }
 
 + (UIStoryboard *)loginStoryboard {
-    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Login_iPad" : @"Login_iPhone"
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Login_iPad" : @"Login_iPhone"
                                      bundle:nil];
 }
 
 + (UIStoryboard *)morselDetailStoryboard {
-    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"MorselDetail_iPad" : @"MorselDetail_iPhone"
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"MorselDetail_iPad" : @"MorselDetail_iPhone"
                                      bundle:nil];
 }
 
-+ (UIStoryboard *)morselManagementStoryboard {
-    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"MorselManagement_iPad" : @"MorselManagement_iPhone"
++ (UIStoryboard *)mediaManagementStoryboard {
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"MediaManagement_iPad" : @"MediaManagement_iPhone"
+                                     bundle:nil];
+}
+
++ (UIStoryboard *)storyManagementStoryboard {
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"StoryManagement_iPad" : @"StoryManagement_iPhone"
                                      bundle:nil];
 }
 
 + (UIStoryboard *)moreStoryboard {
-    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"More_iPad" : @"More_iPhone"
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"More_iPad" : @"More_iPhone"
                                      bundle:nil];
 }
 
 + (UIStoryboard *)activityStoryboard {
-    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Activity_iPad" : @"Activity_iPhone"
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Activity_iPad" : @"Activity_iPhone"
                                      bundle:nil];
 }
 
 + (UIStoryboard *)specsStoryboardInBundle:(NSBundle *)bundleOrNil {
-    return [UIStoryboard storyboardWithName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"Specs_iPad" : @"Specs_iPhone"
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Specs_iPad" : @"Specs_iPhone"
                                      bundle:bundleOrNil];
 }
 

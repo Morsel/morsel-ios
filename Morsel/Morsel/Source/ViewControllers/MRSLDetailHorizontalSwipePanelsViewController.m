@@ -8,7 +8,7 @@
 
 #import "MRSLDetailHorizontalSwipePanelsViewController.h"
 
-#import "MRSLDetailPanelViewController.h"
+#import "MRSLMorselDetailPanelViewController.h"
 #import "MRSLDetailHorizontalSwipePanelView.h"
 
 static const CGFloat MRSLVelocityThresholdForPageChange = 800.f;
@@ -30,13 +30,13 @@ static const CGFloat MRSLVelocityThresholdForPageChange = 800.f;
 
 @property (nonatomic) ScrollViewDirection direction;
 
-@property (nonatomic, weak) MRSLDetailHorizontalSwipePanelView *panelViewLeft;
-@property (nonatomic, weak) MRSLDetailHorizontalSwipePanelView *panelViewCenter;
-@property (nonatomic, weak) MRSLDetailHorizontalSwipePanelView *panelViewRight;
+@property (weak, nonatomic) MRSLDetailHorizontalSwipePanelView *panelViewLeft;
+@property (weak, nonatomic) MRSLDetailHorizontalSwipePanelView *panelViewCenter;
+@property (weak, nonatomic) MRSLDetailHorizontalSwipePanelView *panelViewRight;
 
-@property (nonatomic, strong) UIView *swipingContainerView;
-@property (nonatomic, strong) NSMutableArray *swipePanelViews;
-@property (nonatomic, strong) NSMutableArray *visibleViewControllers;
+@property (strong, nonatomic) UIView *swipingContainerView;
+@property (strong, nonatomic) NSMutableArray *swipePanelViews;
+@property (strong, nonatomic) NSMutableArray *visibleViewControllers;
 
 @end
 
@@ -77,8 +77,8 @@ static const CGFloat MRSLVelocityThresholdForPageChange = 800.f;
     self.totalPages = [self.swipeViewControllers count];
     
     [self.swipeViewControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
-        if ([viewController isKindOfClass:[MRSLDetailPanelViewController class]]) {
-            [(MRSLDetailPanelViewController *)viewController addPanRecognizerSubscriber:self];
+        if ([viewController isKindOfClass:[MRSLMorselDetailPanelViewController class]]) {
+            [(MRSLMorselDetailPanelViewController *)viewController addPanRecognizerSubscriber:self];
         }
         [viewController.view setFrame:containingFrame];
     }];

@@ -18,10 +18,10 @@
 @interface MRSLCommentTableViewCell  ()
     <ProfileImageViewDelegate>
 
-@property (nonatomic, weak) IBOutlet UILabel *timeAgoLabel;
-@property (nonatomic, weak) IBOutlet UILabel *userNameLabel;
-@property (nonatomic, weak) IBOutlet UILabel *commentBodyLabel;
-@property (nonatomic, weak) IBOutlet MRSLProfileImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *commentBodyLabel;
+@property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
 @end
 

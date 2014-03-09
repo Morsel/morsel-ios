@@ -151,7 +151,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="M4y-GE-l5c" customClass="MRSLProfileImageView">
-                                                    <rect key="frame" x="266" y="156" width="40" height="40"/>
+                                                    <rect key="frame" x="264" y="158" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                     <gestureRecognizers/>
                                                 </imageView>

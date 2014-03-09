@@ -10,6 +10,6 @@
 
 @interface MRSLUploadFailureCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) MRSLMorsel *morsel;
+@property (strong, nonatomic) MRSLMorsel *morsel;
 
 @end

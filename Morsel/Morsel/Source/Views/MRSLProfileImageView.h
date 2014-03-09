@@ -19,9 +19,9 @@
 
 @interface MRSLProfileImageView : UIImageView
 
-@property (nonatomic, weak) id <ProfileImageViewDelegate> delegate;
+@property (weak, nonatomic) id <ProfileImageViewDelegate> delegate;
 
-@property (nonatomic, weak) MRSLUser *user;
+@property (weak, nonatomic) MRSLUser *user;
 
 - (void)addAndRenderImage:(UIImage *)image;
 

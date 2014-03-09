@@ -26,17 +26,25 @@ typedef void (^ MorselAPISuccessBlock)(id responseObject);
 typedef void (^ MorselAPIFailureBlock)(NSError *error);
 typedef void (^ MorselDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
 
+#pragma mark - Enum
+
+typedef NS_ENUM(NSUInteger, MRSLStoryStatusType) {
+    MRSLStoryStatusTypeDrafts,
+    MRSLStoryStatusTypePublished
+};
+
 #pragma mark - Media Capture Values
 
 // It is assumed the standard image to be passed through will be 5 MP (approx. 1920 x 2560 resolution).
 // All calculations for captured image cropping, scaling, and centering will hinge on these numbers
 
-static const int standardCameraDimensionPortraitMultiplier = 6.f;
-static const int standardCameraDimensionLandscapeMultiplier = 4.f;
-static const int minimumCameraMaxDimension = 1920.f;
-static const int xCenteringLandscapeContent = 320.f;
-static const int yCameraImagePreviewOffset = 78.f;
-static const int croppedImageHeightOffset = 106.f;
+static const CGFloat standardCameraDimensionPortraitMultiplier = 6.f;
+static const CGFloat standardCameraDimensionLandscapeMultiplier = 4.f;
+static const CGFloat minimumCameraMaxDimension = 1920.f;
+static const CGFloat xCenteringLandscapeContent = 320.f;
+static const CGFloat yCameraImagePreviewOffset = 78.f;
+static const CGFloat croppedImageHeightOffset = 106.f;
+static const int MRSLMaximumPostsToDisplayInStoryAdd = 2;
 
 #pragma mark - Build Specific
 
@@ -79,13 +87,15 @@ static const int croppedImageHeightOffset = 106.f;
 #pragma mark - Imports
 
 #import "MRSLConstants.h"
-#import "CoreData+MagicalRecord.h"
 #import "MRSLUtil.h"
 #import "MRSLAPIService.h"
 #import "MRSLEventManager.h"
 
+#import "CoreData+MagicalRecord.h"
+
 #import "UIAlertView+Additions.h"
 #import "UIColor+Morsel.h"
+#import "UIDevice+Additions.h"
 #import "UIFont+Morsel.h"
 #import "UIImage+Resize.h"
 #import "UIStoryboard+Morsel.h"

@@ -19,7 +19,7 @@
 
 @interface MRSLTabBarView : UIView
 
-@property (nonatomic, weak) IBOutlet id <MRSLTabBarViewDelegate> delegate;
+@property (weak, nonatomic) IBOutlet id <MRSLTabBarViewDelegate> delegate;
 
 - (void)reset;
 

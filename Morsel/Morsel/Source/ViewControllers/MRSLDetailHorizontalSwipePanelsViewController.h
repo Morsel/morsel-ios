@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, ScrollViewDirection)
     ScrollViewDirectionHorizontal
 };
 
-@class MRSLDetailPanelViewController;
+@class MRSLMorselDetailPanelViewController;
 
 @interface MRSLDetailHorizontalSwipePanelsViewController : UIViewController
 
@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, ScrollViewDirection)
 
 @property (readwrite) NSUInteger previousPage;
 
-@property (nonatomic, strong) NSArray *swipeViewControllers;
+@property (strong, nonatomic) NSArray *swipeViewControllers;
 
 - (void)addSwipeCollectionViewControllers:(NSArray *)viewControllers
                       withinContainerView:(UIView *)viewOrNil;

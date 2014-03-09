@@ -14,9 +14,9 @@
 
 @interface MRSLMoreItemCell ()
 
-@property (nonatomic, weak) IBOutlet UIImageView *itemIconImageView;
-@property (nonatomic, weak) IBOutlet UILabel *itemTitleLabel;
-@property (nonatomic, weak) IBOutlet UILabel *draftCountLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *itemIconImageView;
+@property (weak, nonatomic) IBOutlet UILabel *itemTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *draftCountLabel;
 
 @end
 
