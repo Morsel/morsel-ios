@@ -24,6 +24,8 @@ extern NSString *const MRSLUserDidUpdatePostNotification;
 extern NSString *const MRSLMorselUploadDidCompleteNotification;
 extern NSString *const MRSLMorselUploadDidFailNotification;
 
+extern NSString *const MRSLAppShouldDisplayFeedNotification;
+
 extern int LOG_LEVEL_DEF;
 
 @interface MRSLConstants : NSObject

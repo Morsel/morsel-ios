@@ -52,24 +52,26 @@ MRSLStoryEditMorselTableViewCellDelegate>
 
     self.morsels = [NSMutableArray array];
 
-    if (_shouldPresentMediaCapture) {
-        self.navigationItem.hidesBackButton = YES;
-        [self presentMediaCapture];
-    } else {
-        if (self.presentingViewController) {
-            UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:self
-                                                                            action:@selector(cancel)];
-            [self.navigationItem setLeftBarButtonItem:cancelButton];
-        }
+    if (self.presentingViewController) {
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
+                                                                         style:UIBarButtonItemStyleBordered
+                                                                        target:self
+                                                                        action:@selector(cancel)];
+        [self.navigationItem setLeftBarButtonItem:cancelButton];
     }
+    
     [self displayStory];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self displayStory];
+
+    if (_shouldPresentMediaCapture) {
+        self.shouldPresentMediaCapture = NO;
+        self.navigationItem.hidesBackButton = YES;
+        [self presentMediaCapture];
+    }
 }
 
 - (void)displayStory {
@@ -183,6 +185,8 @@ MRSLStoryEditMorselTableViewCellDelegate>
                                       success:^(id responseObject) {
                                           self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last %@ %@", (_post.draftValue) ? @"saved" : @"updated", (_post.lastUpdatedDate) ? [[_post.lastUpdatedDate timeAgo] lowercaseString] : @"now"];
                                           [self.navigationItem setRightBarButtonItem:nil];
+                                          [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayFeedNotification
+                                                                                              object:nil];
                                       } failure:^(NSError *error) {
                                           [UIAlertView showAlertViewForErrorString:@"Unable to publish Story, please try again!"
                                                                           delegate:nil];
@@ -295,7 +299,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
         morsel.morselPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, 1.f);
         morsel.morselPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
         morsel.isUploading = @YES;
-        morsel.sort_order = @(idx + 1);
+        morsel.sort_order = @([_morsels count] + (idx + 1));
 
         [_post addMorselsObject:morsel];
         [_appDelegate.morselApiService createMorsel:morsel

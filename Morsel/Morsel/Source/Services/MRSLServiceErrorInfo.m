@@ -84,7 +84,7 @@
     __block NSMutableString *errorInformation = [NSMutableString string];
 
     [_errors enumerateKeysAndObjectsUsingBlock:^(NSString *errorTypeKey, NSArray *errorArray, BOOL *stop) {
-        NSString *errorDescription = [NSString stringWithFormat:@"%@: %@", [errorTypeKey capitalizedString], [errorArray componentsJoinedByString:@". "]];
+        NSString *errorDescription = [NSString stringWithFormat:@"%@: %@", [errorTypeKey capitalizedString], ([errorArray isKindOfClass:[NSArray class]]) ? [errorArray componentsJoinedByString:@". "] : errorArray];
         [errorInformation appendString:errorDescription];
     }];
 

@@ -24,10 +24,12 @@ NSString *const MRSLUserDidUpdatePostNotification = @"MRSLUserDidUpdatePostNotif
 NSString *const MRSLMorselUploadDidCompleteNotification = @"MRSLMorselUploadDidCompleteNotification";
 NSString *const MRSLMorselUploadDidFailNotification = @"MRSLMorselUploadDidFailNotification";
 
+NSString *const MRSLAppShouldDisplayFeedNotification = @"MRSLAppShouldDisplayFeedNotification";
+
 #ifdef DEBUG
 int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;
 #else
-int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;
+int LOG_LEVEL_DEF = LOG_LEVEL_ERROR;
 #endif
 
 @implementation MRSLConstants

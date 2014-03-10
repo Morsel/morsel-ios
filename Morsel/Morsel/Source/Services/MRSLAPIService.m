@@ -399,6 +399,14 @@
 
          if (successOrNil) successOrNil(responseObject);
      } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+         if (serviceErrorInfo) {
+             if ([[serviceErrorInfo.errorInfo lowercaseString] rangeOfString:@"already exists"].location != NSNotFound) {
+                 [morsel MR_deleteEntity];
+                 [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+                 return;
+             }
+         }
          [[MRSLEventManager sharedManager] track:@"Failed to Publish Morsel"
                                properties:@{@"view": @"MRSLAPIService",
                                             @"morsel_id": NSNullIfNil(morsel.morselID),

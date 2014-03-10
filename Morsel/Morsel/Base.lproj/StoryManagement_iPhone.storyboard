@@ -316,6 +316,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="ORJ-PF-mf6" id="eYv-59-VKd"/>
                                             <outlet property="activityView" destination="bbL-dv-VGi" id="EGs-UA-Rym"/>
                                             <outlet property="failureView" destination="DUg-e1-fHe" id="uwO-K7-C7t"/>
                                             <outlet property="morselDescription" destination="mXu-TV-bff" id="8CK-ei-b1F"/>
@@ -508,6 +509,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="60"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Xwd-eK-Xee">
                                     <size key="itemSize" width="320" height="60"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
