@@ -19,6 +19,14 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayFeed)
+                                                 name:MRSLAppShouldDisplayFeedNotification
+                                               object:nil];
+    [self selectedButton:[self feedButton]];
+}
+
+- (void)displayFeed {
     [self selectedButton:[self feedButton]];
 }
 
@@ -49,6 +57,12 @@
     [_tabBarButtons enumerateObjectsUsingBlock:^(MRSLTabBarButton *tabBarButton, NSUInteger idx, BOOL *stop) {
         tabBarButton.selected = NO;
     }];
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

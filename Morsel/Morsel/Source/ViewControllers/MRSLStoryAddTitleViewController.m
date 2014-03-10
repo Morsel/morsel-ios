@@ -101,7 +101,8 @@
     } else if (textLength >= 40 && textLength <= 50) {
         [_titleCountLimitLabel setTextColor:[UIColor morselRed]];
     }
-    _titleCountLimitLabel.text = [NSString stringWithFormat:@"%lu", 50 - textLength];
+    NSUInteger remainingTextLength = 50 - textLength;
+    _titleCountLimitLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)remainingTextLength];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {

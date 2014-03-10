@@ -52,11 +52,16 @@ UIDocumentInteractionControllerDelegate>
 #pragma mark - Private Methods
 
 - (IBAction)deleteStory {
-    [_post.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, BOOL *stop) {
-        [_appDelegate.morselApiService deleteMorsel:morsel
-                                            success:nil
-                                            failure:nil];
-    }];
+    if ([_post.morsels count] == 0) {
+        [_post MR_deleteEntity];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+    } else {
+        [_post.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, BOOL *stop) {
+            [_appDelegate.morselApiService deleteMorsel:morsel
+                                                success:nil
+                                                failure:nil];
+        }];
+    }
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

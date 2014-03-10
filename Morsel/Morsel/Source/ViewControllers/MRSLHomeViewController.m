@@ -78,7 +78,7 @@ UIGestureRecognizerDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (![MRSLUser currentUser] || self.feedFetchedResultsController) return;
+    if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
 
     [self setupFeedFetchRequest];
     [self populateContent];

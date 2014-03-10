@@ -12,6 +12,7 @@
 
 @interface MRSLStoryEditMorselTableViewCell ()
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *morselDescription;
 @property (weak, nonatomic) IBOutlet UIImageView *morselThumbnail;
 @property (weak, nonatomic) IBOutlet UIView *activityView;
@@ -42,6 +43,7 @@
 
     if (_morsel) {
         self.activityView.hidden = !_morsel.isUploadingValue;
+        (_morsel.isUploadingValue) ? [self.activityIndicator startAnimating] : [self.activityIndicator stopAnimating];
         self.failureView.hidden = !_morsel.didFailUploadValue;
         _morselDescription.text = (_morsel.morselDescription.length > 0) ? _morsel.morselDescription : @"Tap to add text";
 
