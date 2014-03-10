@@ -59,7 +59,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
                                                                         action:@selector(cancel)];
         [self.navigationItem setLeftBarButtonItem:cancelButton];
     }
-    
+
     [self displayStory];
 }
 
@@ -213,7 +213,6 @@ MRSLStoryEditMorselTableViewCellDelegate>
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-
         MRSLMorsel *deletedMorsel = [_morsels objectAtIndex:indexPath.row];
         [_morsels removeObject:deletedMorsel];
         [_storyMorselsTableView deleteRowsAtIndexPaths:@[indexPath]
@@ -224,6 +223,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             if (deletedMorsel.localUUID) {
                 [deletedMorsel MR_deleteEntity];
+                [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
             } else {
                 [_appDelegate.morselApiService deleteMorsel:deletedMorsel
                                                     success:nil
@@ -292,19 +292,33 @@ MRSLStoryEditMorselTableViewCellDelegate>
 - (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSMutableArray *)capturedMedia {
     DDLogDebug(@"Received %lu Media Items. Should now create Morsels for each!", (unsigned long)[capturedMedia count]);
     self.post = [self getOrLoadPostIfExists];
+    __weak __typeof(self) weakSelf = self;
     [capturedMedia enumerateObjectsUsingBlock:^(MRSLMediaItem *mediaItem, NSUInteger idx, BOOL *stop) {
-        MRSLMorsel *morsel = [MRSLMorsel localUniqueMorsel];
-        morsel.post = _post;
-        morsel.morselPhoto = UIImageJPEGRepresentation(mediaItem.mediaFullImage, 1.f);
-        morsel.morselPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, 1.f);
-        morsel.morselPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
-        morsel.isUploading = @YES;
-        morsel.sort_order = @([_morsels count] + (idx + 1));
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+            NSUInteger morselIndex = (idx + 1);
+            if ([strongSelf.morsels count] > 0) {
+                MRSLMorsel *lastMorsel = [strongSelf.morsels lastObject];
+                morselIndex = (lastMorsel.sort_orderValue + (idx + 1));
+            }
+            DDLogDebug(@"Morsel INDEX: %lu", (unsigned long)morselIndex);
+            MRSLMorsel *morsel = [MRSLMorsel localUniqueMorsel];
+            morsel.post = strongSelf.post;
+            morsel.isUploading = @YES;
+            morsel.sort_order = @(morselIndex);
 
-        [_post addMorselsObject:morsel];
-        [_appDelegate.morselApiService createMorsel:morsel
-                                            success:nil
-                                            failure:nil];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                morsel.morselPhoto = UIImageJPEGRepresentation(mediaItem.mediaFullImage, 1.f);
+                morsel.morselPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, 1.f);
+                morsel.morselPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
+                if (morsel.managedObjectContext) {
+                    [strongSelf.post addMorselsObject:morsel];
+                    [_appDelegate.morselApiService createMorsel:morsel
+                                                        success:nil
+                                                        failure:nil];
+                }
+            });
+        }
     }];
 }
 

@@ -56,19 +56,26 @@
         if (_morsel.morselPhotoURL) {
             [_morselThumbnail setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail]
                                     placeholderImage:nil
-                                             success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-             {
-                 if (image) {
-                     weakSelf.morselThumbnail.image = image;
-                 }
-             }
-                                             failure:
-             ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error)
-             {
-                 DDLogError(@"Unable to set Morsel Thumbnail: %@", error.userInfo);
-             }];
-        } else if (_morsel.morselPhotoThumb) {
-            self.morselThumbnail.image = [UIImage imageWithData:_morsel.morselPhotoThumb];
+                                             success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                 if (image) {
+                                                     weakSelf.morselThumbnail.image = image;
+                                                 }
+                                             } failure:^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
+                                                 if (weakSelf.morsel.morselPhotoThumb) {
+                                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                                         weakSelf.morselThumbnail.image = [UIImage imageWithData:weakSelf.morsel.morselPhotoThumb];
+                                                     });
+                                                 } else {
+                                                     DDLogError(@"Unable to set Morsel thumbnail and no local image exists: %@", error.userInfo);
+                                                     weakSelf.morselThumbnail.image = nil;
+                                                 }
+                                             }];
+        } else {
+            if (_morsel.morselPhotoThumb) {
+                self.morselThumbnail.image = [UIImage imageWithData:_morsel.morselPhotoThumb];
+            } else {
+                self.morselThumbnail.image = nil;
+            }
         }
     }
 }
@@ -118,7 +125,7 @@
         self.morselThumbnail.layer.borderColor = [UIColor whiteColor].CGColor;
         self.morselThumbnail.layer.borderWidth = selected ? 2.f : 0.f;
     }
-
+    
     if (_morsel.morselDescription.length == 0 && !selected) {
         _morselDescription.textColor = [UIColor morselLightContent];
     }
@@ -127,7 +134,7 @@
 - (void)reset {
     self.morselThumbnail.image = nil;
     self.morselDescription.text = nil;
-
+    
     _morselDescription.textColor = [UIColor morselLightContent];
 }
 

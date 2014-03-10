@@ -16,6 +16,7 @@
 
 #import "MRSLAPIClient.h"
 
+#import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
 @implementation MRSLAppDelegate
@@ -70,9 +71,17 @@
     [mixpanel registerSuperPropertiesOnce:@{@"client_device": (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"ipad" : @"iphone"}];
     [mixpanel registerSuperProperties:@{@"client_version": [MRSLUtil appMajorMinorPatchString]}];
 
-    [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel.sqlite"];
+    [MagicalRecord initialize];
+    [MagicalRecord setShouldDeleteStoreOnModelMismatch:YES];
+    [MagicalRecord setupAutoMigratingCoreDataStack];
 
     [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
+
+    NSArray *morsels = [MRSLMorsel MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"(isUploading == YES)"]];
+    [morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
+        morsel.isUploading = @NO;
+        morsel.didFailUpload = @YES;
+    }];
 }
 
 #pragma mark - Logout

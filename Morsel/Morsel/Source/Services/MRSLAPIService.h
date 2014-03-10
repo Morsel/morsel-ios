@@ -51,6 +51,10 @@
            success:(MorselAPISuccessBlock)successOrNil
            failure:(MorselAPIFailureBlock)failureOrNil;
 
+- (void)deletePost:(MRSLPost *)post
+           success:(MorselAPISuccessBlock)successOrNil
+           failure:(MorselAPIFailureBlock)failureOrNil;
+
 - (void)updatePost:(MRSLPost *)post
            success:(MorselAPISuccessBlock)successOrNil
            failure:(MorselAPIFailureBlock)failureOrNil;
@@ -105,7 +109,8 @@
                    failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)getUserPosts:(MRSLUser *)user
-             success:(MorselAPIArrayBlock)success
+       includeDrafts:(BOOL)includeDrafts
+             success:(MorselAPIArrayBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)getUserDraftsWithSuccess:(MorselAPIArrayBlock)success

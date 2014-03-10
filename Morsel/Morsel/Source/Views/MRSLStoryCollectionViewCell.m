@@ -35,17 +35,28 @@
         if (firstMorsel.morselPhotoURL) {
             [_postThumbnailView setImageWithURLRequest:[firstMorsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail]
                                       placeholderImage:nil
-                                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-             {
+                                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                  if (image) {
                      weakSelf.postThumbnailView.image = image;
                  }
-             }
-                                               failure:
-             ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error)
-             {
-                 DDLogError(@"Unable to set Morsel Thumbnail: %@", error.userInfo);
+             } failure:^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
+                 if (firstMorsel.morselPhotoThumb) {
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         weakSelf.postThumbnailView.image = [UIImage imageWithData:firstMorsel.morselPhotoThumb];
+                     });
+                 } else {
+                     DDLogError(@"Unable to set Morsel thumbnail and no local image exists: %@", error.userInfo);
+                     weakSelf.postThumbnailView.image = nil;
+                 }
              }];
+        } else {
+            if (firstMorsel.morselPhotoThumb) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.postThumbnailView.image = [UIImage imageWithData:firstMorsel.morselPhotoThumb];
+                });
+            } else {
+                self.postThumbnailView.image = nil;
+            }
         }
 
         self.postCountLabel.text = [NSString stringWithFormat:@"%lu MORSEL%@", (unsigned long)[_post.morsels count], ([_post.morsels count] > 1) ? @"S" : @""];

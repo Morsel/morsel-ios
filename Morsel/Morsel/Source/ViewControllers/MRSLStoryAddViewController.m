@@ -24,8 +24,6 @@ UICollectionViewDelegate,
 NSFetchedResultsControllerDelegate,
 MRSLStatusHeaderCollectionReusableViewDelegate>
 
-@property (nonatomic) int refreshCounter;
-
 @property (weak, nonatomic) IBOutlet UICollectionView *postCollectionView;
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
@@ -125,14 +123,12 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 }
 
 - (void)localContentPurged {
-    self.refreshCounter = 0;
     self.postsFetchedResultsController.delegate = nil;
     self.postsFetchedResultsController = nil;
 }
 
 - (void)localContentRestored {
-    self.refreshCounter += 1;
-    if (_postsFetchedResultsController || _refreshCounter == 1) return;
+    if (_postsFetchedResultsController) return;
 
     [_refreshControl endRefreshing];
 
@@ -146,10 +142,9 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 
 - (void)refreshStories {
     [_appDelegate.morselApiService getUserPosts:[MRSLUser currentUser]
+                                  includeDrafts:YES
                                         success:nil
                                         failure:nil];
-    [_appDelegate.morselApiService getUserDraftsWithSuccess:nil
-                                                    failure:nil];
 }
 
 #pragma mark - Segue Methods

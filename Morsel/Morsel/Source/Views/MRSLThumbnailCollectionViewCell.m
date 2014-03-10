@@ -26,22 +26,28 @@
             __weak __typeof(self) weakSelf = self;
 
             [_thumbnailView setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail]
-                                    placeholderImage:nil
-                                             success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-            {
-                if (image) {
-                    weakSelf.thumbnailView.image = image;
-                }
-            } failure: ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
-                DDLogError(@"Unable to set Morsel Thumbnail: %@", error.userInfo);
-            }];
+                                  placeholderImage:nil
+                                           success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                               if (image) {
+                                                   weakSelf.thumbnailView.image = image;
+                                               }
+                                           } failure: ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
+                                               if (weakSelf.morsel.morselPhotoThumb) {
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       weakSelf.thumbnailView.image = [UIImage imageWithData:weakSelf.morsel.morselPhotoThumb];
+                                                   });
+                                               } else {
+                                                   DDLogError(@"Unable to set Morsel thumbnail and no local image exists: %@", error.userInfo);
+                                                   weakSelf.thumbnailView.image = nil;
+                                               }
+                                           }];
         }
     }
 }
 
 - (void)reset {
     [self.thumbnailView cancelImageRequestOperation];
-
+    
     self.thumbnailView.image = nil;
 }
 

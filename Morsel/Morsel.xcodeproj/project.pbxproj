@@ -1372,7 +1372,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "storyboardlint \"${SRCROOT}/../\"";
+			shellScript = "storyboardlint \"${SRCROOT}\" --additional-sources \"${SRCROOT}/../\"";
 			showEnvVarsInLog = 0;
 		};
 		06D9908918AADB20000158EE /* Update Build Version */ = {

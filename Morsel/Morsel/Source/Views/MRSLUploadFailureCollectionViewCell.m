@@ -34,6 +34,8 @@
         _morsel = morsel;
         if (_morsel.morselPhotoThumb) {
             self.thumbnailImageView.image = [UIImage imageWithData:_morsel.morselPhotoThumb];
+        } else {
+            self.thumbnailImageView.image = nil;
         }
     }
 }

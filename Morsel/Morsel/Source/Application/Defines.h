@@ -44,6 +44,8 @@ static const CGFloat minimumCameraMaxDimension = 1920.f;
 static const CGFloat xCenteringLandscapeContent = 320.f;
 static const CGFloat yCameraImagePreviewOffset = 78.f;
 static const CGFloat croppedImageHeightOffset = 106.f;
+static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;
+static const CGFloat MRSLUserProfileImageThumbDimensionSize = 40.f;
 static const int MRSLMaximumPostsToDisplayInStoryAdd = 2;
 
 #pragma mark - Build Specific

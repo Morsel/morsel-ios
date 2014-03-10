@@ -86,7 +86,7 @@ UITextFieldDelegate>
 
 - (IBAction)addPhoto:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Add Photo"
-                          properties:@{@"view": @"MRSLSignUpViewController"}];
+                                 properties:@{@"view": @"MRSLSignUpViewController"}];
 
     [self.view endEditing:YES];
 
@@ -103,7 +103,7 @@ UITextFieldDelegate>
 
 - (IBAction)signUp {
     [[MRSLEventManager sharedManager] track:@"Tapped Sign up"
-                          properties:@{@"view": @"MRSLSignUpViewController"}];
+                                 properties:@{@"view": @"MRSLSignUpViewController"}];
 
     BOOL usernameValid = [MRSLUtil validateUsername:_usernameField.text];
     BOOL emailValid = [MRSLUtil validateEmail:_emailField.text];
@@ -144,28 +144,33 @@ UITextFieldDelegate>
     user.email = _emailField.text;
     user.title = _occupationTitleField.text;
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        UIImage *profileImage = [_originalProfileImage thumbnailImage:_originalProfileImage.size.width
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        UIImage *profileImageFull = [_originalProfileImage thumbnailImage:_originalProfileImage.size.width
+                                                     interpolationQuality:kCGInterpolationHigh];
+        UIImage *profileImageLarge = [profileImageFull thumbnailImage:MRSLUserProfileImageLargeDimensionSize
                                                  interpolationQuality:kCGInterpolationHigh];
+        UIImage *profileImageThumb = [profileImageFull thumbnailImage:MRSLUserProfileImageThumbDimensionSize
+                                                 interpolationQuality:kCGInterpolationHigh];
+        user.profilePhotoLarge = UIImageJPEGRepresentation(profileImageLarge, 1.f);
+        user.profilePhotoThumb = UIImageJPEGRepresentation(profileImageThumb, 1.f);
 
-        dispatch_async(dispatch_get_main_queue(), ^
-                       {
-                           user.profilePhoto = UIImageJPEGRepresentation(profileImage, 1.f);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            user.profilePhotoFull = UIImageJPEGRepresentation(profileImageFull, 1.f);
 
-                           [_appDelegate.morselApiService createUser:user
-                                                        withPassword:_passwordField.text
-                                                             success:nil
-                                                             failure:^(NSError *error)
-                            {
-                                self.activityView.hidden = YES;
-                                [self.continueButton setEnabled:YES];
+            [_appDelegate.morselApiService createUser:user
+                                         withPassword:_passwordField.text
+                                              success:nil
+                                              failure:^(NSError *error)
+             {
+                 self.activityView.hidden = YES;
+                 [self.continueButton setEnabled:YES];
 
-                                MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                 MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
 
-                                [UIAlertView showAlertViewForServiceError:serviceErrorInfo
-                                                                 delegate:nil];
-                            }];
-                       });
+                 [UIAlertView showAlertViewForServiceError:serviceErrorInfo
+                                                  delegate:nil];
+             }];
+        });
 
         self.originalProfileImage = nil;
     });
@@ -197,12 +202,12 @@ UITextFieldDelegate>
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take Photo"]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Take Photo"
-                              properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"MRSLSignUpViewController"}];
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     } else {
         [[MRSLEventManager sharedManager] track:@"Tapped Select From Library"
-                              properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"MRSLSignUpViewController"}];
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
 
@@ -220,7 +225,7 @@ UITextFieldDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
         [[MRSLEventManager sharedManager] track:@"Added Photo"
-                              properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"MRSLSignUpViewController"}];
 
         self.originalProfileImage = info[UIImagePickerControllerOriginalImage];
 
@@ -237,7 +242,7 @@ UITextFieldDelegate>
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [[MRSLEventManager sharedManager] track:@"Tapped Cancel"
-                          properties:@{@"view": @"MRSLSignUpViewController"}];
+                                 properties:@{@"view": @"MRSLSignUpViewController"}];
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 
@@ -257,22 +262,22 @@ UITextFieldDelegate>
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if ([textField isEqual:_usernameField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Username Field"
-                              properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"MRSLSignUpViewController"}];
     } else if ([textField isEqual:_passwordField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Password Field"
-                              properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"MRSLSignUpViewController"}];
     } else if ([textField isEqual:_emailField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Email Field"
-                              properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"MRSLSignUpViewController"}];
     } else if ([textField isEqual:_firstNameField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped First Name Field"
-                              properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"MRSLSignUpViewController"}];
     } else if ([textField isEqual:_lastNameField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Last Name Field"
-                              properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"MRSLSignUpViewController"}];
     } else if ([textField isEqual:_occupationTitleField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Title Field"
-                              properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"MRSLSignUpViewController"}];
     }
     return YES;
 }
@@ -281,27 +286,27 @@ UITextFieldDelegate>
     if ([string isEqualToString:@"\n"]) {
         if ([textField isEqual:_usernameField]) {
             [[MRSLEventManager sharedManager] track:@"Filled Username Field"
-                                  properties:@{@"view": @"MRSLSignUpViewController"}];
+                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_passwordField becomeFirstResponder];
         } else if ([textField isEqual:_passwordField]) {
             [[MRSLEventManager sharedManager] track:@"Filled Password Field"
-                                  properties:@{@"view": @"MRSLSignUpViewController"}];
+                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_emailField becomeFirstResponder];
         } else if ([textField isEqual:_emailField]) {
             [[MRSLEventManager sharedManager] track:@"Filled Email Field"
-                                  properties:@{@"view": @"MRSLSignUpViewController"}];
+                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_firstNameField becomeFirstResponder];
         } else if ([textField isEqual:_firstNameField]) {
             [[MRSLEventManager sharedManager] track:@"Filled First Name Field"
-                                  properties:@{@"view": @"MRSLSignUpViewController"}];
+                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_lastNameField becomeFirstResponder];
         } else if ([textField isEqual:_lastNameField]) {
             [[MRSLEventManager sharedManager] track:@"Filled Last Name Field"
-                                  properties:@{@"view": @"MRSLSignUpViewController"}];
+                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_occupationTitleField becomeFirstResponder];
         } else if ([textField isEqual:_occupationTitleField]) {
             [[MRSLEventManager sharedManager] track:@"Filled Title Field"
-                                  properties:@{@"view": @"MRSLSignUpViewController"}];
+                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [textField resignFirstResponder];
             [self signUp];
             [self.contentScrollView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)
@@ -312,13 +317,13 @@ UITextFieldDelegate>
     } else {
         CGRect centeredFrame = textField.frame;
         centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-        
+
         [self.contentScrollView scrollRectToVisible:centeredFrame
                                            animated:YES];
-        
+
         return YES;
     }
-    
+
     return YES;
 }
 
