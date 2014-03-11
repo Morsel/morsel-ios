@@ -9,6 +9,7 @@
 #import "MRSLMoreViewController.h"
 
 #import "MRSLProfileImageView.h"
+#import "MRSLProfileViewController.h"
 #import "MRSLMoreItem.h"
 #import "MRSLMoreItemCell.h"
 
@@ -16,8 +17,9 @@
 #import "MRSLUser.h"
 
 @interface MRSLMoreViewController ()
-    <UITableViewDataSource,
-     UITableViewDelegate>
+<UITableViewDataSource,
+UITableViewDelegate,
+ProfileImageViewDelegate>
 
 @property (nonatomic) NSUInteger draftCount;
 
@@ -38,20 +40,25 @@
     [super viewDidLoad];
 
     self.versionLabel.text = [MRSLUtil appVersionBuildString];
-    
-    [self.profileImageView addCornersWithRadius:20.f];
-    [self.profileImageView setBorderWithColor:[UIColor whiteColor]
-                                     andWidth:1.f];
-    /*
-    MRSLMoreItem *draftItem = [MRSLMoreItem sideBarItemWithTitle:@"Drafts"
-                                                 iconImageName:@"icon-sidebar-edit"
-                                                cellIdentifier:@"ruid_SideBarDraftCell"
-                                                          type:SideBarMenuItemTypeDrafts];
 
-    self.draftItem = draftItem;
-    
-    self.sideBarItems = [NSMutableArray arrayWithObjects:draftItem, homeItem, nil];
-*/
+    [_profileImageView addCornersWithRadius:20.f];
+    [_profileImageView setBorderWithColor:[UIColor whiteColor]
+                                     andWidth:1.f];
+    _profileImageView.delegate = self;
+
+    MRSLMoreItem *profileItem = [MRSLMoreItem sideBarItemWithTitle:@"Profile"
+                                                    iconImageName:@"icon-sidebar-profile"
+                                                   cellIdentifier:@"ruid_SideBarItemCell"
+                                                             type:SideBarMenuItemTypeProfile];
+
+
+    MRSLMoreItem *logoutItem = [MRSLMoreItem sideBarItemWithTitle:@"Logout"
+                                                   iconImageName:@"icon-sidebar-logout"
+                                                  cellIdentifier:@"ruid_SideBarItemCell"
+                                                            type:SideBarMenuItemTypeLogout];
+
+    self.sideBarItems = [NSMutableArray arrayWithObjects:profileItem, logoutItem, nil];
+
     self.userNameLabel.text = [MRSLUser currentUser].fullName;
     self.profileImageView.user = [MRSLUser currentUser];
     self.draftItem.badgeCount = [MRSLUser currentUser].draft_countValue;
@@ -76,16 +83,37 @@
     MRSLMoreItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
     MRSLMoreItemCell *sideBarCell = [tableView dequeueReusableCellWithIdentifier:sideBarItem.cellIdentifier];
     sideBarCell.sideBarItem = sideBarItem;
-    
+
     return sideBarCell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //SideBarItem *sideBarItem = [_sideBarItems objectAtIndex:indexPath.row];
+    MRSLMoreItem *moreItem = [_sideBarItems objectAtIndex:indexPath.row];
 
-    // Display content based on type: sideBarItem.menuType
+    switch (moreItem.menuType) {
+        case SideBarMenuItemTypeLogout:
+            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                                object:nil];
+            break;
+        case SideBarMenuItemTypeProfile:
+            [self profileImageViewDidSelectUser:[MRSLUser currentUser]];
+            break;
+        default:
+            break;
+    }
+}
+
+
+#pragma mark - ProfileImageViewDelegate
+
+- (void)profileImageViewDidSelectUser:(MRSLUser *)user {
+    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfileViewController"];
+    profileVC.user = user;
+
+    [self.navigationController pushViewController:profileVC
+                                         animated:YES];
 }
 
 #pragma mark - Destruction

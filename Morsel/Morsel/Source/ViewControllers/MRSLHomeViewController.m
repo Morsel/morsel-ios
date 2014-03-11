@@ -287,11 +287,8 @@ UIGestureRecognizerDelegate>
     MRSLStoryEditViewController *editStoryVC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryEditViewController"];
 
     editStoryVC.postID = morsel.post.postID;
-
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editStoryVC];
-    [self.navigationController presentViewController:navController
-                                            animated:YES
-                                          completion:nil];
+    [self.navigationController pushViewController:editStoryVC
+                                         animated:YES];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

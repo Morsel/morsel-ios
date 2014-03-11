@@ -20,6 +20,7 @@
 <MorselThumbnailViewControllerDelegate,
 ProfileImageViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *plateButton;
@@ -85,6 +86,7 @@ ProfileImageViewDelegate>
 
             if (_morsel.morselPhotoURL) {
                 __weak __typeof(self) weakSelf = self;
+                [self.activityView startAnimating];
 
                 [_morselImageView setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeCropped]
                                         placeholderImage:nil
@@ -92,6 +94,7 @@ ProfileImageViewDelegate>
                                                      if (image) {
                                                          weakSelf.morselImageView.image = image;
                                                      }
+                                                     [weakSelf.activityView stopAnimating];
                                                  } failure: ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
                                                      if (weakSelf.morsel.morselPhotoCropped) {
                                                          dispatch_async(dispatch_get_main_queue(), ^{
@@ -101,22 +104,19 @@ ProfileImageViewDelegate>
                                                          DDLogError(@"Unable to set Morsel image and no local image exists: %@", error.userInfo);
                                                          weakSelf.morselImageView.image = nil;
                                                      }
+                                                     [weakSelf.activityView stopAnimating];
                                                  }];
             }
         }
-
-        if ([MRSLUser currentUserOwnsMorselWithCreatorID:_morsel.creator_idValue]) {
-            self.likeButton.hidden = YES;
-            self.editButton.hidden = NO;
-        } else {
-            self.likeButton.hidden = NO;
-            self.editButton.hidden = YES;
-        }
+        
+        self.likeButton.hidden = [MRSLUser currentUserOwnsMorselWithCreatorID:_morsel.creator_idValue];
+        self.editButton.hidden = !self.likeButton.hidden;
     }
 }
 
 - (void)reset {
     [self.morselImageView cancelImageRequestOperation];
+    [self.activityView stopAnimating];
 
     self.titleLabel.hidden = NO;
     self.descriptionLabel.hidden = NO;
@@ -265,7 +265,7 @@ ProfileImageViewDelegate>
              _profileImageView.alpha = 1.f;
              _likeButton.alpha = 1.f;
              _progressionButton.alpha = 1.f;
-             
+
              [_morselThumbnailVC.view setX:self.frame.size.width];
          }
                          completion:^(BOOL finished)

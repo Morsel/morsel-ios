@@ -50,7 +50,7 @@
                                             <action selector="cancelMediaCapture:" destination="BwI-mZ-112" eventType="touchUpInside" id="rMm-4E-h1p"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bVZ-qJ-xq1">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bVZ-qJ-xq1">
                                         <rect key="frame" x="260" y="0.0" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -135,6 +135,7 @@
                         <outlet property="cameraRollImageView" destination="AGl-11-lhO" id="K4a-0O-HFn"/>
                         <outlet property="cancelMorselButton" destination="gkA-vf-fEe" id="OuP-Em-rRI"/>
                         <outlet property="captureImageButton" destination="Cea-jw-x1g" id="nEh-Du-DqW"/>
+                        <outlet property="finishButton" destination="bVZ-qJ-xq1" id="RFr-0V-U65"/>
                         <outlet property="previewView" destination="yzI-6H-pOW" id="Hfg-RO-113"/>
                         <outlet property="toggleCameraButton" destination="Nyr-1V-WqM" id="O8T-S0-eBn"/>
                         <outlet property="toggleFlashButton" destination="klL-hy-HNo" id="hJt-l6-EkG"/>

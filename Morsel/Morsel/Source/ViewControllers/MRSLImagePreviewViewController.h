@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MRSLImagePreviewViewControllerDelegate <NSObject>
+
+@optional
+- (void)imagePreviewDidDeleteMedia;
+
+@end
+
 @interface MRSLImagePreviewViewController : UIViewController
+
+@property (weak, nonatomic) id <MRSLImagePreviewViewControllerDelegate> delegate;
 
 - (void)setPreviewMedia:(NSMutableArray *)media andStartingIndex:(NSUInteger)index;
 

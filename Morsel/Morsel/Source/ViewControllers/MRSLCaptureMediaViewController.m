@@ -24,13 +24,15 @@ static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevice
 @interface MRSLCaptureMediaViewController ()
 <UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
-ELCImagePickerControllerDelegate>
+ELCImagePickerControllerDelegate,
+MRSLCapturePreviewsViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet MRSLCameraPreviewView *previewView;
 
 @property (weak, nonatomic) IBOutlet UIButton *cameraRollButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *captureImageButton;
+@property (weak, nonatomic) IBOutlet UIButton *finishButton;
 @property (weak, nonatomic) IBOutlet UIButton *toggleFlashButton;
 @property (weak, nonatomic) IBOutlet UIButton *toggleCameraButton;
 @property (weak, nonatomic) IBOutlet UIImageView *approvalImageView;
@@ -109,6 +111,7 @@ ELCImagePickerControllerDelegate>
         UIViewController *firstChildVC = [self.childViewControllers firstObject];
         if ([firstChildVC isKindOfClass:[MRSLCapturePreviewsViewController class]]) {
             self.capturePreviewsViewController = (MRSLCapturePreviewsViewController *)firstChildVC;
+            _capturePreviewsViewController.delegate = self;
         }
     }
 
@@ -138,6 +141,11 @@ ELCImagePickerControllerDelegate>
     [super viewDidDisappear:animated];
 
     [self endCameraSession];
+}
+
+- (void)updateFinishButtonAvailability {
+    [self.finishButton setImage:[UIImage imageNamed:([_capturedMediaItems count] > 0) ? @"icon-circle-check-green" : @"icon-circle-check"] forState:UIControlStateNormal];
+    self.finishButton.enabled = ([_capturedMediaItems count] > 0);
 }
 
 #pragma mark - Action Methods
@@ -386,6 +394,8 @@ ELCImagePickerControllerDelegate>
                 [_capturedMediaItems addObject:mediaItem];
                 [self.capturePreviewsViewController addPreviewMediaItems:_capturedMediaItems];
                 self.approvalImageView.image = mediaItem.mediaCroppedImage;
+
+                [self updateFinishButtonAvailability];
             });
         });
     });
@@ -610,6 +620,12 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 - (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES
                              completion:nil];
+}
+
+#pragma mark - MRSLCapturePreviewsViewControllerDelegate
+
+- (void)capturePreviewsDidDeleteMedia {
+    [self updateFinishButtonAvailability];
 }
 
 @end

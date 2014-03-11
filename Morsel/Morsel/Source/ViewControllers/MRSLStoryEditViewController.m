@@ -30,11 +30,16 @@ UITableViewDelegate,
 CaptureMediaViewControllerDelegate,
 MRSLStoryEditMorselTableViewCellDelegate>
 
+@property (nonatomic) BOOL shouldShowAddCell;
+@property (nonatomic) BOOL wasNewStory;
+@property (nonatomic) BOOL navigationBarWasHidden;
+
 @property (weak, nonatomic) IBOutlet UIButton *storyTitleButton;
 @property (weak, nonatomic) IBOutlet UILabel *storyTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
 @property (weak, nonatomic) IBOutlet UITableView *storyMorselsTableView;
 
+@property (strong, nonatomic) NSDateFormatter *statusDateFormatter;
 @property (strong, nonatomic) NSFetchedResultsController *morselsFetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *morsels;
 
@@ -50,15 +55,16 @@ MRSLStoryEditMorselTableViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.shouldShowAddCell = YES;
     self.morsels = [NSMutableArray array];
+    self.statusDateFormatter = [[NSDateFormatter alloc] init];
+    [_statusDateFormatter setDateFormat:@"h:mm a"];
 
-    if (self.presentingViewController) {
-        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
-                                                                         style:UIBarButtonItemStyleBordered
-                                                                        target:self
-                                                                        action:@selector(cancel)];
-        [self.navigationItem setLeftBarButtonItem:cancelButton];
-    }
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(goBack)];
+    [self.navigationItem setLeftBarButtonItem:backButton];
 
     [self displayStory];
 }
@@ -67,10 +73,23 @@ MRSLStoryEditMorselTableViewCellDelegate>
     [super viewWillAppear:animated];
     [self displayStory];
 
+    if (self.navigationController.navigationBarHidden) {
+        self.navigationBarWasHidden = YES;
+        [self.navigationController setNavigationBarHidden:NO
+                                                 animated:YES];
+    }
     if (_shouldPresentMediaCapture) {
+        self.wasNewStory = YES;
         self.shouldPresentMediaCapture = NO;
-        self.navigationItem.hidesBackButton = YES;
         [self presentMediaCapture];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (_navigationBarWasHidden) {
+        [self.navigationController setNavigationBarHidden:YES
+                                                 animated:YES];
     }
 }
 
@@ -86,7 +105,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
     }
 
     self.storyTitleLabel.text = ([_post.title length] == 0) ? @"Tap to add title" : _post.title;
-    self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last %@ %@", (_post.draftValue) ? @"saved" : @"updated", ([_post latestUpdatedDate]) ? [[[_post latestUpdatedDate] timeAgo] lowercaseString] : @"now"];
+    [self displayStoryStatus];
 
     if (!_postID || self.morselsFetchedResultsController) {
         [self.storyMorselsTableView reloadData];
@@ -95,6 +114,19 @@ MRSLStoryEditMorselTableViewCellDelegate>
 
     [self setupMorselsFetchRequest];
     [self populateContent];
+}
+
+- (void)updateStoryStatus {
+    if ([self getOrLoadPostIfExists]) {
+        [_appDelegate.morselApiService getPost:_post
+                                       success:nil
+                                       failure:nil];
+    }
+}
+
+- (void)displayStoryStatus {
+    NSDate *lastUpdated = [_post latestUpdatedDate];
+    self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last %@ at %@", @"updated", (lastUpdated) ? [_statusDateFormatter stringFromDate:lastUpdated] : [_statusDateFormatter stringFromDate:[NSDate date]]];
 }
 
 - (void)setupMorselsFetchRequest {
@@ -120,7 +152,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
 
     [self.storyMorselsTableView reloadData];
 
-    self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last %@ %@", (_post.draftValue) ? @"saved" : @"updated", ([_post latestUpdatedDate]) ? [[[_post latestUpdatedDate] timeAgo] lowercaseString] : @"now"];
+    [self displayStoryStatus];
 }
 
 - (void)presentMediaCapture {
@@ -164,12 +196,20 @@ MRSLStoryEditMorselTableViewCellDelegate>
 - (IBAction)toggleEditing {
     [_storyMorselsTableView setEditing:!_storyMorselsTableView.editing
                               animated:YES];
+    self.shouldShowAddCell = !_storyMorselsTableView.editing;
+    NSIndexPath *addCellIndexPath = [NSIndexPath indexPathForItem:[_morsels count]
+                                                        inSection:0];
+    if (_shouldShowAddCell) [_storyMorselsTableView insertRowsAtIndexPaths:@[addCellIndexPath]
+                                                          withRowAnimation:UITableViewRowAnimationFade];
+    else  [_storyMorselsTableView deleteRowsAtIndexPaths:@[addCellIndexPath]
+                                        withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void)cancel {
-    if (self.presentingViewController) {
-        [self.presentingViewController dismissViewControllerAnimated:YES
-                                                          completion:nil];
+- (void)goBack {
+    if (_wasNewStory) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -208,7 +248,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_morsels count] + 1;
+    return ([_morsels count] + ((_shouldShowAddCell) ? 1 : 0));
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -218,16 +258,23 @@ MRSLStoryEditMorselTableViewCellDelegate>
         [_storyMorselsTableView deleteRowsAtIndexPaths:@[indexPath]
                                       withRowAnimation:UITableViewRowAnimationFade];
 
+        __weak __typeof(self) weakSelf = self;
+
         double delayInSeconds = .4f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             if (deletedMorsel.localUUID) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteMorselNotification
+                                                                    object:deletedMorsel.morselID];
                 [deletedMorsel MR_deleteEntity];
                 [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
             } else {
                 [_appDelegate.morselApiService deleteMorsel:deletedMorsel
-                                                    success:nil
-                                                    failure:nil];
+                                                    success:^(BOOL success) {
+                                                        if (weakSelf) {
+                                                            [weakSelf updateStoryStatus];
+                                                        }
+                                                    } failure:nil];
             }
         });
     }
@@ -238,14 +285,20 @@ MRSLStoryEditMorselTableViewCellDelegate>
     [_morsels removeObject:movedMorsel];
     [_morsels insertObject:movedMorsel
                    atIndex:destinationIndexPath.row];
+
+    __weak __typeof(self) weakSelf = self;
+
     [_morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
         DDLogDebug(@"Morsel Previous Sort Order: %@", morsel.sort_order);
         morsel.sort_order = @(idx + 1);
         DDLogDebug(@"Morsel New Sort Order: %@", morsel.sort_order);
         [_appDelegate.morselApiService updateMorsel:morsel
                                             andPost:nil
-                                            success:nil
-                                            failure:nil];
+                                            success:^(id responseObject) {
+                                                if (weakSelf) {
+                                                    [weakSelf updateStoryStatus];
+                                                }
+                                            } failure:nil];
     }];
 }
 
@@ -314,8 +367,11 @@ MRSLStoryEditMorselTableViewCellDelegate>
                 if (morsel.managedObjectContext) {
                     [strongSelf.post addMorselsObject:morsel];
                     [_appDelegate.morselApiService createMorsel:morsel
-                                                        success:nil
-                                                        failure:nil];
+                                                        success:^(id responseObject) {
+                                                            if (weakSelf) {
+                                                                [weakSelf updateStoryStatus];
+                                                            }
+                                                        } failure:nil];
                 }
             });
         }

@@ -68,8 +68,11 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (_selectedIndexPath) [self.postCollectionView deselectItemAtIndexPath:_selectedIndexPath
-                                                                    animated:YES];
+    if (_selectedIndexPath) {
+        [self.postCollectionView deselectItemAtIndexPath:_selectedIndexPath
+                                                animated:YES];
+        self.selectedIndexPath = nil;
+    }
 
     if (![MRSLUser currentUser] || self.postsFetchedResultsController) return;
 
@@ -169,7 +172,7 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
     }
     NSString *keyForIndex = [[_postsDictionary allKeys] objectAtIndex:section];
     NSUInteger postsCount = [[_postsDictionary objectForKey:keyForIndex] count];
-    return (postsCount > MRSLMaximumPostsToDisplayInStoryAdd) ? MRSLMaximumPostsToDisplayInStoryAdd : postsCount;
+    return (postsCount > MRSLMaximumPostsToDisplayInStoryAdd && [keyForIndex isEqualToString:@"Published"]) ? MRSLMaximumPostsToDisplayInStoryAdd : postsCount;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
@@ -186,7 +189,9 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
         reusableStatusView.hidden = NO;
         reusableStatusView.delegate = self;
     }
-    reusableStatusView.viewAllButton.hidden = ([[_postsDictionary objectForKey:[[_postsDictionary allKeys] objectAtIndex:indexPath.section]] count] <= MRSLMaximumPostsToDisplayInStoryAdd);
+    NSString *keyForIndex = [[_postsDictionary allKeys] objectAtIndex:indexPath.section];
+    reusableStatusView.viewAllButton.hidden = ([[_postsDictionary objectForKey:keyForIndex] count] <= MRSLMaximumPostsToDisplayInStoryAdd ||
+                                               [keyForIndex isEqualToString:@"Drafts"]);
     reusableStatusView.statusLabel.text = [[_postsDictionary allKeys] objectAtIndex:indexPath.section];
     return reusableStatusView;
 }

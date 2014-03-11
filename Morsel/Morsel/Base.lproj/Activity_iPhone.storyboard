@@ -8,15 +8,24 @@
         <!--Activity View Controller - Activity-->
         <scene sceneID="UPV-wP-zzx">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XjR-Ud-wp7" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sb_MRSLActivityViewController" id="IzJ-YF-bgp" customClass="MRSLActivityViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HoH-VY-Met">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feature not implemented" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="isv-Oz-rCX" customClass="MRSLLightCondensedLabel">
+                                <rect key="frame" x="0.0" y="269" width="320" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Activity" id="bJm-9K-5hM"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XjR-Ud-wp7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1338" y="110"/>
         </scene>
