@@ -15,7 +15,9 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *last_name;
 	__unsafe_unretained NSString *like_count;
 	__unsafe_unretained NSString *morsel_count;
-	__unsafe_unretained NSString *profilePhoto;
+	__unsafe_unretained NSString *profilePhotoFull;
+	__unsafe_unretained NSString *profilePhotoLarge;
+	__unsafe_unretained NSString *profilePhotoThumb;
 	__unsafe_unretained NSString *profilePhotoURL;
 	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *twitter_username;
@@ -33,6 +35,8 @@ extern const struct MRSLUserFetchedProperties {
 
 @class MRSLComment;
 @class MRSLPost;
+
+
 
 
 
@@ -176,11 +180,31 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSData* profilePhoto;
+@property (nonatomic, strong) NSData* profilePhotoFull;
 
 
 
-//- (BOOL)validateProfilePhoto:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateProfilePhotoFull:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSData* profilePhotoLarge;
+
+
+
+//- (BOOL)validateProfilePhotoLarge:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSData* profilePhotoThumb;
+
+
+
+//- (BOOL)validateProfilePhotoThumb:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -343,8 +367,20 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSData*)primitiveProfilePhoto;
-- (void)setPrimitiveProfilePhoto:(NSData*)value;
+- (NSData*)primitiveProfilePhotoFull;
+- (void)setPrimitiveProfilePhotoFull:(NSData*)value;
+
+
+
+
+- (NSData*)primitiveProfilePhotoLarge;
+- (void)setPrimitiveProfilePhotoLarge:(NSData*)value;
+
+
+
+
+- (NSData*)primitiveProfilePhotoThumb;
+- (void)setPrimitiveProfilePhotoThumb:(NSData*)value;
 
 
 

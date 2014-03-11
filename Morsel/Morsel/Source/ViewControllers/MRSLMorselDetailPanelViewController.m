@@ -143,11 +143,19 @@ UIScrollViewDelegate>
 
         [_morselImageView setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeCropped]
                                 placeholderImage:nil
-                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-         {
+                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
              __strong UIImageView *strongImageView = weakImageView;
              strongImageView.image = image;
          } failure: ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
+             __strong UIImageView *strongImageView = weakImageView;
+             if (_morsel.morselPhotoCropped) {
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     strongImageView.image = [UIImage imageWithData:_morsel.morselPhotoCropped];
+                 });
+             } else {
+                 DDLogError(@"Preview media image request failed and no local copy: %@", error.userInfo);
+                 strongImageView.image = nil;
+             }
              DDLogError(@"Unable to set Morsel Image in ScrollView: %@", error.userInfo);
          }];
     }

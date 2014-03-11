@@ -8,6 +8,7 @@
 
 #import "MRSLStorySettingsViewController.h"
 
+#import "MRSLAPIClient.h"
 #import "MRSLSocialService.h"
 
 #import "MRSLMorsel.h"
@@ -42,26 +43,14 @@ UIDocumentInteractionControllerDelegate>
 
 @implementation MRSLStorySettingsViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-#warning Toggle social based on previous preferences
-#warning Remove Morsel property and figure out how share relates to entire Post
-}
-
 #pragma mark - Private Methods
 
 - (IBAction)deleteStory {
-    if ([_post.morsels count] == 0) {
-        [_post MR_deleteEntity];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
-    } else {
-        [_post.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, BOOL *stop) {
-            [_appDelegate.morselApiService deleteMorsel:morsel
-                                                success:nil
-                                                failure:nil];
-        }];
-    }
+    [_appDelegate.morselApiService deletePost:_post
+                                      success:nil
+                                      failure:nil];
+    [_post MR_deleteEntity];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

@@ -14,7 +14,9 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.last_name = @"last_name",
 	.like_count = @"like_count",
 	.morsel_count = @"morsel_count",
-	.profilePhoto = @"profilePhoto",
+	.profilePhotoFull = @"profilePhotoFull",
+	.profilePhotoLarge = @"profilePhotoLarge",
+	.profilePhotoThumb = @"profilePhotoThumb",
 	.profilePhotoURL = @"profilePhotoURL",
 	.title = @"title",
 	.twitter_username = @"twitter_username",
@@ -210,7 +212,21 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic profilePhoto;
+@dynamic profilePhotoFull;
+
+
+
+
+
+
+@dynamic profilePhotoLarge;
+
+
+
+
+
+
+@dynamic profilePhotoThumb;
 
 
 

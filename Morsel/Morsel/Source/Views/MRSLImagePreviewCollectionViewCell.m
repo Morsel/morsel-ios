@@ -36,21 +36,33 @@
                     __weak __typeof(self)weakSelf = self;
 
                     self.imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:profileImageURLRequest];
-                    [_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, NSData *imageData)
-                     {
-                         UIImage *downloadedProfileImage = [UIImage imageWithData:imageData];
-                         weakSelf.previewImageView.image = downloadedProfileImage;
+                    [_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, NSData *imageData) {
+                        UIImage *downloadedProfileImage = [UIImage imageWithData:imageData];
+                        weakSelf.previewImageView.image = downloadedProfileImage;
 
-                         weakSelf.imageRequestOperation = nil;
-                     } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                         DDLogError(@"Preview Media Image Request Failed: %@", error.userInfo);
-                         weakSelf.imageRequestOperation = nil;
-                     }];
+                        weakSelf.imageRequestOperation = nil;
+                    } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                        if (morsel.morselPhotoCropped) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                weakSelf.previewImageView.image = [UIImage imageWithData:morsel.morselPhotoCropped];
+                            });
+                        } else {
+                            DDLogError(@"Preview media image request failed and no local copy: %@", error.userInfo);
+                            weakSelf.previewImageView.image = nil;
+                        }
+                        weakSelf.imageRequestOperation = nil;
+                    }];
 
                     [_imageRequestOperation start];
                 }
             } else {
-                self.previewImageView.image = [UIImage imageWithData:morsel.morselPhotoCropped];
+                if (morsel.morselPhotoCropped) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.previewImageView.image = [UIImage imageWithData:morsel.morselPhotoCropped];
+                    });
+                } else {
+                    self.previewImageView.image = nil;
+                }
             }
         } else if ([mediaPreviewItem isKindOfClass:[MRSLMediaItem class]]) {
             MRSLMediaItem *mediaItem = (MRSLMediaItem *)mediaPreviewItem;

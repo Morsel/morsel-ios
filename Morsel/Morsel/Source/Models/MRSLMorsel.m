@@ -90,9 +90,6 @@
 
         self.morselPhotoURL = [photoDictionary[@"_104x104"] stringByReplacingOccurrencesOfString:@"_104x104"
                                                                                       withString:@"IMAGE_SIZE"];
-        self.morselPhoto = nil;
-        self.morselPhotoThumb = nil;
-        self.morselPhotoCropped = nil;
     }
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];

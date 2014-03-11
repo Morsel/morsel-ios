@@ -115,6 +115,7 @@ NSFetchedResultsControllerDelegate>
                                                         failure:nil];
     } else {
         [_appDelegate.morselApiService getUserPosts:[MRSLUser currentUser]
+                                      includeDrafts:NO
                                             success:nil
                                             failure:nil];
     }

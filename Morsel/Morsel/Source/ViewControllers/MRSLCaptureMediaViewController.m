@@ -199,7 +199,7 @@ ELCImagePickerControllerDelegate>
                                                                          usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop) {
                                                                              if (asset) {
                                                                                  ALAssetRepresentation *repr = [asset defaultRepresentation];
-                                                                                 UIImage *thumbnailImage = [[UIImage imageWithCGImage:[repr fullResolutionImage]] thumbnailImage:40.f interpolationQuality:kCGInterpolationHigh];
+                                                                                 UIImage *thumbnailImage = [[UIImage imageWithCGImage:[repr fullResolutionImage]] thumbnailImage:MRSLUserProfileImageThumbDimensionSize interpolationQuality:kCGInterpolationHigh];
                                                                                  dispatch_async(dispatch_get_main_queue(), ^{
                                                                                      [self.cameraRollImageView setImage:thumbnailImage];
                                                                                  });
