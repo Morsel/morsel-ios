@@ -43,6 +43,10 @@
                                              selector:@selector(logUserOut)
                                                  name:MRSLServiceShouldLogOutUserNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayHome)
+                                                 name:MRSLAppShouldDisplayFeedNotification
+                                               object:nil];
 
     MRSLUser *currentUser = [MRSLUser currentUser];
 
@@ -82,11 +86,13 @@
 
 - (void)displayHome {
     [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"
-                                                  andStoryboardPrefix:@"Home"];
+                                                  andStoryboardPrefix:@"Home"
+                                                    shouldDisplayRoot:YES];
 }
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
-                                                andStoryboardPrefix:(NSString *)storyboardPrefixName {
+                                                andStoryboardPrefix:(NSString *)storyboardPrefixName
+                                                  shouldDisplayRoot:(BOOL)shouldDisplayRoot {
     Class viewControllerClass = NSClassFromString([NSString stringWithFormat:@"MRSL%@ViewController", classPrefixName]);
     UINavigationController *viewControllerNC = [self getNavControllerWithClass:[viewControllerClass class]];
 
@@ -96,13 +102,6 @@
         viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:[NSString stringWithFormat:@"%@_%@", @"sb", classPrefixName]];
 
         [self.navigationControllers addObject:viewControllerNC];
-    } else {
-        if (self.currentViewController != viewControllerNC) {
-            UINavigationController *navController = (UINavigationController *)viewControllerNC;
-            if ([[navController.viewControllers firstObject] isKindOfClass:[MRSLStoryAddViewController class]]) {
-                [navController popToRootViewControllerAnimated:NO];
-            }
-        }
     }
 
     if ([_currentViewController isEqual:viewControllerNC]) {
@@ -111,6 +110,11 @@
     } else {
         [_currentViewController removeFromParentViewController];
         [_currentViewController.view removeFromSuperview];
+
+        UINavigationController *navController = (UINavigationController *)self.currentViewController;
+        if ([[navController.viewControllers firstObject] isKindOfClass:[MRSLStoryAddViewController class]] || shouldDisplayRoot) {
+            [navController popToRootViewControllerAnimated:NO];
+        }
 
         self.currentViewController = nil;
 
@@ -172,34 +176,39 @@
 - (void)tabBarDidSelectButtonOfType:(MRSLTabBarButtonType)buttonType {
     switch (buttonType) {
         case MRSLTabBarButtonTypeHome:
-            [[MRSLEventManager sharedManager] track:@"Tapped View Home"
-                                         properties:@{@"view": @"MRSLRootViewController"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
+                                         properties:@{@"name": @"Home"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"
-                                                          andStoryboardPrefix:@"Home"];
+                                                          andStoryboardPrefix:@"Home"
+                                                            shouldDisplayRoot:NO];
             break;
         case MRSLTabBarButtonTypeActivity:
-            [[MRSLEventManager sharedManager] track:@"Tapped View Activity"
-                                         properties:@{@"view": @"MRSLRootViewController"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
+                                         properties:@{@"name": @"Activity"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Activity"
-                                                          andStoryboardPrefix:@"Activity"];
+                                                          andStoryboardPrefix:@"Activity"
+                                                            shouldDisplayRoot:NO];
             break;
         case MRSLTabBarButtonTypeAdd:
-            [[MRSLEventManager sharedManager] track:@"Tapped View Add Story"
-                                         properties:@{@"view": @"MRSLRootViewController"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
+                                         properties:@{@"name": @"Add Story"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"StoryAdd"
-                                                          andStoryboardPrefix:@"StoryManagement"];
+                                                          andStoryboardPrefix:@"StoryManagement"
+                                                            shouldDisplayRoot:YES];
             break;
         case MRSLTabBarButtonTypeMyStuff:
-            [[MRSLEventManager sharedManager] track:@"Tapped View My Stuff"
-                                         properties:@{@"view": @"MRSLRootViewController"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
+                                         properties:@{@"name": @"My Stuff"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"MyStuff"
-                                                          andStoryboardPrefix:@"MyStuff"];
+                                                          andStoryboardPrefix:@"MyStuff"
+                                                            shouldDisplayRoot:NO];
             break;
         case MRSLTabBarButtonTypeMore:
-            [[MRSLEventManager sharedManager] track:@"Tapped View More"
-                                         properties:@{@"view": @"MRSLRootViewController"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
+                                         properties:@{@"name": @"MRSLRootViewController"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"More"
-                                                          andStoryboardPrefix:@"More"];
+                                                          andStoryboardPrefix:@"More"
+                                                            shouldDisplayRoot:NO];
             break;
         default:
             break;

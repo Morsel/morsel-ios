@@ -46,9 +46,6 @@ describe(@"Importing from the API", ^{
         it(@"has liked value", ^{
             [[[morsel liked] shouldEventually] beFalse];
         });
-        it(@"has draft value", ^{
-            [[[morsel draft] shouldEventually] beTrue];
-        });
         it(@"has url", ^{
             [[[morsel url] shouldEventually] equal:@"http://eatmorsel.com/marty/1-butter/1"];
         });

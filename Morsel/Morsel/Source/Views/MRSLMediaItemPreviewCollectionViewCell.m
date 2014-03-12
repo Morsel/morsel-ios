@@ -19,7 +19,7 @@
 @implementation MRSLMediaItemPreviewCollectionViewCell
 
 - (void)setMediaItem:(MRSLMediaItem *)mediaItem {
-    if (_mediaItem != mediaItem) {
+    if (_mediaItem != mediaItem || !self.mediaImage.image) {
         [self reset];
         _mediaItem = mediaItem;
         if (_mediaItem) {

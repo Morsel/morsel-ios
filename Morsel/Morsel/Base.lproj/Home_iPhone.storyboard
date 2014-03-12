@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="Pos-Pc-hE1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="hhS-Tr-n28">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Home View Controller-->
@@ -14,9 +14,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="6sS-zQ-hj1">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="546"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="22" maxX="0.0" maxY="0.0"/>
                                 <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="60"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="4kb-pk-6b3">
                                     <size key="itemSize" width="320" height="214"/>
@@ -26,25 +27,20 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselCell" id="JCe-TP-COz" customClass="MRSLFeedCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="938-Dq-JBU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="938-Dq-JBU" customClass="MRSLMorselImageView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="effect-morsel-gradient" id="mUB-20-g3j">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="effect-morsel-gradient" id="mUB-20-g3j">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" id="wFd-II-BZq">
-                                                    <rect key="frame" x="142" y="88" width="37" height="37"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="color" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                </activityIndicatorView>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="diH-2a-jvU">
                                                     <rect key="frame" x="60" y="0.0" width="60" height="60"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -87,36 +83,29 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zBy-3c-hXJ" customClass="MRSLThinCondensedLabel">
-                                                    <rect key="frame" x="16" y="148" width="240" height="26"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <rect key="frame" x="16" y="264" width="240" height="26"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Only" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YBc-ye-ewh" customClass="MRSLThinCondensedLabel">
-                                                    <rect key="frame" x="16" y="45" width="284" height="100"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="I6T-RW-N3p" customClass="MRSLStandardLabel">
-                                                    <rect key="frame" x="16" y="172" width="240" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <rect key="frame" x="16" y="288" width="240" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.81568627449999997" green="0.83529411760000005" blue="0.85098039219999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="l9O-iK-X86" customClass="MRSLProfileImageView">
-                                                    <rect key="frame" x="264" y="158" width="40" height="40"/>
+                                                    <rect key="frame" x="264" y="264" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                     <gestureRecognizers/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <size key="customSize" width="320" height="320"/>
                                         <connections>
-                                            <outlet property="activityView" destination="wFd-II-BZq" id="TXZ-MH-3G2"/>
                                             <outlet property="descriptionLabel" destination="I6T-RW-N3p" id="vyz-Lc-iDI"/>
                                             <outlet property="editButton" destination="bEP-3m-7QL" id="04s-wi-TKa"/>
                                             <outlet property="likeButton" destination="QRK-bU-VGK" id="ioW-QO-mFD"/>
@@ -124,12 +113,11 @@
                                             <outlet property="plateButton" destination="diH-2a-jvU" id="nyE-Zs-swL"/>
                                             <outlet property="profileImageView" destination="l9O-iK-X86" id="fuF-IZ-xOa"/>
                                             <outlet property="progressionButton" destination="wdd-Co-SZ6" id="prN-V0-Ea4"/>
-                                            <outlet property="textOnlyLabel" destination="YBc-ye-ewh" id="lRn-Rw-oVx"/>
                                             <outlet property="titleLabel" destination="zBy-3c-hXJ" id="c4s-nr-WgP"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_UploadFailCell" id="otf-Ek-pwX" customClass="MRSLUploadFailureCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="216" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="322" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -180,7 +168,7 @@
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_UploadProgressCell" id="a30-lW-YT1" customClass="MRSLUploadCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="268" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="374" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -217,11 +205,11 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" id="MMD-UI-MFO">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="546"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" id="w3h-KE-blU">
-                                        <rect key="frame" x="142" y="265" width="37" height="37"/>
+                                        <rect key="frame" x="142" y="254" width="37" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -229,6 +217,13 @@
                                 <accessibility key="accessibilityConfiguration" label="Loading">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="22" maxX="0.0" maxY="0.0"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="0EN-T7-CG2">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="22" maxX="0.0" maxY="-22"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -251,16 +246,15 @@
         <!--Thumbnail View Controller-->
         <scene sceneID="lUa-ne-GB3">
             <objects>
-                <viewController storyboardIdentifier="sb_MorselThumbnailViewController" id="Pos-Pc-hE1" customClass="MRSLThumbnailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselThumbnailViewController" autoresizesArchivedViewToFullSize="NO" id="Pos-Pc-hE1" customClass="MRSLThumbnailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Wx3-ux-ftS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="7fa-cs-0OP">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="6" minimumInteritemSpacing="2" id="f32-s9-TCD">
                                     <size key="itemSize" width="104" height="104"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -268,7 +262,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselCell" id="mI3-dS-eJs" customClass="MRSLThumbnailCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="ruid_MorselCell" id="mI3-dS-eJs" customClass="MRSLThumbnailCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -280,7 +274,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hYb-Zw-U1C">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hYb-Zw-U1C" customClass="MRSLMorselImageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
@@ -315,12 +309,10 @@
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="effect-thumb-gradient" id="VaC-kt-s3T">
                                 <rect key="frame" x="216" y="0.0" width="104" height="104"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JFZ-tz-bc2">
                                 <rect key="frame" x="260" y="0.0" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" image="icon-close">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -332,17 +324,19 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="320"/>
                     <connections>
                         <outlet property="thumbnailCollectionView" destination="7fa-cs-0OP" id="xVr-Uv-QpE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PjK-MJ-s7q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-287" y="-157"/>
+            <point key="canvasLocation" x="-287" y="-267"/>
         </scene>
         <!--Navigation Controller - Home-->
         <scene sceneID="PDw-fc-RSM">
@@ -351,7 +345,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="icon-tab-home-active" id="VC8-Dg-ebR"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="e48-Fj-r2S">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="e48-Fj-r2S">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>

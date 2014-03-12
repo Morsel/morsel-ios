@@ -29,6 +29,8 @@ NSFetchedResultsControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *morselCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userTitleLabel;
 @property (weak, nonatomic) IBOutlet UIView *activityView;
+@property (weak, nonatomic) IBOutlet UIView *nullStateView;
+@property (weak, nonatomic) IBOutlet UIImageView *morselIconView;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
@@ -51,11 +53,7 @@ NSFetchedResultsControllerDelegate>
 
     if (!_user) self.user = [MRSLUser currentUser];
 
-    self.userNameLabel.text = _user.fullName;
-    self.userTitleLabel.text = _user.title;
-    self.profileImageView.user = _user;
-    self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
-    self.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
+    if ([_user isCurrentUser]) self.title = @"My Profile";
 
     [_profileImageView addCornersWithRadius:36.f];
     _profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -73,7 +71,7 @@ NSFetchedResultsControllerDelegate>
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
                                                                    style:UIBarButtonItemStyleBordered
                                                                   target:self
-                                                                  action:@selector(goBack:)];
+                                                                  action:@selector(goBack)];
     [self.navigationItem setLeftBarButtonItem:backButton];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -94,7 +92,15 @@ NSFetchedResultsControllerDelegate>
         [self populateContent];
         [self refreshUserPostsAndProfile];
     }
+
+    self.profileImageView.user = _user;
+    self.userNameLabel.text = _user.fullName;
+    self.userTitleLabel.text = _user.title;
+    self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
+    self.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
+    [self layoutUserContent];
 }
+
 #pragma mark - Notification Methods
 
 - (void)localContentPurged {
@@ -116,6 +122,17 @@ NSFetchedResultsControllerDelegate>
     [self populateContent];
 
     self.activityView.hidden = YES;
+}
+
+#pragma mark - Action Methods
+
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)displayStoryAdd {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayStoryAddNotification
+                                                        object:nil];
 }
 
 #pragma mark - Private Methods
@@ -143,13 +160,17 @@ NSFetchedResultsControllerDelegate>
     }
 
     [self.profileCollectionView reloadData];
+
+    if ([self.user isCurrentUser]) {
+        self.nullStateView.hidden = ([_morsels count] > 0);
+    }
 }
 
-#pragma mark - Section Methods
-
-- (IBAction)goBack:(id)sender {
-    [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
-    [self.navigationController popViewControllerAnimated:YES];
+- (void)layoutUserContent {
+    [_likeCountLabel sizeToFit];
+    [_morselCountLabel sizeToFit];
+    [_morselIconView setX:[_likeCountLabel getX] + [_likeCountLabel getWidth] + 8.f];
+    [_morselCountLabel setX:[_morselIconView getX] + [_morselIconView getWidth] + 5.f];
 }
 
 - (void)refreshUserPostsAndProfile {
@@ -162,6 +183,7 @@ NSFetchedResultsControllerDelegate>
          if (weakSelf) {
              weakSelf.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
              weakSelf.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
+             [weakSelf layoutUserContent];
          }
      } failure:nil];
 

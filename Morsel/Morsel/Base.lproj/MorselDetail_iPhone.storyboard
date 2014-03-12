@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7J5-qa-uYU">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Morsel Detail View Controller-->
+        <!--Morsel Detail View Controller - Morsel-->
         <scene sceneID="6PX-57-iCp">
             <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailViewController" id="68g-YW-5HD" customClass="MRSLMorselDetailViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="LCm-WB-Vi6">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <viewController storyboardIdentifier="sb_MorselDetailViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="68g-YW-5HD" customClass="MRSLMorselDetailViewController" sceneMemberID="viewController">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="LCm-WB-Vi6">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="Buk-7l-YjM">
-                                <rect key="frame" x="0.0" y="76" width="320" height="432"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="G3z-vX-sf4">
-                                <rect key="frame" x="0.0" y="80" width="320" height="55"/>
+                                <rect key="frame" x="0.0" y="12" width="320" height="56"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zNk-uN-naa" customClass="MRSLCondensedLabel">
@@ -41,69 +41,48 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="oFv-en-MFI">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="12"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7m7-4m-mDn">
-                                        <rect key="frame" x="0.0" y="10" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <accessibility key="accessibilityConfiguration" label="Back"/>
-                                        <state key="normal" image="icon-back">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="goBack" destination="68g-YW-5HD" eventType="touchUpInside" id="mkQ-WI-qRr"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Morsel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lz4-TP-i4U" customClass="MRSLThinCondensedLabel">
-                                        <rect key="frame" x="47" y="30" width="226" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <accessibility key="accessibilityConfiguration" label="Story Title"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
-                                        <color key="textColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="sk0-FI-cYB">
-                                        <rect key="frame" x="141" y="47" width="39" height="37"/>
+                                        <rect key="frame" x="141" y="-14" width="39" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="pageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="currentPageIndicatorTintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                     </pageControl>
                                 </subviews>
                                 <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="Morsel Detail">
                             <bool key="isElement" value="YES"/>
                         </accessibility>
                     </view>
-                    <navigationItem key="navigationItem" id="v9Z-z3-YUt"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Morsel" id="v9Z-z3-YUt"/>
                     <connections>
                         <outlet property="authorNameLabel" destination="zNk-uN-naa" id="xVq-l5-KJd"/>
                         <outlet property="morselDetailNavigationView" destination="oFv-en-MFI" id="0hS-Wk-GWa"/>
-                        <outlet property="postTitleLabel" destination="lz4-TP-i4U" id="YDX-M3-lJf"/>
                         <outlet property="profileImageView" destination="hW7-Fk-4sQ" id="hkZ-SZ-We6"/>
                         <outlet property="profilePanelView" destination="G3z-vX-sf4" id="Nut-Lv-2kY"/>
                         <outlet property="progressionPageControl" destination="sk0-FI-cYB" id="NfH-7y-5MR"/>
                         <outlet property="timeSinceLabel" destination="9Ds-6H-gLF" id="gXY-Ud-pB1"/>
                         <outlet property="viewControllerPanelContainerView" destination="Buk-7l-YjM" id="Z1Q-sT-HoY"/>
-                        <segue destination="RDS-t2-YW3" kind="modal" identifier="seg_AddComment" id="lED-nT-Y6i"/>
+                        <segue destination="PEJ-Mx-fdE" kind="modal" identifier="seg_AddComment" id="lED-nT-Y6i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gvM-qC-Z9w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-56" y="-209"/>
+            <point key="canvasLocation" x="470" y="-209"/>
         </scene>
         <!--Morsel Detail Panel View Controller-->
         <scene sceneID="Dc1-vO-w8d">
             <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailPanel" id="0s7-dI-8vc" customClass="MRSLMorselDetailPanelViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailPanel" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="0s7-dI-8vc" customClass="MRSLMorselDetailPanelViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gKG-w1-Nk4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -112,16 +91,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="gxC-j0-Omd">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="gxC-j0-Omd" customClass="MRSLMorselImageView">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fIQ-WU-UDT">
                                         <rect key="frame" x="10" y="10" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" image="icon-like-inactive">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        <size key="titleShadowOffset" width="1" height="1"/>
+                                        <state key="normal" image="icon-like-inactive" backgroundImage="effect-gradient-icon">
+                                            <color key="titleShadowColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="toggleLikeMorsel" destination="0s7-dI-8vc" eventType="touchUpInside" id="MRO-uG-hZY"/>
@@ -131,7 +111,7 @@
                                         <rect key="frame" x="10" y="10" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" image="icon-edit">
+                                        <state key="normal" image="icon-edit" backgroundImage="effect-gradient-icon">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -140,11 +120,11 @@
                                         </connections>
                                     </button>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-comment-pipe" id="Sfd-1y-yGc">
-                                        <rect key="frame" x="25" y="382" width="270" height="24"/>
+                                        <rect key="frame" x="25" y="406" width="270" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6P2-Rx-Vw0" customClass="MRSLStandardLabel">
-                                        <rect key="frame" x="30" y="240" width="260" height="20"/>
+                                        <rect key="frame" x="30" y="346" width="260" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -152,7 +132,6 @@
                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                     </label>
                                 </subviews>
-                                <inset key="contentInset" minX="0.0" minY="35" maxX="0.0" maxY="0.0"/>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K9n-vs-MBt" customClass="MRSLLargeButton">
                                 <rect key="frame" x="0.0" y="488" width="320" height="60"/>
@@ -170,8 +149,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="488"/>
                     <connections>
                         <outlet property="addCommentButton" destination="K9n-vs-MBt" id="Oa0-ES-yYX"/>
                         <outlet property="commentPipeView" destination="Sfd-1y-yGc" id="Lo9-gG-ntW"/>
@@ -189,7 +170,7 @@
         <!--Detail Comments View Controller-->
         <scene sceneID="UbM-UN-e3D">
             <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailCommentsViewController" id="1VI-dl-Qnf" customClass="MRSLDetailCommentsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MorselDetailCommentsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="1VI-dl-Qnf" customClass="MRSLDetailCommentsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MbU-IK-bvU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -255,10 +236,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="320"/>
                     <connections>
                         <outlet property="commentsTableView" destination="WNC-YE-qyW" id="oMh-rd-ppa"/>
                     </connections>
@@ -267,55 +250,19 @@
             </objects>
             <point key="canvasLocation" x="479" y="727"/>
         </scene>
-        <!--Add Comment View Controller-->
+        <!--Add Comment View Controller - Add Comment-->
         <scene sceneID="jJA-n2-Rcw">
             <objects>
-                <viewController storyboardIdentifier="sb_AddCommentViewController" id="RDS-t2-YW3" customClass="MRSLAddCommentViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_AddCommentViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="RDS-t2-YW3" customClass="MRSLAddCommentViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nfI-Wr-60X">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <userGuides>
+                            <userLayoutGuide location="288" affinity="minY"/>
+                        </userGuides>
                         <subviews>
-                            <view contentMode="scaleToFill" id="3h1-ou-dsa">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zrD-uP-qdB">
-                                        <rect key="frame" x="260" y="10" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
-                                        <state key="normal" title="Post">
-                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="postComment" destination="RDS-t2-YW3" eventType="touchUpInside" id="Hfk-Qv-RbE"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0sk-Do-nW9">
-                                        <rect key="frame" x="0.0" y="10" width="80" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
-                                        <state key="normal" title="Cancel">
-                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="cancelComment" destination="RDS-t2-YW3" eventType="touchUpInside" id="bMD-PH-BXY"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comment" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JCZ-FU-zmp" customClass="MRSLThinCondensedLabel">
-                                        <rect key="frame" x="47" y="30" width="226" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="24"/>
-                                        <color key="textColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                            </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="gpr-uY-XXQ" customClass="GCPlaceholderTextView">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="288"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
@@ -328,18 +275,70 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Add Comment" id="7v6-qO-xbm">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="pTI-Oi-HBr">
+                            <connections>
+                                <action selector="cancelComment" destination="RDS-t2-YW3" id="7n7-Yr-vCM"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Post" id="F5Y-us-JEX">
+                            <connections>
+                                <action selector="postComment" destination="RDS-t2-YW3" id="WGW-Yd-wdS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="placeholderTextView" destination="gpr-uY-XXQ" id="6sB-0h-JNr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IIQ-A3-Rf9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="479" y="-209"/>
+            <point key="canvasLocation" x="1531" y="-209"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="wCV-6x-Xe6">
+            <objects>
+                <navigationController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="7J5-qa-uYU" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="ywt-Sw-UyH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="68g-YW-5HD" kind="relationship" relationship="rootViewController" id="OUy-3k-9La"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ei-4d-nsj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-56" y="-209"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="14d-o0-stf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PEJ-Mx-fdE" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Hsc-El-KKS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="RDS-t2-YW3" kind="relationship" relationship="rootViewController" id="buU-Tg-89z"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="08p-RN-X3Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1005" y="-209"/>
         </scene>
     </scenes>
     <resources>
+        <image name="effect-gradient-icon" width="50" height="50"/>
         <image name="graphic-comment-pipe" width="270" height="24"/>
-        <image name="icon-back" width="12" height="20"/>
         <image name="icon-edit" width="24" height="24"/>
         <image name="icon-like-inactive" width="28" height="26"/>
     </resources>

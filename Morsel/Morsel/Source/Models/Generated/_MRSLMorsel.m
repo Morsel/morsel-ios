@@ -13,10 +13,10 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.localUUID = @"localUUID",
 	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
-	.morselPhoto = @"morselPhoto",
 	.morselPhotoCropped = @"morselPhotoCropped",
 	.morselPhotoThumb = @"morselPhotoThumb",
 	.morselPhotoURL = @"morselPhotoURL",
+	.photo_processing = @"photo_processing",
 	.sort_order = @"sort_order",
 	.url = @"url",
 };
@@ -78,6 +78,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"morselIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"morselID"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"photo_processingValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"photo_processing"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -251,13 +256,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic morselPhoto;
-
-
-
-
-
-
 @dynamic morselPhotoCropped;
 
 
@@ -274,6 +272,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic morselPhotoURL;
 
+
+
+
+
+
+@dynamic photo_processing;
+
+
+
+- (BOOL)photo_processingValue {
+	NSNumber *result = [self photo_processing];
+	return [result boolValue];
+}
+
+- (void)setPhoto_processingValue:(BOOL)value_ {
+	[self setPhoto_processing:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitivePhoto_processingValue {
+	NSNumber *result = [self primitivePhoto_processing];
+	return [result boolValue];
+}
+
+- (void)setPrimitivePhoto_processingValue:(BOOL)value_ {
+	[self setPrimitivePhoto_processing:[NSNumber numberWithBool:value_]];
+}
 
 
 

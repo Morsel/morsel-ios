@@ -85,8 +85,8 @@ UITextFieldDelegate>
 #pragma mark - Private Methods
 
 - (IBAction)addPhoto:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Add Photo"
-                                 properties:@{@"view": @"MRSLSignUpViewController"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Add Photo Icon"
+                                 properties:@{@"view": @"Sign up"}];
 
     [self.view endEditing:YES];
 
@@ -103,7 +103,7 @@ UITextFieldDelegate>
 
 - (IBAction)signUp {
     [[MRSLEventManager sharedManager] track:@"Tapped Sign up"
-                                 properties:@{@"view": @"MRSLSignUpViewController"}];
+                                 properties:@{@"view": @"Sign up"}];
 
     BOOL usernameValid = [MRSLUtil validateUsername:_usernameField.text];
     BOOL emailValid = [MRSLUtil validateEmail:_emailField.text];
@@ -202,12 +202,12 @@ UITextFieldDelegate>
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take Photo"]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Take Photo"
-                                     properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"Sign up"}];
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     } else {
         [[MRSLEventManager sharedManager] track:@"Tapped Select From Library"
-                                     properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"Sign up"}];
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
 
@@ -225,7 +225,7 @@ UITextFieldDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
         [[MRSLEventManager sharedManager] track:@"Added Photo"
-                                     properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"Sign up"}];
 
         self.originalProfileImage = info[UIImagePickerControllerOriginalImage];
 
@@ -242,7 +242,7 @@ UITextFieldDelegate>
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [[MRSLEventManager sharedManager] track:@"Tapped Cancel"
-                                 properties:@{@"view": @"MRSLSignUpViewController"}];
+                                 properties:@{@"view": @"Sign up"}];
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 
@@ -262,22 +262,22 @@ UITextFieldDelegate>
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if ([textField isEqual:_usernameField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Username Field"
-                                     properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"Sign up"}];
     } else if ([textField isEqual:_passwordField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Password Field"
-                                     properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"Sign up"}];
     } else if ([textField isEqual:_emailField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Email Field"
-                                     properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"Sign up"}];
     } else if ([textField isEqual:_firstNameField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped First Name Field"
-                                     properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"Sign up"}];
     } else if ([textField isEqual:_lastNameField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Last Name Field"
-                                     properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"Sign up"}];
     } else if ([textField isEqual:_occupationTitleField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Title Field"
-                                     properties:@{@"view": @"MRSLSignUpViewController"}];
+                                     properties:@{@"view": @"Sign up"}];
     }
     return YES;
 }
@@ -285,28 +285,16 @@ UITextFieldDelegate>
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if ([string isEqualToString:@"\n"]) {
         if ([textField isEqual:_usernameField]) {
-            [[MRSLEventManager sharedManager] track:@"Filled Username Field"
-                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_passwordField becomeFirstResponder];
         } else if ([textField isEqual:_passwordField]) {
-            [[MRSLEventManager sharedManager] track:@"Filled Password Field"
-                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_emailField becomeFirstResponder];
         } else if ([textField isEqual:_emailField]) {
-            [[MRSLEventManager sharedManager] track:@"Filled Email Field"
-                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_firstNameField becomeFirstResponder];
         } else if ([textField isEqual:_firstNameField]) {
-            [[MRSLEventManager sharedManager] track:@"Filled First Name Field"
-                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_lastNameField becomeFirstResponder];
         } else if ([textField isEqual:_lastNameField]) {
-            [[MRSLEventManager sharedManager] track:@"Filled Last Name Field"
-                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [_occupationTitleField becomeFirstResponder];
         } else if ([textField isEqual:_occupationTitleField]) {
-            [[MRSLEventManager sharedManager] track:@"Filled Title Field"
-                                         properties:@{@"view": @"MRSLSignUpViewController"}];
             [textField resignFirstResponder];
             [self signUp];
             [self.contentScrollView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)

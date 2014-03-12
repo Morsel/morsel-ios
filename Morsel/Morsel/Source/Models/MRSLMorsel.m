@@ -40,10 +40,10 @@
 
     switch (type) {
         case MorselImageSizeTypeCropped:
-            typeSizeString = (isRetina) ? @"_640x428" : @"_320x214";
+            typeSizeString = (isRetina) ? @"_640x640" : @"_320x320";
             break;
         case MorselImageSizeTypeThumbnail:
-            typeSizeString = (isRetina) ? @"_208x208" : @"_104x104";
+            typeSizeString = (isRetina) ? @"_100x100" : @"_50x50";
             break;
         case MorselImageSizeTypeFull:
             typeSizeString = @"_640x640";
@@ -87,8 +87,7 @@
     }
     if (![data[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = data[@"photos"];
-
-        self.morselPhotoURL = [photoDictionary[@"_104x104"] stringByReplacingOccurrencesOfString:@"_104x104"
+        self.morselPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
                                                                                       withString:@"IMAGE_SIZE"];
     }
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
@@ -100,9 +99,14 @@
         self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
     }
 
-    self.didFailUpload = @NO;
-    self.isUploading = @NO;
     self.localUUID = nil;
+
+    if (!self.morselPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.morselPhotoCropped) {
+        self.didFailUpload = @YES;
+    } else {
+        self.didFailUpload = @NO;
+    }
+    self.isUploading = @NO;
 
     if (!self.sort_order) {
         self.sort_order = @(0);

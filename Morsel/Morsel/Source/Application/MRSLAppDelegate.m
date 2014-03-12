@@ -35,9 +35,6 @@
 
     [self setupMorselEnvironment];
 
-    [[MRSLEventManager sharedManager] track:@"Open app"
-                                 properties:@{@"view": @"AppDelegate"}];
-
     return YES;
 }
 

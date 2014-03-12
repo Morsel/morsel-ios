@@ -46,24 +46,21 @@ ProfileImageViewDelegate>
                                      andWidth:1.f];
     _profileImageView.delegate = self;
 
-    MRSLMoreItem *profileItem = [MRSLMoreItem sideBarItemWithTitle:@"Profile"
-                                                    iconImageName:@"icon-sidebar-profile"
-                                                   cellIdentifier:@"ruid_SideBarItemCell"
-                                                             type:SideBarMenuItemTypeProfile];
-
-
     MRSLMoreItem *logoutItem = [MRSLMoreItem sideBarItemWithTitle:@"Logout"
                                                    iconImageName:@"icon-sidebar-logout"
                                                   cellIdentifier:@"ruid_SideBarItemCell"
                                                             type:SideBarMenuItemTypeLogout];
 
-    self.sideBarItems = [NSMutableArray arrayWithObjects:profileItem, logoutItem, nil];
-
-    self.userNameLabel.text = [MRSLUser currentUser].fullName;
-    self.profileImageView.user = [MRSLUser currentUser];
-    self.draftItem.badgeCount = [MRSLUser currentUser].draft_countValue;
+    self.sideBarItems = [NSMutableArray arrayWithObjects:logoutItem, nil];
 
     [self.sideBarTableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    self.profileImageView.user = [MRSLUser currentUser];
+    self.userNameLabel.text = [MRSLUser currentUser].fullName;
 }
 
 #pragma mark - Action
@@ -94,11 +91,10 @@ ProfileImageViewDelegate>
 
     switch (moreItem.menuType) {
         case SideBarMenuItemTypeLogout:
+            [[MRSLEventManager sharedManager] track:@"Tapped Logout Icon"
+                                         properties:@{@"view": @"More"}];
             [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
                                                                 object:nil];
-            break;
-        case SideBarMenuItemTypeProfile:
-            [self profileImageViewDidSelectUser:[MRSLUser currentUser]];
             break;
         default:
             break;
@@ -109,6 +105,8 @@ ProfileImageViewDelegate>
 #pragma mark - ProfileImageViewDelegate
 
 - (void)profileImageViewDidSelectUser:(MRSLUser *)user {
+    [[MRSLEventManager sharedManager] track:@"Tapped Profile Icon"
+                                 properties:@{@"view": @"More"}];
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfileViewController"];
     profileVC.user = user;
 

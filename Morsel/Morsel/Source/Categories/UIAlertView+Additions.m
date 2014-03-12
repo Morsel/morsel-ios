@@ -16,7 +16,7 @@
 
 + (UIAlertView *)showAlertViewWithTitle:(NSString *)title
                                 message:(NSString *)message
-                               delegate:(id /*<UIAlertViewDelegate>*/)delegate
+                               delegate:(id)delegate
                       cancelButtonTitle:(NSString *)cancelButtonTitle
                       otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION {
     NSString *alertMessage = message ?: @"Unknown error";
@@ -26,8 +26,8 @@
                                               cancelButtonTitle:cancelButtonTitle
                                               otherButtonTitles:nil];
 
-    [[MRSLEventManager sharedManager] track:@"Displayed Alert to User"
-                          properties:@{@"view": @"UIAlertView",
+    [[MRSLEventManager sharedManager] track:@"User viewed error"
+                          properties:@{@"view": @"Alert",
                                        @"message": NSNullIfNil(alertMessage)}];
     if (otherButtonTitles != nil) {
         [alertView addButtonWithTitle:otherButtonTitles];
@@ -47,13 +47,13 @@
 }
 
 + (UIAlertView *)showAlertViewForError:(NSError *)error
-                              delegate:(id /*<UIAlertViewDelegate>*/)delegate {
+                              delegate:(id)delegate {
     return [UIAlertView showAlertViewForErrorString:[error localizedDescription]
                                            delegate:delegate];
 }
 
 + (UIAlertView *)showAlertViewForErrorString:(NSString *)errorString
-                                    delegate:(id /*<UIAlertViewDelegate>*/)delegate {
+                                    delegate:(id)delegate {
     return [UIAlertView showAlertViewWithTitle:@"Oops, something went wrong"
                                        message:errorString
                                       delegate:delegate
@@ -62,7 +62,7 @@
 }
 
 + (UIAlertView *)showAlertViewForServiceError:(MRSLServiceErrorInfo *)serviceError
-                                     delegate:(id /*<UIAlertViewDelegate>*/)delegate {
+                                     delegate:(id)delegate {
     return [UIAlertView showAlertViewForErrorString:([serviceError errorInfo] ?: @"Service error")
                                            delegate:delegate];
 }

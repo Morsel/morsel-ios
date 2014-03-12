@@ -32,13 +32,13 @@ MRSLStoryEditMorselTableViewCellDelegate>
 
 @property (nonatomic) BOOL shouldShowAddCell;
 @property (nonatomic) BOOL wasNewStory;
-@property (nonatomic) BOOL navigationBarWasHidden;
 
 @property (weak, nonatomic) IBOutlet UIButton *storyTitleButton;
 @property (weak, nonatomic) IBOutlet UILabel *storyTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
 @property (weak, nonatomic) IBOutlet UITableView *storyMorselsTableView;
 
+@property (strong, nonatomic) UIBarButtonItem *publishButton;
 @property (strong, nonatomic) NSDateFormatter *statusDateFormatter;
 @property (strong, nonatomic) NSFetchedResultsController *morselsFetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *morsels;
@@ -58,7 +58,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
     self.shouldShowAddCell = YES;
     self.morsels = [NSMutableArray array];
     self.statusDateFormatter = [[NSDateFormatter alloc] init];
-    [_statusDateFormatter setDateFormat:@"h:mm a"];
+    [_statusDateFormatter setDateFormat:@"MMM dd, h:mm a"];
 
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
                                                                    style:UIBarButtonItemStyleBordered
@@ -67,29 +67,16 @@ MRSLStoryEditMorselTableViewCellDelegate>
     [self.navigationItem setLeftBarButtonItem:backButton];
 
     [self displayStory];
+    [self updateStoryStatus];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self displayStory];
 
-    if (self.navigationController.navigationBarHidden) {
-        self.navigationBarWasHidden = YES;
-        [self.navigationController setNavigationBarHidden:NO
-                                                 animated:YES];
-    }
     if (_shouldPresentMediaCapture) {
         self.wasNewStory = YES;
-        self.shouldPresentMediaCapture = NO;
         [self presentMediaCapture];
-    }
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    if (_navigationBarWasHidden) {
-        [self.navigationController setNavigationBarHidden:YES
-                                                 animated:YES];
     }
 }
 
@@ -97,11 +84,11 @@ MRSLStoryEditMorselTableViewCellDelegate>
     [self getOrLoadPostIfExists];
 
     if (_post.draftValue) {
-        UIBarButtonItem *publishButton = [[UIBarButtonItem alloc] initWithTitle:@"Publish"
-                                                                          style:UIBarButtonItemStyleBordered
-                                                                         target:self
-                                                                         action:@selector(publishStory)];
-        [self.navigationItem setRightBarButtonItem:publishButton];
+        self.publishButton = [[UIBarButtonItem alloc] initWithTitle:@"Publish"
+                                                              style:UIBarButtonItemStyleBordered
+                                                             target:self
+                                                             action:@selector(publishStory)];
+        [self.navigationItem setRightBarButtonItem:_publishButton];
     }
 
     self.storyTitleLabel.text = ([_post.title length] == 0) ? @"Tap to add title" : _post.title;
@@ -126,7 +113,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
 
 - (void)displayStoryStatus {
     NSDate *lastUpdated = [_post latestUpdatedDate];
-    self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last %@ at %@", @"updated", (lastUpdated) ? [_statusDateFormatter stringFromDate:lastUpdated] : [_statusDateFormatter stringFromDate:[NSDate date]]];
+    self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last saved at %@", (lastUpdated) ? [_statusDateFormatter stringFromDate:lastUpdated] : [_statusDateFormatter stringFromDate:[NSDate date]]];
 }
 
 - (void)setupMorselsFetchRequest {
@@ -174,6 +161,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if (_storyMorselsTableView.isEditing) [_storyMorselsTableView setEditing:NO animated:YES];
     if ([segue.identifier isEqualToString:@"seg_EditMorselText"]) {
         MRSLStoryEditDescriptionViewController *morselEditTextVC = [segue destinationViewController];
         if (_morsel.morselID) {
@@ -186,6 +174,11 @@ MRSLStoryEditMorselTableViewCellDelegate>
         storyAddTitleVC.isUserEditingTitle = YES;
         storyAddTitleVC.postID = _post.postID;
     } else if ([segue.identifier isEqualToString:@"seg_StorySettings"]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Settings"
+                                     properties:@{@"view": @"Your Story",
+                                                  @"morsel_count": @([_morsels count]),
+                                                  @"story_id": NSNullIfNil(_post.postID),
+                                                  @"story_draft":(_post.draftValue) ? @"true" : @"false"}];
         MRSLStorySettingsViewController *storySettingsVC = [segue destinationViewController];
         storySettingsVC.post = _post;
     }
@@ -194,6 +187,9 @@ MRSLStoryEditMorselTableViewCellDelegate>
 #pragma mark - Action Methods
 
 - (IBAction)toggleEditing {
+    [[MRSLEventManager sharedManager] track:@"Tapped Edit"
+                                 properties:@{@"view": @"Your Story",
+                                              @"story_id": NSNullIfNil(_post.postID)}];
     [_storyMorselsTableView setEditing:!_storyMorselsTableView.editing
                               animated:YES];
     self.shouldShowAddCell = !_storyMorselsTableView.editing;
@@ -215,11 +211,13 @@ MRSLStoryEditMorselTableViewCellDelegate>
 
 - (void)publishStory {
     [[MRSLEventManager sharedManager] track:@"Tapped Publish Story"
-                                 properties:@{@"view": @"MRSLCreateMorselViewController",
-                                              @"post_id": NSNullIfNil(_post.postID),
-                                              @"post_draft":(_post.draftValue) ? @"true" : @"false"}];
+                                 properties:@{@"view": @"Your Story",
+                                              @"morsel_count": @([_morsels count]),
+                                              @"story_id": NSNullIfNil(_post.postID),
+                                              @"story_draft":(_post.draftValue) ? @"true" : @"false"}];
 
     _post.draft = @NO;
+    _publishButton.enabled = NO;
 
     [_appDelegate.morselApiService updatePost:_post
                                       success:^(id responseObject) {
@@ -228,6 +226,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
                                           [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayFeedNotification
                                                                                               object:nil];
                                       } failure:^(NSError *error) {
+                                          _publishButton.enabled = YES;
                                           [UIAlertView showAlertViewForErrorString:@"Unable to publish Story, please try again!"
                                                                           delegate:nil];
                                       }];
@@ -240,7 +239,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (indexPath.row + 1 != [_morsels count] + 1);
+    return (indexPath.row + 1 != [_morsels count] + 1 && [_morsels count] > 1);
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -254,6 +253,11 @@ MRSLStoryEditMorselTableViewCellDelegate>
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         MRSLMorsel *deletedMorsel = [_morsels objectAtIndex:indexPath.row];
+        [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
+                                     properties:@{@"view": @"Your Story",
+                                                  @"morsel_count": @([_morsels count]),
+                                                  @"story_id": NSNullIfNil(_post.postID),
+                                                  @"morsel_id": NSNullIfNil(deletedMorsel.morselID)}];
         [_morsels removeObject:deletedMorsel];
         [_storyMorselsTableView deleteRowsAtIndexPaths:@[indexPath]
                                       withRowAnimation:UITableViewRowAnimationFade];
@@ -272,7 +276,8 @@ MRSLStoryEditMorselTableViewCellDelegate>
                 [_appDelegate.morselApiService deleteMorsel:deletedMorsel
                                                     success:^(BOOL success) {
                                                         if (weakSelf) {
-                                                            [weakSelf updateStoryStatus];
+                                                            [weakSelf getOrLoadPostIfExists].lastUpdatedDate = [NSDate date];
+                                                            [weakSelf displayStoryStatus];
                                                         }
                                                     } failure:nil];
             }
@@ -282,24 +287,39 @@ MRSLStoryEditMorselTableViewCellDelegate>
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     MRSLMorsel *movedMorsel = [_morsels objectAtIndex:sourceIndexPath.row];
+    MRSLMorsel *replacedMorsel = [_morsels objectAtIndex:destinationIndexPath.row];
+    if ([replacedMorsel isEqual:movedMorsel]) return;
     [_morsels removeObject:movedMorsel];
     [_morsels insertObject:movedMorsel
                    atIndex:destinationIndexPath.row];
 
-    __weak __typeof(self) weakSelf = self;
+    [[MRSLEventManager sharedManager] track:@"Tapped Reordered Morsel"
+                                 properties:@{@"view": @"Your Story",
+                                              @"morsel_count": @([_morsels count]),
+                                              @"story_id": NSNullIfNil(_post.postID),
+                                              @"morsel_id": NSNullIfNil(movedMorsel.morselID)}];
 
-    [_morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
-        DDLogDebug(@"Morsel Previous Sort Order: %@", morsel.sort_order);
-        morsel.sort_order = @(idx + 1);
-        DDLogDebug(@"Morsel New Sort Order: %@", morsel.sort_order);
-        [_appDelegate.morselApiService updateMorsel:morsel
-                                            andPost:nil
-                                            success:^(id responseObject) {
-                                                if (weakSelf) {
-                                                    [weakSelf updateStoryStatus];
-                                                }
-                                            } failure:nil];
-    }];
+    DDLogDebug(@"Morsel Previous Sort Order: %@", movedMorsel.sort_order);
+    DDLogDebug(@"Morsel Replacing Sort Order: %@", replacedMorsel.sort_order);
+    BOOL shouldPlaceAfter = (sourceIndexPath.row < destinationIndexPath.row);
+    movedMorsel.sort_order = @((shouldPlaceAfter) ? replacedMorsel.sort_orderValue + 1 : replacedMorsel.sort_orderValue);
+
+    for (NSInteger i = destinationIndexPath.row + 1; i < [_morsels count]; i++) {
+        MRSLMorsel *nextMorsel = [_morsels objectAtIndex:i];
+        nextMorsel.sort_order = @(nextMorsel.sort_orderValue + 1);
+        DDLogDebug(@"Morsel SORT CHANGED: %@", nextMorsel.sort_order);
+    }
+    DDLogDebug(@"Morsel New Sort Order: %@", movedMorsel.sort_order);
+
+    __weak __typeof(self) weakSelf = self;
+    [_appDelegate.morselApiService updateMorsel:movedMorsel
+                                        andPost:nil
+                                        success:^(id responseObject) {
+                                            if (weakSelf) {
+                                                [weakSelf getOrLoadPostIfExists].lastUpdatedDate = [NSDate date];
+                                                [weakSelf displayStoryStatus];
+                                            }
+                                        } failure:nil];
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
@@ -329,6 +349,9 @@ MRSLStoryEditMorselTableViewCellDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     if (![selectedCell isKindOfClass:[MRSLStoryEditMorselTableViewCell class]]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Add New"
+                                     properties:@{@"view": @"Your Story",
+                                                  @"morsel_count": @([_morsels count])}];
         [self presentMediaCapture];
     }
 }
@@ -343,10 +366,12 @@ MRSLStoryEditMorselTableViewCellDelegate>
 #pragma mark - CaptureMediaViewControllerDelegate
 
 - (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSMutableArray *)capturedMedia {
-    DDLogDebug(@"Received %lu Media Items. Should now create Morsels for each!", (unsigned long)[capturedMedia count]);
+    self.shouldPresentMediaCapture = NO;
     self.post = [self getOrLoadPostIfExists];
+    NSArray *mediaToImport = [capturedMedia copy];
     __weak __typeof(self) weakSelf = self;
-    [capturedMedia enumerateObjectsUsingBlock:^(MRSLMediaItem *mediaItem, NSUInteger idx, BOOL *stop) {
+    DDLogDebug(@"Received %lu Media Items. Should now create Morsels for each!", (unsigned long)[capturedMedia count]);
+    [mediaToImport enumerateObjectsUsingBlock:^(MRSLMediaItem *mediaItem, NSUInteger idx, BOOL *stop) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf) {
             NSUInteger morselIndex = (idx + 1);
@@ -357,11 +382,9 @@ MRSLStoryEditMorselTableViewCellDelegate>
             DDLogDebug(@"Morsel INDEX: %lu", (unsigned long)morselIndex);
             MRSLMorsel *morsel = [MRSLMorsel localUniqueMorsel];
             morsel.post = strongSelf.post;
-            morsel.isUploading = @YES;
             morsel.sort_order = @(morselIndex);
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                morsel.morselPhoto = UIImageJPEGRepresentation(mediaItem.mediaFullImage, 1.f);
                 morsel.morselPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, 1.f);
                 morsel.morselPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
                 if (morsel.managedObjectContext) {
@@ -369,7 +392,12 @@ MRSLStoryEditMorselTableViewCellDelegate>
                     [_appDelegate.morselApiService createMorsel:morsel
                                                         success:^(id responseObject) {
                                                             if (weakSelf) {
-                                                                [weakSelf updateStoryStatus];
+                                                                [weakSelf getOrLoadPostIfExists].lastUpdatedDate = [NSDate date];
+                                                                [weakSelf displayStoryStatus];
+                                                                morsel.isUploading = @YES;
+                                                                [_appDelegate.morselApiService updateMorselImage:morsel
+                                                                                                         success:nil
+                                                                                                         failure:nil];
                                                             }
                                                         } failure:nil];
                 }
@@ -378,15 +406,29 @@ MRSLStoryEditMorselTableViewCellDelegate>
     }];
 }
 
+- (void)captureMediaViewControllerDidCancel {
+    if (_shouldPresentMediaCapture) [self goBack];
+}
+
 #pragma mark - MRSLStoryEditMorselCollectionViewCellDelegate
 
 - (void)morselCollectionViewDidSelectEditText:(MRSLMorsel *)morsel {
     self.morsel = morsel;
+    [[MRSLEventManager sharedManager] track:@"Tapped Add Description"
+                                 properties:@{@"view": @"Your Story",
+                                              @"morsel_count": @([_morsels count]),
+                                              @"story_id": NSNullIfNil(_post.postID),
+                                              @"morsel_id": NSNullIfNil(morsel.morselID)}];
     [self performSegueWithIdentifier:@"seg_EditMorselText"
                               sender:nil];
 }
 
 - (void)morselCollectionViewDidSelectImagePreview:(MRSLMorsel *)morsel {
+    [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
+                                 properties:@{@"view": @"Your Story",
+                                              @"morsel_count": @([_morsels count]),
+                                              @"story_id": NSNullIfNil(_post.postID),
+                                              @"morsel_id": NSNullIfNil(morsel.morselID)}];
     NSUInteger index = [_morsels indexOfObject:morsel];
 
     MRSLImagePreviewViewController *imagePreviewVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLImagePreviewViewController"];

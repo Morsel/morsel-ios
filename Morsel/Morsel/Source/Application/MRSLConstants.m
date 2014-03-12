@@ -25,6 +25,7 @@ NSString *const MRSLMorselUploadDidCompleteNotification = @"MRSLMorselUploadDidC
 NSString *const MRSLMorselUploadDidFailNotification = @"MRSLMorselUploadDidFailNotification";
 
 NSString *const MRSLAppShouldDisplayFeedNotification = @"MRSLAppShouldDisplayFeedNotification";
+NSString *const MRSLAppShouldDisplayStoryAddNotification = @"MRSLAppShouldDisplayStoryAddNotification";
 
 #ifdef DEBUG
 int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;

@@ -43,9 +43,26 @@ UIDocumentInteractionControllerDelegate>
 
 @implementation MRSLStorySettingsViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(goBack)];
+    [self.navigationItem setLeftBarButtonItem:backButton];
+}
+
 #pragma mark - Private Methods
 
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)deleteStory {
+    [[MRSLEventManager sharedManager] track:@"Tapped Delete Story"
+                                 properties:@{@"view": @"Your Story",
+                                              @"story_id": NSNullIfNil(_post.postID)}];
     [_appDelegate.morselApiService deletePost:_post
                                       success:nil
                                       failure:nil];
@@ -177,7 +194,7 @@ UIDocumentInteractionControllerDelegate>
     if ([button isSelected]) {
         [button setSelected:NO];
     } else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://app"]]) {
-        if (_morsel.morselPhoto) {
+        if (_morsel.morselPhotoCropped) {
             [button setSelected:YES];
         } else {
             [UIAlertView showAlertViewForErrorString:@"Please add a photo to post to Instagram"
@@ -196,7 +213,7 @@ UIDocumentInteractionControllerDelegate>
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
-        [_morsel.morselPhoto writeToFile:photoFilePath atomically:YES];
+        [_morsel.morselPhotoCropped writeToFile:photoFilePath atomically:YES];
 
         _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
         _documentInteractionController.UTI = @"com.instagram.exclusivegram";

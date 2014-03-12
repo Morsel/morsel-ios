@@ -22,7 +22,7 @@ UITableViewDelegate,
 NSFetchedResultsControllerDelegate,
 CommentTableViewCellDelegate>
 
-@property (nonatomic) int commentCount;
+@property (nonatomic) NSInteger commentCount;
 
 @property (weak, nonatomic) IBOutlet UITableView *commentsTableView;
 

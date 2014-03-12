@@ -31,6 +31,12 @@
 {
     [super viewDidLoad];
 
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(goBack)];
+    [self.navigationItem setLeftBarButtonItem:backButton];
+
     self.morsel = [self getOrLoadMorselIfExists];
 
     self.morselDescriptionTextView.text = _morsel.morselDescription;
@@ -56,12 +62,16 @@
 
 #pragma mark - Action Methods
 
-- (IBAction)cancel:(id)sender {
+- (void)goBack {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)done:(id)sender {
     self.morsel = [self getOrLoadMorselIfExists];
+    [[MRSLEventManager sharedManager] track:@"Tapped Done"
+                                 properties:@{@"view": @"Your Story",
+                                              @"char_count": @([_morselDescriptionTextView.text length]),
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     if (![_morsel.morselDescription isEqualToString:self.morselDescriptionTextView.text]) {
         _morsel.morselDescription = self.morselDescriptionTextView.text;
         _morsel.isUploading = @YES;

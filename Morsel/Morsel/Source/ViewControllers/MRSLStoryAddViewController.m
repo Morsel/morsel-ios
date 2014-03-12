@@ -155,6 +155,8 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"seg_StoryAddTitle"]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Add a Morsel to a New Story"
+                                     properties:@{@"view": @"Add Story"}];
         MRSLStoryAddTitleViewController *addTitleVC = [segue destinationViewController];
         addTitleVC.isUserEditingTitle = NO;
     }
@@ -215,6 +217,10 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
     MRSLPost *post = [[self storyArrayForIndexPath:indexPath] objectAtIndex:indexPath.row];
+    [[MRSLEventManager sharedManager] track:@"Tapped Story"
+                                 properties:@{@"view": @"Story Add",
+                                              @"story_id": NSNullIfNil(post.postID),
+                                              @"story_draft": (post.draftValue) ? @"true" : @"false"}];
     MRSLStoryEditViewController *editStoryVC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryEditViewController"];
     editStoryVC.postID = post.postID;
     editStoryVC.shouldPresentMediaCapture = YES;
@@ -233,8 +239,11 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 #pragma mark - MRSLStatusHeaderCollectionReusableViewDelegate Methods
 
 - (void)statusHeaderDidSelectViewAllForType:(MRSLStoryStatusType)statusType {
+    [[MRSLEventManager sharedManager] track:@"Tapped View All"
+                                 properties:@{@"view": @"Story Add"}];
     MRSLStoryListViewController *storyListViewController = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryListViewController"];
     storyListViewController.storyStatusType = statusType;
+    storyListViewController.shouldPresentMediaCapture = YES;
     [self.navigationController pushViewController:storyListViewController
                                          animated:YES];
 }

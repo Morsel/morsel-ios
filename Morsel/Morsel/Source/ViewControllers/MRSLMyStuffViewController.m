@@ -8,7 +8,6 @@
 
 #import "MRSLMyStuffViewController.h"
 
-#import "MRSLProfileImageView.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLStoryCollectionViewCell.h"
 #import "MRSLStatusHeaderCollectionReusableView.h"
@@ -23,12 +22,10 @@
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
 NSFetchedResultsControllerDelegate,
-MRSLStatusHeaderCollectionReusableViewDelegate,
-ProfileImageViewDelegate>
+MRSLStatusHeaderCollectionReusableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *postCollectionView;
-
-@property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet UIView *nullStateView;
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 @property (strong, nonatomic) NSFetchedResultsController *postsFetchedResultsController;
@@ -43,12 +40,6 @@ ProfileImageViewDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.profileImageView.user = [MRSLUser currentUser];
-    [_profileImageView addCornersWithRadius:36.f];
-    _profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-    _profileImageView.layer.borderWidth = 2.f;
-    _profileImageView.delegate = self;
     
     self.draftPosts = [NSMutableArray array];
     self.publishedPosts = [NSMutableArray array];
@@ -82,12 +73,21 @@ ProfileImageViewDelegate>
         self.selectedIndexPath = nil;
     }
 
-    if (![MRSLUser currentUser] || self.postsFetchedResultsController) return;
+    if (self.postsFetchedResultsController) return;
 
     [self setupPostsFetchRequest];
     [self populateContent];
     [self refreshStories];
 }
+
+#pragma mark - Action Methods
+
+- (IBAction)displayStoryAdd {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayStoryAddNotification
+                                                        object:nil];
+}
+
+#pragma mark - Private Methods
 
 - (void)setupPostsFetchRequest {
     NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"creator.userID == %i", [MRSLUser currentUser].userIDValue];
@@ -122,6 +122,8 @@ ProfileImageViewDelegate>
                                                               forKey:@"Published"];
 
     [self.postCollectionView reloadData];
+    
+    self.nullStateView.hidden = ([_postsDictionary count] > 0);
 }
 
 - (NSMutableArray *)storyArrayForIndexPath:(NSIndexPath *)indexPath {
@@ -210,6 +212,10 @@ ProfileImageViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
     MRSLPost *post = [[self storyArrayForIndexPath:indexPath] objectAtIndex:indexPath.row];
+    [[MRSLEventManager sharedManager] track:@"Tapped Story"
+                                 properties:@{@"view": @"My Stuff",
+                                              @"story_id": NSNullIfNil(post.postID),
+                                              @"story_draft": (post.draftValue) ? @"true" : @"false"}];
     MRSLStoryEditViewController *editStoryVC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryEditViewController"];
     editStoryVC.postID = post.postID;
 
@@ -227,19 +233,11 @@ ProfileImageViewDelegate>
 #pragma mark - MRSLStatusHeaderCollectionReusableViewDelegate Methods
 
 - (void)statusHeaderDidSelectViewAllForType:(MRSLStoryStatusType)statusType {
+    [[MRSLEventManager sharedManager] track:@"Tapped View All"
+                                 properties:@{@"view": @"My Stuff"}];
     MRSLStoryListViewController *storyListViewController = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryListViewController"];
     storyListViewController.storyStatusType = statusType;
     [self.navigationController pushViewController:storyListViewController
-                                         animated:YES];
-}
-
-#pragma mark - ProfileImageViewDelegate
-
-- (void)profileImageViewDidSelectUser:(MRSLUser *)user {
-    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfileViewController"];
-    profileVC.user = user;
-
-    [self.navigationController pushViewController:profileVC
                                          animated:YES];
 }
 

@@ -8,14 +8,15 @@
 
 #import "MRSLStoryEditMorselTableViewCell.h"
 
+#import "MRSLMorselImageView.h"
+
 #import "MRSLMorsel.h"
 
 @interface MRSLStoryEditMorselTableViewCell ()
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet MRSLMorselImageView *morselThumbnail;
+
 @property (weak, nonatomic) IBOutlet UILabel *morselDescription;
-@property (weak, nonatomic) IBOutlet UIImageView *morselThumbnail;
-@property (weak, nonatomic) IBOutlet UIView *activityView;
 @property (weak, nonatomic) IBOutlet UIView *failureView;
 
 @end
@@ -37,47 +38,17 @@
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
-    [self reset];
+    if (_morsel != morsel) [self reset];
 
     _morsel = morsel;
 
-    if (_morsel) {
-        self.activityView.hidden = !_morsel.isUploadingValue;
-        (_morsel.isUploadingValue) ? [self.activityIndicator startAnimating] : [self.activityIndicator stopAnimating];
-        self.failureView.hidden = !_morsel.didFailUploadValue;
-        _morselDescription.text = (_morsel.morselDescription.length > 0) ? _morsel.morselDescription : @"Tap to add text";
+    self.failureView.hidden = !_morsel.didFailUploadValue;
+    _morselDescription.text = (_morsel.morselDescription.length > 0) ? _morsel.morselDescription : @"Tap to add text";
 
-        if (_morsel.morselDescription.length > 0) {
-            _morselDescription.textColor = [UIColor morselDarkContent];
-        }
-
-        __weak __typeof(self) weakSelf = self;
-
-        if (_morsel.morselPhotoURL) {
-            [_morselThumbnail setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail]
-                                    placeholderImage:nil
-                                             success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                 if (image) {
-                                                     weakSelf.morselThumbnail.image = image;
-                                                 }
-                                             } failure:^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
-                                                 if (weakSelf.morsel.morselPhotoThumb) {
-                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                         weakSelf.morselThumbnail.image = [UIImage imageWithData:weakSelf.morsel.morselPhotoThumb];
-                                                     });
-                                                 } else {
-                                                     DDLogError(@"Unable to set Morsel thumbnail and no local image exists: %@", error.userInfo);
-                                                     weakSelf.morselThumbnail.image = nil;
-                                                 }
-                                             }];
-        } else {
-            if (_morsel.morselPhotoThumb) {
-                self.morselThumbnail.image = [UIImage imageWithData:_morsel.morselPhotoThumb];
-            } else {
-                self.morselThumbnail.image = nil;
-            }
-        }
+    if (_morsel.morselDescription.length > 0) {
+        _morselDescription.textColor = [UIColor morselDarkContent];
     }
+    _morselThumbnail.morsel = _morsel;
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
@@ -91,7 +62,6 @@
 
     [self displaySelectedState:selected];
 }
-
 
 #pragma mark - Action Methods
 
@@ -110,9 +80,9 @@
 - (IBAction)retryUpload {
     self.morsel.didFailUpload = @NO;
     self.morsel.isUploading = @YES;
-    [_appDelegate.morselApiService createMorsel:_morsel
-                                        success:nil
-                                        failure:nil];
+    [_appDelegate.morselApiService updateMorselImage:_morsel
+                                             success:nil
+                                             failure:nil];
 }
 
 #pragma mark - Private Methods
@@ -125,16 +95,15 @@
         self.morselThumbnail.layer.borderColor = [UIColor whiteColor].CGColor;
         self.morselThumbnail.layer.borderWidth = selected ? 2.f : 0.f;
     }
-    
+
     if (_morsel.morselDescription.length == 0 && !selected) {
         _morselDescription.textColor = [UIColor morselLightContent];
     }
 }
 
 - (void)reset {
-    self.morselThumbnail.image = nil;
     self.morselDescription.text = nil;
-    
+
     _morselDescription.textColor = [UIColor morselLightContent];
 }
 

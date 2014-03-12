@@ -199,7 +199,6 @@ static const CGFloat MRSLVelocityThresholdForPageChange = 800.f;
                 [self displayPanelForPage:self.currentPage
                                  animated:NO];
             }];
-            
         } else if ((centerPanelPercentOpen > 0.5f  || velocityPoint.x > MRSLVelocityThresholdForPageChange) &&
                    !_panelViewLeft.isPlaceholder) {
             self.previousExists = YES;

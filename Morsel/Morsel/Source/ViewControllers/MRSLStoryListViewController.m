@@ -34,6 +34,12 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(goBack)];
+    [self.navigationItem setLeftBarButtonItem:backButton];
+
     self.title = (_storyStatusType == MRSLStoryStatusTypeDrafts) ? @"Draft Stories" : @"Published Stories";
 
     self.userPosts = [NSMutableArray array];
@@ -69,6 +75,12 @@ NSFetchedResultsControllerDelegate>
     [self setupPostsFetchRequest];
     [self populateContent];
     [self refreshStories];
+}
+
+#pragma mark - Private Methods
+
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)setupPostsFetchRequest {
@@ -150,9 +162,13 @@ NSFetchedResultsControllerDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
     MRSLPost *post = [_userPosts objectAtIndex:indexPath.row];
+    [[MRSLEventManager sharedManager] track:@"Tapped Story"
+                                 properties:@{@"view": [NSString stringWithFormat:@"%@", (_storyStatusType == MRSLStoryStatusTypeDrafts) ? @"Draft Stories" : @"Published Stories"],
+                                              @"story_id": NSNullIfNil(post.postID),
+                                              @"story_draft": (post.draftValue) ? @"true" : @"false"}];
     MRSLStoryEditViewController *editStoryVC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryEditViewController"];
     editStoryVC.postID = post.postID;
-    editStoryVC.shouldPresentMediaCapture = YES;
+    editStoryVC.shouldPresentMediaCapture = _shouldPresentMediaCapture;
 
     [self.navigationController pushViewController:editStoryVC
                                          animated:YES];

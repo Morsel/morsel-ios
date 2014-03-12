@@ -139,6 +139,7 @@
 		0698CACA18524359007AF442 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0660669418522E7900E780FC /* UIKit.framework */; };
 		0698CAD018524359007AF442 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0698CACE18524359007AF442 /* InfoPlist.strings */; };
 		069AE51A18B80FDF002F63D5 /* MRSLCaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* MRSLCaptureMediaViewController.m */; };
+		069D281218D22A43000EBF7E /* MRSLMorselImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 069D281118D22A43000EBF7E /* MRSLMorselImageView.m */; };
 		06A049651896D82500BD1C5B /* MRSLStoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049641896D82500BD1C5B /* MRSLStoryCollectionViewCell.m */; };
 		06CE1882187F13A0009F9722 /* MRSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1881187F13A0009F9722 /* MRSLConstants.m */; };
 		06D52EB218C8DD2C00356381 /* MRSLStoryEditDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D52EB118C8DD2C00356381 /* MRSLStoryEditDescriptionViewController.m */; };
@@ -374,6 +375,8 @@
 		0698CACD18524359007AF442 /* Morsel-Integration-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Morsel-Integration-Info.plist"; sourceTree = "<group>"; };
 		0698CACF18524359007AF442 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0698CAD318524359007AF442 /* Morsel-Integration-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Morsel-Integration-Prefix.pch"; sourceTree = "<group>"; };
+		069D281018D22A43000EBF7E /* MRSLMorselImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLMorselImageView.h; path = Source/Views/MRSLMorselImageView.h; sourceTree = "<group>"; };
+		069D281118D22A43000EBF7E /* MRSLMorselImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMorselImageView.m; path = Source/Views/MRSLMorselImageView.m; sourceTree = "<group>"; };
 		06A049631896D82500BD1C5B /* MRSLStoryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLStoryCollectionViewCell.h; path = Source/Views/MRSLStoryCollectionViewCell.h; sourceTree = "<group>"; };
 		06A049641896D82500BD1C5B /* MRSLStoryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLStoryCollectionViewCell.m; path = Source/Views/MRSLStoryCollectionViewCell.m; sourceTree = "<group>"; };
 		06CE1880187F13A0009F9722 /* MRSLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLConstants.h; sourceTree = "<group>"; };
@@ -642,8 +645,6 @@
 			children = (
 				06F2F4F11892F78A00977DEB /* MRSLLargeButton.h */,
 				06F2F4F21892F78A00977DEB /* MRSLLargeButton.m */,
-				066F5AF7185BCD3700468210 /* MRSLProfileImageView.h */,
-				066F5AF8185BCD3700468210 /* MRSLProfileImageView.m */,
 				068602A01891AD2C000CD576 /* MRSLStandardButton.h */,
 				068602A11891AD2C000CD576 /* MRSLStandardButton.m */,
 				063E6D9418C4EAE200CE9529 /* MRSLTabBarButton.h */,
@@ -983,6 +984,7 @@
 				063250CD1860E88600ADDF23 /* Controls */,
 				062E70991892C59E005D07B9 /* Detail */,
 				063250CB1860E85700ADDF23 /* Feed */,
+				069D280F18D22A11000EBF7E /* ImageViews */,
 				063250CC1860E86600ADDF23 /* Management */,
 				062E8DFC189C18D2002A8CD4 /* Side Bar */,
 				063E6D9718C4F04600CE9529 /* Tab Bar */,
@@ -1110,6 +1112,17 @@
 				0698CAD318524359007AF442 /* Morsel-Integration-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		069D280F18D22A11000EBF7E /* ImageViews */ = {
+			isa = PBXGroup;
+			children = (
+				066F5AF7185BCD3700468210 /* MRSLProfileImageView.h */,
+				066F5AF8185BCD3700468210 /* MRSLProfileImageView.m */,
+				069D281018D22A43000EBF7E /* MRSLMorselImageView.h */,
+				069D281118D22A43000EBF7E /* MRSLMorselImageView.m */,
+			);
+			name = ImageViews;
 			sourceTree = "<group>";
 		};
 		06E7B9E418B2C63900833427 /* Analytics */ = {
@@ -1260,7 +1273,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MRSL;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Morsel;
 				TargetAttributes = {
 					0660668C18522E7900E780FC = {
@@ -1500,6 +1513,7 @@
 				063250CA1860E1DD00ADDF23 /* MRSLRootViewController.m in Sources */,
 				06D9908818A9F784000158EE /* MRSLUploadFailureCollectionViewCell.m in Sources */,
 				066F5AC8185BCA3D00468210 /* _MRSLComment.m in Sources */,
+				069D281218D22A43000EBF7E /* MRSLMorselImageView.m in Sources */,
 				068602991891A6C5000CD576 /* MRSLTextField.m in Sources */,
 				066F5ACA185BCA3D00468210 /* _MRSLMorsel.m in Sources */,
 				0698CA99185240F2007AF442 /* MRSLUser.m in Sources */,
@@ -1761,7 +1775,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1831,7 +1844,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1856,7 +1868,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1881,7 +1892,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1922,7 +1932,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2017,7 +2026,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2042,7 +2050,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -2062,7 +2069,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2087,7 +2093,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -2107,7 +2112,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2177,7 +2181,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2202,7 +2205,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2227,7 +2229,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2287,7 +2288,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -2314,7 +2314,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -2334,7 +2333,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2394,7 +2392,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -2421,7 +2418,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
