@@ -8,7 +8,7 @@
         <!--Home View Controller-->
         <scene sceneID="l9p-W4-fY5">
             <objects>
-                <viewController storyboardIdentifier="sb_HomeViewController" automaticallyAdjustsScrollViewInsets="NO" id="nQ7-fm-uMk" customClass="MRSLHomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_HomeViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="nQ7-fm-uMk" customClass="MRSLHomeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8zH-du-ty7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -40,6 +40,11 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" id="wFd-II-BZq">
+                                                    <rect key="frame" x="142" y="88" width="37" height="37"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="color" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </activityIndicatorView>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="diH-2a-jvU">
                                                     <rect key="frame" x="60" y="0.0" width="60" height="60"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -111,6 +116,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="activityView" destination="wFd-II-BZq" id="TXZ-MH-3G2"/>
                                             <outlet property="descriptionLabel" destination="I6T-RW-N3p" id="vyz-Lc-iDI"/>
                                             <outlet property="editButton" destination="bEP-3m-7QL" id="04s-wi-TKa"/>
                                             <outlet property="likeButton" destination="QRK-bU-VGK" id="ioW-QO-mFD"/>
@@ -230,6 +236,7 @@
                             <bool key="isElement" value="YES"/>
                         </accessibility>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Vqb-IS-2MS"/>
                     <connections>
@@ -340,7 +347,8 @@
         <!--Navigation Controller - Home-->
         <scene sceneID="PDw-fc-RSM">
             <objects>
-                <navigationController storyboardIdentifier="sb_Home" title="Home" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="hhS-Tr-n28" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Home" autoresizesArchivedViewToFullSize="NO" title="Home" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="hhS-Tr-n28" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="icon-tab-home-active" id="VC8-Dg-ebR"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="e48-Fj-r2S">

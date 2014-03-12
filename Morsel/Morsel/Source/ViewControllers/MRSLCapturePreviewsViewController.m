@@ -14,7 +14,8 @@
 
 @interface MRSLCapturePreviewsViewController ()
 <UICollectionViewDataSource,
-UICollectionViewDelegate>
+UICollectionViewDelegate,
+MRSLImagePreviewViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *previewCollectionView;
 
@@ -49,6 +50,7 @@ UICollectionViewDelegate>
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"seg_DisplayImagePreview"]) {
         MRSLImagePreviewViewController *previewMediaVC = [segue destinationViewController];
+        previewMediaVC.delegate = self;
         [previewMediaVC setPreviewMedia:_previewMediaItems
                        andStartingIndex:_selectedIndex];
     }
@@ -77,6 +79,14 @@ UICollectionViewDelegate>
     self.selectedIndex = indexPath.row;
     [self performSegueWithIdentifier:@"seg_DisplayImagePreview"
                               sender:nil];
+}
+
+#pragma mark - MRSLImagePreviewViewControllerDelegate
+
+- (void)imagePreviewDidDeleteMedia {
+    if ([self.delegate respondsToSelector:@selector(capturePreviewsDidDeleteMedia)]) {
+        [self.delegate capturePreviewsDidDeleteMedia];
+    }
 }
 
 @end

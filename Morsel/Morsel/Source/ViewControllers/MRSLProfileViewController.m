@@ -61,10 +61,6 @@ NSFetchedResultsControllerDelegate>
     _profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     _profileImageView.layer.borderWidth = 2.f;
 
-    if ([self.navigationController.viewControllers count] == 1) {
-        self.backButton.hidden = YES;
-    }
-
     self.refreshControl = [[UIRefreshControl alloc] init];
     _refreshControl.tintColor = [UIColor morselLightContent];
     [_refreshControl addTarget:self
@@ -73,6 +69,12 @@ NSFetchedResultsControllerDelegate>
 
     [self.profileCollectionView addSubview:_refreshControl];
     self.profileCollectionView.alwaysBounceVertical = YES;
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(goBack:)];
+    [self.navigationItem setLeftBarButtonItem:backButton];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(localContentPurged)
@@ -223,10 +225,8 @@ NSFetchedResultsControllerDelegate>
 
     editStoryVC.postID = morsel.post.postID;
 
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editStoryVC];
-    [self.navigationController presentViewController:navController
-                                            animated:YES
-                                          completion:nil];
+    [self.navigationController pushViewController:editStoryVC
+                                         animated:YES];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

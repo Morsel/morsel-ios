@@ -40,10 +40,7 @@
     if (_user != user) {
         _user = user;
 
-        if (self.imageRequestOperation) {
-            [self.imageRequestOperation cancel];
-            self.imageRequestOperation = nil;
-        }
+        [self reset];
 
         if (user) {
             if (user.profilePhotoURL) {
@@ -110,6 +107,14 @@
     if ([self.delegate respondsToSelector:@selector(profileImageViewDidSelectUser:)] && _user) {
         [self.delegate profileImageViewDidSelectUser:_user];
     }
+}
+
+- (void)reset {
+    if (self.imageRequestOperation) {
+        [self.imageRequestOperation cancel];
+        self.imageRequestOperation = nil;
+    }
+    self.image = nil;
 }
 
 #pragma mark - Destruction Methods

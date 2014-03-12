@@ -52,53 +52,16 @@ ProfileImageViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if (_morsel && _morsel.post) {
-        self.currentMorselID = _morsel.morselIDValue;
+    [self layoutPanels];
 
-        [self displayAndLayoutContent];
-
-        if ([_morselPost.morsels count] > 1) {
-            NSArray *orderedMorselsArray = _morselPost.morselsArray;
-
-            NSUInteger morselIndex = [orderedMorselsArray indexOfObject:_morsel];
-
-            self.progressionPageControl.currentPage = morselIndex;
-
-            NSMutableArray *panelArray = [NSMutableArray array];
-
-            for (MRSLMorsel *morsel in orderedMorselsArray) {
-                MRSLMorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailPanel"];
-                morselDetailPanelVC.morsel = morsel;
-                [panelArray addObject:morselDetailPanelVC];
-            }
-
-            [self addSwipeCollectionViewControllers:panelArray
-                                withinContainerView:_viewControllerPanelContainerView];
-            [self displayPanelForPage:morselIndex
-                             animated:NO];
-
-            [self.progressionPageControl addTarget:self
-                                            action:@selector(changePage:)
-                                  forControlEvents:UIControlEventValueChanged];
-        } else {
-            MRSLMorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailPanel"];
-            morselDetailPanelVC.view.frame = CGRectMake(0.f, 0.f, _viewControllerPanelContainerView.frame.size.width, _viewControllerPanelContainerView.frame.size.height);
-            morselDetailPanelVC.morsel = _morsel;
-            morselDetailPanelVC.delegate = self;
-
-            [self addChildViewController:morselDetailPanelVC];
-            [self.viewControllerPanelContainerView addSubview:morselDetailPanelVC.view];
-        }
-
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(postUpdated)
-                                                     name:MRSLUserDidUpdatePostNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(morselDeleted:)
-                                                     name:MRSLUserDidDeleteMorselNotification
-                                                   object:nil];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(postUpdated)
+                                                 name:MRSLUserDidUpdatePostNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselDeleted:)
+                                                 name:MRSLUserDidDeleteMorselNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -128,6 +91,45 @@ ProfileImageViewDelegate>
 }
 
 #pragma mark - Action Methods
+
+- (void)layoutPanels {
+    self.currentMorselID = _morsel.morselIDValue;
+
+    [self displayAndLayoutContent];
+
+    if ([_morselPost.morsels count] > 1) {
+        NSArray *orderedMorselsArray = _morselPost.morselsArray;
+
+        NSUInteger morselIndex = [orderedMorselsArray indexOfObject:_morsel];
+
+        self.progressionPageControl.currentPage = morselIndex;
+
+        NSMutableArray *panelArray = [NSMutableArray array];
+
+        for (MRSLMorsel *morsel in orderedMorselsArray) {
+            MRSLMorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailPanel"];
+            morselDetailPanelVC.morsel = morsel;
+            [panelArray addObject:morselDetailPanelVC];
+        }
+
+        [self addSwipeCollectionViewControllers:panelArray
+                            withinContainerView:_viewControllerPanelContainerView];
+        [self displayPanelForPage:morselIndex
+                         animated:NO];
+
+        [self.progressionPageControl addTarget:self
+                                        action:@selector(changePage:)
+                              forControlEvents:UIControlEventValueChanged];
+    } else {
+        MRSLMorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailPanel"];
+        morselDetailPanelVC.view.frame = CGRectMake(0.f, 0.f, _viewControllerPanelContainerView.frame.size.width, _viewControllerPanelContainerView.frame.size.height);
+        morselDetailPanelVC.morsel = _morsel;
+        morselDetailPanelVC.delegate = self;
+
+        [self addChildViewController:morselDetailPanelVC];
+        [self.viewControllerPanelContainerView addSubview:morselDetailPanelVC.view];
+    }
+}
 
 - (void)displayAndLayoutContent {
     self.morselPost = _morsel.post;
@@ -181,21 +183,22 @@ ProfileImageViewDelegate>
 }
 
 - (void)morselDeleted:(NSNotification *)notification {
-    if (!_morselPost || [_morselPost.morsels count] == 0) {
+    if (!_morselPost.managedObjectContext || [_morselPost.morsels count] == 0) {
         self.morsel = nil;
         self.morselPost = nil;
-        [self.navigationController popViewControllerAnimated:NO];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     } else {
         int deletedMorselID = [(NSNumber *)notification.object intValue];
 
         [self reset];
+        self.previousExists = NO;
 
         if (deletedMorselID == _currentMorselID) {
             self.morsel = [_morselPost.morselsArray firstObject];
             self.currentMorselID = _morsel.morselIDValue;
-        } else {
-            self.morsel = _morsel;
         }
+
+        [self layoutPanels];
     }
 }
 

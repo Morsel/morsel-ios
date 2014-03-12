@@ -15,6 +15,7 @@
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
         if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
             [[UINavigationBar appearance] setBarTintColor:[UIColor morselUserInterface]];
+            [[UINavigationBar appearance] setTintColor:[UIColor morselRed]];
         } else {
             [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init]
                                                forBarMetrics:UIBarMetricsDefault];
@@ -25,10 +26,8 @@
             [[UIBarButtonItem appearance] setBackgroundImage:[[UIImage alloc] init]
                                                     forState:UIControlStateNormal
                                                   barMetrics:UIBarMetricsDefault];
-            [[UIBarButtonItem appearance] setStyle:UIBarButtonItemStylePlain];
         }
 
-        [[UINavigationBar appearance] setTintColor:[UIColor morselRed]];
         [[UINavigationBar appearance] setTitleTextAttributes:@{
                                                                UITextAttributeFont : [UIFont helveticaNeueLTStandardThinCondensedFontOfSize:24.f],
                                                                UITextAttributeTextColor : [UIColor morselDarkContent],

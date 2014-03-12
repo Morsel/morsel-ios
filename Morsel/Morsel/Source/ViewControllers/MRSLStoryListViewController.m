@@ -59,8 +59,12 @@ NSFetchedResultsControllerDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (_selectedIndexPath) [self.postCollectionView deselectItemAtIndexPath:_selectedIndexPath
-                                                                    animated:YES];
+
+    if (_selectedIndexPath) {
+        [self.postCollectionView deselectItemAtIndexPath:_selectedIndexPath
+                                                animated:YES];
+        self.selectedIndexPath = nil;
+    }
 
     [self setupPostsFetchRequest];
     [self populateContent];

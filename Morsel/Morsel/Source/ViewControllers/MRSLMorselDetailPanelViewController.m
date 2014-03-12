@@ -299,10 +299,8 @@ UIScrollViewDelegate>
 
     editStoryVC.postID = _morsel.post.postID;
 
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editStoryVC];
-    [self.navigationController presentViewController:navController
-                                            animated:YES
-                                          completion:nil];
+    [self.navigationController pushViewController:editStoryVC
+                                         animated:YES];
 }
 
 - (IBAction)toggleLikeMorsel {

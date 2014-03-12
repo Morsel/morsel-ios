@@ -8,9 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MRSLCapturePreviewsViewControllerDelegate <NSObject>
+
+@optional
+- (void)capturePreviewsDidDeleteMedia;
+
+@end
+
 @class MRSLMediaItem;
 
 @interface MRSLCapturePreviewsViewController : UIViewController
+
+@property (weak, nonatomic) id <MRSLCapturePreviewsViewControllerDelegate> delegate;
 
 - (void)addPreviewMediaItems:(NSMutableArray *)previewMediaItems;
 

@@ -108,6 +108,10 @@ UICollectionViewDelegate>
         });
     }
 
+    if ([self.delegate respondsToSelector:@selector(imagePreviewDidDeleteMedia)]) {
+        [self.delegate imagePreviewDidDeleteMedia];
+    }
+
     if ([_previewMedia count] == 0) {
         [self closeImagePreview];
     } else {
@@ -133,7 +137,9 @@ UICollectionViewDelegate>
 }
 
 - (void)changePage:(UIPageControl *)pageControl {
-
+    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:pageControl.currentPage inSection:0]
+                                            atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                                    animated:YES];
 }
 
 #pragma mark - UICollectionViewDataSource

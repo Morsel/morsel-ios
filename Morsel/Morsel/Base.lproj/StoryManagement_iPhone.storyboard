@@ -17,6 +17,7 @@
                                 <rect key="frame" x="0.0" y="124" width="320" height="380"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="60"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="wnJ-Fm-iXw">
                                     <size key="itemSize" width="320" height="60"/>
                                     <size key="headerReferenceSize" width="50" height="30"/>
@@ -101,11 +102,11 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PhH-Uf-Q73" customClass="MRSLLargeButton">
-                                <rect key="frame" x="40" y="38" width="240" height="44"/>
+                                <rect key="frame" x="40" y="20" width="240" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="Create New Story">
+                                <state key="normal" title="Add Morsel to a New Story">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -113,16 +114,22 @@
                                     <segue destination="xiT-us-aqg" kind="push" identifier="seg_StoryAddTitle" id="eSW-V4-W7m"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or add morsel to an existing story" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EMm-ph-lF4">
-                                <rect key="frame" x="0.0" y="90" width="320" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="choose from an existing story" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EMm-ph-lF4">
+                                <rect key="frame" x="0.0" y="95" width="320" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add morsel to a new story" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="waH-OQ-AD2">
-                                <rect key="frame" x="0.0" y="9" width="320" height="21"/>
+                            <view contentMode="scaleToFill" id="20W-JR-9rB">
+                                <rect key="frame" x="0.0" y="82" width="320" height="1"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.88627451658248901" green="0.86666667461395264" blue="0.84313726425170898" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tMq-ga-Yjg">
+                                <rect key="frame" x="148" y="71" width="24" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -140,7 +147,7 @@
             </objects>
             <point key="canvasLocation" x="1163" y="73"/>
         </scene>
-        <!--Story Add Title View Controller - Story Title-->
+        <!--Story Add Title View Controller - Give Story a title-->
         <scene sceneID="QQh-X0-9F7">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLStoryTitleViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="xiT-us-aqg" customClass="MRSLStoryAddTitleViewController" sceneMemberID="viewController">
@@ -173,7 +180,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Story Title" id="LlN-f7-5kY">
+                    <navigationItem key="navigationItem" title="Give Story a title" id="LlN-f7-5kY">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="M5g-hl-i3C">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -225,9 +232,10 @@
                                     <segue destination="xiT-us-aqg" kind="push" identifier="seg_EditStoryTitle" id="BGd-gz-lyc"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="BmY-2S-teR">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BmY-2S-teR">
                                 <rect key="frame" x="280" y="0.0" width="40" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" image="icon-settings">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -235,11 +243,12 @@
                                     <segue destination="HS6-Lc-kLD" kind="push" identifier="seg_StorySettings" id="uXH-Nj-Btk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rJi-B4-wvr">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rJi-B4-wvr">
                                 <rect key="frame" x="232" y="0.0" width="40" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="icon-edit">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" image="icon-edit-red">
+                                    <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="toggleEditing" destination="QmE-5e-DXK" eventType="touchUpInside" id="uGH-D8-j7X"/>
@@ -357,11 +366,11 @@
                                     <outlet property="delegate" destination="QmE-5e-DXK" id="V3d-yn-GxW"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saved" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="In7-2o-cvL">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="In7-2o-cvL">
                                 <rect key="frame" x="20" y="5" width="204" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
-                                <color key="textColor" red="0.57647061347961426" green="0.64313727617263794" blue="0.56862747669219971" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
+                                <color key="textColor" red="0.31764706970000001" green="0.7254902124" blue="0.23529411850000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -649,7 +658,7 @@
         <image name="button-retry" width="50" height="50"/>
         <image name="button-tab-add" width="30" height="30"/>
         <image name="icon-cover" width="30" height="30"/>
-        <image name="icon-edit" width="24" height="24"/>
+        <image name="icon-edit-red" width="24" height="24"/>
         <image name="icon-menu-item" width="30" height="30"/>
         <image name="icon-restaurant" width="30" height="30"/>
         <image name="icon-settings" width="21" height="21"/>
@@ -667,6 +676,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="BGd-gz-lyc"/>
+        <segue reference="eSW-V4-W7m"/>
     </inferredMetricsTieBreakers>
 </document>
