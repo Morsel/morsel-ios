@@ -10,6 +10,8 @@
 
 @interface MRSLStoryListViewController : UIViewController
 
+@property (nonatomic) BOOL shouldPresentMediaCapture;
+
 @property (nonatomic) MRSLStoryStatusType storyStatusType;
 
 @end

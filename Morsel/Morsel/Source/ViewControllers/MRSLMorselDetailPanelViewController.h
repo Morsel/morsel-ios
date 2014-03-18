@@ -25,6 +25,8 @@
 
 @property (weak, nonatomic) id <MorselDetailPanelViewControllerDelegate> delegate;
 
+@property (nonatomic) UIEdgeInsets scrollViewInsets;
+
 @property (strong, nonatomic) MRSLMorsel *morsel;
 
 - (void)addPanRecognizerSubscriber:(MRSLDetailHorizontalSwipePanelsViewController *)viewController;

@@ -56,7 +56,7 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
 
 - (IBAction)logIn {
     [[MRSLEventManager sharedManager] track:@"Tapped Log in"
-                          properties:@{@"view": @"MRSLLoginViewController"}];
+                          properties:@{@"view": @"Log in"}];
 
     BOOL emailValid = [MRSLUtil validateEmail:_emailTextField.text];
     BOOL passValid = ([_passwordTextField.text length] >= 8);
@@ -116,10 +116,10 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if ([textField isEqual:_emailTextField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Email Field"
-                                     properties:@{@"view": @"MRSLLoginViewController"}];
+                                     properties:@{@"view": @"Log in"}];
     } else if ([textField isEqual:_passwordTextField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Password Field"
-                                     properties:@{@"view": @"MRSLLoginViewController"}];
+                                     properties:@{@"view": @"Log in"}];
     }
     return YES;
 }
@@ -128,12 +128,8 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
     if ([string isEqualToString:@"\n"]) {
 
         if ([textField isEqual:_emailTextField]) {
-            [[MRSLEventManager sharedManager] track:@"Filled Email Field"
-                                  properties:@{@"view": @"MRSLLoginViewController"}];
             [_passwordTextField becomeFirstResponder];
         } else if ([textField isEqual:_passwordTextField]) {
-            [[MRSLEventManager sharedManager] track:@"Filled Password Field"
-                                  properties:@{@"view": @"MRSLLoginViewController"}];
             [textField resignFirstResponder];
             [self logIn];
         }

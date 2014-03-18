@@ -13,6 +13,7 @@
 @optional
 // Returns an array of MediaItem objects
 - (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSMutableArray *)capturedMedia;
+- (void)captureMediaViewControllerDidCancel;
 
 @end
 

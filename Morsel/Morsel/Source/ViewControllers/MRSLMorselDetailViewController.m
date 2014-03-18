@@ -19,10 +19,9 @@
 #import "MRSLPost.h"
 #import "MRSLUser.h"
 
-static const CGFloat MRSLDetailSingleNavigationBarHeight = 64.f;
-static const CGFloat MRSLDetailProgressionNavigationBarHeight = 80.f;
-static const CGFloat MRSLProfilePanelHiddenY = -20.f;
-static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 40.f;
+static const CGFloat MRSLDetailSinglePageControlViewHeight = 0.f;
+static const CGFloat MRSLDetailMultiPageControlViewHeight = 12.f;
+static const CGFloat MRSLProfilePanelHiddenTriggeringOffset = 20.f;
 
 @interface MRSLMorselDetailViewController ()
 <UIScrollViewDelegate,
@@ -35,7 +34,6 @@ ProfileImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *authorNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeSinceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *postTitleLabel;
 @property (weak, nonatomic) IBOutlet UIPageControl *progressionPageControl;
 @property (weak, nonatomic) IBOutlet UIView *morselDetailNavigationView;
 @property (weak, nonatomic) IBOutlet UIView *profilePanelView;
@@ -53,6 +51,12 @@ ProfileImageViewDelegate>
     [super viewDidLoad];
 
     [self layoutPanels];
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(goBack)];
+    [self.navigationItem setLeftBarButtonItem:backButton];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(postUpdated)
@@ -83,14 +87,19 @@ ProfileImageViewDelegate>
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"seg_AddComment"]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Add Comment"
-                              properties:@{@"view": @"MRSLMorselDetailViewController",
+                              properties:@{@"view": @"Detail",
                                            @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-        MRSLAddCommentViewController *addCommentVC = [segue destinationViewController];
+        UINavigationController *navController = [segue destinationViewController];
+        MRSLAddCommentViewController *addCommentVC = [[navController viewControllers] firstObject];
         addCommentVC.morsel = _morsel;
     }
 }
 
 #pragma mark - Action Methods
+
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)layoutPanels {
     self.currentMorselID = _morsel.morselIDValue;
@@ -109,6 +118,7 @@ ProfileImageViewDelegate>
         for (MRSLMorsel *morsel in orderedMorselsArray) {
             MRSLMorselDetailPanelViewController *morselDetailPanelVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailPanel"];
             morselDetailPanelVC.morsel = morsel;
+            [morselDetailPanelVC setScrollViewInsets:UIEdgeInsetsMake([_profilePanelView getHeight] + [_morselDetailNavigationView getHeight], 0.f, 0.f, 0.f)];
             [panelArray addObject:morselDetailPanelVC];
         }
 
@@ -125,7 +135,7 @@ ProfileImageViewDelegate>
         morselDetailPanelVC.view.frame = CGRectMake(0.f, 0.f, _viewControllerPanelContainerView.frame.size.width, _viewControllerPanelContainerView.frame.size.height);
         morselDetailPanelVC.morsel = _morsel;
         morselDetailPanelVC.delegate = self;
-
+        [morselDetailPanelVC setScrollViewInsets:UIEdgeInsetsMake([_profilePanelView getHeight] + [_morselDetailNavigationView getHeight], 0.f, 0.f, 0.f)];
         [self addChildViewController:morselDetailPanelVC];
         [self.viewControllerPanelContainerView addSubview:morselDetailPanelVC.view];
     }
@@ -138,19 +148,18 @@ ProfileImageViewDelegate>
 
     if (postMorselCount > 1) {
         self.progressionPageControl.numberOfPages = postMorselCount;
-        [self.morselDetailNavigationView setHeight:MRSLDetailProgressionNavigationBarHeight];
+        [self.morselDetailNavigationView setHeight:MRSLDetailMultiPageControlViewHeight];
     } else {
         self.progressionPageControl.hidden = YES;
-        [self.morselDetailNavigationView setHeight:MRSLDetailSingleNavigationBarHeight];
+        [self.morselDetailNavigationView setHeight:MRSLDetailSinglePageControlViewHeight];
     }
 
     CGFloat navigationViewHeight = [_morselDetailNavigationView getHeight];
 
     [self.profilePanelView setY:navigationViewHeight];
-    [self.viewControllerPanelContainerView setY:navigationViewHeight];
-    [self.viewControllerPanelContainerView setHeight:([self.view getHeight] - 60.f) - navigationViewHeight];
+    [self.viewControllerPanelContainerView setHeight:([self.view getHeight] - 60.f)];
 
-    self.postTitleLabel.text = _morselPost.title ?: @"Morsel";
+    self.title = _morselPost.title ?: @"Morsel";
     self.timeSinceLabel.text = [_morsel.creationDate timeAgo];
     self.authorNameLabel.text = [_morselPost.creator fullName];
 
@@ -172,14 +181,10 @@ ProfileImageViewDelegate>
                                          animated:YES];
 }
 
-- (IBAction)goBack {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 #pragma mark - NSNotification
 
 - (void)postUpdated {
-    self.postTitleLabel.text = _morselPost.title ?: @"Morsel";
+    self.title = _morselPost.title ?: @"Morsel";
 }
 
 - (void)morselDeleted:(NSNotification *)notification {
@@ -223,7 +228,7 @@ ProfileImageViewDelegate>
     CGFloat profilePanelY = [_morselDetailNavigationView getHeight];
 
     if (offset > MRSLProfilePanelHiddenTriggeringOffset) {
-        profilePanelY = MRSLProfilePanelHiddenY;
+        profilePanelY = -[_profilePanelView getHeight];
     }
 
     [UIView animateWithDuration:.2f animations:^{

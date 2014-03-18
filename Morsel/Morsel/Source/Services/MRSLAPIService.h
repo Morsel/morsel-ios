@@ -92,7 +92,11 @@
 - (void)updateMorsel:(MRSLMorsel *)morsel
              andPost:(MRSLPost *)postOrNil
              success:(MorselAPISuccessBlock)successOrNil
-             failure:(MorselAPIFailureBlock)failureOrNil ;
+             failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)updateMorselImage:(MRSLMorsel *)morsel
+                  success:(MorselAPISuccessBlock)successOrNil
+                  failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)deleteMorsel:(MRSLMorsel *)morsel
              success:(MorselDataSuccessBlock)successOrNil

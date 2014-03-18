@@ -14,10 +14,10 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *localUUID;
 	__unsafe_unretained NSString *morselDescription;
 	__unsafe_unretained NSString *morselID;
-	__unsafe_unretained NSString *morselPhoto;
 	__unsafe_unretained NSString *morselPhotoCropped;
 	__unsafe_unretained NSString *morselPhotoThumb;
 	__unsafe_unretained NSString *morselPhotoURL;
+	__unsafe_unretained NSString *photo_processing;
 	__unsafe_unretained NSString *sort_order;
 	__unsafe_unretained NSString *url;
 } MRSLMorselAttributes;
@@ -174,16 +174,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSData* morselPhoto;
-
-
-
-//- (BOOL)validateMorselPhoto:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSData* morselPhotoCropped;
 
 
@@ -209,6 +199,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validateMorselPhotoURL:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* photo_processing;
+
+
+
+@property BOOL photo_processingValue;
+- (BOOL)photo_processingValue;
+- (void)setPhoto_processingValue:(BOOL)value_;
+
+//- (BOOL)validatePhoto_processing:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -348,12 +352,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSData*)primitiveMorselPhoto;
-- (void)setPrimitiveMorselPhoto:(NSData*)value;
-
-
-
-
 - (NSData*)primitiveMorselPhotoCropped;
 - (void)setPrimitiveMorselPhotoCropped:(NSData*)value;
 
@@ -368,6 +366,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSString*)primitiveMorselPhotoURL;
 - (void)setPrimitiveMorselPhotoURL:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitivePhoto_processing;
+- (void)setPrimitivePhoto_processing:(NSNumber*)value;
+
+- (BOOL)primitivePhoto_processingValue;
+- (void)setPrimitivePhoto_processingValue:(BOOL)value_;
 
 
 

@@ -16,7 +16,7 @@
 #import "MRSLUser.h"
 
 @interface MRSLCommentTableViewCell  ()
-    <ProfileImageViewDelegate>
+<ProfileImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
@@ -29,37 +29,35 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
+
     [_profileImageView addCornersWithRadius:20.f];
 }
 
 - (void)setComment:(MRSLComment *)comment {
-    if (_comment != comment) {
-        [self reset];
-        
-        _comment = comment;
-        if (_comment) {
-            _profileImageView.user = _comment.creator;
-            _profileImageView.delegate = self;
-            _userNameLabel.text = _comment.creator.fullName;
-            _commentBodyLabel.text = _comment.commentDescription;
-            _timeAgoLabel.text = [_comment.creationDate timeAgo];
-            
-            CGSize bodySize = [_comment.commentDescription sizeWithFont:_commentBodyLabel.font
-                                        constrainedToSize:CGSizeMake(_commentBodyLabel.frame.size.width, CGFLOAT_MAX)
-                                            lineBreakMode:NSLineBreakByWordWrapping];
-            
-            [_commentBodyLabel setHeight:ceilf(bodySize.height)];
-        }
+    [self reset];
+
+    _comment = comment;
+    if (_comment) {
+        _profileImageView.user = _comment.creator;
+        _profileImageView.delegate = self;
+        _userNameLabel.text = _comment.creator.fullName;
+        _commentBodyLabel.text = _comment.commentDescription;
+        _timeAgoLabel.text = [_comment.creationDate timeAgo];
+
+        CGSize bodySize = [_comment.commentDescription sizeWithFont:_commentBodyLabel.font
+                                                  constrainedToSize:CGSizeMake(_commentBodyLabel.frame.size.width, CGFLOAT_MAX)
+                                                      lineBreakMode:NSLineBreakByWordWrapping];
+
+        [_commentBodyLabel setHeight:ceilf(bodySize.height)];
     }
 }
 
 - (void)reset {
-    self.profileImageView.user = nil;
     self.userNameLabel.text = nil;
     self.commentBodyLabel.text = nil;
     self.timeAgoLabel.text = nil;
     self.delegate = nil;
+    self.profileImageView.user = nil;
 }
 
 #pragma mark - ProfileImageViewDelegate

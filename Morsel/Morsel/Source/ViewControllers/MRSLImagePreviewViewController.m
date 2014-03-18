@@ -62,22 +62,33 @@ UICollectionViewDelegate>
 }
 
 - (void)setupControls {
+    id firstMediaItem = [_previewMedia firstObject];
+    if ([firstMediaItem isKindOfClass:[MRSLMorsel class]]) {
+        self.deleteButton.hidden = YES;
+    }
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
     [self.previewMediaPageControl setCurrentPage:_currentIndex];
 
     [self.previewMediaCollectionView reloadData];
 
-    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex inSection:0]
+    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex
+                                                                                 inSection:0]
                                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                                     animated:NO];
+    if ([_previewMedia count] == 1) [self updateControls];
 }
 
 - (void)updateControls {
     self.currentIndex = _previewMediaCollectionView.contentOffset.x / _previewMediaCollectionView.frame.size.width;
+
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
     [self.previewMediaPageControl setCurrentPage:_currentIndex];
+    self.previewMediaPageControl.hidden = ([_previewMedia count] == 1);
+
     self.previousButton.enabled = (_currentIndex != 0);
+    self.previousButton.hidden = ([_previewMedia count] == 1);
     self.nextButton.enabled = (_currentIndex != [_previewMedia count] - 1);
+    self.nextButton.hidden = ([_previewMedia count] == 1);
 }
 
 #pragma mark - Action Methods
@@ -93,20 +104,6 @@ UICollectionViewDelegate>
 
     [_previewMedia removeObject:objectToRemove];
     [self.previewMediaCollectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:_currentIndex inSection:0]]];
-
-    if ([objectToRemove isKindOfClass:[MRSLMorsel class]]) {
-        double delayInSeconds = .4f;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            if ([(MRSLMorsel *)objectToRemove localUUID]) {
-                [(MRSLMorsel *)objectToRemove MR_deleteEntity];
-            } else {
-                [_appDelegate.morselApiService deleteMorsel:(MRSLMorsel *)objectToRemove
-                                                    success:nil
-                                                    failure:nil];
-            }
-        });
-    }
 
     if ([self.delegate respondsToSelector:@selector(imagePreviewDidDeleteMedia)]) {
         [self.delegate imagePreviewDidDeleteMedia];

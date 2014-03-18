@@ -8,12 +8,14 @@
 
 #import "MRSLStoryCollectionViewCell.h"
 
+#import "MRSLMorselImageView.h"
+
 #import "MRSLMorsel.h"
 #import "MRSLPost.h"
 
 @interface MRSLStoryCollectionViewCell ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *postThumbnailView;
+@property (weak, nonatomic) IBOutlet MRSLMorselImageView *postThumbnailView;
 @property (weak, nonatomic) IBOutlet UILabel *postCountLabel;
 
 @end
@@ -21,51 +23,25 @@
 @implementation MRSLStoryCollectionViewCell
 
 - (void)setPost:(MRSLPost *)post {
-    [self reset];
+    if (_post != post) {
+        [self reset];
 
-    _post = post;
+        _post = post;
 
-    self.postTitleLabel.text = _post.title ?: @"No title";
+        self.postTitleLabel.text = _post.title ?: @"No title";
 
-    if ([_post.morsels count] > 0) {
-        MRSLMorsel *firstMorsel = [_post.morselsArray firstObject];
-
-        __weak __typeof(self) weakSelf = self;
-
-        if (firstMorsel.morselPhotoURL) {
-            [_postThumbnailView setImageWithURLRequest:[firstMorsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail]
-                                      placeholderImage:nil
-                                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                 if (image) {
-                     weakSelf.postThumbnailView.image = image;
-                 }
-             } failure:^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
-                 if (firstMorsel.morselPhotoThumb) {
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                         weakSelf.postThumbnailView.image = [UIImage imageWithData:firstMorsel.morselPhotoThumb];
-                     });
-                 } else {
-                     DDLogError(@"Unable to set Morsel thumbnail and no local image exists: %@", error.userInfo);
-                     weakSelf.postThumbnailView.image = nil;
-                 }
-             }];
+        if ([_post.morsels count] > 0) {
+            MRSLMorsel *firstMorsel = [_post.morselsArray firstObject];
+            _postThumbnailView.morsel = firstMorsel;
+            self.postCountLabel.text = [NSString stringWithFormat:@"%lu MORSEL%@", (unsigned long)[_post.morsels count], ([_post.morsels count] > 1) ? @"S" : @""];
         } else {
-            if (firstMorsel.morselPhotoThumb) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    self.postThumbnailView.image = [UIImage imageWithData:firstMorsel.morselPhotoThumb];
-                });
-            } else {
-                self.postThumbnailView.image = nil;
-            }
+            DDLogError(@"PostCollectionViewCell assigned a Post with no Morsels. Post ID: %i", [_post.postID intValue]);
+            [_postThumbnailView displayEmptyStoryState];
+            self.postCountLabel.text = @"NO MORSELS";
         }
-
-        self.postCountLabel.text = [NSString stringWithFormat:@"%lu MORSEL%@", (unsigned long)[_post.morsels count], ([_post.morsels count] > 1) ? @"S" : @""];
-    } else {
-        DDLogError(@"PostCollectionViewCell assigned a Post with no Morsels. Post ID: %i", [_post.postID intValue]);
-        self.postCountLabel.text = @"NO MORSELS";
+        
+        [_postCountLabel sizeToFit];
     }
-
-    [_postCountLabel sizeToFit];
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
@@ -92,9 +68,9 @@
 }
 
 - (void)reset {
-    self.postThumbnailView.image = nil;
     self.postTitleLabel.text = nil;
     self.postCountLabel.text = nil;
+    self.postThumbnailView.morsel = nil;
 }
 
 @end

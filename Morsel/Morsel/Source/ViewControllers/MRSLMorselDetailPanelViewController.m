@@ -11,6 +11,7 @@
 #import "JSONResponseSerializerWithData.h"
 #import "MRSLDetailCommentsViewController.h"
 #import "MRSLDetailHorizontalSwipePanelsViewController.h"
+#import "MRSLMorselImageView.h"
 #import "MRSLStoryEditViewController.h"
 #import "MRSLSwipePanGestureRecognizer.h"
 
@@ -20,7 +21,7 @@
 #import "MRSLUser.h"
 
 static const CGFloat MRSLVerticalScrollViewPadding = 100.f;
-static const CGFloat MRSLCommentPipeVerticalPadding = 84.f;
+static const CGFloat MRSLCommentPipeVerticalPadding = 60.f;
 static const CGFloat MRSLScrollViewBottomDistanceTrigger = 40.f;
 static const CGFloat MRSLCommentCellDefaultHeight = 110.f;
 
@@ -36,10 +37,11 @@ UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *addCommentButton;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
-@property (weak, nonatomic) IBOutlet UIImageView *morselImageView;
 @property (weak, nonatomic) IBOutlet UILabel *morselDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *commentPipeView;
+
+@property (weak, nonatomic) IBOutlet MRSLMorselImageView *morselImageView;
 
 @property (strong, nonatomic) UIPanGestureRecognizer *subscribeablePanGestureRecognizer;
 
@@ -77,6 +79,9 @@ UIScrollViewDelegate>
     }
 
     _contentScrollView.delegate = self;
+    _contentScrollView.contentInset = _scrollViewInsets;
+    [_contentScrollView scrollRectToVisible:CGRectMake(0.f, 2.f, 2.f, 2.f)
+                                   animated:NO];
 
     if (!_subscribeablePanGestureRecognizer) {
         [self attachPanRecognizerToContentScrollView];
@@ -99,6 +104,11 @@ UIScrollViewDelegate>
     if (_contentScrollView) {
         [self attachPanRecognizerToContentScrollView];
     }
+}
+
+- (void)setScrollViewInsets:(UIEdgeInsets)scrollViewInsets {
+    _scrollViewInsets = scrollViewInsets;
+    if (_contentScrollView) [self.contentScrollView setContentInset:scrollViewInsets];
 }
 
 #pragma mark - Private Methods
@@ -126,11 +136,6 @@ UIScrollViewDelegate>
 }
 
 - (void)displayMorselContent {
-    if (!_morsel.morselPhotoURL && _morsel.morselDescription) {
-        self.morselImageView.hidden = YES;
-        [_morselDescriptionLabel setY:68.f];
-    }
-
     if (_morsel.morselDescription) {
         _morselDescriptionLabel.text = _morsel.morselDescription;
     } else {
@@ -138,27 +143,7 @@ UIScrollViewDelegate>
         _morselDescriptionLabel.textColor = [UIColor morselUserInterface];
     }
 
-    if (_morsel.morselPhotoURL) {
-        __weak UIImageView *weakImageView = _morselImageView;
-
-        [_morselImageView setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeCropped]
-                                placeholderImage:nil
-                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-             __strong UIImageView *strongImageView = weakImageView;
-             strongImageView.image = image;
-         } failure: ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
-             __strong UIImageView *strongImageView = weakImageView;
-             if (_morsel.morselPhotoCropped) {
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                     strongImageView.image = [UIImage imageWithData:_morsel.morselPhotoCropped];
-                 });
-             } else {
-                 DDLogError(@"Preview media image request failed and no local copy: %@", error.userInfo);
-                 strongImageView.image = nil;
-             }
-             DDLogError(@"Unable to set Morsel Image in ScrollView: %@", error.userInfo);
-         }];
-    }
+    _morselImageView.morsel = _morsel;
 
     if (!_morselDetailCommentsVC) {
         self.morselDetailCommentsVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailCommentsViewController"];
@@ -242,7 +227,7 @@ UIScrollViewDelegate>
     if (scrollOffset + scrollViewHeight >= scrollContentSizeHeight - MRSLScrollViewBottomDistanceTrigger) {
         // Near end
         [UIView animateWithDuration:.2f animations:^{
-            [_addCommentButton setY:scrollViewHeight -  [_addCommentButton getHeight]];
+            [_addCommentButton setY:scrollViewHeight - [_addCommentButton getHeight]];
         }];
     } else {
         // Anywhere else
@@ -306,14 +291,13 @@ UIScrollViewDelegate>
 - (IBAction)toggleLikeMorsel {
     _likeButton.enabled = NO;
 
+    [[MRSLEventManager sharedManager] track:@"Tapped Like Icon"
+                                 properties:@{@"view": @"Detail",
+                                              @"morsel_id": _morsel.morselID}];
+
     [_appDelegate.morselApiService likeMorsel:_morsel
                                   shouldLike:!_morsel.likedValue
-                                     didLike:^(BOOL doesLike)
-     {
-         [[MRSLEventManager sharedManager] track:(doesLike) ? @"Liked Morsel" : @"Unliked Morsel"
-                               properties:@{@"view": @"MorselFeedCollectionViewCell",
-                                            @"morsel_id": _morsel.morselID}];
-
+                                     didLike:^(BOOL doesLike) {
          [_morsel setLikedValue:doesLike];
 
          [self setLikeButtonImageForMorsel:_morsel];

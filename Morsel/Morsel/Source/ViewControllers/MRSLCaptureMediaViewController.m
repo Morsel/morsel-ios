@@ -290,14 +290,24 @@ MRSLCapturePreviewsViewControllerDelegate>
 }
 
 - (IBAction)cancelMediaCapture:(id)sender {
+    [[MRSLEventManager sharedManager] track:@"Tapped Cancel"
+                                 properties:@{@"view": @"Media Capture",
+                                              @"picture_count": @([_capturedMediaItems count])}];
+    if ([self.delegate respondsToSelector:@selector(captureMediaViewControllerDidCancel)]) {
+        [self.delegate captureMediaViewControllerDidCancel];
+    }
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
 }
 
 - (IBAction)completeMediaCapture:(id)sender {
+    [[MRSLEventManager sharedManager] track:@"Tapped OK"
+                                 properties:@{@"view": @"Media Capture",
+                                              @"picture_count": @([_capturedMediaItems count])}];
     if ([self.capturedMediaItems count] > 0) {
         if ([self.delegate respondsToSelector:@selector(captureMediaViewControllerDidFinishCapturingMediaItems:)]) {
             [self.delegate captureMediaViewControllerDidFinishCapturingMediaItems:_capturedMediaItems];
+            self.capturedMediaItems = nil;
         }
     }
     [self.presentingViewController dismissViewControllerAnimated:YES
@@ -305,8 +315,8 @@ MRSLCapturePreviewsViewControllerDelegate>
 }
 
 - (IBAction)displayCameraRoll:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Gallery Icon"
-                                 properties:@{@"view": @"MRSLCaptureMediaViewController"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Camera Roll Icon"
+                                 properties:@{@"view": @"Media Capture"}];
 
     [self endCameraSession];
 
@@ -322,8 +332,9 @@ MRSLCapturePreviewsViewControllerDelegate>
 }
 
 - (IBAction)snapStillImage:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Take Photo"
-                                 properties:@{@"view": @"MRSLCaptureMediaViewController"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Take a Picture"
+                                 properties:@{@"view": @"Media Capture",
+                                              @"picture_count": @([_capturedMediaItems count])}];
     dispatch_async(self.sessionQueue, ^{
 		// Update the orientation on the still image output video connection before capturing.
 		[[self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer  *)self.previewView.layer connection] videoOrientation]];
@@ -383,21 +394,23 @@ MRSLCapturePreviewsViewControllerDelegate>
     CGFloat maximumImageDimension = (imageIsLandscape) ? fullSizeImage.size.width : fullSizeImage.size.height;
     CGFloat xCenterAdjustment = (maximumImageDimension - minimumImageDimension) / 2.f;
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        mediaItem.mediaFullImage = [fullSizeImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
-                                                        scaled:CGSizeMake(960.f, 960.f)];
-        fullSizeImage = nil;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        mediaItem.mediaCroppedImage = [mediaItem.mediaFullImage resizedImage:CGSizeMake(320.f, 320.f)
-                                                        interpolationQuality:kCGInterpolationHigh];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [_capturedMediaItems addObject:mediaItem];
-                [self.capturePreviewsViewController addPreviewMediaItems:_capturedMediaItems];
-                self.approvalImageView.image = mediaItem.mediaCroppedImage;
+    __weak __typeof(self) weakSelf = self;
 
-                [self updateFinishButtonAvailability];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if (weakSelf) {
+            mediaItem.mediaCroppedImage = [fullSizeImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
+                                                               scaled:CGSizeMake(MRSLMorselImageLargeDimensionSize, MRSLMorselImageLargeDimensionSize)];
+            fullSizeImage = nil;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (weakSelf) {
+                    [weakSelf.capturedMediaItems addObject:mediaItem];
+                    [weakSelf.capturePreviewsViewController addPreviewMediaItems:_capturedMediaItems];
+                    weakSelf.approvalImageView.image = mediaItem.mediaCroppedImage;
+
+                    [weakSelf updateFinishButtonAvailability];
+                }
             });
-        });
+        }
     });
 }
 
@@ -570,6 +583,10 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
             [self.previewView.layer setOpacity:1.f];
         }];
     });
+    _captureImageButton.enabled = NO;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _captureImageButton.enabled = YES;
+    });
 }
 
 - (void)checkDeviceAuthorizationStatus {
@@ -605,8 +622,9 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 #pragma mark - ELCImagePickerControllerDelegate
 
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
-    [[MRSLEventManager sharedManager] track:@"Added Photo from Device"
-                                 properties:@{@"view": @"MRSLCaptureMediaViewController"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Done"
+                                 properties:@{@"view": @"Media Capture",
+                                              @"picture_count": @([info count])}];
     [info enumerateObjectsUsingBlock:^(NSDictionary *mediaInfo, NSUInteger idx, BOOL *stop) {
         MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
         mediaItem.mediaFullImage = mediaInfo[UIImagePickerControllerOriginalImage];

@@ -10,6 +10,7 @@
 
 #import "JSONResponseSerializerWithData.h"
 #import "MRSLThumbnailViewController.h"
+#import "MRSLMorselImageView.h"
 #import "MRSLProfileImageView.h"
 
 #import "MRSLMorsel.h"
@@ -25,11 +26,10 @@ ProfileImageViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *plateButton;
 @property (weak, nonatomic) IBOutlet UIButton *progressionButton;
-@property (weak, nonatomic) IBOutlet UILabel *textOnlyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *morselImageView;
 
+@property (weak, nonatomic) IBOutlet MRSLMorselImageView *morselImageView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
 @property (strong, nonatomic) MRSLThumbnailViewController *morselThumbnailVC;
@@ -37,6 +37,14 @@ ProfileImageViewDelegate>
 @end
 
 @implementation MRSLFeedCollectionViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+
+    [self.profileImageView addCornersWithRadius:20.f];
+    self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.profileImageView.layer.borderWidth = 1.f;
+}
 
 #pragma mark - Instance Methods
 
@@ -46,88 +54,41 @@ ProfileImageViewDelegate>
 
         _morsel = morsel;
 
-        if (_morsel) {
-            _progressionButton.hidden = ([_morsel.post.morsels count] == 1);
-
-            if (!_morsel.morselPhotoURL && _morsel.morselDescription) {
-                self.titleLabel.hidden = YES;
-                self.descriptionLabel.hidden = YES;
-
-                self.textOnlyLabel.text = morsel.morselDescription;
-
-            } else {
-                self.textOnlyLabel.hidden = YES;
-
-                if (morsel.morselDescription) {
-                    CGSize descriptionHeight = [morsel.morselDescription sizeWithFont:_descriptionLabel.font
-                                                                    constrainedToSize:CGSizeMake(_descriptionLabel.frame.size.width, CGFLOAT_MAX)
-                                                                        lineBreakMode:NSLineBreakByWordWrapping];
-                    if (descriptionHeight.height > 16.f)
-                        [self.descriptionLabel setHeight:30.f];
-                    self.descriptionLabel.text = morsel.morselDescription;
-                } else {
-                    [self.titleLabel setY:172.f];
-                }
-
-                self.titleLabel.text = _morsel.post.title;
-                [self.titleLabel sizeToFit];
-
-                if ([self.titleLabel getWidth] > 240.f) [self.titleLabel setWidth:240.f];
-            }
-
-            self.profileImageView.user = _morsel.post.creator;
-            self.profileImageView.delegate = self;
-
-            [self.profileImageView addCornersWithRadius:20.f];
-            self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-            self.profileImageView.layer.borderWidth = 1.f;
-
-            [self setLikeButtonImageForMorsel:_morsel];
-
-            if (_morsel.morselPhotoURL) {
-                __weak __typeof(self) weakSelf = self;
-                [self.activityView startAnimating];
-
-                [_morselImageView setImageWithURLRequest:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeCropped]
-                                        placeholderImage:nil
-                                                 success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                     if (image) {
-                                                         weakSelf.morselImageView.image = image;
-                                                     }
-                                                     [weakSelf.activityView stopAnimating];
-                                                 } failure: ^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error) {
-                                                     if (weakSelf.morsel.morselPhotoCropped) {
-                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                             weakSelf.morselImageView.image = [UIImage imageWithData:weakSelf.morsel.morselPhotoCropped];
-                                                         });
-                                                     } else {
-                                                         DDLogError(@"Unable to set Morsel image and no local image exists: %@", error.userInfo);
-                                                         weakSelf.morselImageView.image = nil;
-                                                     }
-                                                     [weakSelf.activityView stopAnimating];
-                                                 }];
-            }
+        _progressionButton.hidden = ([_morsel.post.morsels count] == 1);
+        if (morsel.morselDescription) {
+            CGSize descriptionHeight = [morsel.morselDescription sizeWithFont:_descriptionLabel.font
+                                                            constrainedToSize:CGSizeMake(_descriptionLabel.frame.size.width, CGFLOAT_MAX)
+                                                                lineBreakMode:NSLineBreakByWordWrapping];
+            if (descriptionHeight.height > 16.f)
+                [self.descriptionLabel setHeight:30.f];
+            self.descriptionLabel.text = morsel.morselDescription;
+        } else {
+            [self.titleLabel setY:[self getHeight] - 80.f];
         }
-        
+
+        self.titleLabel.text = _morsel.post.title;
+        [self.titleLabel sizeToFit];
+
+        if ([self.titleLabel getWidth] > 240.f) [self.titleLabel setWidth:240.f];
+
+        [self setLikeButtonImageForMorsel:_morsel];
+
         self.likeButton.hidden = [MRSLUser currentUserOwnsMorselWithCreatorID:_morsel.creator_idValue];
         self.editButton.hidden = !self.likeButton.hidden;
     }
+    _morselImageView.morsel = _morsel;
+    _profileImageView.user = _morsel.post.creator;
+    _profileImageView.delegate = self;
 }
 
 - (void)reset {
-    [self.morselImageView cancelImageRequestOperation];
-    [self.activityView stopAnimating];
-
     self.titleLabel.hidden = NO;
     self.descriptionLabel.hidden = NO;
-    self.textOnlyLabel.hidden = NO;
 
     self.titleLabel.text = nil;
     self.descriptionLabel.text = nil;
-    self.profileImageView.user = nil;
-    self.morselImageView.image = nil;
 
-    [self.titleLabel setY:148.f];
+    [self.titleLabel setY:[self getHeight] - 56.f];
     [self.descriptionLabel setHeight:15.f];
 
     if (self.morselThumbnailVC) {
@@ -149,10 +110,10 @@ ProfileImageViewDelegate>
 #pragma mark - Private Methods
 
 - (IBAction)editMorsel:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Edit Post"
-                                 properties:@{@"view": @"MRSLFeedCollectionViewCell",
+    [[MRSLEventManager sharedManager] track:@"Tapped Edit Icon"
+                                 properties:@{@"view": @"Feed",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                              @"post_id": NSNullIfNil(_morsel.post.postID)}];
+                                              @"story_id": NSNullIfNil(_morsel.post.postID)}];
 
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectEditMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectEditMorsel:self.morsel];
@@ -160,9 +121,10 @@ ProfileImageViewDelegate>
 }
 
 - (IBAction)displayAssociatedMorsels:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Open Progression Thumbnail View"
-                                 properties:@{@"view": @"MRSLFeedCollectionViewCell",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Story Icon"
+                                 properties:@{@"view": @"Feed",
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                              @"story_id": NSNullIfNil(_morsel.post.postID)}];
 
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidDisplayProgression:)]) {
         [self.delegate morselPostCollectionViewCellDidDisplayProgression:self];
@@ -171,7 +133,7 @@ ProfileImageViewDelegate>
     self.morselThumbnailVC = [[UIStoryboard homeStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselThumbnailViewController"];
     _morselThumbnailVC.delegate = self;
     _morselThumbnailVC.post = _morsel.post;
-    [_morselThumbnailVC.view setX:self.frame.size.width];
+    [_morselThumbnailVC.view setX:[self getWidth]];
 
     [self addSubview:_morselThumbnailVC.view];
 
@@ -197,13 +159,13 @@ ProfileImageViewDelegate>
 - (IBAction)toggleLikeMorsel {
     _likeButton.enabled = NO;
 
+    [[MRSLEventManager sharedManager] track:@"Tapped Like Icon"
+                                 properties:@{@"view": @"Feed",
+                                              @"morsel_id": _morsel.morselID}];
+
     [_appDelegate.morselApiService likeMorsel:_morsel
                                    shouldLike:!_morsel.likedValue
-                                      didLike:^(BOOL doesLike)
-     {
-         [[MRSLEventManager sharedManager] track:(doesLike) ? @"Liked Morsel" : @"Unliked Morsel"
-                                      properties:@{@"view": @"MRSLFeedCollectionViewCell",
-                                                   @"morsel_id": _morsel.morselID}];
+                                      didLike:^(BOOL doesLike) {
          [_morsel setLikedValue:doesLike];
 
          [self setLikeButtonImageForMorsel:_morsel];
@@ -237,8 +199,8 @@ ProfileImageViewDelegate>
 #pragma mark - MorselThumbnailViewControllerDelegate Methods
 
 - (void)morselThumbnailDidSelectMorsel:(MRSLMorsel *)morsel {
-    [[MRSLEventManager sharedManager] track:@"Tapped Morsel Thumbnail"
-                                 properties:@{@"view": @"MRSLFeedCollectionViewCell",
+    [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
+                                 properties:@{@"view": @"Feed",
                                               @"morsel_id": NSNullIfNil(morsel.morselID)}];
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectMorsel:morsel];
@@ -247,8 +209,8 @@ ProfileImageViewDelegate>
 
 - (void)morselThumbnailDidSelectClose {
     if (self.morselThumbnailVC) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Close Progression Thumbnail View"
-                                     properties:@{@"view": @"MRSLFeedCollectionViewCell",
+        [[MRSLEventManager sharedManager] track:@"Tapped Close Icon"
+                                     properties:@{@"view": @"Feed",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID)}];
 
         _progressionButton.enabled = YES;
@@ -266,7 +228,7 @@ ProfileImageViewDelegate>
              _likeButton.alpha = 1.f;
              _progressionButton.alpha = 1.f;
 
-             [_morselThumbnailVC.view setX:self.frame.size.width];
+             [_morselThumbnailVC.view setX:[self getWidth]];
          }
                          completion:^(BOOL finished)
          {

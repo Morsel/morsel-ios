@@ -73,16 +73,28 @@ UIGestureRecognizerDelegate>
                                              selector:@selector(localContentRestored)
                                                  name:MRSLServiceWillRestoreDataNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(scrollFeedToTop)
+                                                 name:MRSLAppShouldDisplayFeedNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES
+                                             animated:animated];
 
     if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
 
     [self setupFeedFetchRequest];
     [self populateContent];
     [self refreshFeed];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO
+                                             animated:animated];
 }
 
 #pragma mark - Notification Methods
@@ -110,6 +122,11 @@ UIGestureRecognizerDelegate>
     [self populateContent];
 
     self.activityView.hidden = YES;
+}
+
+- (void)scrollFeedToTop {
+    [self.feedCollectionView scrollRectToVisible:CGRectMake(2.f, 2.f, 2.f, 2.f)
+                                        animated:NO];
 }
 
 #pragma mark - Private Methods
@@ -181,8 +198,8 @@ UIGestureRecognizerDelegate>
 }
 
 - (void)displayUserProfile {
-    [[MRSLEventManager sharedManager] track:@"Tapped User Profile Picture"
-                          properties:@{@"view": @"MRSLHomeViewController",
+    [[MRSLEventManager sharedManager] track:@"Tapped Profile Icon"
+                          properties:@{@"view": @"Feed",
                                        @"user_id": _currentUser.userID}];
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfileViewController"];
     profileVC.user = _currentUser;
@@ -193,7 +210,7 @@ UIGestureRecognizerDelegate>
 
 - (void)displayMorselDetail {
     [[MRSLEventManager sharedManager] track:@"Tapped Morsel"
-                          properties:@{@"view": @"MRSLHomeViewController",
+                          properties:@{@"view": @"Feed",
                                        @"morsel_id": _selectedMorsel.morselID}];
     MRSLMorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailViewController"];
     morselDetailVC.morsel = _selectedMorsel;
@@ -258,7 +275,7 @@ UIGestureRecognizerDelegate>
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
-    CGSize morselCellSize = CGSizeMake(320.f, (!morsel.isUploadingValue && !morsel.didFailUploadValue) ? 214.f : 50.f);
+    CGSize morselCellSize = CGSizeMake(MRSLMorselImageLargeDimensionSize, (!morsel.isUploadingValue && !morsel.didFailUploadValue) ? MRSLMorselImageLargeDimensionSize : MRSLMorselImageThumbDimensionSize);
     return morselCellSize;
 }
 

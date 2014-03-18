@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *storyTitleTextView;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleCountLimitLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titlePlaceholderLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButtonItem;
 
 @property (weak, nonatomic) MRSLPost *post;
@@ -30,6 +31,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(goBack)];
+    [self.navigationItem setLeftBarButtonItem:backButton];
 
     [self getOrLoadPostIfExists];
 
@@ -58,11 +65,13 @@
 
 #pragma mark - Action Methods
 
-- (IBAction)cancel:(id)sender {
+- (void)goBack {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)done:(id)sender {
+    [[MRSLEventManager sharedManager] track:@"Tapped Done"
+                                 properties:@{@"view": @"Add Story Title"}];
     if (_isUserEditingTitle) {
         self.post = [self getOrLoadPostIfExists];
         if (![self.post.title isEqualToString:self.storyTitleTextView.text]) {
@@ -96,6 +105,7 @@
 - (void)textViewDidChange:(UITextView *)textView {
     NSUInteger textLength = textView.text.length;
     _doneBarButtonItem.enabled = !(textLength == 0);
+    _titlePlaceholderLabel.hidden = !(textLength == 0);
     if (textLength < 40) {
         [_titleCountLimitLabel setTextColor:[UIColor morselGreen]];
     } else if (textLength >= 40 && textLength <= 50) {

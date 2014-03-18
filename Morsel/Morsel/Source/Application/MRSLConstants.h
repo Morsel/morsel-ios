@@ -25,6 +25,7 @@ extern NSString *const MRSLMorselUploadDidCompleteNotification;
 extern NSString *const MRSLMorselUploadDidFailNotification;
 
 extern NSString *const MRSLAppShouldDisplayFeedNotification;
+extern NSString *const MRSLAppShouldDisplayStoryAddNotification;
 
 extern int LOG_LEVEL_DEF;
 

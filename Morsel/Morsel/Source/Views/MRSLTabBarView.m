@@ -23,11 +23,19 @@
                                              selector:@selector(displayFeed)
                                                  name:MRSLAppShouldDisplayFeedNotification
                                                object:nil];
-    [self selectedButton:[self feedButton]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayStoryAdd)
+                                                 name:MRSLAppShouldDisplayStoryAddNotification
+                                               object:nil];
+    [self selectedButton:[self buttonWithName:@"Feed"]];
 }
 
 - (void)displayFeed {
-    [self selectedButton:[self feedButton]];
+    [self selectedButton:[self buttonWithName:@"Feed"]];
+}
+
+- (void)displayStoryAdd {
+    [self selectedButton:[self buttonWithName:@"Add"]];
 }
 
 - (IBAction)selectedButton:(MRSLTabBarButton *)targetButton {
@@ -42,10 +50,10 @@
     }];
 }
 
-- (MRSLTabBarButton *)feedButton {
+- (MRSLTabBarButton *)buttonWithName:(NSString *)buttonName {
     __block MRSLTabBarButton *feedButton = nil;
     [_tabBarButtons enumerateObjectsUsingBlock:^(MRSLTabBarButton *tabBarButton, NSUInteger idx, BOOL *stop) {
-        if ([tabBarButton.titleLabel.text isEqualToString:@"Feed"]) {
+        if ([tabBarButton.titleLabel.text isEqualToString:buttonName]) {
             feedButton = tabBarButton;
             *stop = YES;
         }
