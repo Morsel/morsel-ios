@@ -31,6 +31,7 @@
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
     if (_morsel != morsel) {
+        [self reset];
         _morsel = morsel;
         if (_morsel.morselPhotoThumb) {
             self.thumbnailImageView.image = [UIImage imageWithData:_morsel.morselPhotoThumb];
@@ -43,16 +44,32 @@
 #pragma mark - Action
 
 - (IBAction)retryUpload {
-    _morsel.isUploading = @YES;
+    [self reset];
     _morsel.didFailUpload = @NO;
-    [_appDelegate.morselApiService createMorsel:_morsel
-                                        success:nil
-                                        failure:nil];
+    _morsel.isUploading = @YES;
+    [_appDelegate.morselApiService updateMorselImage:_morsel
+                                             success:nil
+                                             failure:nil];
 }
 
 - (IBAction)deleteMorsel {
-    [_morsel MR_deleteEntity];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+    [self reset];
+    __weak __typeof(self) weakSelf = self;
+    [_appDelegate.morselApiService deleteMorsel:_morsel
+                                        success:nil
+                                        failure:^(NSError *error) {
+                                            if (weakSelf) {
+                                                weakSelf.retryButton.enabled = NO;
+                                                weakSelf.deleteButton.enabled = NO;
+                                            }
+                                        }];
+}
+
+#pragma mark - Private Methods
+
+- (void)reset {
+    _retryButton.enabled = NO;
+    _deleteButton.enabled = NO;
 }
 
 @end

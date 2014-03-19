@@ -101,28 +101,8 @@
 
     NSString *adjustedURLForType = [self.profilePhotoURL stringByReplacingOccurrencesOfString:@"IMAGE_SIZE"
                                                                                    withString:typeSizeString];
-
     return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
 }
-
-- (void)incrementDraftCountAndSave {
-    int currentDraftCount = self.draft_countValue;
-    int updatedDraftCount = currentDraftCount + 1;
-
-    self.draft_count = @(updatedDraftCount);
-
-    [self.managedObjectContext MR_saveOnlySelfAndWait];
-}
-
-- (void)decrementDraftCountAndSave {
-    int currentDraftCount = self.draft_countValue;
-    int updatedDraftCount = currentDraftCount - 1;
-
-    self.draft_count = @(updatedDraftCount);
-
-    [self.managedObjectContext MR_saveOnlySelfAndWait];
-}
-
 
 #pragma mark - MagicalRecord
 

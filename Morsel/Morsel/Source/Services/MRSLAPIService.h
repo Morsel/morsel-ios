@@ -63,16 +63,6 @@
         success:(MorselAPISuccessBlock)successOrNil
         failure:(MorselAPIFailureBlock)failureOrNil;
 
-- (void)appendMorsel:(MRSLMorsel *)morsel
-              toPost:(MRSLPost *)post
-             success:(MorselAPISuccessBlock)successOrNil
-             failure:(MorselAPIFailureBlock)failureOrNil;
-
-- (void)detachMorsel:(MRSLMorsel *)morsel
-            fromPost:(MRSLPost *)post
-             success:(MorselAPISuccessBlock)successOrNil
-             failure:(MorselAPIFailureBlock)failureOrNil;
-
 #pragma mark - Morsel Services
 
 - (void)createMorsel:(MRSLMorsel *)morsel

@@ -23,25 +23,23 @@
 @implementation MRSLStoryCollectionViewCell
 
 - (void)setPost:(MRSLPost *)post {
-    if (_post != post) {
-        [self reset];
+    if (_post != post) [self reset];
 
-        _post = post;
+    _post = post;
 
-        self.postTitleLabel.text = _post.title ?: @"No title";
+    self.postTitleLabel.text = _post.title ?: @"No title";
 
-        if ([_post.morsels count] > 0) {
-            MRSLMorsel *firstMorsel = [_post.morselsArray firstObject];
-            _postThumbnailView.morsel = firstMorsel;
-            self.postCountLabel.text = [NSString stringWithFormat:@"%lu MORSEL%@", (unsigned long)[_post.morsels count], ([_post.morsels count] > 1) ? @"S" : @""];
-        } else {
-            DDLogError(@"PostCollectionViewCell assigned a Post with no Morsels. Post ID: %i", [_post.postID intValue]);
-            [_postThumbnailView displayEmptyStoryState];
-            self.postCountLabel.text = @"NO MORSELS";
-        }
-        
-        [_postCountLabel sizeToFit];
+    if ([_post.morsels count] > 0) {
+        MRSLMorsel *firstMorsel = [_post.morselsArray firstObject];
+        _postThumbnailView.morsel = firstMorsel;
+        self.postCountLabel.text = [NSString stringWithFormat:@"%lu MORSEL%@", (unsigned long)[_post.morsels count], ([_post.morsels count] > 1) ? @"S" : @""];
+    } else {
+        DDLogError(@"PostCollectionViewCell assigned a Post with no Morsels. Post ID: %i", [_post.postID intValue]);
+        [_postThumbnailView displayEmptyStoryState];
+        self.postCountLabel.text = @"NO MORSELS";
     }
+
+    [_postCountLabel sizeToFit];
 }
 
 - (void)setHighlighted:(BOOL)highlighted {

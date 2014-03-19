@@ -38,10 +38,12 @@
 }
 
 - (void)displayEmptyStoryState {
-    [self setBorderWithColor:[UIColor morselDarkContent]
-                    andWidth:1.f];
-    self.emptyStoryStateView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-thumb-story-null"]];
-    [self addSubview:_emptyStoryStateView];
+    if (!_emptyStoryStateView) {
+        [self setBorderWithColor:[UIColor morselDarkContent]
+                        andWidth:1.f];
+        self.emptyStoryStateView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-thumb-story-null"]];
+        [self addSubview:_emptyStoryStateView];
+    }
 }
 
 #pragma mark - Instance Methods
@@ -75,9 +77,20 @@
                     });
                     [weakSelf.activityIndicatorView stopAnimating];
                 } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                    [weakSelf attemptToSetLocalMorselImageForSizeType:morselSizeType
-                                                            withError:error];
-                    [weakSelf.activityIndicatorView stopAnimating];
+                    if ([operation.response statusCode] == 403 && !weakSelf.morsel.morselPhotoCropped) {
+                        [_appDelegate.morselApiService getMorsel:weakSelf.morsel
+                                                         success:nil
+                                                         failure:^(NSError *error) {
+                                                             DDLogError(@"Morsel appears to no longer exist. Removing from store!");
+                                                             [weakSelf.morsel MR_deleteEntity];
+                                                             [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+                                                         }];
+                    } else {
+                        [weakSelf attemptToSetLocalMorselImageForSizeType:morselSizeType
+                                                                withError:error];
+                        [weakSelf.activityIndicatorView stopAnimating];
+                    }
+
                 }];
                 [_imageRequestOperation start];
             } else {

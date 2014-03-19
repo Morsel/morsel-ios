@@ -69,10 +69,6 @@
         NSString *updateString = data[@"updated_at"];
         self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
     }
-    
-    if (!self.draft) {
-        self.draft = @NO;
-    }
 }
 
 @end

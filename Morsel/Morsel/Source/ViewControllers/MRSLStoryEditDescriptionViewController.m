@@ -74,7 +74,6 @@
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     if (![_morsel.morselDescription isEqualToString:self.morselDescriptionTextView.text]) {
         _morsel.morselDescription = self.morselDescriptionTextView.text;
-        _morsel.isUploading = @YES;
         [_appDelegate.morselApiService updateMorsel:_morsel
                                             andPost:nil
                                             success:nil
