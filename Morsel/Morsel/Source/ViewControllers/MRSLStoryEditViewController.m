@@ -267,20 +267,13 @@ MRSLStoryEditMorselTableViewCellDelegate>
         double delayInSeconds = .4f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            if (deletedMorsel.localUUID) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteMorselNotification
-                                                                    object:deletedMorsel.morselID];
-                [deletedMorsel MR_deleteEntity];
-                [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
-            } else {
-                [_appDelegate.morselApiService deleteMorsel:deletedMorsel
-                                                    success:^(BOOL success) {
-                                                        if (weakSelf) {
-                                                            [weakSelf getOrLoadPostIfExists].lastUpdatedDate = [NSDate date];
-                                                            [weakSelf displayStoryStatus];
-                                                        }
-                                                    } failure:nil];
-            }
+            [_appDelegate.morselApiService deleteMorsel:deletedMorsel
+                                                success:^(BOOL success) {
+                                                    if (weakSelf) {
+                                                        [weakSelf getOrLoadPostIfExists].lastUpdatedDate = [NSDate date];
+                                                        [weakSelf displayStoryStatus];
+                                                    }
+                                                } failure:nil];
         });
     }
 }
@@ -381,12 +374,13 @@ MRSLStoryEditMorselTableViewCellDelegate>
             }
             DDLogDebug(@"Morsel INDEX: %lu", (unsigned long)morselIndex);
             MRSLMorsel *morsel = [MRSLMorsel localUniqueMorsel];
-            morsel.post = strongSelf.post;
             morsel.sort_order = @(morselIndex);
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 morsel.morselPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, 1.f);
                 morsel.morselPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
+                morsel.isUploading = @YES;
+                morsel.post = strongSelf.post;
                 if (morsel.managedObjectContext) {
                     [strongSelf.post addMorselsObject:morsel];
                     [_appDelegate.morselApiService createMorsel:morsel
@@ -394,7 +388,6 @@ MRSLStoryEditMorselTableViewCellDelegate>
                                                             if (weakSelf) {
                                                                 [weakSelf getOrLoadPostIfExists].lastUpdatedDate = [NSDate date];
                                                                 [weakSelf displayStoryStatus];
-                                                                morsel.isUploading = @YES;
                                                                 [_appDelegate.morselApiService updateMorselImage:morsel
                                                                                                          success:nil
                                                                                                          failure:nil];

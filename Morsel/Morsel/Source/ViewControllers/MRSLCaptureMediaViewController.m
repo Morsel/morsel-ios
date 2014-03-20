@@ -400,6 +400,8 @@ MRSLCapturePreviewsViewControllerDelegate>
         if (weakSelf) {
             mediaItem.mediaCroppedImage = [fullSizeImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
                                                                scaled:CGSizeMake(MRSLMorselImageLargeDimensionSize, MRSLMorselImageLargeDimensionSize)];
+            mediaItem.mediaThumbImage = [mediaItem.mediaCroppedImage thumbnailImage:50.f
+                                                               interpolationQuality:kCGInterpolationHigh];
             fullSizeImage = nil;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (weakSelf) {

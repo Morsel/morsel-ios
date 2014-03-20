@@ -74,11 +74,23 @@
 
     [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
 
-    NSArray *morsels = [MRSLMorsel MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"(isUploading == YES)"]];
-    [morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
-        morsel.isUploading = @NO;
-        morsel.didFailUpload = @YES;
-    }];
+    if ([MRSLUser currentUser]) {
+        // Delete Morsels that do not have a localUUID, morselID, photo data, and belong to the current user. They didn't make it nor will they ever be able to be synced with any existing Morsels.
+        NSPredicate *localOrphanedPredicate = [NSPredicate predicateWithFormat:@"((morselPhotoCropped != nil) AND (localUUID == nil) AND (morselID == nil) AND (post.creator.userID == %i))", [MRSLUser currentUser].userIDValue];
+        NSArray *localOrphanedMorsels = [MRSLMorsel MR_findAllWithPredicate:localOrphanedPredicate];
+        if ([localOrphanedMorsels count] > 0) {
+            DDLogDebug(@"Local orphaned Morsels found. Removing %lu", (unsigned long)[localOrphanedMorsels count]);
+            [MRSLMorsel MR_deleteAllMatchingPredicate:localOrphanedPredicate];
+            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
+        }
+
+        // Finds any Morsels that have their upload flag set to YES. This is due to the app quitting before success/failure blocks of the Morsel image upload was able to complete.
+        NSArray *morsels = [MRSLMorsel MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"(isUploading == YES)"]];
+        [morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
+            morsel.isUploading = @NO;
+            morsel.didFailUpload = @YES;
+        }];
+    }
 }
 
 #pragma mark - Logout

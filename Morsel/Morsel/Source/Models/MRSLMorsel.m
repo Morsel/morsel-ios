@@ -74,6 +74,20 @@
     return message;
 }
 
+- (void)willImport:(id)data {
+    if (![data[@"nonce"] isEqual:[NSNull null]]) {
+        MRSLMorsel *potentialLocalOrphanedMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.localUUID
+                                                                             withValue:data[@"nonce"]];
+        if (potentialLocalOrphanedMorsel && potentialLocalOrphanedMorsel.morselPhotoCropped && !potentialLocalOrphanedMorsel.morselID) {
+            DDLogDebug(@"Local orphaned Morsel found that matches server copy and it contains binary image data. Poaching then deleting!");
+            self.morselPhotoCropped = [potentialLocalOrphanedMorsel.morselPhotoCropped copy] ?: nil;
+            self.morselPhotoThumb = [potentialLocalOrphanedMorsel.morselPhotoThumb copy] ?: nil;
+            [potentialLocalOrphanedMorsel MR_deleteEntity];
+            [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+        }
+    }
+}
+
 - (void)didImport:(id)data {
     if (![data[@"post_id"] isEqual:[NSNull null]]) {
         NSNumber *postID = data[@"post_id"];
@@ -98,18 +112,18 @@
         NSString *updateString = data[@"updated_at"];
         self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
     }
+    if (![data[@"nonce"] isEqual:[NSNull null]]) {
+        self.localUUID = data[@"nonce"];
+    } else {
+        self.localUUID = nil;
+    }
 
-    self.localUUID = nil;
+    if (self.photo_processingValue || self.morselPhotoURL) self.isUploading = @NO;
 
-    if (!self.morselPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.morselPhotoCropped) {
+    if (!self.isUploadingValue && !self.morselPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.morselPhotoCropped) {
         self.didFailUpload = @YES;
     } else {
         self.didFailUpload = @NO;
-    }
-    self.isUploading = @NO;
-
-    if (!self.sort_order) {
-        self.sort_order = @(0);
     }
 }
 
