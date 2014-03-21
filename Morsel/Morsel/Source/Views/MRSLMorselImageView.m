@@ -28,7 +28,7 @@
 
     self.backgroundColor = [UIColor morselDarkContent];
 
-    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:([self getWidth] > MRSLMorselImageThumbDimensionSize) ? UIActivityIndicatorViewStyleWhiteLarge : UIActivityIndicatorViewStyleGray];
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:([self getWidth] >= MRSLMorselImageLargeDimensionSize) ? UIActivityIndicatorViewStyleWhiteLarge : UIActivityIndicatorViewStyleGray];
     [_activityIndicatorView setX:([self getWidth] / 2) - ([_activityIndicatorView getWidth] / 2)];
     [_activityIndicatorView setY:([self getHeight] / 2) - ([_activityIndicatorView getHeight] / 2)];
     [_activityIndicatorView setColor:[UIColor morselUserInterface]];
@@ -60,7 +60,7 @@
         [self reset];
 
         if (morsel) {
-            MorselImageSizeType morselSizeType = ([self getWidth] > MRSLMorselImageThumbDimensionSize) ? MorselImageSizeTypeCropped : MorselImageSizeTypeThumbnail;
+            MorselImageSizeType morselSizeType = ([self getWidth] >= MRSLMorselImageLargeDimensionSize) ? MorselImageSizeTypeCropped : MorselImageSizeTypeThumbnail;
             if (_morsel.morselPhotoURL) {
                 NSURLRequest *morselImageURLRequest = [_morsel morselPictureURLRequestForImageSizeType:morselSizeType];
                 if (!morselImageURLRequest)

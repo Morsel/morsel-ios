@@ -9,5 +9,5 @@
     #import <Foundation/Foundation.h>
     #import <Kiwi+KIF.h>
 
-    #import "Defines.h"
+    #import "MRSLDefines.h"
 #endif

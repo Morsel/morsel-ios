@@ -10,19 +10,23 @@
 
 #import "MRSLStoryAddViewController.h"
 
-#import "MRSLTabBarView.h"
+#import "MRSLMenuBarView.h"
 
 #import "MRSLUser.h"
 
 @interface MRSLRootViewController ()
-<MRSLTabBarViewDelegate>
+<MRSLMenuBarViewDelegate>
+
+@property (nonatomic) BOOL shouldMenuBarOpen;
+
+@property (nonatomic) UIStatusBarStyle currentStatusBarStyle;
 
 @property (strong, nonatomic) NSMutableArray *navigationControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
 
 @property (weak, nonatomic) IBOutlet UIView *rootContainerView;
 
-@property (weak, nonatomic) IBOutlet MRSLTabBarView *tabBarView;
+@property (weak, nonatomic) IBOutlet MRSLMenuBarView *menuBarView;
 
 @end
 
@@ -33,8 +37,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.currentStatusBarStyle = UIStatusBarStyleDefault;
+
+    [self.menuBarView setX:-[_menuBarView getWidth]];
     self.navigationControllers = [NSMutableArray array];
-    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeStatusBarStyle:)
+                                                 name:MRSLAppDidRequestNewPreferredStatusBarStyle
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayFeed)
+                                                 name:MRSLAppShouldDisplayFeedNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayStoryAdd)
+                                                 name:MRSLAppShouldDisplayStoryAddNotification
+                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLoggedIn:)
                                                  name:MRSLServiceDidLogInUserNotification
@@ -44,8 +62,11 @@
                                                  name:MRSLServiceShouldLogOutUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayHome)
-                                                 name:MRSLAppShouldDisplayFeedNotification
+                                             selector:@selector(showMenuBar)
+                                                 name:MRSLAppShouldDisplayMenuBarNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideMenuBar)
+                                                 name:MRSLAppTouchPhaseDidBeginNotification
                                                object:nil];
 
     MRSLUser *currentUser = [MRSLUser currentUser];
@@ -74,7 +95,90 @@
     }
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return _currentStatusBarStyle;
+}
+
+#pragma mark - Notification Methods
+
+- (void)changeStatusBarStyle:(NSNotification *)notification {
+    self.currentStatusBarStyle = [notification.object intValue];
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+- (void)displayFeed {
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
+                                                  andStoryboardPrefix:@"Feed"
+                                                    shouldDisplayRoot:YES];
+}
+
+- (void)displayStoryAdd {
+    UINavigationController *storyAddNC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_StoryAdd"];
+    [self presentViewController:storyAddNC
+                       animated:YES
+                     completion:nil];
+}
+
+- (void)showMenuBar {
+    self.shouldMenuBarOpen = YES;
+    [self displayMenuBar];
+}
+
+- (void)hideMenuBar {
+    if (_shouldMenuBarOpen) {
+        self.shouldMenuBarOpen = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self displayMenuBar];
+        });
+    }
+}
+
+- (void)userLoggedIn:(NSNotification *)notification {
+    [self syncDataAndPresentFeed];
+}
+
+- (void)logUserOut {
+    [self displaySignUpAnimated:YES];
+
+    [_navigationControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
+        [viewController removeFromParentViewController];
+        [viewController.view removeFromSuperview];
+    }];
+    [_navigationControllers removeAllObjects];
+    [_menuBarView reset];
+    [_appDelegate resetDataStore];
+}
+
 #pragma mark - Private Methods
+
+- (UINavigationController *)getNavControllerWithClass:(Class)class {
+    __block UINavigationController *foundNC = nil;
+
+    [_navigationControllers enumerateObjectsUsingBlock:^(UINavigationController *navigationController, NSUInteger idx, BOOL *stop) {
+        if ([navigationController isKindOfClass:[UINavigationController class]]) {
+            if ([navigationController.viewControllers count] > 0) {
+                if ([[navigationController.viewControllers objectAtIndex:0] isKindOfClass:class]) {
+                    foundNC = navigationController;
+                    *stop = YES;
+                }
+            }
+        }
+    }];
+
+    return foundNC;
+}
+
+- (void)syncDataAndPresentFeed {
+    if ([UIApplication sharedApplication].statusBarHidden) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO
+                                                withAnimation:UIStatusBarAnimationSlide];
+    }
+
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
 
 - (void)displaySignUpAnimated:(BOOL)animated {
     UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:@"sb_SignUp"];
@@ -84,10 +188,11 @@
                      completion:nil];
 }
 
-- (void)displayHome {
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"
-                                                  andStoryboardPrefix:@"Home"
-                                                    shouldDisplayRoot:YES];
+- (void)displayMenuBar {
+    [UIView animateWithDuration:.2f
+                     animations:^{
+        [_menuBarView setX:(_shouldMenuBarOpen) ? 0.f : -[_menuBarView getWidth]];
+    }];
 }
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
@@ -112,7 +217,7 @@
         [_currentViewController.view removeFromSuperview];
 
         UINavigationController *navController = (UINavigationController *)self.currentViewController;
-        if ([[navController.viewControllers firstObject] isKindOfClass:[MRSLStoryAddViewController class]] || shouldDisplayRoot) {
+        if (shouldDisplayRoot) {
             [navController popToRootViewControllerAnimated:NO];
         }
 
@@ -125,90 +230,37 @@
     }
 }
 
-- (UINavigationController *)getNavControllerWithClass:(Class)class {
-    __block UINavigationController *foundNC = nil;
+#pragma mark - MRSLMenuBarViewDelegate
 
-    [_navigationControllers enumerateObjectsUsingBlock:^(UINavigationController *navigationController, NSUInteger idx, BOOL *stop)
-     {
-         if ([navigationController isKindOfClass:[UINavigationController class]]) {
-             if ([navigationController.viewControllers count] > 0) {
-                 if ([[navigationController.viewControllers objectAtIndex:0] isKindOfClass:class]) {
-                     foundNC = navigationController;
-                     *stop = YES;
-                 }
-             }
-         }
-     }];
-
-    return foundNC;
-}
-
-- (void)userLoggedIn:(NSNotification *)notification {
-    [self syncDataAndPresentHome];
-}
-
-- (void)syncDataAndPresentHome {
-    if ([UIApplication sharedApplication].statusBarHidden) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO
-                                                withAnimation:UIStatusBarAnimationSlide];
-    }
-
-    [self displayHome];
-
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-}
-
-- (void)logUserOut {
-    [self displaySignUpAnimated:YES];
-    
-    [_navigationControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
-        [viewController removeFromParentViewController];
-        [viewController.view removeFromSuperview];
-    }];
-    [_navigationControllers removeAllObjects];
-    [_tabBarView reset];
-    [_appDelegate resetDataStore];
-}
-
-#pragma mark - MRSLTabBarViewDelegate
-
-- (void)tabBarDidSelectButtonOfType:(MRSLTabBarButtonType)buttonType {
+- (void)menuBarDidSelectButtonOfType:(MRSLMenuBarButtonType)buttonType {
     switch (buttonType) {
-        case MRSLTabBarButtonTypeHome:
-            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
-                                         properties:@{@"name": @"Home"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Home"
-                                                          andStoryboardPrefix:@"Home"
+        case MRSLMenuBarButtonTypeFeed:
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
+                                         properties:@{@"name": @"Feed"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
+                                                          andStoryboardPrefix:@"Feed"
                                                             shouldDisplayRoot:NO];
             break;
-        case MRSLTabBarButtonTypeActivity:
-            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
-                                         properties:@{@"name": @"Activity"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Activity"
-                                                          andStoryboardPrefix:@"Activity"
-                                                            shouldDisplayRoot:NO];
-            break;
-        case MRSLTabBarButtonTypeAdd:
-            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
-                                         properties:@{@"name": @"Add Story"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"StoryAdd"
-                                                          andStoryboardPrefix:@"StoryManagement"
+        case MRSLMenuBarButtonTypeProfile:
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
+                                         properties:@{@"name": @"Profile"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"
+                                                          andStoryboardPrefix:@"Profile"
                                                             shouldDisplayRoot:YES];
             break;
-        case MRSLTabBarButtonTypeMyStuff:
-            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
+        case MRSLMenuBarButtonTypeMyStuff:
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
                                          properties:@{@"name": @"My Stuff"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"MyStuff"
                                                           andStoryboardPrefix:@"MyStuff"
-                                                            shouldDisplayRoot:NO];
+                                                            shouldDisplayRoot:YES];
             break;
-        case MRSLTabBarButtonTypeMore:
-            [[MRSLEventManager sharedManager] track:@"Tapped Tab Bar Icon"
-                                         properties:@{@"name": @"MRSLRootViewController"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"More"
-                                                          andStoryboardPrefix:@"More"
-                                                            shouldDisplayRoot:NO];
+        case MRSLMenuBarButtonTypeActivity:
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
+                                         properties:@{@"name": @"Activity"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Activity"
+                                                          andStoryboardPrefix:@"Activity"
+                                                            shouldDisplayRoot:YES];
             break;
         default:
             break;

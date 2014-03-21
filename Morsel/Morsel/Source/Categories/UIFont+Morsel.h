@@ -10,11 +10,10 @@
 
 @interface UIFont (Morsel)
 
-+ (UIFont *)helveticaNeueLTStandardThinCondensedFontOfSize:(CGFloat)fontSize;
-+ (UIFont *)helveticaNeueLTStandardCondensedFontOfSize:(CGFloat)fontSize;
-+ (UIFont *)helveticaNeueLTStandardCondensedObliqueFontOfSize:(CGFloat)fontSize;
-+ (UIFont *)helveticaNeueLTStandardLightCondensedFontOfSize:(CGFloat)fontSize;
-+ (UIFont *)helveticaNeueLTStandardMediumFontOfSize:(CGFloat)fontSize;
++ (UIFont *)robotoSlabBoldFontOfSize:(CGFloat)fontSize;
++ (UIFont *)robotoCondensedRegularFontOfSize:(CGFloat)fontSize;
++ (UIFont *)robotoCondensedItalicFontOfSize:(CGFloat)fontSize;
++ (UIFont *)robotoCondensedLightFontOfSize:(CGFloat)fontSize;
 + (UIFont *)helveticaLightFontOfSize:(CGFloat)fontSize;
 + (UIFont *)helveticaLightObliqueFontOfSize:(CGFloat)fontSize;
 

@@ -18,16 +18,16 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" id="OXi-ay-p36" customClass="MRSLTabBarView">
-                                <rect key="frame" x="0.0" y="508" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <view contentMode="scaleToFill" id="OXi-ay-p36" customClass="MRSLMenuBarView">
+                                <rect key="frame" x="0.0" y="0.0" width="80" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="UKk-bO-zgY" customClass="MRSLTabBarButton">
-                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="UKk-bO-zgY" customClass="MRSLMenuBarButton">
+                                        <rect key="frame" x="0.0" y="33" width="80" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="View Feed"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
-                                        <state key="normal" title="Feed" image="icon-tab-home-active">
+                                        <state key="normal" title="Feed" image="icon-menubar-home">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -41,7 +41,7 @@
                                             <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="tabBarButtonType">
+                                            <userDefinedRuntimeAttribute type="number" keyPath="menuBarButtonType">
                                                 <integer key="value" value="0"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
@@ -49,8 +49,8 @@
                                             <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="Bqa-gI-fRv"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="uxq-Co-Ih2" customClass="MRSLTabBarButton">
-                                        <rect key="frame" x="60" y="0.0" width="60" height="60"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="uxq-Co-Ih2" customClass="MRSLMenuBarButton">
+                                        <rect key="frame" x="0.0" y="237" width="80" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="View Activity"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
@@ -68,21 +68,21 @@
                                             <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="tabBarButtonType">
-                                                <integer key="value" value="1"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="menuBarButtonType">
+                                                <integer key="value" value="3"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="zDn-ww-gb1"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="lAZ-OY-Dws" customClass="MRSLTabBarButton">
-                                        <rect key="frame" x="120" y="0.0" width="76" height="60"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="lAZ-OY-Dws" customClass="MRSLMenuBarButton">
+                                        <rect key="frame" x="0.0" y="101" width="80" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="Add Morsel"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" title="Add" image="button-tab-add">
+                                        <state key="normal" title="Profile" image="icon-menubar-profile">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -96,47 +96,20 @@
                                             <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="tabBarButtonType">
-                                                <integer key="value" value="2"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="menuBarButtonType">
+                                                <integer key="value" value="1"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="FCU-7i-ht3"/>
+                                            <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="2h1-0k-ggc"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="NzN-cz-tFn" customClass="MRSLTabBarButton">
-                                        <rect key="frame" x="260" y="0.0" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <accessibility key="accessibilityConfiguration" label="View More"/>
-                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
-                                        <state key="normal" title="More" image="button-tab-more">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="disabled">
-                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="selected">
-                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="tabBarButtonType">
-                                                <integer key="value" value="4"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="afs-cy-smX"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="6z6-0t-kaz" customClass="MRSLTabBarButton">
-                                        <rect key="frame" x="196" y="0.0" width="60" height="60"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="6z6-0t-kaz" customClass="MRSLMenuBarButton">
+                                        <rect key="frame" x="0.0" y="169" width="80" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="View My Stuff"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
-                                        <state key="normal" title="My Stuff" image="icon-tab-profile-active">
+                                        <state key="normal" title="My Stuff" image="icon-menubar-stuff">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -150,8 +123,8 @@
                                             <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="tabBarButtonType">
-                                                <integer key="value" value="3"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="menuBarButtonType">
+                                                <integer key="value" value="2"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
@@ -159,14 +132,13 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="Qbi-Wx-vRl" id="ATX-m1-MYi"/>
-                                    <outletCollection property="tabBarButtons" destination="UKk-bO-zgY" id="r3p-xc-hpX"/>
-                                    <outletCollection property="tabBarButtons" destination="uxq-Co-Ih2" id="I5P-8P-pzN"/>
-                                    <outletCollection property="tabBarButtons" destination="lAZ-OY-Dws" id="Dgp-LD-9ZO"/>
-                                    <outletCollection property="tabBarButtons" destination="NzN-cz-tFn" id="4ZR-YI-SmX"/>
-                                    <outletCollection property="tabBarButtons" destination="6z6-0t-kaz" id="p5R-nV-Qte"/>
+                                    <outletCollection property="menuBarButtons" destination="UKk-bO-zgY" id="W0q-7q-FbJ"/>
+                                    <outletCollection property="menuBarButtons" destination="uxq-Co-Ih2" id="2kd-ce-RKl"/>
+                                    <outletCollection property="menuBarButtons" destination="lAZ-OY-Dws" id="OEa-Cd-haL"/>
+                                    <outletCollection property="menuBarButtons" destination="6z6-0t-kaz" id="xA3-3c-0QJ"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -174,8 +146,8 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
+                        <outlet property="menuBarView" destination="OXi-ay-p36" id="ACT-0E-FbC"/>
                         <outlet property="rootContainerView" destination="yEv-xN-zi4" id="eQU-mU-BEM"/>
-                        <outlet property="tabBarView" destination="OXi-ay-p36" id="1of-0k-2jL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IQ1-IE-ysh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -184,11 +156,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="button-tab-add" width="30" height="30"/>
-        <image name="button-tab-more" width="30" height="30"/>
         <image name="icon-like-inactive" width="28" height="26"/>
-        <image name="icon-tab-home-active" width="30" height="30"/>
-        <image name="icon-tab-profile-active" width="30" height="30"/>
+        <image name="icon-menubar-home" width="30" height="30"/>
+        <image name="icon-menubar-profile" width="30" height="30"/>
+        <image name="icon-menubar-stuff" width="30" height="30"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

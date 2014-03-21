@@ -52,8 +52,6 @@ UITextFieldDelegate>
                               sender:nil];
 #endif
 
-    [_profileImageView addCornersWithRadius:36.f];
-
     [self.profileImageView setBorderWithColor:[UIColor morselLightContent]
                                      andWidth:1.f];
     [self.usernameField setBorderWithColor:[UIColor morselLightContent]

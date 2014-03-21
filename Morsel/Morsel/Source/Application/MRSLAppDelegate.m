@@ -14,6 +14,8 @@
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <TestFlight.h>
 
+#import "NSMutableArray+Feed.h"
+
 #import "MRSLAPIClient.h"
 
 #import "MRSLMorsel.h"
@@ -41,7 +43,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     if ([MRSLUser currentUser]) {
         [[Mixpanel sharedInstance].people increment:@"open_count"
-                                by:@(1)];
+                                                 by:@(1)];
     }
 }
 
@@ -98,6 +100,8 @@
 - (void)resetDataStore {
     [[Mixpanel sharedInstance] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
+
+    [NSMutableArray resetFeedIDArray];
 
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
                                                        forName:[[NSBundle mainBundle] bundleIdentifier]];

@@ -68,6 +68,8 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
+
     if (_selectedIndexPath) {
         [self.postCollectionView deselectItemAtIndexPath:_selectedIndexPath
                                                 animated:YES];

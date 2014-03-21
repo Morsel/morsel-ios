@@ -31,12 +31,6 @@
 {
     [super viewDidLoad];
 
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(goBack)];
-    [self.navigationItem setLeftBarButtonItem:backButton];
-
     self.morsel = [self getOrLoadMorselIfExists];
 
     self.morselDescriptionTextView.text = _morsel.morselDescription;
@@ -61,10 +55,6 @@
 }
 
 #pragma mark - Action Methods
-
-- (void)goBack {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (IBAction)done:(id)sender {
     self.morsel = [self getOrLoadMorselIfExists];

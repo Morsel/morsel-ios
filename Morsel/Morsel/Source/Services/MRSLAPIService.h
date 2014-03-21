@@ -99,8 +99,11 @@
 
 #pragma mark - Feed Services
 
-- (void)getFeedWithSuccess:(MorselAPIArrayBlock)success
-                   failure:(MorselAPIFailureBlock)failureOrNil;
+- (void)getFeedWithMaxID:(NSNumber *)maxOrNil
+               orSinceID:(NSNumber *)sinceOrNil
+                andCount:(NSNumber *)countOrNil
+                 success:(MorselAPIArrayBlock)successOrNil
+                 failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)getUserPosts:(MRSLUser *)user
        includeDrafts:(BOOL)includeDrafts

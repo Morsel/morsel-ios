@@ -9,7 +9,6 @@
 #import "MRSLProfileViewController.h"
 
 #import "MRSLAPIClient.h"
-#import "MRSLMorselDetailViewController.h"
 #import "MRSLFeedCollectionViewCell.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLStoryEditViewController.h"
@@ -22,13 +21,11 @@
 <MorselFeedCollectionViewCellDelegate,
 NSFetchedResultsControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *profileCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *morselCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userTitleLabel;
-@property (weak, nonatomic) IBOutlet UIView *activityView;
 @property (weak, nonatomic) IBOutlet UIView *nullStateView;
 @property (weak, nonatomic) IBOutlet UIImageView *morselIconView;
 
@@ -55,10 +52,6 @@ NSFetchedResultsControllerDelegate>
 
     if ([_user isCurrentUser]) self.title = @"My Profile";
 
-    [_profileImageView addCornersWithRadius:36.f];
-    _profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-    _profileImageView.layer.borderWidth = 2.f;
-
     self.refreshControl = [[UIRefreshControl alloc] init];
     _refreshControl.tintColor = [UIColor morselLightContent];
     [_refreshControl addTarget:self
@@ -67,12 +60,6 @@ NSFetchedResultsControllerDelegate>
 
     [self.profileCollectionView addSubview:_refreshControl];
     self.profileCollectionView.alwaysBounceVertical = YES;
-
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(goBack)];
-    [self.navigationItem setLeftBarButtonItem:backButton];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(localContentPurged)
@@ -86,6 +73,8 @@ NSFetchedResultsControllerDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
     if (!self.userPostsFetchedResultsController) {
         [self setupUserPostsFetchRequest];
@@ -104,7 +93,7 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - Notification Methods
 
 - (void)localContentPurged {
-    [NSFetchedResultsController deleteCacheWithName:@"Home"];
+    [NSFetchedResultsController deleteCacheWithName:@"Feed"];
 
     self.userPostsFetchedResultsController.delegate = nil;
 
@@ -120,15 +109,9 @@ NSFetchedResultsControllerDelegate>
 
     [self setupUserPostsFetchRequest];
     [self populateContent];
-
-    self.activityView.hidden = YES;
 }
 
 #pragma mark - Action Methods
-
-- (void)goBack {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (IBAction)displayStoryAdd {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayStoryAddNotification
@@ -174,8 +157,6 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)refreshUserPostsAndProfile {
-    self.activityView.hidden = NO;
-
     __weak __typeof(self)weakSelf = self;
 
     [_appDelegate.morselApiService getUserProfile:_user
@@ -193,14 +174,6 @@ NSFetchedResultsControllerDelegate>
                                         failure:nil];
 }
 
-- (void)displayMorselDetail {
-    MRSLMorselDetailViewController *morselDetailVC = [[UIStoryboard morselDetailStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselDetailViewController"];
-    morselDetailVC.morsel = _selectedMorsel;
-
-    [self.navigationController pushViewController:morselDetailVC
-                                         animated:YES];
-}
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -216,39 +189,6 @@ NSFetchedResultsControllerDelegate>
     morselCell.morsel = morsel;
 
     return morselCell;
-}
-
-#pragma mark - UICollectionViewDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
-    self.selectedMorsel = morsel;
-
-    [self displayMorselDetail];
-}
-
-#pragma mark - MorselFeedCollectionViewCellDelegate Methods
-
-- (void)morselPostCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel {
-    self.selectedMorsel = morsel;
-
-    [self displayMorselDetail];
-}
-
-- (void)morselPostCollectionViewCellDidDisplayProgression:(MRSLFeedCollectionViewCell *)cell {
-    NSIndexPath *cellIndexPath = [self.profileCollectionView indexPathForCell:cell];
-    [self.profileCollectionView scrollToItemAtIndexPath:cellIndexPath
-                                       atScrollPosition:UICollectionViewScrollPositionCenteredVertically
-                                               animated:YES];
-}
-
-- (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel {
-    MRSLStoryEditViewController *editStoryVC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryEditViewController"];
-
-    editStoryVC.postID = morsel.post.postID;
-
-    [self.navigationController pushViewController:editStoryVC
-                                         animated:YES];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

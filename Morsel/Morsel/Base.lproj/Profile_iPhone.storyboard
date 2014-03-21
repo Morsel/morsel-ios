@@ -17,7 +17,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="108"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V09-dC-Qj5" customClass="MRSLThinCondensedLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V09-dC-Qj5" customClass="MRSLCondensedRegularLabel">
                                         <rect key="frame" x="106" y="40" width="202" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -46,7 +46,7 @@
                                         <color key="textColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DXf-MG-zfq" customClass="MRSLCondensedLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DXf-MG-zfq" customClass="MRSLCondensedRegularLabel">
                                         <rect key="frame" x="106" y="16" width="202" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -64,7 +64,6 @@
                                 <rect key="frame" x="0.0" y="105" width="320" height="399"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="60"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="Kfi-hz-0sM">
                                     <size key="itemSize" width="320" height="320"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -82,10 +81,6 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="BKE-7b-L52" customClass="MRSLMorselImageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="effect-morsel-gradient" id="JyW-Ba-noD">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8KL-O2-HSt">
                                                     <rect key="frame" x="60" y="0.0" width="60" height="60"/>
@@ -106,29 +101,7 @@
                                                         <action selector="toggleLikeMorsel" destination="bDq-Mn-MmS" eventType="touchUpInside" id="tdy-E2-xiu"/>
                                                     </connections>
                                                 </button>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FFa-WH-0DO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <state key="normal" image="icon-edit">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="editMorsel:" destination="bDq-Mn-MmS" eventType="touchUpInside" id="h4S-Vw-5UZ"/>
-                                                    </connections>
-                                                </button>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XCv-qp-LfC">
-                                                    <rect key="frame" x="260" y="0.0" width="60" height="60"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <state key="normal" image="icon-progression">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="displayAssociatedMorsels:" destination="bDq-Mn-MmS" eventType="touchUpInside" id="eeo-zX-4QW"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="B7l-w2-a4R" customClass="MRSLThinCondensedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="B7l-w2-a4R" customClass="MRSLBoldLabel">
                                                     <rect key="frame" x="16" y="264" width="240" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -153,12 +126,10 @@
                                         <size key="customSize" width="320" height="320"/>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="4Rz-by-XwX" id="ZgY-YM-Yni"/>
-                                            <outlet property="editButton" destination="FFa-WH-0DO" id="d64-uZ-2EE"/>
                                             <outlet property="likeButton" destination="hxg-QM-x4l" id="UU0-LW-lp0"/>
                                             <outlet property="morselImageView" destination="BKE-7b-L52" id="gd7-be-uHc"/>
                                             <outlet property="plateButton" destination="8KL-O2-HSt" id="WJV-4I-4XT"/>
                                             <outlet property="profileImageView" destination="B1Y-tf-DNT" id="ioh-Hg-Fmf"/>
-                                            <outlet property="progressionButton" destination="XCv-qp-LfC" id="R1w-HS-zdi"/>
                                             <outlet property="titleLabel" destination="B7l-w2-a4R" id="HOM-ZY-LnH"/>
                                         </connections>
                                     </collectionViewCell>
@@ -210,17 +181,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" id="exG-hy-nul">
-                                <rect key="frame" x="0.0" y="105" width="320" height="399"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" id="sy7-uH-imy">
-                                        <rect key="frame" x="142" y="127" width="37" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="0.5" colorSpace="calibratedRGB"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -228,7 +188,6 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Profile" id="fQx-I9-biz"/>
                     <connections>
-                        <outlet property="activityView" destination="exG-hy-nul" id="Bk0-iS-dyK"/>
                         <outlet property="likeCountLabel" destination="9CE-Ru-IqV" id="W35-s2-vbc"/>
                         <outlet property="morselCountLabel" destination="yaa-Ju-YGf" id="PzQ-qA-adT"/>
                         <outlet property="morselIconView" destination="gkN-7I-8i1" id="gga-zw-FCP"/>
@@ -253,7 +212,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="FCa-cq-4iJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.98431372549999996" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -266,13 +225,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="effect-morsel-gradient" width="320" height="214"/>
-        <image name="icon-edit" width="24" height="24"/>
         <image name="icon-like-inactive" width="28" height="26"/>
         <image name="icon-like-small" width="16" height="16"/>
         <image name="icon-morsel" width="16" height="16"/>
         <image name="icon-plate" width="28" height="28"/>
-        <image name="icon-progression" width="20" height="20"/>
         <image name="icon-tab-profile-inactive" width="30" height="30"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>

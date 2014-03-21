@@ -8,30 +8,25 @@
 
 #import "UIFont+Morsel.h"
 
-@implementation UIFont (Myriad)
+@implementation UIFont (Morsel)
 
-+ (UIFont *)helveticaNeueLTStandardThinCondensedFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"HelveticaNeueLTStd-ThCn"
++ (UIFont *)robotoSlabBoldFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"RobotoSlab-Bold"
                            size:fontSize];
 }
 
-+ (UIFont *)helveticaNeueLTStandardCondensedFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"HelveticaNeueLTStd-Cn"
++ (UIFont *)robotoCondensedRegularFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"RobotoCondensed-Regular"
                            size:fontSize];
 }
 
-+ (UIFont *)helveticaNeueLTStandardCondensedObliqueFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"HelveticaNeueLTStd-CnO"
++ (UIFont *)robotoCondensedItalicFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"RobotoCondensed-Italic"
                            size:fontSize];
 }
 
-+ (UIFont *)helveticaNeueLTStandardLightCondensedFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"HelveticaNeueLTStd-LtCn"
-                           size:fontSize];
-}
-
-+ (UIFont *)helveticaNeueLTStandardMediumFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"HelveticaNeueLTStd-MdCn"
++ (UIFont *)robotoCondensedLightFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"RobotoCondensed-Light"
                            size:fontSize];
 }
 

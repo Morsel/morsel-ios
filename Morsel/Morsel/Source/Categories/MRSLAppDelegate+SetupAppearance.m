@@ -11,12 +11,10 @@
 @implementation MRSLAppDelegate (SetupAppearance)
 
 + (void)setupTheme {
-    //  Setup NavBar
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
         if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
             [[UINavigationBar appearance] setBarTintColor:[UIColor morselUserInterface]];
             [[UINavigationBar appearance] setTintColor:[UIColor morselRed]];
-            [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:2.f forBarMetrics:UIBarMetricsDefault];
             [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"graphic-navigation-bar-background"]
                                                forBarMetrics:UIBarMetricsDefault];
             [[UINavigationBar appearance] setBackgroundColor:[UIColor morselUserInterface]];
@@ -34,7 +32,7 @@
 
         [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
         [[UINavigationBar appearance] setTitleTextAttributes:@{
-                                                               UITextAttributeFont : [UIFont helveticaNeueLTStandardThinCondensedFontOfSize:24.f],
+                                                               UITextAttributeFont : [UIFont robotoSlabBoldFontOfSize:17.f],
                                                                UITextAttributeTextColor : [UIColor morselDarkContent],
                                                                UITextAttributeTextShadowOffset : [NSValue valueWithUIOffset:UIOffsetMake(0.f, 0.f)]
                                                                }];
@@ -52,11 +50,6 @@
                                                                UITextAttributeTextShadowOffset : [NSValue valueWithUIOffset:UIOffsetMake(0.f, 0.f)]
                                                                }
                                                     forState:UIControlStateDisabled];
-    }
-
-    //  Setup TabBar
-    if ([[UITabBarItem class] respondsToSelector:@selector(appearance)]) {
-        // Todo once tab bar returns.
     }
 }
 

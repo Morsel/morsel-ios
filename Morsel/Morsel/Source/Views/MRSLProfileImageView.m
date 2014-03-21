@@ -22,6 +22,14 @@
 
 @implementation MRSLProfileImageView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+
+    [self addCornersWithRadius:[self getWidth] / 2];
+    self.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.layer.borderWidth = 1.f;
+}
+
 #pragma mark - Instance Methods
 
 - (void)setDelegate:(id<ProfileImageViewDelegate>)delegate {

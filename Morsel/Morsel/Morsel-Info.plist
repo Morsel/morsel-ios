@@ -17,20 +17,20 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.4</string>
+	<string>0.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>201403191432</string>
+	<string>201403281347</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>HelveticaNeueLTStd-Cn.otf</string>
-		<string>HelveticaNeueLTStd-CnO.otf</string>
-		<string>HelveticaNeueLTStd-ThCn.otf</string>
-		<string>HelveticaNeueLTStd-LtCn.otf</string>
-		<string>HelveticaNeueLTStd-MdCn.otf</string>
+		<string>RobotoCondensed-Bold.ttf</string>
+		<string>RobotoCondensed-Italic.ttf</string>
+		<string>RobotoCondensed-Light.ttf</string>
+		<string>RobotoCondensed-Regular.ttf</string>
+		<string>RobotoSlab-Bold.ttf</string>
 	</array>
 	<key>UIMainStoryboardFile~ipad</key>
 	<string>Main_iPad</string>
@@ -50,6 +50,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

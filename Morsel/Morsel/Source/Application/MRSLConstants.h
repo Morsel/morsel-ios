@@ -26,6 +26,10 @@ extern NSString *const MRSLMorselUploadDidFailNotification;
 
 extern NSString *const MRSLAppShouldDisplayFeedNotification;
 extern NSString *const MRSLAppShouldDisplayStoryAddNotification;
+extern NSString *const MRSLAppShouldDisplayMenuBarNotification;
+
+extern NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle;
+extern NSString *const MRSLAppTouchPhaseDidBeginNotification;
 
 extern int LOG_LEVEL_DEF;
 

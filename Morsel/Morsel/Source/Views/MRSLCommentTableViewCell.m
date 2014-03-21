@@ -27,12 +27,6 @@
 
 @implementation MRSLCommentTableViewCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-
-    [_profileImageView addCornersWithRadius:20.f];
-}
-
 - (void)setComment:(MRSLComment *)comment {
     [self reset];
 
