@@ -15,8 +15,8 @@
                                      bundle:nil];
 }
 
-+ (UIStoryboard *)homeStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Home_iPad" : @"Home_iPhone"
++ (UIStoryboard *)feedStoryboard {
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Feed_iPad" : @"Feed_iPhone"
                                      bundle:nil];
 }
 
@@ -42,11 +42,6 @@
 
 + (UIStoryboard *)storyManagementStoryboard {
     return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"StoryManagement_iPad" : @"StoryManagement_iPhone"
-                                     bundle:nil];
-}
-
-+ (UIStoryboard *)moreStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"More_iPad" : @"More_iPhone"
                                      bundle:nil];
 }
 

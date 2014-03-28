@@ -43,21 +43,7 @@ UIDocumentInteractionControllerDelegate>
 
 @implementation MRSLStorySettingsViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(goBack)];
-    [self.navigationItem setLeftBarButtonItem:backButton];
-}
-
 #pragma mark - Private Methods
-
-- (void)goBack {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (IBAction)deleteStory {
     [[MRSLEventManager sharedManager] track:@"Tapped Delete Story"

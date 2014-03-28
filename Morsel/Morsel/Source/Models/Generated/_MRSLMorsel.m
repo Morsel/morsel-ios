@@ -4,11 +4,13 @@
 #import "_MRSLMorsel.h"
 
 const struct MRSLMorselAttributes MRSLMorselAttributes = {
+	.comment_count = @"comment_count",
 	.creationDate = @"creationDate",
 	.creator_id = @"creator_id",
 	.didFailUpload = @"didFailUpload",
 	.isUploading = @"isUploading",
 	.lastUpdatedDate = @"lastUpdatedDate",
+	.like_count = @"like_count",
 	.liked = @"liked",
 	.localUUID = @"localUUID",
 	.morselDescription = @"morselDescription",
@@ -56,6 +58,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"comment_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"comment_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"creator_idValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"creator_id"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -68,6 +75,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"isUploadingValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"isUploading"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"like_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -94,6 +106,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 	return keyPaths;
 }
+
+
+
+
+@dynamic comment_count;
+
+
+
+- (int16_t)comment_countValue {
+	NSNumber *result = [self comment_count];
+	return [result shortValue];
+}
+
+- (void)setComment_countValue:(int16_t)value_ {
+	[self setComment_count:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveComment_countValue {
+	NSNumber *result = [self primitiveComment_count];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveComment_countValue:(int16_t)value_ {
+	[self setPrimitiveComment_count:[NSNumber numberWithShort:value_]];
+}
+
 
 
 
@@ -185,6 +223,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic lastUpdatedDate;
 
+
+
+
+
+
+@dynamic like_count;
+
+
+
+- (int16_t)like_countValue {
+	NSNumber *result = [self like_count];
+	return [result shortValue];
+}
+
+- (void)setLike_countValue:(int16_t)value_ {
+	[self setLike_count:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveLike_countValue {
+	NSNumber *result = [self primitiveLike_count];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveLike_countValue:(int16_t)value_ {
+	[self setPrimitiveLike_count:[NSNumber numberWithShort:value_]];
+}
 
 
 

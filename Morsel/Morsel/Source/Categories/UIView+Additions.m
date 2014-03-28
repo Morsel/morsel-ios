@@ -47,7 +47,6 @@
     self.layer.shadowRadius = 2.f;
     self.layer.shadowOffset = CGSizeMake(2.f, 2.f);
     self.layer.masksToBounds = NO;
-    self.layer.opaque = YES;
     self.layer.needsDisplayOnBoundsChange = NO;
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     self.layer.shouldRasterize = YES;

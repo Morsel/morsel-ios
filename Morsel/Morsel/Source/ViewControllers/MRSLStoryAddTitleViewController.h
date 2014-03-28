@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStoryAddTitleViewController : UIViewController
+@interface MRSLStoryAddTitleViewController : MRSLBaseViewController
 
 @property (nonatomic) BOOL isUserEditingTitle;
 

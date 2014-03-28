@@ -11,7 +11,7 @@
 @implementation MRSLLightCondensedLabel
 
 - (void)setUp {
-    [self setFont:[UIFont helveticaNeueLTStandardLightCondensedFontOfSize:self.font.pointSize]];
+    [self setFont:[UIFont robotoCondensedLightFontOfSize:self.font.pointSize]];
 }
 
 @end

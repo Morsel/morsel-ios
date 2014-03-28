@@ -7,9 +7,13 @@
 extern const struct MRSLPostAttributes {
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *draft;
+	__unsafe_unretained NSString *feedItemID;
 	__unsafe_unretained NSString *lastUpdatedDate;
 	__unsafe_unretained NSString *postID;
+	__unsafe_unretained NSString *primary_morsel_id;
 	__unsafe_unretained NSString *title;
+	__unsafe_unretained NSString *total_comment_count;
+	__unsafe_unretained NSString *total_like_count;
 } MRSLPostAttributes;
 
 extern const struct MRSLPostRelationships {
@@ -22,6 +26,10 @@ extern const struct MRSLPostFetchedProperties {
 
 @class MRSLUser;
 @class MRSLMorsel;
+
+
+
+
 
 
 
@@ -66,6 +74,20 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* feedItemID;
+
+
+
+@property int16_t feedItemIDValue;
+- (int16_t)feedItemIDValue;
+- (void)setFeedItemIDValue:(int16_t)value_;
+
+//- (BOOL)validateFeedItemID:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSDate* lastUpdatedDate;
 
 
@@ -90,11 +112,53 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* primary_morsel_id;
+
+
+
+@property int16_t primary_morsel_idValue;
+- (int16_t)primary_morsel_idValue;
+- (void)setPrimary_morsel_idValue:(int16_t)value_;
+
+//- (BOOL)validatePrimary_morsel_id:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* title;
 
 
 
 //- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* total_comment_count;
+
+
+
+@property int16_t total_comment_countValue;
+- (int16_t)total_comment_countValue;
+- (void)setTotal_comment_countValue:(int16_t)value_;
+
+//- (BOOL)validateTotal_comment_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* total_like_count;
+
+
+
+@property int16_t total_like_countValue;
+- (int16_t)total_like_countValue;
+- (void)setTotal_like_countValue:(int16_t)value_;
+
+//- (BOOL)validateTotal_like_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -144,6 +208,15 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
+- (NSNumber*)primitiveFeedItemID;
+- (void)setPrimitiveFeedItemID:(NSNumber*)value;
+
+- (int16_t)primitiveFeedItemIDValue;
+- (void)setPrimitiveFeedItemIDValue:(int16_t)value_;
+
+
+
+
 - (NSDate*)primitiveLastUpdatedDate;
 - (void)setPrimitiveLastUpdatedDate:(NSDate*)value;
 
@@ -159,8 +232,35 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
+- (NSNumber*)primitivePrimary_morsel_id;
+- (void)setPrimitivePrimary_morsel_id:(NSNumber*)value;
+
+- (int16_t)primitivePrimary_morsel_idValue;
+- (void)setPrimitivePrimary_morsel_idValue:(int16_t)value_;
+
+
+
+
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveTotal_comment_count;
+- (void)setPrimitiveTotal_comment_count:(NSNumber*)value;
+
+- (int16_t)primitiveTotal_comment_countValue;
+- (void)setPrimitiveTotal_comment_countValue:(int16_t)value_;
+
+
+
+
+- (NSNumber*)primitiveTotal_like_count;
+- (void)setPrimitiveTotal_like_count:(NSNumber*)value;
+
+- (int16_t)primitiveTotal_like_countValue;
+- (void)setPrimitiveTotal_like_countValue:(int16_t)value_;
 
 
 

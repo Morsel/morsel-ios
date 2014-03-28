@@ -11,7 +11,7 @@
 @implementation MRSLCondensedObliqueLabel
 
 - (void)setUp {
-    [self setFont:[UIFont helveticaNeueLTStandardCondensedObliqueFontOfSize:self.font.pointSize]];
+    [self setFont:[UIFont robotoCondensedItalicFontOfSize:self.font.pointSize]];
 }
 
 @end

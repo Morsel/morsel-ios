@@ -1,172 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7J5-qa-uYU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="PEJ-Mx-fdE">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Morsel Detail View Controller - Morsel-->
-        <scene sceneID="6PX-57-iCp">
-            <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="68g-YW-5HD" customClass="MRSLMorselDetailViewController" sceneMemberID="viewController">
-                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="LCm-WB-Vi6">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" id="Buk-7l-YjM">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="G3z-vX-sf4">
-                                <rect key="frame" x="0.0" y="12" width="320" height="56"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zNk-uN-naa" customClass="MRSLCondensedLabel">
-                                        <rect key="frame" x="58" y="26" width="170" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
-                                        <color key="textColor" red="0.47450980390000003" green="0.47450980390000003" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hW7-Fk-4sQ" customClass="MRSLProfileImageView">
-                                        <rect key="frame" x="12" y="8" width="40" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Ds-6H-gLF" customClass="MRSLCondensedObliqueLabel">
-                                        <rect key="frame" x="58" y="10" width="170" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Helvetica-LightOblique" family="Helvetica" pointSize="14"/>
-                                        <color key="textColor" red="0.66666666669999997" green="0.6588235294" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="oFv-en-MFI">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="12"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="sk0-FI-cYB">
-                                        <rect key="frame" x="141" y="-14" width="39" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="pageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="currentPageIndicatorTintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
-                                    </pageControl>
-                                </subviews>
-                                <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <accessibility key="accessibilityConfiguration" label="Morsel Detail">
-                            <bool key="isElement" value="YES"/>
-                        </accessibility>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Morsel" id="v9Z-z3-YUt"/>
-                    <connections>
-                        <outlet property="authorNameLabel" destination="zNk-uN-naa" id="xVq-l5-KJd"/>
-                        <outlet property="morselDetailNavigationView" destination="oFv-en-MFI" id="0hS-Wk-GWa"/>
-                        <outlet property="profileImageView" destination="hW7-Fk-4sQ" id="hkZ-SZ-We6"/>
-                        <outlet property="profilePanelView" destination="G3z-vX-sf4" id="Nut-Lv-2kY"/>
-                        <outlet property="progressionPageControl" destination="sk0-FI-cYB" id="NfH-7y-5MR"/>
-                        <outlet property="timeSinceLabel" destination="9Ds-6H-gLF" id="gXY-Ud-pB1"/>
-                        <outlet property="viewControllerPanelContainerView" destination="Buk-7l-YjM" id="Z1Q-sT-HoY"/>
-                        <segue destination="PEJ-Mx-fdE" kind="modal" identifier="seg_AddComment" id="lED-nT-Y6i"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gvM-qC-Z9w" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="470" y="-209"/>
-        </scene>
-        <!--Morsel Detail Panel View Controller-->
-        <scene sceneID="Dc1-vO-w8d">
-            <objects>
-                <viewController storyboardIdentifier="sb_MorselDetailPanel" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="0s7-dI-8vc" customClass="MRSLMorselDetailPanelViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gKG-w1-Nk4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" id="gyn-6D-R7J">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="gxC-j0-Omd" customClass="MRSLMorselImageView">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fIQ-WU-UDT">
-                                        <rect key="frame" x="10" y="10" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <size key="titleShadowOffset" width="1" height="1"/>
-                                        <state key="normal" image="icon-like-inactive" backgroundImage="effect-gradient-icon">
-                                            <color key="titleShadowColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="toggleLikeMorsel" destination="0s7-dI-8vc" eventType="touchUpInside" id="MRO-uG-hZY"/>
-                                        </connections>
-                                    </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YYq-GX-ZRQ">
-                                        <rect key="frame" x="10" y="10" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" image="icon-edit" backgroundImage="effect-gradient-icon">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="editMorsel" destination="0s7-dI-8vc" eventType="touchUpInside" id="o1s-IF-RfF"/>
-                                            <action selector="toggleLikeMorsel" destination="0s7-dI-8vc" eventType="touchUpInside" id="apf-fs-NLM"/>
-                                        </connections>
-                                    </button>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-comment-pipe" id="Sfd-1y-yGc">
-                                        <rect key="frame" x="25" y="406" width="270" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6P2-Rx-Vw0" customClass="MRSLStandardLabel">
-                                        <rect key="frame" x="30" y="346" width="260" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <size key="shadowOffset" width="0.0" height="0.0"/>
-                                    </label>
-                                </subviews>
-                            </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K9n-vs-MBt" customClass="MRSLLargeButton">
-                                <rect key="frame" x="0.0" y="488" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="Add Comment">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="addComment" destination="0s7-dI-8vc" eventType="touchUpInside" id="SA3-0e-L9p"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="488"/>
-                    <connections>
-                        <outlet property="addCommentButton" destination="K9n-vs-MBt" id="Oa0-ES-yYX"/>
-                        <outlet property="commentPipeView" destination="Sfd-1y-yGc" id="Lo9-gG-ntW"/>
-                        <outlet property="contentScrollView" destination="gyn-6D-R7J" id="gyB-Ak-jML"/>
-                        <outlet property="editButton" destination="YYq-GX-ZRQ" id="YEz-tA-fju"/>
-                        <outlet property="likeButton" destination="fIQ-WU-UDT" id="ZmU-lY-1cW"/>
-                        <outlet property="morselDescriptionLabel" destination="6P2-Rx-Vw0" id="ygM-yb-ayy"/>
-                        <outlet property="morselImageView" destination="gxC-j0-Omd" id="nGX-Nj-Lkj"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mzO-2A-XyG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-56" y="555"/>
-        </scene>
         <!--Detail Comments View Controller-->
         <scene sceneID="UbM-UN-e3D">
             <objects>
@@ -191,14 +29,14 @@
                                                     <rect key="frame" x="24" y="24" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0uf-Fk-6eB" customClass="MRSLCondensedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0uf-Fk-6eB" customClass="MRSLCondensedRegularLabel">
                                                     <rect key="frame" x="72" y="26" width="174" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.6588235294117647" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g7L-Tg-MFQ" customClass="MRSLCondensedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g7L-Tg-MFQ" customClass="MRSLCondensedRegularLabel">
                                                     <rect key="frame" x="72" y="40" width="192" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -215,7 +53,7 @@
                                                 <view contentMode="scaleToFill" id="NOm-KT-x3e">
                                                     <rect key="frame" x="26" y="109" width="270" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <color key="backgroundColor" red="0.94509803921568625" green="0.93725490196078431" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.98431372549999996" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -248,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XK0-gZ-nYB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="479" y="727"/>
+            <point key="canvasLocation" x="781" y="695"/>
         </scene>
         <!--Add Comment View Controller - Add Comment-->
         <scene sceneID="jJA-n2-Rcw">
@@ -294,27 +132,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IIQ-A3-Rf9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1531" y="-209"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="wCV-6x-Xe6">
-            <objects>
-                <navigationController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="7J5-qa-uYU" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="ywt-Sw-UyH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="68g-YW-5HD" kind="relationship" relationship="rootViewController" id="OUy-3k-9La"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2ei-4d-nsj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-56" y="-209"/>
+            <point key="canvasLocation" x="781" y="-57"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="14d-o0-stf">
@@ -324,7 +142,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Hsc-El-KKS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.98431372549999996" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -333,15 +151,9 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="08p-RN-X3Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1005" y="-209"/>
+            <point key="canvasLocation" x="255" y="-57"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="effect-gradient-icon" width="50" height="50"/>
-        <image name="graphic-comment-pipe" width="270" height="24"/>
-        <image name="icon-edit" width="24" height="24"/>
-        <image name="icon-like-inactive" width="28" height="26"/>
-    </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLActivityViewController : UIViewController
+@interface MRSLActivityViewController : MRSLBaseViewController
 
 @end

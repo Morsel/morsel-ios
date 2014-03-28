@@ -10,7 +10,7 @@
 
 @class MRSLUser;
 
-@interface MRSLProfileViewController : UIViewController
+@interface MRSLProfileViewController : MRSLBaseViewController
 
 @property (strong, nonatomic) MRSLUser *user;
 

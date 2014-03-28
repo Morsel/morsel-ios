@@ -11,13 +11,12 @@
 @interface UIStoryboard (Morsel)
 
 + (UIStoryboard *)mainStoryboard;
-+ (UIStoryboard *)homeStoryboard;
++ (UIStoryboard *)feedStoryboard;
 + (UIStoryboard *)profileStoryboard;
 + (UIStoryboard *)loginStoryboard;
 + (UIStoryboard *)morselDetailStoryboard;
 + (UIStoryboard *)mediaManagementStoryboard;
 + (UIStoryboard *)storyManagementStoryboard;
-+ (UIStoryboard *)moreStoryboard;
 + (UIStoryboard *)activityStoryboard;
 + (UIStoryboard *)specsStoryboardInBundle:(NSBundle *)bundleOrNil;
 

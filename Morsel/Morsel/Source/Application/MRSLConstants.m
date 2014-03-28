@@ -26,6 +26,11 @@ NSString *const MRSLMorselUploadDidFailNotification = @"MRSLMorselUploadDidFailN
 
 NSString *const MRSLAppShouldDisplayFeedNotification = @"MRSLAppShouldDisplayFeedNotification";
 NSString *const MRSLAppShouldDisplayStoryAddNotification = @"MRSLAppShouldDisplayStoryAddNotification";
+NSString *const MRSLAppShouldDisplayMenuBarNotification = @"MRSLAppShouldDisplayMenuBarNotification";
+
+NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle = @"MRSLAppDidRequestNewPreferredStatusBarStyle";
+
+NSString *const MRSLAppTouchPhaseDidBeginNotification = @"MRSLAppTouchPhaseDidBeginNotification";
 
 #ifdef DEBUG
 int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;

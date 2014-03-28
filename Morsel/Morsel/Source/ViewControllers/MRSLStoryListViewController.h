@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStoryListViewController : UIViewController
+@interface MRSLStoryListViewController : MRSLBaseViewController
 
 @property (nonatomic) BOOL shouldPresentMediaCapture;
 

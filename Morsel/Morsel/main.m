@@ -16,6 +16,6 @@
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, _appDelClassString);
+        return UIApplicationMain(argc, argv, @"MRSLApplication", _appDelClassString);
     }
 }

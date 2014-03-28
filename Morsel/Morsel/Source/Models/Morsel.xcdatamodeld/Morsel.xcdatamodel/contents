@@ -24,11 +24,13 @@
         </relationship>
     </entity>
     <entity name="MRSLMorsel" representedClassName="MRSLMorsel" syncable="YES">
+        <attribute name="comment_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="creator_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="didFailUpload" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="isUploading" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="like_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="liked" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="localUUID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="morselDescription" optional="YES" attributeType="String" syncable="YES">
@@ -59,21 +61,20 @@
         </relationship>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLTag" inverseName="morsels" inverseEntity="MRSLTag" syncable="YES"/>
     </entity>
-    <entity name="MRSLMorselPost" syncable="YES">
-        <attribute name="morselID" optional="YES" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="postID" optional="YES" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="sortOrder" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-    </entity>
     <entity name="MRSLPost" representedClassName="MRSLPost" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="draft" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="feedItemID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="postID" optional="YES" attributeType="Integer 16" defaultValueString="0.0" indexed="YES" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="id"/>
             </userInfo>
         </attribute>
+        <attribute name="primary_morsel_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="total_comment_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="total_like_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="posts" inverseEntity="MRSLUser" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="userID"/>
@@ -126,9 +127,8 @@
     </entity>
     <elements>
         <element name="MRSLComment" positionX="0" positionY="0" width="128" height="120"/>
-        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="315"/>
-        <element name="MRSLMorselPost" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="MRSLPost" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="345"/>
+        <element name="MRSLPost" positionX="0" positionY="0" width="128" height="208"/>
         <element name="MRSLTag" positionX="0" positionY="0" width="128" height="90"/>
         <element name="MRSLUser" positionX="0" positionY="0" width="128" height="345"/>
     </elements>

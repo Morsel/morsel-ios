@@ -60,12 +60,6 @@ MRSLStoryEditMorselTableViewCellDelegate>
     self.statusDateFormatter = [[NSDateFormatter alloc] init];
     [_statusDateFormatter setDateFormat:@"MMM dd, h:mm a"];
 
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(goBack)];
-    [self.navigationItem setLeftBarButtonItem:backButton];
-
     [self displayStory];
     [self updateStoryStatus];
 }
@@ -373,16 +367,19 @@ MRSLStoryEditMorselTableViewCellDelegate>
                 morselIndex = (lastMorsel.sort_orderValue + (idx + 1));
             }
             DDLogDebug(@"Morsel INDEX: %lu", (unsigned long)morselIndex);
-            MRSLMorsel *morsel = [MRSLMorsel localUniqueMorsel];
-            morsel.sort_order = @(morselIndex);
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                MRSLPost *post = [MRSLPost MR_findFirstByAttribute:MRSLPostAttributes.postID
+                                                         withValue:strongSelf.post.postID];
+
+                MRSLMorsel *morsel = [MRSLMorsel localUniqueMorsel];
+                morsel.sort_order = @(morselIndex);
                 morsel.morselPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, 1.f);
                 morsel.morselPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
                 morsel.isUploading = @YES;
-                morsel.post = strongSelf.post;
-                if (morsel.managedObjectContext) {
-                    [strongSelf.post addMorselsObject:morsel];
+                morsel.post = post;
+                if (morsel.managedObjectContext && post.managedObjectContext) {
+                    [post addMorselsObject:morsel];
                     [_appDelegate.morselApiService createMorsel:morsel
                                                         success:^(id responseObject) {
                                                             if (weakSelf) {

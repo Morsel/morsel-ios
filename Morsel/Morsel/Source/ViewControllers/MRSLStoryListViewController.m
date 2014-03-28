@@ -34,12 +34,6 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(goBack)];
-    [self.navigationItem setLeftBarButtonItem:backButton];
-
     self.title = (_storyStatusType == MRSLStoryStatusTypeDrafts) ? @"Draft Stories" : @"Published Stories";
 
     self.userPosts = [NSMutableArray array];
@@ -78,10 +72,6 @@ NSFetchedResultsControllerDelegate>
 }
 
 #pragma mark - Private Methods
-
-- (void)goBack {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (void)setupPostsFetchRequest {
     NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"creator.userID == %i", [MRSLUser currentUser].userIDValue];

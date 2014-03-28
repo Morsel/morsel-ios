@@ -67,6 +67,8 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
+
     if (_selectedIndexPath) {
         [self.postCollectionView deselectItemAtIndexPath:_selectedIndexPath
                                                 animated:YES];
@@ -78,13 +80,6 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
     [self setupPostsFetchRequest];
     [self populateContent];
     [self refreshStories];
-}
-
-#pragma mark - Action Methods
-
-- (IBAction)displayStoryAdd {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayStoryAddNotification
-                                                        object:nil];
 }
 
 #pragma mark - Private Methods

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStoryEditDescriptionViewController : UIViewController
+@interface MRSLStoryEditDescriptionViewController : MRSLBaseViewController
 
 @property (strong, nonatomic) NSString *morselLocalUUID;
 @property (strong, nonatomic) NSNumber *morselID;

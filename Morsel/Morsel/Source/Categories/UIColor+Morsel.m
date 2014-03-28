@@ -11,9 +11,9 @@
 @implementation UIColor (Morsel)
 
 + (UIColor *)morselRed {
-    return [UIColor colorWithRed:233.f / 255.f
+    return [UIColor colorWithRed:232.f / 255.f
                            green:97.f / 255.f
-                            blue:68.f / 255.f
+                            blue:67.f / 255.f
                            alpha:1.f];
 }
 
@@ -32,9 +32,9 @@
 }
 
 + (UIColor *)morselUserInterface {
-    return [UIColor colorWithRed:226.f / 255.f
-                           green:221.f / 255.f
-                            blue:215.f / 255.f
+    return [UIColor colorWithRed:251.f / 255.f
+                           green:250.f / 255.f
+                            blue:250.f / 255.f
                            alpha:1.f];
 }
 

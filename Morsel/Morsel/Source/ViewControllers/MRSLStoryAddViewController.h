@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStoryAddViewController : UIViewController
+@interface MRSLStoryAddViewController : MRSLBaseViewController
 
 @end

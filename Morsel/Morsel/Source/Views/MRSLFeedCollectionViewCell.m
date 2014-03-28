@@ -9,7 +9,6 @@
 #import "MRSLFeedCollectionViewCell.h"
 
 #import "JSONResponseSerializerWithData.h"
-#import "MRSLThumbnailViewController.h"
 #import "MRSLMorselImageView.h"
 #import "MRSLProfileImageView.h"
 
@@ -18,10 +17,8 @@
 #import "MRSLUser.h"
 
 @interface MRSLFeedCollectionViewCell ()
-<MorselThumbnailViewControllerDelegate,
-ProfileImageViewDelegate>
+<ProfileImageViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *plateButton;
@@ -32,19 +29,9 @@ ProfileImageViewDelegate>
 @property (weak, nonatomic) IBOutlet MRSLMorselImageView *morselImageView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
-@property (strong, nonatomic) MRSLThumbnailViewController *morselThumbnailVC;
-
 @end
 
 @implementation MRSLFeedCollectionViewCell
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-
-    [self.profileImageView addCornersWithRadius:20.f];
-    self.profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.profileImageView.layer.borderWidth = 1.f;
-}
 
 #pragma mark - Instance Methods
 
@@ -90,21 +77,6 @@ ProfileImageViewDelegate>
 
     [self.titleLabel setY:[self getHeight] - 56.f];
     [self.descriptionLabel setHeight:15.f];
-
-    if (self.morselThumbnailVC) {
-        [self.morselThumbnailVC.view removeFromSuperview];
-        self.morselThumbnailVC = nil;
-
-        _progressionButton.enabled = YES;
-        _likeButton.enabled = YES;
-        _plateButton.enabled = YES;
-
-        _titleLabel.alpha = 1.f;
-        _descriptionLabel.alpha = 1.f;
-        _profileImageView.alpha = 1.f;
-        _likeButton.alpha = 1.f;
-        _progressionButton.alpha = 1.f;
-    }
 }
 
 #pragma mark - Private Methods
@@ -118,42 +90,6 @@ ProfileImageViewDelegate>
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectEditMorsel:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectEditMorsel:self.morsel];
     }
-}
-
-- (IBAction)displayAssociatedMorsels:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Story Icon"
-                                 properties:@{@"view": @"Feed",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                              @"story_id": NSNullIfNil(_morsel.post.postID)}];
-
-    if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidDisplayProgression:)]) {
-        [self.delegate morselPostCollectionViewCellDidDisplayProgression:self];
-    }
-
-    self.morselThumbnailVC = [[UIStoryboard homeStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselThumbnailViewController"];
-    _morselThumbnailVC.delegate = self;
-    _morselThumbnailVC.post = _morsel.post;
-    [_morselThumbnailVC.view setX:[self getWidth]];
-
-    [self addSubview:_morselThumbnailVC.view];
-
-    _progressionButton.enabled = NO;
-    _likeButton.enabled = NO;
-    _plateButton.enabled = NO;
-
-    [UIView animateWithDuration:.3f
-                          delay:0.f
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         _titleLabel.alpha = 0.f;
-                         _descriptionLabel.alpha = 0.f;
-                         _profileImageView.alpha = 0.f;
-                         _likeButton.alpha = 0.f;
-                         _progressionButton.alpha = 0.f;
-
-                         [_morselThumbnailVC.view setX:0.f];
-                     }
-                     completion:nil];
 }
 
 - (IBAction)toggleLikeMorsel {
@@ -193,48 +129,6 @@ ProfileImageViewDelegate>
 - (void)profileImageViewDidSelectUser:(MRSLUser *)user {
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectProfileForUser:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectProfileForUser:user];
-    }
-}
-
-#pragma mark - MorselThumbnailViewControllerDelegate Methods
-
-- (void)morselThumbnailDidSelectMorsel:(MRSLMorsel *)morsel {
-    [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
-                                 properties:@{@"view": @"Feed",
-                                              @"morsel_id": NSNullIfNil(morsel.morselID)}];
-    if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectMorsel:)]) {
-        [self.delegate morselPostCollectionViewCellDidSelectMorsel:morsel];
-    }
-}
-
-- (void)morselThumbnailDidSelectClose {
-    if (self.morselThumbnailVC) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Close Icon"
-                                     properties:@{@"view": @"Feed",
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-
-        _progressionButton.enabled = YES;
-        _likeButton.enabled = YES;
-        _plateButton.enabled = YES;
-
-        [UIView animateWithDuration:.3f
-                              delay:0.f
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^
-         {
-             _titleLabel.alpha = 1.f;
-             _descriptionLabel.alpha = 1.f;
-             _profileImageView.alpha = 1.f;
-             _likeButton.alpha = 1.f;
-             _progressionButton.alpha = 1.f;
-
-             [_morselThumbnailVC.view setX:[self getWidth]];
-         }
-                         completion:^(BOOL finished)
-         {
-             [self.morselThumbnailVC.view removeFromSuperview];
-             self.morselThumbnailVC = nil;
-         }];
     }
 }
 

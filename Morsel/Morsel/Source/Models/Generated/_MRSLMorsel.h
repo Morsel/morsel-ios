@@ -5,11 +5,13 @@
 
 
 extern const struct MRSLMorselAttributes {
+	__unsafe_unretained NSString *comment_count;
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *creator_id;
 	__unsafe_unretained NSString *didFailUpload;
 	__unsafe_unretained NSString *isUploading;
 	__unsafe_unretained NSString *lastUpdatedDate;
+	__unsafe_unretained NSString *like_count;
 	__unsafe_unretained NSString *liked;
 	__unsafe_unretained NSString *localUUID;
 	__unsafe_unretained NSString *morselDescription;
@@ -51,6 +53,8 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+
+
 @interface MRSLMorselID : NSManagedObjectID {}
 @end
 
@@ -59,6 +63,20 @@ extern const struct MRSLMorselFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (MRSLMorselID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* comment_count;
+
+
+
+@property int16_t comment_countValue;
+- (int16_t)comment_countValue;
+- (void)setComment_countValue:(int16_t)value_;
+
+//- (BOOL)validateComment_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -121,6 +139,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validateLastUpdatedDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* like_count;
+
+
+
+@property int16_t like_countValue;
+- (int16_t)like_countValue;
+- (void)setLike_countValue:(int16_t)value_;
+
+//- (BOOL)validateLike_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -283,6 +315,15 @@ extern const struct MRSLMorselFetchedProperties {
 @interface _MRSLMorsel (CoreDataGeneratedPrimitiveAccessors)
 
 
+- (NSNumber*)primitiveComment_count;
+- (void)setPrimitiveComment_count:(NSNumber*)value;
+
+- (int16_t)primitiveComment_countValue;
+- (void)setPrimitiveComment_countValue:(int16_t)value_;
+
+
+
+
 - (NSDate*)primitiveCreationDate;
 - (void)setPrimitiveCreationDate:(NSDate*)value;
 
@@ -318,6 +359,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSDate*)primitiveLastUpdatedDate;
 - (void)setPrimitiveLastUpdatedDate:(NSDate*)value;
+
+
+
+
+- (NSNumber*)primitiveLike_count;
+- (void)setPrimitiveLike_count:(NSNumber*)value;
+
+- (int16_t)primitiveLike_countValue;
+- (void)setPrimitiveLike_countValue:(int16_t)value_;
 
 
 
