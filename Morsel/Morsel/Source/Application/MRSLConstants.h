@@ -31,6 +31,7 @@ extern NSString *const MRSLModalWillDismissNotification;
 extern NSString *const MRSLAppShouldDisplayFeedNotification;
 extern NSString *const MRSLAppShouldDisplayStoryAddNotification;
 extern NSString *const MRSLAppShouldDisplayMenuBarNotification;
+extern NSString *const MRSLAppShouldDisplayUserProfileNotification;
 
 extern NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle;
 extern NSString *const MRSLAppTouchPhaseDidBeginNotification;

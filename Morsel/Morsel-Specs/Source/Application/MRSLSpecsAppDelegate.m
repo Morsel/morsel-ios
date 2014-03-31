@@ -7,6 +7,7 @@
 //
 
 #import "MRSLSpecsAppDelegate.h"
+#import "MRSLAppDelegate+CustomURLSchemes.h"
 
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
@@ -27,8 +28,14 @@
     [Mixpanel sharedInstanceWithToken:@""];
 
     [self setupSpecTestingEnvironment];
-    
+    [self setupRouteHandler];
+
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [self handleRouteForURL:url
+                 sourceApplication:sourceApplication];
 }
 
 - (void)setupSpecTestingEnvironment {
@@ -38,9 +45,8 @@
     
     self.morselApiService = [[MRSLAPIService alloc] init];
 
-    [self setupDatabase];
-
 #ifdef INTEGRATION_TESTING
+    [self setupDatabase];
     UIViewController *viewController = [[UIStoryboard mainStoryboard] instantiateInitialViewController];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = viewController;

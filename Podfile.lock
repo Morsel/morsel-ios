@@ -26,6 +26,7 @@ PODS:
     - CocoaLumberjack/Core
   - ELCImagePickerController (0.2.0)
   - GCPlaceholderTextView (1.0.1)
+  - JLRoutes (1.5)
   - KIF (2.0.0)
   - Kiwi-KIF/XCTest (1.0.1):
     - KIF (~> 2.0.0)
@@ -56,6 +57,7 @@ DEPENDENCIES:
   - CocoaLumberjack (~> 1.6.5.1)
   - ELCImagePickerController (~> 0.2)
   - GCPlaceholderTextView (= 1.0.1)
+  - JLRoutes (~> 1.5)
   - Kiwi-KIF/XCTest (~> 1.0.1)
   - Kiwi/XCTest (HEAD)
   - MagicalRecord (~> 2.2)
@@ -73,6 +75,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: 17803afbade3126a377d32b8d23367264b44ced6
   ELCImagePickerController: 1baf64fadfe088550c16f82225469e4dfad917e2
   GCPlaceholderTextView: 5eeef8d07a1dece8fdcd7762dfc21b8e89800838
+  JLRoutes: 377be327c3070c5b7131e4fc3debdbe0fd704939
   KIF: ff3b46deb62ce3f8e99c6a2c786729e1eea241ba
   Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
   Kiwi-KIF: b5391f7f57e91f43fdb2d4227d64277a67cf9e09

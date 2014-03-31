@@ -12,6 +12,10 @@
 
 #pragma mark - Instance Methods
 
+- (void)setupWithUserInfo:(NSDictionary *)userInfo {
+    @throw @"setupWithUserInfo Not Implemented in subclass!";
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 

@@ -48,9 +48,9 @@ extern const struct MRSLTagFetchedProperties {
 
 
 
-@property int16_t tagIDValue;
-- (int16_t)tagIDValue;
-- (void)setTagIDValue:(int16_t)value_;
+@property int32_t tagIDValue;
+- (int32_t)tagIDValue;
+- (void)setTagIDValue:(int32_t)value_;
 
 //- (BOOL)validateTagID:(id*)value_ error:(NSError**)error_;
 
@@ -89,8 +89,8 @@ extern const struct MRSLTagFetchedProperties {
 - (NSNumber*)primitiveTagID;
 - (void)setPrimitiveTagID:(NSNumber*)value;
 
-- (int16_t)primitiveTagIDValue;
-- (void)setPrimitiveTagIDValue:(int16_t)value_;
+- (int32_t)primitiveTagIDValue;
+- (void)setPrimitiveTagIDValue:(int32_t)value_;
 
 
 

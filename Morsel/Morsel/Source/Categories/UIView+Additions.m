@@ -20,6 +20,45 @@
     self.layer.borderWidth = width;
 }
 
+- (CAShapeLayer *)setBorderWithDirections:(MRSLBorderDirection)borderDirections borderWidth:(CGFloat)borderWidth andBorderColor:(UIColor *)borderColor {
+    CAShapeLayer *borderLayer = [CAShapeLayer layer];
+    [self.layer addSublayer:borderLayer];
+
+    UIBezierPath *path = [[UIBezierPath alloc] init];
+
+    if (borderDirections & MRSLBorderNorth) {
+        CGFloat yPoint = borderWidth * 0.5f;
+        [path moveToPoint:CGPointMake(0.0f, yPoint)];
+        [path addLineToPoint:CGPointMake(CGRectGetMaxX(self.bounds), yPoint)];
+    }
+
+    if (borderDirections & MRSLBorderWest) {
+        CGFloat xPoint = borderWidth * 0.5f;
+        [path moveToPoint:CGPointMake(xPoint, 0.0f)];
+        [path addLineToPoint:CGPointMake(xPoint, CGRectGetMaxY(self.bounds))];
+    }
+
+    if (borderDirections & MRSLBorderSouth) {
+        CGFloat yPoint = CGRectGetMaxY(self.bounds) - (borderWidth * 0.5f);
+        [path moveToPoint:CGPointMake(0.0f, yPoint)];
+        [path addLineToPoint:CGPointMake(CGRectGetMaxX(self.bounds), yPoint)];
+    }
+
+    if (borderDirections & MRSLBorderEast) {
+        CGFloat xPoint = CGRectGetMaxX(self.bounds) - (borderWidth * 0.5f);
+        [path moveToPoint:CGPointMake(xPoint, 0.0f)];
+        [path addLineToPoint:CGPointMake(xPoint, CGRectGetMaxY(self.bounds))];
+    }
+
+    borderLayer.frame = self.bounds;
+    borderLayer.path = path.CGPath;
+
+    borderLayer.strokeColor = borderColor.CGColor;
+    borderLayer.lineWidth = borderWidth;
+    
+    return borderLayer;
+}
+
 - (void)addStandardCorners {
     self.layer.cornerRadius = 5.f;
     self.layer.masksToBounds = YES;

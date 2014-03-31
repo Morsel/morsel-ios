@@ -43,6 +43,13 @@ NSFetchedResultsControllerDelegate>
 
 #pragma mark - Instance Methods
 
+- (void)setupWithUserInfo:(NSDictionary *)userInfo {
+    if (userInfo[@"user_id"]) {
+        self.user = [MRSLUser MR_createEntity];
+        self.user.userID = @([userInfo[@"user_id"] intValue]);
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 

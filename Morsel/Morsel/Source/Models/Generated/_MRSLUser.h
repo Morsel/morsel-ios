@@ -26,6 +26,7 @@ extern const struct MRSLUserAttributes {
 } MRSLUserAttributes;
 
 extern const struct MRSLUserRelationships {
+	__unsafe_unretained NSString *activities;
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *posts;
 } MRSLUserRelationships;
@@ -33,6 +34,7 @@ extern const struct MRSLUserRelationships {
 extern const struct MRSLUserFetchedProperties {
 } MRSLUserFetchedProperties;
 
+@class MRSLActivity;
 @class MRSLComment;
 @class MRSLPost;
 
@@ -102,9 +104,9 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property int16_t draft_countValue;
-- (int16_t)draft_countValue;
-- (void)setDraft_countValue:(int16_t)value_;
+@property int32_t draft_countValue;
+- (int32_t)draft_countValue;
+- (void)setDraft_countValue:(int32_t)value_;
 
 //- (BOOL)validateDraft_count:(id*)value_ error:(NSError**)error_;
 
@@ -156,9 +158,9 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property int16_t like_countValue;
-- (int16_t)like_countValue;
-- (void)setLike_countValue:(int16_t)value_;
+@property int32_t like_countValue;
+- (int32_t)like_countValue;
+- (void)setLike_countValue:(int32_t)value_;
 
 //- (BOOL)validateLike_count:(id*)value_ error:(NSError**)error_;
 
@@ -170,9 +172,9 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property int16_t morsel_countValue;
-- (int16_t)morsel_countValue;
-- (void)setMorsel_countValue:(int16_t)value_;
+@property int32_t morsel_countValue;
+- (int32_t)morsel_countValue;
+- (void)setMorsel_countValue:(int32_t)value_;
 
 //- (BOOL)validateMorsel_count:(id*)value_ error:(NSError**)error_;
 
@@ -244,9 +246,9 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property int16_t userIDValue;
-- (int16_t)userIDValue;
-- (void)setUserIDValue:(int16_t)value_;
+@property int32_t userIDValue;
+- (int32_t)userIDValue;
+- (void)setUserIDValue:(int32_t)value_;
 
 //- (BOOL)validateUserID:(id*)value_ error:(NSError**)error_;
 
@@ -260,6 +262,13 @@ extern const struct MRSLUserFetchedProperties {
 
 //- (BOOL)validateUsername:(id*)value_ error:(NSError**)error_;
 
+
+
+
+
+@property (nonatomic, strong) MRSLActivity *activities;
+
+//- (BOOL)validateActivities:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -319,8 +328,8 @@ extern const struct MRSLUserFetchedProperties {
 - (NSNumber*)primitiveDraft_count;
 - (void)setPrimitiveDraft_count:(NSNumber*)value;
 
-- (int16_t)primitiveDraft_countValue;
-- (void)setPrimitiveDraft_countValue:(int16_t)value_;
+- (int32_t)primitiveDraft_countValue;
+- (void)setPrimitiveDraft_countValue:(int32_t)value_;
 
 
 
@@ -352,8 +361,8 @@ extern const struct MRSLUserFetchedProperties {
 - (NSNumber*)primitiveLike_count;
 - (void)setPrimitiveLike_count:(NSNumber*)value;
 
-- (int16_t)primitiveLike_countValue;
-- (void)setPrimitiveLike_countValue:(int16_t)value_;
+- (int32_t)primitiveLike_countValue;
+- (void)setPrimitiveLike_countValue:(int32_t)value_;
 
 
 
@@ -361,8 +370,8 @@ extern const struct MRSLUserFetchedProperties {
 - (NSNumber*)primitiveMorsel_count;
 - (void)setPrimitiveMorsel_count:(NSNumber*)value;
 
-- (int16_t)primitiveMorsel_countValue;
-- (void)setPrimitiveMorsel_countValue:(int16_t)value_;
+- (int32_t)primitiveMorsel_countValue;
+- (void)setPrimitiveMorsel_countValue:(int32_t)value_;
 
 
 
@@ -406,8 +415,8 @@ extern const struct MRSLUserFetchedProperties {
 - (NSNumber*)primitiveUserID;
 - (void)setPrimitiveUserID:(NSNumber*)value;
 
-- (int16_t)primitiveUserIDValue;
-- (void)setPrimitiveUserIDValue:(int16_t)value_;
+- (int32_t)primitiveUserIDValue;
+- (void)setPrimitiveUserIDValue:(int32_t)value_;
 
 
 
@@ -416,6 +425,11 @@ extern const struct MRSLUserFetchedProperties {
 - (void)setPrimitiveUsername:(NSString*)value;
 
 
+
+
+
+- (MRSLActivity*)primitiveActivities;
+- (void)setPrimitiveActivities:(MRSLActivity*)value;
 
 
 

@@ -25,6 +25,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 };
 
 const struct MRSLUserRelationships MRSLUserRelationships = {
+	.activities = @"activities",
 	.comments = @"comments",
 	.posts = @"posts",
 };
@@ -110,22 +111,22 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-- (int16_t)draft_countValue {
+- (int32_t)draft_countValue {
 	NSNumber *result = [self draft_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setDraft_countValue:(int16_t)value_ {
-	[self setDraft_count:[NSNumber numberWithShort:value_]];
+- (void)setDraft_countValue:(int32_t)value_ {
+	[self setDraft_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveDraft_countValue {
+- (int32_t)primitiveDraft_countValue {
 	NSNumber *result = [self primitiveDraft_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveDraft_countValue:(int16_t)value_ {
-	[self setPrimitiveDraft_count:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveDraft_countValue:(int32_t)value_ {
+	[self setPrimitiveDraft_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -164,22 +165,22 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-- (int16_t)like_countValue {
+- (int32_t)like_countValue {
 	NSNumber *result = [self like_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setLike_countValue:(int16_t)value_ {
-	[self setLike_count:[NSNumber numberWithShort:value_]];
+- (void)setLike_countValue:(int32_t)value_ {
+	[self setLike_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveLike_countValue {
+- (int32_t)primitiveLike_countValue {
 	NSNumber *result = [self primitiveLike_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveLike_countValue:(int16_t)value_ {
-	[self setPrimitiveLike_count:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveLike_countValue:(int32_t)value_ {
+	[self setPrimitiveLike_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -190,22 +191,22 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-- (int16_t)morsel_countValue {
+- (int32_t)morsel_countValue {
 	NSNumber *result = [self morsel_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setMorsel_countValue:(int16_t)value_ {
-	[self setMorsel_count:[NSNumber numberWithShort:value_]];
+- (void)setMorsel_countValue:(int32_t)value_ {
+	[self setMorsel_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveMorsel_countValue {
+- (int32_t)primitiveMorsel_countValue {
 	NSNumber *result = [self primitiveMorsel_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveMorsel_countValue:(int16_t)value_ {
-	[self setPrimitiveMorsel_count:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveMorsel_countValue:(int32_t)value_ {
+	[self setPrimitiveMorsel_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -258,22 +259,22 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-- (int16_t)userIDValue {
+- (int32_t)userIDValue {
 	NSNumber *result = [self userID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setUserIDValue:(int16_t)value_ {
-	[self setUserID:[NSNumber numberWithShort:value_]];
+- (void)setUserIDValue:(int32_t)value_ {
+	[self setUserID:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveUserIDValue {
+- (int32_t)primitiveUserIDValue {
 	NSNumber *result = [self primitiveUserID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveUserIDValue:(int16_t)value_ {
-	[self setPrimitiveUserID:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveUserIDValue:(int32_t)value_ {
+	[self setPrimitiveUserID:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -286,6 +287,10 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
+
+@dynamic activities;
+
+	
 
 @dynamic comments;
 

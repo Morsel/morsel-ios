@@ -78,9 +78,9 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-@property int16_t feedItemIDValue;
-- (int16_t)feedItemIDValue;
-- (void)setFeedItemIDValue:(int16_t)value_;
+@property int32_t feedItemIDValue;
+- (int32_t)feedItemIDValue;
+- (void)setFeedItemIDValue:(int32_t)value_;
 
 //- (BOOL)validateFeedItemID:(id*)value_ error:(NSError**)error_;
 
@@ -102,9 +102,9 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-@property int16_t postIDValue;
-- (int16_t)postIDValue;
-- (void)setPostIDValue:(int16_t)value_;
+@property int32_t postIDValue;
+- (int32_t)postIDValue;
+- (void)setPostIDValue:(int32_t)value_;
 
 //- (BOOL)validatePostID:(id*)value_ error:(NSError**)error_;
 
@@ -116,9 +116,9 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-@property int16_t primary_morsel_idValue;
-- (int16_t)primary_morsel_idValue;
-- (void)setPrimary_morsel_idValue:(int16_t)value_;
+@property int32_t primary_morsel_idValue;
+- (int32_t)primary_morsel_idValue;
+- (void)setPrimary_morsel_idValue:(int32_t)value_;
 
 //- (BOOL)validatePrimary_morsel_id:(id*)value_ error:(NSError**)error_;
 
@@ -140,9 +140,9 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-@property int16_t total_comment_countValue;
-- (int16_t)total_comment_countValue;
-- (void)setTotal_comment_countValue:(int16_t)value_;
+@property int32_t total_comment_countValue;
+- (int32_t)total_comment_countValue;
+- (void)setTotal_comment_countValue:(int32_t)value_;
 
 //- (BOOL)validateTotal_comment_count:(id*)value_ error:(NSError**)error_;
 
@@ -154,9 +154,9 @@ extern const struct MRSLPostFetchedProperties {
 
 
 
-@property int16_t total_like_countValue;
-- (int16_t)total_like_countValue;
-- (void)setTotal_like_countValue:(int16_t)value_;
+@property int32_t total_like_countValue;
+- (int32_t)total_like_countValue;
+- (void)setTotal_like_countValue:(int32_t)value_;
 
 //- (BOOL)validateTotal_like_count:(id*)value_ error:(NSError**)error_;
 
@@ -211,8 +211,8 @@ extern const struct MRSLPostFetchedProperties {
 - (NSNumber*)primitiveFeedItemID;
 - (void)setPrimitiveFeedItemID:(NSNumber*)value;
 
-- (int16_t)primitiveFeedItemIDValue;
-- (void)setPrimitiveFeedItemIDValue:(int16_t)value_;
+- (int32_t)primitiveFeedItemIDValue;
+- (void)setPrimitiveFeedItemIDValue:(int32_t)value_;
 
 
 
@@ -226,8 +226,8 @@ extern const struct MRSLPostFetchedProperties {
 - (NSNumber*)primitivePostID;
 - (void)setPrimitivePostID:(NSNumber*)value;
 
-- (int16_t)primitivePostIDValue;
-- (void)setPrimitivePostIDValue:(int16_t)value_;
+- (int32_t)primitivePostIDValue;
+- (void)setPrimitivePostIDValue:(int32_t)value_;
 
 
 
@@ -235,8 +235,8 @@ extern const struct MRSLPostFetchedProperties {
 - (NSNumber*)primitivePrimary_morsel_id;
 - (void)setPrimitivePrimary_morsel_id:(NSNumber*)value;
 
-- (int16_t)primitivePrimary_morsel_idValue;
-- (void)setPrimitivePrimary_morsel_idValue:(int16_t)value_;
+- (int32_t)primitivePrimary_morsel_idValue;
+- (void)setPrimitivePrimary_morsel_idValue:(int32_t)value_;
 
 
 
@@ -250,8 +250,8 @@ extern const struct MRSLPostFetchedProperties {
 - (NSNumber*)primitiveTotal_comment_count;
 - (void)setPrimitiveTotal_comment_count:(NSNumber*)value;
 
-- (int16_t)primitiveTotal_comment_countValue;
-- (void)setPrimitiveTotal_comment_countValue:(int16_t)value_;
+- (int32_t)primitiveTotal_comment_countValue;
+- (void)setPrimitiveTotal_comment_countValue:(int32_t)value_;
 
 
 
@@ -259,8 +259,8 @@ extern const struct MRSLPostFetchedProperties {
 - (NSNumber*)primitiveTotal_like_count;
 - (void)setPrimitiveTotal_like_count:(NSNumber*)value;
 
-- (int16_t)primitiveTotal_like_countValue;
-- (void)setPrimitiveTotal_like_countValue:(int16_t)value_;
+- (int32_t)primitiveTotal_like_countValue;
+- (void)setPrimitiveTotal_like_countValue:(int32_t)value_;
 
 
 

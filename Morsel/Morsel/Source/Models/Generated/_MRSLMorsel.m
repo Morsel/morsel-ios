@@ -24,6 +24,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 };
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
+	.activities = @"activities",
 	.comments = @"comments",
 	.post = @"post",
 	.tags = @"tags",
@@ -114,22 +115,22 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-- (int16_t)comment_countValue {
+- (int32_t)comment_countValue {
 	NSNumber *result = [self comment_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setComment_countValue:(int16_t)value_ {
-	[self setComment_count:[NSNumber numberWithShort:value_]];
+- (void)setComment_countValue:(int32_t)value_ {
+	[self setComment_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveComment_countValue {
+- (int32_t)primitiveComment_countValue {
 	NSNumber *result = [self primitiveComment_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveComment_countValue:(int16_t)value_ {
-	[self setPrimitiveComment_count:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveComment_countValue:(int32_t)value_ {
+	[self setPrimitiveComment_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -147,22 +148,22 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-- (int16_t)creator_idValue {
+- (int32_t)creator_idValue {
 	NSNumber *result = [self creator_id];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setCreator_idValue:(int16_t)value_ {
-	[self setCreator_id:[NSNumber numberWithShort:value_]];
+- (void)setCreator_idValue:(int32_t)value_ {
+	[self setCreator_id:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveCreator_idValue {
+- (int32_t)primitiveCreator_idValue {
 	NSNumber *result = [self primitiveCreator_id];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveCreator_idValue:(int16_t)value_ {
-	[self setPrimitiveCreator_id:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveCreator_idValue:(int32_t)value_ {
+	[self setPrimitiveCreator_id:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -232,22 +233,22 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-- (int16_t)like_countValue {
+- (int32_t)like_countValue {
 	NSNumber *result = [self like_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setLike_countValue:(int16_t)value_ {
-	[self setLike_count:[NSNumber numberWithShort:value_]];
+- (void)setLike_countValue:(int32_t)value_ {
+	[self setLike_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveLike_countValue {
+- (int32_t)primitiveLike_countValue {
 	NSNumber *result = [self primitiveLike_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveLike_countValue:(int16_t)value_ {
-	[self setPrimitiveLike_count:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveLike_countValue:(int32_t)value_ {
+	[self setPrimitiveLike_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -298,22 +299,22 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-- (int16_t)morselIDValue {
+- (int32_t)morselIDValue {
 	NSNumber *result = [self morselID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setMorselIDValue:(int16_t)value_ {
-	[self setMorselID:[NSNumber numberWithShort:value_]];
+- (void)setMorselIDValue:(int32_t)value_ {
+	[self setMorselID:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveMorselIDValue {
+- (int32_t)primitiveMorselIDValue {
 	NSNumber *result = [self primitiveMorselID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveMorselIDValue:(int16_t)value_ {
-	[self setPrimitiveMorselID:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveMorselIDValue:(int32_t)value_ {
+	[self setPrimitiveMorselID:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -371,22 +372,22 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-- (int16_t)sort_orderValue {
+- (int32_t)sort_orderValue {
 	NSNumber *result = [self sort_order];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setSort_orderValue:(int16_t)value_ {
-	[self setSort_order:[NSNumber numberWithShort:value_]];
+- (void)setSort_orderValue:(int32_t)value_ {
+	[self setSort_order:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveSort_orderValue {
+- (int32_t)primitiveSort_orderValue {
 	NSNumber *result = [self primitiveSort_order];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveSort_orderValue:(int16_t)value_ {
-	[self setPrimitiveSort_order:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveSort_orderValue:(int32_t)value_ {
+	[self setPrimitiveSort_order:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -399,6 +400,19 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+
+@dynamic activities;
+
+	
+- (NSMutableSet*)activitiesSet {
+	[self willAccessValueForKey:@"activities"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"activities"];
+  
+	[self didAccessValueForKey:@"activities"];
+	return result;
+}
+	
 
 @dynamic comments;
 

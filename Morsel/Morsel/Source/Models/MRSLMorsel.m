@@ -74,6 +74,24 @@
     return message;
 }
 
+- (NSString *)displayName {
+    NSString *message = nil;
+
+    if ([self.morselDescription length] > 0) {
+        if (self.post && self.post.title && self.morselDescription) {
+            message = [NSString stringWithFormat:@"\"%@: %@\"", self.post.title, self.morselDescription];
+        } else if (self.morselDescription) {
+            message = [NSString stringWithFormat:@"\"%@\"", self.morselDescription];
+        }
+    } else if([MRSLUser currentUserOwnsMorselWithCreatorID:self.creator_idValue]) {
+        message = @"your item";
+    } else {
+        message = @"an item";
+    }
+
+    return message;
+}
+
 - (void)willImport:(id)data {
     if (![data[@"nonce"] isEqual:[NSNull null]]) {
         MRSLMorsel *potentialLocalOrphanedMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.localUUID

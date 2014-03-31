@@ -67,7 +67,11 @@ static const int MRSLMaximumPostsToDisplayInStoryAdd = 5;
 
 #pragma mark - Defines
 
-#if (defined(MORSEL_BETA) || defined(RELEASE))
+#if defined (SPEC_TESTING) || defined (INTEGRATION_TESTING)
+
+#define MORSEL_API_BASE_URL @"DUMMY_BASE_URL"
+
+#elif (defined(MORSEL_BETA) || defined(RELEASE))
 
 #define MORSEL_API_BASE_URL @"https://api.eatmorsel.com"
 
@@ -86,6 +90,7 @@ static const int MRSLMaximumPostsToDisplayInStoryAdd = 5;
 #endif
 
 #define NSNullIfNil(obj) ((obj == nil) ? [NSNull null] : obj)
+#define MRSLIsNull(obj) ([obj isEqual:[NSNull null]])
 
 #pragma mark - Imports
 

@@ -8,6 +8,7 @@
 
 #import "MRSLAppDelegate.h"
 #import "MRSLAppDelegate+SetupAppearance.h"
+#import "MRSLAppDelegate+CustomURLSchemes.h"
 
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import <CocoaLumberjack/DDASLLogger.h>
@@ -37,6 +38,8 @@
 
     [self setupMorselEnvironment];
 
+    [self setupRouteHandler];
+
     return YES;
 }
 
@@ -45,6 +48,11 @@
         [[Mixpanel sharedInstance].people increment:@"open_count"
                                                  by:@(1)];
     }
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [self handleRouteForURL:url
+                 sourceApplication:sourceApplication];
 }
 
 #pragma mark - Instance Methods

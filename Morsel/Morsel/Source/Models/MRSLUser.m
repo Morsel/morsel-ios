@@ -79,6 +79,10 @@
     return [NSString stringWithFormat:@"%@ %@", self.first_name, self.last_name];
 }
 
+- (NSString *)displayName {
+    return [NSString stringWithFormat:@"%@ (%@)", [self fullName], [self username]];
+}
+
 - (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type {
     if (!self.profilePhotoURL) return nil;
 
