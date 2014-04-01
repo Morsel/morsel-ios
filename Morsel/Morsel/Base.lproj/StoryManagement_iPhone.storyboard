@@ -585,7 +585,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hHp-Ex-3E1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="637" y="845"/>
+            <point key="canvasLocation" x="1163" y="1654"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jav-JW-FJW">
@@ -650,6 +650,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="upT-2i-U0X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1706" y="845"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ahi-Js-Ifj">
+            <objects>
+                <navigationController storyboardIdentifier="sb_StoryEdit" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="D6k-iU-p9j" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="xgy-ht-IsU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.98431372549999996" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="QmE-5e-DXK" kind="relationship" relationship="rootViewController" id="9DN-bR-5d9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ap3-88-zdI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="637" y="845"/>
         </scene>
     </scenes>
     <resources>

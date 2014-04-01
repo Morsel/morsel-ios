@@ -217,8 +217,8 @@ MRSLStoryEditMorselTableViewCellDelegate>
                                       success:^(id responseObject) {
                                           self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last %@ %@", (_post.draftValue) ? @"saved" : @"updated", (_post.lastUpdatedDate) ? [[_post.lastUpdatedDate timeAgo] lowercaseString] : @"now"];
                                           [self.navigationItem setRightBarButtonItem:nil];
-                                          [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayFeedNotification
-                                                                                              object:nil];
+                                          [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidPublishPostNotification
+                                                                                              object:_post];
                                       } failure:^(NSError *error) {
                                           _publishButton.enabled = YES;
                                           [UIAlertView showAlertViewForErrorString:@"Unable to publish Story, please try again!"

@@ -8,7 +8,6 @@
 
 #pragma mark - Frameworks
 
-#import <AFNetworking/UIImageView+AFNetworking.h>
 #import <CocoaLumberjack/DDLog.h>
 #import <Mixpanel/Mixpanel.h>
 

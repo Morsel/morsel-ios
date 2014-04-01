@@ -20,9 +20,13 @@ NSString *const MRSLUserDidBeginCreateMorselNotification = @"MRSLUserDidBeginCre
 NSString *const MRSLUserDidUpdateMorselNotification = @"MRSLUserDidUpdateMorselNotification";
 NSString *const MRSLUserDidDeleteMorselNotification = @"MRSLUserDidDeleteMorselNotification";
 NSString *const MRSLUserDidUpdatePostNotification = @"MRSLUserDidUpdatePostNotification";
+NSString *const MRSLUserDidPublishPostNotification = @"MRSLUserDidPublishPostNotification";
 
 NSString *const MRSLMorselUploadDidCompleteNotification = @"MRSLMorselUploadDidCompleteNotification";
 NSString *const MRSLMorselUploadDidFailNotification = @"MRSLMorselUploadDidFailNotification";
+
+NSString *const MRSLModalWillDisplayNotification = @"MRSLModalWillDisplayNotification";
+NSString *const MRSLModalWillDismissNotification = @"MRSLModalWillDismissNotification";
 
 NSString *const MRSLAppShouldDisplayFeedNotification = @"MRSLAppShouldDisplayFeedNotification";
 NSString *const MRSLAppShouldDisplayStoryAddNotification = @"MRSLAppShouldDisplayStoryAddNotification";

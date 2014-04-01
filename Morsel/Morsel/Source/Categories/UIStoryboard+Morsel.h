@@ -14,7 +14,6 @@
 + (UIStoryboard *)feedStoryboard;
 + (UIStoryboard *)profileStoryboard;
 + (UIStoryboard *)loginStoryboard;
-+ (UIStoryboard *)morselDetailStoryboard;
 + (UIStoryboard *)mediaManagementStoryboard;
 + (UIStoryboard *)storyManagementStoryboard;
 + (UIStoryboard *)activityStoryboard;

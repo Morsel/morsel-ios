@@ -47,7 +47,7 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayFeed)
-                                                 name:MRSLAppShouldDisplayFeedNotification
+                                                 name:MRSLUserDidPublishPostNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayStoryAdd)
@@ -140,6 +140,10 @@
 }
 
 - (void)logUserOut {
+    if ([UIApplication sharedApplication].statusBarHidden) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES
+                                                withAnimation:UIStatusBarAnimationSlide];
+    }
     [self displaySignUpAnimated:YES];
 
     [_navigationControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
@@ -175,7 +179,9 @@
         [[UIApplication sharedApplication] setStatusBarHidden:NO
                                                 withAnimation:UIStatusBarAnimationSlide];
     }
-
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
+                                                  andStoryboardPrefix:@"Feed"
+                                                    shouldDisplayRoot:YES];
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }
@@ -205,7 +211,6 @@
         UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@_iPhone", storyboardPrefixName]
                                                                    bundle:nil];
         viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:[NSString stringWithFormat:@"%@_%@", @"sb", classPrefixName]];
-
         [self.navigationControllers addObject:viewControllerNC];
     }
 
@@ -261,6 +266,11 @@
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Activity"
                                                           andStoryboardPrefix:@"Activity"
                                                             shouldDisplayRoot:YES];
+            break;
+        case MRSLMenuBarButtonTypeLogout:
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
+                                         properties:@{@"name": @"Logout"}];
+            [self logUserOut];
             break;
         default:
             break;

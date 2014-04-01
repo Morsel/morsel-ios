@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="80" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="UKk-bO-zgY" customClass="MRSLMenuBarButton">
+                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="UKk-bO-zgY" customClass="MRSLMenuBarButton">
                                         <rect key="frame" x="0.0" y="33" width="80" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="View Feed"/>
@@ -74,6 +74,33 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="zDn-ww-gb1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="jLr-C9-Neq" customClass="MRSLMenuBarButton">
+                                        <rect key="frame" x="9" y="315" width="62" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="View Activity"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
+                                        <state key="normal" title="Logout" image="icon-menubar-logout">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="menuBarButtonType">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="lrb-A4-Iur"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="lAZ-OY-Dws" customClass="MRSLMenuBarButton">
@@ -139,6 +166,7 @@
                                     <outletCollection property="menuBarButtons" destination="uxq-Co-Ih2" id="2kd-ce-RKl"/>
                                     <outletCollection property="menuBarButtons" destination="lAZ-OY-Dws" id="OEa-Cd-haL"/>
                                     <outletCollection property="menuBarButtons" destination="6z6-0t-kaz" id="xA3-3c-0QJ"/>
+                                    <outletCollection property="menuBarButtons" destination="jLr-C9-Neq" id="hSm-0i-Nea"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -158,6 +186,7 @@
     <resources>
         <image name="icon-like-inactive" width="28" height="26"/>
         <image name="icon-menubar-home" width="30" height="30"/>
+        <image name="icon-menubar-logout" width="24" height="24"/>
         <image name="icon-menubar-profile" width="30" height="30"/>
         <image name="icon-menubar-stuff" width="30" height="30"/>
     </resources>

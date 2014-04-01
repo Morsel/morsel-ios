@@ -514,20 +514,21 @@
 
 - (void)likeMorsel:(MRSLMorsel *)morsel
         shouldLike:(BOOL)shouldLike
-           didLike:(MorselAPILikeBlock)didLike
+           didLike:(MorselAPILikeBlock)likeBlockOrNil
            failure:(MorselAPIFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (shouldLike) {
+        morsel.like_count = @(morsel.like_countValue + 1);
         [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"morsels/%i/like", [morsel.morselID intValue]]
                                 parameters:parameters
                                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                       didLike(YES);
+                                       if (likeBlockOrNil) likeBlockOrNil(YES);
                                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                        MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
                                        if ([operation.response statusCode] == 200 || [serviceErrorInfo.errorInfo isEqualToString:@"Morsel: already liked"]) {
-                                           didLike(YES);
+                                           if (likeBlockOrNil) likeBlockOrNil(YES);
                                        } else {
                                            [self reportFailure:failureOrNil
                                                      withError:error
@@ -535,14 +536,15 @@
                                        }
                                    }];
     } else {
+        morsel.like_count = @(morsel.like_countValue - 1);
         [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"morsels/%i/like", [morsel.morselID intValue]]
                                   parameters:parameters
                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                         didLike(NO);
+                                         if (likeBlockOrNil) likeBlockOrNil(NO);
                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                          MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
                                          if ([operation.response statusCode] == 200  || [serviceErrorInfo.errorInfo isEqualToString:@"Morsel: not liked"]) {
-                                             didLike(NO);
+                                             if (likeBlockOrNil) likeBlockOrNil(NO);
                                          } else {
                                              [self reportFailure:failureOrNil
                                                        withError:error
@@ -744,6 +746,7 @@
                                                                                      withValue:responseObject[@"data"][@"id"]];
                                    if (!comment) comment = [MRSLComment MR_createEntity];
                                    [comment MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                   morsel.comment_count = @(morsel.comment_countValue + 1);
 
                                    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateCommentNotification
                                                                                        object:morsel];
