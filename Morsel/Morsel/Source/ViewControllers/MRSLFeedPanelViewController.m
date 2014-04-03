@@ -12,6 +12,9 @@
 
 #import "MRSLFeedCoverCollectionViewCell.h"
 #import "MRSLFeedPageCollectionViewCell.h"
+#import "MRSLModalCommentsViewController.h"
+#import "MRSLModalDescriptionViewController.h"
+#import "MRSLStoryEditViewController.h"
 #import "MRSLProfileImageView.h"
 
 #import "MRSLPost.h"
@@ -63,6 +66,9 @@ UICollectionViewDelegate>
         self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
         
         [self.collectionView reloadData];
+        [self.collectionView setContentOffset:CGPointMake(0.f, 0.f)
+                                     animated:NO];
+        [self.view setBackgroundColor:[UIColor whiteColor]];
     }
 }
 
@@ -78,7 +84,7 @@ UICollectionViewDelegate>
         [self.storyTitleLabel setY:86.f];
         [self.storyTitleLabel setHeight:140.f];
         [self.storyTitleLabel setWidth:260.f];
-        [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:24.f]];
+        [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
         [self.pageControl setAlpha:0.f];
     }];
     [self.view.layer removeAnimationForKey:@"fadeToBlackAnimation"];
@@ -119,6 +125,37 @@ UICollectionViewDelegate>
     [self.view setBackgroundColor:[UIColor blackColor]];
 }
 
+#pragma mark - Action Methods
+
+- (IBAction)viewMore {
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalDescriptionViewController"];
+        modalDescriptionVC.morsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        [self addChildViewController:modalDescriptionVC];
+        [self.view addSubview:modalDescriptionVC.view];
+    }
+}
+
+- (IBAction)displayComments {
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLModalCommentsViewController *modalCommentsVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalCommentsViewController"];
+        modalCommentsVC.morsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        [self addChildViewController:modalCommentsVC];
+        [self.view addSubview:modalCommentsVC.view];
+    }
+}
+
+- (IBAction)editStory {
+    UINavigationController *storyEditNC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_StoryEdit"];
+    MRSLStoryEditViewController *storyEditVC = [[storyEditNC viewControllers] firstObject];
+    storyEditVC.postID = _post.postID;
+    [self presentViewController:storyEditNC
+                       animated:YES
+                     completion:nil];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -139,6 +176,14 @@ UICollectionViewDelegate>
         cell = storyPageCell;
     }
     return cell;
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout Methods
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return collectionView.frame.size;
 }
 
 #pragma mark - UIScrollViewDelegate

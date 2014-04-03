@@ -30,11 +30,6 @@
                                      bundle:nil];
 }
 
-+ (UIStoryboard *)morselDetailStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"MorselDetail_iPad" : @"MorselDetail_iPhone"
-                                     bundle:nil];
-}
-
 + (UIStoryboard *)mediaManagementStoryboard {
     return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"MediaManagement_iPad" : @"MediaManagement_iPhone"
                                      bundle:nil];

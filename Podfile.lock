@@ -26,7 +26,6 @@ PODS:
     - CocoaLumberjack/Core
   - ELCImagePickerController (0.2.0)
   - GCPlaceholderTextView (1.0.1)
-  - GPUImage (0.1.2)
   - KIF (2.0.0)
   - Kiwi-KIF/XCTest (1.0.1):
     - KIF (~> 2.0.0)
@@ -46,6 +45,9 @@ PODS:
   - OAuthCore (0.0.1):
     - NSData+Base64
   - OHHTTPStubs (3.1.0)
+  - SDWebImage (3.6):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.6)
   - TestFlightSDK (3.0.0)
 
 DEPENDENCIES:
@@ -54,7 +56,6 @@ DEPENDENCIES:
   - CocoaLumberjack (~> 1.6.5.1)
   - ELCImagePickerController (~> 0.2)
   - GCPlaceholderTextView (= 1.0.1)
-  - GPUImage (~> 0.1.2)
   - Kiwi-KIF/XCTest (~> 1.0.1)
   - Kiwi/XCTest (HEAD)
   - MagicalRecord (~> 2.2)
@@ -63,6 +64,7 @@ DEPENDENCIES:
   - NullSafe (~> 1.2)
   - OAuthCore (~> 0.0.1)
   - OHHTTPStubs (~> 3.1.0)
+  - SDWebImage (~> 3.6)
   - TestFlightSDK (~> 3.0)
 
 SPEC CHECKSUMS:
@@ -71,7 +73,6 @@ SPEC CHECKSUMS:
   CocoaLumberjack: 17803afbade3126a377d32b8d23367264b44ced6
   ELCImagePickerController: 1baf64fadfe088550c16f82225469e4dfad917e2
   GCPlaceholderTextView: 5eeef8d07a1dece8fdcd7762dfc21b8e89800838
-  GPUImage: 007145faa0e27f1ddbcab93e07f026c9776e2fa2
   KIF: ff3b46deb62ce3f8e99c6a2c786729e1eea241ba
   Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
   Kiwi-KIF: b5391f7f57e91f43fdb2d4227d64277a67cf9e09
@@ -82,6 +83,7 @@ SPEC CHECKSUMS:
   NullSafe: ec359e864f3b8d9c2d81aaa2bdbac8280bba1be2
   OAuthCore: 4164eec5e28c68f794953446e68f91054ffe570c
   OHHTTPStubs: d67c42c0212f0883ddb8592375aa0dc00dc50a36
+  SDWebImage: 7eb273e54ca8a2e506ad9bd5e80c35b2a4d7c95e
   TestFlightSDK: 71e3e78d3a46144dbad975a4bf80a14dae6a818a
 
 COCOAPODS: 0.29.0

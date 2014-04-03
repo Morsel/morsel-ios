@@ -16,19 +16,6 @@
 
 @implementation MRSLMenuBarView
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayFeed)
-                                                 name:MRSLAppShouldDisplayFeedNotification
-                                               object:nil];
-    [self selectedButton:[self buttonWithName:@"Feed"]];
-}
-
-- (void)displayFeed {
-    [self selectedButton:[self buttonWithName:@"Feed"]];
-}
-
 - (IBAction)selectedButton:(MRSLMenuBarButton *)targetButton {
     [_menuBarButtons enumerateObjectsUsingBlock:^(MRSLMenuBarButton *menuBarButton, NSUInteger idx, BOOL *stop) {
         BOOL targetEqualsButton = [menuBarButton isEqual:targetButton];

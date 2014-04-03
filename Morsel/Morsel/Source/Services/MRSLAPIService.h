@@ -94,7 +94,7 @@
 
 - (void)likeMorsel:(MRSLMorsel *)morsel
         shouldLike:(BOOL)shouldLike
-           didLike:(MorselAPILikeBlock)didLike
+           didLike:(MorselAPILikeBlock)didLikeOrNil
            failure:(MorselAPIFailureBlock)failureOrNil;
 
 #pragma mark - Feed Services

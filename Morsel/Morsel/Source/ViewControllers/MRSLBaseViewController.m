@@ -15,7 +15,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if ([self.navigationController.viewControllers count] > 1 && !self.presentingViewController) {
+    if ([self.navigationController.viewControllers count] > 1) {
         UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
                                                                        style:UIBarButtonItemStyleBordered
                                                                       target:self
@@ -35,7 +35,7 @@
                                                                          action:@selector(displayStoryAdd)];
             [self.navigationItem setRightBarButtonItem:addButton];
         }
-    } else if (self.presentingViewController) {
+    } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
         if (self.navigationController) {
             UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-dismiss"]
                                                                            style:UIBarButtonItemStyleBordered

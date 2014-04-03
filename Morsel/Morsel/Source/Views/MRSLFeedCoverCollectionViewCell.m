@@ -19,10 +19,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
-@property (weak, nonatomic) IBOutlet UIButton *likeButton;
-@property (weak, nonatomic) IBOutlet UIButton *commentButton;
-@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *additionalMorselsLabel;
 
 @property (weak, nonatomic) IBOutlet MRSLMorselImageView *storyCoverImageView;
@@ -38,22 +34,29 @@
     self.storyMorselThumbnails = [_storyMorselThumbnails sortedArrayUsingComparator:^NSComparisonResult(MRSLMorselImageView *morselImageViewA, MRSLMorselImageView *morselImageViewB) {
         return [morselImageViewA getX] > [morselImageViewB getX];
     }];
+    [_storyMorselThumbnails enumerateObjectsUsingBlock:^(MRSLMorselImageView *morselImageView, NSUInteger idx, BOOL *stop) {
+        [morselImageView setBorderWithColor:[UIColor whiteColor]
+                                    andWidth:2.f];
+    }];
 }
 
 - (void)setPost:(MRSLPost *)post {
-    _post = post;
+    if (_post != post) {
+        _post = post;
+        [self populateContent];
+    }
+}
 
+- (void)populateContent {
     _storyCoverImageView.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                            withValue:post.primary_morsel_id];
+                                                            withValue:_post.primary_morsel_id] ?: [_post.morselsArray lastObject];
     if ([_post.morsels count] > 4) {
         self.additionalMorselsLabel.hidden = NO;
-        self.additionalMorselsLabel.text = [NSString stringWithFormat:@"+%u", [_post.morsels count] - 4];
+        self.additionalMorselsLabel.text = [NSString stringWithFormat:@"+%lu", (unsigned long)[_post.morsels count] - 4];
     } else {
         self.additionalMorselsLabel.hidden = YES;
     }
     _editButton.hidden = ![_post.creator isCurrentUser];
-    _likeCountLabel.text = [NSString stringWithFormat:@"%i Like%@", _post.total_like_countValue, (_post.total_like_countValue == 1) ? @"" : @"s"];
-    _commentCountLabel.text = [NSString stringWithFormat:@"%i Comment%@", _post.total_comment_countValue, (_post.total_comment_countValue == 1) ? @"" : @"s"];
 
     [_storyMorselThumbnails enumerateObjectsUsingBlock:^(MRSLMorselImageView *morselImageView, NSUInteger idx, BOOL *stop) {
         if (idx < [_post.morsels count]) {
@@ -65,6 +68,12 @@
             morselImageView.hidden = YES;
         }
     }];
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

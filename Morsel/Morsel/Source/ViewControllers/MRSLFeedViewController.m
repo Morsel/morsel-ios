@@ -24,13 +24,18 @@ UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout>
 
+@property (nonatomic) BOOL loadingMore;
+
+@property (weak, nonatomic) IBOutlet UIButton *menuBarButton;
+@property (weak, nonatomic) IBOutlet UIButton *addMorselButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *feedCollectionView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 @property (strong, nonatomic) NSFetchedResultsController *feedFetchedResultsController;
 
 @property (strong, nonatomic) NSMutableArray *feedPosts;
 @property (strong, nonatomic) NSMutableArray *feedIDs;
-
+@property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) MRSLUser *currentUser;
 
 @end
@@ -47,6 +52,8 @@ UICollectionViewDelegateFlowLayout>
     self.feedPosts = [NSMutableArray array];
     self.feedIDs = [NSMutableArray feedIDArray];
 
+    [self setupFeedTimer];
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(localContentPurged)
                                                  name:MRSLServiceWillPurgeDataNotification
@@ -56,8 +63,20 @@ UICollectionViewDelegateFlowLayout>
                                                  name:MRSLServiceWillRestoreDataNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(scrollFeedToFirst)
-                                                 name:MRSLAppShouldDisplayFeedNotification
+                                             selector:@selector(displayPublishedPost:)
+                                                 name:MRSLUserDidPublishPostNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideControls)
+                                                 name:MRSLModalWillDisplayNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showControls)
+                                                 name:MRSLModalWillDismissNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(suspendTimer)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeTimer)
+                                                 name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
 }
 
@@ -77,11 +96,37 @@ UICollectionViewDelegateFlowLayout>
 
 #pragma mark - Notification Methods
 
+- (void)suspendTimer {
+    if (_timer) {
+        [_timer invalidate];
+        self.timer = nil;
+    }
+}
+
+- (void)resumeTimer {
+    [self setupFeedTimer];
+}
+
+- (void)hideControls {
+    [self toggleControls:NO];
+}
+
+- (void)showControls {
+    [self toggleControls:YES];
+}
+
+- (void)toggleControls:(BOOL)shouldDisplay {
+    _feedCollectionView.scrollEnabled = shouldDisplay;
+    _menuBarButton.enabled = shouldDisplay;
+    _addMorselButton.enabled = shouldDisplay;
+    [UIView animateWithDuration:.2f animations:^{
+        [_menuBarButton setAlpha:shouldDisplay];
+        [_addMorselButton setAlpha:shouldDisplay];
+    }];
+}
+
 - (void)localContentPurged {
-    [NSFetchedResultsController deleteCacheWithName:@"Feed"];
-
     self.feedFetchedResultsController.delegate = nil;
-
     self.feedFetchedResultsController = nil;
 }
 
@@ -94,30 +139,38 @@ UICollectionViewDelegateFlowLayout>
     [self populateContent];
 }
 
-- (void)scrollFeedToFirst {
+- (void)displayPublishedPost:(NSNotification *)notification {
+    if ([notification object]) {
+        MRSLPost *post = [notification object];
+        [_feedIDs insertObject:post.postID
+                       atIndex:0];
+        [self.feedCollectionView reloadData];
+    }
     [self.feedCollectionView scrollRectToVisible:CGRectMake(2.f, 2.f, 2.f, 2.f)
                                         animated:NO];
 }
 
 #pragma mark - Private Methods
 
+- (void)setupFeedTimer {
+    if (!_timer) {
+        self.timer = [NSTimer timerWithTimeInterval:180.f
+                                             target:self
+                                           selector:@selector(loadNew)
+                                           userInfo:nil
+                                            repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_timer
+                                     forMode:NSRunLoopCommonModes];
+    }
+}
+
 - (void)setupFeedFetchRequest {
     if (_feedFetchedResultsController) return;
-
-    NSPredicate *publishedMorselPredicate = [NSPredicate predicateWithFormat:@"(draft == NO)"];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:[MRSLPost MR_entityDescription]];
-
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"creationDate"
-                                                         ascending:NO];
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-    [fetchRequest setPredicate:publishedMorselPredicate];
-    [fetchRequest setFetchBatchSize:10];
-
-    self.feedFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                            managedObjectContext:[NSManagedObjectContext MR_defaultContext]
-                                                                              sectionNameKeyPath:nil
-                                                                                       cacheName:@"Feed"];
+    self.feedFetchedResultsController = [MRSLPost MR_fetchAllSortedBy:@"creationDate"
+                                                            ascending:NO
+                                                        withPredicate:nil
+                                                              groupBy:nil
+                                                             delegate:self];
     _feedFetchedResultsController.delegate = self;
 }
 
@@ -135,6 +188,9 @@ UICollectionViewDelegateFlowLayout>
 #pragma mark - Section Methods
 
 - (void)refreshFeed {
+    if ([_feedIDs count] == 0) {
+        [self.activityIndicatorView startAnimating];
+    }
     NSNumber *firstPersistedID = nil;
     NSNumber *lastPersistedID = nil;
     if ([_feedIDs count] > 0) {
@@ -145,24 +201,76 @@ UICollectionViewDelegateFlowLayout>
     }
     [_appDelegate.morselApiService getFeedWithMaxID:nil
                                           orSinceID:nil
-                                           andCount:nil
+                                           andCount:@(4)
                                             success:^(NSArray *responseArray) {
+                                                [self.activityIndicatorView stopAnimating];
                                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                                    [self.feedIDs removeAllObjects];
-                                                    [self.feedIDs addObjectsFromArray:responseArray];
-                                                    [self.feedIDs saveFeedIDArray];
+                                                    [_feedIDs removeAllObjects];
+                                                    [_feedIDs addObjectsFromArray:responseArray];
+                                                    [_feedIDs saveFeedIDArray];
                                                     [self populateContent];
                                                     if ([firstPersistedID intValue] != [[self.feedIDs firstObject] intValue]) {
                                                         DDLogDebug(@"New Stories detected!");
                                                     }
                                                 });
-    } failure:nil];
+                                            } failure:^(NSError *error) {
+                                                [UIAlertView showAlertViewForErrorString:@"Error loading feed"
+                                                                                delegate:nil];
+                                            }];
+}
+
+- (void)loadNew {
+    DDLogDebug(@"Loading new feed items");
+    MRSLPost *firstPost = [MRSLPost MR_findFirstByAttribute:MRSLPostAttributes.postID
+                                                 withValue:[_feedIDs firstObject]];
+    [_appDelegate.morselApiService getFeedWithMaxID:nil
+                                          orSinceID:firstPost.feedItemID
+                                           andCount:@(5)
+                                            success:^(NSArray *responseArray) {
+                                                DDLogDebug(@"%lu feed items added", (unsigned long)[responseArray count]);
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    if ([responseArray count] > 0) {
+                                                        NSArray *appendedIDs = [_feedIDs copy];
+                                                        self.feedIDs = [NSMutableArray arrayWithArray:responseArray];
+                                                        [_feedIDs addObjectsFromArray:appendedIDs];
+                                                        [_feedIDs saveFeedIDArray];
+                                                        [self populateContent];
+                                                    }
+                                                });
+                                            } failure:^(NSError *error) {
+                                                [UIAlertView showAlertViewForErrorString:@"Error loading feed"
+                                                                                delegate:nil];
+                                            }];
+}
+
+- (void)loadMore {
+    DDLogDebug(@"Loading more feed items");
+    MRSLPost *lastPost = [MRSLPost MR_findFirstByAttribute:MRSLPostAttributes.postID
+                                                 withValue:[_feedIDs lastObject]];
+    [_appDelegate.morselApiService getFeedWithMaxID:@([lastPost feedItemIDValue] - 1)
+                                          orSinceID:nil
+                                           andCount:@(5)
+                                            success:^(NSArray *responseArray) {
+                                                DDLogDebug(@"%lu feed items added", (unsigned long)[responseArray count]);
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    if ([responseArray count] > 0) {
+                                                        [_feedIDs addObjectsFromArray:responseArray];
+                                                        [_feedIDs saveFeedIDArray];
+                                                        [self populateContent];
+                                                    }
+                                                    _loadingMore = NO;
+                                                });
+                                            } failure:^(NSError *error) {
+                                                [UIAlertView showAlertViewForErrorString:@"Error loading feed"
+                                                                                delegate:nil];
+                                                _loadingMore = NO;
+                                            }];
 }
 
 - (void)displayUserProfile {
     [[MRSLEventManager sharedManager] track:@"Tapped Profile Icon"
-                          properties:@{@"view": @"Feed",
-                                       @"user_id": _currentUser.userID}];
+                                 properties:@{@"view": @"Feed",
+                                              @"user_id": _currentUser.userID}];
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfileViewController"];
     profileVC.user = _currentUser;
 
@@ -186,6 +294,24 @@ UICollectionViewDelegateFlowLayout>
     return postPanelCell;
 }
 
+#pragma mark - UICollectionViewDelegateFlowLayout Methods
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return collectionView.frame.size;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    int currentPage = scrollView.contentOffset.x / scrollView.frame.size.width;
+    if (currentPage >= [_feedPosts count] - 3 && !_loadingMore) {
+        _loadingMore = YES;
+        [self loadMore];
+    }
+}
+
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
@@ -196,6 +322,8 @@ UICollectionViewDelegateFlowLayout>
 #pragma mark - Destruction
 
 - (void)dealloc {
+    [_timer invalidate];
+    self.timer = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

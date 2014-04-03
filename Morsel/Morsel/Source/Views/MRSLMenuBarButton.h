@@ -12,7 +12,8 @@ typedef NS_ENUM(NSUInteger, MRSLMenuBarButtonType) {
     MRSLMenuBarButtonTypeFeed,
     MRSLMenuBarButtonTypeProfile,
     MRSLMenuBarButtonTypeMyStuff,
-    MRSLMenuBarButtonTypeActivity
+    MRSLMenuBarButtonTypeActivity,
+    MRSLMenuBarButtonTypeLogout
 };
 
 @interface MRSLMenuBarButton : MRSLStandardButton
