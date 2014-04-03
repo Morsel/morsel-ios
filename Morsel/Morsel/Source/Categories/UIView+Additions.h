@@ -6,12 +6,26 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
+typedef NS_OPTIONS(NSUInteger, MRSLBorderDirection) {
+    MRSLBorderNone = 0,
+    MRSLBorderNorth = 1 << 0,
+    MRSLBorderEast  = 1 << 1,
+    MRSLBorderSouth = 1 << 2,
+    MRSLBorderWest  = 1 << 3
+};
+
 #import <UIKit/UIKit.h>
 
 @interface UIView (Additions)
 
 - (void)setBorderWithColor:(UIColor *)color
                   andWidth:(CGFloat)width;
+
+/**
+ Creates borders at the specified directions
+ */
+- (CAShapeLayer *)setBorderWithDirections:(MRSLBorderDirection)borderDirections borderWidth:(CGFloat)borderWidth andBorderColor:(UIColor *)borderColor;
+
 - (void)addStandardCorners;
 - (void)addCornersWithRadius:(CGFloat)radius;
 - (void)addStandardShadow;

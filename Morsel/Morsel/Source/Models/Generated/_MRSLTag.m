@@ -64,22 +64,22 @@ const struct MRSLTagFetchedProperties MRSLTagFetchedProperties = {
 
 
 
-- (int16_t)tagIDValue {
+- (int32_t)tagIDValue {
 	NSNumber *result = [self tagID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setTagIDValue:(int16_t)value_ {
-	[self setTagID:[NSNumber numberWithShort:value_]];
+- (void)setTagIDValue:(int32_t)value_ {
+	[self setTagID:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveTagIDValue {
+- (int32_t)primitiveTagIDValue {
 	NSNumber *result = [self primitiveTagID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveTagIDValue:(int16_t)value_ {
-	[self setPrimitiveTagID:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveTagIDValue:(int32_t)value_ {
+	[self setPrimitiveTagID:[NSNumber numberWithInt:value_]];
 }
 
 

@@ -14,4 +14,6 @@ typedef NS_ENUM(NSUInteger, MorselImageSizeType) {
 
 - (NSString *)socialMessage;
 
+- (NSString *)displayName;
+
 @end

@@ -54,6 +54,10 @@
                                                  name:MRSLAppShouldDisplayStoryAddNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayUserProfile:)
+                                                 name:MRSLAppShouldDisplayUserProfileNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLoggedIn:)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
@@ -68,6 +72,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideMenuBar)
                                                  name:MRSLAppTouchPhaseDidBeginNotification
                                                object:nil];
+
+#ifdef SPEC_TESTING
+    return;
+#endif
 
     MRSLUser *currentUser = [MRSLUser currentUser];
 
@@ -121,6 +129,16 @@
                      completion:nil];
 }
 
+- (void)displayUserProfile:(NSNotification *)notification {
+    UINavigationController *userProfileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
+    MRSLBaseViewController *profileViewController = (MRSLBaseViewController *)[userProfileNC topViewController];
+    if (notification.object) [profileViewController setupWithUserInfo:notification.object];
+
+    [self presentViewController:userProfileNC
+                       animated:YES
+                     completion:nil];
+}
+
 - (void)showMenuBar {
     self.shouldMenuBarOpen = YES;
     [self displayMenuBar];
@@ -129,9 +147,7 @@
 - (void)hideMenuBar {
     if (_shouldMenuBarOpen) {
         self.shouldMenuBarOpen = NO;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self displayMenuBar];
-        });
+        [self displayMenuBar];
     }
 }
 

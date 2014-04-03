@@ -52,9 +52,9 @@ extern const struct MRSLCommentFetchedProperties {
 
 
 
-@property int16_t commentIDValue;
-- (int16_t)commentIDValue;
-- (void)setCommentIDValue:(int16_t)value_;
+@property int32_t commentIDValue;
+- (int32_t)commentIDValue;
+- (void)setCommentIDValue:(int32_t)value_;
 
 //- (BOOL)validateCommentID:(id*)value_ error:(NSError**)error_;
 
@@ -105,8 +105,8 @@ extern const struct MRSLCommentFetchedProperties {
 - (NSNumber*)primitiveCommentID;
 - (void)setPrimitiveCommentID:(NSNumber*)value;
 
-- (int16_t)primitiveCommentIDValue;
-- (void)setPrimitiveCommentIDValue:(int16_t)value_;
+- (int32_t)primitiveCommentIDValue;
+- (void)setPrimitiveCommentIDValue:(int32_t)value_;
 
 
 

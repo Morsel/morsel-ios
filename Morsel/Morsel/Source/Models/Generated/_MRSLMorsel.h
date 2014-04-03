@@ -25,6 +25,7 @@ extern const struct MRSLMorselAttributes {
 } MRSLMorselAttributes;
 
 extern const struct MRSLMorselRelationships {
+	__unsafe_unretained NSString *activities;
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *post;
 	__unsafe_unretained NSString *tags;
@@ -33,6 +34,7 @@ extern const struct MRSLMorselRelationships {
 extern const struct MRSLMorselFetchedProperties {
 } MRSLMorselFetchedProperties;
 
+@class MRSLActivity;
 @class MRSLComment;
 @class MRSLPost;
 @class MRSLTag;
@@ -72,9 +74,9 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property int16_t comment_countValue;
-- (int16_t)comment_countValue;
-- (void)setComment_countValue:(int16_t)value_;
+@property int32_t comment_countValue;
+- (int32_t)comment_countValue;
+- (void)setComment_countValue:(int32_t)value_;
 
 //- (BOOL)validateComment_count:(id*)value_ error:(NSError**)error_;
 
@@ -96,9 +98,9 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property int16_t creator_idValue;
-- (int16_t)creator_idValue;
-- (void)setCreator_idValue:(int16_t)value_;
+@property int32_t creator_idValue;
+- (int32_t)creator_idValue;
+- (void)setCreator_idValue:(int32_t)value_;
 
 //- (BOOL)validateCreator_id:(id*)value_ error:(NSError**)error_;
 
@@ -148,9 +150,9 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property int16_t like_countValue;
-- (int16_t)like_countValue;
-- (void)setLike_countValue:(int16_t)value_;
+@property int32_t like_countValue;
+- (int32_t)like_countValue;
+- (void)setLike_countValue:(int32_t)value_;
 
 //- (BOOL)validateLike_count:(id*)value_ error:(NSError**)error_;
 
@@ -196,9 +198,9 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property int16_t morselIDValue;
-- (int16_t)morselIDValue;
-- (void)setMorselIDValue:(int16_t)value_;
+@property int32_t morselIDValue;
+- (int32_t)morselIDValue;
+- (void)setMorselIDValue:(int32_t)value_;
 
 //- (BOOL)validateMorselID:(id*)value_ error:(NSError**)error_;
 
@@ -254,9 +256,9 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property int16_t sort_orderValue;
-- (int16_t)sort_orderValue;
-- (void)setSort_orderValue:(int16_t)value_;
+@property int32_t sort_orderValue;
+- (int32_t)sort_orderValue;
+- (void)setSort_orderValue:(int32_t)value_;
 
 //- (BOOL)validateSort_order:(id*)value_ error:(NSError**)error_;
 
@@ -270,6 +272,13 @@ extern const struct MRSLMorselFetchedProperties {
 
 //- (BOOL)validateUrl:(id*)value_ error:(NSError**)error_;
 
+
+
+
+
+@property (nonatomic, strong) NSSet *activities;
+
+- (NSMutableSet*)activitiesSet;
 
 
 
@@ -300,6 +309,11 @@ extern const struct MRSLMorselFetchedProperties {
 
 @interface _MRSLMorsel (CoreDataGeneratedAccessors)
 
+- (void)addActivities:(NSSet*)value_;
+- (void)removeActivities:(NSSet*)value_;
+- (void)addActivitiesObject:(MRSLActivity*)value_;
+- (void)removeActivitiesObject:(MRSLActivity*)value_;
+
 - (void)addComments:(NSSet*)value_;
 - (void)removeComments:(NSSet*)value_;
 - (void)addCommentsObject:(MRSLComment*)value_;
@@ -318,8 +332,8 @@ extern const struct MRSLMorselFetchedProperties {
 - (NSNumber*)primitiveComment_count;
 - (void)setPrimitiveComment_count:(NSNumber*)value;
 
-- (int16_t)primitiveComment_countValue;
-- (void)setPrimitiveComment_countValue:(int16_t)value_;
+- (int32_t)primitiveComment_countValue;
+- (void)setPrimitiveComment_countValue:(int32_t)value_;
 
 
 
@@ -333,8 +347,8 @@ extern const struct MRSLMorselFetchedProperties {
 - (NSNumber*)primitiveCreator_id;
 - (void)setPrimitiveCreator_id:(NSNumber*)value;
 
-- (int16_t)primitiveCreator_idValue;
-- (void)setPrimitiveCreator_idValue:(int16_t)value_;
+- (int32_t)primitiveCreator_idValue;
+- (void)setPrimitiveCreator_idValue:(int32_t)value_;
 
 
 
@@ -366,8 +380,8 @@ extern const struct MRSLMorselFetchedProperties {
 - (NSNumber*)primitiveLike_count;
 - (void)setPrimitiveLike_count:(NSNumber*)value;
 
-- (int16_t)primitiveLike_countValue;
-- (void)setPrimitiveLike_countValue:(int16_t)value_;
+- (int32_t)primitiveLike_countValue;
+- (void)setPrimitiveLike_countValue:(int32_t)value_;
 
 
 
@@ -396,8 +410,8 @@ extern const struct MRSLMorselFetchedProperties {
 - (NSNumber*)primitiveMorselID;
 - (void)setPrimitiveMorselID:(NSNumber*)value;
 
-- (int16_t)primitiveMorselIDValue;
-- (void)setPrimitiveMorselIDValue:(int16_t)value_;
+- (int32_t)primitiveMorselIDValue;
+- (void)setPrimitiveMorselIDValue:(int32_t)value_;
 
 
 
@@ -432,8 +446,8 @@ extern const struct MRSLMorselFetchedProperties {
 - (NSNumber*)primitiveSort_order;
 - (void)setPrimitiveSort_order:(NSNumber*)value;
 
-- (int16_t)primitiveSort_orderValue;
-- (void)setPrimitiveSort_orderValue:(int16_t)value_;
+- (int32_t)primitiveSort_orderValue;
+- (void)setPrimitiveSort_orderValue:(int32_t)value_;
 
 
 
@@ -442,6 +456,11 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)setPrimitiveUrl:(NSString*)value;
 
 
+
+
+
+- (NSMutableSet*)primitiveActivities;
+- (void)setPrimitiveActivities:(NSMutableSet*)value;
 
 
 

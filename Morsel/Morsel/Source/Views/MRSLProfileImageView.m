@@ -28,6 +28,8 @@
     [self addCornersWithRadius:[self getWidth] / 2];
     self.layer.borderColor = [UIColor whiteColor].CGColor;
     self.layer.borderWidth = 1.f;
+
+    if (!self.image) [self setImageToPlaceholder];
 }
 
 #pragma mark - Instance Methods
@@ -71,7 +73,7 @@
                         });
                     } else {
                         DDLogError(@"ProfileImageView request operation failed and no local image exists: %@", error.userInfo);
-                        weakSelf.image = nil;
+                        [weakSelf setImageToPlaceholder];
                     }
                 }];
 
@@ -83,7 +85,7 @@
                         self.image = localImage;
                     });
                 } else {
-                    self.image = nil;
+                    [self setImageToPlaceholder];
                 }
             }
         } else {
@@ -118,6 +120,10 @@
         self.imageRequestOperation = nil;
     }
     self.image = nil;
+}
+
+- (void)setImageToPlaceholder {
+    self.image = [UIImage imageNamed:@"placeholder_user_photo"];
 }
 
 #pragma mark - Destruction Methods

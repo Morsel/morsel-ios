@@ -66,22 +66,22 @@ const struct MRSLCommentFetchedProperties MRSLCommentFetchedProperties = {
 
 
 
-- (int16_t)commentIDValue {
+- (int32_t)commentIDValue {
 	NSNumber *result = [self commentID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setCommentIDValue:(int16_t)value_ {
-	[self setCommentID:[NSNumber numberWithShort:value_]];
+- (void)setCommentIDValue:(int32_t)value_ {
+	[self setCommentID:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveCommentIDValue {
+- (int32_t)primitiveCommentIDValue {
 	NSNumber *result = [self primitiveCommentID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveCommentIDValue:(int16_t)value_ {
-	[self setPrimitiveCommentID:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveCommentIDValue:(int32_t)value_ {
+	[self setPrimitiveCommentID:[NSNumber numberWithInt:value_]];
 }
 
 

@@ -17,4 +17,7 @@
 
 - (void)changeStatusBarStyle:(UIStatusBarStyle)style;
 
+- (void)setupWithUserInfo:(NSDictionary *)userInfo;
+
+
 @end

@@ -123,22 +123,22 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 
 
 
-- (int16_t)feedItemIDValue {
+- (int32_t)feedItemIDValue {
 	NSNumber *result = [self feedItemID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setFeedItemIDValue:(int16_t)value_ {
-	[self setFeedItemID:[NSNumber numberWithShort:value_]];
+- (void)setFeedItemIDValue:(int32_t)value_ {
+	[self setFeedItemID:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveFeedItemIDValue {
+- (int32_t)primitiveFeedItemIDValue {
 	NSNumber *result = [self primitiveFeedItemID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveFeedItemIDValue:(int16_t)value_ {
-	[self setPrimitiveFeedItemID:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveFeedItemIDValue:(int32_t)value_ {
+	[self setPrimitiveFeedItemID:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -156,22 +156,22 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 
 
 
-- (int16_t)postIDValue {
+- (int32_t)postIDValue {
 	NSNumber *result = [self postID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPostIDValue:(int16_t)value_ {
-	[self setPostID:[NSNumber numberWithShort:value_]];
+- (void)setPostIDValue:(int32_t)value_ {
+	[self setPostID:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitivePostIDValue {
+- (int32_t)primitivePostIDValue {
 	NSNumber *result = [self primitivePostID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitivePostIDValue:(int16_t)value_ {
-	[self setPrimitivePostID:[NSNumber numberWithShort:value_]];
+- (void)setPrimitivePostIDValue:(int32_t)value_ {
+	[self setPrimitivePostID:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -182,22 +182,22 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 
 
 
-- (int16_t)primary_morsel_idValue {
+- (int32_t)primary_morsel_idValue {
 	NSNumber *result = [self primary_morsel_id];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimary_morsel_idValue:(int16_t)value_ {
-	[self setPrimary_morsel_id:[NSNumber numberWithShort:value_]];
+- (void)setPrimary_morsel_idValue:(int32_t)value_ {
+	[self setPrimary_morsel_id:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitivePrimary_morsel_idValue {
+- (int32_t)primitivePrimary_morsel_idValue {
 	NSNumber *result = [self primitivePrimary_morsel_id];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitivePrimary_morsel_idValue:(int16_t)value_ {
-	[self setPrimitivePrimary_morsel_id:[NSNumber numberWithShort:value_]];
+- (void)setPrimitivePrimary_morsel_idValue:(int32_t)value_ {
+	[self setPrimitivePrimary_morsel_id:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -215,22 +215,22 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 
 
 
-- (int16_t)total_comment_countValue {
+- (int32_t)total_comment_countValue {
 	NSNumber *result = [self total_comment_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setTotal_comment_countValue:(int16_t)value_ {
-	[self setTotal_comment_count:[NSNumber numberWithShort:value_]];
+- (void)setTotal_comment_countValue:(int32_t)value_ {
+	[self setTotal_comment_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveTotal_comment_countValue {
+- (int32_t)primitiveTotal_comment_countValue {
 	NSNumber *result = [self primitiveTotal_comment_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveTotal_comment_countValue:(int16_t)value_ {
-	[self setPrimitiveTotal_comment_count:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveTotal_comment_countValue:(int32_t)value_ {
+	[self setPrimitiveTotal_comment_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -241,22 +241,22 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 
 
 
-- (int16_t)total_like_countValue {
+- (int32_t)total_like_countValue {
 	NSNumber *result = [self total_like_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setTotal_like_countValue:(int16_t)value_ {
-	[self setTotal_like_count:[NSNumber numberWithShort:value_]];
+- (void)setTotal_like_countValue:(int32_t)value_ {
+	[self setTotal_like_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveTotal_like_countValue {
+- (int32_t)primitiveTotal_like_countValue {
 	NSNumber *result = [self primitiveTotal_like_count];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveTotal_like_countValue:(int16_t)value_ {
-	[self setPrimitiveTotal_like_count:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveTotal_like_countValue:(int32_t)value_ {
+	[self setPrimitiveTotal_like_count:[NSNumber numberWithInt:value_]];
 }
 
 

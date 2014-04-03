@@ -31,6 +31,7 @@ NSString *const MRSLModalWillDismissNotification = @"MRSLModalWillDismissNotific
 NSString *const MRSLAppShouldDisplayFeedNotification = @"MRSLAppShouldDisplayFeedNotification";
 NSString *const MRSLAppShouldDisplayStoryAddNotification = @"MRSLAppShouldDisplayStoryAddNotification";
 NSString *const MRSLAppShouldDisplayMenuBarNotification = @"MRSLAppShouldDisplayMenuBarNotification";
+NSString *const MRSLAppShouldDisplayUserProfileNotification = @"MRSLAppShouldDisplayUserProfileNotification";
 
 NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle = @"MRSLAppDidRequestNewPreferredStatusBarStyle";
 

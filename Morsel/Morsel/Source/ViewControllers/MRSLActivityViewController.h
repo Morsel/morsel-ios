@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseViewController.h"
 
 @interface MRSLActivityViewController : MRSLBaseViewController
 

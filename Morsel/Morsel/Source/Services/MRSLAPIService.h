@@ -45,6 +45,21 @@
                                     success:(MorselAPISuccessBlock)userSuccessOrNil
                                     failure:(MorselAPIFailureBlock)failureOrNil;
 
+- (void)getUserActivitiesForUser:(MRSLUser *)user
+                           maxID:(NSNumber *)maxOrNil
+                       orSinceID:(NSNumber *)sinceOrNil
+                        andCount:(NSNumber *)countOrNil
+                         success:(MorselAPIArrayBlock)successOrNil
+                         failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)getUserNotificationsForUser:(MRSLUser *)user
+                              maxID:(NSNumber *)maxOrNil
+                          orSinceID:(NSNumber *)sinceOrNil
+                           andCount:(NSNumber *)countOrNil
+                            success:(MorselAPIArrayBlock)successOrNil
+                            failure:(MorselAPIFailureBlock)failureOrNil;
+
+
 #pragma mark - Post Services
 
 - (void)createPost:(MRSLPost *)post

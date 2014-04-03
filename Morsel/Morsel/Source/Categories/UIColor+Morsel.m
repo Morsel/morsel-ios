@@ -5,6 +5,7 @@
 //  Created by Javier Otero on 1/23/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
+//  NOTE: Should match http://style.eatmorsel.com/?p=atoms-colors
 
 #import "UIColor+Morsel.h"
 
@@ -49,6 +50,14 @@
     return [UIColor colorWithRed:147.f / 255.f
                            green:165.f / 255.f
                             blue:144.f / 255.f
+                           alpha:1.f];
+}
+
+//  243, 241, 239
++ (UIColor *)morselLightOffColor {
+    return [UIColor colorWithRed:243.f / 255.f
+                           green:241.f / 255.f
+                            blue:239.f / 255.f
                            alpha:1.f];
 }
 
