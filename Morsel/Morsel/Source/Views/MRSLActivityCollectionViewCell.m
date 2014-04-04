@@ -8,6 +8,8 @@
 
 #import "MRSLActivityCollectionViewCell.h"
 
+#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+
 #import "MRSLActivity.h"
 #import "MRSLMorselImageView.h"
 #import "MRSLProfileImageView.h"
@@ -31,7 +33,7 @@
         self.descriptionLabel.text = [activity message];
         [self.descriptionLabel sizeToFit];
         [self.descriptionLabel setWidth:160.0f];
-        self.timeAgoLabel.text = [NSString stringWithFormat:@"%@", activity.creationDate];
+        self.timeAgoLabel.text = [activity.creationDate timeAgo];
         self.morselImageView.morsel = activity.morsel;
         self.creatorProfileImageView.user = activity.creator;
 

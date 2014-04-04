@@ -66,6 +66,19 @@
                                 <rect key="frame" x="150" y="274" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uCX-Y6-H81">
+                                <rect key="frame" x="20" y="269" width="130" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                <state key="normal" title="New Stories">
+                                    <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="displayNewStories:" destination="nQ7-fm-uMk" eventType="touchUpInside" id="NiL-VU-Jgn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="Home">
@@ -80,6 +93,7 @@
                         <outlet property="addMorselButton" destination="DLh-bE-adb" id="Mw4-pc-IAB"/>
                         <outlet property="feedCollectionView" destination="6sS-zQ-hj1" id="K2F-Fk-cav"/>
                         <outlet property="menuBarButton" destination="iQr-1p-ovl" id="Mfs-O8-Ezl"/>
+                        <outlet property="theNewStoriesButton" destination="uCX-Y6-H81" id="VP0-RQ-Ksm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6IT-rw-u7Q" sceneMemberID="firstResponder"/>
@@ -203,7 +217,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wyp-8d-VK5" customClass="GCPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6.9999998708565929" width="250" height="36"/>
+                                        <rect key="frame" x="11" y="6.9999995559953261" width="250" height="36"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -456,6 +470,113 @@
                                             <outlet property="viewMoreButton" destination="LBz-5V-8XV" id="ULY-j5-ysn"/>
                                         </connections>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_StoryShareCell" id="AM7-9K-DqK" customClass="MRSLFeedShareCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="1136" width="320" height="568"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="rfe-Cd-vJV" customClass="MRSLMorselImageView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SHARE THIS STORY" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QtH-b6-Ktf" customClass="MRSLBoldLabel">
+                                                    <rect key="frame" x="0.0" y="326" width="320" height="35"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
+                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="b8w-yn-1iI" customClass="MRSLCondensedRegularLabel">
+                                                    <rect key="frame" x="106" y="460" width="192" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                                    <color key="textColor" red="0.57647061347961426" green="0.64313727617263794" blue="0.56862747669219971" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="54F-4j-1GN" customClass="MRSLCondensedRegularLabel">
+                                                    <rect key="frame" x="106" y="420" width="192" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
+                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oiF-Hi-262" customClass="MRSLCondensedRegularLabel">
+                                                    <rect key="frame" x="106" y="440" width="192" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="SZa-bC-Vw6" customClass="MRSLProfileImageView">
+                                                    <rect key="frame" x="20" y="420" width="72" height="72"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <gestureRecognizers/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ALz-RF-2kB">
+                                                    <rect key="frame" x="62" y="353" width="60" height="60"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="icon-social-facebook-on">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" image="icon-social-facebook-on"/>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O0F-QI-eYa">
+                                                    <rect key="frame" x="130" y="353" width="60" height="60"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="icon-social-twitter-on">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" image="icon-social-twitter-on"/>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="P2F-le-qDm">
+                                                    <rect key="frame" x="198" y="353" width="60" height="60"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="icon-social-instagram-on">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" image="icon-social-instagram-on"/>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xMa-zz-OTs">
+                                                    <rect key="frame" x="177" y="504" width="123" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                                    <inset key="titleEdgeInsets" minX="-50" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    <inset key="imageEdgeInsets" minX="90" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="Next Story" image="icon-arrow-next-red">
+                                                        <color key="titleColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="displayNextStory:" destination="AM7-9K-DqK" eventType="touchUpInside" id="lhL-Pl-RFz"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8us-sP-XvU">
+                                                    <rect key="frame" x="20" y="504" width="123" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                                    <state key="normal" title="Previous Story" image="icon-arrow-previous-red">
+                                                        <color key="titleColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="displayPreviousStory:" destination="AM7-9K-DqK" eventType="touchUpInside" id="jaN-a8-hqA"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <outlet property="nextStoryButton" destination="xMa-zz-OTs" id="6wb-8Z-o4M"/>
+                                            <outlet property="previousStoryButton" destination="8us-sP-XvU" id="lQP-D9-UGo"/>
+                                            <outlet property="profileImageView" destination="SZa-bC-Vw6" id="ciu-zv-9FC"/>
+                                            <outlet property="shareCoverImageView" destination="rfe-Cd-vJV" id="gK5-H9-5Lz"/>
+                                            <outlet property="userBioLabel" destination="b8w-yn-1iI" id="0yy-8W-Mox"/>
+                                            <outlet property="userNameLabel" destination="54F-4j-1GN" id="PBu-le-jOu"/>
+                                            <outlet property="userTitleLabel" destination="oiF-Hi-262" id="Eol-Il-lev"/>
+                                        </connections>
+                                    </collectionViewCell>
                                 </cells>
                                 <connections>
                                     <outlet property="dataSource" destination="CdJ-7I-0rO" id="3KG-nG-6jp"/>
@@ -481,7 +602,7 @@
                                 <color key="textColor" red="0.66666666669999997" green="0.6588235294" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OI1-yX-HLC" customClass="MRSLBoldLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OI1-yX-HLC" customClass="MRSLBoldLabel">
                                 <rect key="frame" x="30" y="86" width="260" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="32"/>
@@ -536,6 +657,8 @@
     <resources>
         <image name="effect-morsel-gradient" width="320" height="320"/>
         <image name="icon-add-shadow" width="30" height="30"/>
+        <image name="icon-arrow-next-red" width="30" height="30"/>
+        <image name="icon-arrow-previous-red" width="30" height="30"/>
         <image name="icon-circle-close" width="30" height="30"/>
         <image name="icon-comment-light" width="30" height="30"/>
         <image name="icon-edit" width="24" height="24"/>
@@ -543,6 +666,9 @@
         <image name="icon-menubar-shadow" width="24" height="22"/>
         <image name="icon-share-dark" width="30" height="30"/>
         <image name="icon-share-light" width="30" height="30"/>
+        <image name="icon-social-facebook-on" width="40" height="40"/>
+        <image name="icon-social-instagram-on" width="40" height="40"/>
+        <image name="icon-social-twitter-on" width="40" height="40"/>
         <image name="icon-tab-home-active" width="30" height="30"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>

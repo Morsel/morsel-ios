@@ -12,6 +12,7 @@
 
 #import "MRSLFeedCoverCollectionViewCell.h"
 #import "MRSLFeedPageCollectionViewCell.h"
+#import "MRSLFeedShareCollectionViewCell.h"
 #import "MRSLModalCommentsViewController.h"
 #import "MRSLModalDescriptionViewController.h"
 #import "MRSLStoryEditViewController.h"
@@ -22,7 +23,9 @@
 
 @interface MRSLFeedPanelViewController ()
 <UICollectionViewDataSource,
-UICollectionViewDelegate>
+UICollectionViewDelegate,
+MRSLFeedCoverCollectionViewCellDelegate,
+MRSLFeedShareCollectionViewCellDelegate>
 
 @property (nonatomic) BOOL isPresentingMorselLayout;
 @property (nonatomic) BOOL isDraggingScrollViewUp;
@@ -40,14 +43,11 @@ UICollectionViewDelegate>
 
 #pragma mark - Instance Methods
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self displayContent];
-}
-
 - (void)setPost:(MRSLPost *)post {
-    _post = post;
-    [self displayContent];
+    if (_post != post) {
+        _post = post;
+        [self displayContent];
+    }
 }
 
 #pragma mark - Private Methods
@@ -60,16 +60,28 @@ UICollectionViewDelegate>
         self.timeSinceLabel.text = [_post.lastUpdatedDate timeAgo];
         self.storyTitleLabel.text = _post.title;
         [self.storyTitleLabel addStandardShadow];
+        [self.pageControl setAlpha:0.f];
         self.pageControl.numberOfPages = [_post.morsels count];
         self.pageControl.hidden = !([_post.morsels count] > 1);
         [self.pageControl setY:[self.view getHeight] - ((([_pageControl sizeForNumberOfPages:_pageControl.numberOfPages].width) / 2) + 34.f)];
         self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
-        
+
+        [self.storyTitleLabel setX:30.f];
+        [self.storyTitleLabel setY:86.f];
+        [self.storyTitleLabel setHeight:140.f];
+        [self.storyTitleLabel setWidth:260.f];
+        [self.userNameLabel setTextColor:[UIColor morselDarkContent]];
+        [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
+
         [self.collectionView reloadData];
-        [self.collectionView setContentOffset:CGPointMake(0.f, 0.f)
-                                     animated:NO];
+        [self resetCollectionViewContentOffset:NO];
         [self.view setBackgroundColor:[UIColor whiteColor]];
     }
+}
+
+- (void)resetCollectionViewContentOffset:(BOOL)animated {
+    [self.collectionView setContentOffset:CGPointMake(0.f, 0.f)
+                                 animated:animated];
 }
 
 - (void)setupCoverLayout {
@@ -78,22 +90,29 @@ UICollectionViewDelegate>
     } else {
         return;
     }
-    [UIView animateWithDuration:.2f animations:^{
-        [self.userNameLabel setTextColor:[UIColor morselDarkContent]];
-        [self.storyTitleLabel setX:30.f];
-        [self.storyTitleLabel setY:86.f];
-        [self.storyTitleLabel setHeight:140.f];
-        [self.storyTitleLabel setWidth:260.f];
-        [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
-        [self.pageControl setAlpha:0.f];
-    }];
+
+    self.profileImageView.hidden = NO;
+    self.userNameLabel.hidden = NO;
+    self.timeSinceLabel.hidden = NO;
+
+    [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
+    [self.storyTitleLabel setHeight:140.f];
+    [self.storyTitleLabel setWidth:260.f];
+
+    [UIView animateWithDuration:.2f
+                     animations:^{
+                         [self.userNameLabel setTextColor:[UIColor morselDarkContent]];
+                         [self.storyTitleLabel setX:30.f];
+                         [self.storyTitleLabel setY:86.f];
+                         [self.pageControl setAlpha:0.f];
+                     }];
     [self.view.layer removeAnimationForKey:@"fadeToBlackAnimation"];
     CABasicAnimation *fadeToBlack = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
     fadeToBlack.fromValue = (id)[UIColor blackColor].CGColor;
     fadeToBlack.toValue = (id)[UIColor whiteColor].CGColor;
     [fadeToBlack setDuration:.3f];
     [self.view.layer addAnimation:fadeToBlack
-                                 forKey:@"fadeToWhiteAnimation"];
+                           forKey:@"fadeToWhiteAnimation"];
     [self.view setBackgroundColor:[UIColor whiteColor]];
 }
 
@@ -103,18 +122,23 @@ UICollectionViewDelegate>
     } else {
         return;
     }
-    CGSize smallTitleSize = [_storyTitleLabel.text sizeWithFont:_storyTitleLabel.font
-                                              constrainedToSize:CGSizeMake(212.f, CGFLOAT_MAX)
-                                                  lineBreakMode:NSLineBreakByWordWrapping];
-    [UIView animateWithDuration:.2f animations:^{
-        [self.userNameLabel setTextColor:[UIColor morselLightContent]];
-        [self.storyTitleLabel setX:54.f];
-        [self.storyTitleLabel setY:8.f];
-        [self.storyTitleLabel setHeight:MAX(smallTitleSize.height, 63.f)];
-        [self.storyTitleLabel setWidth:212.f];
-        [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:17.f]];
-        [self.pageControl setAlpha:1.f];
-    }];
+
+    self.profileImageView.hidden = NO;
+    self.userNameLabel.hidden = NO;
+    self.timeSinceLabel.hidden = NO;
+
+    [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:17.f]];
+    CGSize storyTitleLabelSize = [self.storyTitleLabel.text sizeWithFont:_storyTitleLabel.font constrainedToSize:CGSizeMake(212.f, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    [self.storyTitleLabel setHeight:storyTitleLabelSize.height];
+    [self.storyTitleLabel setWidth:212.f];
+
+    [UIView animateWithDuration:.2f
+                     animations:^{
+                         [self.userNameLabel setTextColor:[UIColor morselLightOffColor]];
+                         [self.storyTitleLabel setX:54.f];
+                         [self.storyTitleLabel setY:28.f];
+                         [self.pageControl setAlpha:1.f];
+                     }];
     [self.view.layer removeAnimationForKey:@"fadeToWhiteAnimation"];
     CABasicAnimation *fadeToBlack = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
     fadeToBlack.fromValue = (id)[UIColor whiteColor].CGColor;
@@ -123,6 +147,13 @@ UICollectionViewDelegate>
     [self.view.layer addAnimation:fadeToBlack
                            forKey:@"fadeToBlackAnimation"];
     [self.view setBackgroundColor:[UIColor blackColor]];
+}
+
+- (void)setupShareLayout {
+    [self setupCoverLayout];
+    self.profileImageView.hidden = YES;
+    self.userNameLabel.hidden = YES;
+    self.timeSinceLabel.hidden = YES;
 }
 
 #pragma mark - Action Methods
@@ -159,7 +190,7 @@ UICollectionViewDelegate>
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_post.morsels count] + 1;
+    return [_post.morsels count] + 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -168,7 +199,14 @@ UICollectionViewDelegate>
         MRSLFeedCoverCollectionViewCell *storyCoverCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_StoryCoverCell"
                                                                                                     forIndexPath:indexPath];
         storyCoverCell.post = _post;
+        storyCoverCell.delegate = self;
         cell = storyCoverCell;
+    } else if (indexPath.row == [_post.morsels count] + 1) {
+        MRSLFeedShareCollectionViewCell *shareCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_StoryShareCell"
+                                                                                                    forIndexPath:indexPath];
+        shareCell.post = _post;
+        shareCell.delegate = self;
+        cell = shareCell;
     } else {
         MRSLFeedPageCollectionViewCell *storyPageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_StoryPageCell"
                                                                                                   forIndexPath:indexPath];
@@ -192,10 +230,42 @@ UICollectionViewDelegate>
     CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
     CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
     self.pageControl.currentPage = (translation.y > 0) ? ceilf(currentPage - 1) : floorf(currentPage - 1);
-    if (currentPage > 0.5f) {
+    CGFloat finalPageThreshold = ([_post.morsels count] + 1) - .5f;
+    if (currentPage > .5f && currentPage < finalPageThreshold) {
         [self setupMorselLayout];
     } else if (currentPage <= .5f) {
         [self setupCoverLayout];
+    } else if (currentPage >= finalPageThreshold) {
+        [self setupShareLayout];
+    }
+}
+
+#pragma mark - MRSLFeedCoverCollectionViewCellDelegate
+
+- (void)feedCoverCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel {
+    NSInteger morselIndex = [_post.morselsArray indexOfObject:morsel] + 1;
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:morselIndex inSection:0]
+                                atScrollPosition:UICollectionViewScrollPositionNone
+                                        animated:YES];
+}
+
+#pragma mark - MRSLFeedShareCollectionViewCellDelegate
+
+- (void)feedShareCollectionViewCellDidSelectPreviousStory {
+    if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectPreviousStory)]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self resetCollectionViewContentOffset:YES];
+        });
+        [self.delegate feedPanelViewControllerDidSelectPreviousStory];
+    }
+}
+
+- (void)feedShareCollectionViewCellDidSelectNextStory {
+    if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectNextStory)]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self resetCollectionViewContentOffset:YES];
+        });
+        [self.delegate feedPanelViewControllerDidSelectNextStory];
     }
 }
 

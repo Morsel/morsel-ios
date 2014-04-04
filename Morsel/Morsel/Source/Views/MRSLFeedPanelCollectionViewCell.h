@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MRSLFeedPanelCollectionViewCellDelegate <NSObject>
+
+@optional
+- (void)feedPanelCollectionViewCellDidSelectPreviousStory;
+- (void)feedPanelCollectionViewCellDidSelectNextStory;
+
+@end
+
 @interface MRSLFeedPanelCollectionViewCell : UICollectionViewCell
+
+@property (weak, nonatomic) id <MRSLFeedPanelCollectionViewCellDelegate> delegate;
 
 - (void)setOwningViewController:(UIViewController *)owningViewController
                        withPost:(MRSLPost *)post;
