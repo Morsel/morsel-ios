@@ -8,9 +8,12 @@
 
 #import "MRSLFeedViewController.h"
 
+#import <SDWebImage/SDWebImageManager.h>
+
 #import "NSMutableArray+Feed.h"
 
 #import "MRSLFeedPanelCollectionViewCell.h"
+#import "MRSLMediaManager.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLStoryEditViewController.h"
 
@@ -28,7 +31,10 @@ MRSLFeedPanelCollectionViewCellDelegate>
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL theNewStoriesAvailable;
 
+@property (nonatomic) CGFloat previousContentOffset;
 @property (nonatomic) NSInteger theNewStoriesCount;
+
+@property (nonatomic) MRSLScrollDirection scrollDirection;
 
 @property (weak, nonatomic) IBOutlet UIButton *menuBarButton;
 @property (weak, nonatomic) IBOutlet UIButton *addMorselButton;
@@ -37,10 +43,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 @property (strong, nonatomic) NSFetchedResultsController *feedFetchedResultsController;
-
 @property (strong, nonatomic) NSMutableArray *feedPosts;
 @property (strong, nonatomic) NSMutableArray *feedIDs;
+@property (strong, nonatomic) NSMutableArray *viewedPosts;
 @property (strong, nonatomic) NSTimer *timer;
+
 @property (strong, nonatomic) MRSLUser *currentUser;
 
 @end
@@ -56,19 +63,12 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     self.feedPosts = [NSMutableArray array];
     self.feedIDs = [NSMutableArray feedIDArray];
+    self.viewedPosts = [NSMutableArray array];
 
     [self setupFeedTimer];
     [self toggleNewStoriesButton:NO
                         animated:NO];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentPurged)
-                                                 name:MRSLServiceWillPurgeDataNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentRestored)
-                                                 name:MRSLServiceWillRestoreDataNotification
-                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayPublishedPost:)
                                                  name:MRSLUserDidPublishPostNotification
@@ -142,20 +142,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
                      } completion:nil];
 }
 
-- (void)localContentPurged {
-    self.feedFetchedResultsController.delegate = nil;
-    self.feedFetchedResultsController = nil;
-}
-
-- (void)localContentRestored {
-    if (_feedFetchedResultsController) return;
-
-    [self.feedPosts removeAllObjects];
-
-    [self setupFeedFetchRequest];
-    [self populateContent];
-}
-
 - (void)displayPublishedPost:(NSNotification *)notification {
     if ([notification object]) {
         MRSLPost *post = [notification object];
@@ -174,7 +160,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
         _theNewStoriesAvailable = NO;
         [self toggleNewStoriesButton:NO
                             animated:YES];
-        [self.feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_theNewStoriesCount - 1 inSection:0]
+        [self.feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                                         atScrollPosition:UICollectionViewScrollPositionNone
                                                 animated:YES];
     }
@@ -220,14 +206,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)refreshFeed {
     if ([_feedIDs count] == 0) {
         [self.activityIndicatorView startAnimating];
-    }
-    NSNumber *firstPersistedID = nil;
-    NSNumber *lastPersistedID = nil;
-    if ([_feedIDs count] > 0) {
-        firstPersistedID = [_feedIDs firstObject];
-        MRSLPost *lastPost = [MRSLPost MR_findFirstByAttribute:MRSLPostAttributes.postID
-                                                     withValue:[_feedIDs lastObject]];
-        lastPersistedID = @([lastPost feedItemIDValue] - 1);
     }
     [_appDelegate.morselApiService getFeedWithMaxID:nil
                                           orSinceID:nil
@@ -311,7 +289,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)displayUserProfile {
     [[MRSLEventManager sharedManager] track:@"Tapped Profile Icon"
-                                 properties:@{@"view": @"Feed",
+                                 properties:@{@"view": @"main_feed",
                                               @"user_id": _currentUser.userID}];
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfileViewController"];
     profileVC.user = _currentUser;
@@ -333,6 +311,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                                                                                forIndexPath:indexPath];
     [postPanelCell setOwningViewController:self
                                   withPost:post];
+    NSMutableIndexSet *postIndices = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(indexPath.row, MIN(indexPath.row + 3, ([_feedPosts count] - 1) - indexPath.row))];
+    [[MRSLMediaManager sharedManager] queueCoverMediaForPosts:[_feedPosts objectsAtIndexes:postIndices]];
     postPanelCell.delegate = self;
     return postPanelCell;
 }
@@ -353,11 +333,44 @@ MRSLFeedPanelCollectionViewCellDelegate>
         _loadingMore = YES;
         [self loadMore];
     }
+    if (_previousContentOffset > scrollView.contentOffset.x) {
+        self.scrollDirection = MRSLScrollDirectionRight;
+    } else if (_previousContentOffset < scrollView.contentOffset.x) {
+        self.scrollDirection = MRSLScrollDirectionLeft;
+    }
+    self.previousContentOffset = scrollView.contentOffset.x;
+
     [self toggleNewStoriesButton:_theNewStoriesAvailable
                         animated:_theNewStoriesAvailable];
     if (_theNewStoriesCount > 0) {
         if (currentPage <= _theNewStoriesCount - 1) {
             self.theNewStoriesAvailable = NO;
+        }
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSIndexPath *indexPath = [[_feedCollectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLPost *visiblePost = [_feedPosts objectAtIndex:indexPath.row];
+        BOOL isLast = ([_feedPosts indexOfObject:visiblePost] == [_feedPosts count] - 1);
+        NSNumber *postID = @(visiblePost.postIDValue);
+        BOOL postIDFound = CFArrayContainsValue ((__bridge CFArrayRef)_viewedPosts,
+                                           CFRangeMake(0, _viewedPosts.count),
+                                           (CFNumberRef)postID );
+        if (!postIDFound) [_viewedPosts addObject:postID];
+        if (_scrollDirection == MRSLScrollDirectionRight) {
+            [[MRSLEventManager sharedManager] track:@"Scroll Feed Right"
+                                         properties:@{@"view": @"main_feed",
+                                                      @"post_id": NSNullIfNil(visiblePost.postID),
+                                                      @"is_last": (isLast) ? @"true" : @"false",
+                                                      @"posts_viewed": NSNullIfNil(@([_viewedPosts count]))}];
+        } else if (_scrollDirection == MRSLScrollDirectionLeft) {
+            [[MRSLEventManager sharedManager] track:@"Scroll Feed Left"
+                                         properties:@{@"view": @"main_feed",
+                                                      @"post_id": NSNullIfNil(visiblePost.postID),
+                                                      @"is_last": (isLast) ? @"true" : @"false",
+                                                      @"posts_viewed": NSNullIfNil(@([_viewedPosts count]))}];
         }
     }
 }

@@ -40,6 +40,7 @@
                                     andWidth:2.f];
         morselImageView.delegate = self;
     }];
+    [_additionalMorselsLabel addStandardShadow];
 }
 
 - (void)setPost:(MRSLPost *)post {
@@ -50,8 +51,7 @@
 }
 
 - (void)populateContent {
-    _storyCoverImageView.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                            withValue:_post.primary_morsel_id] ?: [_post.morselsArray lastObject];
+    _storyCoverImageView.morsel = [_post coverMorsel];
     if ([_post.morsels count] > 4) {
         self.additionalMorselsLabel.hidden = NO;
         self.additionalMorselsLabel.text = [NSString stringWithFormat:@"+%lu", (unsigned long)[_post.morsels count] - 4];
@@ -75,6 +75,10 @@
 #pragma mark - MRSLMorselImageViewDelegate
 
 - (void)morselImageViewDidSelectMorsel:(MRSLMorsel *)morsel {
+    [[MRSLEventManager sharedManager] track:@"Tapped Morsel Thumbnail"
+                                 properties:@{@"view": @"main_feed",
+                                              @"post_id": NSNullIfNil(_post.postID),
+                                              @"morsel_id": NSNullIfNil(morsel.morselID)}];
     if ([self.delegate respondsToSelector:@selector(feedCoverCollectionViewCellDidSelectMorsel:)]) {
         [self.delegate feedCoverCollectionViewCellDidSelectMorsel:morsel];
     }

@@ -12,13 +12,10 @@ NSString *const MRSLServiceDidLogInUserNotification = @"MRSLServiceDidLogInUserN
 NSString *const MRSLServiceShouldLogOutUserNotification = @"MRSLServiceShouldLogOutUserNotification";
 NSString *const MRSLServiceDidLogOutUserNotification = @"MRSLServiceDidLogOutUserNotification";
 NSString *const MRSLServiceDidUpdateUserNotification = @"MRSLServiceDidUpdateUserNotification";
-NSString *const MRSLServiceWillPurgeDataNotification = @"MRSLServiceWillPurgeDataNotification";
-NSString *const MRSLServiceWillRestoreDataNotification = @"MRSLServiceWillRestoreDataNotification";
 
 NSString *const MRSLUserDidCreateCommentNotification = @"MRSLUserDidCreateCommentNotification";
 NSString *const MRSLUserDidBeginCreateMorselNotification = @"MRSLUserDidBeginCreateMorselNotification";
 NSString *const MRSLUserDidUpdateMorselNotification = @"MRSLUserDidUpdateMorselNotification";
-NSString *const MRSLUserDidDeleteMorselNotification = @"MRSLUserDidDeleteMorselNotification";
 NSString *const MRSLUserDidUpdatePostNotification = @"MRSLUserDidUpdatePostNotification";
 NSString *const MRSLUserDidPublishPostNotification = @"MRSLUserDidPublishPostNotification";
 

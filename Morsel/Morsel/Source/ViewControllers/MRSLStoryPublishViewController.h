@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStorySettingsViewController : MRSLBaseViewController
+@interface MRSLStoryPublishViewController : MRSLBaseViewController
 
 @property (strong, nonatomic) MRSLPost *post;
 

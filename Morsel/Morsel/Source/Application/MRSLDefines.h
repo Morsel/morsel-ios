@@ -23,6 +23,9 @@ typedef void (^ MorselAPIArrayBlock)(NSArray *responseArray);
 typedef void (^ MorselAPILikeBlock)(BOOL doesLike);
 typedef void (^ MorselAPISuccessBlock)(id responseObject);
 typedef void (^ MorselAPIFailureBlock)(NSError *error);
+typedef void (^ MorselSocialSuccessBlock)(BOOL success);
+typedef void (^ MorselSocialFailureBlock)(NSError *error);
+typedef void (^ MorselSocialCancelBlock)();
 typedef void (^ MorselDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
 
 #pragma mark - Enum
@@ -30,6 +33,14 @@ typedef void (^ MorselDataURLResponseErrorBlock)(NSData *data, NSURLResponse *re
 typedef NS_ENUM(NSUInteger, MRSLStoryStatusType) {
     MRSLStoryStatusTypeDrafts,
     MRSLStoryStatusTypePublished
+};
+
+typedef NS_ENUM (NSUInteger, MRSLScrollDirection) {
+    MRSLScrollDirectionNone,
+    MRSLScrollDirectionLeft,
+    MRSLScrollDirectionRight,
+    MRSLScrollDirectionUp,
+    MRSLScrollDirectionDown
 };
 
 #pragma mark - Media Capture Values
@@ -45,6 +56,7 @@ static const CGFloat yCameraImagePreviewOffset = 78.f;
 static const CGFloat croppedImageHeightOffset = 106.f;
 static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;
 static const CGFloat MRSLUserProfileImageThumbDimensionSize = 40.f;
+static const CGFloat MRSLMorselImageFullDimensionSize = 640.f;
 static const CGFloat MRSLMorselImageLargeDimensionSize = 320.f;
 static const CGFloat MRSLMorselImageThumbDimensionSize = 50.f;
 static const int MRSLMaximumPostsToDisplayInStoryAdd = 5;

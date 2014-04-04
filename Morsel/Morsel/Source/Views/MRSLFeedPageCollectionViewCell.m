@@ -24,8 +24,8 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
-@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
+@property (weak, nonatomic) IBOutlet UIButton *likeCountButton;
+@property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
 @property (weak, nonatomic) IBOutlet UILabel *morselDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UIButton *viewMoreButton;
 @property (weak, nonatomic) IBOutlet UIImageView *gradientView;
@@ -81,13 +81,13 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
     [_morselDescriptionLabel setY:[_morselImageView getY] + [_morselImageView getHeight] - ([_morselDescriptionLabel getHeight] + ((textSize.height > MRSLDescriptionHeightLimit) ? 30.f : 5.f))];
 
     _editButton.hidden = ![_morsel.post.creator isCurrentUser];
-    _likeCountLabel.text = [NSString stringWithFormat:@"%i", _morsel.like_countValue];
-    _commentCountLabel.text = [NSString stringWithFormat:@"%i", _morsel.comment_countValue];
+    
+    [_likeCountButton setTitle:[NSString stringWithFormat:@"%i Like%@", _morsel.like_countValue, (_morsel.like_countValue != 1) ? @"s" : @""]
+                      forState:UIControlStateNormal];
+    [_commentCountButton setTitle:[NSString stringWithFormat:@"%i Comment%@", _morsel.comment_countValue, (_morsel.comment_countValue != 1) ? @"s" : @""]
+                      forState:UIControlStateNormal];
 
     [self setLikeButtonImageForMorsel:_morsel];
-
-    [_likeCountLabel sizeToFit];
-    [_commentCountLabel sizeToFit];
 }
 
 #pragma mark - Notification Methods
@@ -123,6 +123,12 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
                      animations:^{
                          [_morselDescriptionLabel setAlpha:shouldDisplay];
                          [_viewMoreButton setAlpha:shouldDisplay];
+                         [_commentButton setAlpha:shouldDisplay];
+                         [_commentCountButton setAlpha:shouldDisplay];
+                         [_likeButton setAlpha:shouldDisplay];
+                         [_likeCountButton setAlpha:shouldDisplay];
+                         [_shareButton setAlpha:shouldDisplay];
+                         [_editButton setAlpha:shouldDisplay];
     }];
 }
 
@@ -132,7 +138,7 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
     _likeButton.enabled = NO;
     
     [[MRSLEventManager sharedManager] track:@"Tapped Like Icon"
-                                 properties:@{@"view": @"Feed",
+                                 properties:@{@"view": @"main_feed",
                                               @"morsel_id": _morsel.morselID}];
 
     [_morsel setLikedValue:!_morsel.likedValue];

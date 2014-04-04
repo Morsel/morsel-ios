@@ -8,13 +8,14 @@
 
 #import "MRSLMorselImageView.h"
 
-#import <AFNetworking/AFNetworking.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #import "MRSLMorsel.h"
 
 @interface MRSLMorselImageView ()
 
-@property (strong, nonatomic) AFHTTPRequestOperation *imageRequestOperation;
+@property (strong, nonatomic) SDWebImageManager *webImageManager;
+
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicatorView;
 
 @property (strong, nonatomic) UIImageView *emptyStoryStateView;
@@ -29,8 +30,11 @@
     [super awakeFromNib];
 
     self.backgroundColor = [UIColor morselDarkContent];
+    self.contentMode = UIViewContentModeScaleToFill;
 
-    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:([self getWidth] >= MRSLMorselImageLargeDimensionSize) ? UIActivityIndicatorViewStyleWhiteLarge : UIActivityIndicatorViewStyleGray];
+    self.webImageManager = [[SDWebImageManager alloc] init];
+
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [_activityIndicatorView setX:([self getWidth] / 2) - ([_activityIndicatorView getWidth] / 2)];
     [_activityIndicatorView setY:([self getHeight] / 2) - ([_activityIndicatorView getHeight] / 2)];
     [_activityIndicatorView setColor:[UIColor morselUserInterface]];
@@ -74,39 +78,49 @@
         [self reset];
 
         if (morsel) {
-            MorselImageSizeType morselSizeType = ([self getWidth] >= MRSLMorselImageLargeDimensionSize) ? MorselImageSizeTypeCropped : MorselImageSizeTypeThumbnail;
+            MorselImageSizeType morselSizeType = ([self getWidth] >= MRSLMorselImageLargeDimensionSize) ? MorselImageSizeTypeLarge : MorselImageSizeTypeThumbnail;
             if (_morsel.morselPhotoURL) {
                 NSURLRequest *morselImageURLRequest = [_morsel morselPictureURLRequestForImageSizeType:morselSizeType];
                 if (!morselImageURLRequest)
                     return;
-                __weak __typeof(self) weakSelf = self;
-                self.imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:morselImageURLRequest];
-                [_activityIndicatorView startAnimating];
-                [_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, NSData *imageData) {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                        UIImage *downloadedMorselImage = [UIImage imageWithData:imageData];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            weakSelf.image = downloadedMorselImage;
-                        });
-                    });
-                    [weakSelf.activityIndicatorView stopAnimating];
-                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                    if ([operation.response statusCode] == 403 && !weakSelf.morsel.morselPhotoCropped) {
-                        [_appDelegate.morselApiService getMorsel:weakSelf.morsel
-                                                         success:nil
-                                                         failure:^(NSError *error) {
-                                                             DDLogError(@"Morsel appears to no longer exist. Removing from store!");
-                                                             [weakSelf.morsel MR_deleteEntity];
-                                                             [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
-                                                         }];
-                    } else {
-                        [weakSelf attemptToSetLocalMorselImageForSizeType:morselSizeType
-                                                                withError:error];
-                        [weakSelf.activityIndicatorView stopAnimating];
-                    }
+                __weak __typeof(self)weakSelf = self;
+                if (morselSizeType == MorselImageSizeTypeLarge) {
+                    __block BOOL fullSizeImageSet = NO;
+                    self.image = [UIImage imageNamed:@"graphic-image-large-placeholder.png"];
 
-                }];
-                [_imageRequestOperation start];
+                    [_webImageManager downloadWithURL:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail].URL
+                                                               options:SDWebImageHighPriority
+                                                              progress:nil
+                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                                 if (!fullSizeImageSet) {
+                                                                     self.image = image;
+                                                                 }
+                                                             }];
+                    [_activityIndicatorView startAnimating];
+                    [_webImageManager downloadWithURL:morselImageURLRequest.URL
+                                                               options:SDWebImageHighPriority
+                                                              progress:nil
+                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                                 fullSizeImageSet = YES;
+                                                                 [weakSelf.activityIndicatorView stopAnimating];
+                                                                 weakSelf.image = image;
+                                                                 if (error) {
+                                                                     [weakSelf attemptToSetLocalMorselImageForSizeType:morselSizeType
+                                                                                                             withError:nil];
+                                                                 } else {
+                                                                     if (weakSelf.morsel.morselPhotoFull) {
+                                                                         weakSelf.morsel.morselPhotoFull = nil;
+                                                                         weakSelf.morsel.morselPhotoCropped = nil;
+                                                                         weakSelf.morsel.morselPhotoThumb = nil;
+                                                                     }
+                                                                 }
+                                                             }];
+                } else {
+                    [self setImageWithURL:morselImageURLRequest.URL
+                         placeholderImage:[UIImage imageNamed:@"graphic-thumb-story-null"]
+                                  options:SDWebImageHighPriority
+                                completed:nil];
+                }
             } else {
                 [self attemptToSetLocalMorselImageForSizeType:morselSizeType
                                                     withError:nil];
@@ -120,12 +134,12 @@
     if (_morsel.morselPhotoThumb && _morsel.morselPhotoCropped) {
         dispatch_async(dispatch_get_main_queue(), ^{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                UIImage *localImage = [UIImage imageWithData:(morselSizeType == MorselImageSizeTypeCropped) ? _morsel.morselPhotoCropped : _morsel.morselPhotoThumb];
+                UIImage *localImage = [UIImage imageWithData:(morselSizeType == MorselImageSizeTypeLarge) ? _morsel.morselPhotoCropped : _morsel.morselPhotoThumb];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.image = localImage;
                 });
             });
-
+            
         });
     } else {
         if (errorOrNil.code != -999) {
@@ -144,20 +158,14 @@
 }
 
 - (void)reset {
-    if (self.imageRequestOperation) {
-        [self.imageRequestOperation cancel];
-        self.imageRequestOperation = nil;
-    }
+    [_webImageManager cancelAll];
     self.image = nil;
 }
 
 #pragma mark - Destruction Methods
 
 - (void)dealloc {
-    if (self.imageRequestOperation) {
-        [self.imageRequestOperation cancel];
-        self.imageRequestOperation = nil;
-    }
+    [self reset];
 }
 
 @end

@@ -46,15 +46,6 @@ NSFetchedResultsControllerDelegate>
 
     [self.postCollectionView addSubview:_refreshControl];
     self.postCollectionView.alwaysBounceVertical = YES;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentPurged)
-                                                 name:MRSLServiceWillPurgeDataNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentRestored)
-                                                 name:MRSLServiceWillRestoreDataNotification
-                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -99,22 +90,6 @@ NSFetchedResultsControllerDelegate>
     [self.postCollectionView reloadData];
 }
 
-- (void)localContentPurged {
-    self.postsFetchedResultsController.delegate = nil;
-    self.postsFetchedResultsController = nil;
-}
-
-- (void)localContentRestored {
-    if (_postsFetchedResultsController) return;
-
-    [_refreshControl endRefreshing];
-
-    [self.userPosts removeAllObjects];
-
-    [self setupPostsFetchRequest];
-    [self populateContent];
-}
-
 - (void)refreshStories {
     if (_storyStatusType == MRSLStoryStatusTypeDrafts) {
         [_appDelegate.morselApiService getUserDraftsWithSuccess:nil
@@ -122,8 +97,11 @@ NSFetchedResultsControllerDelegate>
     } else {
         [_appDelegate.morselApiService getUserPosts:[MRSLUser currentUser]
                                       includeDrafts:NO
-                                            success:nil
-                                            failure:nil];
+                                            success:^(NSArray *responseArray) {
+                                                [_refreshControl endRefreshing];
+                                            } failure:^(NSError *error) {
+                                                [_refreshControl endRefreshing];
+                                            }];
     }
 }
 

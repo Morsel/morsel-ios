@@ -1,7 +1,7 @@
 #import "_MRSLMorsel.h"
 
 typedef NS_ENUM(NSUInteger, MorselImageSizeType) {
-    MorselImageSizeTypeCropped,
+    MorselImageSizeTypeLarge,
     MorselImageSizeTypeThumbnail,
     MorselImageSizeTypeFull
 };

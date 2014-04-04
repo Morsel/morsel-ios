@@ -68,7 +68,9 @@
             self.post.title = self.storyTitleTextView.text;
             [_appDelegate.morselApiService updatePost:_post
                                               success:nil
-                                              failure:nil];
+                                              failure:nil
+                                       postToFacebook:NO
+                                        postToTwitter:NO];
         }
         [self.navigationController popViewControllerAnimated:YES];
     } else {
@@ -86,6 +88,7 @@
         } failure:^(NSError *error) {
             [UIAlertView showAlertViewForErrorString:@"Unable to create Post! Please try again."
                                             delegate:nil];
+            [_post MR_deleteEntity];
         }];
     }
 }

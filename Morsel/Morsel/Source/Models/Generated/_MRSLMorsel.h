@@ -17,6 +17,7 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *morselDescription;
 	__unsafe_unretained NSString *morselID;
 	__unsafe_unretained NSString *morselPhotoCropped;
+	__unsafe_unretained NSString *morselPhotoFull;
 	__unsafe_unretained NSString *morselPhotoThumb;
 	__unsafe_unretained NSString *morselPhotoURL;
 	__unsafe_unretained NSString *photo_processing;
@@ -38,6 +39,7 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLComment;
 @class MRSLPost;
 @class MRSLTag;
+
 
 
 
@@ -213,6 +215,16 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validateMorselPhotoCropped:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSData* morselPhotoFull;
+
+
+
+//- (BOOL)validateMorselPhotoFull:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -418,6 +430,12 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSData*)primitiveMorselPhotoCropped;
 - (void)setPrimitiveMorselPhotoCropped:(NSData*)value;
+
+
+
+
+- (NSData*)primitiveMorselPhotoFull;
+- (void)setPrimitiveMorselPhotoFull:(NSData*)value;
 
 
 

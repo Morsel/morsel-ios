@@ -79,6 +79,7 @@
             </userInfo>
         </attribute>
         <attribute name="morselPhotoCropped" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="morselPhotoFull" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="morselPhotoThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="morselPhotoURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="photo_processing" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -133,6 +134,7 @@
             </userInfo>
         </attribute>
         <attribute name="primary_morsel_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="publishedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="total_comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="total_like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -195,10 +197,10 @@
     <elements>
         <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="165"/>
         <element name="MRSLComment" positionX="0" positionY="0" width="128" height="28"/>
-        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="28"/>
-        <element name="MRSLPost" positionX="0" positionY="0" width="128" height="30"/>
+        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="373"/>
+        <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="133"/>
+        <element name="MRSLPost" positionX="0" positionY="0" width="128" height="225"/>
         <element name="MRSLTag" positionX="0" positionY="0" width="128" height="30"/>
         <element name="MRSLUser" positionX="0" positionY="0" width="128" height="28"/>
-        <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="133"/>
     </elements>
 </model>
