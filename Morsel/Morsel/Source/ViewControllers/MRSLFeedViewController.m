@@ -22,12 +22,17 @@
 <NSFetchedResultsControllerDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-UICollectionViewDelegateFlowLayout>
+UICollectionViewDelegateFlowLayout,
+MRSLFeedPanelCollectionViewCellDelegate>
 
 @property (nonatomic) BOOL loadingMore;
+@property (nonatomic) BOOL theNewStoriesAvailable;
+
+@property (nonatomic) NSInteger theNewStoriesCount;
 
 @property (weak, nonatomic) IBOutlet UIButton *menuBarButton;
 @property (weak, nonatomic) IBOutlet UIButton *addMorselButton;
+@property (weak, nonatomic) IBOutlet UIButton *theNewStoriesButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *feedCollectionView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
@@ -53,6 +58,8 @@ UICollectionViewDelegateFlowLayout>
     self.feedIDs = [NSMutableArray feedIDArray];
 
     [self setupFeedTimer];
+    [self toggleNewStoriesButton:NO
+                        animated:NO];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(localContentPurged)
@@ -125,6 +132,16 @@ UICollectionViewDelegateFlowLayout>
     }];
 }
 
+- (void)toggleNewStoriesButton:(BOOL)shouldDisplay
+                      animated:(BOOL)animated {
+    [UIView animateWithDuration:(animated) ? .3f : 0.f
+                          delay:0.f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         [_theNewStoriesButton setX:(shouldDisplay) ? 20.f : -([_theNewStoriesButton getWidth] + 5.f)];
+                     } completion:nil];
+}
+
 - (void)localContentPurged {
     self.feedFetchedResultsController.delegate = nil;
     self.feedFetchedResultsController = nil;
@@ -148,6 +165,19 @@ UICollectionViewDelegateFlowLayout>
     }
     [self.feedCollectionView scrollRectToVisible:CGRectMake(2.f, 2.f, 2.f, 2.f)
                                         animated:NO];
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)displayNewStories:(id)sender {
+    if (_theNewStoriesAvailable) {
+        _theNewStoriesAvailable = NO;
+        [self toggleNewStoriesButton:NO
+                            animated:YES];
+        [self.feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_theNewStoriesCount - 1 inSection:0]
+                                        atScrollPosition:UICollectionViewScrollPositionNone
+                                                animated:YES];
+    }
 }
 
 #pragma mark - Private Methods
@@ -209,9 +239,6 @@ UICollectionViewDelegateFlowLayout>
                                                     [_feedIDs addObjectsFromArray:responseArray];
                                                     [_feedIDs saveFeedIDArray];
                                                     [self populateContent];
-                                                    if ([firstPersistedID intValue] != [[self.feedIDs firstObject] intValue]) {
-                                                        DDLogDebug(@"New Stories detected!");
-                                                    }
                                                 });
                                             } failure:^(NSError *error) {
                                                 [UIAlertView showAlertViewForErrorString:@"Error loading feed"
@@ -234,7 +261,22 @@ UICollectionViewDelegateFlowLayout>
                                                         self.feedIDs = [NSMutableArray arrayWithArray:responseArray];
                                                         [_feedIDs addObjectsFromArray:appendedIDs];
                                                         [_feedIDs saveFeedIDArray];
+                                                        NSIndexPath *currentDisplayedMorsel = [[_feedCollectionView indexPathsForVisibleItems] firstObject];
                                                         [self populateContent];
+                                                        if ([responseArray count] > 0) {
+                                                            DDLogDebug(@"Nuclear Launch detected!");
+                                                            self.theNewStoriesCount = (_theNewStoriesAvailable) ? _theNewStoriesCount + [responseArray count] : [responseArray count];
+                                                            self.theNewStoriesAvailable = YES;
+                                                            [_theNewStoriesButton setTitle:[NSString stringWithFormat:@"%li New Stories", (long)_theNewStoriesCount]
+                                                                                  forState:UIControlStateNormal];
+                                                            [self toggleNewStoriesButton:YES
+                                                                                animated:YES];
+                                                            if (currentDisplayedMorsel) {
+                                                                [_feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:currentDisplayedMorsel.row + [responseArray count] inSection:0]
+                                                                                            atScrollPosition:UICollectionViewScrollPositionNone
+                                                                                                    animated:NO];
+                                                            }
+                                                        }
                                                     }
                                                 });
                                             } failure:^(NSError *error) {
@@ -291,6 +333,7 @@ UICollectionViewDelegateFlowLayout>
                                                                                                forIndexPath:indexPath];
     [postPanelCell setOwningViewController:self
                                   withPost:post];
+    postPanelCell.delegate = self;
     return postPanelCell;
 }
 
@@ -310,6 +353,13 @@ UICollectionViewDelegateFlowLayout>
         _loadingMore = YES;
         [self loadMore];
     }
+    [self toggleNewStoriesButton:_theNewStoriesAvailable
+                        animated:_theNewStoriesAvailable];
+    if (_theNewStoriesCount > 0) {
+        if (currentPage <= _theNewStoriesCount - 1) {
+            self.theNewStoriesAvailable = NO;
+        }
+    }
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
@@ -317,6 +367,30 @@ UICollectionViewDelegateFlowLayout>
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     DDLogDebug(@"Feed detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
     [self populateContent];
+}
+
+#pragma mark - MRSLFeedPanelCollectionViewCellDelegate
+
+- (void)feedPanelCollectionViewCellDidSelectPreviousStory {
+    NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath.row != 0) {
+        NSIndexPath *previousIndexPath = [NSIndexPath indexPathForRow:indexPath.row - 1
+                                                            inSection:0];
+        [self.feedCollectionView scrollToItemAtIndexPath:previousIndexPath
+                                        atScrollPosition:UICollectionViewScrollPositionNone
+                                                animated:YES];
+    }
+}
+
+- (void)feedPanelCollectionViewCellDidSelectNextStory {
+    NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath.row + 1 < [_feedPosts count]) {
+        NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1
+                                                        inSection:0];
+        [self.feedCollectionView scrollToItemAtIndexPath:nextIndexPath
+                                        atScrollPosition:UICollectionViewScrollPositionNone
+                                                animated:YES];
+    }
 }
 
 #pragma mark - Destruction

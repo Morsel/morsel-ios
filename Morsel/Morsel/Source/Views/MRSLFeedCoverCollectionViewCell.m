@@ -16,6 +16,7 @@
 #import "MRSLUser.h"
 
 @interface MRSLFeedCoverCollectionViewCell ()
+<MRSLMorselImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
@@ -37,6 +38,7 @@
     [_storyMorselThumbnails enumerateObjectsUsingBlock:^(MRSLMorselImageView *morselImageView, NSUInteger idx, BOOL *stop) {
         [morselImageView setBorderWithColor:[UIColor whiteColor]
                                     andWidth:2.f];
+        morselImageView.delegate = self;
     }];
 }
 
@@ -59,7 +61,7 @@
     _editButton.hidden = ![_post.creator isCurrentUser];
 
     [_storyMorselThumbnails enumerateObjectsUsingBlock:^(MRSLMorselImageView *morselImageView, NSUInteger idx, BOOL *stop) {
-        if (idx < [_post.morsels count]) {
+        if (idx < [_post.morsels count] && [_post.morsels count] != 1) {
             MRSLMorsel *morsel = [_post.morselsArray objectAtIndex:idx];
             morselImageView.morsel = morsel;
             morselImageView.hidden = NO;
@@ -68,6 +70,14 @@
             morselImageView.hidden = YES;
         }
     }];
+}
+
+#pragma mark - MRSLMorselImageViewDelegate
+
+- (void)morselImageViewDidSelectMorsel:(MRSLMorsel *)morsel {
+    if ([self.delegate respondsToSelector:@selector(feedCoverCollectionViewCellDidSelectMorsel:)]) {
+        [self.delegate feedCoverCollectionViewCellDidSelectMorsel:morsel];
+    }
 }
 
 #pragma mark - Dealloc

@@ -19,6 +19,8 @@
 
 @property (strong, nonatomic) UIImageView *emptyStoryStateView;
 
+@property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
+
 @end
 
 @implementation MRSLMorselImageView
@@ -47,6 +49,18 @@
 }
 
 #pragma mark - Instance Methods
+
+- (void)setDelegate:(id<MRSLMorselImageViewDelegate>)delegate {
+    _delegate = delegate;
+
+    if (!_tapRecognizer && _delegate) {
+        self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayMorsel)];
+
+        [self addGestureRecognizer:_tapRecognizer];
+
+        self.userInteractionEnabled = YES;
+    }
+}
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
     if (_emptyStoryStateView) {
@@ -122,6 +136,12 @@
 }
 
 #pragma mark - Private Methods
+
+- (void)displayMorsel {
+    if ([self.delegate respondsToSelector:@selector(morselImageViewDidSelectMorsel:)] && _morsel) {
+        [self.delegate morselImageViewDidSelectMorsel:_morsel];
+    }
+}
 
 - (void)reset {
     if (self.imageRequestOperation) {

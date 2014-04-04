@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MRSLFeedPanelViewControllerDelegate <NSObject>
+
+@optional
+- (void)feedPanelViewControllerDidSelectPreviousStory;
+- (void)feedPanelViewControllerDidSelectNextStory;
+
+@end
+
 @interface MRSLFeedPanelViewController : UIViewController
+
+@property (weak, nonatomic) id <MRSLFeedPanelViewControllerDelegate> delegate;
 
 @property (weak, nonatomic) MRSLPost *post;
 

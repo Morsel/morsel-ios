@@ -125,6 +125,7 @@
 		069AE51A18B80FDF002F63D5 /* MRSLCaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* MRSLCaptureMediaViewController.m */; };
 		069D281218D22A43000EBF7E /* MRSLMorselImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 069D281118D22A43000EBF7E /* MRSLMorselImageView.m */; };
 		06A049651896D82500BD1C5B /* MRSLStoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049641896D82500BD1C5B /* MRSLStoryCollectionViewCell.m */; };
+		06BE842B18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BE842A18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m */; };
 		06C38C3B18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C3A18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m */; };
 		06C38C3E18EA5CE90072CF8E /* MRSLModalCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */; };
 		06C38C4118EA5D370072CF8E /* MRSLModalLikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4018EA5D370072CF8E /* MRSLModalLikesViewController.m */; };
@@ -375,6 +376,8 @@
 		069D281118D22A43000EBF7E /* MRSLMorselImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMorselImageView.m; path = Source/Views/MRSLMorselImageView.m; sourceTree = "<group>"; };
 		06A049631896D82500BD1C5B /* MRSLStoryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLStoryCollectionViewCell.h; path = Source/Views/MRSLStoryCollectionViewCell.h; sourceTree = "<group>"; };
 		06A049641896D82500BD1C5B /* MRSLStoryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLStoryCollectionViewCell.m; path = Source/Views/MRSLStoryCollectionViewCell.m; sourceTree = "<group>"; };
+		06BE842918EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLFeedShareCollectionViewCell.h; path = Source/Views/MRSLFeedShareCollectionViewCell.h; sourceTree = "<group>"; };
+		06BE842A18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLFeedShareCollectionViewCell.m; path = Source/Views/MRSLFeedShareCollectionViewCell.m; sourceTree = "<group>"; };
 		06C38C3918EA5A4C0072CF8E /* MRSLModalDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalDescriptionViewController.h; sourceTree = "<group>"; };
 		06C38C3A18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLModalDescriptionViewController.m; sourceTree = "<group>"; };
 		06C38C3C18EA5CE90072CF8E /* MRSLModalCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalCommentsViewController.h; sourceTree = "<group>"; };
@@ -625,12 +628,14 @@
 			children = (
 				066F5AE8185BCBF200468210 /* MRSLFeedCollectionViewCell.h */,
 				066F5AE9185BCBF200468210 /* MRSLFeedCollectionViewCell.m */,
-				06F1847918E0B68C00DBA468 /* MRSLFeedPanelCollectionViewCell.h */,
-				06F1847A18E0B68C00DBA468 /* MRSLFeedPanelCollectionViewCell.m */,
 				06F1847C18E0B6BB00DBA468 /* MRSLFeedCoverCollectionViewCell.h */,
 				06F1847D18E0B6BB00DBA468 /* MRSLFeedCoverCollectionViewCell.m */,
 				06F1847F18E0B6D200DBA468 /* MRSLFeedPageCollectionViewCell.h */,
 				06F1848018E0B6D200DBA468 /* MRSLFeedPageCollectionViewCell.m */,
+				06F1847918E0B68C00DBA468 /* MRSLFeedPanelCollectionViewCell.h */,
+				06F1847A18E0B68C00DBA468 /* MRSLFeedPanelCollectionViewCell.m */,
+				06BE842918EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.h */,
+				06BE842A18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -1541,6 +1546,7 @@
 				069D281218D22A43000EBF7E /* MRSLMorselImageView.m in Sources */,
 				068602991891A6C5000CD576 /* MRSLTextField.m in Sources */,
 				066F5ACA185BCA3D00468210 /* _MRSLMorsel.m in Sources */,
+				06BE842B18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m in Sources */,
 				06F1847E18E0B6BB00DBA468 /* MRSLFeedCoverCollectionViewCell.m in Sources */,
 				0698CA99185240F2007AF442 /* MRSLUser.m in Sources */,
 				06F2F4F31892F78A00977DEB /* MRSLLargeButton.m in Sources */,
