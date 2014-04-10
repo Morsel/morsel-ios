@@ -1,5 +1,5 @@
 //
-//  MRSLStoryListViewController.h
+//  MRSLMorselListViewController.h
 //  Morsel
 //
 //  Created by Javier Otero on 3/3/14.
@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStoryListViewController : MRSLBaseViewController
+@interface MRSLMorselListViewController : MRSLBaseViewController
 
 @property (nonatomic) BOOL shouldPresentMediaCapture;
 
-@property (nonatomic) MRSLStoryStatusType storyStatusType;
+@property (nonatomic) MRSLMorselStatusType morselStatusType;
 
 @end

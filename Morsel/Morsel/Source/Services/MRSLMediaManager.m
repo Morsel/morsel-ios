@@ -10,8 +10,8 @@
 
 #import <SDWebImage/SDWebImageManager.h>
 
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
-#import "MRSLPost.h"
 
 @interface MRSLMediaManager ()
 
@@ -42,48 +42,48 @@
     return self;
 }
 
-- (void)queueCoverMediaForPosts:(NSArray *)posts {
+- (void)queueCoverMediaForMorsels:(NSArray *)morsels {
     [_webImageManager cancelAll];
-    [posts enumerateObjectsUsingBlock:^(MRSLPost *post, NSUInteger idx, BOOL *stop) {
-        [self queueMorselsInPost:post
+    [morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
+        [self queueMorselsInMorsel:morsel
                     preloadCover:(idx == 0) ? NO : YES];
     }];
 }
 
-- (void)queueMorselsInPost:(MRSLPost *)post
+- (void)queueMorselsInMorsel:(MRSLMorsel *)morsel
               preloadCover:(BOOL)shouldPreloadCover {
-    DDLogDebug(@"Preloading images for post with title: %@", post.title);
-    __block int morselCount = 0;
-    MRSLMorsel *coverMorsel = nil;
+    DDLogDebug(@"Preloading images for morsel with title: %@", morsel.title);
+    __block int itemCount = 0;
+    MRSLItem *coverMorsel = nil;
     if (shouldPreloadCover) {
-        DDLogDebug(@"Cover image preloading for post with title: %@", post.title);
-        coverMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                withValue:post.primary_morsel_id] ?: [post.morselsArray lastObject];
+        DDLogDebug(@"Cover image preloading for morsel with title: %@", morsel.title);
+        coverMorsel = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                withValue:morsel.primary_item_id] ?: [morsel.itemsArray lastObject];
         [self queueRequestForMorsel:coverMorsel
-                           withType:MorselImageSizeTypeLarge
+                           withType:ItemImageSizeTypeLarge
                        highPriority:YES];
     }
 
-    [post.morselsArray enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
-        if (![morsel isEqual:coverMorsel]) {
-            [self queueRequestForMorsel:morsel
-                               withType:MorselImageSizeTypeLarge
+    [morsel.itemsArray enumerateObjectsUsingBlock:^(MRSLItem *item, NSUInteger idx, BOOL *stop) {
+        if (![item isEqual:coverMorsel]) {
+            [self queueRequestForMorsel:item
+                               withType:ItemImageSizeTypeLarge
                            highPriority:NO];
-            if (morselCount < 4) {
-                [self queueRequestForMorsel:morsel
-                                   withType:MorselImageSizeTypeThumbnail
+            if (itemCount < 4) {
+                [self queueRequestForMorsel:item
+                                   withType:ItemImageSizeTypeThumbnail
                                highPriority:YES];
             }
-            morselCount++;
+            itemCount++;
         }
     }];
 }
 
-- (void)queueRequestForMorsel:(MRSLMorsel *)morsel
-                     withType:(MorselImageSizeType)morselImageSizeType
+- (void)queueRequestForMorsel:(MRSLItem *)item
+                     withType:(ItemImageSizeType)itemImageSizeType
                  highPriority:(BOOL)isHighPriority {
-    NSURLRequest *morselRequest = [morsel morselPictureURLRequestForImageSizeType:morselImageSizeType];
-    [_webImageManager downloadWithURL:morselRequest.URL
+    NSURLRequest *itemRequest = [item itemPictureURLRequestForImageSizeType:itemImageSizeType];
+    [_webImageManager downloadWithURL:itemRequest.URL
                               options:(isHighPriority) ? SDWebImageHighPriority : SDWebImageLowPriority
                              progress:nil
                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {

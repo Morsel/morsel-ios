@@ -1,5 +1,5 @@
 //
-//  MRSLMorselDescriptionViewController.m
+//  MRSLItemDescriptionViewController.m
 //  Morsel
 //
 //  Created by Javier Otero on 3/31/14.
@@ -8,7 +8,7 @@
 
 #import "MRSLModalDescriptionViewController.h"
 
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 
 @interface MRSLModalDescriptionViewController ()
 
@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.descriptionTextView.text = _morsel.morselDescription;
+    self.descriptionTextView.text = _item.itemDescription;
 }
 
 @end

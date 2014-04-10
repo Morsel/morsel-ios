@@ -12,6 +12,6 @@
 
 + (instancetype)sharedManager;
 
-- (void)queueCoverMediaForPosts:(NSArray *)posts;
+- (void)queueCoverMediaForMorsels:(NSArray *)morsels;
 
 @end

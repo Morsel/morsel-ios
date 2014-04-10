@@ -10,7 +10,7 @@
 
 #import "MRSLNotification.h"
 #import "MRSLActivity.h"
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 #import "MRSLUser.h"
 #import "MRSLActivityCollectionViewCell.h"
 #import "MRSLArrayDataSource.h"
@@ -99,7 +99,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)refreshContent {
     __weak typeof(self) weakSelf = self;
-    [_appDelegate.morselApiService getUserNotificationsForUser:[MRSLUser currentUser]
+    [_appDelegate.itemApiService getUserNotificationsForUser:[MRSLUser currentUser]
                                                          maxID:nil
                                                      orSinceID:nil
                                                       andCount:nil
@@ -117,7 +117,7 @@ NSFetchedResultsControllerDelegate>
     self.selectedIndexPath = indexPath;
     MRSLNotification *notification = [self.arrayDataSource itemAtIndexPath:indexPath];
     MRSLActivity *activity = notification.activity;
-    MRSLMorsel *morsel = activity.morsel;
+    MRSLItem *item = activity.item;
 
     NSLog(@"Create event and send user to Morsel Details view");
     [[MRSLEventManager sharedManager] track:@"Tapped Notification"
@@ -125,7 +125,7 @@ NSFetchedResultsControllerDelegate>
                                               @"notification_id": NSNullIfNil(notification.notificationID),
                                               @"action_type": NSNullIfNil(activity.actionType),
                                               @"activity_id": NSNullIfNil(activity.activityID),
-                                              @"morsel_id": NSNullIfNil(morsel.morselID)}];
+                                              @"item_id": NSNullIfNil(item.itemID)}];
 
     //  TODO: Implement going to Morsel Detail view when that screen is implemented
 }

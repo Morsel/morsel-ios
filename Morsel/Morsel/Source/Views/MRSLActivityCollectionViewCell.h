@@ -13,8 +13,8 @@
 @protocol MorselActivityCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)morselActivityCollectionViewCellDidDisplayProgression:(MRSLActivityCollectionViewCell *)cell;
-- (void)morselActivityCollectionViewCellDidSelectActivity:(MRSLActivity *)activity;
+- (void)itemActivityCollectionViewCellDidDisplayProgression:(MRSLActivityCollectionViewCell *)cell;
+- (void)itemActivityCollectionViewCellDidSelectActivity:(MRSLActivity *)activity;
 
 @end
 

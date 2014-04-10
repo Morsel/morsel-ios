@@ -11,7 +11,7 @@ const struct MRSLCommentAttributes MRSLCommentAttributes = {
 
 const struct MRSLCommentRelationships MRSLCommentRelationships = {
 	.creator = @"creator",
-	.morsel = @"morsel",
+	.item = @"item",
 };
 
 const struct MRSLCommentFetchedProperties MRSLCommentFetchedProperties = {
@@ -99,7 +99,7 @@ const struct MRSLCommentFetchedProperties MRSLCommentFetchedProperties = {
 
 	
 
-@dynamic morsel;
+@dynamic item;
 
 	
 

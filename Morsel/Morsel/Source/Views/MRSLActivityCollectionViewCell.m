@@ -11,14 +11,14 @@
 #import <NSDate+TimeAgo/NSDate+TimeAgo.h>
 
 #import "MRSLActivity.h"
-#import "MRSLMorselImageView.h"
+#import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
 
 @interface MRSLActivityCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
-@property (weak, nonatomic) IBOutlet MRSLMorselImageView *morselImageView;
+@property (weak, nonatomic) IBOutlet MRSLItemImageView *itemImageView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *creatorProfileImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *actionIconImageView;
 
@@ -34,7 +34,7 @@
         [self.descriptionLabel sizeToFit];
         [self.descriptionLabel setWidth:160.0f];
         self.timeAgoLabel.text = [activity.creationDate timeAgo];
-        self.morselImageView.morsel = activity.morsel;
+        self.itemImageView.item = activity.item;
         self.creatorProfileImageView.user = activity.creator;
 
         if ([activity.actionType isEqualToString:@"Like"]) {

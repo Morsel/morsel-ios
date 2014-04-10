@@ -28,26 +28,26 @@
 }
 
 - (void)setOwningViewController:(UIViewController *)owningViewController
-                       withPost:(MRSLPost *)post {
+                       withMorsel:(MRSLMorsel *)morsel {
     _owningViewController = owningViewController;
     if (!_feedPanelViewController.parentViewController) {
         [self.owningViewController addChildViewController:_feedPanelViewController];
         [self addSubview:_feedPanelViewController.view];
     }
-    _feedPanelViewController.post = post;
+    _feedPanelViewController.morsel = morsel;
 }
 
 #pragma mark - MRSLFeedPanelViewControllerDelegate
 
-- (void)feedPanelViewControllerDidSelectPreviousStory {
-    if ([self.delegate respondsToSelector:@selector(feedPanelCollectionViewCellDidSelectPreviousStory)]) {
-        [self.delegate feedPanelCollectionViewCellDidSelectPreviousStory];
+- (void)feedPanelViewControllerDidSelectPreviousMorsel {
+    if ([self.delegate respondsToSelector:@selector(feedPanelCollectionViewCellDidSelectPreviousMorsel)]) {
+        [self.delegate feedPanelCollectionViewCellDidSelectPreviousMorsel];
     }
 }
 
-- (void)feedPanelViewControllerDidSelectNextStory {
-    if ([self.delegate respondsToSelector:@selector(feedPanelCollectionViewCellDidSelectNextStory)]) {
-        [self.delegate feedPanelCollectionViewCellDidSelectNextStory];
+- (void)feedPanelViewControllerDidSelectNextMorsel {
+    if ([self.delegate respondsToSelector:@selector(feedPanelCollectionViewCellDidSelectNextMorsel)]) {
+        [self.delegate feedPanelCollectionViewCellDidSelectNextMorsel];
     }
 }
 

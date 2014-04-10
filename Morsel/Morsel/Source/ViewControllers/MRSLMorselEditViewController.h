@@ -1,5 +1,5 @@
 //
-//  MRSLStoryEditViewController.h
+//  MRSLMorselEditViewController.h
 //  Morsel
 //
 //  Created by Javier Otero on 3/4/14.
@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStoryEditViewController : MRSLBaseViewController
+@interface MRSLMorselEditViewController : MRSLBaseViewController
 
 @property (nonatomic) BOOL shouldPresentMediaCapture;
 
-@property (strong, nonatomic) NSNumber *postID;
+@property (strong, nonatomic) NSNumber *morselID;
 
 @end

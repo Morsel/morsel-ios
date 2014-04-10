@@ -35,8 +35,8 @@
                                      bundle:nil];
 }
 
-+ (UIStoryboard *)storyManagementStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"StoryManagement_iPad" : @"StoryManagement_iPhone"
++ (UIStoryboard *)morselManagementStoryboard {
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"MorselManagement_iPad" : @"MorselManagement_iPhone"
                                      bundle:nil];
 }
 

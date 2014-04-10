@@ -10,13 +10,13 @@ extern const struct MRSLTagAttributes {
 } MRSLTagAttributes;
 
 extern const struct MRSLTagRelationships {
-	__unsafe_unretained NSString *morsels;
+	__unsafe_unretained NSString *items;
 } MRSLTagRelationships;
 
 extern const struct MRSLTagFetchedProperties {
 } MRSLTagFetchedProperties;
 
-@class MRSLMorsel;
+@class MRSLItem;
 
 
 
@@ -58,9 +58,9 @@ extern const struct MRSLTagFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *morsels;
+@property (nonatomic, strong) NSSet *items;
 
-- (NSMutableSet*)morselsSet;
+- (NSMutableSet*)itemsSet;
 
 
 
@@ -70,10 +70,10 @@ extern const struct MRSLTagFetchedProperties {
 
 @interface _MRSLTag (CoreDataGeneratedAccessors)
 
-- (void)addMorsels:(NSSet*)value_;
-- (void)removeMorsels:(NSSet*)value_;
-- (void)addMorselsObject:(MRSLMorsel*)value_;
-- (void)removeMorselsObject:(MRSLMorsel*)value_;
+- (void)addItems:(NSSet*)value_;
+- (void)removeItems:(NSSet*)value_;
+- (void)addItemsObject:(MRSLItem*)value_;
+- (void)removeItemsObject:(MRSLItem*)value_;
 
 @end
 
@@ -96,8 +96,8 @@ extern const struct MRSLTagFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveMorsels;
-- (void)setPrimitiveMorsels:(NSMutableSet*)value;
+- (NSMutableSet*)primitiveItems;
+- (void)setPrimitiveItems:(NSMutableSet*)value;
 
 
 @end

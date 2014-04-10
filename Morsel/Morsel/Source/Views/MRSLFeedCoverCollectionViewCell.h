@@ -11,7 +11,7 @@
 @protocol MRSLFeedCoverCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)feedCoverCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel;
+- (void)feedCoverCollectionViewCellDidSelectMorsel:(MRSLItem *)item;
 
 @end
 
@@ -19,6 +19,6 @@
 
 @property (weak, nonatomic) id <MRSLFeedCoverCollectionViewCellDelegate> delegate;
 
-@property (weak, nonatomic) MRSLPost *post;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end

@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.5</string>
+	<string>0.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -27,12 +27,12 @@
 			<string>com.eatmorsel.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_ID_SUFFIX}</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>morsel</string>
+				<string>item</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201404100646</string>
+	<string>201404101603</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

@@ -26,6 +26,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if (![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
+        [self.view setY:[self.view getY] - 22.f];
+        [self.view setHeight:[self.view getHeight] + 22.f];
+    }
     [UIView animateWithDuration:animated ? 0.f : .4f
                      animations:^{
                          [self.view setAlpha:1.f];

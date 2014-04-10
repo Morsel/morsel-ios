@@ -14,7 +14,7 @@ extern const struct MRSLActivityAttributes {
 
 extern const struct MRSLActivityRelationships {
 	__unsafe_unretained NSString *creator;
-	__unsafe_unretained NSString *morsel;
+	__unsafe_unretained NSString *item;
 	__unsafe_unretained NSString *notification;
 } MRSLActivityRelationships;
 
@@ -22,7 +22,7 @@ extern const struct MRSLActivityFetchedProperties {
 } MRSLActivityFetchedProperties;
 
 @class MRSLUser;
-@class MRSLMorsel;
+@class MRSLItem;
 @class MRSLNotification;
 
 
@@ -109,9 +109,9 @@ extern const struct MRSLActivityFetchedProperties {
 
 
 
-@property (nonatomic, strong) MRSLMorsel *morsel;
+@property (nonatomic, strong) MRSLItem *item;
 
-//- (BOOL)validateMorsel:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateItem:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -175,8 +175,8 @@ extern const struct MRSLActivityFetchedProperties {
 
 
 
-- (MRSLMorsel*)primitiveMorsel;
-- (void)setPrimitiveMorsel:(MRSLMorsel*)value;
+- (MRSLItem*)primitiveItem;
+- (void)setPrimitiveItem:(MRSLItem*)value;
 
 
 

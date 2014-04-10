@@ -10,8 +10,8 @@
 
 #import "MRSLSocialService.h"
 
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
-#import "MRSLPost.h"
 #import "MRSLUser.h"
 
 #import <Social/Social.h>
@@ -33,56 +33,57 @@
 
 - (IBAction)shareToFacebook {
     _facebookButton.enabled = NO;
-    if ([[MRSLUser currentUser] facebook_uid]) {
-        [self displayFacebookShare];
-    } else {
-        __weak __typeof(self) weakSelf = self;
-        [[MRSLSocialService sharedService] activateFacebookInView:self.view
-                                                         success:^(BOOL success) {
-                                                             if (weakSelf) {
-                                                                 weakSelf.facebookButton.enabled = YES;
-                                                                 [weakSelf displayFacebookShare];
-                                                             }
-                                                         } failure:^(NSError *error) {
-                                                             if (weakSelf) {
-                                                                 weakSelf.facebookButton.enabled = YES;
-                                                             }
-                                                         }];
-    }
+    __weak __typeof(self) weakSelf = self;
+    [[MRSLSocialService sharedService] shareMorselToFacebook:_item
+                                            inViewController:self
+                                                     success:^(BOOL success) {
+                                                         if (weakSelf) {
+                                                             [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
+                                                                                          properties:@{@"view": @"share",
+                                                                                                       @"morsel_id": NSNullIfNil(weakSelf.item.morsel.morselID),
+                                                                                                       @"creator_id": NSNullIfNil(weakSelf.item.morsel.creator.userID),
+                                                                                                       @"social_type": @"facebook"}];
+                                                             [weakSelf displaySuccess];
+                                                         }
+                                                     } cancel:^{
+                                                         if (weakSelf) {
+                                                             weakSelf.facebookButton.enabled = YES;
+                                                         }
+                                                     }];
 }
 
 - (IBAction)shareToTwitter {
-    _twitterButton.enabled = NO;
-    if ([[MRSLUser currentUser] twitter_username]) {
-        [self displayTwitterShare];
-    } else {
-        __weak __typeof(self) weakSelf = self;
-        [[MRSLSocialService sharedService] activateTwitterInView:self.view
-                                                         success:^(BOOL success) {
-                                                             if (weakSelf) {
-                                                                 weakSelf.twitterButton.enabled = YES;
-                                                                 [weakSelf displayTwitterShare];
-                                                             }
-                                                         } failure:^(NSError *error) {
-                                                             if (weakSelf) {
-                                                                 weakSelf.twitterButton.enabled = YES;
-                                                             }
-                                                         }];
-    }
+    __weak __typeof(self) weakSelf = self;
+    [[MRSLSocialService sharedService] shareMorselToTwitter:_item
+                                           inViewController:self
+                                                    success:^(BOOL success) {
+                                                        if (weakSelf) {
+                                                            [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
+                                                                                         properties:@{@"view": @"share",
+                                                                                                      @"morsel_id": NSNullIfNil(weakSelf.item.morsel.morselID),
+                                                                                                      @"creator_id": NSNullIfNil(weakSelf.item.morsel.creator.userID),
+                                                                                                      @"social_type": @"twitter"}];
+                                                            [weakSelf displaySuccess];
+                                                        }
+                                                    } cancel:^{
+                                                        if (weakSelf) {
+                                                            weakSelf.twitterButton.enabled = YES;
+                                                        }
+                                                    }];
 }
 
 #pragma mark - Private Methods
 
 - (void)displayFacebookShare {
     __weak __typeof(self) weakSelf = self;
-    [[MRSLSocialService sharedService] shareMorselToFacebook:_morsel
+    [[MRSLSocialService sharedService] shareMorselToFacebook:_item
                                             inViewController:self
                                                      success:^(BOOL success) {
                                                          if (weakSelf) {
                                                              [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
                                                                                           properties:@{@"view": @"share",
-                                                                                                       @"post_id": NSNullIfNil(weakSelf.morsel.post.postID),
-                                                                                                       @"creator_id": NSNullIfNil(weakSelf.morsel.post.creator.userID),
+                                                                                                       @"morsel_id": NSNullIfNil(weakSelf.item.morsel.morselID),
+                                                                                                       @"creator_id": NSNullIfNil(weakSelf.item.morsel.creator.userID),
                                                                                                        @"social_type": @"facebook"}];
                                                              [weakSelf displaySuccess];
                                                          }
@@ -95,22 +96,22 @@
 
 - (void)displayTwitterShare {
     __weak __typeof(self) weakSelf = self;
-    [[MRSLSocialService sharedService] shareMorselToTwitter:_morsel
-                                            inViewController:self
-                                                     success:^(BOOL success) {
-                                                         if (weakSelf) {
-                                                             [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
-                                                                                          properties:@{@"view": @"share",
-                                                                                                       @"post_id": NSNullIfNil(weakSelf.morsel.post.postID),
-                                                                                                       @"creator_id": NSNullIfNil(weakSelf.morsel.post.creator.userID),
-                                                                                                       @"social_type": @"twitter"}];
-                                                             [weakSelf displaySuccess];
-                                                         }
-                                                     } cancel:^{
-                                                         if (weakSelf) {
-                                                             weakSelf.twitterButton.enabled = YES;
-                                                         }
-                                                     }];
+    [[MRSLSocialService sharedService] shareMorselToTwitter:_item
+                                           inViewController:self
+                                                    success:^(BOOL success) {
+                                                        if (weakSelf) {
+                                                            [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
+                                                                                         properties:@{@"view": @"share",
+                                                                                                      @"morsel_id": NSNullIfNil(weakSelf.item.morsel.morselID),
+                                                                                                      @"creator_id": NSNullIfNil(weakSelf.item.morsel.creator.userID),
+                                                                                                      @"social_type": @"twitter"}];
+                                                            [weakSelf displaySuccess];
+                                                        }
+                                                    } cancel:^{
+                                                        if (weakSelf) {
+                                                            weakSelf.twitterButton.enabled = YES;
+                                                        }
+                                                    }];
 }
 
 - (void)displaySuccess {

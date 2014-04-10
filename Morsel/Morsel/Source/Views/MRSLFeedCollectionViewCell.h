@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class MRSLFeedCollectionViewCell, MRSLMorsel, MRSLUser;
+@class MRSLFeedCollectionViewCell, MRSLItem, MRSLUser;
 
 @protocol MorselFeedCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)morselPostCollectionViewCellDidDisplayProgression:(MRSLFeedCollectionViewCell *)cell;
-- (void)morselPostCollectionViewCellDidSelectProfileForUser:(MRSLUser *)user;
-- (void)morselPostCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel;
-- (void)morselPostCollectionViewCellDidSelectEditMorsel:(MRSLMorsel *)morsel;
+- (void)itemMorselCollectionViewCellDidDisplayProgression:(MRSLFeedCollectionViewCell *)cell;
+- (void)itemMorselCollectionViewCellDidSelectProfileForUser:(MRSLUser *)user;
+- (void)itemMorselCollectionViewCellDidSelectMorsel:(MRSLItem *)item;
+- (void)itemMorselCollectionViewCellDidSelectEditMorsel:(MRSLItem *)item;
 
 @end
 
@@ -24,7 +24,7 @@
 
 @property (weak, nonatomic) id<MorselFeedCollectionViewCellDelegate> delegate;
 
-@property (weak, nonatomic) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLItem *item;
 
 - (void)reset;
 

@@ -11,8 +11,8 @@
 @protocol MRSLFeedPanelCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)feedPanelCollectionViewCellDidSelectPreviousStory;
-- (void)feedPanelCollectionViewCellDidSelectNextStory;
+- (void)feedPanelCollectionViewCellDidSelectPreviousMorsel;
+- (void)feedPanelCollectionViewCellDidSelectNextMorsel;
 
 @end
 
@@ -21,6 +21,6 @@
 @property (weak, nonatomic) id <MRSLFeedPanelCollectionViewCellDelegate> delegate;
 
 - (void)setOwningViewController:(UIViewController *)owningViewController
-                       withPost:(MRSLPost *)post;
+                       withMorsel:(MRSLMorsel *)morsel;
 
 @end

@@ -47,11 +47,11 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayFeed)
-                                                 name:MRSLUserDidPublishPostNotification
+                                                 name:MRSLUserDidPublishMorselNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayStoryAdd)
-                                                 name:MRSLAppShouldDisplayStoryAddNotification
+                                             selector:@selector(displayMorselAdd)
+                                                 name:MRSLAppShouldDisplayMorselAddNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayUserProfile:)
@@ -94,7 +94,7 @@
                                @"created_at": NSNullIfNil(currentUser.creationDate),
                                @"title": NSNullIfNil(currentUser.title),
                                @"username": NSNullIfNil(currentUser.username)}];
-        [_appDelegate.morselApiService getUserProfile:currentUser
+        [_appDelegate.itemApiService getUserProfile:currentUser
                                               success:nil
                                               failure:nil];
 
@@ -121,9 +121,9 @@
                                                   andStoryboardPrefix:@"Feed"];
 }
 
-- (void)displayStoryAdd {
-    UINavigationController *storyAddNC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_StoryAdd"];
-    [self presentViewController:storyAddNC
+- (void)displayMorselAdd {
+    UINavigationController *morselAddNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselAdd"];
+    [self presentViewController:morselAddNC
                        animated:YES
                      completion:nil];
 }

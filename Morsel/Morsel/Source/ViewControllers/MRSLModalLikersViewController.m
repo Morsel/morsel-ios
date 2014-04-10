@@ -28,13 +28,13 @@ UITableViewDelegate>
     self.likers = [NSMutableArray array];
 
     __weak __typeof(self) weakSelf = self;
-    [_appDelegate.morselApiService getMorselLikes:_morsel
-                                          success:^(NSArray *responseArray) {
-                                              if (weakSelf) {
-                                                  [weakSelf.likers addObjectsFromArray:responseArray];
-                                                  [weakSelf.likersTableView reloadData];
-                                              }
-    } failure:nil];
+    [_appDelegate.itemApiService getItemLikes:_item
+                                      success:^(NSArray *responseArray) {
+                                          if (weakSelf) {
+                                              [weakSelf.likers addObjectsFromArray:responseArray];
+                                              [weakSelf.likersTableView reloadData];
+                                          }
+                                      } failure:nil];
 }
 
 #pragma mark - UITableViewDataSource

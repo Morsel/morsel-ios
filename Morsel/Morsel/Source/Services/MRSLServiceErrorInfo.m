@@ -33,7 +33,7 @@
  api (critical or denied)
  photo
  description
- morsel
+ item
  comment
  
 

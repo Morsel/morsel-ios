@@ -86,7 +86,7 @@
                                                     <rect key="frame" x="10" y="15" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="uEA-Nr-5yc" customClass="MRSLMorselImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="uEA-Nr-5yc" customClass="MRSLItemImageView">
                                                     <rect key="frame" x="240" y="0.0" width="80" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -115,7 +115,7 @@
                                             <outlet property="actionIconImageView" destination="dyY-jD-8hI" id="YWr-A4-ln2"/>
                                             <outlet property="creatorProfileImageView" destination="DLT-lt-MzK" id="U9p-gN-4tH"/>
                                             <outlet property="descriptionLabel" destination="A69-za-lTt" id="9NS-QQ-XRm"/>
-                                            <outlet property="morselImageView" destination="uEA-Nr-5yc" id="DUD-ln-Y8o"/>
+                                            <outlet property="itemImageView" destination="uEA-Nr-5yc" id="cCD-iK-Mlb"/>
                                             <outlet property="timeAgoLabel" destination="XDK-MX-8f6" id="oku-Id-bsp"/>
                                         </connections>
                                     </collectionViewCell>
@@ -191,7 +191,7 @@ any activity yet!</string>
                                                     <rect key="frame" x="10" y="15" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Tqa-Pa-GjC" customClass="MRSLMorselImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Tqa-Pa-GjC" customClass="MRSLItemImageView">
                                                     <rect key="frame" x="240" y="0.0" width="80" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -220,7 +220,7 @@ any activity yet!</string>
                                             <outlet property="actionIconImageView" destination="QIR-bD-fnS" id="rFz-E0-bSf"/>
                                             <outlet property="creatorProfileImageView" destination="JXc-nl-AfM" id="j0C-yC-OeH"/>
                                             <outlet property="descriptionLabel" destination="uz4-Dd-RRL" id="709-Wa-cW9"/>
-                                            <outlet property="morselImageView" destination="Tqa-Pa-GjC" id="u8d-cl-tnV"/>
+                                            <outlet property="itemImageView" destination="Tqa-Pa-GjC" id="wHY-4N-1cZ"/>
                                             <outlet property="timeAgoLabel" destination="mVl-re-sLS" id="oOl-6m-Okj"/>
                                         </connections>
                                     </collectionViewCell>

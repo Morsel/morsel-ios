@@ -19,7 +19,7 @@
 
 #import "MRSLAPIClient.h"
 
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 #import "MRSLUser.h"
 
 @implementation MRSLAppDelegate
@@ -61,7 +61,7 @@
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
     [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
-    self.morselApiService = [[MRSLAPIService alloc] init];
+    self.itemApiService = [[MRSLAPIService alloc] init];
 
     [self setupDatabase];
 
@@ -85,20 +85,20 @@
     [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
 
     if ([MRSLUser currentUser]) {
-        // Delete Morsels that do not have a localUUID, morselID, photo data, and belong to the current user. They didn't make it nor will they ever be able to be synced with any existing Morsels.
-        NSPredicate *localOrphanedPredicate = [NSPredicate predicateWithFormat:@"((morselPhotoCropped != nil) AND (localUUID == nil) AND (morselID == nil) AND (post.creator.userID == %i))", [MRSLUser currentUser].userIDValue];
-        NSArray *localOrphanedMorsels = [MRSLMorsel MR_findAllWithPredicate:localOrphanedPredicate];
+        // Delete Morsels that do not have a localUUID, itemID, photo data, and belong to the current user. They didn't make it nor will they ever be able to be synced with any existing Morsels.
+        NSPredicate *localOrphanedPredicate = [NSPredicate predicateWithFormat:@"((itemPhotoCropped != nil) AND (localUUID == nil) AND (itemID == nil) AND (morsel.creator.userID == %i))", [MRSLUser currentUser].userIDValue];
+        NSArray *localOrphanedMorsels = [MRSLItem MR_findAllWithPredicate:localOrphanedPredicate];
         if ([localOrphanedMorsels count] > 0) {
             DDLogDebug(@"Local orphaned Morsels found. Removing %lu", (unsigned long)[localOrphanedMorsels count]);
-            [MRSLMorsel MR_deleteAllMatchingPredicate:localOrphanedPredicate];
+            [MRSLItem MR_deleteAllMatchingPredicate:localOrphanedPredicate];
             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
         }
 
         // Finds any Morsels that have their upload flag set to YES. This is due to the app quitting before success/failure blocks of the Morsel image upload was able to complete.
-        NSArray *morsels = [MRSLMorsel MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"(isUploading == YES)"]];
-        [morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
-            morsel.isUploading = @NO;
-            morsel.didFailUpload = @YES;
+        NSArray *items = [MRSLItem MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"(isUploading == YES)"]];
+        [items enumerateObjectsUsingBlock:^(MRSLItem *item, NSUInteger idx, BOOL *stop) {
+            item.isUploading = @NO;
+            item.didFailUpload = @YES;
         }];
     }
 }

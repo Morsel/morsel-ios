@@ -5,46 +5,30 @@
 
 
 extern const struct MRSLMorselAttributes {
-	__unsafe_unretained NSString *comment_count;
 	__unsafe_unretained NSString *creationDate;
-	__unsafe_unretained NSString *creator_id;
-	__unsafe_unretained NSString *didFailUpload;
-	__unsafe_unretained NSString *isUploading;
+	__unsafe_unretained NSString *draft;
+	__unsafe_unretained NSString *feedItemID;
 	__unsafe_unretained NSString *lastUpdatedDate;
-	__unsafe_unretained NSString *like_count;
-	__unsafe_unretained NSString *liked;
-	__unsafe_unretained NSString *localUUID;
-	__unsafe_unretained NSString *morselDescription;
 	__unsafe_unretained NSString *morselID;
-	__unsafe_unretained NSString *morselPhotoCropped;
-	__unsafe_unretained NSString *morselPhotoFull;
-	__unsafe_unretained NSString *morselPhotoThumb;
 	__unsafe_unretained NSString *morselPhotoURL;
-	__unsafe_unretained NSString *photo_processing;
-	__unsafe_unretained NSString *sort_order;
+	__unsafe_unretained NSString *primary_item_id;
+	__unsafe_unretained NSString *publishedDate;
+	__unsafe_unretained NSString *title;
+	__unsafe_unretained NSString *total_comment_count;
+	__unsafe_unretained NSString *total_like_count;
 	__unsafe_unretained NSString *url;
 } MRSLMorselAttributes;
 
 extern const struct MRSLMorselRelationships {
-	__unsafe_unretained NSString *activities;
-	__unsafe_unretained NSString *comments;
-	__unsafe_unretained NSString *post;
-	__unsafe_unretained NSString *tags;
+	__unsafe_unretained NSString *creator;
+	__unsafe_unretained NSString *items;
 } MRSLMorselRelationships;
 
 extern const struct MRSLMorselFetchedProperties {
 } MRSLMorselFetchedProperties;
 
-@class MRSLActivity;
-@class MRSLComment;
-@class MRSLPost;
-@class MRSLTag;
-
-
-
-
-
-
+@class MRSLUser;
+@class MRSLItem;
 
 
 
@@ -72,20 +56,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* comment_count;
-
-
-
-@property int32_t comment_countValue;
-- (int32_t)comment_countValue;
-- (void)setComment_countValue:(int32_t)value_;
-
-//- (BOOL)validateComment_count:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSDate* creationDate;
 
 
@@ -96,43 +66,29 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* creator_id;
+@property (nonatomic, strong) NSNumber* draft;
 
 
 
-@property int32_t creator_idValue;
-- (int32_t)creator_idValue;
-- (void)setCreator_idValue:(int32_t)value_;
+@property BOOL draftValue;
+- (BOOL)draftValue;
+- (void)setDraftValue:(BOOL)value_;
 
-//- (BOOL)validateCreator_id:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* didFailUpload;
-
-
-
-@property BOOL didFailUploadValue;
-- (BOOL)didFailUploadValue;
-- (void)setDidFailUploadValue:(BOOL)value_;
-
-//- (BOOL)validateDidFailUpload:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateDraft:(id*)value_ error:(NSError**)error_;
 
 
 
 
 
-@property (nonatomic, strong) NSNumber* isUploading;
+@property (nonatomic, strong) NSNumber* feedItemID;
 
 
 
-@property BOOL isUploadingValue;
-- (BOOL)isUploadingValue;
-- (void)setIsUploadingValue:(BOOL)value_;
+@property int32_t feedItemIDValue;
+- (int32_t)feedItemIDValue;
+- (void)setFeedItemIDValue:(int32_t)value_;
 
-//- (BOOL)validateIsUploading:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateFeedItemID:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -143,54 +99,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validateLastUpdatedDate:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* like_count;
-
-
-
-@property int32_t like_countValue;
-- (int32_t)like_countValue;
-- (void)setLike_countValue:(int32_t)value_;
-
-//- (BOOL)validateLike_count:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* liked;
-
-
-
-@property BOOL likedValue;
-- (BOOL)likedValue;
-- (void)setLikedValue:(BOOL)value_;
-
-//- (BOOL)validateLiked:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSString* localUUID;
-
-
-
-//- (BOOL)validateLocalUUID:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSString* morselDescription;
-
-
-
-//- (BOOL)validateMorselDescription:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -210,36 +118,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSData* morselPhotoCropped;
-
-
-
-//- (BOOL)validateMorselPhotoCropped:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSData* morselPhotoFull;
-
-
-
-//- (BOOL)validateMorselPhotoFull:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSData* morselPhotoThumb;
-
-
-
-//- (BOOL)validateMorselPhotoThumb:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSString* morselPhotoURL;
 
 
@@ -250,29 +128,63 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* photo_processing;
+@property (nonatomic, strong) NSNumber* primary_item_id;
 
 
 
-@property BOOL photo_processingValue;
-- (BOOL)photo_processingValue;
-- (void)setPhoto_processingValue:(BOOL)value_;
+@property int32_t primary_item_idValue;
+- (int32_t)primary_item_idValue;
+- (void)setPrimary_item_idValue:(int32_t)value_;
 
-//- (BOOL)validatePhoto_processing:(id*)value_ error:(NSError**)error_;
-
-
+//- (BOOL)validatePrimary_item_id:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, strong) NSNumber* sort_order;
+
+
+@property (nonatomic, strong) NSDate* publishedDate;
 
 
 
-@property int32_t sort_orderValue;
-- (int32_t)sort_orderValue;
-- (void)setSort_orderValue:(int32_t)value_;
+//- (BOOL)validatePublishedDate:(id*)value_ error:(NSError**)error_;
 
-//- (BOOL)validateSort_order:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, strong) NSString* title;
+
+
+
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* total_comment_count;
+
+
+
+@property int32_t total_comment_countValue;
+- (int32_t)total_comment_countValue;
+- (void)setTotal_comment_countValue:(int32_t)value_;
+
+//- (BOOL)validateTotal_comment_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* total_like_count;
+
+
+
+@property int32_t total_like_countValue;
+- (int32_t)total_like_countValue;
+- (void)setTotal_like_countValue:(int32_t)value_;
+
+//- (BOOL)validateTotal_like_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -288,30 +200,16 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *activities;
+@property (nonatomic, strong) MRSLUser *creator;
 
-- (NSMutableSet*)activitiesSet;
-
-
-
-
-@property (nonatomic, strong) NSSet *comments;
-
-- (NSMutableSet*)commentsSet;
+//- (BOOL)validateCreator:(id*)value_ error:(NSError**)error_;
 
 
 
 
-@property (nonatomic, strong) MRSLPost *post;
+@property (nonatomic, strong) NSSet *items;
 
-//- (BOOL)validatePost:(id*)value_ error:(NSError**)error_;
-
-
-
-
-@property (nonatomic, strong) NSSet *tags;
-
-- (NSMutableSet*)tagsSet;
+- (NSMutableSet*)itemsSet;
 
 
 
@@ -321,33 +219,14 @@ extern const struct MRSLMorselFetchedProperties {
 
 @interface _MRSLMorsel (CoreDataGeneratedAccessors)
 
-- (void)addActivities:(NSSet*)value_;
-- (void)removeActivities:(NSSet*)value_;
-- (void)addActivitiesObject:(MRSLActivity*)value_;
-- (void)removeActivitiesObject:(MRSLActivity*)value_;
-
-- (void)addComments:(NSSet*)value_;
-- (void)removeComments:(NSSet*)value_;
-- (void)addCommentsObject:(MRSLComment*)value_;
-- (void)removeCommentsObject:(MRSLComment*)value_;
-
-- (void)addTags:(NSSet*)value_;
-- (void)removeTags:(NSSet*)value_;
-- (void)addTagsObject:(MRSLTag*)value_;
-- (void)removeTagsObject:(MRSLTag*)value_;
+- (void)addItems:(NSSet*)value_;
+- (void)removeItems:(NSSet*)value_;
+- (void)addItemsObject:(MRSLItem*)value_;
+- (void)removeItemsObject:(MRSLItem*)value_;
 
 @end
 
 @interface _MRSLMorsel (CoreDataGeneratedPrimitiveAccessors)
-
-
-- (NSNumber*)primitiveComment_count;
-- (void)setPrimitiveComment_count:(NSNumber*)value;
-
-- (int32_t)primitiveComment_countValue;
-- (void)setPrimitiveComment_countValue:(int32_t)value_;
-
-
 
 
 - (NSDate*)primitiveCreationDate;
@@ -356,65 +235,26 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSNumber*)primitiveCreator_id;
-- (void)setPrimitiveCreator_id:(NSNumber*)value;
+- (NSNumber*)primitiveDraft;
+- (void)setPrimitiveDraft:(NSNumber*)value;
 
-- (int32_t)primitiveCreator_idValue;
-- (void)setPrimitiveCreator_idValue:(int32_t)value_;
-
-
-
-
-- (NSNumber*)primitiveDidFailUpload;
-- (void)setPrimitiveDidFailUpload:(NSNumber*)value;
-
-- (BOOL)primitiveDidFailUploadValue;
-- (void)setPrimitiveDidFailUploadValue:(BOOL)value_;
+- (BOOL)primitiveDraftValue;
+- (void)setPrimitiveDraftValue:(BOOL)value_;
 
 
 
 
-- (NSNumber*)primitiveIsUploading;
-- (void)setPrimitiveIsUploading:(NSNumber*)value;
+- (NSNumber*)primitiveFeedItemID;
+- (void)setPrimitiveFeedItemID:(NSNumber*)value;
 
-- (BOOL)primitiveIsUploadingValue;
-- (void)setPrimitiveIsUploadingValue:(BOOL)value_;
+- (int32_t)primitiveFeedItemIDValue;
+- (void)setPrimitiveFeedItemIDValue:(int32_t)value_;
 
 
 
 
 - (NSDate*)primitiveLastUpdatedDate;
 - (void)setPrimitiveLastUpdatedDate:(NSDate*)value;
-
-
-
-
-- (NSNumber*)primitiveLike_count;
-- (void)setPrimitiveLike_count:(NSNumber*)value;
-
-- (int32_t)primitiveLike_countValue;
-- (void)setPrimitiveLike_countValue:(int32_t)value_;
-
-
-
-
-- (NSNumber*)primitiveLiked;
-- (void)setPrimitiveLiked:(NSNumber*)value;
-
-- (BOOL)primitiveLikedValue;
-- (void)setPrimitiveLikedValue:(BOOL)value_;
-
-
-
-
-- (NSString*)primitiveLocalUUID;
-- (void)setPrimitiveLocalUUID:(NSString*)value;
-
-
-
-
-- (NSString*)primitiveMorselDescription;
-- (void)setPrimitiveMorselDescription:(NSString*)value;
 
 
 
@@ -428,44 +268,47 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSData*)primitiveMorselPhotoCropped;
-- (void)setPrimitiveMorselPhotoCropped:(NSData*)value;
-
-
-
-
-- (NSData*)primitiveMorselPhotoFull;
-- (void)setPrimitiveMorselPhotoFull:(NSData*)value;
-
-
-
-
-- (NSData*)primitiveMorselPhotoThumb;
-- (void)setPrimitiveMorselPhotoThumb:(NSData*)value;
-
-
-
-
 - (NSString*)primitiveMorselPhotoURL;
 - (void)setPrimitiveMorselPhotoURL:(NSString*)value;
 
 
 
 
-- (NSNumber*)primitivePhoto_processing;
-- (void)setPrimitivePhoto_processing:(NSNumber*)value;
+- (NSNumber*)primitivePrimary_item_id;
+- (void)setPrimitivePrimary_item_id:(NSNumber*)value;
 
-- (BOOL)primitivePhoto_processingValue;
-- (void)setPrimitivePhoto_processingValue:(BOOL)value_;
-
-
+- (int32_t)primitivePrimary_item_idValue;
+- (void)setPrimitivePrimary_item_idValue:(int32_t)value_;
 
 
-- (NSNumber*)primitiveSort_order;
-- (void)setPrimitiveSort_order:(NSNumber*)value;
 
-- (int32_t)primitiveSort_orderValue;
-- (void)setPrimitiveSort_orderValue:(int32_t)value_;
+
+- (NSDate*)primitivePublishedDate;
+- (void)setPrimitivePublishedDate:(NSDate*)value;
+
+
+
+
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveTotal_comment_count;
+- (void)setPrimitiveTotal_comment_count:(NSNumber*)value;
+
+- (int32_t)primitiveTotal_comment_countValue;
+- (void)setPrimitiveTotal_comment_countValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitiveTotal_like_count;
+- (void)setPrimitiveTotal_like_count:(NSNumber*)value;
+
+- (int32_t)primitiveTotal_like_countValue;
+- (void)setPrimitiveTotal_like_countValue:(int32_t)value_;
 
 
 
@@ -477,23 +320,13 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveActivities;
-- (void)setPrimitiveActivities:(NSMutableSet*)value;
+- (MRSLUser*)primitiveCreator;
+- (void)setPrimitiveCreator:(MRSLUser*)value;
 
 
 
-- (NSMutableSet*)primitiveComments;
-- (void)setPrimitiveComments:(NSMutableSet*)value;
-
-
-
-- (MRSLPost*)primitivePost;
-- (void)setPrimitivePost:(MRSLPost*)value;
-
-
-
-- (NSMutableSet*)primitiveTags;
-- (void)setPrimitiveTags:(NSMutableSet*)value;
+- (NSMutableSet*)primitiveItems;
+- (void)setPrimitiveItems:(NSMutableSet*)value;
 
 
 @end

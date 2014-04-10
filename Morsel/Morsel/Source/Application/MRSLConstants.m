@@ -15,18 +15,18 @@ NSString *const MRSLServiceDidUpdateUserNotification = @"MRSLServiceDidUpdateUse
 
 NSString *const MRSLUserDidCreateCommentNotification = @"MRSLUserDidCreateCommentNotification";
 NSString *const MRSLUserDidBeginCreateMorselNotification = @"MRSLUserDidBeginCreateMorselNotification";
+NSString *const MRSLUserDidUpdateItemNotification = @"MRSLUserDidUpdateItemNotification";
 NSString *const MRSLUserDidUpdateMorselNotification = @"MRSLUserDidUpdateMorselNotification";
-NSString *const MRSLUserDidUpdatePostNotification = @"MRSLUserDidUpdatePostNotification";
-NSString *const MRSLUserDidPublishPostNotification = @"MRSLUserDidPublishPostNotification";
+NSString *const MRSLUserDidPublishMorselNotification = @"MRSLUserDidPublishMorselNotification";
 
-NSString *const MRSLMorselUploadDidCompleteNotification = @"MRSLMorselUploadDidCompleteNotification";
-NSString *const MRSLMorselUploadDidFailNotification = @"MRSLMorselUploadDidFailNotification";
+NSString *const MRSLItemUploadDidCompleteNotification = @"MRSLItemUploadDidCompleteNotification";
+NSString *const MRSLItemUploadDidFailNotification = @"MRSLItemUploadDidFailNotification";
 
 NSString *const MRSLModalWillDisplayNotification = @"MRSLModalWillDisplayNotification";
 NSString *const MRSLModalWillDismissNotification = @"MRSLModalWillDismissNotification";
 
 NSString *const MRSLAppShouldDisplayFeedNotification = @"MRSLAppShouldDisplayFeedNotification";
-NSString *const MRSLAppShouldDisplayStoryAddNotification = @"MRSLAppShouldDisplayStoryAddNotification";
+NSString *const MRSLAppShouldDisplayMorselAddNotification = @"MRSLAppShouldDisplayMorselAddNotification";
 NSString *const MRSLAppShouldDisplayMenuBarNotification = @"MRSLAppShouldDisplayMenuBarNotification";
 NSString *const MRSLAppShouldDisplayUserProfileNotification = @"MRSLAppShouldDisplayUserProfileNotification";
 

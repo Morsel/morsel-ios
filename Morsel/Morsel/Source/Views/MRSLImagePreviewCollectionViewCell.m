@@ -10,14 +10,14 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-#import "MRSLMorselImageView.h"
+#import "MRSLItemImageView.h"
 
 #import "MRSLMediaItem.h"
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 
 @interface MRSLImagePreviewCollectionViewCell ()
 
-@property (weak, nonatomic) IBOutlet MRSLMorselImageView *previewImageView;
+@property (weak, nonatomic) IBOutlet MRSLItemImageView *previewImageView;
 
 @end
 
@@ -29,9 +29,9 @@
 
         [self reset];
 
-        if ([mediaPreviewItem isKindOfClass:[MRSLMorsel class]]) {
-            MRSLMorsel *morsel = (MRSLMorsel *)mediaPreviewItem;
-            _previewImageView.morsel = morsel;
+        if ([mediaPreviewItem isKindOfClass:[MRSLItem class]]) {
+            MRSLItem *item = (MRSLItem *)mediaPreviewItem;
+            _previewImageView.item = item;
         } else if ([mediaPreviewItem isKindOfClass:[MRSLMediaItem class]]) {
             MRSLMediaItem *mediaItem = (MRSLMediaItem *)mediaPreviewItem;
             self.previewImageView.image = mediaItem.mediaCroppedImage;
@@ -40,7 +40,7 @@
 }
 
 - (void)reset {
-    self.previewImageView.morsel = nil;
+    self.previewImageView.item = nil;
 }
 
 @end

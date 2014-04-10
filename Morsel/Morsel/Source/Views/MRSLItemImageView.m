@@ -1,30 +1,30 @@
 //
-//  MRSLMorselImageView.m
+//  MRSLItemImageView.m
 //  Morsel
 //
 //  Created by Javier Otero on 3/13/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLMorselImageView.h"
+#import "MRSLItemImageView.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 
-@interface MRSLMorselImageView ()
+@interface MRSLItemImageView ()
 
 @property (strong, nonatomic) SDWebImageManager *webImageManager;
 
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicatorView;
 
-@property (strong, nonatomic) UIImageView *emptyStoryStateView;
+@property (strong, nonatomic) UIImageView *emptyMorselStateView;
 
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
 
 @end
 
-@implementation MRSLMorselImageView
+@implementation MRSLItemImageView
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -43,18 +43,18 @@
     [self addSubview:_activityIndicatorView];
 }
 
-- (void)displayEmptyStoryState {
-    if (!_emptyStoryStateView) {
+- (void)displayEmptyMorselState {
+    if (!_emptyMorselStateView) {
         [self setBorderWithColor:[UIColor morselDarkContent]
                         andWidth:1.f];
-        self.emptyStoryStateView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-thumb-story-null"]];
-        [self addSubview:_emptyStoryStateView];
+        self.emptyMorselStateView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-thumb-morsel-null"]];
+        [self addSubview:_emptyMorselStateView];
     }
 }
 
 #pragma mark - Instance Methods
 
-- (void)setDelegate:(id<MRSLMorselImageViewDelegate>)delegate {
+- (void)setDelegate:(id<MRSLItemImageViewDelegate>)delegate {
     _delegate = delegate;
 
     if (!_tapRecognizer && _delegate) {
@@ -66,29 +66,29 @@
     }
 }
 
-- (void)setMorsel:(MRSLMorsel *)morsel {
-    if (_emptyStoryStateView) {
+- (void)setItem:(MRSLItem *)item {
+    if (_emptyMorselStateView) {
         [self removeBorder];
-        [self.emptyStoryStateView removeFromSuperview];
-        self.emptyStoryStateView = nil;
+        [self.emptyMorselStateView removeFromSuperview];
+        self.emptyMorselStateView = nil;
     }
-    if (_morsel != morsel || morsel.isUploading || !morsel) {
-        _morsel = morsel;
+    if (_item != item || item.isUploading || !item) {
+        _item = item;
 
         [self reset];
 
-        if (morsel) {
-            MorselImageSizeType morselSizeType = ([self getWidth] >= MRSLMorselImageLargeDimensionSize) ? MorselImageSizeTypeLarge : MorselImageSizeTypeThumbnail;
-            if (_morsel.morselPhotoURL) {
-                NSURLRequest *morselImageURLRequest = [_morsel morselPictureURLRequestForImageSizeType:morselSizeType];
-                if (!morselImageURLRequest)
+        if (item) {
+            ItemImageSizeType itemSizeType = ([self getWidth] >= MRSLItemImageLargeDimensionSize) ? ItemImageSizeTypeLarge : ItemImageSizeTypeThumbnail;
+            if (_item.itemPhotoURL) {
+                NSURLRequest *itemImageURLRequest = [_item itemPictureURLRequestForImageSizeType:itemSizeType];
+                if (!itemImageURLRequest)
                     return;
                 __weak __typeof(self)weakSelf = self;
-                if (morselSizeType == MorselImageSizeTypeLarge) {
+                if (itemSizeType == ItemImageSizeTypeLarge) {
                     __block BOOL fullSizeImageSet = NO;
                     self.image = [UIImage imageNamed:@"graphic-image-large-placeholder.png"];
 
-                    [_webImageManager downloadWithURL:[_morsel morselPictureURLRequestForImageSizeType:MorselImageSizeTypeThumbnail].URL
+                    [_webImageManager downloadWithURL:[_item itemPictureURLRequestForImageSizeType:ItemImageSizeTypeThumbnail].URL
                                                                options:SDWebImageHighPriority
                                                               progress:nil
                                                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
@@ -97,7 +97,7 @@
                                                                  }
                                                              }];
                     [_activityIndicatorView startAnimating];
-                    [_webImageManager downloadWithURL:morselImageURLRequest.URL
+                    [_webImageManager downloadWithURL:itemImageURLRequest.URL
                                                                options:SDWebImageHighPriority
                                                               progress:nil
                                                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
@@ -105,36 +105,38 @@
                                                                  [weakSelf.activityIndicatorView stopAnimating];
                                                                  weakSelf.image = image;
                                                                  if (error) {
-                                                                     [weakSelf attemptToSetLocalMorselImageForSizeType:morselSizeType
+                                                                     [weakSelf attemptToSetLocalMorselImageForSizeType:itemSizeType
                                                                                                              withError:nil];
                                                                  } else {
-                                                                     if (weakSelf.morsel.morselPhotoFull) {
-                                                                         weakSelf.morsel.morselPhotoFull = nil;
-                                                                         weakSelf.morsel.morselPhotoCropped = nil;
-                                                                         weakSelf.morsel.morselPhotoThumb = nil;
+                                                                     if (weakSelf.item.itemPhotoFull) {
+                                                                         weakSelf.item.itemPhotoFull = nil;
+                                                                         weakSelf.item.itemPhotoCropped = nil;
+                                                                         weakSelf.item.itemPhotoThumb = nil;
                                                                      }
                                                                  }
                                                              }];
                 } else {
-                    [self setImageWithURL:morselImageURLRequest.URL
-                         placeholderImage:[UIImage imageNamed:@"graphic-thumb-story-null"]
-                                  options:SDWebImageHighPriority
-                                completed:nil];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self setImageWithURL:itemImageURLRequest.URL
+                             placeholderImage:[UIImage imageNamed:@"graphic-thumb-morsel-null"]
+                                      options:SDWebImageHighPriority
+                                    completed:nil];
+                    });
                 }
             } else {
-                [self attemptToSetLocalMorselImageForSizeType:morselSizeType
+                [self attemptToSetLocalMorselImageForSizeType:itemSizeType
                                                     withError:nil];
             }
         }
     }
 }
 
-- (void)attemptToSetLocalMorselImageForSizeType:(MorselImageSizeType)morselSizeType
+- (void)attemptToSetLocalMorselImageForSizeType:(ItemImageSizeType)itemSizeType
                                       withError:(NSError *)errorOrNil {
-    if (_morsel.morselPhotoThumb && _morsel.morselPhotoCropped) {
+    if (_item.itemPhotoThumb && _item.itemPhotoCropped) {
         dispatch_async(dispatch_get_main_queue(), ^{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                UIImage *localImage = [UIImage imageWithData:(morselSizeType == MorselImageSizeTypeLarge) ? _morsel.morselPhotoCropped : _morsel.morselPhotoThumb];
+                UIImage *localImage = [UIImage imageWithData:(itemSizeType == ItemImageSizeTypeLarge) ? _item.itemPhotoCropped : _item.itemPhotoThumb];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.image = localImage;
                 });
@@ -152,8 +154,8 @@
 #pragma mark - Private Methods
 
 - (void)displayMorsel {
-    if ([self.delegate respondsToSelector:@selector(morselImageViewDidSelectMorsel:)] && _morsel) {
-        [self.delegate morselImageViewDidSelectMorsel:_morsel];
+    if ([self.delegate respondsToSelector:@selector(itemImageViewDidSelectMorsel:)] && _item) {
+        [self.delegate itemImageViewDidSelectMorsel:_item];
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  MRSLStoryTitleViewController.h
+//  MRSLMorselTitleViewController.h
 //  Morsel
 //
 //  Created by Javier Otero on 3/3/14.
@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStoryAddTitleViewController : MRSLBaseViewController
+@interface MRSLMorselAddTitleViewController : MRSLBaseViewController
 
 @property (nonatomic) BOOL isUserEditingTitle;
 
-@property (strong, nonatomic) NSNumber *postID;
+@property (strong, nonatomic) NSNumber *morselID;
 
 @end

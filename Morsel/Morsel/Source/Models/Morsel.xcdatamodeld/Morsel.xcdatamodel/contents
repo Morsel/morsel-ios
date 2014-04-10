@@ -32,7 +32,7 @@
                 <entry key="relatedByAttribute" value="creator_id"/>
             </userInfo>
         </relationship>
-        <relationship name="morsel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="activities" inverseEntity="MRSLMorsel" syncable="YES"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="activities" inverseEntity="MRSLItem" syncable="YES"/>
         <relationship name="notification" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLNotification" inverseName="activity" inverseEntity="MRSLNotification" syncable="YES"/>
     </entity>
     <entity name="MRSLComment" representedClassName="MRSLComment" syncable="YES">
@@ -52,51 +52,79 @@
                 <entry key="relatedByAttribute" value="userID"/>
             </userInfo>
         </relationship>
-        <relationship name="morsel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="comments" inverseEntity="MRSLMorsel" syncable="YES">
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="comments" inverseEntity="MRSLItem" syncable="YES">
             <userInfo>
-                <entry key="relatedByAttribute" value="morselID"/>
+                <entry key="relatedByAttribute" value="itemID"/>
             </userInfo>
         </relationship>
     </entity>
-    <entity name="MRSLMorsel" representedClassName="MRSLMorsel" syncable="YES">
+    <entity name="MRSLItem" representedClassName="MRSLItem" syncable="YES">
         <attribute name="comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="creator_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="didFailUpload" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="isUploading" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="liked" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="localUUID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="morselDescription" optional="YES" attributeType="String" syncable="YES">
+        <attribute name="itemDescription" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="description"/>
             </userInfo>
         </attribute>
+        <attribute name="itemID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="itemPhotoCropped" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="itemPhotoFull" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="itemPhotoThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="itemPhotoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="liked" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="localUUID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photo_processing" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="sort_order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="activities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="item" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="item" inverseEntity="MRSLComment" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="commentID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="morsel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="items" inverseEntity="MRSLMorsel" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="morselID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLTag" inverseName="items" inverseEntity="MRSLTag" syncable="YES"/>
+    </entity>
+    <entity name="MRSLMorsel" representedClassName="MRSLMorsel" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="draft" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="feedItemID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="morselID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="id"/>
             </userInfo>
         </attribute>
-        <attribute name="morselPhotoCropped" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="morselPhotoFull" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="morselPhotoThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="morselPhotoURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="photo_processing" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="sort_order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="primary_item_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="publishedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="total_comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="total_like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="activities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="morsel" inverseEntity="MRSLActivity" syncable="YES"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="morsel" inverseEntity="MRSLComment" syncable="YES">
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="morsels" inverseEntity="MRSLUser" syncable="YES">
             <userInfo>
-                <entry key="relatedByAttribute" value="commentID"/>
+                <entry key="relatedByAttribute" value="userID"/>
             </userInfo>
         </relationship>
-        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLPost" inverseName="morsels" inverseEntity="MRSLPost" syncable="YES">
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLItem" inverseName="morsel" inverseEntity="MRSLItem" syncable="YES">
             <userInfo>
-                <entry key="relatedByAttribute" value="postID"/>
+                <entry key="relatedByAttribute" value="itemID"/>
             </userInfo>
         </relationship>
-        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLTag" inverseName="morsels" inverseEntity="MRSLTag" syncable="YES"/>
     </entity>
     <entity name="MRSLNotification" representedClassName="MRSLNotification" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES">
@@ -123,36 +151,10 @@
         </attribute>
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="notification" inverseEntity="MRSLActivity" syncable="YES"/>
     </entity>
-    <entity name="MRSLPost" representedClassName="MRSLPost" syncable="YES">
-        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="draft" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
-        <attribute name="feedItemID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="postID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
-            <userInfo>
-                <entry key="mappedKeyName" value="id"/>
-            </userInfo>
-        </attribute>
-        <attribute name="primary_morsel_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="publishedDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="total_comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="total_like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="posts" inverseEntity="MRSLUser" syncable="YES">
-            <userInfo>
-                <entry key="relatedByAttribute" value="userID"/>
-            </userInfo>
-        </relationship>
-        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLMorsel" inverseName="post" inverseEntity="MRSLMorsel" syncable="YES">
-            <userInfo>
-                <entry key="relatedByAttribute" value="morselID"/>
-            </userInfo>
-        </relationship>
-    </entity>
     <entity name="MRSLTag" representedClassName="MRSLTag" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tagID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="tags" inverseEntity="MRSLMorsel" syncable="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="tags" inverseEntity="MRSLItem" syncable="YES"/>
     </entity>
     <entity name="MRSLUser" representedClassName="MRSLUser" syncable="YES">
         <attribute name="auth_token" optional="YES" attributeType="String" syncable="YES"/>
@@ -167,9 +169,9 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="facebook_uid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="morsel_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="profilePhotoFull" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="profilePhotoLarge" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="profilePhotoThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
@@ -188,19 +190,19 @@
                 <entry key="relatedByAttribute" value="commentID"/>
             </userInfo>
         </relationship>
-        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLPost" inverseName="creator" inverseEntity="MRSLPost" syncable="YES">
+        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="creator" inverseEntity="MRSLMorsel" syncable="YES">
             <userInfo>
-                <entry key="relatedByAttribute" value="postID"/>
+                <entry key="relatedByAttribute" value="morselID"/>
             </userInfo>
         </relationship>
     </entity>
     <elements>
-        <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="165"/>
-        <element name="MRSLComment" positionX="0" positionY="0" width="128" height="28"/>
-        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="373"/>
+        <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="163"/>
+        <element name="MRSLComment" positionX="0" positionY="0" width="128" height="118"/>
+        <element name="MRSLItem" positionX="0" positionY="0" width="128" height="373"/>
+        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="255"/>
         <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="133"/>
-        <element name="MRSLPost" positionX="0" positionY="0" width="128" height="225"/>
-        <element name="MRSLTag" positionX="0" positionY="0" width="128" height="30"/>
-        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="28"/>
+        <element name="MRSLTag" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="358"/>
     </elements>
 </model>

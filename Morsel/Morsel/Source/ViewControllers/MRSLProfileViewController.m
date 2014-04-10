@@ -11,10 +11,10 @@
 #import "MRSLAPIClient.h"
 #import "MRSLFeedCollectionViewCell.h"
 #import "MRSLProfileImageView.h"
-#import "MRSLStoryEditViewController.h"
+#import "MRSLMorselEditViewController.h"
 
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
-#import "MRSLPost.h"
 #import "MRSLUser.h"
 
 @interface MRSLProfileViewController ()
@@ -24,18 +24,18 @@ NSFetchedResultsControllerDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *profileCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *morselCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *itemCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userTitleLabel;
 @property (weak, nonatomic) IBOutlet UIView *nullStateView;
-@property (weak, nonatomic) IBOutlet UIImageView *morselIconView;
+@property (weak, nonatomic) IBOutlet UIImageView *itemIconView;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
-@property (strong, nonatomic) NSMutableArray *morsels;
-@property (strong, nonatomic) NSFetchedResultsController *userPostsFetchedResultsController;
+@property (strong, nonatomic) NSMutableArray *items;
+@property (strong, nonatomic) NSFetchedResultsController *userMorselsFetchedResultsController;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
-@property (strong, nonatomic) MRSLMorsel *selectedMorsel;
+@property (strong, nonatomic) MRSLItem *selectedMorsel;
 
 @end
 
@@ -53,7 +53,7 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.morsels = [NSMutableArray array];
+    self.items = [NSMutableArray array];
 
     if (!_user) self.user = [MRSLUser currentUser];
 
@@ -62,7 +62,7 @@ NSFetchedResultsControllerDelegate>
     self.refreshControl = [[UIRefreshControl alloc] init];
     _refreshControl.tintColor = [UIColor morselLightContent];
     [_refreshControl addTarget:self
-                        action:@selector(refreshUserPostsAndProfile)
+                        action:@selector(refreshUserMorselsAndProfile)
               forControlEvents:UIControlEventValueChanged];
 
     [self.profileCollectionView addSubview:_refreshControl];
@@ -74,35 +74,35 @@ NSFetchedResultsControllerDelegate>
 
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
-    if (!self.userPostsFetchedResultsController) {
-        [self setupUserPostsFetchRequest];
+    if (!self.userMorselsFetchedResultsController) {
+        [self setupUserMorselsFetchRequest];
         [self populateContent];
-        [self refreshUserPostsAndProfile];
+        [self refreshUserMorselsAndProfile];
     }
 
     self.profileImageView.user = _user;
     self.userNameLabel.text = _user.fullName;
     self.userTitleLabel.text = _user.title;
     self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
-    self.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
+    self.itemCountLabel.text = [NSString stringWithFormat:@"%i", _user.item_countValue];
     [self layoutUserContent];
 }
 
 #pragma mark - Action Methods
 
-- (IBAction)displayStoryAdd {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayStoryAddNotification
+- (IBAction)displayMorselAdd {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayMorselAddNotification
                                                         object:nil];
 }
 
 #pragma mark - Private Methods
 
-- (void)setupUserPostsFetchRequest {
-    if (_userPostsFetchedResultsController) return;
+- (void)setupUserMorselsFetchRequest {
+    if (_userMorselsFetchedResultsController) return;
 
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(post.creator.userID == %i) AND (post.draft == NO)", [_user.userID intValue]];
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(morsel.creator.userID == %i) AND (morsel.draft == NO)", [_user.userID intValue]];
 
-    self.userPostsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+    self.userMorselsFetchedResultsController = [MRSLItem MR_fetchAllSortedBy:@"creationDate"
                                                                    ascending:NO
                                                                withPredicate:currentUserPredicate
                                                                      groupBy:nil
@@ -112,40 +112,40 @@ NSFetchedResultsControllerDelegate>
 
 - (void)populateContent {
     NSError *fetchError = nil;
-    [_userPostsFetchedResultsController performFetch:&fetchError];
+    [_userMorselsFetchedResultsController performFetch:&fetchError];
 
-    if (_userPostsFetchedResultsController) {
-        [self.morsels removeAllObjects];
-        [self.morsels addObjectsFromArray:[_userPostsFetchedResultsController fetchedObjects]];
+    if (_userMorselsFetchedResultsController) {
+        [self.items removeAllObjects];
+        [self.items addObjectsFromArray:[_userMorselsFetchedResultsController fetchedObjects]];
     }
 
     [self.profileCollectionView reloadData];
 
     if ([self.user isCurrentUser]) {
-        self.nullStateView.hidden = ([_morsels count] > 0);
+        self.nullStateView.hidden = ([_items count] > 0);
     }
 }
 
 - (void)layoutUserContent {
     [_likeCountLabel sizeToFit];
-    [_morselCountLabel sizeToFit];
-    [_morselIconView setX:[_likeCountLabel getX] + [_likeCountLabel getWidth] + 8.f];
-    [_morselCountLabel setX:[_morselIconView getX] + [_morselIconView getWidth] + 5.f];
+    [_itemCountLabel sizeToFit];
+    [_itemIconView setX:[_likeCountLabel getX] + [_likeCountLabel getWidth] + 8.f];
+    [_itemCountLabel setX:[_itemIconView getX] + [_itemIconView getWidth] + 5.f];
 }
 
-- (void)refreshUserPostsAndProfile {
+- (void)refreshUserMorselsAndProfile {
     __weak __typeof(self)weakSelf = self;
 
-    [_appDelegate.morselApiService getUserProfile:_user
+    [_appDelegate.itemApiService getUserProfile:_user
                                           success:^(id responseObject) {
          if (weakSelf) {
              weakSelf.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
-             weakSelf.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
+             weakSelf.itemCountLabel.text = [NSString stringWithFormat:@"%i", _user.item_countValue];
              [weakSelf layoutUserContent];
          }
      } failure:nil];
 
-    [_appDelegate.morselApiService getUserPosts:_user
+    [_appDelegate.itemApiService getUserMorsels:_user
                                   includeDrafts:NO
                                         success:^(NSArray *responseArray) {
                                             [_refreshControl endRefreshing];
@@ -157,18 +157,18 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_morsels count];
+    return [_items count];
 }
 
 - (MRSLFeedCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
+    MRSLItem *item = [_items objectAtIndex:indexPath.row];
 
-    MRSLFeedCollectionViewCell *morselCell = [self.profileCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselCell"
+    MRSLFeedCollectionViewCell *itemCell = [self.profileCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_ItemCell"
                                                                                                      forIndexPath:indexPath];
-    morselCell.delegate = self;
-    morselCell.morsel = morsel;
+    itemCell.delegate = self;
+    itemCell.item = item;
 
-    return morselCell;
+    return itemCell;
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

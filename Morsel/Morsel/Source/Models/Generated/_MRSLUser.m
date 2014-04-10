@@ -11,9 +11,9 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.email = @"email",
 	.facebook_uid = @"facebook_uid",
 	.first_name = @"first_name",
+	.item_count = @"item_count",
 	.last_name = @"last_name",
 	.like_count = @"like_count",
-	.morsel_count = @"morsel_count",
 	.profilePhotoFull = @"profilePhotoFull",
 	.profilePhotoLarge = @"profilePhotoLarge",
 	.profilePhotoThumb = @"profilePhotoThumb",
@@ -27,7 +27,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 const struct MRSLUserRelationships MRSLUserRelationships = {
 	.activities = @"activities",
 	.comments = @"comments",
-	.posts = @"posts",
+	.morsels = @"morsels",
 };
 
 const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
@@ -64,13 +64,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"like_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
+	if ([key isEqualToString:@"item_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"item_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"morsel_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"morsel_count"];
+	if ([key isEqualToString:@"like_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -154,6 +154,32 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
+@dynamic item_count;
+
+
+
+- (int32_t)item_countValue {
+	NSNumber *result = [self item_count];
+	return [result intValue];
+}
+
+- (void)setItem_countValue:(int32_t)value_ {
+	[self setItem_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveItem_countValue {
+	NSNumber *result = [self primitiveItem_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveItem_countValue:(int32_t)value_ {
+	[self setPrimitiveItem_count:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
 @dynamic last_name;
 
 
@@ -181,32 +207,6 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 - (void)setPrimitiveLike_countValue:(int32_t)value_ {
 	[self setPrimitiveLike_count:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
-@dynamic morsel_count;
-
-
-
-- (int32_t)morsel_countValue {
-	NSNumber *result = [self morsel_count];
-	return [result intValue];
-}
-
-- (void)setMorsel_countValue:(int32_t)value_ {
-	[self setMorsel_count:[NSNumber numberWithInt:value_]];
-}
-
-- (int32_t)primitiveMorsel_countValue {
-	NSNumber *result = [self primitiveMorsel_count];
-	return [result intValue];
-}
-
-- (void)setPrimitiveMorsel_countValue:(int32_t)value_ {
-	[self setPrimitiveMorsel_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -305,15 +305,15 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 }
 	
 
-@dynamic posts;
+@dynamic morsels;
 
 	
-- (NSMutableSet*)postsSet {
-	[self willAccessValueForKey:@"posts"];
+- (NSMutableSet*)morselsSet {
+	[self willAccessValueForKey:@"morsels"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"posts"];
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"morsels"];
   
-	[self didAccessValueForKey:@"posts"];
+	[self didAccessValueForKey:@"morsels"];
 	return result;
 }
 	

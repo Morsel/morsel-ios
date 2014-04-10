@@ -25,13 +25,6 @@
                            alpha:1.f];
 }
 
-+ (UIColor *)morselYellow {
-    return [UIColor colorWithRed:240.f / 255.f
-                           green:207.f / 255.f
-                            blue:105.f / 255.f
-                           alpha:1.f];
-}
-
 + (UIColor *)morselUserInterface {
     return [UIColor colorWithRed:251.f / 255.f
                            green:250.f / 255.f

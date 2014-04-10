@@ -412,14 +412,14 @@ MRSLCapturePreviewsViewControllerDelegate>
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         if (weakSelf) {
             UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
-                                                               scaled:CGSizeMake(MRSLMorselImageFullDimensionSize, MRSLMorselImageFullDimensionSize)];
-            mediaItem.mediaThumbImage = [croppedFullSizeImage thumbnailImage:MRSLMorselImageThumbDimensionSize
+                                                               scaled:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)];
+            mediaItem.mediaThumbImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageThumbDimensionSize
                                                                interpolationQuality:kCGInterpolationHigh];
             fullSizeImage = nil;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 
                 mediaItem.mediaFullImageData = UIImageJPEGRepresentation(croppedFullSizeImage, 1.f);
-                mediaItem.mediaCroppedImage = [croppedFullSizeImage thumbnailImage:MRSLMorselImageLargeDimensionSize
+                mediaItem.mediaCroppedImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageLargeDimensionSize
                                                               interpolationQuality:kCGInterpolationHigh];
                 weakSelf.processingImageCount--;
                 [weakSelf updateFinishButtonAvailability];

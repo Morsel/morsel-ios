@@ -12,6 +12,6 @@
 
 @interface MRSLModalLikersViewController : MRSLBaseModalViewController
 
-@property (weak, nonatomic) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLItem *item;
 
 @end

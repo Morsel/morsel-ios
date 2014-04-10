@@ -13,8 +13,8 @@
 #import <OAuthCore/OAuth+Additions.h>
 #import <Social/Social.h>
 
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
-#import "MRSLPost.h"
 #import "MRSLUser.h"
 
 NS_ENUM(NSUInteger, CreateMorselActionSheet) {
@@ -54,12 +54,10 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
  */
 
 
-@property (strong, nonatomic) MorselSocialSuccessBlock facebookSuccessBlock;
-@property (strong, nonatomic) MorselSocialFailureBlock facebookFailureBlock;
-@property (strong, nonatomic) MorselSocialSuccessBlock twitterSuccessBlock;
-@property (strong, nonatomic) MorselSocialFailureBlock twitterFailureBlock;
-
-@property (weak, nonatomic) UIView *presentingView;
+@property (strong, nonatomic) MRSLSocialSuccessBlock facebookSuccessBlock;
+@property (strong, nonatomic) MRSLSocialFailureBlock facebookFailureBlock;
+@property (strong, nonatomic) MRSLSocialSuccessBlock twitterSuccessBlock;
+@property (strong, nonatomic) MRSLSocialFailureBlock twitterFailureBlock;
 
 @property (strong, nonatomic) ACAccountStore *accountStore;
 @property (strong, nonatomic) NSArray *twitterAccounts;
@@ -90,14 +88,11 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
     return self;
 }
 
-- (void)activateFacebookInView:(UIView *)view
-                       success:(MorselSocialSuccessBlock)successOrNil
-                       failure:(MorselSocialFailureBlock)failureOrNil {
+- (void)activateFacebookWithSuccess:(MRSLSocialSuccessBlock)successOrNil
+                            failure:(MRSLSocialFailureBlock)failureOrNil {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
         ACAccountStore *accountStore = [[ACAccountStore alloc] init];
         NSArray *facebookAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]];
-
-        self.presentingView = view;
 
         if (successOrNil) self.facebookSuccessBlock = successOrNil;
         if (failureOrNil) self.facebookFailureBlock = failureOrNil;
@@ -111,7 +106,7 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                     [strongSelf showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
                 } else {
                     if (failureOrNil) failureOrNil(nil);
-                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Unable to authorize with Facebook. Please try again. Error: %@", [error localizedDescription]]
+                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Unable to authorize with Facebook. Please check your settings."]
                                                     delegate:nil];
                 }
             }];
@@ -125,15 +120,12 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
     }
 }
 
-- (void)activateTwitterInView:(UIView *)view
-                      success:(MorselSocialSuccessBlock)successOrNil
-                      failure:(MorselSocialFailureBlock)failureOrNil {
+- (void)activateTwitterWithSuccess:(MRSLSocialSuccessBlock)successOrNil
+                           failure:(MRSLSocialFailureBlock)failureOrNil {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
         ACAccountStore *accountStore = [[ACAccountStore alloc] init];
         //  Get a list of their Twitter accounts
         NSArray *twitterAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]];
-
-        self.presentingView = view;
 
         if (successOrNil) self.twitterSuccessBlock = successOrNil;
         if (failureOrNil) self.twitterFailureBlock = failureOrNil;
@@ -147,7 +139,7 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                     [strongSelf showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
                 } else {
                     if (failureOrNil) failureOrNil(nil);
-                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Unable to authorize with Twitter. Please try again. Error: %@", [error localizedDescription]]
+                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Unable to authorize with Twitter. Please check your settings."]
                                                     delegate:nil];
                 }
             }];
@@ -161,37 +153,38 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
     }
 }
 
-- (void)shareMorselToFacebook:(MRSLMorsel *)morsel
+- (void)shareMorselToFacebook:(MRSLItem *)item
              inViewController:(UIViewController *)viewController
-                      success:(MorselSocialSuccessBlock)successOrNil
-                       cancel:(MorselSocialCancelBlock)cancelBlockOrNil {
-    [self shareMorsel:morsel
+                      success:(MRSLSocialSuccessBlock)successOrNil
+                       cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
+    [self shareMorsel:item
             toService:SLServiceTypeFacebook
      inViewController:viewController
               success:successOrNil
                cancel:cancelBlockOrNil];
 }
 
-- (void)shareMorselToTwitter:(MRSLMorsel *)morsel
+- (void)shareMorselToTwitter:(MRSLItem *)item
             inViewController:(UIViewController *)viewController
-                     success:(MorselSocialSuccessBlock)successOrNil
-                      cancel:(MorselSocialCancelBlock)cancelBlockOrNil {
-    [self shareMorsel:morsel
+                     success:(MRSLSocialSuccessBlock)successOrNil
+                      cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
+    [self shareMorsel:item
             toService:SLServiceTypeTwitter
      inViewController:viewController
               success:successOrNil
                cancel:cancelBlockOrNil];
 }
 
-- (void)shareMorsel:(MRSLMorsel *)morsel
+- (void)shareMorsel:(MRSLItem *)item
           toService:(NSString *)serviceType
    inViewController:(UIViewController *)viewController
-            success:(MorselSocialSuccessBlock)successOrNil
-             cancel:(MorselSocialCancelBlock)cancelBlockOrNil {
+            success:(MRSLSocialSuccessBlock)successOrNil
+             cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
     if ([SLComposeViewController isAvailableForServiceType:serviceType]) {
         SLComposeViewController *slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:serviceType];
-        [slComposerSheet setInitialText:[NSString stringWithFormat:@"%@", morsel.post.title]];
-        [slComposerSheet addURL:[NSURL URLWithString:morsel.url]];
+        NSString *userNameOrTwitterHandle =  (item.morsel.creator.twitter_username && [serviceType isEqualToString:SLServiceTypeTwitter]) ? [NSString stringWithFormat:@"@%@", item.morsel.creator.twitter_username] : item.morsel.creator.fullName;
+        [slComposerSheet setInitialText:[NSString stringWithFormat:@"‟%@” from %@ on %@", item.morsel.title, userNameOrTwitterHandle, ([serviceType isEqualToString:SLServiceTypeFacebook]) ? @"Morsel" : @"@eatmorsel"]];
+        [slComposerSheet addURL:[NSURL URLWithString:item.morsel.url]];
         [viewController presentViewController:slComposerSheet
                                      animated:YES
                                    completion:nil];
@@ -201,7 +194,15 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
             } else {
                 if (cancelBlockOrNil) cancelBlockOrNil();
             }
+            if (![UIDevice currentDeviceSystemVersionIsAtLeastIOS7] && [serviceType isEqualToString:SLServiceTypeTwitter]) {
+                // Corrects an issue where Twitter compose sheet is not correctly dismissing in iOS 6. Known Apple bug that was resolved in iOS 7.
+                [viewController dismissViewControllerAnimated:YES
+                                                   completion:nil];
+            }
         }];
+    } else {
+        [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Please add a %@ Account to this device", (serviceType == SLServiceTypeFacebook) ? @"Facebook" : @"Twitter"]
+                                        delegate:nil];
     }
 }
 
@@ -245,13 +246,13 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
 
         [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
         [actionSheet setTag:actionSheetTag];
-        [actionSheet showInView:_presentingView];
+        [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
     });
 }
 
 #pragma mark - Private Methods
 
-- (void)performReverseAuthForTwitterAccount:(ACAccount *)account withBlock:(MorselDataURLResponseErrorBlock)block {
+- (void)performReverseAuthForTwitterAccount:(ACAccount *)account withBlock:(MRSLDataURLResponseErrorBlock)block {
     NSParameterAssert(account);
 
     [self requestReverseAuthenticationSignatureWithBlock:^(NSData *reverseAuthenticationData, NSURLResponse *reverseAuthenticationResponse, NSError *reverseAuthenticationError) {
@@ -294,7 +295,7 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
 }
 
 //  Step 1
-- (void)requestReverseAuthenticationSignatureWithBlock:(MorselDataURLResponseErrorBlock)block {
+- (void)requestReverseAuthenticationSignatureWithBlock:(MRSLDataURLResponseErrorBlock)block {
     NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/oauth/request_token"];
     NSString *method = @"POST";
     NSData *bodyData = [@"x_auth_mode=reverse_auth" dataUsingEncoding:NSUTF8StringEncoding];
@@ -313,7 +314,7 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
 }
 
 // Step 2
-- (void)requestAccessTokenForAccount:(ACAccount *)account signature:(NSString *)signedReverseAuthenticationSignature withBlock:(MorselDataURLResponseErrorBlock)block {
+- (void)requestAccessTokenForAccount:(ACAccount *)account signature:(NSString *)signedReverseAuthenticationSignature withBlock:(MRSLDataURLResponseErrorBlock)block {
     NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"];
     NSDictionary *params = @{ @"x_reverse_auth_target": TWITTER_CONSUMER_KEY,
                               @"x_reverse_auth_parameters": signedReverseAuthenticationSignature };
@@ -349,20 +350,20 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                 //  Get _facebookAccounts again after access has been granted, otherwise the account's credential will be nil
                 _facebookAccounts = [_accountStore accountsWithAccountType:[_accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]];
                 ACAccount *selectedAccount = _facebookAccounts[buttonIndex];
-                [_appDelegate.morselApiService createFacebookAuthorizationWithToken:[[selectedAccount credential] oauthToken]
-                                                                            forUser:[MRSLUser currentUser]
-                                                                            success:^(id responseObject) {
-                                                                                [_appDelegate.morselApiService getUserProfile:[MRSLUser currentUser]
-                                                                                                                      success:nil
-                                                                                                                      failure:nil];
-                                                                                [[MRSLEventManager sharedManager] track:@"User Authorized with Facebook"
-                                                                                                             properties:@{@"view": @"Social"}];
-                                                                                if (_facebookSuccessBlock) _facebookSuccessBlock(YES);
-                                                                            } failure:^(NSError *error) {
-                                                                                [[MRSLEventManager sharedManager] track:@"User Unable to Authorize with Facebook"
-                                                                                                             properties:@{@"view": @"Social"}];
-                                                                                if (_facebookFailureBlock) _facebookFailureBlock(error);
-                                                                            }];
+                [_appDelegate.itemApiService createFacebookAuthorizationWithToken:[[selectedAccount credential] oauthToken]
+                                                                          forUser:[MRSLUser currentUser]
+                                                                          success:^(id responseObject) {
+                                                                              [_appDelegate.itemApiService getUserProfile:[MRSLUser currentUser]
+                                                                                                                  success:nil
+                                                                                                                  failure:nil];
+                                                                              [[MRSLEventManager sharedManager] track:@"User Authorized with Facebook"
+                                                                                                           properties:@{@"view": @"Social"}];
+                                                                              if (_facebookSuccessBlock) _facebookSuccessBlock(YES);
+                                                                          } failure:^(NSError *error) {
+                                                                              [[MRSLEventManager sharedManager] track:@"User Unable to Authorize with Facebook"
+                                                                                                           properties:@{@"view": @"Social"}];
+                                                                              if (_facebookFailureBlock) _facebookFailureBlock(error);
+                                                                          }];
             }
         }];
     } else if (actionSheet.tag == CreateMorselActionSheetTwitterAccounts) {
@@ -374,21 +375,21 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
         [self performReverseAuthForTwitterAccount:selectedAccount
                                         withBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
                                             NSDictionary *params = [NSURL ab_parseURLQueryString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-                                            [_appDelegate.morselApiService createTwitterAuthorizationWithToken:params[@"oauth_token"]
-                                                                                                        secret:params[@"oauth_token_secret"]
-                                                                                                       forUser:[MRSLUser currentUser]
-                                                                                                       success:^(id responseObject) {
-                                                                                                           [_appDelegate.morselApiService getUserProfile:[MRSLUser currentUser]
-                                                                                                                                                 success:nil
-                                                                                                                                                 failure:nil];
-                                                                                                           [[MRSLEventManager sharedManager] track:@"User Authorized with Twitter"
-                                                                                                                                        properties:@{@"view": @"Social"}];
-                                                                                                           if (_twitterSuccessBlock) _twitterSuccessBlock(YES);
-                                                                                                       } failure:^(NSError *error) {
-                                                                                                           [[MRSLEventManager sharedManager] track:@"User Unable to Authorize with Twitter"
-                                                                                                                                        properties:@{@"view": @"Social"}];
-                                                                                                           if (_twitterFailureBlock) _twitterFailureBlock(error);
-                                                                                                       }];
+                                            [_appDelegate.itemApiService createTwitterAuthorizationWithToken:params[@"oauth_token"]
+                                                                                                      secret:params[@"oauth_token_secret"]
+                                                                                                     forUser:[MRSLUser currentUser]
+                                                                                                     success:^(id responseObject) {
+                                                                                                         [_appDelegate.itemApiService getUserProfile:[MRSLUser currentUser]
+                                                                                                                                             success:nil
+                                                                                                                                             failure:nil];
+                                                                                                         [[MRSLEventManager sharedManager] track:@"User Authorized with Twitter"
+                                                                                                                                      properties:@{@"view": @"Social"}];
+                                                                                                         if (_twitterSuccessBlock) _twitterSuccessBlock(YES);
+                                                                                                     } failure:^(NSError *error) {
+                                                                                                         [[MRSLEventManager sharedManager] track:@"User Unable to Authorize with Twitter"
+                                                                                                                                      properties:@{@"view": @"Social"}];
+                                                                                                         if (_twitterFailureBlock) _twitterFailureBlock(error);
+                                                                                                     }];
                                         }];
     }
 }

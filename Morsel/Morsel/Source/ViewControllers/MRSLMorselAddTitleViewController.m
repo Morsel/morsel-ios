@@ -1,46 +1,46 @@
 //
-//  MRSLStoryTitleViewController.m
+//  MRSLMorselTitleViewController.m
 //  Morsel
 //
 //  Created by Javier Otero on 3/3/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLStoryAddTitleViewController.h"
+#import "MRSLMorselAddTitleViewController.h"
 
 #import <GCPlaceholderTextView/GCPlaceholderTextView.h>
 
-#import "MRSLStoryEditViewController.h"
+#import "MRSLMorselEditViewController.h"
 
-#import "MRSLPost.h"
+#import "MRSLMorsel.h"
 
-@interface MRSLStoryAddTitleViewController ()
+@interface MRSLMorselAddTitleViewController ()
 <UITextViewDelegate>
 
-@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *storyTitleTextView;
+@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *morselTitleTextView;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleCountLimitLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titlePlaceholderLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButtonItem;
 
-@property (weak, nonatomic) MRSLPost *post;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end
 
-@implementation MRSLStoryAddTitleViewController
+@implementation MRSLMorselAddTitleViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self getOrLoadPostIfExists];
+    [self getOrLoadMorselIfExists];
 
-    if (_post) {
-        self.storyTitleTextView.text = self.post.title;
-        [self textViewDidChange:_storyTitleTextView];
+    if (_morsel) {
+        self.morselTitleTextView.text = self.morsel.title;
+        [self textViewDidChange:_morselTitleTextView];
     }
 
-    self.storyTitleTextView.placeholder = @"What are you working on?";
-    [self.storyTitleTextView becomeFirstResponder];
+    self.morselTitleTextView.placeholder = @"What are you working on?";
+    [self.morselTitleTextView becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -51,44 +51,42 @@
 
 #pragma mark - Getter Methods
 
-- (MRSLPost *)getOrLoadPostIfExists {
-    if (_postID) self.post = [MRSLPost MR_findFirstByAttribute:MRSLPostAttributes.postID
-                                                     withValue:_postID];
-    return _post;
+- (MRSLMorsel *)getOrLoadMorselIfExists {
+    if (_morselID) self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                     withValue:_morselID];
+    return _morsel;
 }
 
 #pragma mark - Action Methods
 
 - (IBAction)done:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Done"
-                                 properties:@{@"view": @"Add Story Title"}];
+                                 properties:@{@"view": @"Add Morsel Title"}];
     if (_isUserEditingTitle) {
-        self.post = [self getOrLoadPostIfExists];
-        if (![self.post.title isEqualToString:self.storyTitleTextView.text]) {
-            self.post.title = self.storyTitleTextView.text;
-            [_appDelegate.morselApiService updatePost:_post
+        self.morsel = [self getOrLoadMorselIfExists];
+        if (![self.morsel.title isEqualToString:self.morselTitleTextView.text]) {
+            self.morsel.title = self.morselTitleTextView.text;
+            [_appDelegate.itemApiService updateMorsel:_morsel
                                               success:nil
-                                              failure:nil
-                                       postToFacebook:NO
-                                        postToTwitter:NO];
+                                              failure:nil];
         }
         [self.navigationController popViewControllerAnimated:YES];
     } else {
-        self.post = [MRSLPost MR_createEntity];
-        _post.draft = @YES;
-        _post.title = self.storyTitleTextView.text;
+        self.morsel = [MRSLMorsel MR_createEntity];
+        _morsel.draft = @YES;
+        _morsel.title = self.morselTitleTextView.text;
 
-        [_appDelegate.morselApiService createPost:_post
+        [_appDelegate.itemApiService createMorsel:_morsel
                                           success:^(id responseObject) {
-            MRSLStoryEditViewController *editStoryVC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryEditViewController"];
-            editStoryVC.shouldPresentMediaCapture = YES;
-            editStoryVC.postID = _post.postID;
-            [self.navigationController pushViewController:editStoryVC
+            MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
+            editMorselVC.shouldPresentMediaCapture = YES;
+            editMorselVC.morselID = _morsel.morselID;
+            [self.navigationController pushViewController:editMorselVC
                                                  animated:YES];
         } failure:^(NSError *error) {
-            [UIAlertView showAlertViewForErrorString:@"Unable to create Post! Please try again."
+            [UIAlertView showAlertViewForErrorString:@"Unable to create Morsel! Please try again."
                                             delegate:nil];
-            [_post MR_deleteEntity];
+            [_morsel MR_deleteEntity];
         }];
     }
 }

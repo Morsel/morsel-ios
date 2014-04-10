@@ -13,8 +13,8 @@
 @optional
 - (void)feedShareCollectionViewCellDidSelectShareFacebook;
 - (void)feedShareCollectionViewCellDidSelectShareTwitter;
-- (void)feedShareCollectionViewCellDidSelectPreviousStory;
-- (void)feedShareCollectionViewCellDidSelectNextStory;
+- (void)feedShareCollectionViewCellDidSelectPreviousMorsel;
+- (void)feedShareCollectionViewCellDidSelectNextMorsel;
 
 @end
 
@@ -22,6 +22,6 @@
 
 @property (weak, nonatomic) id <MRSLFeedShareCollectionViewCellDelegate> delegate;
 
-@property (weak, nonatomic) MRSLPost *post;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end

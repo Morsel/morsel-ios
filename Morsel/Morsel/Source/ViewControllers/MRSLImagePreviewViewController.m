@@ -10,7 +10,7 @@
 
 #import "MRSLImagePreviewCollectionViewCell.h"
 
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 
 @interface MRSLImagePreviewViewController ()
 <UICollectionViewDataSource,
@@ -71,7 +71,7 @@ UICollectionViewDelegate>
 
 - (void)setupControls {
     id firstMediaItem = [_previewMedia firstObject];
-    if ([firstMediaItem isKindOfClass:[MRSLMorsel class]]) {
+    if ([firstMediaItem isKindOfClass:[MRSLItem class]]) {
         self.deleteButton.hidden = YES;
     }
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];

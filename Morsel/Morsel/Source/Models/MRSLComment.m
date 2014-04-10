@@ -1,6 +1,6 @@
 #import "MRSLComment.h"
 
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 #import "MRSLUser.h"
 
 @interface MRSLComment ()
@@ -10,14 +10,14 @@
 @implementation MRSLComment
 
 - (void)didImport:(id)data {
-    if (![data[@"morsel_id"] isEqual:[NSNull null]]) {
-        NSNumber *morselID = data[@"morsel_id"];
-        MRSLMorsel *potentialMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                withValue:morselID
+    if (![data[@"item_id"] isEqual:[NSNull null]]) {
+        NSNumber *itemID = data[@"item_id"];
+        MRSLItem *potentialMorsel = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                withValue:itemID
                                                                 inContext:self.managedObjectContext];
         if (potentialMorsel) {
-            self.morsel = potentialMorsel;
-            [self.morsel addCommentsObject:self];
+            self.item = potentialMorsel;
+            [self.item addCommentsObject:self];
         }
     }
     if (![data[@"created_at"] isEqual:[NSNull null]]) {

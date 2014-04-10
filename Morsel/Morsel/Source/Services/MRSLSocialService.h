@@ -16,22 +16,20 @@
 
 + (instancetype)sharedService;
 
-- (void)activateFacebookInView:(UIView *)view
-                       success:(MorselSocialSuccessBlock)successOrNil
-                       failure:(MorselSocialFailureBlock)failureOrNil;
+- (void)activateFacebookWithSuccess:(MRSLSocialSuccessBlock)successOrNil
+                       failure:(MRSLSocialFailureBlock)failureOrNil;
 
-- (void)activateTwitterInView:(UIView *)view
-                      success:(MorselSocialSuccessBlock)successOrNil
-                      failure:(MorselSocialFailureBlock)failureOrNil;
+- (void)activateTwitterWithSuccess:(MRSLSocialSuccessBlock)successOrNil
+                      failure:(MRSLSocialFailureBlock)failureOrNil;
 
-- (void)shareMorselToFacebook:(MRSLMorsel *)morsel
+- (void)shareMorselToFacebook:(MRSLItem *)item
              inViewController:(UIViewController *)viewController
-                      success:(MorselSocialSuccessBlock)successOrNil
-                       cancel:(MorselSocialCancelBlock)cancelBlockOrNil;
+                      success:(MRSLSocialSuccessBlock)successOrNil
+                       cancel:(MRSLSocialCancelBlock)cancelBlockOrNil;
 
-- (void)shareMorselToTwitter:(MRSLMorsel *)morsel
+- (void)shareMorselToTwitter:(MRSLItem *)item
             inViewController:(UIViewController *)viewController
-                     success:(MorselSocialSuccessBlock)successOrNil
-                      cancel:(MorselSocialCancelBlock)cancelBlockOrNil;
+                     success:(MRSLSocialSuccessBlock)successOrNil
+                      cancel:(MRSLSocialCancelBlock)cancelBlockOrNil;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  MRSLStoryListViewController.h
+//  MRSLMorselListViewController.h
 //  Morsel
 //
 //  Created by Javier Otero on 3/3/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStoryAddViewController : MRSLBaseViewController
+@interface MRSLMorselAddViewController : MRSLBaseViewController
 
 @end

@@ -82,7 +82,7 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
 
     self.activityView.hidden = NO;
 
-    [_appDelegate.morselApiService signInUserWithEmail:_emailTextField.text
+    [_appDelegate.itemApiService signInUserWithEmail:_emailTextField.text
                                           andPassword:_passwordTextField.text
                                               success:nil
                                               failure:^(NSError *error)

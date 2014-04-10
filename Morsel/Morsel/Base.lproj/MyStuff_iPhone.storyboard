@@ -25,14 +25,14 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_PostCell" id="YXD-1O-SKD" customClass="MRSLStoryCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselCell" id="YXD-1O-SKD" customClass="MRSLMorselCollectionViewCell">
                                         <rect key="frame" x="0.0" y="30" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="MLC-E9-qX7" customClass="MRSLMorselImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="MLC-E9-qX7" customClass="MRSLItemImageView">
                                                     <rect key="frame" x="20" y="5" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
@@ -59,10 +59,10 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <outlet property="postCountLabel" destination="nGo-mK-uXX" id="BvK-J4-aPi"/>
-                                            <outlet property="postPipeView" destination="Nt1-J7-moL" id="ags-vS-9Jw"/>
-                                            <outlet property="postThumbnailView" destination="MLC-E9-qX7" id="eEp-8i-BUp"/>
-                                            <outlet property="postTitleLabel" destination="oZM-HW-UDi" id="MOm-tZ-bcw"/>
+                                            <outlet property="morselCountLabel" destination="nGo-mK-uXX" id="V36-ZX-tA7"/>
+                                            <outlet property="morselPipeView" destination="Nt1-J7-moL" id="MgL-ZT-8vO"/>
+                                            <outlet property="morselThumbnailView" destination="MLC-E9-qX7" id="Sti-Bi-pbz"/>
+                                            <outlet property="morselTitleLabel" destination="oZM-HW-UDi" id="fPb-kX-J8u"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -108,14 +108,14 @@
                                         <rect key="frame" x="0.0" y="94" width="250" height="71"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <attributedString key="attributedText">
-                                            <fragment content="You haven’t told any stories yet! Why not ">
+                                            <fragment content="You haven’t made any morsels yet! Why not ">
                                                 <attributes>
                                                     <color key="NSColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="17" name="Helvetica-Light"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                 </attributes>
                                             </fragment>
-                                            <fragment content="tell a new Story">
+                                            <fragment content="make one now">
                                                 <attributes>
                                                     <color key="NSColor" red="0.90980392694473267" green="0.3803921639919281" blue="0.26666668057441711" alpha="1" colorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="17" name="Helvetica-Light"/>
@@ -137,7 +137,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
                                         <connections>
-                                            <action selector="displayStoryAdd" destination="mz6-S6-cdL" eventType="touchUpInside" id="rkb-ti-QvS"/>
+                                            <action selector="displayMorselAdd" destination="mz6-S6-cdL" eventType="touchUpInside" id="vTj-zc-qaG"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -149,8 +149,8 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="My Stuff" id="OZ1-SV-pcZ"/>
                     <connections>
+                        <outlet property="morselCollectionView" destination="2vj-23-poE" id="P5m-R8-d8w"/>
                         <outlet property="nullStateView" destination="SWX-oZ-bRv" id="KbY-Xo-Ng7"/>
-                        <outlet property="postCollectionView" destination="2vj-23-poE" id="2cC-Rc-Fai"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V9s-EZ-Vv0" userLabel="First Responder" sceneMemberID="firstResponder"/>

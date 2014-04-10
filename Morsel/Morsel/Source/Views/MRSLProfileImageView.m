@@ -83,10 +83,9 @@
         UIImage *scaledImage = [image thumbnailImage:[self getWidth]
                                 interpolationQuality:kCGInterpolationHigh];
 
-        dispatch_async(dispatch_get_main_queue(), ^
-                       {
-                           self.image = scaledImage;
-                       });
+        dispatch_async(dispatch_get_main_queue(), ^ {
+            self.image = scaledImage;
+        });
     });
 }
 
