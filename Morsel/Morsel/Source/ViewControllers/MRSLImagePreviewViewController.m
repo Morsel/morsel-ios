@@ -54,6 +54,14 @@ UICollectionViewDelegate>
                                             withAnimation:UIStatusBarAnimationSlide];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationSlide;
+}
+
 - (void)setPreviewMedia:(NSMutableArray *)media andStartingIndex:(NSUInteger)index {
     self.currentIndex = index;
     self.previewMedia = media;

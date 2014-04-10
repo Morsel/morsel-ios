@@ -14,6 +14,7 @@
 
 #import "MRSLComment.h"
 #import "MRSLMorsel.h"
+#import "MRSLPost.h"
 
 static const CGFloat MRSLDefaultCommentLabelHeight = 14.f;
 static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
@@ -80,6 +81,11 @@ NSFetchedResultsControllerDelegate>
     if (_morsel) {
         if (_commentInputTextView.text.length > 0) {
             [_commentInputTextView resignFirstResponder];
+            [[MRSLEventManager sharedManager] track:@"Tapped Add Comment"
+                                         properties:@{@"view": @"main_feed",
+                                                      @"post_id": NSNullIfNil(_morsel.post.postID),
+                                                      @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                                      @"comment_count": NSNullIfNil(_morsel.comment_count)}];
             [_appDelegate.morselApiService postCommentWithDescription:_commentInputTextView.text
                                                              toMorsel:_morsel
                                                               success:^(id responseObject) {

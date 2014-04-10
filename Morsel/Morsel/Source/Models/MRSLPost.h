@@ -4,5 +4,6 @@
 
 - (NSDate *)latestUpdatedDate;
 - (NSArray *)morselsArray;
+- (MRSLMorsel *)coverMorsel;
 
 @end

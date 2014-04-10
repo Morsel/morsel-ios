@@ -10,6 +10,7 @@ const struct MRSLPostAttributes MRSLPostAttributes = {
 	.lastUpdatedDate = @"lastUpdatedDate",
 	.postID = @"postID",
 	.primary_morsel_id = @"primary_morsel_id",
+	.publishedDate = @"publishedDate",
 	.title = @"title",
 	.total_comment_count = @"total_comment_count",
 	.total_like_count = @"total_like_count",
@@ -199,6 +200,13 @@ const struct MRSLPostFetchedProperties MRSLPostFetchedProperties = {
 - (void)setPrimitivePrimary_morsel_idValue:(int32_t)value_ {
 	[self setPrimitivePrimary_morsel_id:[NSNumber numberWithInt:value_]];
 }
+
+
+
+
+
+@dynamic publishedDate;
+
 
 
 

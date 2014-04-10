@@ -10,8 +10,8 @@
 
 #import "MRSLBaseModalViewController.h"
 
-@interface MRSLModalLikesViewController : MRSLBaseModalViewController
+@interface MRSLModalLikersViewController : MRSLBaseModalViewController
 
-@property (nonatomic, weak) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end

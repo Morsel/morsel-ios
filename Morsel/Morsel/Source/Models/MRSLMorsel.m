@@ -39,7 +39,7 @@
     NSString *typeSizeString = nil;
 
     switch (type) {
-        case MorselImageSizeTypeCropped:
+        case MorselImageSizeTypeLarge:
             typeSizeString = (isRetina) ? @"_640x640" : @"_320x320";
             break;
         case MorselImageSizeTypeThumbnail:

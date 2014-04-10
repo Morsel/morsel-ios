@@ -27,6 +27,8 @@ UINavigationControllerDelegate,
 ELCImagePickerControllerDelegate,
 MRSLCapturePreviewsViewControllerDelegate>
 
+@property (nonatomic) int processingImageCount;
+
 @property (weak, nonatomic) IBOutlet MRSLCameraPreviewView *previewView;
 
 @property (weak, nonatomic) IBOutlet UIButton *cameraRollButton;
@@ -144,8 +146,18 @@ MRSLCapturePreviewsViewControllerDelegate>
 }
 
 - (void)updateFinishButtonAvailability {
-    [self.finishButton setImage:[UIImage imageNamed:([_capturedMediaItems count] > 0) ? @"icon-circle-check-green" : @"icon-circle-check"] forState:UIControlStateNormal];
-    self.finishButton.enabled = ([_capturedMediaItems count] > 0);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.finishButton setImage:[UIImage imageNamed:([_capturedMediaItems count] > 0) ? @"icon-circle-check-green" : @"icon-circle-check"] forState:UIControlStateNormal];
+        self.finishButton.enabled = ([_capturedMediaItems count] > 0 && _processingImageCount == 0);
+    });
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationSlide;
 }
 
 #pragma mark - Action Methods
@@ -384,6 +396,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 #pragma mark - Device Camera Methods
 
 - (void)processMediaItem:(MRSLMediaItem *)mediaItem {
+    self.processingImageCount++;
     __block UIImage *fullSizeImage = mediaItem.mediaFullImage;
     mediaItem.mediaFullImage = nil;
     DDLogDebug(@"Source Process Image Dimensions: (w:%f, h:%f)", fullSizeImage.size.width, fullSizeImage.size.height);
@@ -398,18 +411,24 @@ MRSLCapturePreviewsViewControllerDelegate>
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         if (weakSelf) {
-            mediaItem.mediaCroppedImage = [fullSizeImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
-                                                               scaled:CGSizeMake(MRSLMorselImageLargeDimensionSize, MRSLMorselImageLargeDimensionSize)];
-            mediaItem.mediaThumbImage = [mediaItem.mediaCroppedImage thumbnailImage:50.f
+            UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
+                                                               scaled:CGSizeMake(MRSLMorselImageFullDimensionSize, MRSLMorselImageFullDimensionSize)];
+            mediaItem.mediaThumbImage = [croppedFullSizeImage thumbnailImage:MRSLMorselImageThumbDimensionSize
                                                                interpolationQuality:kCGInterpolationHigh];
             fullSizeImage = nil;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+
+                mediaItem.mediaFullImageData = UIImageJPEGRepresentation(croppedFullSizeImage, 1.f);
+                mediaItem.mediaCroppedImage = [croppedFullSizeImage thumbnailImage:MRSLMorselImageLargeDimensionSize
+                                                              interpolationQuality:kCGInterpolationHigh];
+                weakSelf.processingImageCount--;
+                [weakSelf updateFinishButtonAvailability];
+            });
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (weakSelf) {
                     [weakSelf.capturedMediaItems addObject:mediaItem];
                     [weakSelf.capturePreviewsViewController addPreviewMediaItems:_capturedMediaItems];
                     weakSelf.approvalImageView.image = mediaItem.mediaCroppedImage;
-
-                    [weakSelf updateFinishButtonAvailability];
                 }
             });
         }
@@ -646,6 +665,12 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 
 - (void)capturePreviewsDidDeleteMedia {
     [self updateFinishButtonAvailability];
+}
+
+#pragma mark - Destruction
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

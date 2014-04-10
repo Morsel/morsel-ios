@@ -83,7 +83,7 @@
 
 - (IBAction)editMorsel:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Edit Icon"
-                                 properties:@{@"view": @"Feed",
+                                 properties:@{@"view": @"main_feed",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"story_id": NSNullIfNil(_morsel.post.postID)}];
 
@@ -96,7 +96,7 @@
     _likeButton.enabled = NO;
 
     [[MRSLEventManager sharedManager] track:@"Tapped Like Icon"
-                                 properties:@{@"view": @"Feed",
+                                 properties:@{@"view": @"main_feed",
                                               @"morsel_id": _morsel.morselID}];
 
     [_appDelegate.morselApiService likeMorsel:_morsel
@@ -127,6 +127,9 @@
 #pragma mark - ProfileImageViewDelegate
 
 - (void)profileImageViewDidSelectUser:(MRSLUser *)user {
+    [[MRSLEventManager sharedManager] track:@"Tapped Profile Picture"
+                                 properties:@{@"view": @"main_feed",
+                                              @"user_action_id": user.userID}];
     if ([self.delegate respondsToSelector:@selector(morselPostCollectionViewCellDidSelectProfileForUser:)]) {
         [self.delegate morselPostCollectionViewCellDidSelectProfileForUser:user];
     }

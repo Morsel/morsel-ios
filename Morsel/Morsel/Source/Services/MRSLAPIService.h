@@ -26,10 +26,6 @@
 
 #pragma mark - User Services
 
-- (void)updateUser:(MRSLUser *)user
-           success:(MorselAPISuccessBlock)userSuccessOrNil
-           failure:(MorselAPIFailureBlock)failureOrNil;
-
 - (void)getUserProfile:(MRSLUser *)user
                success:(MorselAPISuccessBlock)userSuccessOrNil
                failure:(MorselAPIFailureBlock)failureOrNil;
@@ -72,7 +68,9 @@
 
 - (void)updatePost:(MRSLPost *)post
            success:(MorselAPISuccessBlock)successOrNil
-           failure:(MorselAPIFailureBlock)failureOrNil;
+           failure:(MorselAPIFailureBlock)failureOrNil
+    postToFacebook:(BOOL)postToFacebook
+     postToTwitter:(BOOL)postToTwitter;
 
 - (void)getPost:(MRSLPost *)post
         success:(MorselAPISuccessBlock)successOrNil
@@ -81,18 +79,16 @@
 #pragma mark - Morsel Services
 
 - (void)createMorsel:(MRSLMorsel *)morsel
-      postToFacebook:(BOOL)postToFacebook
-       postToTwitter:(BOOL)postToTwitter
-             success:(MorselAPISuccessBlock)successOrNil
-             failure:(MorselAPIFailureBlock)failureOrNil;
-
-- (void)createMorsel:(MRSLMorsel *)morsel
              success:(MorselAPISuccessBlock)successOrNil
              failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)getMorsel:(MRSLMorsel *)morsel
           success:(MorselAPISuccessBlock)successOrNil
           failure:(MorselAPIFailureBlock)failureOrNil;
+
+- (void)getMorselLikes:(MRSLMorsel *)morsel
+               success:(MorselAPIArrayBlock)successOrNil
+               failure:(MorselAPIFailureBlock)failureOrNil;
 
 - (void)updateMorsel:(MRSLMorsel *)morsel
              andPost:(MRSLPost *)postOrNil

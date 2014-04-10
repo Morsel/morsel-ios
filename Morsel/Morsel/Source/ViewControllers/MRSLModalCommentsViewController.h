@@ -12,6 +12,6 @@
 
 @interface MRSLModalCommentsViewController : MRSLBaseModalViewController
 
-@property (nonatomic, weak) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end

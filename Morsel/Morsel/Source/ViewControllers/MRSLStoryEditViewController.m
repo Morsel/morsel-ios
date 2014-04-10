@@ -15,7 +15,7 @@
 #import "MRSLStoryAddTitleViewController.h"
 #import "MRSLStoryEditMorselTableViewCell.h"
 #import "MRSLStoryEditDescriptionViewController.h"
-#import "MRSLStorySettingsViewController.h"
+#import "MRSLStoryPublishViewController.h"
 
 #import "MRSLMediaItem.h"
 
@@ -24,6 +24,7 @@
 
 @interface MRSLStoryEditViewController ()
 <NSFetchedResultsControllerDelegate,
+UIActionSheetDelegate,
 UIAlertViewDelegate,
 UITableViewDataSource,
 UITableViewDelegate,
@@ -38,7 +39,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
 @property (weak, nonatomic) IBOutlet UITableView *storyMorselsTableView;
 
-@property (strong, nonatomic) UIBarButtonItem *publishButton;
+@property (strong, nonatomic) UIBarButtonItem *nextButton;
 @property (strong, nonatomic) NSDateFormatter *statusDateFormatter;
 @property (strong, nonatomic) NSFetchedResultsController *morselsFetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *morsels;
@@ -78,11 +79,11 @@ MRSLStoryEditMorselTableViewCellDelegate>
     [self getOrLoadPostIfExists];
 
     if (_post.draftValue) {
-        self.publishButton = [[UIBarButtonItem alloc] initWithTitle:@"Publish"
-                                                              style:UIBarButtonItemStyleBordered
-                                                             target:self
-                                                             action:@selector(publishStory)];
-        [self.navigationItem setRightBarButtonItem:_publishButton];
+        self.nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next"
+                                                           style:UIBarButtonItemStyleBordered
+                                                          target:self
+                                                          action:@selector(displayPublishStory)];
+        [self.navigationItem setRightBarButtonItem:_nextButton];
     }
 
     self.storyTitleLabel.text = ([_post.title length] == 0) ? @"Tap to add title" : _post.title;
@@ -167,18 +168,22 @@ MRSLStoryEditMorselTableViewCellDelegate>
         MRSLStoryAddTitleViewController *storyAddTitleVC = [segue destinationViewController];
         storyAddTitleVC.isUserEditingTitle = YES;
         storyAddTitleVC.postID = _post.postID;
-    } else if ([segue.identifier isEqualToString:@"seg_StorySettings"]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Settings"
-                                     properties:@{@"view": @"Your Story",
-                                                  @"morsel_count": @([_morsels count]),
-                                                  @"story_id": NSNullIfNil(_post.postID),
-                                                  @"story_draft":(_post.draftValue) ? @"true" : @"false"}];
-        MRSLStorySettingsViewController *storySettingsVC = [segue destinationViewController];
-        storySettingsVC.post = _post;
+    } else if ([segue.identifier isEqualToString:@"seg_PublishStory"]) {
+        MRSLStoryPublishViewController *storyPublishVC = [segue destinationViewController];
+        storyPublishVC.post = _post;
     }
 }
 
 #pragma mark - Action Methods
+
+- (IBAction)displayStorySettings:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:@"Delete Story"
+                                                    otherButtonTitles:nil];
+    [actionSheet showInView:self.view];
+}
 
 - (IBAction)toggleEditing {
     [[MRSLEventManager sharedManager] track:@"Tapped Edit"
@@ -203,27 +208,14 @@ MRSLStoryEditMorselTableViewCellDelegate>
     }
 }
 
-- (void)publishStory {
-    [[MRSLEventManager sharedManager] track:@"Tapped Publish Story"
+- (void)displayPublishStory {
+    [[MRSLEventManager sharedManager] track:@"Tapped Next"
                                  properties:@{@"view": @"Your Story",
                                               @"morsel_count": @([_morsels count]),
                                               @"story_id": NSNullIfNil(_post.postID),
                                               @"story_draft":(_post.draftValue) ? @"true" : @"false"}];
-
-    _post.draft = @NO;
-    _publishButton.enabled = NO;
-
-    [_appDelegate.morselApiService updatePost:_post
-                                      success:^(id responseObject) {
-                                          self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last %@ %@", (_post.draftValue) ? @"saved" : @"updated", (_post.lastUpdatedDate) ? [[_post.lastUpdatedDate timeAgo] lowercaseString] : @"now"];
-                                          [self.navigationItem setRightBarButtonItem:nil];
-                                          [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidPublishPostNotification
-                                                                                              object:_post];
-                                      } failure:^(NSError *error) {
-                                          _publishButton.enabled = YES;
-                                          [UIAlertView showAlertViewForErrorString:@"Unable to publish Story, please try again!"
-                                                                          delegate:nil];
-                                      }];
+    [self performSegueWithIdentifier:@"seg_PublishStory"
+                              sender:nil];
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -374,6 +366,7 @@ MRSLStoryEditMorselTableViewCellDelegate>
 
                 MRSLMorsel *morsel = [MRSLMorsel localUniqueMorsel];
                 morsel.sort_order = @(morselIndex);
+                morsel.morselPhotoFull = mediaItem.mediaFullImageData;
                 morsel.morselPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, 1.f);
                 morsel.morselPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
                 morsel.isUploading = @YES;
@@ -427,6 +420,27 @@ MRSLStoryEditMorselTableViewCellDelegate>
     [self presentViewController:imagePreviewVC
                        animated:YES
                      completion:nil];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Story"]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Delete Story"
+                                     properties:@{@"view": @"Your Story",
+                                                  @"story_id": NSNullIfNil(_post.postID)}];
+        [_appDelegate.morselApiService deletePost:_post
+                                          success:nil
+                                          failure:nil];
+        [_post MR_deleteEntity];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+        if (self.presentingViewController) {
+            [self.presentingViewController dismissViewControllerAnimated:YES
+                                                              completion:nil];
+        } else {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
 }
 
 @end

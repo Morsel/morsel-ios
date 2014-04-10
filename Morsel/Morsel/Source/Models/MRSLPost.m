@@ -44,6 +44,12 @@
     return postJSON;
 }
 
+- (MRSLMorsel *)coverMorsel {
+    MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                   withValue:self.primary_morsel_id] ?: [self.morselsArray lastObject];
+    return morsel;
+}
+
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
@@ -61,8 +67,8 @@
     }
 
     if (![data[@"published_at"] isEqual:[NSNull null]]) {
-        NSString *updateString = data[@"published_at"];
-        self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
+        NSString *publishString = data[@"published_at"];
+        self.publishedDate = [_appDelegate.defaultDateFormatter dateFromString:publishString];
     }
 
     if (![data[@"updated_at"] isEqual:[NSNull null]]) {

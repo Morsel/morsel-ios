@@ -53,15 +53,6 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 
     [self.postCollectionView addSubview:_refreshControl];
     self.postCollectionView.alwaysBounceVertical = YES;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentPurged)
-                                                 name:MRSLServiceWillPurgeDataNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentRestored)
-                                                 name:MRSLServiceWillRestoreDataNotification
-                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -127,29 +118,14 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
     return postsArray;
 }
 
-- (void)localContentPurged {
-    self.postsFetchedResultsController.delegate = nil;
-    self.postsFetchedResultsController = nil;
-}
-
-- (void)localContentRestored {
-    if (_postsFetchedResultsController) return;
-
-    [_refreshControl endRefreshing];
-
-    [self.draftPosts removeAllObjects];
-    [self.publishedPosts removeAllObjects];
-    [self.postsDictionary removeAllObjects];
-
-    [self setupPostsFetchRequest];
-    [self populateContent];
-}
-
 - (void)refreshStories {
     [_appDelegate.morselApiService getUserPosts:[MRSLUser currentUser]
                                   includeDrafts:YES
-                                        success:nil
-                                        failure:nil];
+                                        success:^(NSArray *responseArray) {
+                                            [_refreshControl endRefreshing];
+                                        } failure:^(NSError *error) {
+                                            [_refreshControl endRefreshing];
+                                        }];
 }
 
 #pragma mark - UICollectionViewDataSource Methods

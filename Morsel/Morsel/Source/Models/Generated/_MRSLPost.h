@@ -11,6 +11,7 @@ extern const struct MRSLPostAttributes {
 	__unsafe_unretained NSString *lastUpdatedDate;
 	__unsafe_unretained NSString *postID;
 	__unsafe_unretained NSString *primary_morsel_id;
+	__unsafe_unretained NSString *publishedDate;
 	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *total_comment_count;
 	__unsafe_unretained NSString *total_like_count;
@@ -26,6 +27,7 @@ extern const struct MRSLPostFetchedProperties {
 
 @class MRSLUser;
 @class MRSLMorsel;
+
 
 
 
@@ -121,6 +123,16 @@ extern const struct MRSLPostFetchedProperties {
 - (void)setPrimary_morsel_idValue:(int32_t)value_;
 
 //- (BOOL)validatePrimary_morsel_id:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* publishedDate;
+
+
+
+//- (BOOL)validatePublishedDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -237,6 +249,12 @@ extern const struct MRSLPostFetchedProperties {
 
 - (int32_t)primitivePrimary_morsel_idValue;
 - (void)setPrimitivePrimary_morsel_idValue:(int32_t)value_;
+
+
+
+
+- (NSDate*)primitivePublishedDate;
+- (void)setPrimitivePublishedDate:(NSDate*)value;
 
 
 

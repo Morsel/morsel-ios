@@ -242,7 +242,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="HS6-Lc-kLD" kind="push" identifier="seg_StorySettings" id="uXH-Nj-Btk"/>
+                                    <action selector="displayStorySettings:" destination="QmE-5e-DXK" eventType="touchUpInside" id="OiN-Cd-8Nn"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rJi-B4-wvr">
@@ -373,26 +373,27 @@
                         <outlet property="storyTitleButton" destination="pMX-jI-LJb" id="XHW-Qw-tPm"/>
                         <outlet property="storyTitleLabel" destination="iSE-oW-OEK" id="dgn-gB-dFD"/>
                         <segue destination="V5R-ou-ECa" kind="push" identifier="seg_EditMorselText" id="HwU-rQ-9h1"/>
+                        <segue destination="HS6-Lc-kLD" kind="push" identifier="seg_PublishStory" id="4Sr-gK-ySy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1S-uu-Wpb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1163" y="845"/>
         </scene>
-        <!--Story Settings View Controller - Story Settings-->
+        <!--Story Publish View Controller - Your Story-->
         <scene sceneID="5Og-AE-TPy">
             <objects>
-                <viewController storyboardIdentifier="sb_MRSLStorySettingsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="HS6-Lc-kLD" customClass="MRSLStorySettingsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLStorySettingsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="HS6-Lc-kLD" customClass="MRSLStoryPublishViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HgW-tB-tDd">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="ALv-Nc-Vt9">
-                                <rect key="frame" x="0.0" y="122" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="318" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RMW-tn-DbK">
-                                        <rect key="frame" x="62" y="0.0" width="60" height="60"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RMW-tn-DbK">
+                                        <rect key="frame" x="96" y="0.0" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="icon-social-facebook">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -402,8 +403,8 @@
                                             <action selector="toggleFacebook:" destination="HS6-Lc-kLD" eventType="touchUpInside" id="N0q-Ci-7Xu"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bzK-wZ-aKw">
-                                        <rect key="frame" x="130" y="0.0" width="60" height="60"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bzK-wZ-aKw">
+                                        <rect key="frame" x="164" y="0.0" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="icon-social-twitter">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -413,83 +414,38 @@
                                             <action selector="toggleTwitter:" destination="HS6-Lc-kLD" eventType="touchUpInside" id="e4y-ak-Oax"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bzG-t3-ZD7">
-                                        <rect key="frame" x="198" y="0.0" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="icon-social-instagram">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="selected" image="icon-social-instagram-on"/>
-                                        <connections>
-                                            <action selector="toggleInstagram:" destination="HS6-Lc-kLD" eventType="touchUpInside" id="60F-zB-ygf"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gfs-FN-gZT">
-                                <rect key="frame" x="33" y="18" width="80" height="80"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="dfb-Pg-AkC" customClass="MRSLMorselImageView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="icon-cover">
-                                    <color key="titleColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZFu-zJ-XSZ">
-                                <rect key="frame" x="121" y="18" width="79" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="icon-restaurant">
-                                    <color key="titleColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QaA-4u-QPt">
-                                <rect key="frame" x="208" y="18" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="icon-menu-item">
-                                    <color key="titleColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cover Photo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Awz-RA-jrB">
-                                <rect key="frame" x="33" y="77" width="80" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xPP-2b-9VQ" customClass="MRSLBoldLabel">
+                                <rect key="frame" x="30" y="86" width="260" height="140"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="32"/>
+                                <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restaurant" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="53K-nc-3IU">
-                                <rect key="frame" x="120" y="77" width="80" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Menu Item" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WC5-xR-6Zl">
-                                <rect key="frame" x="208" y="77" width="80" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Mzp-34-Nhr" customClass="MRSLLargeButton">
-                                <rect key="frame" x="0.0" y="190" width="320" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.84705882349999995" green="0.10980392160000001" blue="0.10980392160000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="Delete Story">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="deleteStory" destination="HS6-Lc-kLD" eventType="touchUpInside" id="iVC-dS-hLU"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Story Settings" id="Meq-Pb-DDR"/>
+                    <navigationItem key="navigationItem" title="Your Story" id="Meq-Pb-DDR">
+                        <barButtonItem key="rightBarButtonItem" title="Publish" id="SeR-xl-OW7">
+                            <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="publishStory:" destination="HS6-Lc-kLD" id="Le3-s5-GFy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="coverMorselImageView" destination="dfb-Pg-AkC" id="oBQ-zl-HJR"/>
+                        <outlet property="facebookButton" destination="RMW-tn-DbK" id="0hh-gg-n0h"/>
+                        <outlet property="storyTitleLabel" destination="xPP-2b-9VQ" id="vCs-er-Ueh"/>
+                        <outlet property="twitterButton" destination="bzK-wZ-aKw" id="B40-NH-FLo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SJv-ij-o0x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -661,15 +617,10 @@
     <resources>
         <image name="button-retry" width="50" height="50"/>
         <image name="icon-add-white" width="30" height="30"/>
-        <image name="icon-cover" width="30" height="30"/>
         <image name="icon-edit-red" width="24" height="24"/>
-        <image name="icon-menu-item" width="30" height="30"/>
-        <image name="icon-restaurant" width="30" height="30"/>
         <image name="icon-settings" width="21" height="21"/>
         <image name="icon-social-facebook" width="40" height="40"/>
         <image name="icon-social-facebook-on" width="40" height="40"/>
-        <image name="icon-social-instagram" width="40" height="40"/>
-        <image name="icon-social-instagram-on" width="40" height="40"/>
         <image name="icon-social-twitter" width="40" height="40"/>
         <image name="icon-social-twitter-on" width="40" height="40"/>
     </resources>
@@ -680,6 +631,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="eSW-V4-W7m"/>
+        <segue reference="BGd-gz-lyc"/>
     </inferredMetricsTieBreakers>
 </document>

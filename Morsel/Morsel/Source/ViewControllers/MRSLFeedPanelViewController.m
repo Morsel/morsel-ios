@@ -13,11 +13,15 @@
 #import "MRSLFeedCoverCollectionViewCell.h"
 #import "MRSLFeedPageCollectionViewCell.h"
 #import "MRSLFeedShareCollectionViewCell.h"
+#import "MRSLSocialService.h"
 #import "MRSLModalCommentsViewController.h"
 #import "MRSLModalDescriptionViewController.h"
+#import "MRSLModalLikersViewController.h"
+#import "MRSLModalShareViewController.h"
 #import "MRSLStoryEditViewController.h"
 #import "MRSLProfileImageView.h"
 
+#import "MRSLMorsel.h"
 #import "MRSLPost.h"
 #import "MRSLUser.h"
 
@@ -29,6 +33,10 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 @property (nonatomic) BOOL isPresentingMorselLayout;
 @property (nonatomic) BOOL isDraggingScrollViewUp;
+
+@property (nonatomic) CGFloat previousContentOffset;
+
+@property (nonatomic) MRSLScrollDirection scrollDirection;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -43,6 +51,17 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 #pragma mark - Instance Methods
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideContent)
+                                                                     name:MRSLModalWillDisplayNotification
+                                                                   object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showContent)
+                                                 name:MRSLModalWillDismissNotification
+                                               object:nil];
+    [self.storyTitleLabel addStandardShadow];
+}
+
 - (void)setPost:(MRSLPost *)post {
     if (_post != post) {
         _post = post;
@@ -50,33 +69,58 @@ MRSLFeedShareCollectionViewCellDelegate>
     }
 }
 
+#pragma mark - Notification Methods
+
+- (void)hideContent {
+    [self toggleContent:NO];
+}
+
+- (void)showContent {
+    [self toggleContent:YES];
+}
+
 #pragma mark - Private Methods
 
 - (void)displayContent {
-    if (self.collectionView && self.post) {
+    if (_collectionView && _post) {
+        self.view.backgroundColor = [UIColor whiteColor];
+
         self.profileImageView.user = _post.creator;
+
         self.userNameLabel.text = _post.creator.fullName;
         self.userNameLabel.textColor = [UIColor morselDarkContent];
-        self.timeSinceLabel.text = [_post.lastUpdatedDate timeAgo];
-        self.storyTitleLabel.text = _post.title;
-        [self.storyTitleLabel addStandardShadow];
-        [self.pageControl setAlpha:0.f];
+
+        self.pageControl.alpha = 0.f;
         self.pageControl.numberOfPages = [_post.morsels count];
         self.pageControl.hidden = !([_post.morsels count] > 1);
         [self.pageControl setY:[self.view getHeight] - ((([_pageControl sizeForNumberOfPages:_pageControl.numberOfPages].width) / 2) + 34.f)];
         self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
 
+        self.storyTitleLabel.text = _post.title;
         [self.storyTitleLabel setX:30.f];
         [self.storyTitleLabel setY:86.f];
         [self.storyTitleLabel setHeight:140.f];
         [self.storyTitleLabel setWidth:260.f];
-        [self.userNameLabel setTextColor:[UIColor morselDarkContent]];
         [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
+
+        self.timeSinceLabel.text = [_post.lastUpdatedDate timeAgo];
 
         [self.collectionView reloadData];
         [self resetCollectionViewContentOffset:NO];
-        [self.view setBackgroundColor:[UIColor whiteColor]];
+
+        CGFloat currentPage = _collectionView.contentOffset.y / _collectionView.frame.size.height;
+        [self determineLayoutForPage:currentPage];
     }
+}
+
+- (void)toggleContent:(BOOL)shouldDisplay {
+    [UIView animateWithDuration:.2f
+                     animations:^{
+                         [_storyTitleLabel setAlpha:shouldDisplay];
+                         [_profileImageView setAlpha:shouldDisplay];
+                         [_userNameLabel setAlpha:shouldDisplay];
+                         [_timeSinceLabel setAlpha:shouldDisplay];
+                     }];
 }
 
 - (void)resetCollectionViewContentOffset:(BOOL)animated {
@@ -85,15 +129,15 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 - (void)setupCoverLayout {
+    self.profileImageView.hidden = NO;
+    self.userNameLabel.hidden = NO;
+    self.timeSinceLabel.hidden = NO;
+
     if (_isPresentingMorselLayout) {
         self.isPresentingMorselLayout = NO;
     } else {
         return;
     }
-
-    self.profileImageView.hidden = NO;
-    self.userNameLabel.hidden = NO;
-    self.timeSinceLabel.hidden = NO;
 
     [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
     [self.storyTitleLabel setHeight:140.f];
@@ -103,7 +147,7 @@ MRSLFeedShareCollectionViewCellDelegate>
                      animations:^{
                          [self.userNameLabel setTextColor:[UIColor morselDarkContent]];
                          [self.storyTitleLabel setX:30.f];
-                         [self.storyTitleLabel setY:86.f];
+                         [self.storyTitleLabel setY:(![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) ? 66.f : 86.f];
                          [self.pageControl setAlpha:0.f];
                      }];
     [self.view.layer removeAnimationForKey:@"fadeToBlackAnimation"];
@@ -136,7 +180,7 @@ MRSLFeedShareCollectionViewCellDelegate>
                      animations:^{
                          [self.userNameLabel setTextColor:[UIColor morselLightOffColor]];
                          [self.storyTitleLabel setX:54.f];
-                         [self.storyTitleLabel setY:28.f];
+                         [self.storyTitleLabel setY:(![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) ? 8.f : 28.f];
                          [self.pageControl setAlpha:1.f];
                      }];
     [self.view.layer removeAnimationForKey:@"fadeToWhiteAnimation"];
@@ -156,13 +200,28 @@ MRSLFeedShareCollectionViewCellDelegate>
     self.timeSinceLabel.hidden = YES;
 }
 
+- (void)determineLayoutForPage:(CGFloat)page {
+    CGFloat finalPageThreshold = ([_post.morsels count] + 1) - .5f;
+    if (page > .5f && page < finalPageThreshold) {
+        [self setupMorselLayout];
+    } else if (page <= .5f) {
+        [self setupCoverLayout];
+    } else if (page >= finalPageThreshold) {
+        [self setupShareLayout];
+    }
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)viewMore {
     NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
     if (indexPath) {
+        MRSLMorsel *visibleMorsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        [[MRSLEventManager sharedManager] track:@"Tapped View More Description"
+                                     properties:@{@"view": @"main_feed",
+                                                  @"morsel_id": NSNullIfNil(visibleMorsel.morselID)}];
         MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalDescriptionViewController"];
-        modalDescriptionVC.morsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        modalDescriptionVC.morsel = visibleMorsel;
         [self addChildViewController:modalDescriptionVC];
         [self.view addSubview:modalDescriptionVC.view];
     }
@@ -171,12 +230,55 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (IBAction)displayComments {
     NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
     if (indexPath) {
+        MRSLMorsel *visibleMorsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        [[MRSLEventManager sharedManager] track:@"Tapped Comments"
+                                     properties:@{@"view": @"main_feed",
+                                                  @"post_id": NSNullIfNil(_post.postID),
+                                                  @"morsel_id": NSNullIfNil(visibleMorsel.morselID),
+                                                  @"comment_count": NSNullIfNil(visibleMorsel.comment_count)}];
         MRSLModalCommentsViewController *modalCommentsVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalCommentsViewController"];
-        modalCommentsVC.morsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        modalCommentsVC.morsel = visibleMorsel;
         [self addChildViewController:modalCommentsVC];
         [self.view addSubview:modalCommentsVC.view];
     }
 }
+
+- (IBAction)displayLikers {
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLMorsel *visibleMorsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        [[MRSLEventManager sharedManager] track:@"Tapped Likes"
+                                     properties:@{@"view": @"main_feed",
+                                                  @"post_id": NSNullIfNil(_post.postID),
+                                                  @"morsel_id": NSNullIfNil(visibleMorsel.morselID),
+                                                  @"like_count": NSNullIfNil(visibleMorsel.like_count)}];
+        MRSLModalLikersViewController *modalLikersVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalLikesViewController"];
+        modalLikersVC.morsel = visibleMorsel;
+        [self addChildViewController:modalLikersVC];
+        [self.view addSubview:modalLikersVC.view];
+    }
+}
+
+- (IBAction)displayShare {
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLMorsel *visibleMorsel = nil;
+        if (_isPresentingMorselLayout) {
+            visibleMorsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        } else {
+            visibleMorsel = [_post coverMorsel];
+        }
+        [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
+                                     properties:@{@"view": @"main_feed",
+                                                  @"post_id": NSNullIfNil(_post.postID),
+                                                  @"morsel_id": NSNullIfNil(visibleMorsel.morselID)}];
+        MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalShareViewController"];
+        modalShareVC.morsel = visibleMorsel;
+        [self addChildViewController:modalShareVC];
+        [self.view addSubview:modalShareVC.view];
+    }
+}
+
 
 - (IBAction)editStory {
     UINavigationController *storyEditNC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_StoryEdit"];
@@ -230,13 +332,41 @@ MRSLFeedShareCollectionViewCellDelegate>
     CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
     CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
     self.pageControl.currentPage = (translation.y > 0) ? ceilf(currentPage - 1) : floorf(currentPage - 1);
-    CGFloat finalPageThreshold = ([_post.morsels count] + 1) - .5f;
-    if (currentPage > .5f && currentPage < finalPageThreshold) {
-        [self setupMorselLayout];
-    } else if (currentPage <= .5f) {
-        [self setupCoverLayout];
-    } else if (currentPage >= finalPageThreshold) {
-        [self setupShareLayout];
+    [self determineLayoutForPage:currentPage];
+    if (_previousContentOffset > scrollView.contentOffset.y) {
+        self.scrollDirection = MRSLScrollDirectionDown;
+    } else if (_previousContentOffset < scrollView.contentOffset.y) {
+        self.scrollDirection = MRSLScrollDirectionUp;
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSIndexPath *indexPath = [[_collectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLMorsel *visibleMorsel = nil;
+        if (_isPresentingMorselLayout && indexPath.row != 0) {
+            visibleMorsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        } else {
+            visibleMorsel = [_post coverMorsel];
+        }
+        CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
+        BOOL onShare = (currentPage == [_post.morsels count] + 2);
+
+        if (_scrollDirection == MRSLScrollDirectionDown) {
+            [[MRSLEventManager sharedManager] track:@"Scroll Post Down"
+                                         properties:@{@"view": @"main_feed",
+                                                      @"post_id": NSNullIfNil(visibleMorsel.post.postID),
+                                                      @"morsel_id": NSNullIfNil(visibleMorsel.morselID),
+                                                      @"on_share": (onShare) ? @"true" : @"false",
+                                                      @"morsel_scroll_index": NSNullIfNil(@(currentPage))}];
+        } else if (_scrollDirection == MRSLScrollDirectionUp) {
+            [[MRSLEventManager sharedManager] track:@"Scroll Post Up"
+                                         properties:@{@"view": @"main_feed",
+                                                      @"post_id": NSNullIfNil(visibleMorsel.post.postID),
+                                                      @"morsel_id": NSNullIfNil(visibleMorsel.morselID),
+                                                      @"on_share": (onShare) ? @"true" : @"false",
+                                                      @"morsel_scroll_index": NSNullIfNil(@(currentPage))}];
+        }
     }
 }
 
@@ -250,6 +380,20 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 #pragma mark - MRSLFeedShareCollectionViewCellDelegate
+
+- (void)feedShareCollectionViewCellDidSelectShareFacebook {
+    [[MRSLSocialService sharedService] shareMorselToFacebook:[_post coverMorsel]
+                                            inViewController:self
+                                                     success:nil
+                                                      cancel:nil];
+}
+
+- (void)feedShareCollectionViewCellDidSelectShareTwitter {
+    [[MRSLSocialService sharedService] shareMorselToTwitter:[_post coverMorsel]
+                                           inViewController:self
+                                                    success:nil
+                                                     cancel:nil];
+}
 
 - (void)feedShareCollectionViewCellDidSelectPreviousStory {
     if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectPreviousStory)]) {
@@ -267,6 +411,12 @@ MRSLFeedShareCollectionViewCellDelegate>
         });
         [self.delegate feedPanelViewControllerDidSelectNextStory];
     }
+}
+
+#pragma mark - Destruction
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

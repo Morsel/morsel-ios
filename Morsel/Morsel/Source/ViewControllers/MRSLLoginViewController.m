@@ -52,6 +52,14 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
                                                object:nil];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationSlide;
+}
+
 #pragma mark - Private Methods
 
 - (IBAction)logIn {

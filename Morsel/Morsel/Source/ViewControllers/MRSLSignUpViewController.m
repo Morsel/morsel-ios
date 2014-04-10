@@ -80,6 +80,14 @@ UITextFieldDelegate>
                                                object:nil];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationSlide;
+}
+
 #pragma mark - Private Methods
 
 - (IBAction)addPhoto:(id)sender {

@@ -16,6 +16,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
 	.morselPhotoCropped = @"morselPhotoCropped",
+	.morselPhotoFull = @"morselPhotoFull",
 	.morselPhotoThumb = @"morselPhotoThumb",
 	.morselPhotoURL = @"morselPhotoURL",
 	.photo_processing = @"photo_processing",
@@ -322,6 +323,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 @dynamic morselPhotoCropped;
+
+
+
+
+
+
+@dynamic morselPhotoFull;
 
 
 

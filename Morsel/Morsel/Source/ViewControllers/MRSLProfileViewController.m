@@ -67,15 +67,6 @@ NSFetchedResultsControllerDelegate>
 
     [self.profileCollectionView addSubview:_refreshControl];
     self.profileCollectionView.alwaysBounceVertical = YES;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentPurged)
-                                                 name:MRSLServiceWillPurgeDataNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentRestored)
-                                                 name:MRSLServiceWillRestoreDataNotification
-                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -95,27 +86,6 @@ NSFetchedResultsControllerDelegate>
     self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
     self.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
     [self layoutUserContent];
-}
-
-#pragma mark - Notification Methods
-
-- (void)localContentPurged {
-    [NSFetchedResultsController deleteCacheWithName:@"Feed"];
-
-    self.userPostsFetchedResultsController.delegate = nil;
-
-    self.userPostsFetchedResultsController = nil;
-}
-
-- (void)localContentRestored {
-    if (_userPostsFetchedResultsController) return;
-
-    [_refreshControl endRefreshing];
-
-    [self.morsels removeAllObjects];
-
-    [self setupUserPostsFetchRequest];
-    [self populateContent];
 }
 
 #pragma mark - Action Methods
@@ -177,8 +147,11 @@ NSFetchedResultsControllerDelegate>
 
     [_appDelegate.morselApiService getUserPosts:_user
                                   includeDrafts:NO
-                                        success:nil
-                                        failure:nil];
+                                        success:^(NSArray *responseArray) {
+                                            [_refreshControl endRefreshing];
+                                        } failure:^(NSError *error) {
+                                            [_refreshControl endRefreshing];
+                                        }];
 }
 
 #pragma mark - UICollectionViewDataSource

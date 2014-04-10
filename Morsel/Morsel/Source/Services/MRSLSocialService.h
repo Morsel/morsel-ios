@@ -14,10 +14,24 @@
 
 @interface MRSLSocialService : NSObject
 
-- (void)performReverseAuthForTwitterAccount:(ACAccount *)account withBlock:(MorselDataURLResponseErrorBlock)block;
++ (instancetype)sharedService;
 
-- (void)requestReadAndWriteForTwitterAccountsWithBlock:(ACAccountStoreRequestAccessCompletionHandler)block;
+- (void)activateFacebookInView:(UIView *)view
+                       success:(MorselSocialSuccessBlock)successOrNil
+                       failure:(MorselSocialFailureBlock)failureOrNil;
 
-- (void)requestReadAndWriteForFacebookAccountsWithBlock:(ACAccountStoreRequestAccessCompletionHandler)block;
+- (void)activateTwitterInView:(UIView *)view
+                      success:(MorselSocialSuccessBlock)successOrNil
+                      failure:(MorselSocialFailureBlock)failureOrNil;
+
+- (void)shareMorselToFacebook:(MRSLMorsel *)morsel
+             inViewController:(UIViewController *)viewController
+                      success:(MorselSocialSuccessBlock)successOrNil
+                       cancel:(MorselSocialCancelBlock)cancelBlockOrNil;
+
+- (void)shareMorselToTwitter:(MRSLMorsel *)morsel
+            inViewController:(UIViewController *)viewController
+                     success:(MorselSocialSuccessBlock)successOrNil
+                      cancel:(MorselSocialCancelBlock)cancelBlockOrNil;
 
 @end
