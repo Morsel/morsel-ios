@@ -11,7 +11,7 @@
 @protocol MRSLStatusHeaderCollectionReusableViewDelegate <NSObject>
 
 @optional
-- (void)statusHeaderDidSelectViewAllForType:(MRSLStoryStatusType)statusType;
+- (void)statusHeaderDidSelectViewAllForType:(MRSLMorselStatusType)statusType;
 
 @end
 

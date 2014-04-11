@@ -8,23 +8,23 @@
 
 #import "MRSLFeedCoverCollectionViewCell.h"
 
-#import "MRSLMorselImageView.h"
+#import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
 
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
-#import "MRSLPost.h"
 #import "MRSLUser.h"
 
 @interface MRSLFeedCoverCollectionViewCell ()
-<MRSLMorselImageViewDelegate>
+<MRSLItemImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UILabel *additionalMorselsLabel;
 
-@property (weak, nonatomic) IBOutlet MRSLMorselImageView *storyCoverImageView;
+@property (weak, nonatomic) IBOutlet MRSLItemImageView *morselCoverImageView;
 
-@property (strong, nonatomic) IBOutletCollection (MRSLMorselImageView) NSArray *storyMorselThumbnails;
+@property (strong, nonatomic) IBOutletCollection (MRSLItemImageView) NSArray *morselItemThumbnails;
 
 @end
 
@@ -32,51 +32,55 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.storyMorselThumbnails = [_storyMorselThumbnails sortedArrayUsingComparator:^NSComparisonResult(MRSLMorselImageView *morselImageViewA, MRSLMorselImageView *morselImageViewB) {
-        return [morselImageViewA getX] > [morselImageViewB getX];
+    self.morselItemThumbnails = [_morselItemThumbnails sortedArrayUsingComparator:^NSComparisonResult(MRSLItemImageView *itemImageViewA, MRSLItemImageView *itemImageViewB) {
+        return [itemImageViewA getX] > [itemImageViewB getX];
     }];
-    [_storyMorselThumbnails enumerateObjectsUsingBlock:^(MRSLMorselImageView *morselImageView, NSUInteger idx, BOOL *stop) {
-        [morselImageView setBorderWithColor:[UIColor whiteColor]
-                                    andWidth:2.f];
-        morselImageView.delegate = self;
+    [_morselItemThumbnails enumerateObjectsUsingBlock:^(MRSLItemImageView *itemImageView, NSUInteger idx, BOOL *stop) {
+        [itemImageView setBorderWithColor:[UIColor whiteColor]
+                                 andWidth:2.f];
+        itemImageView.delegate = self;
     }];
+    [_additionalMorselsLabel addStandardShadow];
 }
 
-- (void)setPost:(MRSLPost *)post {
-    if (_post != post) {
-        _post = post;
+- (void)setMorsel:(MRSLMorsel *)morsel {
+    if (_morsel != morsel) {
+        _morsel = morsel;
         [self populateContent];
     }
 }
 
 - (void)populateContent {
-    _storyCoverImageView.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                            withValue:_post.primary_morsel_id] ?: [_post.morselsArray lastObject];
-    if ([_post.morsels count] > 4) {
+    _morselCoverImageView.item = [_morsel coverItem];
+    if ([_morsel.items count] > 4) {
         self.additionalMorselsLabel.hidden = NO;
-        self.additionalMorselsLabel.text = [NSString stringWithFormat:@"+%lu", (unsigned long)[_post.morsels count] - 4];
+        self.additionalMorselsLabel.text = [NSString stringWithFormat:@"+%lu", (unsigned long)[_morsel.items count] - 4];
     } else {
         self.additionalMorselsLabel.hidden = YES;
     }
-    _editButton.hidden = ![_post.creator isCurrentUser];
+    _editButton.hidden = ![_morsel.creator isCurrentUser];
 
-    [_storyMorselThumbnails enumerateObjectsUsingBlock:^(MRSLMorselImageView *morselImageView, NSUInteger idx, BOOL *stop) {
-        if (idx < [_post.morsels count] && [_post.morsels count] != 1) {
-            MRSLMorsel *morsel = [_post.morselsArray objectAtIndex:idx];
-            morselImageView.morsel = morsel;
-            morselImageView.hidden = NO;
+    [_morselItemThumbnails enumerateObjectsUsingBlock:^(MRSLItemImageView *itemImageView, NSUInteger idx, BOOL *stop) {
+        if (idx < [_morsel.items count] && [_morsel.items count] != 1) {
+            MRSLItem *item = [_morsel.itemsArray objectAtIndex:idx];
+            itemImageView.item = item;
+            itemImageView.hidden = NO;
         } else {
-            morselImageView.morsel = nil;
-            morselImageView.hidden = YES;
+            itemImageView.item = nil;
+            itemImageView.hidden = YES;
         }
     }];
 }
 
-#pragma mark - MRSLMorselImageViewDelegate
+#pragma mark - MRSLItemImageViewDelegate
 
-- (void)morselImageViewDidSelectMorsel:(MRSLMorsel *)morsel {
+- (void)itemImageViewDidSelectMorsel:(MRSLItem *)item {
+    [[MRSLEventManager sharedManager] track:@"Tapped Morsel Thumbnail"
+                                 properties:@{@"view": @"main_feed",
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                              @"item_id": NSNullIfNil(item.itemID)}];
     if ([self.delegate respondsToSelector:@selector(feedCoverCollectionViewCellDidSelectMorsel:)]) {
-        [self.delegate feedCoverCollectionViewCellDidSelectMorsel:morsel];
+        [self.delegate feedCoverCollectionViewCellDidSelectMorsel:item];
     }
 }
 

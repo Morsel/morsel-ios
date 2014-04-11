@@ -13,23 +13,29 @@
 
 #pragma mark - Blocks
 
-typedef void (^ MorselImageDownloadSuccessBlock)(UIImage *image);
-typedef void (^ MorselImageDownloadFailureBlock)(NSError *error);
-typedef void (^ MorselModelSuccessBlock)(NSNumber *objectID);
-typedef void (^ MorselModelFailureBlock)(NSError *error);
-typedef void (^ MorselDataSuccessBlock)(BOOL success);
-typedef void (^ MorselDataFailureBlock)(NSError *error);
-typedef void (^ MorselAPIArrayBlock)(NSArray *responseArray);
-typedef void (^ MorselAPILikeBlock)(BOOL doesLike);
-typedef void (^ MorselAPISuccessBlock)(id responseObject);
-typedef void (^ MorselAPIFailureBlock)(NSError *error);
-typedef void (^ MorselDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
+typedef void (^ MRSLDataSuccessBlock)(BOOL success);
+typedef void (^ MRSLAPIArrayBlock)(NSArray *responseArray);
+typedef void (^ MRSLAPILikeBlock)(BOOL doesLike);
+typedef void (^ MRSLAPISuccessBlock)(id responseObject);
+typedef void (^ MRSLAPIFailureBlock)(NSError *error);
+typedef void (^ MRSLSocialSuccessBlock)(BOOL success);
+typedef void (^ MRSLSocialFailureBlock)(NSError *error);
+typedef void (^ MRSLSocialCancelBlock)();
+typedef void (^ MRSLDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
 
 #pragma mark - Enum
 
-typedef NS_ENUM(NSUInteger, MRSLStoryStatusType) {
-    MRSLStoryStatusTypeDrafts,
-    MRSLStoryStatusTypePublished
+typedef NS_ENUM(NSUInteger, MRSLMorselStatusType) {
+    MRSLMorselStatusTypeDrafts,
+    MRSLMorselStatusTypePublished
+};
+
+typedef NS_ENUM (NSUInteger, MRSLScrollDirection) {
+    MRSLScrollDirectionNone,
+    MRSLScrollDirectionLeft,
+    MRSLScrollDirectionRight,
+    MRSLScrollDirectionUp,
+    MRSLScrollDirectionDown
 };
 
 #pragma mark - Media Capture Values
@@ -45,9 +51,10 @@ static const CGFloat yCameraImagePreviewOffset = 78.f;
 static const CGFloat croppedImageHeightOffset = 106.f;
 static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;
 static const CGFloat MRSLUserProfileImageThumbDimensionSize = 40.f;
-static const CGFloat MRSLMorselImageLargeDimensionSize = 320.f;
-static const CGFloat MRSLMorselImageThumbDimensionSize = 50.f;
-static const int MRSLMaximumPostsToDisplayInStoryAdd = 5;
+static const CGFloat MRSLItemImageFullDimensionSize = 640.f;
+static const CGFloat MRSLItemImageLargeDimensionSize = 320.f;
+static const CGFloat MRSLItemImageThumbDimensionSize = 50.f;
+static const int MRSLMaximumMorselsToDisplayInMorselAdd = 5;
 
 #pragma mark - Build Specific
 

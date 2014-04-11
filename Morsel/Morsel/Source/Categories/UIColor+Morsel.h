@@ -12,7 +12,6 @@
 
 + (UIColor *)morselRed;
 + (UIColor *)morselGreen;
-+ (UIColor *)morselYellow;
 + (UIColor *)morselUserInterface;
 + (UIColor *)morselDarkContent;
 + (UIColor *)morselLightContent;

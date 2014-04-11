@@ -1,5 +1,5 @@
 #import "MRSLActivity.h"
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 #import "MRSLUser.h"
 
 @interface MRSLActivity ()
@@ -13,7 +13,7 @@
 }
 
 - (void)didImport:(id)data {
-    if ([data[@"subject_type"] isEqualToString:@"Morsel"]) [self importMorsel:data[@"subject"]];
+    if ([data[@"subject_type"] isEqualToString:@"Item"]) [self importItem:data[@"subject"]];
 }
 
 
@@ -37,20 +37,20 @@
     }
 }
 
-- (void)importMorsel:(NSDictionary *)morselDictionary {
-    if (![morselDictionary isEqual:[NSNull null]]) {
-        MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                       withValue:morselDictionary[@"id"]
+- (void)importItem:(NSDictionary *)itemDictionary {
+    if (![itemDictionary isEqual:[NSNull null]]) {
+        MRSLItem *item = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                       withValue:itemDictionary[@"id"]
                                                        inContext:self.managedObjectContext];
-        if (!morsel) morsel = [MRSLMorsel MR_createInContext:self.managedObjectContext];
-        [morsel MR_importValuesForKeysWithObject:morselDictionary];
-        [morsel addActivitiesObject:self];
+        if (!item) item = [MRSLItem MR_createInContext:self.managedObjectContext];
+        [item MR_importValuesForKeysWithObject:itemDictionary];
+        [item addActivitiesObject:self];
     }
 }
 
 - (NSString *)subjectDisplayName {
-    if ([self.subjectType isEqualToString:@"Morsel"]) {
-        return [self.morsel displayName];
+    if ([self.subjectType isEqualToString:@"Item"]) {
+        return [self.item displayName];
     } else {
         return nil;
     }

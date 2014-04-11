@@ -13,6 +13,7 @@
 #import "MRSLCommentTableViewCell.h"
 
 #import "MRSLComment.h"
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
 
 static const CGFloat MRSLDefaultCommentLabelHeight = 14.f;
@@ -51,16 +52,16 @@ NSFetchedResultsControllerDelegate>
     self.commentInputTextView.placeholder = @"Write a comment...";
     self.commentInputTextView.placeholderColor = [UIColor morselLightContent];
 
-    [_appDelegate.morselApiService getComments:_morsel
+    [_appDelegate.itemApiService getComments:_item
                                        success:nil
                                        failure:nil];
 }
 
-- (void)setMorsel:(MRSLMorsel *)morsel {
-    if (_morsel != morsel) {
-        _morsel = morsel;
-        if (_morsel && !_fetchedResultsController) {
-            NSPredicate *commentsForMorselPredicate = [NSPredicate predicateWithFormat:@"morsel.morselID == %i", [_morsel.morselID intValue]];
+- (void)setItem:(MRSLItem *)item {
+    if (_item != item) {
+        _item = item;
+        if (_item && !_fetchedResultsController) {
+            NSPredicate *commentsForMorselPredicate = [NSPredicate predicateWithFormat:@"item.itemID == %i", [_item.itemID intValue]];
 
             self.fetchedResultsController = [MRSLComment MR_fetchAllSortedBy:@"creationDate"
                                                                    ascending:YES
@@ -77,11 +78,16 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - Action Methods
 
 - (IBAction)addComment {
-    if (_morsel) {
+    if (_item) {
         if (_commentInputTextView.text.length > 0) {
             [_commentInputTextView resignFirstResponder];
-            [_appDelegate.morselApiService postCommentWithDescription:_commentInputTextView.text
-                                                             toMorsel:_morsel
+            [[MRSLEventManager sharedManager] track:@"Tapped Add Comment"
+                                         properties:@{@"view": @"main_feed",
+                                                      @"morsel_id": NSNullIfNil(_item.morsel.morselID),
+                                                      @"item_id": NSNullIfNil(_item.itemID),
+                                                      @"comment_count": NSNullIfNil(_item.comment_count)}];
+            [_appDelegate.itemApiService addCommentWithDescription:_commentInputTextView.text
+                                                             toMorsel:_item
                                                               success:^(id responseObject) {
                                                                   if (_commentsTableView.contentSize.height > [_commentsTableView getHeight]) {
                                                                       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

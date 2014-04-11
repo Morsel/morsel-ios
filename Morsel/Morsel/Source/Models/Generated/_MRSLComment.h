@@ -12,14 +12,14 @@ extern const struct MRSLCommentAttributes {
 
 extern const struct MRSLCommentRelationships {
 	__unsafe_unretained NSString *creator;
-	__unsafe_unretained NSString *morsel;
+	__unsafe_unretained NSString *item;
 } MRSLCommentRelationships;
 
 extern const struct MRSLCommentFetchedProperties {
 } MRSLCommentFetchedProperties;
 
 @class MRSLUser;
-@class MRSLMorsel;
+@class MRSLItem;
 
 
 
@@ -79,9 +79,9 @@ extern const struct MRSLCommentFetchedProperties {
 
 
 
-@property (nonatomic, strong) MRSLMorsel *morsel;
+@property (nonatomic, strong) MRSLItem *item;
 
-//- (BOOL)validateMorsel:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateItem:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -123,8 +123,8 @@ extern const struct MRSLCommentFetchedProperties {
 
 
 
-- (MRSLMorsel*)primitiveMorsel;
-- (void)setPrimitiveMorsel:(MRSLMorsel*)value;
+- (MRSLItem*)primitiveItem;
+- (void)setPrimitiveItem:(MRSLItem*)value;
 
 
 @end

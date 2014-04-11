@@ -29,7 +29,7 @@
 }
 
 + (void)createOrUpdateUserFromResponseObject:(id)userDictionary
-                      shouldPostNotification:(BOOL)shouldPostNotifications {
+                      shouldMorselNotification:(BOOL)shouldMorselNotifications {
     NSNumber *userID = @([userDictionary[@"id"] intValue]);
 
     MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
@@ -59,7 +59,7 @@
                                               forKey:@"userID"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    if (shouldPostNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+    if (shouldMorselNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                                                      object:nil];
 }
 

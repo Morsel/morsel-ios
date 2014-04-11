@@ -9,13 +9,13 @@
 #import "MRSLMyStuffViewController.h"
 
 #import "MRSLProfileViewController.h"
-#import "MRSLStoryCollectionViewCell.h"
+#import "MRSLMorselCollectionViewCell.h"
 #import "MRSLStatusHeaderCollectionReusableView.h"
-#import "MRSLStoryEditViewController.h"
-#import "MRSLStoryListViewController.h"
+#import "MRSLMorselEditViewController.h"
+#import "MRSLMorselListViewController.h"
 
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
-#import "MRSLPost.h"
 #import "MRSLUser.h"
 
 @interface MRSLMyStuffViewController ()
@@ -24,14 +24,14 @@ UICollectionViewDelegate,
 NSFetchedResultsControllerDelegate,
 MRSLStatusHeaderCollectionReusableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UICollectionView *postCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *morselCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *nullStateView;
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
-@property (strong, nonatomic) NSFetchedResultsController *postsFetchedResultsController;
-@property (strong, nonatomic) NSMutableDictionary *postsDictionary;
-@property (strong, nonatomic) NSMutableArray *draftPosts;
-@property (strong, nonatomic) NSMutableArray *publishedPosts;
+@property (strong, nonatomic) NSFetchedResultsController *morselsFetchedResultsController;
+@property (strong, nonatomic) NSMutableDictionary *morselsDictionary;
+@property (strong, nonatomic) NSMutableArray *draftMorsels;
+@property (strong, nonatomic) NSMutableArray *publishedMorsels;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
@@ -41,27 +41,18 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.draftPosts = [NSMutableArray array];
-    self.publishedPosts = [NSMutableArray array];
-    self.postsDictionary = [NSMutableDictionary dictionary];
+    self.draftMorsels = [NSMutableArray array];
+    self.publishedMorsels = [NSMutableArray array];
+    self.morselsDictionary = [NSMutableDictionary dictionary];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     _refreshControl.tintColor = [UIColor morselLightContent];
     [_refreshControl addTarget:self
-                        action:@selector(refreshStories)
+                        action:@selector(refreshMorsels)
               forControlEvents:UIControlEventValueChanged];
 
-    [self.postCollectionView addSubview:_refreshControl];
-    self.postCollectionView.alwaysBounceVertical = YES;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentPurged)
-                                                 name:MRSLServiceWillPurgeDataNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(localContentRestored)
-                                                 name:MRSLServiceWillRestoreDataNotification
-                                               object:nil];
+    [self.morselCollectionView addSubview:_refreshControl];
+    self.morselCollectionView.alwaysBounceVertical = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,24 +61,24 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
     if (_selectedIndexPath) {
-        [self.postCollectionView deselectItemAtIndexPath:_selectedIndexPath
+        [self.morselCollectionView deselectItemAtIndexPath:_selectedIndexPath
                                                 animated:YES];
         self.selectedIndexPath = nil;
     }
 
-    if (self.postsFetchedResultsController) return;
+    if (self.morselsFetchedResultsController) return;
 
-    [self setupPostsFetchRequest];
+    [self setupMorselsFetchRequest];
     [self populateContent];
-    [self refreshStories];
+    [self refreshMorsels];
 }
 
 #pragma mark - Private Methods
 
-- (void)setupPostsFetchRequest {
+- (void)setupMorselsFetchRequest {
     NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"creator.userID == %i", [MRSLUser currentUser].userIDValue];
 
-    self.postsFetchedResultsController = [MRSLPost MR_fetchAllSortedBy:@"creationDate"
+    self.morselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
                                                              ascending:NO
                                                          withPredicate:currentUserPredicate
                                                                groupBy:nil
@@ -98,73 +89,58 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 - (void)populateContent {
     NSError *fetchError = nil;
 
-    [_postsFetchedResultsController performFetch:&fetchError];
+    [_morselsFetchedResultsController performFetch:&fetchError];
 
-    [self.draftPosts removeAllObjects];
-    [self.publishedPosts removeAllObjects];
-    [self.postsDictionary removeAllObjects];
+    [self.draftMorsels removeAllObjects];
+    [self.publishedMorsels removeAllObjects];
+    [self.morselsDictionary removeAllObjects];
 
-    [self.draftPosts addObjectsFromArray:[[_postsFetchedResultsController fetchedObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(MRSLPost *evaluatedPost, NSDictionary *bindings) {
-        return evaluatedPost.draftValue;
+    [self.draftMorsels addObjectsFromArray:[[_morselsFetchedResultsController fetchedObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(MRSLMorsel *evaluatedMorsel, NSDictionary *bindings) {
+        return evaluatedMorsel.draftValue;
     }]]];
-    [self.publishedPosts addObjectsFromArray:[[_postsFetchedResultsController fetchedObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(MRSLPost *evaluatedPost, NSDictionary *bindings) {
-        return !evaluatedPost.draftValue;
+    [self.publishedMorsels addObjectsFromArray:[[_morselsFetchedResultsController fetchedObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(MRSLMorsel *evaluatedMorsel, NSDictionary *bindings) {
+        return !evaluatedMorsel.draftValue;
     }]]];
 
-    if ([_draftPosts count] > 0) [self.postsDictionary setObject:_draftPosts
+    if ([_draftMorsels count] > 0) [self.morselsDictionary setObject:_draftMorsels
                                                           forKey:@"Drafts"];
-    if ([_publishedPosts count] > 0) [self.postsDictionary setObject:_publishedPosts
+    if ([_publishedMorsels count] > 0) [self.morselsDictionary setObject:_publishedMorsels
                                                               forKey:@"Published"];
 
-    [self.postCollectionView reloadData];
+    [self.morselCollectionView reloadData];
     
-    self.nullStateView.hidden = ([_postsDictionary count] > 0);
+    self.nullStateView.hidden = ([_morselsDictionary count] > 0);
 }
 
-- (NSMutableArray *)storyArrayForIndexPath:(NSIndexPath *)indexPath {
-    NSString *keyForIndex = [[_postsDictionary allKeys] objectAtIndex:indexPath.section];
-    NSMutableArray *postsArray = ([keyForIndex isEqualToString:@"Drafts"] ? _draftPosts : _publishedPosts);
-    return postsArray;
+- (NSMutableArray *)morselArrayForIndexPath:(NSIndexPath *)indexPath {
+    NSString *keyForIndex = [[_morselsDictionary allKeys] objectAtIndex:indexPath.section];
+    NSMutableArray *morselsArray = ([keyForIndex isEqualToString:@"Drafts"] ? _draftMorsels : _publishedMorsels);
+    return morselsArray;
 }
 
-- (void)localContentPurged {
-    self.postsFetchedResultsController.delegate = nil;
-    self.postsFetchedResultsController = nil;
-}
-
-- (void)localContentRestored {
-    if (_postsFetchedResultsController) return;
-
-    [_refreshControl endRefreshing];
-
-    [self.draftPosts removeAllObjects];
-    [self.publishedPosts removeAllObjects];
-    [self.postsDictionary removeAllObjects];
-
-    [self setupPostsFetchRequest];
-    [self populateContent];
-}
-
-- (void)refreshStories {
-    [_appDelegate.morselApiService getUserPosts:[MRSLUser currentUser]
+- (void)refreshMorsels {
+    [_appDelegate.itemApiService getUserMorsels:[MRSLUser currentUser]
                                   includeDrafts:YES
-                                        success:nil
-                                        failure:nil];
+                                        success:^(NSArray *responseArray) {
+                                            [_refreshControl endRefreshing];
+                                        } failure:^(NSError *error) {
+                                            [_refreshControl endRefreshing];
+                                        }];
 }
 
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return [_postsDictionary count];
+    return [_morselsDictionary count];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([_postsDictionary count] == 0) {
+    if ([_morselsDictionary count] == 0) {
         return 0;
     }
-    NSString *keyForIndex = [[_postsDictionary allKeys] objectAtIndex:section];
-    NSUInteger postsCount = [[_postsDictionary objectForKey:keyForIndex] count];
-    return (postsCount > MRSLMaximumPostsToDisplayInStoryAdd && [keyForIndex isEqualToString:@"Published"]) ? MRSLMaximumPostsToDisplayInStoryAdd : postsCount;
+    NSString *keyForIndex = [[_morselsDictionary allKeys] objectAtIndex:section];
+    NSUInteger morselsCount = [[_morselsDictionary objectForKey:keyForIndex] count];
+    return (morselsCount > MRSLMaximumMorselsToDisplayInMorselAdd && [keyForIndex isEqualToString:@"Published"]) ? MRSLMaximumMorselsToDisplayInMorselAdd : morselsCount;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
@@ -173,7 +149,7 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
     MRSLStatusHeaderCollectionReusableView *reusableStatusView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                                                     withReuseIdentifier:@"ruid_StatusHeaderCell"
                                                                                                            forIndexPath:indexPath];
-    if ([_postsDictionary count] == 0) {
+    if ([_morselsDictionary count] == 0) {
         reusableStatusView.hidden = YES;
         reusableStatusView.delegate = nil;
         return reusableStatusView;
@@ -181,58 +157,58 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
         reusableStatusView.hidden = NO;
         reusableStatusView.delegate = self;
     }
-    NSString *keyForIndex = [[_postsDictionary allKeys] objectAtIndex:indexPath.section];
-    reusableStatusView.viewAllButton.hidden = ([[_postsDictionary objectForKey:keyForIndex] count] <= MRSLMaximumPostsToDisplayInStoryAdd ||
+    NSString *keyForIndex = [[_morselsDictionary allKeys] objectAtIndex:indexPath.section];
+    reusableStatusView.viewAllButton.hidden = ([[_morselsDictionary objectForKey:keyForIndex] count] <= MRSLMaximumMorselsToDisplayInMorselAdd ||
                                                [keyForIndex isEqualToString:@"Drafts"]);
-    reusableStatusView.statusLabel.text = [[_postsDictionary allKeys] objectAtIndex:indexPath.section];
+    reusableStatusView.statusLabel.text = [[_morselsDictionary allKeys] objectAtIndex:indexPath.section];
     return reusableStatusView;
 }
 
-- (MRSLStoryCollectionViewCell *)collectionView:(UICollectionView *)collectionView
+- (MRSLMorselCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                          cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLPost *post = [[self storyArrayForIndexPath:indexPath] objectAtIndex:indexPath.row];
+    MRSLMorsel *morsel = [[self morselArrayForIndexPath:indexPath] objectAtIndex:indexPath.row];
 
-    MRSLStoryCollectionViewCell *postCell = [self.postCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PostCell"
+    MRSLMorselCollectionViewCell *morselCell = [self.morselCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselCell"
                                                                                                forIndexPath:indexPath];
-    postCell.post = post;
+    morselCell.morsel = morsel;
 
     // Last one hides pipe
-    postCell.postPipeView.hidden = (indexPath.row == [[self storyArrayForIndexPath:indexPath] count] - 1);
+    morselCell.morselPipeView.hidden = (indexPath.row == [[self morselArrayForIndexPath:indexPath] count] - 1);
 
-    return postCell;
+    return morselCell;
 }
 
 #pragma mark - UICollectionViewDelegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
-    MRSLPost *post = [[self storyArrayForIndexPath:indexPath] objectAtIndex:indexPath.row];
-    [[MRSLEventManager sharedManager] track:@"Tapped Story"
+    MRSLMorsel *morsel = [[self morselArrayForIndexPath:indexPath] objectAtIndex:indexPath.row];
+    [[MRSLEventManager sharedManager] track:@"Tapped Morsel"
                                  properties:@{@"view": @"My Stuff",
-                                              @"story_id": NSNullIfNil(post.postID),
-                                              @"story_draft": (post.draftValue) ? @"true" : @"false"}];
-    MRSLStoryEditViewController *editStoryVC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryEditViewController"];
-    editStoryVC.postID = post.postID;
+                                              @"morsel_id": NSNullIfNil(morsel.morselID),
+                                              @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
+    MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
+    editMorselVC.morselID = morsel.morselID;
 
-    [self.navigationController pushViewController:editStoryVC
+    [self.navigationController pushViewController:editMorselVC
                                          animated:YES];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Story add detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+    DDLogDebug(@"Morsel add detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
     [self populateContent];
 }
 
 #pragma mark - MRSLStatusHeaderCollectionReusableViewDelegate Methods
 
-- (void)statusHeaderDidSelectViewAllForType:(MRSLStoryStatusType)statusType {
+- (void)statusHeaderDidSelectViewAllForType:(MRSLMorselStatusType)statusType {
     [[MRSLEventManager sharedManager] track:@"Tapped View All"
                                  properties:@{@"view": @"My Stuff"}];
-    MRSLStoryListViewController *storyListViewController = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLStoryListViewController"];
-    storyListViewController.storyStatusType = statusType;
-    [self.navigationController pushViewController:storyListViewController
+    MRSLMorselListViewController *morselListViewController = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselListViewController"];
+    morselListViewController.morselStatusType = statusType;
+    [self.navigationController pushViewController:morselListViewController
                                          animated:YES];
 }
 

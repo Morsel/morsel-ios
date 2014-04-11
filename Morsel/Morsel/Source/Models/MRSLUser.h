@@ -10,7 +10,7 @@ typedef NS_ENUM(NSUInteger, ProfileImageSizeType) {
 + (MRSLUser *)currentUser;
 + (NSString *)apiTokenForCurrentUser;
 + (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID;
-+ (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldPostNotification:(BOOL)shouldPostNotifications;
++ (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldMorselNotification:(BOOL)shouldMorselNotifications;
 
 - (BOOL)isCurrentUser;
 - (BOOL)shouldTrack;

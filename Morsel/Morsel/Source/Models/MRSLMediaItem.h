@@ -10,6 +10,7 @@
 
 @interface MRSLMediaItem : NSObject
 
+@property (strong, nonatomic) NSData *mediaFullImageData;
 @property (strong, nonatomic) UIImage *mediaCroppedImage;
 @property (strong, nonatomic) UIImage *mediaFullImage;
 @property (strong, nonatomic) UIImage *mediaThumbImage;

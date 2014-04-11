@@ -15,8 +15,8 @@
 #import "MRSLAPIClient.h"
 
 #import "MRSLComment.h"
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
-#import "MRSLPost.h"
 #import "MRSLUser.h"
 
 @implementation MRSLSpecsAppDelegate
@@ -62,8 +62,8 @@
 - (void)setupDatabase {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel-Specs.sqlite"];
     [MRSLUser MR_truncateAll];
-    [MRSLPost MR_truncateAll];
     [MRSLMorsel MR_truncateAll];
+    [MRSLItem MR_truncateAll];
     [MRSLComment MR_truncateAll];
 
     [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];

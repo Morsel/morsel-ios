@@ -80,6 +80,14 @@ UITextFieldDelegate>
                                                object:nil];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationSlide;
+}
+
 #pragma mark - Private Methods
 
 - (IBAction)addPhoto:(id)sender {
@@ -155,7 +163,7 @@ UITextFieldDelegate>
         dispatch_async(dispatch_get_main_queue(), ^{
             user.profilePhotoFull = UIImageJPEGRepresentation(profileImageFull, 1.f);
 
-            [_appDelegate.morselApiService createUser:user
+            [_appDelegate.itemApiService createUser:user
                                          withPassword:_passwordField.text
                                               success:nil
                                               failure:^(NSError *error)

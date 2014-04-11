@@ -13,12 +13,16 @@
 #import "MRSLFeedCoverCollectionViewCell.h"
 #import "MRSLFeedPageCollectionViewCell.h"
 #import "MRSLFeedShareCollectionViewCell.h"
+#import "MRSLSocialService.h"
 #import "MRSLModalCommentsViewController.h"
 #import "MRSLModalDescriptionViewController.h"
-#import "MRSLStoryEditViewController.h"
+#import "MRSLModalLikersViewController.h"
+#import "MRSLModalShareViewController.h"
+#import "MRSLMorselEditViewController.h"
 #import "MRSLProfileImageView.h"
 
-#import "MRSLPost.h"
+#import "MRSLItem.h"
+#import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
 @interface MRSLFeedPanelViewController ()
@@ -30,9 +34,13 @@ MRSLFeedShareCollectionViewCellDelegate>
 @property (nonatomic) BOOL isPresentingMorselLayout;
 @property (nonatomic) BOOL isDraggingScrollViewUp;
 
+@property (nonatomic) CGFloat previousContentOffset;
+
+@property (nonatomic) MRSLScrollDirection scrollDirection;
+
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UILabel *storyTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeSinceLabel;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
@@ -43,40 +51,76 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 #pragma mark - Instance Methods
 
-- (void)setPost:(MRSLPost *)post {
-    if (_post != post) {
-        _post = post;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideContent)
+                                                                     name:MRSLModalWillDisplayNotification
+                                                                   object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showContent)
+                                                 name:MRSLModalWillDismissNotification
+                                               object:nil];
+    [self.morselTitleLabel addStandardShadow];
+}
+
+- (void)setMorsel:(MRSLMorsel *)morsel {
+    if (_morsel != morsel) {
+        _morsel = morsel;
         [self displayContent];
     }
+}
+
+#pragma mark - Notification Methods
+
+- (void)hideContent {
+    [self toggleContent:NO];
+}
+
+- (void)showContent {
+    [self toggleContent:YES];
 }
 
 #pragma mark - Private Methods
 
 - (void)displayContent {
-    if (self.collectionView && self.post) {
-        self.profileImageView.user = _post.creator;
-        self.userNameLabel.text = _post.creator.fullName;
+    if (_collectionView && _morsel) {
+        self.view.backgroundColor = [UIColor whiteColor];
+
+        self.profileImageView.user = _morsel.creator;
+
+        self.userNameLabel.text = _morsel.creator.fullName;
         self.userNameLabel.textColor = [UIColor morselDarkContent];
-        self.timeSinceLabel.text = [_post.lastUpdatedDate timeAgo];
-        self.storyTitleLabel.text = _post.title;
-        [self.storyTitleLabel addStandardShadow];
-        [self.pageControl setAlpha:0.f];
-        self.pageControl.numberOfPages = [_post.morsels count];
-        self.pageControl.hidden = !([_post.morsels count] > 1);
+
+        self.pageControl.alpha = 0.f;
+        self.pageControl.numberOfPages = [_morsel.items count];
+        self.pageControl.hidden = !([_morsel.items count] > 1);
         [self.pageControl setY:[self.view getHeight] - ((([_pageControl sizeForNumberOfPages:_pageControl.numberOfPages].width) / 2) + 34.f)];
         self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
 
-        [self.storyTitleLabel setX:30.f];
-        [self.storyTitleLabel setY:86.f];
-        [self.storyTitleLabel setHeight:140.f];
-        [self.storyTitleLabel setWidth:260.f];
-        [self.userNameLabel setTextColor:[UIColor morselDarkContent]];
-        [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
+        self.morselTitleLabel.text = _morsel.title;
+        [self.morselTitleLabel setX:30.f];
+        [self.morselTitleLabel setY:86.f];
+        [self.morselTitleLabel setHeight:140.f];
+        [self.morselTitleLabel setWidth:260.f];
+        [self.morselTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
+
+        self.timeSinceLabel.text = [_morsel.lastUpdatedDate timeAgo];
 
         [self.collectionView reloadData];
         [self resetCollectionViewContentOffset:NO];
-        [self.view setBackgroundColor:[UIColor whiteColor]];
+
+        CGFloat currentPage = _collectionView.contentOffset.y / _collectionView.frame.size.height;
+        [self determineLayoutForPage:currentPage];
     }
+}
+
+- (void)toggleContent:(BOOL)shouldDisplay {
+    [UIView animateWithDuration:.2f
+                     animations:^{
+                         [_morselTitleLabel setAlpha:shouldDisplay];
+                         [_profileImageView setAlpha:shouldDisplay];
+                         [_userNameLabel setAlpha:shouldDisplay];
+                         [_timeSinceLabel setAlpha:shouldDisplay];
+                     }];
 }
 
 - (void)resetCollectionViewContentOffset:(BOOL)animated {
@@ -85,25 +129,25 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 - (void)setupCoverLayout {
+    self.profileImageView.hidden = NO;
+    self.userNameLabel.hidden = NO;
+    self.timeSinceLabel.hidden = NO;
+
     if (_isPresentingMorselLayout) {
         self.isPresentingMorselLayout = NO;
     } else {
         return;
     }
 
-    self.profileImageView.hidden = NO;
-    self.userNameLabel.hidden = NO;
-    self.timeSinceLabel.hidden = NO;
-
-    [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
-    [self.storyTitleLabel setHeight:140.f];
-    [self.storyTitleLabel setWidth:260.f];
+    [self.morselTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
+    [self.morselTitleLabel setHeight:140.f];
+    [self.morselTitleLabel setWidth:260.f];
 
     [UIView animateWithDuration:.2f
                      animations:^{
                          [self.userNameLabel setTextColor:[UIColor morselDarkContent]];
-                         [self.storyTitleLabel setX:30.f];
-                         [self.storyTitleLabel setY:86.f];
+                         [self.morselTitleLabel setX:30.f];
+                         [self.morselTitleLabel setY:(![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) ? 66.f : 86.f];
                          [self.pageControl setAlpha:0.f];
                      }];
     [self.view.layer removeAnimationForKey:@"fadeToBlackAnimation"];
@@ -127,16 +171,16 @@ MRSLFeedShareCollectionViewCellDelegate>
     self.userNameLabel.hidden = NO;
     self.timeSinceLabel.hidden = NO;
 
-    [self.storyTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:17.f]];
-    CGSize storyTitleLabelSize = [self.storyTitleLabel.text sizeWithFont:_storyTitleLabel.font constrainedToSize:CGSizeMake(212.f, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-    [self.storyTitleLabel setHeight:storyTitleLabelSize.height];
-    [self.storyTitleLabel setWidth:212.f];
+    [self.morselTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:17.f]];
+    CGSize morselTitleLabelSize = [self.morselTitleLabel.text sizeWithFont:_morselTitleLabel.font constrainedToSize:CGSizeMake(212.f, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    [self.morselTitleLabel setHeight:morselTitleLabelSize.height];
+    [self.morselTitleLabel setWidth:212.f];
 
     [UIView animateWithDuration:.2f
                      animations:^{
                          [self.userNameLabel setTextColor:[UIColor morselLightOffColor]];
-                         [self.storyTitleLabel setX:54.f];
-                         [self.storyTitleLabel setY:28.f];
+                         [self.morselTitleLabel setX:54.f];
+                         [self.morselTitleLabel setY:(![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) ? 8.f : 28.f];
                          [self.pageControl setAlpha:1.f];
                      }];
     [self.view.layer removeAnimationForKey:@"fadeToWhiteAnimation"];
@@ -156,13 +200,28 @@ MRSLFeedShareCollectionViewCellDelegate>
     self.timeSinceLabel.hidden = YES;
 }
 
+- (void)determineLayoutForPage:(CGFloat)page {
+    CGFloat finalPageThreshold = ([_morsel.items count] + 1) - .5f;
+    if (page > .5f && page < finalPageThreshold) {
+        [self setupMorselLayout];
+    } else if (page <= .5f) {
+        [self setupCoverLayout];
+    } else if (page >= finalPageThreshold) {
+        [self setupShareLayout];
+    }
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)viewMore {
     NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
     if (indexPath) {
+        MRSLItem *visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+        [[MRSLEventManager sharedManager] track:@"Tapped View More Description"
+                                     properties:@{@"view": @"main_feed",
+                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID)}];
         MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalDescriptionViewController"];
-        modalDescriptionVC.morsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        modalDescriptionVC.item = visibleMorsel;
         [self addChildViewController:modalDescriptionVC];
         [self.view addSubview:modalDescriptionVC.view];
     }
@@ -171,18 +230,61 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (IBAction)displayComments {
     NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
     if (indexPath) {
+        MRSLItem *visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+        [[MRSLEventManager sharedManager] track:@"Tapped Comments"
+                                     properties:@{@"view": @"main_feed",
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID),
+                                                  @"comment_count": NSNullIfNil(visibleMorsel.comment_count)}];
         MRSLModalCommentsViewController *modalCommentsVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalCommentsViewController"];
-        modalCommentsVC.morsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
+        modalCommentsVC.item = visibleMorsel;
         [self addChildViewController:modalCommentsVC];
         [self.view addSubview:modalCommentsVC.view];
     }
 }
 
-- (IBAction)editStory {
-    UINavigationController *storyEditNC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_StoryEdit"];
-    MRSLStoryEditViewController *storyEditVC = [[storyEditNC viewControllers] firstObject];
-    storyEditVC.postID = _post.postID;
-    [self presentViewController:storyEditNC
+- (IBAction)displayLikers {
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLItem *visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+        [[MRSLEventManager sharedManager] track:@"Tapped Likes"
+                                     properties:@{@"view": @"main_feed",
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID),
+                                                  @"like_count": NSNullIfNil(visibleMorsel.like_count)}];
+        MRSLModalLikersViewController *modalLikersVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalLikesViewController"];
+        modalLikersVC.item = visibleMorsel;
+        [self addChildViewController:modalLikersVC];
+        [self.view addSubview:modalLikersVC.view];
+    }
+}
+
+- (IBAction)displayShare {
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLItem *visibleMorsel = nil;
+        if (_isPresentingMorselLayout) {
+            visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+        } else {
+            visibleMorsel = [_morsel coverItem];
+        }
+        [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
+                                     properties:@{@"view": @"main_feed",
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID)}];
+        MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalShareViewController"];
+        modalShareVC.item = visibleMorsel;
+        [self addChildViewController:modalShareVC];
+        [self.view addSubview:modalShareVC.view];
+    }
+}
+
+
+- (IBAction)editMorsel {
+    UINavigationController *morselEditNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselEdit"];
+    MRSLMorselEditViewController *morselEditVC = [[morselEditNC viewControllers] firstObject];
+    morselEditVC.morselID = _morsel.morselID;
+    [self presentViewController:morselEditNC
                        animated:YES
                      completion:nil];
 }
@@ -190,28 +292,28 @@ MRSLFeedShareCollectionViewCellDelegate>
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_post.morsels count] + 2;
+    return [_morsel.items count] + 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = nil;
     if (indexPath.row == 0) {
-        MRSLFeedCoverCollectionViewCell *storyCoverCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_StoryCoverCell"
+        MRSLFeedCoverCollectionViewCell *morselCoverCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedCoverCell"
                                                                                                     forIndexPath:indexPath];
-        storyCoverCell.post = _post;
-        storyCoverCell.delegate = self;
-        cell = storyCoverCell;
-    } else if (indexPath.row == [_post.morsels count] + 1) {
-        MRSLFeedShareCollectionViewCell *shareCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_StoryShareCell"
+        morselCoverCell.morsel = _morsel;
+        morselCoverCell.delegate = self;
+        cell = morselCoverCell;
+    } else if (indexPath.row == [_morsel.items count] + 1) {
+        MRSLFeedShareCollectionViewCell *shareCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedShareCell"
                                                                                                     forIndexPath:indexPath];
-        shareCell.post = _post;
+        shareCell.morsel = _morsel;
         shareCell.delegate = self;
         cell = shareCell;
     } else {
-        MRSLFeedPageCollectionViewCell *storyPageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_StoryPageCell"
+        MRSLFeedPageCollectionViewCell *morselPageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedPageCell"
                                                                                                   forIndexPath:indexPath];
-        storyPageCell.morsel = [_post.morselsArray objectAtIndex:indexPath.row - 1];
-        cell = storyPageCell;
+        morselPageCell.item = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+        cell = morselPageCell;
     }
     return cell;
 }
@@ -230,43 +332,91 @@ MRSLFeedShareCollectionViewCellDelegate>
     CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
     CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
     self.pageControl.currentPage = (translation.y > 0) ? ceilf(currentPage - 1) : floorf(currentPage - 1);
-    CGFloat finalPageThreshold = ([_post.morsels count] + 1) - .5f;
-    if (currentPage > .5f && currentPage < finalPageThreshold) {
-        [self setupMorselLayout];
-    } else if (currentPage <= .5f) {
-        [self setupCoverLayout];
-    } else if (currentPage >= finalPageThreshold) {
-        [self setupShareLayout];
+    [self determineLayoutForPage:currentPage];
+    if (_previousContentOffset > scrollView.contentOffset.y) {
+        self.scrollDirection = MRSLScrollDirectionDown;
+    } else if (_previousContentOffset < scrollView.contentOffset.y) {
+        self.scrollDirection = MRSLScrollDirectionUp;
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSIndexPath *indexPath = [[_collectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLItem *visibleMorsel = nil;
+        if (_isPresentingMorselLayout && indexPath.row != 0) {
+            visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+        } else {
+            visibleMorsel = [_morsel coverItem];
+        }
+        CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
+        BOOL onShare = (currentPage == [_morsel.items count] + 2);
+
+        if (_scrollDirection == MRSLScrollDirectionDown) {
+            [[MRSLEventManager sharedManager] track:@"Scroll Morsel Down"
+                                         properties:@{@"view": @"main_feed",
+                                                      @"morsel_id": NSNullIfNil(visibleMorsel.morsel.morselID),
+                                                      @"item_id": NSNullIfNil(visibleMorsel.itemID),
+                                                      @"on_share": (onShare) ? @"true" : @"false",
+                                                      @"item_scroll_index": NSNullIfNil(@(currentPage))}];
+        } else if (_scrollDirection == MRSLScrollDirectionUp) {
+            [[MRSLEventManager sharedManager] track:@"Scroll Morsel Up"
+                                         properties:@{@"view": @"main_feed",
+                                                      @"morsel_id": NSNullIfNil(visibleMorsel.morsel.morselID),
+                                                      @"item_id": NSNullIfNil(visibleMorsel.itemID),
+                                                      @"on_share": (onShare) ? @"true" : @"false",
+                                                      @"item_scroll_index": NSNullIfNil(@(currentPage))}];
+        }
     }
 }
 
 #pragma mark - MRSLFeedCoverCollectionViewCellDelegate
 
-- (void)feedCoverCollectionViewCellDidSelectMorsel:(MRSLMorsel *)morsel {
-    NSInteger morselIndex = [_post.morselsArray indexOfObject:morsel] + 1;
-    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:morselIndex inSection:0]
+- (void)feedCoverCollectionViewCellDidSelectMorsel:(MRSLItem *)item {
+    NSInteger itemIndex = [_morsel.itemsArray indexOfObject:item] + 1;
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:itemIndex inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionNone
                                         animated:YES];
 }
 
 #pragma mark - MRSLFeedShareCollectionViewCellDelegate
 
-- (void)feedShareCollectionViewCellDidSelectPreviousStory {
-    if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectPreviousStory)]) {
+- (void)feedShareCollectionViewCellDidSelectShareFacebook {
+    [[MRSLSocialService sharedService] shareMorselToFacebook:[_morsel coverItem]
+                                            inViewController:self
+                                                     success:nil
+                                                      cancel:nil];
+}
+
+- (void)feedShareCollectionViewCellDidSelectShareTwitter {
+    [[MRSLSocialService sharedService] shareMorselToTwitter:[_morsel coverItem]
+                                           inViewController:self
+                                                    success:nil
+                                                     cancel:nil];
+}
+
+- (void)feedShareCollectionViewCellDidSelectPreviousMorsel {
+    if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectPreviousMorsel)]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self resetCollectionViewContentOffset:YES];
         });
-        [self.delegate feedPanelViewControllerDidSelectPreviousStory];
+        [self.delegate feedPanelViewControllerDidSelectPreviousMorsel];
     }
 }
 
-- (void)feedShareCollectionViewCellDidSelectNextStory {
-    if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectNextStory)]) {
+- (void)feedShareCollectionViewCellDidSelectNextMorsel {
+    if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectNextMorsel)]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self resetCollectionViewContentOffset:YES];
         });
-        [self.delegate feedPanelViewControllerDidSelectNextStory];
+        [self.delegate feedPanelViewControllerDidSelectNextMorsel];
     }
+}
+
+#pragma mark - Destruction
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

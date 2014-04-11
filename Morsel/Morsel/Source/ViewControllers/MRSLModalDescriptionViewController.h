@@ -1,5 +1,5 @@
 //
-//  MRSLMorselDescriptionViewController.h
+//  MRSLItemDescriptionViewController.h
 //  Morsel
 //
 //  Created by Javier Otero on 3/31/14.
@@ -12,6 +12,6 @@
 
 @interface MRSLModalDescriptionViewController : MRSLBaseModalViewController
 
-@property (nonatomic, weak) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLItem *item;
 
 @end

@@ -36,7 +36,7 @@
             UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-add-red"]
                                                                           style:UIBarButtonItemStyleBordered
                                                                          target:self
-                                                                         action:@selector(displayStoryAdd)];
+                                                                         action:@selector(displayMorselAdd)];
             [self.navigationItem setRightBarButtonItem:addButton];
         }
     } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
@@ -61,8 +61,8 @@
                                                         object:nil];
 }
 
-- (IBAction)displayStoryAdd {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayStoryAddNotification
+- (IBAction)displayMorselAdd {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayMorselAddNotification
                                                         object:nil];
 }
 
@@ -73,7 +73,8 @@
 #pragma mark - Appearance Methods
 
 - (void)changeStatusBarStyle:(UIStatusBarStyle)style {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppDidRequestNewPreferredStatusBarStyle object:@(style)];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppDidRequestNewPreferredStatusBarStyle
+                                                        object:@(style)];
 }
 
 @end

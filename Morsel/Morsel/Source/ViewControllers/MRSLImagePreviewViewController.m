@@ -10,7 +10,7 @@
 
 #import "MRSLImagePreviewCollectionViewCell.h"
 
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 
 @interface MRSLImagePreviewViewController ()
 <UICollectionViewDataSource,
@@ -54,6 +54,14 @@ UICollectionViewDelegate>
                                             withAnimation:UIStatusBarAnimationSlide];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationSlide;
+}
+
 - (void)setPreviewMedia:(NSMutableArray *)media andStartingIndex:(NSUInteger)index {
     self.currentIndex = index;
     self.previewMedia = media;
@@ -63,7 +71,7 @@ UICollectionViewDelegate>
 
 - (void)setupControls {
     id firstMediaItem = [_previewMedia firstObject];
-    if ([firstMediaItem isKindOfClass:[MRSLMorsel class]]) {
+    if ([firstMediaItem isKindOfClass:[MRSLItem class]]) {
         self.deleteButton.hidden = YES;
     }
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];

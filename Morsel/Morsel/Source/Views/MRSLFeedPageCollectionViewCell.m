@@ -9,11 +9,11 @@
 #import "MRSLFeedPageCollectionViewCell.h"
 
 #import "JSONResponseSerializerWithData.h"
-#import "MRSLMorselImageView.h"
+#import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
 
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
-#import "MRSLPost.h"
 #import "MRSLUser.h"
 
 static const CGFloat MRSLDescriptionHeightLimit = 60.f;
@@ -24,13 +24,13 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
-@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *morselDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UIButton *likeCountButton;
+@property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
+@property (weak, nonatomic) IBOutlet UILabel *itemDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UIButton *viewMoreButton;
 @property (weak, nonatomic) IBOutlet UIImageView *gradientView;
 
-@property (weak, nonatomic) IBOutlet MRSLMorselImageView *morselImageView;
+@property (weak, nonatomic) IBOutlet MRSLItemImageView *itemImageView;
 
 @end
 
@@ -40,7 +40,7 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [_morselDescriptionLabel addStandardShadow];
+    [_itemDescriptionLabel addStandardShadow];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideContent)
                                                  name:MRSLModalWillDisplayNotification
                                                object:nil];
@@ -52,42 +52,42 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
                                                object:nil];
 }
 
-- (void)setMorsel:(MRSLMorsel *)morsel {
-    _morsel = morsel;
-    _morselImageView.morsel = _morsel;
+- (void)setItem:(MRSLItem *)item {
+    _item = item;
+    _itemImageView.item = _item;
     [self populateContent];
 }
 
 - (void)populateContent {
-    _morselDescriptionLabel.text = _morsel.morselDescription;
+    _itemDescriptionLabel.text = _item.itemDescription;
 
-    _gradientView.hidden = ([_morsel.morselDescription length] == 0);
+    _gradientView.hidden = ([_item.itemDescription length] == 0);
 
-    [_morselDescriptionLabel sizeToFit];
-    [_morselDescriptionLabel setWidth:280.f];
+    [_itemDescriptionLabel sizeToFit];
+    [_itemDescriptionLabel setWidth:280.f];
 
-    CGSize textSize = [_morsel.morselDescription sizeWithFont:_morselDescriptionLabel.font
-                                            constrainedToSize:CGSizeMake([_morselDescriptionLabel getWidth], CGFLOAT_MAX)
+    CGSize textSize = [_item.itemDescription sizeWithFont:_itemDescriptionLabel.font
+                                            constrainedToSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
                                                 lineBreakMode:NSLineBreakByWordWrapping];
 
     if (textSize.height > MRSLDescriptionHeightLimit) {
-        [_morselDescriptionLabel setHeight:MRSLDescriptionHeightLimit];
+        [_itemDescriptionLabel setHeight:MRSLDescriptionHeightLimit];
         [_viewMoreButton setHidden:NO];
     } else {
-        [_morselDescriptionLabel setHeight:textSize.height];
+        [_itemDescriptionLabel setHeight:textSize.height];
         [_viewMoreButton setHidden:YES];
     }
 
-    [_morselDescriptionLabel setY:[_morselImageView getY] + [_morselImageView getHeight] - ([_morselDescriptionLabel getHeight] + ((textSize.height > MRSLDescriptionHeightLimit) ? 30.f : 5.f))];
+    [_itemDescriptionLabel setY:[_itemImageView getY] + [_itemImageView getHeight] - ([_itemDescriptionLabel getHeight] + ((textSize.height > MRSLDescriptionHeightLimit) ? 30.f : 5.f))];
 
-    _editButton.hidden = ![_morsel.post.creator isCurrentUser];
-    _likeCountLabel.text = [NSString stringWithFormat:@"%i", _morsel.like_countValue];
-    _commentCountLabel.text = [NSString stringWithFormat:@"%i", _morsel.comment_countValue];
+    _editButton.hidden = ![_item.morsel.creator isCurrentUser];
+    
+    [_likeCountButton setTitle:[NSString stringWithFormat:@"%i Like%@", _item.like_countValue, (_item.like_countValue != 1) ? @"s" : @""]
+                      forState:UIControlStateNormal];
+    [_commentCountButton setTitle:[NSString stringWithFormat:@"%i Comment%@", _item.comment_countValue, (_item.comment_countValue != 1) ? @"s" : @""]
+                      forState:UIControlStateNormal];
 
-    [self setLikeButtonImageForMorsel:_morsel];
-
-    [_likeCountLabel sizeToFit];
-    [_commentCountLabel sizeToFit];
+    [self setLikeButtonImageForMorsel:_item];
 }
 
 #pragma mark - Notification Methods
@@ -106,9 +106,9 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
 
     __weak __typeof(self) weakSelf = self;
     [updatedObjects enumerateObjectsUsingBlock:^(NSManagedObject *managedObject, BOOL *stop) {
-        if ([managedObject isKindOfClass:[MRSLMorsel class]]) {
-            MRSLMorsel *morsel = (MRSLMorsel *)managedObject;
-            if (morsel.morselIDValue == weakSelf.morsel.morselIDValue) {
+        if ([managedObject isKindOfClass:[MRSLItem class]]) {
+            MRSLItem *item = (MRSLItem *)managedObject;
+            if (item.itemIDValue == weakSelf.item.itemIDValue) {
                 [weakSelf populateContent];
                 *stop = YES;
             }
@@ -121,8 +121,14 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
 - (void)toggleContent:(BOOL)shouldDisplay {
     [UIView animateWithDuration:.2f
                      animations:^{
-                         [_morselDescriptionLabel setAlpha:shouldDisplay];
+                         [_itemDescriptionLabel setAlpha:shouldDisplay];
                          [_viewMoreButton setAlpha:shouldDisplay];
+                         [_commentButton setAlpha:shouldDisplay];
+                         [_commentCountButton setAlpha:shouldDisplay];
+                         [_likeButton setAlpha:shouldDisplay];
+                         [_likeCountButton setAlpha:shouldDisplay];
+                         [_shareButton setAlpha:shouldDisplay];
+                         [_editButton setAlpha:shouldDisplay];
     }];
 }
 
@@ -132,14 +138,14 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
     _likeButton.enabled = NO;
     
     [[MRSLEventManager sharedManager] track:@"Tapped Like Icon"
-                                 properties:@{@"view": @"Feed",
-                                              @"morsel_id": _morsel.morselID}];
+                                 properties:@{@"view": @"main_feed",
+                                              @"item_id": _item.itemID}];
 
-    [_morsel setLikedValue:!_morsel.likedValue];
-    [self setLikeButtonImageForMorsel:_morsel];
+    [_item setLikedValue:!_item.likedValue];
+    [self setLikeButtonImageForMorsel:_item];
 
-    [_appDelegate.morselApiService likeMorsel:_morsel
-                                   shouldLike:_morsel.likedValue
+    [_appDelegate.itemApiService likeItem:_item
+                                   shouldLike:_item.likedValue
                                       didLike:nil
                                       failure: ^(NSError * error) {
                                           MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
@@ -148,12 +154,12 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
                                                                            delegate:nil];
 
                                           _likeButton.enabled = YES;
-                                          [_morsel setLikedValue:!_morsel.likedValue];
+                                          [_item setLikedValue:!_item.likedValue];
                                       }];
 }
 
-- (void)setLikeButtonImageForMorsel:(MRSLMorsel *)morsel {
-    UIImage *likeImage = [UIImage imageNamed:morsel.likedValue ? @"icon-like-active" : @"icon-like-inactive"];
+- (void)setLikeButtonImageForMorsel:(MRSLItem *)item {
+    UIImage *likeImage = [UIImage imageNamed:item.likedValue ? @"icon-like-active" : @"icon-like-inactive"];
     
     [_likeButton setImage:likeImage
                  forState:UIControlStateNormal];

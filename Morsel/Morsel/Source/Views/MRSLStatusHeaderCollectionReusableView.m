@@ -15,7 +15,7 @@
 - (IBAction)viewAll
 {
     if ([self.delegate respondsToSelector:@selector(statusHeaderDidSelectViewAllForType:)]) {
-        [self.delegate statusHeaderDidSelectViewAllForType:([self.statusLabel.text isEqualToString:@"Drafts"]) ? MRSLStoryStatusTypeDrafts : MRSLStoryStatusTypePublished];
+        [self.delegate statusHeaderDidSelectViewAllForType:([self.statusLabel.text isEqualToString:@"Drafts"]) ? MRSLMorselStatusTypeDrafts : MRSLMorselStatusTypePublished];
     }
 }
 

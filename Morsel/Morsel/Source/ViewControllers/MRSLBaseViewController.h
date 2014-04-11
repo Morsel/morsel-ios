@@ -12,7 +12,7 @@
 
 - (IBAction)dismiss;
 - (IBAction)displayMenuBar;
-- (IBAction)displayStoryAdd;
+- (IBAction)displayMorselAdd;
 - (IBAction)goBack;
 
 - (void)changeStatusBarStyle:(UIStatusBarStyle)style;

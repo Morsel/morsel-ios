@@ -9,7 +9,7 @@ const struct MRSLTagAttributes MRSLTagAttributes = {
 };
 
 const struct MRSLTagRelationships MRSLTagRelationships = {
-	.morsels = @"morsels",
+	.items = @"items",
 };
 
 const struct MRSLTagFetchedProperties MRSLTagFetchedProperties = {
@@ -86,15 +86,15 @@ const struct MRSLTagFetchedProperties MRSLTagFetchedProperties = {
 
 
 
-@dynamic morsels;
+@dynamic items;
 
 	
-- (NSMutableSet*)morselsSet {
-	[self willAccessValueForKey:@"morsels"];
+- (NSMutableSet*)itemsSet {
+	[self willAccessValueForKey:@"items"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"morsels"];
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"items"];
   
-	[self didAccessValueForKey:@"morsels"];
+	[self didAccessValueForKey:@"items"];
 	return result;
 }
 	

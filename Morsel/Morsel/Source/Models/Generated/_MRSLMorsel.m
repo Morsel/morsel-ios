@@ -4,30 +4,23 @@
 #import "_MRSLMorsel.h"
 
 const struct MRSLMorselAttributes MRSLMorselAttributes = {
-	.comment_count = @"comment_count",
 	.creationDate = @"creationDate",
-	.creator_id = @"creator_id",
-	.didFailUpload = @"didFailUpload",
-	.isUploading = @"isUploading",
+	.draft = @"draft",
+	.feedItemID = @"feedItemID",
 	.lastUpdatedDate = @"lastUpdatedDate",
-	.like_count = @"like_count",
-	.liked = @"liked",
-	.localUUID = @"localUUID",
-	.morselDescription = @"morselDescription",
 	.morselID = @"morselID",
-	.morselPhotoCropped = @"morselPhotoCropped",
-	.morselPhotoThumb = @"morselPhotoThumb",
 	.morselPhotoURL = @"morselPhotoURL",
-	.photo_processing = @"photo_processing",
-	.sort_order = @"sort_order",
+	.primary_item_id = @"primary_item_id",
+	.publishedDate = @"publishedDate",
+	.title = @"title",
+	.total_comment_count = @"total_comment_count",
+	.total_like_count = @"total_like_count",
 	.url = @"url",
 };
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
-	.activities = @"activities",
-	.comments = @"comments",
-	.post = @"post",
-	.tags = @"tags",
+	.creator = @"creator",
+	.items = @"items",
 };
 
 const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
@@ -59,33 +52,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
-	if ([key isEqualToString:@"comment_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"comment_count"];
+	if ([key isEqualToString:@"draftValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"draft"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"creator_idValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"creator_id"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"didFailUploadValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"didFailUpload"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"isUploadingValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"isUploading"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"like_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"likedValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"liked"];
+	if ([key isEqualToString:@"feedItemIDValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"feedItemID"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -94,45 +67,24 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"photo_processingValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"photo_processing"];
+	if ([key isEqualToString:@"primary_item_idValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"primary_item_id"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"sort_orderValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"sort_order"];
+	if ([key isEqualToString:@"total_comment_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"total_comment_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"total_like_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"total_like_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
 
 	return keyPaths;
 }
-
-
-
-
-@dynamic comment_count;
-
-
-
-- (int32_t)comment_countValue {
-	NSNumber *result = [self comment_count];
-	return [result intValue];
-}
-
-- (void)setComment_countValue:(int32_t)value_ {
-	[self setComment_count:[NSNumber numberWithInt:value_]];
-}
-
-- (int32_t)primitiveComment_countValue {
-	NSNumber *result = [self primitiveComment_count];
-	return [result intValue];
-}
-
-- (void)setPrimitiveComment_countValue:(int32_t)value_ {
-	[self setPrimitiveComment_count:[NSNumber numberWithInt:value_]];
-}
-
 
 
 
@@ -144,78 +96,52 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic creator_id;
+@dynamic draft;
 
 
 
-- (int32_t)creator_idValue {
-	NSNumber *result = [self creator_id];
+- (BOOL)draftValue {
+	NSNumber *result = [self draft];
+	return [result boolValue];
+}
+
+- (void)setDraftValue:(BOOL)value_ {
+	[self setDraft:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveDraftValue {
+	NSNumber *result = [self primitiveDraft];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveDraftValue:(BOOL)value_ {
+	[self setPrimitiveDraft:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic feedItemID;
+
+
+
+- (int32_t)feedItemIDValue {
+	NSNumber *result = [self feedItemID];
 	return [result intValue];
 }
 
-- (void)setCreator_idValue:(int32_t)value_ {
-	[self setCreator_id:[NSNumber numberWithInt:value_]];
+- (void)setFeedItemIDValue:(int32_t)value_ {
+	[self setFeedItemID:[NSNumber numberWithInt:value_]];
 }
 
-- (int32_t)primitiveCreator_idValue {
-	NSNumber *result = [self primitiveCreator_id];
+- (int32_t)primitiveFeedItemIDValue {
+	NSNumber *result = [self primitiveFeedItemID];
 	return [result intValue];
 }
 
-- (void)setPrimitiveCreator_idValue:(int32_t)value_ {
-	[self setPrimitiveCreator_id:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
-@dynamic didFailUpload;
-
-
-
-- (BOOL)didFailUploadValue {
-	NSNumber *result = [self didFailUpload];
-	return [result boolValue];
-}
-
-- (void)setDidFailUploadValue:(BOOL)value_ {
-	[self setDidFailUpload:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveDidFailUploadValue {
-	NSNumber *result = [self primitiveDidFailUpload];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveDidFailUploadValue:(BOOL)value_ {
-	[self setPrimitiveDidFailUpload:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
-@dynamic isUploading;
-
-
-
-- (BOOL)isUploadingValue {
-	NSNumber *result = [self isUploading];
-	return [result boolValue];
-}
-
-- (void)setIsUploadingValue:(BOOL)value_ {
-	[self setIsUploading:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsUploadingValue {
-	NSNumber *result = [self primitiveIsUploading];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsUploadingValue:(BOOL)value_ {
-	[self setPrimitiveIsUploading:[NSNumber numberWithBool:value_]];
+- (void)setPrimitiveFeedItemIDValue:(int32_t)value_ {
+	[self setPrimitiveFeedItemID:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -223,72 +149,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 @dynamic lastUpdatedDate;
-
-
-
-
-
-
-@dynamic like_count;
-
-
-
-- (int32_t)like_countValue {
-	NSNumber *result = [self like_count];
-	return [result intValue];
-}
-
-- (void)setLike_countValue:(int32_t)value_ {
-	[self setLike_count:[NSNumber numberWithInt:value_]];
-}
-
-- (int32_t)primitiveLike_countValue {
-	NSNumber *result = [self primitiveLike_count];
-	return [result intValue];
-}
-
-- (void)setPrimitiveLike_countValue:(int32_t)value_ {
-	[self setPrimitiveLike_count:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
-@dynamic liked;
-
-
-
-- (BOOL)likedValue {
-	NSNumber *result = [self liked];
-	return [result boolValue];
-}
-
-- (void)setLikedValue:(BOOL)value_ {
-	[self setLiked:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveLikedValue {
-	NSNumber *result = [self primitiveLiked];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveLikedValue:(BOOL)value_ {
-	[self setPrimitiveLiked:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
-@dynamic localUUID;
-
-
-
-
-
-
-@dynamic morselDescription;
 
 
 
@@ -321,20 +181,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic morselPhotoCropped;
-
-
-
-
-
-
-@dynamic morselPhotoThumb;
-
-
-
-
-
-
 @dynamic morselPhotoURL;
 
 
@@ -342,52 +188,92 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic photo_processing;
+@dynamic primary_item_id;
 
 
 
-- (BOOL)photo_processingValue {
-	NSNumber *result = [self photo_processing];
-	return [result boolValue];
-}
-
-- (void)setPhoto_processingValue:(BOOL)value_ {
-	[self setPhoto_processing:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitivePhoto_processingValue {
-	NSNumber *result = [self primitivePhoto_processing];
-	return [result boolValue];
-}
-
-- (void)setPrimitivePhoto_processingValue:(BOOL)value_ {
-	[self setPrimitivePhoto_processing:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
-@dynamic sort_order;
-
-
-
-- (int32_t)sort_orderValue {
-	NSNumber *result = [self sort_order];
+- (int32_t)primary_item_idValue {
+	NSNumber *result = [self primary_item_id];
 	return [result intValue];
 }
 
-- (void)setSort_orderValue:(int32_t)value_ {
-	[self setSort_order:[NSNumber numberWithInt:value_]];
+- (void)setPrimary_item_idValue:(int32_t)value_ {
+	[self setPrimary_item_id:[NSNumber numberWithInt:value_]];
 }
 
-- (int32_t)primitiveSort_orderValue {
-	NSNumber *result = [self primitiveSort_order];
+- (int32_t)primitivePrimary_item_idValue {
+	NSNumber *result = [self primitivePrimary_item_id];
 	return [result intValue];
 }
 
-- (void)setPrimitiveSort_orderValue:(int32_t)value_ {
-	[self setPrimitiveSort_order:[NSNumber numberWithInt:value_]];
+- (void)setPrimitivePrimary_item_idValue:(int32_t)value_ {
+	[self setPrimitivePrimary_item_id:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic publishedDate;
+
+
+
+
+
+
+@dynamic title;
+
+
+
+
+
+
+@dynamic total_comment_count;
+
+
+
+- (int32_t)total_comment_countValue {
+	NSNumber *result = [self total_comment_count];
+	return [result intValue];
+}
+
+- (void)setTotal_comment_countValue:(int32_t)value_ {
+	[self setTotal_comment_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveTotal_comment_countValue {
+	NSNumber *result = [self primitiveTotal_comment_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveTotal_comment_countValue:(int32_t)value_ {
+	[self setPrimitiveTotal_comment_count:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic total_like_count;
+
+
+
+- (int32_t)total_like_countValue {
+	NSNumber *result = [self total_like_count];
+	return [result intValue];
+}
+
+- (void)setTotal_like_countValue:(int32_t)value_ {
+	[self setTotal_like_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveTotal_like_countValue {
+	NSNumber *result = [self primitiveTotal_like_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveTotal_like_countValue:(int32_t)value_ {
+	[self setPrimitiveTotal_like_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -401,45 +287,19 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic activities;
-
-	
-- (NSMutableSet*)activitiesSet {
-	[self willAccessValueForKey:@"activities"];
-  
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"activities"];
-  
-	[self didAccessValueForKey:@"activities"];
-	return result;
-}
-	
-
-@dynamic comments;
-
-	
-- (NSMutableSet*)commentsSet {
-	[self willAccessValueForKey:@"comments"];
-  
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"comments"];
-  
-	[self didAccessValueForKey:@"comments"];
-	return result;
-}
-	
-
-@dynamic post;
+@dynamic creator;
 
 	
 
-@dynamic tags;
+@dynamic items;
 
 	
-- (NSMutableSet*)tagsSet {
-	[self willAccessValueForKey:@"tags"];
+- (NSMutableSet*)itemsSet {
+	[self willAccessValueForKey:@"items"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"tags"];
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"items"];
   
-	[self didAccessValueForKey:@"tags"];
+	[self didAccessValueForKey:@"items"];
 	return result;
 }
 	

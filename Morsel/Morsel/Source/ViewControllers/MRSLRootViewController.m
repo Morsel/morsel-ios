@@ -8,7 +8,7 @@
 
 #import "MRSLRootViewController.h"
 
-#import "MRSLStoryAddViewController.h"
+#import "MRSLFeedViewController.h"
 
 #import "MRSLMenuBarView.h"
 
@@ -47,11 +47,11 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayFeed)
-                                                 name:MRSLUserDidPublishPostNotification
+                                                 name:MRSLUserDidPublishMorselNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayStoryAdd)
-                                                 name:MRSLAppShouldDisplayStoryAddNotification
+                                             selector:@selector(displayMorselAdd)
+                                                 name:MRSLAppShouldDisplayMorselAddNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayUserProfile:)
@@ -94,7 +94,7 @@
                                @"created_at": NSNullIfNil(currentUser.creationDate),
                                @"title": NSNullIfNil(currentUser.title),
                                @"username": NSNullIfNil(currentUser.username)}];
-        [_appDelegate.morselApiService getUserProfile:currentUser
+        [_appDelegate.itemApiService getUserProfile:currentUser
                                               success:nil
                                               failure:nil];
 
@@ -118,13 +118,12 @@
     [self dismissViewControllerAnimated:YES
                              completion:nil];
     [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
-                                                  andStoryboardPrefix:@"Feed"
-                                                    shouldDisplayRoot:YES];
+                                                  andStoryboardPrefix:@"Feed"];
 }
 
-- (void)displayStoryAdd {
-    UINavigationController *storyAddNC = [[UIStoryboard storyManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_StoryAdd"];
-    [self presentViewController:storyAddNC
+- (void)displayMorselAdd {
+    UINavigationController *morselAddNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselAdd"];
+    [self presentViewController:morselAddNC
                        animated:YES
                      completion:nil];
 }
@@ -156,7 +155,7 @@
 }
 
 - (void)logUserOut {
-    if ([UIApplication sharedApplication].statusBarHidden) {
+    if (![UIApplication sharedApplication].statusBarHidden) {
         [[UIApplication sharedApplication] setStatusBarHidden:YES
                                                 withAnimation:UIStatusBarAnimationSlide];
     }
@@ -196,8 +195,7 @@
                                                 withAnimation:UIStatusBarAnimationSlide];
     }
     [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
-                                                  andStoryboardPrefix:@"Feed"
-                                                    shouldDisplayRoot:YES];
+                                                  andStoryboardPrefix:@"Feed"];
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }
@@ -218,8 +216,7 @@
 }
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
-                                                andStoryboardPrefix:(NSString *)storyboardPrefixName
-                                                  shouldDisplayRoot:(BOOL)shouldDisplayRoot {
+                                                andStoryboardPrefix:(NSString *)storyboardPrefixName {
     Class viewControllerClass = NSClassFromString([NSString stringWithFormat:@"MRSL%@ViewController", classPrefixName]);
     UINavigationController *viewControllerNC = [self getNavControllerWithClass:[viewControllerClass class]];
 
@@ -236,12 +233,9 @@
     } else {
         [_currentViewController removeFromParentViewController];
         [_currentViewController.view removeFromSuperview];
-
-        UINavigationController *navController = (UINavigationController *)self.currentViewController;
-        if (shouldDisplayRoot) {
-            [navController popToRootViewControllerAnimated:NO];
+        if (![[[(UINavigationController *)_currentViewController viewControllers] firstObject] isKindOfClass:[MRSLFeedViewController class]]) {
+            [_navigationControllers removeObject:_currentViewController];
         }
-
         self.currentViewController = nil;
 
         [self addChildViewController:viewControllerNC];
@@ -259,29 +253,25 @@
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
                                          properties:@{@"name": @"Feed"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
-                                                          andStoryboardPrefix:@"Feed"
-                                                            shouldDisplayRoot:NO];
+                                                          andStoryboardPrefix:@"Feed"];
             break;
         case MRSLMenuBarButtonTypeProfile:
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
                                          properties:@{@"name": @"Profile"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"
-                                                          andStoryboardPrefix:@"Profile"
-                                                            shouldDisplayRoot:YES];
+                                                          andStoryboardPrefix:@"Profile"];
             break;
         case MRSLMenuBarButtonTypeMyStuff:
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
                                          properties:@{@"name": @"My Stuff"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"MyStuff"
-                                                          andStoryboardPrefix:@"MyStuff"
-                                                            shouldDisplayRoot:YES];
+                                                          andStoryboardPrefix:@"MyStuff"];
             break;
         case MRSLMenuBarButtonTypeActivity:
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
                                          properties:@{@"name": @"Activity"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Activity"
-                                                          andStoryboardPrefix:@"Activity"
-                                                            shouldDisplayRoot:YES];
+                                                          andStoryboardPrefix:@"Activity"];
             break;
         case MRSLMenuBarButtonTypeLogout:
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
@@ -291,6 +281,12 @@
         default:
             break;
     }
+}
+
+#pragma mark - Destruction
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

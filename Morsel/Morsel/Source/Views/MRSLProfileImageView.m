@@ -8,13 +8,11 @@
 
 #import "MRSLProfileImageView.h"
 
-#import <AFNetworking/AFNetworking.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #import "MRSLUser.h"
 
 @interface MRSLProfileImageView ()
-
-@property (strong, nonatomic) AFHTTPRequestOperation *imageRequestOperation;
 
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
 
@@ -58,26 +56,12 @@
                 if (!profileImageURLRequest)
                     return;
 
-                __weak __typeof(self) weakSelf = self;
-
-                self.imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:profileImageURLRequest];
-
-                [_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, NSData *imageData) {
-                    UIImage *downloadedProfileImage = [UIImage imageWithData:imageData];
-                    weakSelf.image = downloadedProfileImage;
-                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                    if (weakSelf.user.profilePhotoLarge) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            UIImage *localImage = [UIImage imageWithData:(weakSelf.frame.size.width > MRSLUserProfileImageThumbDimensionSize) ? weakSelf.user.profilePhotoLarge : weakSelf.user.profilePhotoThumb];
-                            weakSelf.image = localImage;
-                        });
-                    } else {
-                        DDLogError(@"ProfileImageView request operation failed and no local image exists: %@", error.userInfo);
+                __weak __typeof(self)weakSelf = self;
+                [self setImageWithURL:profileImageURLRequest.URL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                    if (error) {
                         [weakSelf setImageToPlaceholder];
                     }
                 }];
-
-                [_imageRequestOperation start];
             } else {
                 if (self.user.profilePhotoLarge) {
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -99,10 +83,9 @@
         UIImage *scaledImage = [image thumbnailImage:[self getWidth]
                                 interpolationQuality:kCGInterpolationHigh];
 
-        dispatch_async(dispatch_get_main_queue(), ^
-                       {
-                           self.image = scaledImage;
-                       });
+        dispatch_async(dispatch_get_main_queue(), ^ {
+            self.image = scaledImage;
+        });
     });
 }
 
@@ -115,10 +98,6 @@
 }
 
 - (void)reset {
-    if (self.imageRequestOperation) {
-        [self.imageRequestOperation cancel];
-        self.imageRequestOperation = nil;
-    }
     self.image = nil;
 }
 
@@ -129,11 +108,7 @@
 #pragma mark - Destruction Methods
 
 - (void)dealloc {
-    if (self.imageRequestOperation) {
-        [self.imageRequestOperation cancel];
-        self.imageRequestOperation = nil;
-    }
-    
+    [self reset];
     if (self.tapRecognizer) {
         [self removeGestureRecognizer:_tapRecognizer];
         self.tapRecognizer = nil;

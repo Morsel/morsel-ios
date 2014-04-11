@@ -71,14 +71,14 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselCell" id="bDq-Mn-MmS" customClass="MRSLFeedCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_ItemCell" id="bDq-Mn-MmS" customClass="MRSLFeedCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="BKE-7b-L52" customClass="MRSLMorselImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="BKE-7b-L52" customClass="MRSLItemImageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -126,8 +126,8 @@
                                         <size key="customSize" width="320" height="320"/>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="4Rz-by-XwX" id="ZgY-YM-Yni"/>
+                                            <outlet property="itemImageView" destination="BKE-7b-L52" id="zaU-nM-L4B"/>
                                             <outlet property="likeButton" destination="hxg-QM-x4l" id="UU0-LW-lp0"/>
-                                            <outlet property="morselImageView" destination="BKE-7b-L52" id="gd7-be-uHc"/>
                                             <outlet property="plateButton" destination="8KL-O2-HSt" id="WJV-4I-4XT"/>
                                             <outlet property="profileImageView" destination="B1Y-tf-DNT" id="ioh-Hg-Fmf"/>
                                             <outlet property="titleLabel" destination="B7l-w2-a4R" id="HOM-ZY-LnH"/>
@@ -146,14 +146,14 @@
                                         <rect key="frame" x="0.0" y="94" width="250" height="71"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <attributedString key="attributedText">
-                                            <fragment content="You haven’t told any stories yet! Why not ">
+                                            <fragment content="You haven’t made any morsels yet! Why not ">
                                                 <attributes>
                                                     <color key="NSColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="17" name="Helvetica-Light"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                 </attributes>
                                             </fragment>
-                                            <fragment content="tell a new Story">
+                                            <fragment content="make one now">
                                                 <attributes>
                                                     <color key="NSColor" red="0.90980392694473267" green="0.3803921639919281" blue="0.26666668057441711" alpha="1" colorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="17" name="Helvetica-Light"/>
@@ -175,7 +175,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
                                         <connections>
-                                            <action selector="displayStoryAdd" destination="MYi-AS-SvG" eventType="touchUpInside" id="eCX-7R-w9O"/>
+                                            <action selector="displayMorselAdd" destination="MYi-AS-SvG" eventType="touchUpInside" id="oMB-uU-BYU"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -188,9 +188,9 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Profile" id="fQx-I9-biz"/>
                     <connections>
+                        <outlet property="itemCountLabel" destination="yaa-Ju-YGf" id="g2J-sa-e4c"/>
+                        <outlet property="itemIconView" destination="gkN-7I-8i1" id="dT8-FF-anQ"/>
                         <outlet property="likeCountLabel" destination="9CE-Ru-IqV" id="W35-s2-vbc"/>
-                        <outlet property="morselCountLabel" destination="yaa-Ju-YGf" id="PzQ-qA-adT"/>
-                        <outlet property="morselIconView" destination="gkN-7I-8i1" id="gga-zw-FCP"/>
                         <outlet property="nullStateView" destination="fHQ-fo-Bo8" id="h1L-rH-rqY"/>
                         <outlet property="profileCollectionView" destination="nOm-Tm-KKG" id="RBq-7I-Q43"/>
                         <outlet property="profileImageView" destination="GMc-6J-rv2" id="dHf-Xc-76b"/>
