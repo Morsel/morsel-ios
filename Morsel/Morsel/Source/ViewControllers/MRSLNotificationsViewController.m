@@ -104,6 +104,7 @@ NSFetchedResultsControllerDelegate>
                                                      orSinceID:nil
                                                       andCount:nil
                                                        success:^(NSArray *responseArray) {
+                                                           weakSelf.notificationIDs = responseArray;
                                                            [[NSUserDefaults standardUserDefaults] setObject:responseArray forKey:@"MRSLNotificationsViewController_notificationIDs"];
                                                            [weakSelf setupFetchRequest];
                                                            [weakSelf populateContent];
@@ -119,15 +120,12 @@ NSFetchedResultsControllerDelegate>
     MRSLActivity *activity = notification.activity;
     MRSLItem *item = activity.item;
 
-    NSLog(@"Create event and send user to Morsel Details view");
     [[MRSLEventManager sharedManager] track:@"Tapped Notification"
                                  properties:@{@"view": @"Notifications",
                                               @"notification_id": NSNullIfNil(notification.notificationID),
                                               @"action_type": NSNullIfNil(activity.actionType),
                                               @"activity_id": NSNullIfNil(activity.activityID),
                                               @"item_id": NSNullIfNil(item.itemID)}];
-
-    //  TODO: Implement going to Morsel Detail view when that screen is implemented
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

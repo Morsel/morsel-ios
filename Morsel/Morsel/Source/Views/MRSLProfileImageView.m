@@ -102,10 +102,10 @@
 }
 
 - (void)setImageToPlaceholder {
-    self.image = [UIImage imageNamed:@"placeholder_user_photo"];
+    self.image = [UIImage imageNamed:@"graphic-placeholder-profile"];
 }
 
-#pragma mark - Destruction Methods
+#pragma mark - Dealloc Methods
 
 - (void)dealloc {
     [self reset];

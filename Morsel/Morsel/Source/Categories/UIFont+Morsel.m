@@ -15,28 +15,18 @@
                            size:fontSize];
 }
 
-+ (UIFont *)robotoCondensedRegularFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"RobotoCondensed-Regular"
++ (UIFont *)robotoSlabRegularFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"RobotoSlab-Regular"
                            size:fontSize];
 }
 
-+ (UIFont *)robotoCondensedItalicFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"RobotoCondensed-Italic"
++ (UIFont *)robotoLightFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Roboto-Light"
                            size:fontSize];
 }
 
-+ (UIFont *)robotoCondensedLightFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"RobotoCondensed-Light"
-                           size:fontSize];
-}
-
-+ (UIFont *)helveticaLightFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Helvetica-Light"
-                           size:fontSize];
-}
-
-+ (UIFont *)helveticaLightObliqueFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Helvetica-LightOblique"
++ (UIFont *)robotoRegularFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Roboto-Regular"
                            size:fontSize];
 }
 

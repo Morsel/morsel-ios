@@ -14,6 +14,11 @@
 
 - (void)didImport:(id)data {
     if ([data[@"subject_type"] isEqualToString:@"Item"]) [self importItem:data[@"subject"]];
+
+    if (![data[@"created_at"] isEqual:[NSNull null]]) {
+        NSString *dateString = data[@"created_at"];
+        self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
+    }
 }
 
 
@@ -44,6 +49,7 @@
                                                        inContext:self.managedObjectContext];
         if (!item) item = [MRSLItem MR_createInContext:self.managedObjectContext];
         [item MR_importValuesForKeysWithObject:itemDictionary];
+        [self setItem:item];
         [item addActivitiesObject:self];
     }
 }

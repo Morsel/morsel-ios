@@ -38,14 +38,14 @@
                                                                }];
 
         [[UIBarButtonItem appearance] setTitleTextAttributes:@{
-                                                               UITextAttributeFont : [UIFont helveticaLightFontOfSize:17.f],
+                                                               UITextAttributeFont : [UIFont robotoLightFontOfSize:17.f],
                                                                UITextAttributeTextColor : [UIColor morselRed],
                                                                UITextAttributeTextShadowOffset : [NSValue valueWithUIOffset:UIOffsetMake(0.f, 0.f)]
                                                                }
                                                     forState:UIControlStateNormal];
 
         [[UIBarButtonItem appearance] setTitleTextAttributes:@{
-                                                               UITextAttributeFont : [UIFont helveticaLightFontOfSize:17.f],
+                                                               UITextAttributeFont : [UIFont robotoLightFontOfSize:17.f],
                                                                UITextAttributeTextColor : [UIColor morselLightContent],
                                                                UITextAttributeTextShadowOffset : [NSValue valueWithUIOffset:UIOffsetMake(0.f, 0.f)]
                                                                }

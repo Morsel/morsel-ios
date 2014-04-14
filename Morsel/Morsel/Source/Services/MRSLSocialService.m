@@ -106,7 +106,7 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                     [strongSelf showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
                 } else {
                     if (failureOrNil) failureOrNil(nil);
-                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Unable to authorize with Facebook. Please check your settings."]
+                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:(error.code == ACErrorAccountNotFound) ? @"Please add a Facebook Account to this device" : @"Unable to authorize with Facebook. Please check your settings."]
                                                     delegate:nil];
                 }
             }];
@@ -139,7 +139,7 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                     [strongSelf showActionSheetWithAccountsForAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
                 } else {
                     if (failureOrNil) failureOrNil(nil);
-                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Unable to authorize with Twitter. Please check your settings."]
+                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:(error.code == ACErrorAccountNotFound) ? @"Please add a Twitter Account to this device" : @"Unable to authorize with Twitter. Please check your settings."]
                                                     delegate:nil];
                 }
             }];
@@ -183,8 +183,15 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
     if ([SLComposeViewController isAvailableForServiceType:serviceType]) {
         SLComposeViewController *slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:serviceType];
         NSString *userNameOrTwitterHandle =  (item.morsel.creator.twitter_username && [serviceType isEqualToString:SLServiceTypeTwitter]) ? [NSString stringWithFormat:@"@%@", item.morsel.creator.twitter_username] : item.morsel.creator.fullName;
-        [slComposerSheet setInitialText:[NSString stringWithFormat:@"‟%@” from %@ on %@", item.morsel.title, userNameOrTwitterHandle, ([serviceType isEqualToString:SLServiceTypeFacebook]) ? @"Morsel" : @"@eatmorsel"]];
-        [slComposerSheet addURL:[NSURL URLWithString:item.morsel.url]];
+        NSString *shareText = @"";
+        if ([serviceType isEqualToString:SLServiceTypeFacebook]) {
+            shareText = [NSString stringWithFormat:@"“%@” from %@ on Morsel", item.morsel.title, userNameOrTwitterHandle];
+            [slComposerSheet addURL:[NSURL URLWithString:item.morsel.facebook_mrsl ?: item.morsel.url]];
+        } else if ([serviceType isEqualToString:SLServiceTypeTwitter]) {
+            shareText = [NSString stringWithFormat:@"“%@” from %@ on @eatmorsel %@", item.morsel.title, userNameOrTwitterHandle, item.morsel.twitter_mrsl ?: item.morsel.url];
+            if (item.morsel.morselPhotoURL) [slComposerSheet addImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:item.morsel.morselPhotoURL]]]];
+        }
+        [slComposerSheet setInitialText:shareText];
         [viewController presentViewController:slComposerSheet
                                      animated:YES
                                    completion:nil];

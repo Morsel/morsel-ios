@@ -35,6 +35,13 @@
 
 #pragma mark - Instance Methods
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
+                                                 name:NSManagedObjectContextObjectsDidChangeNotification
+                                               object:nil];
+}
+
 - (void)setMorsel:(MRSLMorsel *)morsel {
     if (_morsel != morsel) {
         _morsel = morsel;
@@ -50,6 +57,26 @@
     _userNameLabel.text = _morsel.creator.fullName;
     _userTitleLabel.text = _morsel.creator.title;
     _userBioLabel.text = _morsel.creator.bio;
+}
+
+#pragma mark - Notification Methods
+
+- (void)updateContent:(NSNotification *)notification {
+    NSDictionary *userInfoDictionary = [notification userInfo];
+    NSSet *updatedObjects = [userInfoDictionary objectForKey:NSUpdatedObjectsKey];
+
+    __weak __typeof(self) weakSelf = self;
+    [updatedObjects enumerateObjectsUsingBlock:^(NSManagedObject *managedObject, BOOL *stop) {
+        if ([managedObject isKindOfClass:[MRSLMorsel class]]) {
+            MRSLMorsel *morsel = (MRSLMorsel *)managedObject;
+            if (morsel.morselIDValue == weakSelf.morsel.morselIDValue) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [weakSelf populateContent];
+                });
+                *stop = YES;
+            }
+        }
+    }];
 }
 
 #pragma mark - Action Methods
@@ -82,6 +109,12 @@
     if ([self.delegate respondsToSelector:@selector(feedShareCollectionViewCellDidSelectShareTwitter)]) {
         [self.delegate feedShareCollectionViewCellDidSelectShareTwitter];
     }
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

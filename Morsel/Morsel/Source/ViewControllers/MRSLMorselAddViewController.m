@@ -25,6 +25,9 @@ NSFetchedResultsControllerDelegate,
 MRSLStatusHeaderCollectionReusableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *morselCollectionView;
+@property (weak, nonatomic) IBOutlet UIButton *createMorselButton;
+@property (weak, nonatomic) IBOutlet UIView *nullStateView;
+@property (weak, nonatomic) IBOutlet UIView *existingPromptView;
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 @property (strong, nonatomic) NSFetchedResultsController *morselsFetchedResultsController;
@@ -60,6 +63,12 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
     [super viewWillAppear:animated];
 
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
+
+    if (_skipToAddTitle) {
+        self.skipToAddTitle = NO;
+        [self performSegueWithIdentifier:@"seg_MorselAddTitle"
+                                  sender:nil];
+    }
 
     if (_selectedIndexPath) {
         [self.morselCollectionView deselectItemAtIndexPath:_selectedIndexPath
@@ -108,6 +117,10 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
                                                           forKey:@"Drafts"];
     if ([_publishedMorsels count] > 0) [self.morselsDictionary setObject:_publishedMorsels
                                                               forKey:@"Published"];
+
+    _nullStateView.hidden = ([_morselsDictionary count] != 0);
+    _existingPromptView.hidden = ([_morselsDictionary count] == 0);
+    _createMorselButton.hidden = ([_morselsDictionary count] == 0);
 
     [self.morselCollectionView reloadData];
 }

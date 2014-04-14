@@ -41,11 +41,19 @@
 #pragma mark - Private Methods
 
 - (IBAction)publishMorsel:(id)sender {
+    for (MRSLItem *item in _morsel.itemsArray) {
+        if (item.didFailUploadValue) {
+            [UIAlertView showAlertViewForErrorString:@"Sorry, it looks like an item failed to upload, return to the previous screen to try again!"
+                                            delegate:nil];
+            return;
+        } else if (item.isUploadingValue) {
+            [UIAlertView showAlertViewForErrorString:@"Sorry, not all items are finished uploading. Please try again in a moment!"
+                                            delegate:nil];
+            return;
+        }
+    }
     _publishButton.enabled = NO;
     _morsel.draft = @NO;
-    [_appDelegate.itemApiService updateMorsel:_morsel
-                                      success:nil
-                                      failure:nil];
     [_appDelegate.itemApiService publishMorsel:_morsel
                                        success:nil
                                        failure:^(NSError *error) {
@@ -86,8 +94,6 @@
         } failure:^(NSError *error) {
             if (weakSelf) {
                 [weakSelf.facebookButton setEnabled:YES];
-                [UIAlertView showAlertViewForError:error
-                                          delegate:nil];
             }
         }];
     }
@@ -122,8 +128,6 @@
         } failure:^(NSError *error) {
             if (weakSelf) {
                 [weakSelf.twitterButton setEnabled:YES];
-                [UIAlertView showAlertViewForError:error
-                                          delegate:nil];
             }
         }];
     }

@@ -73,6 +73,13 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
     [self refreshMorsels];
 }
 
+#pragma mark - Action Methods
+
+- (IBAction)displayMorselAdd {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayMorselAddNotification
+                                                        object:@(YES)];
+}
+
 #pragma mark - Private Methods
 
 - (void)setupMorselsFetchRequest {

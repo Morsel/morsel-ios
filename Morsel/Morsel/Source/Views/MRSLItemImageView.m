@@ -84,38 +84,50 @@
                 if (!itemImageURLRequest)
                     return;
                 __weak __typeof(self)weakSelf = self;
+                [weakSelf attemptToSetLocalMorselImageForSizeType:itemSizeType
+                                                        withError:nil];
                 if (itemSizeType == ItemImageSizeTypeLarge) {
                     __block BOOL fullSizeImageSet = NO;
-                    self.image = [UIImage imageNamed:@"graphic-image-large-placeholder.png"];
-
                     [_webImageManager downloadWithURL:[_item itemPictureURLRequestForImageSizeType:ItemImageSizeTypeThumbnail].URL
-                                                               options:SDWebImageHighPriority
-                                                              progress:nil
-                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                                 if (!fullSizeImageSet) {
-                                                                     self.image = image;
-                                                                 }
-                                                             }];
+                                              options:SDWebImageHighPriority
+                                             progress:nil
+                                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                if (!fullSizeImageSet && image) {
+                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                        weakSelf.image = image;
+                                                    });
+                                                }
+                                            }];
                     [_activityIndicatorView startAnimating];
                     [_webImageManager downloadWithURL:itemImageURLRequest.URL
-                                                               options:SDWebImageHighPriority
-                                                              progress:nil
-                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                                 fullSizeImageSet = YES;
-                                                                 [weakSelf.activityIndicatorView stopAnimating];
-                                                                 weakSelf.image = image;
-                                                                 if (error) {
-                                                                     [weakSelf attemptToSetLocalMorselImageForSizeType:itemSizeType
-                                                                                                             withError:nil];
-                                                                 }
-                                                             }];
+                                              options:SDWebImageHighPriority
+                                             progress:nil
+                                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                [weakSelf.activityIndicatorView stopAnimating];
+                                                if (error || !image) {
+                                                    [weakSelf attemptToSetLocalMorselImageForSizeType:itemSizeType
+                                                                                            withError:nil];
+                                                } else {
+                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                        fullSizeImageSet = YES;
+                                                        weakSelf.image = image;
+                                                    });
+                                                }
+                                            }];
                 } else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self setImageWithURL:itemImageURLRequest.URL
-                             placeholderImage:[UIImage imageNamed:@"graphic-thumb-morsel-null"]
-                                      options:SDWebImageHighPriority
-                                    completed:nil];
-                    });
+                    [_webImageManager downloadWithURL:[_item itemPictureURLRequestForImageSizeType:ItemImageSizeTypeThumbnail].URL
+                                              options:SDWebImageHighPriority
+                                             progress:nil
+                                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                if (image) {
+                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                        weakSelf.image = image;
+                                                    });
+                                                } else {
+                                                    [weakSelf attemptToSetLocalMorselImageForSizeType:itemSizeType
+                                                                                            withError:nil];
+                                                }
+                                            }];
                 }
             } else {
                 [self attemptToSetLocalMorselImageForSizeType:itemSizeType
@@ -135,12 +147,11 @@
                     self.image = localImage;
                 });
             });
-            
         });
     } else {
         if (errorOrNil.code != -999) {
             DDLogError(@"Unable to set Morsel image and no local copy exists%@", (errorOrNil) ? [NSString stringWithFormat:@": %@", errorOrNil] : @".");
-            self.image = nil;
+            self.image = [UIImage imageNamed:(itemSizeType == ItemImageSizeTypeThumbnail) ? @"graphic-thumb-morsel-null" : @"graphic-image-large-placeholder"];
         }
     }
 }
@@ -158,7 +169,7 @@
     self.image = nil;
 }
 
-#pragma mark - Destruction Methods
+#pragma mark - Dealloc Methods
 
 - (void)dealloc {
     [self reset];

@@ -33,8 +33,6 @@
 
     UITapGestureRecognizer *textTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayTextEdit)];
     [_itemDescription addGestureRecognizer:textTapRecognizer];
-
-    [self setEditingAccessoryView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-edit.png"]]];
 }
 
 - (void)setItem:(MRSLItem *)item {
@@ -80,9 +78,20 @@
 - (IBAction)retryUpload {
     self.item.didFailUpload = @NO;
     self.item.isUploading = @YES;
-    [_appDelegate.itemApiService updateItemImage:_item
-                                         success:nil
-                                         failure:nil];
+    if (!_item.itemID) {
+        [_appDelegate.itemApiService createItem:_item
+                                        success:^(id responseObject) {
+                                            if ([responseObject isKindOfClass:[MRSLItem class]]) {
+                                                [_appDelegate.itemApiService updateItemImage:_item
+                                                                                     success:nil
+                                                                                     failure:nil];
+                                            }
+                                        } failure:nil];
+    } else {
+        [_appDelegate.itemApiService updateItemImage:_item
+                                             success:nil
+                                             failure:nil];
+    }
 }
 
 #pragma mark - Private Methods

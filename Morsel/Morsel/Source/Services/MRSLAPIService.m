@@ -295,7 +295,6 @@
                                                                                                                inContext:localContext];
                                               if (!notification) notification = [MRSLNotification MR_createInContext:localContext];
                                               [notification MR_importValuesForKeysWithObject:notificationDictionary];
-
                                               [notificationIDs addObject:notificationDictionary[@"id"]];
                                           }];
                                       } completion:^(BOOL success, NSError *error) {
@@ -339,7 +338,8 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
+    int morselID = morsel.morselIDValue;
+    [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"morsels/%i", morselID]
                               parameters:parameters
                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                      DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -347,6 +347,8 @@
                                          [morsel MR_deleteEntity];
                                          [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
                                      }
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteMorselNotification
+                                                                                         object:@(morselID)];
                                      if (successOrNil) successOrNil(responseObject);
                                  } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                      [self reportFailure:failureOrNil
@@ -362,7 +364,7 @@
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
 
-    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"morsels/%i", [morsel.morselID intValue]]
+    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"morsels/%i", morsel.morselIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -394,22 +396,23 @@
     if (sendToTwitter) [parameters setObject:@"true"
                                       forKey:@"post_to_twitter"];
 
-    [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"morsels/%i/publish", [morsel.morselID intValue]]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+    [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"morsels/%i/publish", morsel.morselIDValue]
+                            parameters:parameters
+                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
-                                  [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                   [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
 
-                                  [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidPublishMorselNotification
-                                                                                      object:morsel];
+                                   [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidPublishMorselNotification
+                                                                                       object:morsel];
 
-                                  if (successOrNil) successOrNil(responseObject);
-                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                  [self reportFailure:failureOrNil
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+                                   if (successOrNil) successOrNil(responseObject);
+                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                   if (morsel) morsel.draft = @(!morsel.draftValue);
+                                   [self reportFailure:failureOrNil
+                                             withError:error
+                                              inMethod:NSStringFromSelector(_cmd)];
+                               }];
 }
 
 - (void)getMorsel:(MRSLMorsel *)morsel
@@ -419,13 +422,26 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i", morsel.morselIDValue]
+    int morselID = morsel.morselIDValue;
+    __block MRSLMorsel *morselToGet = morsel;
+
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i", morselID]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                  if (!morselToGet || !morselToGet.managedObjectContext) {
+                                      morselToGet = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                                              withValue:@(morselID)];
+                                  }
+                                  if (morselToGet.managedObjectContext) {
+                                      @try {
+                                          [morselToGet MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                      } @catch (NSException *exception) {
+                                          DDLogError(@"Unable to import morsel data due to exception: %@", exception.debugDescription);
+                                      }
 
-                                  if (successOrNil) successOrNil(responseObject);
+                                      if (successOrNil) successOrNil(morselToGet);
+                                  }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                             withError:error
@@ -444,36 +460,47 @@
 
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidBeginCreateMorselNotification
                                                         object:nil];
+
+    NSString *itemLocalUUID = [item.localUUID copy];
+
+    __block MRSLItem *localItem = item;
+
     [[MRSLAPIClient sharedClient] POST:@"items"
                             parameters:parameters
                                success: ^(AFHTTPRequestOperation * operation, id responseObject) {
                                    DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                   if (item && item.managedObjectContext) {
-                                       [item MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                       [item.managedObjectContext MR_saveToPersistentStoreAndWait];
+
+                                   if (!localItem || !localItem.managedObjectContext) {
+                                       localItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.localUUID
+                                                                           withValue:itemLocalUUID];
+                                   }
+                                   if (localItem && localItem.managedObjectContext) {
+                                       [localItem MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLItemUploadDidCompleteNotification
-                                                                                           object:item];
-                                       if (successOrNil) successOrNil(responseObject);
+                                                                                           object:localItem];
+                                       [localItem.managedObjectContext MR_saveOnlySelfAndWait];
+                                       if (successOrNil) successOrNil(localItem);
                                    }
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                   if (item && item.managedObjectContext) {
+                                   if (!item || !item.managedObjectContext) {
+                                       localItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.localUUID
+                                                                           withValue:itemLocalUUID];
+                                   }
+                                   if (localItem) {
                                        MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
                                        if (serviceErrorInfo) {
                                            if ([[serviceErrorInfo.errorInfo lowercaseString] rangeOfString:@"already exists"].location != NSNotFound) {
-                                               [item MR_deleteEntity];
-                                               [item.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                               [localItem MR_deleteEntity];
+                                               [localItem.managedObjectContext MR_saveToPersistentStoreAndWait];
                                                return;
                                            }
                                        }
-                                       if (item.managedObjectContext) {
-                                           [item.managedObjectContext MR_saveToPersistentStoreAndWait];
-
-                                           [[NSNotificationCenter defaultCenter] postNotificationName:MRSLItemUploadDidFailNotification
-                                                                                               object:item];
-                                           [self reportFailure:failureOrNil
-                                                     withError:error
-                                                      inMethod:NSStringFromSelector(_cmd)];
-                                       }
+                                       localItem.didFailUpload = @YES;
+                                       [[NSNotificationCenter defaultCenter] postNotificationName:MRSLItemUploadDidFailNotification
+                                                                                           object:localItem];
+                                       [self reportFailure:failureOrNil
+                                                 withError:error
+                                                  inMethod:NSStringFromSelector(_cmd)];
                                    }
                                }];
 }
@@ -485,14 +512,23 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i", [item.itemID intValue]]
+    int itemID = item.itemIDValue;
+    __block MRSLItem *itemToGet = item;
+
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i", itemID]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
-                                  [item MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                  if (!itemToGet || !itemToGet.managedObjectContext) {
+                                      itemToGet = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                          withValue:@(itemID)];
+                                  }
+                                  if (itemToGet) {
+                                      [itemToGet MR_importValuesForKeysWithObject:responseObject[@"data"]];
 
-                                  if (successOrNil) successOrNil(responseObject);
+                                      if (successOrNil) successOrNil(itemToGet);
+                                  }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                             withError:error
@@ -507,7 +543,7 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i/likers", [item.itemID intValue]]
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i/likers", item.itemIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -545,7 +581,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidUpdateItemNotification
                                                         object:item];
 
-    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"items/%i", [item.itemID intValue]]
+    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"items/%i", item.itemIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -573,7 +609,7 @@
                                                 includingMRSLObjects:@[item]
                                               requiresAuthentication:YES];
     AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
-    NSString *urlString = [[NSURL URLWithString:[NSString stringWithFormat:@"items/%i", [item.itemID intValue]] relativeToURL:[[MRSLAPIClient sharedClient] baseURL]] absoluteString];
+    NSString *urlString = [[NSURL URLWithString:[NSString stringWithFormat:@"items/%i", item.itemIDValue] relativeToURL:[[MRSLAPIClient sharedClient] baseURL]] absoluteString];
     NSMutableURLRequest *request = [requestSerializer multipartFormRequestWithMethod:@"PUT"
                                                                            URLString:urlString
                                                                           parameters:parameters
@@ -643,7 +679,7 @@
                                               requiresAuthentication:YES];
     if (shouldLike) {
         item.like_count = @(item.like_countValue + 1);
-        [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"items/%i/like", [item.itemID intValue]]
+        [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
                                 parameters:parameters
                                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                        if (likeBlockOrNil) likeBlockOrNil(YES);
@@ -659,7 +695,7 @@
                                    }];
     } else {
         item.like_count = @(item.like_countValue - 1);
-        [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"items/%i/like", [item.itemID intValue]]
+        [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
                                   parameters:parameters
                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                          if (likeBlockOrNil) likeBlockOrNil(NO);
@@ -710,10 +746,10 @@
                                                       MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                                                                      withValue:morselDictionary[@"id"]
                                                                                                      inContext:localContext];
+                                                      [feedItemIDs addObject:morselDictionary[@"id"]];
                                                       if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
                                                       morsel.feedItemID = feedItemDictionary[@"id"];
                                                       [morsel MR_importValuesForKeysWithObject:morselDictionary];
-                                                      [feedItemIDs addObject:morselDictionary[@"id"]];
                                                   }
                                               }
                                           }];
@@ -846,7 +882,7 @@
                                    if (!comment) comment = [MRSLComment MR_createEntity];
                                    [comment MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                    item.comment_count = @(item.comment_countValue + 1);
-                                   
+
                                    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateCommentNotification
                                                                                        object:item];
                                    

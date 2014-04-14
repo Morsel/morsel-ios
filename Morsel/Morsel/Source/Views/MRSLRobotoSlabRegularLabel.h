@@ -1,5 +1,5 @@
 //
-//  MorselCondensedObliqueLabel.h
+//  MorselCondensedLabel.h
 //  Morsel
 //
 //  Created by Javier Otero on 1/23/14.
@@ -8,6 +8,6 @@
 
 #import "MRSLStandardLabel.h"
 
-@interface MRSLCondensedObliqueLabel : MRSLStandardLabel
+@interface MRSLRobotoSlabRegularLabel : MRSLStandardLabel
 
 @end

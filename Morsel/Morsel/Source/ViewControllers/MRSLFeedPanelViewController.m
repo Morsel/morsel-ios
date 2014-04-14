@@ -59,6 +59,9 @@ MRSLFeedShareCollectionViewCellDelegate>
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showContent)
                                                  name:MRSLModalWillDismissNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
+                                                 name:NSManagedObjectContextObjectsDidChangeNotification
+                                               object:nil];
     [self.morselTitleLabel addStandardShadow];
 }
 
@@ -77,6 +80,24 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)showContent {
     [self toggleContent:YES];
+}
+
+- (void)updateContent:(NSNotification *)notification {
+    NSDictionary *userInfoDictionary = [notification userInfo];
+    NSSet *updatedObjects = [userInfoDictionary objectForKey:NSUpdatedObjectsKey];
+
+    __weak __typeof(self) weakSelf = self;
+    [updatedObjects enumerateObjectsUsingBlock:^(NSManagedObject *managedObject, BOOL *stop) {
+        if ([managedObject isKindOfClass:[MRSLMorsel class]]) {
+            MRSLMorsel *morsel = (MRSLMorsel *)managedObject;
+            if (morsel.morselIDValue == weakSelf.morsel.morselIDValue) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf displayContent];
+                });
+                *stop = YES;
+            }
+        }
+    }];
 }
 
 #pragma mark - Private Methods
@@ -342,7 +363,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSIndexPath *indexPath = [[_collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath) {
+    if (indexPath && indexPath.row - 1 < [_morsel.items count]) {
         MRSLItem *visibleMorsel = nil;
         if (_isPresentingMorselLayout && indexPath.row != 0) {
             visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
@@ -413,7 +434,7 @@ MRSLFeedShareCollectionViewCellDelegate>
     }
 }
 
-#pragma mark - Destruction
+#pragma mark - Dealloc
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

@@ -215,7 +215,7 @@ MRSLCapturePreviewsViewControllerDelegate>
                                           [assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
                                           if (assetsGroup.numberOfAssets > 0) {
                                               [assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:assetsGroup.numberOfAssets - 1]
-                                                                            options:0
+                                                                            options:NSEnumerationReverse
                                                                          usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop) {
                                                                              if (asset) {
                                                                                  ALAssetRepresentation *repr = [asset defaultRepresentation];
@@ -397,8 +397,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 
 - (void)processMediaItem:(MRSLMediaItem *)mediaItem {
     self.processingImageCount++;
-    __block UIImage *fullSizeImage = mediaItem.mediaFullImage;
-    mediaItem.mediaFullImage = nil;
+    UIImage *fullSizeImage = mediaItem.mediaFullImage;
     DDLogDebug(@"Source Process Image Dimensions: (w:%f, h:%f)", fullSizeImage.size.width, fullSizeImage.size.height);
     BOOL imageIsLandscape = [MRSLUtil imageIsLandscape:fullSizeImage];
     CGFloat cameraDimensionScale = [MRSLUtil cameraDimensionScaleFromImage:fullSizeImage];
@@ -413,12 +412,10 @@ MRSLCapturePreviewsViewControllerDelegate>
         if (weakSelf) {
             UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
                                                                scaled:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)];
+            mediaItem.mediaFullImage = croppedFullSizeImage;
             mediaItem.mediaThumbImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageThumbDimensionSize
                                                                interpolationQuality:kCGInterpolationHigh];
-            fullSizeImage = nil;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-
-                mediaItem.mediaFullImageData = UIImageJPEGRepresentation(croppedFullSizeImage, 1.f);
                 mediaItem.mediaCroppedImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageLargeDimensionSize
                                                               interpolationQuality:kCGInterpolationHigh];
                 weakSelf.processingImageCount--;
@@ -667,7 +664,7 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
     [self updateFinishButtonAvailability];
 }
 
-#pragma mark - Destruction
+#pragma mark - Dealloc
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

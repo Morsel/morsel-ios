@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="MRSLActivity" representedClassName="MRSLActivity" syncable="YES">
         <attribute name="actionType" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="action_type"/>
             </userInfo>
         </attribute>
-        <attribute name="activityID" attributeType="Integer 32" syncable="YES">
+        <attribute name="activityID" optional="YES" attributeType="Integer 32" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="id"/>
             </userInfo>
         </attribute>
-        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES">
-            <userInfo>
-                <entry key="dateFormat" value="yyyy-MM-dd'T'H:mm:ss.SSSS'Z'"/>
-                <entry key="mappedKeyName" value="created_at"/>
-            </userInfo>
-        </attribute>
-        <attribute name="subjectID" attributeType="Integer 32" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="subjectID" optional="YES" attributeType="Integer 32" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="subject.id"/>
             </userInfo>
         </attribute>
-        <attribute name="subjectType" attributeType="String" syncable="YES">
+        <attribute name="subjectType" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="subject_type"/>
             </userInfo>
@@ -32,8 +27,16 @@
                 <entry key="relatedByAttribute" value="creator_id"/>
             </userInfo>
         </relationship>
-        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="activities" inverseEntity="MRSLItem" syncable="YES"/>
-        <relationship name="notification" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLNotification" inverseName="activity" inverseEntity="MRSLNotification" syncable="YES"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="activities" inverseEntity="MRSLItem" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="itemID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="notification" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLNotification" inverseName="activity" inverseEntity="MRSLNotification" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="notificationID"/>
+            </userInfo>
+        </relationship>
     </entity>
     <entity name="MRSLComment" representedClassName="MRSLComment" syncable="YES">
         <attribute name="commentDescription" optional="YES" attributeType="String" syncable="YES">
@@ -101,6 +104,7 @@
     <entity name="MRSLMorsel" representedClassName="MRSLMorsel" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="draft" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="facebook_mrsl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="feedItemID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="morselID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
@@ -114,6 +118,7 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="total_comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="total_like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="twitter_mrsl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="morsels" inverseEntity="MRSLUser" syncable="YES">
             <userInfo>
@@ -127,29 +132,28 @@
         </relationship>
     </entity>
     <entity name="MRSLNotification" representedClassName="MRSLNotification" syncable="YES">
-        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES">
-            <userInfo>
-                <entry key="dateFormat" value="yyyy-MM-dd'T'H:mm:ss.SSSS'Z'"/>
-                <entry key="mappedKeyName" value="created_at"/>
-            </userInfo>
-        </attribute>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="notificationID" attributeType="Integer 32" syncable="YES">
+        <attribute name="notificationID" optional="YES" attributeType="Integer 32" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="id"/>
             </userInfo>
         </attribute>
-        <attribute name="payloadID" attributeType="Integer 32" syncable="YES">
+        <attribute name="payloadID" optional="YES" attributeType="Integer 32" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="payload.id"/>
             </userInfo>
         </attribute>
-        <attribute name="payloadType" attributeType="String" syncable="YES">
+        <attribute name="payloadType" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="payload_type"/>
             </userInfo>
         </attribute>
-        <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="notification" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="notification" inverseEntity="MRSLActivity" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="activityID"/>
+            </userInfo>
+        </relationship>
     </entity>
     <entity name="MRSLTag" representedClassName="MRSLTag" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -200,7 +204,7 @@
         <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="163"/>
         <element name="MRSLComment" positionX="0" positionY="0" width="128" height="118"/>
         <element name="MRSLItem" positionX="0" positionY="0" width="128" height="373"/>
-        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="255"/>
+        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="285"/>
         <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="133"/>
         <element name="MRSLTag" positionX="0" positionY="0" width="128" height="90"/>
         <element name="MRSLUser" positionX="0" positionY="0" width="128" height="358"/>

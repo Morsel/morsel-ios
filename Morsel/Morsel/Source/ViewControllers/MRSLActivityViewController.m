@@ -106,7 +106,8 @@ NSFetchedResultsControllerDelegate>
                                                    andCount:nil
                                                     success:^(NSArray *responseArray) {
                                                         weakSelf.activityIDs = responseArray;
-                                                        [[NSUserDefaults standardUserDefaults] setObject:responseArray forKey:@"MRSLActivityViewController_activityIDs"];
+                                                        [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                                                                  forKey:@"MRSLActivityViewController_activityIDs"];
                                                         [weakSelf setupFetchRequest];
                                                         [weakSelf populateContent];
                                                     } failure:nil];
@@ -120,14 +121,11 @@ NSFetchedResultsControllerDelegate>
     MRSLActivity *activity = [self.arrayDataSource itemAtIndexPath:indexPath];
     MRSLItem *item = activity.item;
 
-    NSLog(@"Create event and send user to Morsel Details view");
     [[MRSLEventManager sharedManager] track:@"Tapped Activity"
                                  properties:@{@"view": @"My Activty",
                                               @"action_type": NSNullIfNil(activity.actionType),
                                               @"activity_id": NSNullIfNil(activity.activityID),
                                               @"item_id": NSNullIfNil(item.itemID)}];
-
-    //  TODO: Implement going to Morsel Detail view when that screen is implemented
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

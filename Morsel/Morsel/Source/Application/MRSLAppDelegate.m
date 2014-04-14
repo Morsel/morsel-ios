@@ -20,6 +20,7 @@
 #import "MRSLAPIClient.h"
 
 #import "MRSLItem.h"
+#import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
 @implementation MRSLAppDelegate
@@ -86,7 +87,7 @@
 
     if ([MRSLUser currentUser]) {
         // Delete Morsels that do not have a localUUID, itemID, photo data, and belong to the current user. They didn't make it nor will they ever be able to be synced with any existing Morsels.
-        NSPredicate *localOrphanedPredicate = [NSPredicate predicateWithFormat:@"((itemPhotoCropped != nil) AND (localUUID == nil) AND (itemID == nil) AND (morsel.creator.userID == %i))", [MRSLUser currentUser].userIDValue];
+        NSPredicate *localOrphanedPredicate = [NSPredicate predicateWithFormat:@"((itemPhotoFull != nil) AND (localUUID == nil) AND (itemID == nil) AND (morsel.creator.userID == %i))", [MRSLUser currentUser].userIDValue];
         NSArray *localOrphanedMorsels = [MRSLItem MR_findAllWithPredicate:localOrphanedPredicate];
         if ([localOrphanedMorsels count] > 0) {
             DDLogDebug(@"Local orphaned Morsels found. Removing %lu", (unsigned long)[localOrphanedMorsels count]);

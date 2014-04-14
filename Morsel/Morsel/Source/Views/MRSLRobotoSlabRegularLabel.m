@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLCondensedRegularLabel.h"
+#import "MRSLRobotoSlabRegularLabel.h"
 
-@implementation MRSLCondensedRegularLabel
+@implementation MRSLRobotoSlabRegularLabel
 
 - (void)setUp {
-    [self setFont:[UIFont robotoCondensedRegularFontOfSize:self.font.pointSize]];
+    [self setFont:[UIFont robotoSlabRegularFontOfSize:self.font.pointSize]];
 }
 
 @end

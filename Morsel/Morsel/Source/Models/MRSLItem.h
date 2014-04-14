@@ -8,7 +8,7 @@ typedef NS_ENUM(NSUInteger, ItemImageSizeType) {
 
 @interface MRSLItem : _MRSLItem
 
-+ (MRSLItem *)localUniqueItem;
++ (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context;
 
 - (NSURLRequest *)itemPictureURLRequestForImageSizeType:(ItemImageSizeType)type;
 

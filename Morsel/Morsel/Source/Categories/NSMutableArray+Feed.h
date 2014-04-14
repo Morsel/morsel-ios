@@ -14,6 +14,7 @@
 + (NSString *)feedIDPath;
 + (void)resetFeedIDArray;
 
+- (NSNumber *)firstObjectWithValidFeedItemID;
 - (void)saveFeedIDArray;
 
 @end

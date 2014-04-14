@@ -8,6 +8,8 @@
 
 #import "NSMutableArray+Feed.h"
 
+#import "MRSLMorsel.h"
+
 @implementation NSMutableArray (Feed)
 
 + (NSMutableArray *)feedIDArray {
@@ -24,6 +26,19 @@
         [[NSFileManager defaultManager] removeItemAtPath:[NSMutableArray feedIDPath]
                                                    error:nil];
     }
+}
+
+- (NSNumber *)firstObjectWithValidFeedItemID {
+    NSNumber *foundID = nil;
+    for (NSNumber *morselID in self) {
+        MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                       withValue:morselID];
+        if (morsel.feedItemID || morsel.feedItemIDValue != 0) {
+            foundID = morselID;
+            break;
+        }
+    }
+    return foundID;
 }
 
 - (void)saveFeedIDArray {

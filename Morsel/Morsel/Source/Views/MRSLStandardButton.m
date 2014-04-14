@@ -27,7 +27,7 @@
 }
 
 - (void)setUp {
-    [self.titleLabel setFont:[UIFont helveticaLightFontOfSize:self.titleLabel.font.pointSize]];
+    [self.titleLabel setFont:[UIFont robotoLightFontOfSize:self.titleLabel.font.pointSize]];
 }
 
 @end

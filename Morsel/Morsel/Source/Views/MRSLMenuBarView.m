@@ -16,6 +16,27 @@
 
 @implementation MRSLMenuBarView
 
+#pragma mark - Instance Methods
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(highlightFeed)
+                                                 name:MRSLUserDidPublishMorselNotification
+                                               object:nil];
+
+}
+
+#pragma mark - Notification Methods
+
+- (void)highlightFeed {
+    MRSLMenuBarButton *feedButton = [self buttonWithName:@"Feed"];
+    if (feedButton) [self selectedButton:feedButton];
+}
+
+#pragma mark - Private Methods
+
 - (IBAction)selectedButton:(MRSLMenuBarButton *)targetButton {
     [_menuBarButtons enumerateObjectsUsingBlock:^(MRSLMenuBarButton *menuBarButton, NSUInteger idx, BOOL *stop) {
         BOOL targetEqualsButton = [menuBarButton isEqual:targetButton];
