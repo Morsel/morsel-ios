@@ -7,7 +7,7 @@
 //
 
 #import "MRSLActivity.h"
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 #import "MRSLUser.h"
 
 #import "MRSLFactory+Activity.h"
@@ -30,9 +30,9 @@ describe(@"MRSLActivity", ^{
         beforeEach(^{
             __block BOOL requestCompleted = NO;
             __block MRSLActivity *importedActivity = nil;
-            [MRSLSpecUtil stubMorselAPIRequestsWithJSONFileName:@"mrsl-users-activities.json"
+            [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-users-activities.json"
                                                  forRequestPath:@"/users/activities"];
-            [_appDelegate.morselApiService getUserActivitiesForUser:nil
+            [_appDelegate.itemApiService getUserActivitiesForUser:nil
                                                               maxID:nil
                                                           orSinceID:nil
                                                            andCount:nil
@@ -59,23 +59,23 @@ describe(@"MRSLActivity", ^{
             [[[activity actionType] should] equal:@"Like"];
         });
 
-        describe(@"morsel", ^{
-            let(morsel, ^id { return [activity morsel]; });
+        describe(@"item", ^{
+            let(item, ^id { return [activity item]; });
 
             it(@"should have an id", ^{
-                [[[morsel morselID] should] equal:@402531];
+                [[[item itemID] should] equal:@402531];
             });
 
             it(@"should have a description", ^{
-                [[[morsel morselDescription] should] equal:@"Voluptatem dolores beatae id labore ut corporis tempora id numquam in vel et nemo sed natus quos provident commodi quia quo officiis distinctio qui aut non iure nam illum reprehenderit debitis hic et esse molestiae nulla eaque excepturi quaerat eveniet nisi asperiores voluptate."];
+                [[[item itemDescription] should] equal:@"Voluptatem dolores beatae id labore ut corporis tempora id numquam in vel et nemo sed natus quos provident commodi quia quo officiis distinctio qui aut non iure nam illum reprehenderit debitis hic et esse molestiae nulla eaque excepturi quaerat eveniet nisi asperiores voluptate."];
             });
 
             it(@"should have a creation date", ^{
-                [[[morsel creationDate] should] beNonNil];
+                [[[item creationDate] should] beNonNil];
             });
 
             it(@"should have photos", ^{
-                [[[morsel morselPhotoURL] should] beNonNil];
+                [[[item itemPhotoURL] should] beNonNil];
             });
         });
 

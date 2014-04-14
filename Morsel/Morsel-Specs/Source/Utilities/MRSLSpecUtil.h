@@ -10,7 +10,7 @@
 
 @interface MRSLSpecUtil : NSObject
 
-+ (void)stubMorselAPIRequestsWithJSONFileName:(NSString *)fileName
++ (void)stubItemAPIRequestsWithJSONFileName:(NSString *)fileName
                                 forRequestPath:(NSString *)urlParametersToMatch;
 
 @end

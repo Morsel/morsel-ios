@@ -3,7 +3,7 @@
 //
 //
 //  Created by Javier Otero on 12/6/13.
-//  Copyright (c) 2013 Morsel. All rights reserved.
+//  Copyright (c) 2013 Item. All rights reserved.
 //
 
 #import "KIFUITestActor+Additions.h"

@@ -1,5 +1,5 @@
 //
-//  MRSLFactory+Morsel.h
+//  MRSLFactory+Item.h
 //  Morsel
 //
 //  Created by Marty Trzpit on 3/28/14.
@@ -8,10 +8,10 @@
 
 #import "MRSLFactory.h"
 
-@class MRSLMorsel;
+@class MRSLItem;
 
-@interface MRSLFactory (Morsel)
+@interface MRSLFactory (Item)
 
-+ (MRSLMorsel *)morsel;
++ (MRSLItem *)item;
 
 @end

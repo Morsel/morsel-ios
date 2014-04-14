@@ -14,6 +14,6 @@
 
 + (MRSLActivity *)activity;
 
-+ (MRSLActivity *)morselLikeActivity;
++ (MRSLActivity *)itemLikeActivity;
 
 @end

@@ -8,7 +8,7 @@
 
 SPEC_BEGIN(MRSLCustomURLScheme_Spec)
 
-describe(@"Morsel Custom URL Schemes", ^{
+describe(@"Item Custom URL Schemes", ^{
     beforeEach(^{
         [MagicalRecord setupCoreDataStackWithInMemoryStore];
     });
@@ -18,9 +18,9 @@ describe(@"Morsel Custom URL Schemes", ^{
     });
 
     __block id viewController;
-    describe(@"morsel://users/:user_id", ^{
+    describe(@"item://users/:user_id", ^{
         let(customURL, ^id{
-            return @"morsel://users/123";
+            return @"item://users/123";
         });
         beforeEach(^{
             __block BOOL requestCompleted = NO;
