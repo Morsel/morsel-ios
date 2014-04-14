@@ -107,12 +107,6 @@
                                                                  if (error) {
                                                                      [weakSelf attemptToSetLocalMorselImageForSizeType:itemSizeType
                                                                                                              withError:nil];
-                                                                 } else {
-                                                                     if (weakSelf.item.itemPhotoFull) {
-                                                                         weakSelf.item.itemPhotoFull = nil;
-                                                                         weakSelf.item.itemPhotoCropped = nil;
-                                                                         weakSelf.item.itemPhotoThumb = nil;
-                                                                     }
                                                                  }
                                                              }];
                 } else {

@@ -7,7 +7,7 @@
 //
 
 #import "MRSLFactory+Activity.h"
-#import "MRSLFactory+Morsel.h"
+#import "MRSLFactory+Item.h"
 
 #import "MRSLActivity.h"
 
@@ -19,10 +19,10 @@
     return activity;
 }
 
-+ (MRSLActivity *)morselLikeActivity {
++ (MRSLActivity *)itemLikeActivity {
     MRSLActivity *activity = [MRSLFactory activity];
 
-    [activity setMorsel:[MRSLFactory morsel]];
+    [activity setItem:[MRSLFactory item]];
     [activity setActionType:@"Like"];
 
     return activity;

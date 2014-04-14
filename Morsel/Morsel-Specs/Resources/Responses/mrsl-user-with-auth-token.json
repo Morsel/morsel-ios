@@ -16,9 +16,9 @@
         "auth_token": "butt-sack",
         "draft_count": 10,
         "like_count": 3,
-        "morsel_count": 1,
+        "item_count": 1,
         "sign_in_count": 1,
         "facebook_uid": "1234567890",
-        "twitter_username": "morsel_marty"
+        "twitter_username": "item_marty"
     }
 }

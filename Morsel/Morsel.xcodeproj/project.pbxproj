@@ -43,7 +43,6 @@
 		062AB99718C5970400742955 /* MRSLMorselAddTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB99618C5970400742955 /* MRSLMorselAddTitleViewController.m */; };
 		062AB99A18C655DF00742955 /* MRSLMorselEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB99918C655DF00742955 /* MRSLMorselEditViewController.m */; };
 		062AB9A218C681C900742955 /* MRSLImagePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB9A118C681C900742955 /* MRSLImagePreviewViewController.m */; };
-		062AB9A518C681E000742955 /* MRSLDeviceMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB9A418C681E000742955 /* MRSLDeviceMediaViewController.m */; };
 		062DF21718845B7E00C199D8 /* MRSLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062DF21618845B7D00C199D8 /* MRSLLoginViewController.m */; };
 		063250CA1860E1DD00ADDF23 /* MRSLRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063250C91860E1DD00ADDF23 /* MRSLRootViewController.m */; };
 		063250D01860FC5400ADDF23 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 063250CF1860FC5400ADDF23 /* CoreData.framework */; };
@@ -149,10 +148,9 @@
 		06F1848718E0BF7B00DBA468 /* MRSLFeedPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F1848618E0BF7B00DBA468 /* MRSLFeedPanelViewController.m */; };
 		06F2F4F31892F78A00977DEB /* MRSLLargeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F2F4F21892F78A00977DEB /* MRSLLargeButton.m */; };
 		06F567CD18BBB1270067FCD4 /* mrsl-comment.json in Resources */ = {isa = PBXBuildFile; fileRef = 06F567C418BBB1270067FCD4 /* mrsl-comment.json */; };
-		06F567CE18BBB1270067FCD4 /* mrsl-morsel-authenticated.json in Resources */ = {isa = PBXBuildFile; fileRef = 06F567C518BBB1270067FCD4 /* mrsl-morsel-authenticated.json */; };
-		06F567CF18BBB1270067FCD4 /* mrsl-morsel-feed.json in Resources */ = {isa = PBXBuildFile; fileRef = 06F567C618BBB1270067FCD4 /* mrsl-morsel-feed.json */; };
+		06F567CE18BBB1270067FCD4 /* mrsl-item-authenticated.json in Resources */ = {isa = PBXBuildFile; fileRef = 06F567C518BBB1270067FCD4 /* mrsl-item-authenticated.json */; };
 		06F567D318BBB1270067FCD4 /* mrsl-user-with-auth-token.json in Resources */ = {isa = PBXBuildFile; fileRef = 06F567CA18BBB1270067FCD4 /* mrsl-user-with-auth-token.json */; };
-		06F567D718BBB18C0067FCD4 /* mrsl-post.json in Resources */ = {isa = PBXBuildFile; fileRef = 06F567D618BBB18C0067FCD4 /* mrsl-post.json */; };
+		06F567D718BBB18C0067FCD4 /* mrsl-morsel.json in Resources */ = {isa = PBXBuildFile; fileRef = 06F567D618BBB18C0067FCD4 /* mrsl-morsel.json */; };
 		4003509318EB578C00C97DDC /* MRSLArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 4003509218EB578C00C97DDC /* MRSLArrayDataSource.m */; };
 		4003509418EB578C00C97DDC /* MRSLArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 4003509218EB578C00C97DDC /* MRSLArrayDataSource.m */; };
 		4003509518EB578C00C97DDC /* MRSLArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 4003509218EB578C00C97DDC /* MRSLArrayDataSource.m */; };
@@ -182,7 +180,7 @@
 		4040D4A318E62809008A39E5 /* MRSLActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4A018E62809008A39E5 /* MRSLActivity.m */; };
 		4040D4AA18E62BA4008A39E5 /* MRSLFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4A918E62BA4008A39E5 /* MRSLFactory.m */; };
 		4040D4AD18E62DF9008A39E5 /* MRSLFactory+Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4AC18E62DF9008A39E5 /* MRSLFactory+Activity.m */; };
-		4040D4B018E62F35008A39E5 /* MRSLFactory+Morsel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4AF18E62F35008A39E5 /* MRSLFactory+Morsel.m */; };
+		4040D4B018E62F35008A39E5 /* MRSLFactory+Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4AF18E62F35008A39E5 /* MRSLFactory+Item.m */; };
 		405A36AA18EC9D16006F1D98 /* MRSLActivityRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A36A918EC9D16006F1D98 /* MRSLActivityRootViewController.m */; };
 		405A36AD18EC9D40006F1D98 /* MRSLNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A36AC18EC9D40006F1D98 /* MRSLNotificationsViewController.m */; };
 		405A36B018ECAE35006F1D98 /* MRSLDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A36AF18ECAE35006F1D98 /* MRSLDataSource.m */; };
@@ -256,8 +254,6 @@
 		062AB99918C655DF00742955 /* MRSLMorselEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselEditViewController.m; sourceTree = "<group>"; };
 		062AB9A018C681C900742955 /* MRSLImagePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLImagePreviewViewController.h; sourceTree = "<group>"; };
 		062AB9A118C681C900742955 /* MRSLImagePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLImagePreviewViewController.m; sourceTree = "<group>"; };
-		062AB9A318C681E000742955 /* MRSLDeviceMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLDeviceMediaViewController.h; sourceTree = "<group>"; };
-		062AB9A418C681E000742955 /* MRSLDeviceMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLDeviceMediaViewController.m; sourceTree = "<group>"; };
 		062DF21518845B7D00C199D8 /* MRSLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLLoginViewController.h; sourceTree = "<group>"; };
 		062DF21618845B7D00C199D8 /* MRSLLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLLoginViewController.m; sourceTree = "<group>"; };
 		063250C81860E1DD00ADDF23 /* MRSLRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLRootViewController.h; sourceTree = "<group>"; };
@@ -423,10 +419,9 @@
 		06F2F4F11892F78A00977DEB /* MRSLLargeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLLargeButton.h; path = Source/Views/MRSLLargeButton.h; sourceTree = "<group>"; };
 		06F2F4F21892F78A00977DEB /* MRSLLargeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLLargeButton.m; path = Source/Views/MRSLLargeButton.m; sourceTree = "<group>"; };
 		06F567C418BBB1270067FCD4 /* mrsl-comment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-comment.json"; sourceTree = "<group>"; };
-		06F567C518BBB1270067FCD4 /* mrsl-morsel-authenticated.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-morsel-authenticated.json"; sourceTree = "<group>"; };
-		06F567C618BBB1270067FCD4 /* mrsl-morsel-feed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-morsel-feed.json"; sourceTree = "<group>"; };
+		06F567C518BBB1270067FCD4 /* mrsl-item-authenticated.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-item-authenticated.json"; sourceTree = "<group>"; };
 		06F567CA18BBB1270067FCD4 /* mrsl-user-with-auth-token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-user-with-auth-token.json"; sourceTree = "<group>"; };
-		06F567D618BBB18C0067FCD4 /* mrsl-post.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-post.json"; sourceTree = "<group>"; };
+		06F567D618BBB18C0067FCD4 /* mrsl-morsel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-morsel.json"; sourceTree = "<group>"; };
 		06F567DF18BBDA3D0067FCD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Morsel-Specs/Base.lproj/Specs_iPhone.storyboard"; sourceTree = SOURCE_ROOT; };
 		25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.xcconfig"; path = "../Pods/Pods-Morsel-Integration.xcconfig"; sourceTree = "<group>"; };
@@ -452,8 +447,8 @@
 		4040D4A918E62BA4008A39E5 /* MRSLFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLFactory.m; sourceTree = "<group>"; };
 		4040D4AB18E62DF9008A39E5 /* MRSLFactory+Activity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLFactory+Activity.h"; sourceTree = "<group>"; };
 		4040D4AC18E62DF9008A39E5 /* MRSLFactory+Activity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLFactory+Activity.m"; sourceTree = "<group>"; };
-		4040D4AE18E62F35008A39E5 /* MRSLFactory+Morsel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLFactory+Morsel.h"; sourceTree = "<group>"; };
-		4040D4AF18E62F35008A39E5 /* MRSLFactory+Morsel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLFactory+Morsel.m"; sourceTree = "<group>"; };
+		4040D4AE18E62F35008A39E5 /* MRSLFactory+Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLFactory+Item.h"; sourceTree = "<group>"; };
+		4040D4AF18E62F35008A39E5 /* MRSLFactory+Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLFactory+Item.m"; sourceTree = "<group>"; };
 		405A36A818EC9D16006F1D98 /* MRSLActivityRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLActivityRootViewController.h; sourceTree = "<group>"; };
 		405A36A918EC9D16006F1D98 /* MRSLActivityRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLActivityRootViewController.m; sourceTree = "<group>"; };
 		405A36AB18EC9D40006F1D98 /* MRSLNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLNotificationsViewController.h; sourceTree = "<group>"; };
@@ -527,8 +522,6 @@
 				0609B8361894A9E6005A11A4 /* MRSLCaptureMediaViewController.m */,
 				06584C5218C7C37300D9035A /* MRSLCapturePreviewsViewController.h */,
 				06584C5318C7C37300D9035A /* MRSLCapturePreviewsViewController.m */,
-				062AB9A318C681E000742955 /* MRSLDeviceMediaViewController.h */,
-				062AB9A418C681E000742955 /* MRSLDeviceMediaViewController.m */,
 				062AB9A018C681C900742955 /* MRSLImagePreviewViewController.h */,
 				062AB9A118C681C900742955 /* MRSLImagePreviewViewController.m */,
 			);
@@ -1181,9 +1174,8 @@
 			isa = PBXGroup;
 			children = (
 				06F567C418BBB1270067FCD4 /* mrsl-comment.json */,
-				06F567C518BBB1270067FCD4 /* mrsl-morsel-authenticated.json */,
-				06F567C618BBB1270067FCD4 /* mrsl-morsel-feed.json */,
-				06F567D618BBB18C0067FCD4 /* mrsl-post.json */,
+				06F567C518BBB1270067FCD4 /* mrsl-item-authenticated.json */,
+				06F567D618BBB18C0067FCD4 /* mrsl-morsel.json */,
 				06F567CA18BBB1270067FCD4 /* mrsl-user-with-auth-token.json */,
 				40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */,
 			);
@@ -1231,8 +1223,8 @@
 			children = (
 				4040D4AB18E62DF9008A39E5 /* MRSLFactory+Activity.h */,
 				4040D4AC18E62DF9008A39E5 /* MRSLFactory+Activity.m */,
-				4040D4AE18E62F35008A39E5 /* MRSLFactory+Morsel.h */,
-				4040D4AF18E62F35008A39E5 /* MRSLFactory+Morsel.m */,
+				4040D4AE18E62F35008A39E5 /* MRSLFactory+Item.h */,
+				4040D4AF18E62F35008A39E5 /* MRSLFactory+Item.m */,
 				40D702A818E9F225001CCC42 /* MRSLFactory+User.h */,
 				40D702A918E9F225001CCC42 /* MRSLFactory+User.m */,
 				4040D4A818E62BA4008A39E5 /* MRSLFactory.h */,
@@ -1402,13 +1394,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06F567CE18BBB1270067FCD4 /* mrsl-morsel-authenticated.json in Resources */,
+				06F567CE18BBB1270067FCD4 /* mrsl-item-authenticated.json in Resources */,
 				0698CABA1852432D007AF442 /* InfoPlist.strings in Resources */,
 				06F567CD18BBB1270067FCD4 /* mrsl-comment.json in Resources */,
 				40D702AC18E9F72A001CCC42 /* mrsl-users-activities.json in Resources */,
-				06F567CF18BBB1270067FCD4 /* mrsl-morsel-feed.json in Resources */,
 				06F567D318BBB1270067FCD4 /* mrsl-user-with-auth-token.json in Resources */,
-				06F567D718BBB18C0067FCD4 /* mrsl-post.json in Resources */,
+				06F567D718BBB18C0067FCD4 /* mrsl-morsel.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1599,7 +1590,6 @@
 				062AB99418C5885F00742955 /* MRSLMorselListViewController.m in Sources */,
 				0611429E18F2622100FA38BC /* MRSLLikersTableViewCell.m in Sources */,
 				06584C5B18C7CE8F00D9035A /* MRSLMediaItemPreviewCollectionViewCell.m in Sources */,
-				062AB9A518C681E000742955 /* MRSLDeviceMediaViewController.m in Sources */,
 				062AB99A18C655DF00742955 /* MRSLMorselEditViewController.m in Sources */,
 				4069CB28189B127E001790F3 /* MRSLAPIClient.m in Sources */,
 				066F5ACB185BCA3D00468210 /* _MRSLTag.m in Sources */,
@@ -1696,7 +1686,7 @@
 				4069CB2B189B127E001790F3 /* MRSLAPIService.m in Sources */,
 				06ECF68018BFE38400577F9C /* ModelObjectImporting_Spec.m in Sources */,
 				4069CB29189B127E001790F3 /* MRSLAPIClient.m in Sources */,
-				4040D4B018E62F35008A39E5 /* MRSLFactory+Morsel.m in Sources */,
+				4040D4B018E62F35008A39E5 /* MRSLFactory+Item.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

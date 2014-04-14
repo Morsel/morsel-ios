@@ -15,8 +15,9 @@
 
 @interface MRSLSocialService (PRIVATE)
 
-- (void)requestReverseAuthenticationSignatureWithBlock:(MorselDataURLResponseErrorBlock)block;
-- (void)requestAccessTokenForAccount:(ACAccount *)account signature:(NSString *)signedReverseAuthenticationSignature withBlock:(MorselDataURLResponseErrorBlock)block;
+- (void)performReverseAuthForTwitterAccount:(ACAccount *)account withBlock:(MRSLDataURLResponseErrorBlock)block;
+- (void)requestReverseAuthenticationSignatureWithBlock:(MRSLDataURLResponseErrorBlock)block;
+- (void)requestAccessTokenForAccount:(ACAccount *)account signature:(NSString *)signedReverseAuthenticationSignature withBlock:(MRSLDataURLResponseErrorBlock)block;
 
 @end
 
@@ -86,7 +87,7 @@ describe(@"SocialService", ^{
                 [SLRequest stub:@selector(requestForServiceType:requestMethod:URL:parameters:) andReturn:dummyRequest];
 
                 [dummyRequest stub:@selector(performRequestWithHandler:) withBlock:^id(NSArray *params) {
-                    MorselDataURLResponseErrorBlock requestHandler = params[0];
+                    MRSLDataURLResponseErrorBlock requestHandler = params[0];
 
                     requestHandler(dummyResponseData, nil, nil);
                     return nil;

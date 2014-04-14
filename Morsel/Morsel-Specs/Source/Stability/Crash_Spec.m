@@ -11,7 +11,7 @@
 
 #import "MRSLCaptureMediaViewController.h"
 
-#import "MRSLMorsel.h"
+#import "MRSLItem.h"
 #import "MRSLUser.h"
 
 @interface MRSLCaptureMediaViewController (Private)

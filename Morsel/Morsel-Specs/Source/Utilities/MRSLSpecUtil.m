@@ -14,7 +14,7 @@
  The entire purpose of this method is to ensure stub collisions do not occur on similar API requests
 */
 
-+ (void)stubMorselAPIRequestsWithJSONFileName:(NSString *)fileName
++ (void)stubItemAPIRequestsWithJSONFileName:(NSString *)fileName
                                 forRequestPath:(NSString *)urlParametersToMatch {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSString *requestToStub = [NSString stringWithFormat:@"%@%@", request.URL.host, urlParametersToMatch];

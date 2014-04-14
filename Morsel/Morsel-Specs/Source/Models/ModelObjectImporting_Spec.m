@@ -7,8 +7,8 @@
 //
 
 #import "MRSLComment.h"
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
-#import "MRSLPost.h"
 #import "MRSLUser.h"
 
 SPEC_BEGIN(ModelObjectImporting_Spec)
@@ -22,19 +22,19 @@ describe(@"Importing from the API", ^{
         [MagicalRecord cleanUp];
     });
 
-    describe(@"MRSLMorsel", ^{
-        let(morsel, ^id{
-            MRSLMorsel *_morsel = [MRSLMorsel MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
-            [_morsel setMorselID:@2];
-            return _morsel;
+    describe(@"MRSLItem", ^{
+        let(item, ^id{
+            MRSLItem *_item = [MRSLItem MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+            [_item setItemID:@2];
+            return _item;
         });
 
         beforeEach(^{
             __block BOOL requestCompleted = NO;
-            [MRSLSpecUtil stubMorselAPIRequestsWithJSONFileName:@"mrsl-morsel-authenticated.json"
-                                                 forRequestPath:@"/morsels/2"];
+            [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-item-authenticated.json"
+                                                 forRequestPath:@"/items/2"];
 
-            [_appDelegate.morselApiService getMorsel:morsel
+            [_appDelegate.itemApiService getItem:item
                                              success:^(id responseObject) {
                                                  requestCompleted = YES;
                                              } failure:nil];
@@ -43,46 +43,46 @@ describe(@"Importing from the API", ^{
         });
 
         it(@"has id of 2", ^{
-            [[[morsel morselID] should] equal:@2];
+            [[[item itemID] should] equal:@2];
         });
 
-        it(@"has morselDescription 'This dish is crazy awesome!'", ^{
-            [[[morsel morselDescription] should] equal:@"This dish is crazy awesome!"];
+        it(@"has itemDescription 'This dish is crazy awesome!'", ^{
+            [[[item itemDescription] should] equal:@"This dish is crazy awesome!"];
         });
 
         it(@"has creationDate that is of kind NSDate", ^{
-            [[[morsel creationDate] should] beKindOfClass:[NSDate class]];
+            [[[item creationDate] should] beKindOfClass:[NSDate class]];
         });
 
-        it(@"has morselPhotoURL", ^{
-            [[[morsel morselPhotoURL] should] equal:@"https://morsel-staging.s3.amazonaws.com/morsel-images/morsel/2/IMAGE_SIZE_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png"];
+        it(@"has itemPhotoURL", ^{
+            [[[item itemPhotoURL] should] equal:@"https://morsel-staging.s3.amazonaws.com/item-images/item/2/IMAGE_SIZE_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png"];
         });
 
         it(@"has liked value", ^{
-            [[[morsel liked] should] beFalse];
+            [[[item liked] should] beFalse];
         });
 
         it(@"has url", ^{
-            [[[morsel url] should] equal:@"http://eatmorsel.com/marty/1-butter/1"];
+            [[[item url] should] equal:@"http://eatmorsel.com/marty/1-butter/1"];
         });
 
         context(@"has comments", ^{
-            let(morselWithComments, ^id{
-                MRSLMorsel *_morselWithComments = [MRSLMorsel MR_createEntity];
-                [_morselWithComments setMorselID:@40];
-                return _morselWithComments;
+            let(itemWithComments, ^id{
+                MRSLItem *_itemWithComments = [MRSLItem MR_createEntity];
+                [_itemWithComments setItemID:@40];
+                return _itemWithComments;
             });
             let(comment, nil);
 
             beforeEach(^{
                 __block BOOL requestCompleted = NO;
                 __block MRSLComment *firstComment = nil;
-                [MRSLSpecUtil stubMorselAPIRequestsWithJSONFileName:@"mrsl-comment.json"
-                                                     forRequestPath:@"/morsels/40/comments"];
+                [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-comment.json"
+                                                     forRequestPath:@"/items/40/comments"];
 
-                [_appDelegate.morselApiService getComments:morselWithComments
+                [_appDelegate.itemApiService getComments:itemWithComments
                                                    success:^(NSArray *responseArray) {
-                                                       firstComment = [[[morselWithComments comments] allObjects] firstObject];
+                                                       firstComment = [[[itemWithComments comments] allObjects] firstObject];
                                                        requestCompleted = YES;
                                                    } failure:nil];
 
@@ -90,7 +90,7 @@ describe(@"Importing from the API", ^{
                 comment = firstComment;
             });
             it(@"should have a valid comment", ^{
-                [[@([[morselWithComments comments] count]) should] equal:@1];
+                [[@([[itemWithComments comments] count]) should] equal:@1];
                 [[[comment commentID] should] equal:@4];
                 [[[comment commentDescription] should] equal:@"Wow! Are those Swedish Fish caviar???!?!?!one!?!11!?1?!"];
                 [[[comment creator] should] beNonNil];
@@ -99,19 +99,19 @@ describe(@"Importing from the API", ^{
         });
     });
 
-    describe(@"MRSLPost", ^{
-        let(post, ^id{
-            MRSLPost *existingPost = [MRSLPost MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
-            [existingPost setPostID:@1];
-            return existingPost;
+    describe(@"MRSLMorsel", ^{
+        let(morsel, ^id{
+            MRSLMorsel *existingMorsel = [MRSLMorsel MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+            [existingMorsel setMorselID:@1];
+            return existingMorsel;
         });
 
         beforeEach(^{
             __block BOOL requestCompleted = NO;
-            [MRSLSpecUtil stubMorselAPIRequestsWithJSONFileName:@"mrsl-post.json"
-                                                 forRequestPath:@"/posts/1"];
+            [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-morsel.json"
+                                                 forRequestPath:@"/morsels/1"];
 
-            [_appDelegate.morselApiService getPost:post
+            [_appDelegate.itemApiService getMorsel:morsel
                                            success:^(id responseObject) {
                                                requestCompleted = YES;
                                            } failure:nil];
@@ -120,23 +120,23 @@ describe(@"Importing from the API", ^{
         });
 
         it(@"has creator", ^{
-            [[[post creator] should] beNonNil];
+            [[[morsel creator] should] beNonNil];
         });
 
         it(@"has id of 1", ^{
-            [[theValue([post postIDValue]) should] equal:theValue(1)];
+            [[theValue([morsel morselIDValue]) should] equal:theValue(1)];
         });
 
         it(@"has title 'Butter Rocks!'", ^{
-            [[[post title] should] equal:@"Butter Rocks!"];
+            [[[morsel title] should] equal:@"Butter Rocks!"];
         });
 
         it(@"has creationDate that is of kind NSDate", ^{
-            [[[post creationDate] should] beKindOfClass:[NSDate class]];
+            [[[morsel creationDate] should] beKindOfClass:[NSDate class]];
         });
 
-        it(@"has one morsel", ^{
-            [[theValue([[post morsels] count]) should] equal:theValue(1)];
+        it(@"has one item", ^{
+            [[theValue([[morsel items] count]) should] equal:theValue(1)];
         });
     });
 
@@ -145,10 +145,10 @@ describe(@"Importing from the API", ^{
 
         beforeEach(^{
             __block BOOL requestCompleted = NO;
-            [MRSLSpecUtil stubMorselAPIRequestsWithJSONFileName:@"mrsl-user-with-auth-token.json"
+            [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-user-with-auth-token.json"
                                                  forRequestPath:@"/users/sign_in"];
 
-            [_appDelegate.morselApiService signInUserWithEmail:nil
+            [_appDelegate.itemApiService signInUserWithEmail:nil
                                                    andPassword:nil
                                                        success:^(id responseObject) {
                                                            requestCompleted = YES;
@@ -202,8 +202,8 @@ describe(@"Importing from the API", ^{
             [[[currentUser like_count] should] equal:@3];
         });
 
-        it(@"has morsel_count of 1", ^{
-            [[[currentUser morsel_count] should] equal:@1];
+        it(@"has item_count of 1", ^{
+            [[[currentUser item_count] should] equal:@1];
         });
     });
 });

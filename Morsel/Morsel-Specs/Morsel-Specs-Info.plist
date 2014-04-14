@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.morsel.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.item.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -23,7 +23,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>morsel</string>
+				<string>item</string>
 			</array>
 			<key>CFBundleURLName</key>
 			<string>com.eatmorsel.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_ID_SUFFIX}</string>
