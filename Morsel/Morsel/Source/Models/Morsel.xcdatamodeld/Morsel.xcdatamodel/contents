@@ -180,6 +180,7 @@
         <attribute name="profilePhotoLarge" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="profilePhotoThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="profilePhotoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="staff" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="twitter_username" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
@@ -211,6 +212,6 @@
         <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="285"/>
         <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="133"/>
         <element name="MRSLTag" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="358"/>
+        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="375"/>
     </elements>
 </model>

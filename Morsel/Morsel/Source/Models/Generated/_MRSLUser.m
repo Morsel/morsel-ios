@@ -18,6 +18,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.profilePhotoLarge = @"profilePhotoLarge",
 	.profilePhotoThumb = @"profilePhotoThumb",
 	.profilePhotoURL = @"profilePhotoURL",
+	.staff = @"staff",
 	.title = @"title",
 	.twitter_username = @"twitter_username",
 	.userID = @"userID",
@@ -71,6 +72,11 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	}
 	if ([key isEqualToString:@"like_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"staffValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"staff"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -236,6 +242,32 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 @dynamic profilePhotoURL;
 
+
+
+
+
+
+@dynamic staff;
+
+
+
+- (BOOL)staffValue {
+	NSNumber *result = [self staff];
+	return [result boolValue];
+}
+
+- (void)setStaffValue:(BOOL)value_ {
+	[self setStaff:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveStaffValue {
+	NSNumber *result = [self primitiveStaff];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveStaffValue:(BOOL)value_ {
+	[self setPrimitiveStaff:[NSNumber numberWithBool:value_]];
+}
 
 
 

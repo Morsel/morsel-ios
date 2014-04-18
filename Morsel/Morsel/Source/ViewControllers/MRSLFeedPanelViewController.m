@@ -124,7 +124,7 @@ MRSLFeedShareCollectionViewCellDelegate>
         [self.morselTitleLabel setWidth:260.f];
         [self.morselTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
 
-        self.timeSinceLabel.text = [_morsel.lastUpdatedDate timeAgo];
+        self.timeSinceLabel.text = [_morsel.publishedDate timeAgo];
 
         [self.collectionView reloadData];
         [self resetCollectionViewContentOffset:NO];

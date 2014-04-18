@@ -37,12 +37,6 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
 
 #endif
 
-#ifdef RELEASE
-#define FACEBOOK_PUBLISH_AUDIENCE ACFacebookAudienceEveryone
-#else
-#define FACEBOOK_PUBLISH_AUDIENCE ACFacebookAudienceOnlyMe
-#endif
-
 @interface MRSLSocialService ()
 <UIActionSheetDelegate>
 
@@ -188,8 +182,8 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
             shareText = [NSString stringWithFormat:@"“%@” from %@ on Morsel", item.morsel.title, userNameOrTwitterHandle];
             [slComposerSheet addURL:[NSURL URLWithString:item.morsel.facebook_mrsl ?: item.morsel.url]];
         } else if ([serviceType isEqualToString:SLServiceTypeTwitter]) {
-            shareText = [NSString stringWithFormat:@"“%@” from %@ on @eatmorsel %@", item.morsel.title, userNameOrTwitterHandle, item.morsel.twitter_mrsl ?: item.morsel.url];
-            if (item.morsel.morselPhotoURL) [slComposerSheet addImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:item.morsel.morselPhotoURL]]]];
+            shareText = [NSString stringWithFormat:@"“%@” from %@ on @eatmorsel", item.morsel.title, userNameOrTwitterHandle];
+            [slComposerSheet addURL:[NSURL URLWithString:item.morsel.twitter_mrsl ?: item.morsel.url]];
         }
         [slComposerSheet setInitialText:shareText];
         [viewController presentViewController:slComposerSheet
@@ -290,9 +284,10 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                                                       ACFacebookPermissionsKey: @[ @"basic_info", @"email" ] }
                                         completion:^(BOOL readGranted, NSError *readError) {
                                             if (readGranted) {
+                                                //([MRSLUser currentUser].staffValue) ?  ACFacebookAudienceOnlyMe : ACFacebookAudienceEveryone
                                                 [_accountStore requestAccessToAccountsWithType:[_accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]
                                                                                        options:@{ ACFacebookAppIdKey : FACEBOOK_APP_ID,
-                                                                                                  ACFacebookAudienceKey: FACEBOOK_PUBLISH_AUDIENCE,
+                                                                                                  ACFacebookAudienceKey: ACFacebookAudienceEveryone,
                                                                                                   ACFacebookPermissionsKey: @[ @"publish_stream" ] }
                                                                                     completion:block];
                                             } else {

@@ -111,6 +111,7 @@
 		0698CABA1852432D007AF442 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0698CAB81852432D007AF442 /* InfoPlist.strings */; };
 		0698CAD018524359007AF442 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0698CACE18524359007AF442 /* InfoPlist.strings */; };
 		069AE51A18B80FDF002F63D5 /* MRSLCaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* MRSLCaptureMediaViewController.m */; };
+		069CCD6E1901A49800D1B770 /* MRSLMorselPublishShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069CCD6D1901A49800D1B770 /* MRSLMorselPublishShareViewController.m */; };
 		069D281218D22A43000EBF7E /* MRSLItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 069D281118D22A43000EBF7E /* MRSLItemImageView.m */; };
 		06A049651896D82500BD1C5B /* MRSLMorselCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A049641896D82500BD1C5B /* MRSLMorselCollectionViewCell.m */; };
 		06BE842B18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BE842A18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m */; };
@@ -357,6 +358,8 @@
 		0698CACD18524359007AF442 /* Morsel-Integration-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Morsel-Integration-Info.plist"; sourceTree = "<group>"; };
 		0698CACF18524359007AF442 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0698CAD318524359007AF442 /* Morsel-Integration-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Morsel-Integration-Prefix.pch"; sourceTree = "<group>"; };
+		069CCD6C1901A49800D1B770 /* MRSLMorselPublishShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselPublishShareViewController.h; sourceTree = "<group>"; };
+		069CCD6D1901A49800D1B770 /* MRSLMorselPublishShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselPublishShareViewController.m; sourceTree = "<group>"; };
 		069D281018D22A43000EBF7E /* MRSLItemImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLItemImageView.h; path = Source/Views/MRSLItemImageView.h; sourceTree = "<group>"; };
 		069D281118D22A43000EBF7E /* MRSLItemImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLItemImageView.m; path = Source/Views/MRSLItemImageView.m; sourceTree = "<group>"; };
 		06A049631896D82500BD1C5B /* MRSLMorselCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLMorselCollectionViewCell.h; path = Source/Views/MRSLMorselCollectionViewCell.h; sourceTree = "<group>"; };
@@ -556,7 +559,7 @@
 			isa = PBXGroup;
 			children = (
 				0609B8381894A9ED005A11A4 /* Media */,
-				062AB98218C5338B00742955 /* Story */,
+				062AB98218C5338B00742955 /* Morsel */,
 			);
 			name = Management;
 			sourceTree = "<group>";
@@ -570,7 +573,7 @@
 			name = Likers;
 			sourceTree = "<group>";
 		};
-		062AB98218C5338B00742955 /* Story */ = {
+		062AB98218C5338B00742955 /* Morsel */ = {
 			isa = PBXGroup;
 			children = (
 				062AB99518C5970400742955 /* MRSLMorselAddTitleViewController.h */,
@@ -583,10 +586,12 @@
 				062AB99918C655DF00742955 /* MRSLMorselEditViewController.m */,
 				062AB99218C5885F00742955 /* MRSLMorselListViewController.h */,
 				062AB99318C5885F00742955 /* MRSLMorselListViewController.m */,
+				069CCD6C1901A49800D1B770 /* MRSLMorselPublishShareViewController.h */,
+				069CCD6D1901A49800D1B770 /* MRSLMorselPublishShareViewController.m */,
 				0645179D18CAB44D00D11DB4 /* MRSLMorselPublishViewController.h */,
 				0645179E18CAB44D00D11DB4 /* MRSLMorselPublishViewController.m */,
 			);
-			name = Story;
+			name = Morsel;
 			sourceTree = "<group>";
 		};
 		062E8E00189C19F8002A8CD4 /* Data Objects */ = {
@@ -618,7 +623,7 @@
 			isa = PBXGroup;
 			children = (
 				0645179B18CAB36400D11DB4 /* Media */,
-				0645179C18CAB36D00D11DB4 /* Story */,
+				0645179C18CAB36D00D11DB4 /* Morsel */,
 			);
 			name = Management;
 			sourceTree = "<group>";
@@ -724,7 +729,7 @@
 			name = Media;
 			sourceTree = "<group>";
 		};
-		0645179C18CAB36D00D11DB4 /* Story */ = {
+		0645179C18CAB36D00D11DB4 /* Morsel */ = {
 			isa = PBXGroup;
 			children = (
 				062AB98F18C56DC800742955 /* MRSLStatusHeaderCollectionReusableView.h */,
@@ -734,7 +739,7 @@
 				0676B48D1898514D001D7483 /* MRSLMorselEditItemTableViewCell.h */,
 				0676B48E1898514D001D7483 /* MRSLMorselEditItemTableViewCell.m */,
 			);
-			name = Story;
+			name = Morsel;
 			sourceTree = "<group>";
 		};
 		064566F518C50C9F00C9CCBF /* Activity */ = {
@@ -1538,6 +1543,7 @@
 				06C38C3B18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m in Sources */,
 				0693C25718F6C7320026D6B3 /* MRSLMorsel.m in Sources */,
 				400350A118EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */,
+				069CCD6E1901A49800D1B770 /* MRSLMorselPublishShareViewController.m in Sources */,
 				403E9E2518EDCC20003CDE3B /* MRSLNotification.m in Sources */,
 				068602B318920D31000CD576 /* MRSLRobotoSlabRegularLabel.m in Sources */,
 				0669C5131871FD370093132F /* UIImage+Resize.m in Sources */,
