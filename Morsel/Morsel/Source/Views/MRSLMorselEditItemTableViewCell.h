@@ -13,8 +13,9 @@
 @protocol MRSLMorselEditItemTableViewCellDelegate <NSObject>
 
 @optional
-- (void)itemCollectionViewDidSelectImagePreview:(MRSLItem *)item;
-- (void)itemCollectionViewDidSelectEditText:(MRSLItem *)item;
+- (void)morselEditItemCellDidSelectImagePreview:(MRSLItem *)item;
+- (void)morselEditItemCellDidSelectEditText:(MRSLItem *)item;
+- (void)morselEditItemCellDidTransitionToDeleteState:(BOOL)deleteStateActive;
 
 @end
 

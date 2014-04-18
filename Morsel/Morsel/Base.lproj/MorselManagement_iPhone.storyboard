@@ -421,6 +421,7 @@
                     <navigationItem key="navigationItem" title="Your Morsel" id="sil-H5-pNn"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="editItemsButton" destination="rJi-B4-wvr" id="xXa-eE-RZr"/>
                         <outlet property="lastUpdatedLabel" destination="In7-2o-cvL" id="JWt-tA-YFI"/>
                         <outlet property="morselMorselsTableView" destination="WDj-WI-oTC" id="Ljx-vf-RDa"/>
                         <outlet property="morselTitleButton" destination="pMX-jI-LJb" id="oeV-jb-VBc"/>
@@ -693,6 +694,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="eSW-V4-W7m"/>
+        <segue reference="BGd-gz-lyc"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -35,6 +35,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 @property (nonatomic) BOOL wasNewMorsel;
 
 @property (weak, nonatomic) IBOutlet UIButton *morselTitleButton;
+@property (weak, nonatomic) IBOutlet UIButton *editItemsButton;
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
 @property (weak, nonatomic) IBOutlet UITableView *morselMorselsTableView;
@@ -394,7 +395,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 #pragma mark - MRSLMorselEditMorselCollectionViewCellDelegate
 
-- (void)itemCollectionViewDidSelectEditText:(MRSLItem *)item {
+- (void)morselEditItemCellDidSelectEditText:(MRSLItem *)item {
     self.item = item;
     [[MRSLEventManager sharedManager] track:@"Tapped Add Description"
                                  properties:@{@"view": @"Your Morsel",
@@ -405,7 +406,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                               sender:nil];
 }
 
-- (void)itemCollectionViewDidSelectImagePreview:(MRSLItem *)item {
+- (void)morselEditItemCellDidSelectImagePreview:(MRSLItem *)item {
     [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
                                  properties:@{@"view": @"Your Morsel",
                                               @"item_count": @([_items count]),
@@ -419,6 +420,10 @@ MRSLMorselEditItemTableViewCellDelegate>
     [self presentViewController:imagePreviewVC
                        animated:YES
                      completion:nil];
+}
+
+- (void)morselEditItemCellDidTransitionToDeleteState:(BOOL)deleteStateActive {
+    _editItemsButton.hidden = deleteStateActive;
 }
 
 #pragma mark - UIActionSheetDelegate

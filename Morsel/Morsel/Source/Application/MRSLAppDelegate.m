@@ -86,16 +86,16 @@
     [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
 
     if ([MRSLUser currentUser]) {
-        // Delete Morsels that do not have a localUUID, itemID, photo data, and belong to the current user. They didn't make it nor will they ever be able to be synced with any existing Morsels.
+        // Delete items that do not have a localUUID, itemID, photo data, and belong to the current user. They didn't make it nor will they ever be able to be synced with any existing items.
         NSPredicate *localOrphanedPredicate = [NSPredicate predicateWithFormat:@"((itemPhotoFull != nil) AND (localUUID == nil) AND (itemID == nil) AND (morsel.creator.userID == %i))", [MRSLUser currentUser].userIDValue];
         NSArray *localOrphanedMorsels = [MRSLItem MR_findAllWithPredicate:localOrphanedPredicate];
         if ([localOrphanedMorsels count] > 0) {
             DDLogDebug(@"Local orphaned Morsels found. Removing %lu", (unsigned long)[localOrphanedMorsels count]);
             [MRSLItem MR_deleteAllMatchingPredicate:localOrphanedPredicate];
-            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
+            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         }
 
-        // Finds any Morsels that have their upload flag set to YES. This is due to the app quitting before success/failure blocks of the Morsel image upload was able to complete.
+        // Finds any items that have their upload flag set to YES. This is due to the app quitting before success/failure blocks of the item image upload was able to complete.
         NSArray *items = [MRSLItem MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"(isUploading == YES)"]];
         [items enumerateObjectsUsingBlock:^(MRSLItem *item, NSUInteger idx, BOOL *stop) {
             item.isUploading = @NO;

@@ -216,9 +216,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
     NSError *fetchError = nil;
     [_feedFetchedResultsController performFetch:&fetchError];
     if (_feedFetchedResultsController) {
-        [self.feedMorsels removeAllObjects];
         NSPredicate *feedIDPredicate = [NSPredicate predicateWithFormat:@"morselID IN %@", _feedIDs];
-        [self.feedMorsels addObjectsFromArray:[[_feedFetchedResultsController fetchedObjects] filteredArrayUsingPredicate:feedIDPredicate]];
+        self.feedMorsels = [[[_feedFetchedResultsController fetchedObjects] filteredArrayUsingPredicate:feedIDPredicate] mutableCopy];
         [_feedMorsels sortUsingComparator:^NSComparisonResult(MRSLMorsel *morsel1, MRSLMorsel *morsel2) {
             return [@([_feedIDs indexOfObject:morsel1.morselID]) compare:@([_feedIDs indexOfObject:morsel2.morselID])];
         }];

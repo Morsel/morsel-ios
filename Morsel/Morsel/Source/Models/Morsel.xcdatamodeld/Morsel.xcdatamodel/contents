@@ -188,7 +188,11 @@
             </userInfo>
         </attribute>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="activities" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="creator" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="activities" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="creator" inverseEntity="MRSLActivity" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="activityID"/>
+            </userInfo>
+        </relationship>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLComment" inverseName="creator" inverseEntity="MRSLComment" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="commentID"/>
