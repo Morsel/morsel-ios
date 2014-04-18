@@ -321,7 +321,7 @@ UITextFieldDelegate>
     return YES;
 }
 
-#pragma mark - Destruction
+#pragma mark - Dealloc
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

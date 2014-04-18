@@ -34,7 +34,7 @@
         _morselThumbnailView.item = firstMorsel;
         self.morselCountLabel.text = [NSString stringWithFormat:@"%lu MORSEL%@", (unsigned long)[_morsel.items count], ([_morsel.items count] > 1) ? @"S" : @""];
     } else {
-        DDLogError(@"MorselCollectionViewCell assigned a Morsel with no Morsels. Morsel ID: %i", [_morsel.morselID intValue]);
+        DDLogError(@"MorselCollectionViewCell assigned a Morsel with no Morsels. Morsel ID: %i", _morsel.morselIDValue);
         [_morselThumbnailView displayEmptyMorselState];
         self.morselCountLabel.text = @"NO MORSELS";
     }

@@ -61,7 +61,7 @@ NSFetchedResultsControllerDelegate>
     if (_item != item) {
         _item = item;
         if (_item && !_fetchedResultsController) {
-            NSPredicate *commentsForMorselPredicate = [NSPredicate predicateWithFormat:@"item.itemID == %i", [_item.itemID intValue]];
+            NSPredicate *commentsForMorselPredicate = [NSPredicate predicateWithFormat:@"item.itemID == %i", _item.itemIDValue];
 
             self.fetchedResultsController = [MRSLComment MR_fetchAllSortedBy:@"creationDate"
                                                                    ascending:YES
@@ -118,6 +118,7 @@ NSFetchedResultsControllerDelegate>
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     CGFloat baselineY = self.view.frame.size.height - keyboardSize.height;
+    if (![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) baselineY -= [UIApplication sharedApplication].statusBarFrame.size.height;
     [UIView animateWithDuration:.35f
                      animations:^{
                          [_commentInputView setY:baselineY - [_commentInputView getHeight]];
@@ -148,7 +149,7 @@ NSFetchedResultsControllerDelegate>
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
-    CGSize bodySize = [comment.commentDescription sizeWithFont:[UIFont helveticaLightObliqueFontOfSize:12.f]
+    CGSize bodySize = [comment.commentDescription sizeWithFont:[UIFont robotoLightFontOfSize:12.f]
                                              constrainedToSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
                                                  lineBreakMode:NSLineBreakByWordWrapping];
     CGFloat defaultCellSize = 110.f;

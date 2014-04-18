@@ -10,4 +10,6 @@
 
 @interface MRSLMorselAddViewController : MRSLBaseViewController
 
+@property (nonatomic) BOOL skipToAddTitle;
+
 @end

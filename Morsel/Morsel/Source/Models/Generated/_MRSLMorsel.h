@@ -7,6 +7,7 @@
 extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *draft;
+	__unsafe_unretained NSString *facebook_mrsl;
 	__unsafe_unretained NSString *feedItemID;
 	__unsafe_unretained NSString *lastUpdatedDate;
 	__unsafe_unretained NSString *morselID;
@@ -16,6 +17,7 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *total_comment_count;
 	__unsafe_unretained NSString *total_like_count;
+	__unsafe_unretained NSString *twitter_mrsl;
 	__unsafe_unretained NSString *url;
 } MRSLMorselAttributes;
 
@@ -29,6 +31,8 @@ extern const struct MRSLMorselFetchedProperties {
 
 @class MRSLUser;
 @class MRSLItem;
+
+
 
 
 
@@ -75,6 +79,16 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)setDraftValue:(BOOL)value_;
 
 //- (BOOL)validateDraft:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* facebook_mrsl;
+
+
+
+//- (BOOL)validateFacebook_mrsl:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -190,6 +204,16 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* twitter_mrsl;
+
+
+
+//- (BOOL)validateTwitter_mrsl:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* url;
 
 
@@ -240,6 +264,12 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (BOOL)primitiveDraftValue;
 - (void)setPrimitiveDraftValue:(BOOL)value_;
+
+
+
+
+- (NSString*)primitiveFacebook_mrsl;
+- (void)setPrimitiveFacebook_mrsl:(NSString*)value;
 
 
 
@@ -309,6 +339,12 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (int32_t)primitiveTotal_like_countValue;
 - (void)setPrimitiveTotal_like_countValue:(int32_t)value_;
+
+
+
+
+- (NSString*)primitiveTwitter_mrsl;
+- (void)setPrimitiveTwitter_mrsl:(NSString*)value;
 
 
 

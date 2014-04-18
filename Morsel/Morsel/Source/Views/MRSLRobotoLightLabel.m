@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLCondensedObliqueLabel.h"
+#import "MRSLRobotoLightLabel.h"
 
-@implementation MRSLCondensedObliqueLabel
+@implementation MRSLRobotoLightLabel
 
 - (void)setUp {
-    [self setFont:[UIFont robotoCondensedItalicFontOfSize:self.font.pointSize]];
+    [self setFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
 }
 
 @end

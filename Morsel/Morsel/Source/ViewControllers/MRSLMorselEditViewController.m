@@ -190,14 +190,14 @@ MRSLMorselEditItemTableViewCellDelegate>
                                  properties:@{@"view": @"Your Morsel",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     [_morselMorselsTableView setEditing:!_morselMorselsTableView.editing
-                              animated:YES];
+                               animated:YES];
     self.shouldShowAddCell = !_morselMorselsTableView.editing;
     NSIndexPath *addCellIndexPath = [NSIndexPath indexPathForItem:[_items count]
                                                         inSection:0];
     if (_shouldShowAddCell) [_morselMorselsTableView insertRowsAtIndexPaths:@[addCellIndexPath]
-                                                          withRowAnimation:UITableViewRowAnimationFade];
+                                                           withRowAnimation:UITableViewRowAnimationFade];
     else  [_morselMorselsTableView deleteRowsAtIndexPaths:@[addCellIndexPath]
-                                        withRowAnimation:UITableViewRowAnimationFade];
+                                         withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)goBack {
@@ -246,7 +246,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                   @"item_id": NSNullIfNil(deletedItem.itemID)}];
         [_items removeObject:deletedItem];
         [_morselMorselsTableView deleteRowsAtIndexPaths:@[indexPath]
-                                      withRowAnimation:UITableViewRowAnimationFade];
+                                       withRowAnimation:UITableViewRowAnimationFade];
 
         __weak __typeof(self) weakSelf = self;
 
@@ -311,13 +311,13 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row + 1 > [_items count]) {
         UITableViewCell *addCell = [self.morselMorselsTableView dequeueReusableCellWithIdentifier:@"ruid_ItemAddCell"
-                                                                                    forIndexPath:indexPath];
+                                                                                     forIndexPath:indexPath];
         return addCell;
     }
     MRSLItem *item = [_items objectAtIndex:indexPath.row];
 
     MRSLMorselEditItemTableViewCell *morselMorselCell = [self.morselMorselsTableView dequeueReusableCellWithIdentifier:@"ruid_MorselItemCell"
-                                                                                                         forIndexPath:indexPath];
+                                                                                                          forIndexPath:indexPath];
     morselMorselCell.item = item;
     morselMorselCell.delegate = self;
     return morselMorselCell;
@@ -360,31 +360,30 @@ MRSLMorselEditItemTableViewCellDelegate>
             }
             DDLogDebug(@"Item INDEX: %lu", (unsigned long)itemIndex);
 
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                 MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                               withValue:strongSelf.morsel.morselID];
-
-                MRSLItem *item = [MRSLItem localUniqueItem];
+                                                               withValue:strongSelf.morsel.morselID
+                                                               inContext:localContext];
+                MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
                 item.sort_order = @(itemIndex);
-                item.itemPhotoFull = mediaItem.mediaFullImageData;
-                item.itemPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, 1.f);
+                item.itemPhotoFull = UIImageJPEGRepresentation(mediaItem.mediaFullImage, 1.f);
+                item.itemPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, .8f);
                 item.itemPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
                 item.isUploading = @YES;
                 item.morsel = morsel;
-                if (item.managedObjectContext && morsel.managedObjectContext) {
-                    [morsel addItemsObject:item];
-                    [_appDelegate.itemApiService createItem:item
-                                                    success:^(id responseObject) {
-                                                        if (weakSelf) {
-                                                            [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
-                                                            [weakSelf displayMorselStatus];
-                                                            [_appDelegate.itemApiService updateItemImage:item
-                                                                                                 success:nil
-                                                                                                 failure:nil];
-                                                        }
-                                                    } failure:nil];
-                }
-            });
+                [morsel addItemsObject:item];
+                [_appDelegate.itemApiService createItem:item
+                                                success:^(id responseObject) {
+                                                    if ([responseObject isKindOfClass:[MRSLItem class]]) {
+                                                        MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
+                                                        [strongSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
+                                                        [strongSelf displayMorselStatus];
+                                                        [_appDelegate.itemApiService updateItemImage:itemToUploadWithImage
+                                                                                             success:nil
+                                                                                             failure:nil];
+                                                    }
+                                                } failure:nil];
+            }];
         }
     }];
 }

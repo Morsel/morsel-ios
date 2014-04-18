@@ -11,10 +11,8 @@
 @interface UIFont (Morsel)
 
 + (UIFont *)robotoSlabBoldFontOfSize:(CGFloat)fontSize;
-+ (UIFont *)robotoCondensedRegularFontOfSize:(CGFloat)fontSize;
-+ (UIFont *)robotoCondensedItalicFontOfSize:(CGFloat)fontSize;
-+ (UIFont *)robotoCondensedLightFontOfSize:(CGFloat)fontSize;
-+ (UIFont *)helveticaLightFontOfSize:(CGFloat)fontSize;
-+ (UIFont *)helveticaLightObliqueFontOfSize:(CGFloat)fontSize;
++ (UIFont *)robotoSlabRegularFontOfSize:(CGFloat)fontSize;
++ (UIFont *)robotoLightFontOfSize:(CGFloat)fontSize;
++ (UIFont *)robotoRegularFontOfSize:(CGFloat)fontSize;
 
 @end

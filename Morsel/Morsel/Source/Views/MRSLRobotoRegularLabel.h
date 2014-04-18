@@ -8,6 +8,6 @@
 
 #import "MRSLStandardLabel.h"
 
-@interface MRSLLightCondensedLabel : MRSLStandardLabel
+@interface MRSLRobotoRegularLabel : MRSLStandardLabel
 
 @end

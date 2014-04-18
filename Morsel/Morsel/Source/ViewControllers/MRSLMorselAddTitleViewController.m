@@ -37,6 +37,9 @@
     if (_morsel) {
         self.morselTitleTextView.text = self.morsel.title;
         [self textViewDidChange:_morselTitleTextView];
+        self.title = @"Edit Morsel title";
+    } else {
+        self.title = @"Give your Morsel a title";
     }
 
     self.morselTitleTextView.placeholder = @"What are you working on?";

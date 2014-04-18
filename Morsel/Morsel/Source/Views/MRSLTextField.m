@@ -14,7 +14,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self.font = [UIFont helveticaLightFontOfSize:self.font.pointSize];
+        self.font = [UIFont robotoLightFontOfSize:self.font.pointSize];
     }
     return self;
 }
@@ -26,7 +26,7 @@
         rect.origin.y += 6.f;
     }
     [[self placeholder] drawInRect:rect
-                          withFont:[UIFont helveticaLightFontOfSize:self.font.pointSize]];
+                          withFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
 }
 
 - (CGRect)editingRectForBounds:(CGRect)bounds {

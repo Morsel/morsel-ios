@@ -68,6 +68,10 @@
     return self;
 }
 
+- (NSString *)description {
+    return [self errorInfo];
+}
+
 - (NSUInteger)metaStatusCode {
     NSNumber *metaNumber = _meta[@"status"];
 

@@ -100,7 +100,7 @@ NSFetchedResultsControllerDelegate>
 - (void)setupUserMorselsFetchRequest {
     if (_userMorselsFetchedResultsController) return;
 
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(morsel.creator.userID == %i) AND (morsel.draft == NO)", [_user.userID intValue]];
+    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"(morsel.creator.userID == %i) AND (morsel.draft == NO)", _user.userIDValue];
 
     self.userMorselsFetchedResultsController = [MRSLItem MR_fetchAllSortedBy:@"creationDate"
                                                                    ascending:NO
@@ -178,7 +178,7 @@ NSFetchedResultsControllerDelegate>
     [self populateContent];
 }
 
-#pragma mark - Destruction
+#pragma mark - Dealloc
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

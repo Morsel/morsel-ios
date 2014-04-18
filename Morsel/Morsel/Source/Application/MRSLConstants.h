@@ -18,6 +18,7 @@ extern NSString *const MRSLUserDidBeginCreateMorselNotification;
 extern NSString *const MRSLUserDidUpdateItemNotification;
 extern NSString *const MRSLUserDidUpdateMorselNotification;
 extern NSString *const MRSLUserDidPublishMorselNotification;
+extern NSString *const MRSLUserDidDeleteMorselNotification;
 
 extern NSString *const MRSLItemUploadDidCompleteNotification;
 extern NSString *const MRSLItemUploadDidFailNotification;

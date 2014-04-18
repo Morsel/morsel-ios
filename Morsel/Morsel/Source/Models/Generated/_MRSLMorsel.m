@@ -6,6 +6,7 @@
 const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.creationDate = @"creationDate",
 	.draft = @"draft",
+	.facebook_mrsl = @"facebook_mrsl",
 	.feedItemID = @"feedItemID",
 	.lastUpdatedDate = @"lastUpdatedDate",
 	.morselID = @"morselID",
@@ -15,6 +16,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.title = @"title",
 	.total_comment_count = @"total_comment_count",
 	.total_like_count = @"total_like_count",
+	.twitter_mrsl = @"twitter_mrsl",
 	.url = @"url",
 };
 
@@ -117,6 +119,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 - (void)setPrimitiveDraftValue:(BOOL)value_ {
 	[self setPrimitiveDraft:[NSNumber numberWithBool:value_]];
 }
+
+
+
+
+
+@dynamic facebook_mrsl;
+
 
 
 
@@ -275,6 +284,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 - (void)setPrimitiveTotal_like_countValue:(int32_t)value_ {
 	[self setPrimitiveTotal_like_count:[NSNumber numberWithInt:value_]];
 }
+
+
+
+
+
+@dynamic twitter_mrsl;
+
 
 
 

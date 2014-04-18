@@ -3,11 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "placeholder_user_photo.png"
+      "filename" : "graphic-placeholder-profile.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "graphic-placeholder-profile@2x.png"
     }
   ],
   "info" : {

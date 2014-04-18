@@ -52,11 +52,11 @@
 
 - (void)queueMorselsInMorsel:(MRSLMorsel *)morsel
               preloadCover:(BOOL)shouldPreloadCover {
-    DDLogDebug(@"Preloading images for morsel with title: %@", morsel.title);
+    DDLogVerbose(@"Preloading images for morsel with title: %@", morsel.title);
     __block int itemCount = 0;
     MRSLItem *coverMorsel = nil;
     if (shouldPreloadCover) {
-        DDLogDebug(@"Cover image preloading for morsel with title: %@", morsel.title);
+        DDLogVerbose(@"Cover image preloading for morsel with title: %@", morsel.title);
         coverMorsel = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
                                                 withValue:morsel.primary_item_id] ?: [morsel.itemsArray lastObject];
         [self queueRequestForMorsel:coverMorsel
@@ -87,7 +87,7 @@
                               options:(isHighPriority) ? SDWebImageHighPriority : SDWebImageLowPriority
                              progress:nil
                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                DDLogDebug(@"Image preloaded");
+                                DDLogVerbose(@"Image preloaded");
                                 // Completion block must be set otherwise SDWebImageManager throws an exception
                             }];
 }

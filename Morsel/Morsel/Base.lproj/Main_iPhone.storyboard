@@ -50,7 +50,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="uxq-Co-Ih2" customClass="MRSLMenuBarButton">
-                                        <rect key="frame" x="0.0" y="237" width="80" height="60"/>
+                                        <rect key="frame" x="0.0" y="169" width="80" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="View Activity"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
@@ -77,7 +77,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="jLr-C9-Neq" customClass="MRSLMenuBarButton">
-                                        <rect key="frame" x="9" y="315" width="62" height="24"/>
+                                        <rect key="frame" x="9" y="247" width="62" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="Logout"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
@@ -103,8 +103,8 @@
                                             <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="lrb-A4-Iur"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="lAZ-OY-Dws" customClass="MRSLMenuBarButton">
-                                        <rect key="frame" x="0.0" y="101" width="80" height="60"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="lAZ-OY-Dws" customClass="MRSLMenuBarButton">
+                                        <rect key="frame" x="0.0" y="279" width="80" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="View Profile"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
@@ -132,7 +132,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="6z6-0t-kaz" customClass="MRSLMenuBarButton">
-                                        <rect key="frame" x="0.0" y="169" width="80" height="60"/>
+                                        <rect key="frame" x="0.0" y="101" width="80" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="View My Stuff"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
@@ -159,7 +159,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="Qbi-Wx-vRl" id="ATX-m1-MYi"/>
                                     <outletCollection property="menuBarButtons" destination="UKk-bO-zgY" id="W0q-7q-FbJ"/>

@@ -13,8 +13,8 @@
 
 #pragma mark - Class Methods
 
-+ (MRSLItem *)localUniqueItem {
-    MRSLItem *item = [MRSLItem MR_createEntity];
++ (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context {
+    MRSLItem *item = [MRSLItem MR_createInContext:context];
 
     NSString *uniqueUUID = [[NSUUID UUID] UUIDString];
 
@@ -94,14 +94,23 @@
 
 - (void)willImport:(id)data {
     if (![data[@"nonce"] isEqual:[NSNull null]]) {
-        MRSLItem *potentialLocalOrphanedMorsel = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.localUUID
+        MRSLItem *localItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.localUUID
                                                                              withValue:data[@"nonce"]];
-        if (potentialLocalOrphanedMorsel && potentialLocalOrphanedMorsel.itemPhotoCropped && !potentialLocalOrphanedMorsel.itemID) {
-            DDLogDebug(@"Local orphaned Morsel found that matches server copy and it contains binary image data. Poaching then deleting!");
-            self.itemPhotoCropped = [potentialLocalOrphanedMorsel.itemPhotoCropped copy] ?: nil;
-            self.itemPhotoThumb = [potentialLocalOrphanedMorsel.itemPhotoThumb copy] ?: nil;
-            [potentialLocalOrphanedMorsel MR_deleteEntity];
-            [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+        if (localItem &&
+            !localItem.itemID &&
+            localItem.didFailUploadValue &&
+            !localItem.itemPhotoURL &&
+            ![localItem.objectID isEqual:self.objectID]) {
+            DDLogDebug(@"Duplicate local failed item found without server id. Removing before import of updated item.");
+            if (localItem.itemPhotoFull) {
+                self.itemPhotoFull = [localItem.itemPhotoFull copy] ?: nil;
+                self.itemPhotoCropped = [localItem.itemPhotoCropped copy] ?: nil;
+                self.itemPhotoThumb = [localItem.itemPhotoThumb copy] ?: nil;
+            }
+            [localItem.morsel removeItemsObject:localItem];
+            [localItem.morsel addItemsObject:self];
+            [localItem MR_deleteEntity];
+            [localItem.managedObjectContext MR_saveOnlySelfAndWait];
         }
     }
 }
@@ -138,7 +147,7 @@
 
     if (self.photo_processingValue || self.itemPhotoURL) self.isUploading = @NO;
 
-    if (!self.isUploadingValue && !self.itemPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.itemPhotoCropped) {
+    if (!self.isUploadingValue && !self.itemPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.itemPhotoFull) {
         self.didFailUpload = @YES;
     } else {
         self.didFailUpload = @NO;

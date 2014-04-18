@@ -1,14 +1,14 @@
 //
-//  MorselStandardLabel.m
+//  MRSLRobotoLightTextView.m
 //  Morsel
 //
-//  Created by Javier Otero on 1/23/14.
+//  Created by Javier Otero on 4/16/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLStandardLabel.h"
+#import "MRSLRobotoLightTextView.h"
 
-@implementation MRSLStandardLabel
+@implementation MRSLRobotoLightTextView
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];

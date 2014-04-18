@@ -8,6 +8,6 @@
 
 #import "MRSLStandardLabel.h"
 
-@interface MRSLBoldLabel : MRSLStandardLabel
+@interface MRSLRobotoSlabBoldLabel : MRSLStandardLabel
 
 @end

@@ -80,7 +80,7 @@
     }
     if (![data[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = data[@"photos"];
-        self.morselPhotoURL = photoDictionary[@"_400x300"];
+        self.morselPhotoURL = photoDictionary[@"_800x600"];
     }
 }
 

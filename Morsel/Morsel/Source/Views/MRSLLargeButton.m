@@ -30,7 +30,7 @@
     [self setTitleColor:[UIColor lightGrayColor]
                forState:UIControlStateDisabled];
 
-    [self.titleLabel setFont:[UIFont helveticaLightFontOfSize:self.titleLabel.font.pointSize]];
+    [self.titleLabel setFont:[UIFont robotoLightFontOfSize:self.titleLabel.font.pointSize]];
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {

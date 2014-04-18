@@ -9,6 +9,7 @@
 #import "MRSLRootViewController.h"
 
 #import "MRSLFeedViewController.h"
+#import "MRSLMorselAddViewController.h"
 
 #import "MRSLMenuBarView.h"
 
@@ -50,7 +51,7 @@
                                                  name:MRSLUserDidPublishMorselNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayMorselAdd)
+                                             selector:@selector(displayMorselAdd:)
                                                  name:MRSLAppShouldDisplayMorselAddNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -121,8 +122,10 @@
                                                   andStoryboardPrefix:@"Feed"];
 }
 
-- (void)displayMorselAdd {
+- (void)displayMorselAdd:(NSNotification *)notification {
     UINavigationController *morselAddNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselAdd"];
+    MRSLMorselAddViewController *morselAddVC = [[morselAddNC viewControllers] firstObject];
+    if (notification.object) morselAddVC.skipToAddTitle = [notification.object boolValue];
     [self presentViewController:morselAddNC
                        animated:YES
                      completion:nil];
@@ -283,7 +286,7 @@
     }
 }
 
-#pragma mark - Destruction
+#pragma mark - Dealloc
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
