@@ -61,17 +61,24 @@
     [self displaySelectedState:selected];
 }
 
+- (void)willTransitionToState:(UITableViewCellStateMask)state {
+    [super willTransitionToState:state];
+    if ([self.delegate respondsToSelector:@selector(morselEditItemCellDidTransitionToDeleteState:)]) {
+        [self.delegate morselEditItemCellDidTransitionToDeleteState:(state == UITableViewCellStateShowingDeleteConfirmationMask)];
+    }
+}
+
 #pragma mark - Action Methods
 
 - (void)displayImagePreview {
-    if ([self.delegate respondsToSelector:@selector(itemCollectionViewDidSelectImagePreview:)]) {
-        [self.delegate itemCollectionViewDidSelectImagePreview:_item];
+    if ([self.delegate respondsToSelector:@selector(morselEditItemCellDidSelectImagePreview:)]) {
+        [self.delegate morselEditItemCellDidSelectImagePreview:_item];
     }
 }
 
 - (void)displayTextEdit {
-    if ([self.delegate respondsToSelector:@selector(itemCollectionViewDidSelectEditText:)]) {
-        [self.delegate itemCollectionViewDidSelectEditText:_item];
+    if ([self.delegate respondsToSelector:@selector(morselEditItemCellDidSelectEditText:)]) {
+        [self.delegate morselEditItemCellDidSelectEditText:_item];
     }
 }
 

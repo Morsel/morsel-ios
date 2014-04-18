@@ -330,7 +330,8 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                                                        requestMethod:SLRequestMethodPOST
                                                                  URL:url
                                                           parameters:params];
-
+    ACAccountType *accountTypeTwitter = [_accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    account.accountType = accountTypeTwitter;
     [accessTokenRequest setAccount:account];
 
     [accessTokenRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {

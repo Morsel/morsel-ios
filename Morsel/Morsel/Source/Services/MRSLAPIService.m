@@ -746,10 +746,10 @@
                                                       MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                                                                      withValue:morselDictionary[@"id"]
                                                                                                      inContext:localContext];
-                                                      [feedItemIDs addObject:morselDictionary[@"id"]];
                                                       if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
-                                                      morsel.feedItemID = feedItemDictionary[@"id"];
                                                       [morsel MR_importValuesForKeysWithObject:morselDictionary];
+                                                      morsel.feedItemID = feedItemDictionary[@"id"];
+                                                      [feedItemIDs addObject:morselDictionary[@"id"]];
                                                   }
                                               }
                                           }];
