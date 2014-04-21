@@ -195,10 +195,12 @@ MRSLMorselEditItemTableViewCellDelegate>
     self.shouldShowAddCell = !_morselMorselsTableView.editing;
     NSIndexPath *addCellIndexPath = [NSIndexPath indexPathForItem:[_items count]
                                                         inSection:0];
-    if (_shouldShowAddCell) [_morselMorselsTableView insertRowsAtIndexPaths:@[addCellIndexPath]
-                                                           withRowAnimation:UITableViewRowAnimationFade];
-    else  [_morselMorselsTableView deleteRowsAtIndexPaths:@[addCellIndexPath]
-                                         withRowAnimation:UITableViewRowAnimationFade];
+    if (addCellIndexPath.row == [_items count]) {
+        if (_shouldShowAddCell) [_morselMorselsTableView insertRowsAtIndexPaths:@[addCellIndexPath]
+                                                               withRowAnimation:UITableViewRowAnimationFade];
+        else [_morselMorselsTableView deleteRowsAtIndexPaths:@[addCellIndexPath]
+                                            withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 - (void)goBack {

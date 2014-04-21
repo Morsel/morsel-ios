@@ -44,7 +44,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *feedFetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *feedMorsels;
-@property (strong, nonatomic) NSMutableArray *feedIDs;
+@property (strong, nonatomic) NSMutableArray *morselIDs;
 @property (strong, nonatomic) NSMutableArray *viewedMorsels;
 @property (strong, nonatomic) NSTimer *timer;
 
@@ -62,7 +62,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     self.feedCollectionView.accessibilityLabel = @"Feed";
 
     self.feedMorsels = [NSMutableArray array];
-    self.feedIDs = [NSMutableArray feedIDArray];
+    self.morselIDs = [NSMutableArray feedIDArray];
     self.viewedMorsels = [NSMutableArray array];
 
     [self resumeTimer];
@@ -122,7 +122,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)resumeTimer {
     if (!_timer) {
-        self.timer = [NSTimer timerWithTimeInterval:180.f
+        self.timer = [NSTimer timerWithTimeInterval:60.f
                                              target:self
                                            selector:@selector(loadNew)
                                            userInfo:nil
@@ -165,8 +165,13 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)displayPublishedMorsel:(NSNotification *)notification {
     if ([notification object]) {
         DDLogDebug(@"Published Morsel detected. Setting published Morsel ID and triggering new load.");
+        if (_theNewMorselsAvailable) {
+            _theNewMorselsAvailable = NO;
+            [self toggleNewMorselsButton:NO
+                                animated:NO];
+        }
         MRSLMorsel *morsel = [notification object];
-        [_feedIDs insertObject:morsel.morselID
+        [_morselIDs insertObject:morsel.morselID
                        atIndex:0];
         [_feedCollectionView reloadData];
         [_feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
@@ -178,11 +183,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)removePublishedMorsel:(NSNotification *)notification {
     if ([notification object]) {
         NSNumber *morselID = [notification object];
-        NSInteger morselIndex = [_feedIDs indexOfObject:morselID];
+        NSInteger morselIndex = [_morselIDs indexOfObject:morselID];
         if (morselIndex != NSNotFound) {
             DDLogDebug(@"Deleted Morsel detected and found displayed in Feed. Removing from feed ID array filter.");
-            [_feedIDs removeObjectAtIndex:morselIndex];
-            [_feedIDs saveFeedIDArray];
+            [_morselIDs removeObjectAtIndex:morselIndex];
+            [_morselIDs saveFeedIDArray];
         }
     }
 }
@@ -216,10 +221,10 @@ MRSLFeedPanelCollectionViewCellDelegate>
     NSError *fetchError = nil;
     [_feedFetchedResultsController performFetch:&fetchError];
     if (_feedFetchedResultsController) {
-        NSPredicate *feedIDPredicate = [NSPredicate predicateWithFormat:@"morselID IN %@", _feedIDs];
+        NSPredicate *feedIDPredicate = [NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs];
         self.feedMorsels = [[[_feedFetchedResultsController fetchedObjects] filteredArrayUsingPredicate:feedIDPredicate] mutableCopy];
         [_feedMorsels sortUsingComparator:^NSComparisonResult(MRSLMorsel *morsel1, MRSLMorsel *morsel2) {
-            return [@([_feedIDs indexOfObject:morsel1.morselID]) compare:@([_feedIDs indexOfObject:morsel2.morselID])];
+            return [@([_morselIDs indexOfObject:morsel1.morselID]) compare:@([_morselIDs indexOfObject:morsel2.morselID])];
         }];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -230,7 +235,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 #pragma mark - Section Methods
 
 - (void)refreshFeed {
-    if ([_feedIDs count] == 0) {
+    if ([_morselIDs count] == 0) {
         [self.activityIndicatorView startAnimating];
     }
     [_appDelegate.itemApiService getFeedWithMaxID:nil
@@ -239,9 +244,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                           success:^(NSArray *responseArray) {
                                               [self.activityIndicatorView stopAnimating];
                                               if ([responseArray count] > 0) {
-                                                  [_feedIDs removeAllObjects];
-                                                  [_feedIDs addObjectsFromArray:responseArray];
-                                                  [_feedIDs saveFeedIDArray];
+                                                  [_morselIDs removeAllObjects];
+                                                  [_morselIDs addObjectsFromArray:responseArray];
+                                                  [_morselIDs saveFeedIDArray];
                                                   [self populateContent];
                                               }
                                           } failure:^(NSError *error) {
@@ -254,9 +259,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)loadNew {
-    if ([_feedIDs count] == 0) return;
+    if ([_morselIDs count] == 0) return;
     DDLogDebug(@"Loading new feed items");
-    NSNumber *firstValidID = [_feedIDs firstObjectWithValidFeedItemID];
+    NSNumber *firstValidID = [_morselIDs firstObjectWithValidFeedItemID];
     if (!firstValidID) return;
     MRSLMorsel *firstMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                         withValue:firstValidID];
@@ -264,16 +269,20 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                         orSinceID:firstMorsel.feedItemID
                                          andCount:@(4)
                                           success:^(NSArray *responseArray) {
-                                              NSSet *existingSet = [NSSet setWithArray:_feedIDs];
-                                              NSMutableSet *potentialNewSet = [NSMutableSet setWithArray:_feedIDs];
+                                              NSSet *existingSet = [NSSet setWithArray:_morselIDs];
+                                              NSMutableSet *potentialNewSet = [NSMutableSet setWithArray:_morselIDs];
                                               [potentialNewSet addObjectsFromArray:responseArray];
                                               BOOL newItemsDetected = ![existingSet isEqualToSet:potentialNewSet];
                                               if (newItemsDetected) {
                                                   DDLogDebug(@"%lu new feed item(s) detected!", (unsigned long)[responseArray count]);
-                                                  NSArray *appendedIDs = [_feedIDs copy];
-                                                  self.feedIDs = [NSMutableArray arrayWithArray:responseArray];
-                                                  [_feedIDs addObjectsFromArray:appendedIDs];
-                                                  [_feedIDs saveFeedIDArray];
+                                                  NSMutableArray *appendedIDs = [NSMutableArray arrayWithArray:_morselIDs];
+                                                  for (NSNumber *morselID in responseArray) {
+                                                      NSInteger index = [appendedIDs indexOfObject:morselID];
+                                                      if (index != NSNotFound) [appendedIDs removeObjectAtIndex:index];
+                                                  }
+                                                  self.morselIDs = [NSMutableArray arrayWithArray:responseArray];
+                                                  [_morselIDs addObjectsFromArray:appendedIDs];
+                                                  [_morselIDs saveFeedIDArray];
 
                                                   NSIndexPath *indexPath = [[_feedCollectionView indexPathsForVisibleItems] firstObject];
                                                   MRSLMorsel *visibleMorsel = [_feedMorsels objectAtIndex:indexPath.row];
@@ -282,8 +291,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
                                                   [self populateContent];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                                      [_theNewMorselsButton setTitle:[NSString stringWithFormat:@"%li New Morsel%@", (long)_theNewMorselsCount, (_theNewMorselsCount == 1) ? @"" : @"s"]
-                                                                            forState:UIControlStateNormal];
                                                       [self toggleNewMorselsButton:YES
                                                                           animated:YES];
                                                       if (visibleMorsel) {
@@ -309,7 +316,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     self.loadingMore = YES;
     DDLogDebug(@"Loading more feed items");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                       withValue:[_feedIDs lastObject]];
+                                                       withValue:[_morselIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.itemApiService getFeedWithMaxID:@([lastMorsel feedItemIDValue] - 1)
                                         orSinceID:nil
@@ -319,8 +326,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                               if (weakSelf) {
                                                   weakSelf.loadingMore = NO;
                                                   if ([responseArray count] > 0) {
-                                                      [weakSelf.feedIDs addObjectsFromArray:responseArray];
-                                                      [weakSelf.feedIDs saveFeedIDArray];
+                                                      [weakSelf.morselIDs addObjectsFromArray:responseArray];
+                                                      [weakSelf.morselIDs saveFeedIDArray];
                                                       dispatch_async(dispatch_get_main_queue(), ^{
                                                           [weakSelf populateContent];
                                                       });
