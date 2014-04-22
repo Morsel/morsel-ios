@@ -69,7 +69,7 @@
         self.morsel = [self getOrLoadMorselIfExists];
         if (![self.morsel.title isEqualToString:self.morselTitleTextView.text]) {
             self.morsel.title = self.morselTitleTextView.text;
-            [_appDelegate.itemApiService updateMorsel:_morsel
+            [_appDelegate.apiService updateMorsel:_morsel
                                               success:nil
                                               failure:nil];
         }
@@ -79,7 +79,7 @@
         _morsel.draft = @YES;
         _morsel.title = self.morselTitleTextView.text;
 
-        [_appDelegate.itemApiService createMorsel:_morsel
+        [_appDelegate.apiService createMorsel:_morsel
                                           success:^(id responseObject) {
             MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
             editMorselVC.shouldPresentMediaCapture = YES;

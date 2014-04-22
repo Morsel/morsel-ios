@@ -16,7 +16,6 @@
 #import "MRSLUser.h"
 
 @interface MRSLCommentTableViewCell  ()
-<ProfileImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
@@ -33,7 +32,7 @@
     _comment = comment;
     if (_comment) {
         _profileImageView.user = _comment.creator;
-        _profileImageView.delegate = self;
+        [_profileImageView allowToLaunchProfile];
         _userNameLabel.text = _comment.creator.fullName;
         _commentBodyLabel.text = _comment.commentDescription;
         _timeAgoLabel.text = [_comment.creationDate timeAgo];
@@ -52,14 +51,6 @@
     self.timeAgoLabel.text = nil;
     self.delegate = nil;
     self.profileImageView.user = nil;
-}
-
-#pragma mark - ProfileImageViewDelegate
-
-- (void)profileImageViewDidSelectUser:(MRSLUser *)user {
-    if ([self.delegate respondsToSelector:@selector(commentTableViewCellDidSelectUser:)]) {
-        [self.delegate commentTableViewCellDidSelectUser:user];
-    }
 }
 
 @end

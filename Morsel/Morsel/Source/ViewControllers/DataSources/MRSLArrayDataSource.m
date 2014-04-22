@@ -10,28 +10,29 @@
 
 @interface MRSLDataSource ()
 
-@property (nonatomic, strong) NSArray *items;
-@property (nonatomic, copy) NSString *cellIdentifier;
-@property (nonatomic, copy) MRSLCellConfigureBlock configureCellBlock;
+@property (strong, nonatomic) NSArray *objects;
+
+@property (copy, nonatomic) NSString *cellIdentifier;
+@property (copy, nonatomic) MRSLCellConfigureBlock configureCellBlock;
 
 @end
 
 @implementation MRSLArrayDataSource
 
-- (id)initWithItems:(NSArray *)anItems
-     cellIdentifier:(NSString *)aCellIdentifier
- configureCellBlock:(MRSLCellConfigureBlock)aConfigureCellBlock {
+- (id)initWithObjects:(NSArray *)objects
+     cellIdentifier:(NSString *)cellIdentifier
+ configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock {
     self = [super init];
     if (self) {
-        self.items = anItems;
-        self.cellIdentifier = aCellIdentifier;
-        self.configureCellBlock = [aConfigureCellBlock copy];
+        self.objects = objects;
+        self.cellIdentifier = cellIdentifier;
+        self.configureCellBlock = [configureCellBlock copy];
     }
     return self;
 }
 
-- (void)updateItems:(NSArray *)newItems {
-    self.items = newItems;
+- (void)updateObjects:(NSArray *)newItems {
+    self.objects = newItems;
 }
 
 @end

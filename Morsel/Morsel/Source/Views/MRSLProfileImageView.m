@@ -32,10 +32,8 @@
 
 #pragma mark - Instance Methods
 
-- (void)setDelegate:(id<ProfileImageViewDelegate>)delegate {
-    _delegate = delegate;
-
-    if (!_tapRecognizer && _delegate) {
+- (void)allowToLaunchProfile {
+    if (!_tapRecognizer) {
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayUserProfile)];
 
         [self addGestureRecognizer:_tapRecognizer];
@@ -72,8 +70,6 @@
                     [self setImageToPlaceholder];
                 }
             }
-        } else {
-            self.delegate = nil;
         }
     }
 }
@@ -92,9 +88,9 @@
 #pragma mark - Private Methods
 
 - (void)displayUserProfile {
-    if ([self.delegate respondsToSelector:@selector(profileImageViewDidSelectUser:)] && _user) {
-        [self.delegate profileImageViewDidSelectUser:_user];
-    }
+    NSDictionary *parameters = @{@"user_id": NSNullIfNil(_user.userID)};
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayUserProfileNotification
+                                                        object:parameters];
 }
 
 - (void)reset {

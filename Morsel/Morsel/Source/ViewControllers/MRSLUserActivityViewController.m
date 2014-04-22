@@ -1,12 +1,12 @@
 //
-//  MRSLActivityViewController.m
+//  MRSLProfileLikesViewController.m
 //  Morsel
 //
-//  Created by Javier Otero on 3/3/14.
+//  Created by Javier Otero on 4/22/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLActivityViewController.h"
+#import "MRSLUserActivityViewController.h"
 
 #import "MRSLActivityCollectionViewCell.h"
 #import "MRSLArrayDataSource.h"
@@ -17,7 +17,7 @@
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
-@interface MRSLActivityViewController ()
+@interface MRSLUserActivityViewController ()
 <UICollectionViewDelegate,
 NSFetchedResultsControllerDelegate>
 
@@ -37,7 +37,7 @@ NSFetchedResultsControllerDelegate>
 
 @end
 
-@implementation MRSLActivityViewController
+@implementation MRSLUserActivityViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,15 +56,15 @@ NSFetchedResultsControllerDelegate>
     self.collectionView.alwaysBounceVertical = YES;
 
     self.arrayDataSource = [[MRSLArrayDataSource alloc] initWithObjects:nil
-                                                       cellIdentifier:@"ruid_ActivityCell"
-                                                   configureCellBlock:^(id cell, id item, NSIndexPath *indexPath, NSUInteger count) {
-                                                       [cell setActivity:item];
-                                                       if (indexPath.row != count) {
-                                                           [cell setBorderWithDirections:MRSLBorderSouth
-                                                                             borderWidth:1.0f
-                                                                          andBorderColor:[UIColor morselLightOffColor]];
-                                                       }
-                                                   }];
+                                                         cellIdentifier:@"ruid_ActivityCell"
+                                                     configureCellBlock:^(id cell, id item, NSIndexPath *indexPath, NSUInteger count) {
+                                                         [cell setActivity:item];
+                                                         if (indexPath.row != count) {
+                                                             [cell setBorderWithDirections:MRSLBorderSouth
+                                                                               borderWidth:1.0f
+                                                                            andBorderColor:[UIColor morselLightOffColor]];
+                                                         }
+                                                     }];
 
     [self.collectionView setDataSource:_arrayDataSource];
 }
@@ -77,7 +77,7 @@ NSFetchedResultsControllerDelegate>
 
     if (_selectedIndexPath) {
         [self.collectionView deselectItemAtIndexPath:_selectedIndexPath
-                                                animated:YES];
+                                            animated:YES];
         self.selectedIndexPath = nil;
     }
 
@@ -93,11 +93,11 @@ NSFetchedResultsControllerDelegate>
 
 - (void)setupFetchRequest {
     self.fetchedResultsController = [MRSLActivity MR_fetchAllSortedBy:@"creationDate"
-                                                                      ascending:NO
-                                                                  withPredicate:[NSPredicate predicateWithFormat:@"activityID IN %@", _activityIDs]
-                                                                        groupBy:nil
-                                                                       delegate:self
-                                                                      inContext:[NSManagedObjectContext MR_defaultContext]];
+                                                            ascending:NO
+                                                        withPredicate:[NSPredicate predicateWithFormat:@"activityID IN %@ AND actionType == 'Like'", _activityIDs]
+                                                              groupBy:nil
+                                                             delegate:self
+                                                            inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
 - (void)populateContent {
@@ -114,16 +114,16 @@ NSFetchedResultsControllerDelegate>
     self.refreshing = YES;
     __weak typeof(self) weakSelf = self;
     [_appDelegate.apiService getUserActivitiesForUser:[MRSLUser currentUser]
-                                                      maxID:nil
-                                                  orSinceID:nil
-                                                   andCount:nil
-                                                    success:^(NSArray *responseArray) {
-                                                        weakSelf.activityIDs = [responseArray mutableCopy];
-                                                        [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                                  forKey:[NSString stringWithFormat:@"%@_activityIDs", _user.username]];
-                                                        [weakSelf setupFetchRequest];
-                                                        [weakSelf populateContent];
-                                                    } failure:nil];
+                                                maxID:nil
+                                            orSinceID:nil
+                                             andCount:nil
+                                              success:^(NSArray *responseArray) {
+                                                  weakSelf.activityIDs = [responseArray mutableCopy];
+                                                  [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                                                            forKey:[NSString stringWithFormat:@"%@_activityIDs", _user.username]];
+                                                  [weakSelf setupFetchRequest];
+                                                  [weakSelf populateContent];
+                                              } failure:nil];
 }
 
 - (void)loadMore {
@@ -137,7 +137,7 @@ NSFetchedResultsControllerDelegate>
                                                 andCount:@(12)
                                                  success:^(NSArray *responseArray) {
                                                      if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                                     DDLogDebug(@"%lu notifications added", (unsigned long)[responseArray count]);
+                                                     DDLogDebug(@"%lu activity added", (unsigned long)[responseArray count]);
                                                      if (weakSelf) {
                                                          if ([responseArray count] > 0) {
                                                              [weakSelf.activityIDs addObjectsFromArray:responseArray];

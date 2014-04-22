@@ -10,19 +10,11 @@
 
 @class MRSLUser;
 
-@protocol ProfileImageViewDelegate <NSObject>
-
-@optional
-- (void)profileImageViewDidSelectUser:(MRSLUser *)user;
-
-@end
-
 @interface MRSLProfileImageView : UIImageView
-
-@property (weak, nonatomic) id <ProfileImageViewDelegate> delegate;
 
 @property (weak, nonatomic) MRSLUser *user;
 
 - (void)addAndRenderImage:(UIImage *)image;
+- (void)allowToLaunchProfile;
 
 @end

@@ -163,7 +163,7 @@ UITextFieldDelegate>
         dispatch_async(dispatch_get_main_queue(), ^{
             user.profilePhotoFull = UIImageJPEGRepresentation(profileImageFull, 1.f);
 
-            [_appDelegate.itemApiService createUser:user
+            [_appDelegate.apiService createUser:user
                                          withPassword:_passwordField.text
                                               success:nil
                                               failure:^(NSError *error)

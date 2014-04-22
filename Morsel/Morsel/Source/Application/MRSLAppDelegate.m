@@ -62,7 +62,7 @@
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
     [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
-    self.itemApiService = [[MRSLAPIService alloc] init];
+    self.apiService = [[MRSLAPIService alloc] init];
 
     [self setupDatabase];
 

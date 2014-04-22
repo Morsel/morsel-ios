@@ -17,7 +17,6 @@
 #import "MRSLProfileViewController.h"
 #import "MRSLMorselEditViewController.h"
 
-#import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
@@ -29,6 +28,7 @@ UICollectionViewDelegateFlowLayout,
 MRSLFeedPanelCollectionViewCellDelegate>
 
 @property (nonatomic) BOOL loadingMore;
+@property (nonatomic) BOOL loadedAll;
 @property (nonatomic) BOOL theNewMorselsAvailable;
 
 @property (nonatomic) CGFloat previousContentOffset;
@@ -101,9 +101,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
 
-    [self setupFeedFetchRequest];
+    [self setupFetchRequest];
     [self populateContent];
-    [self refreshFeed];
+    [self refreshContent];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -172,7 +172,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
         }
         MRSLMorsel *morsel = [notification object];
         [_morselIDs insertObject:morsel.morselID
-                       atIndex:0];
+                         atIndex:0];
         [_feedCollectionView reloadData];
         [_feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                                     atScrollPosition:UICollectionViewScrollPositionNone
@@ -207,22 +207,19 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 #pragma mark - Private Methods
 
-- (void)setupFeedFetchRequest {
-    if (_feedFetchedResultsController) return;
+- (void)setupFetchRequest {
     self.feedFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"publishedDate"
                                                               ascending:NO
-                                                          withPredicate:nil
+                                                          withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs]
                                                                 groupBy:nil
                                                                delegate:self];
-    _feedFetchedResultsController.delegate = self;
 }
 
 - (void)populateContent {
     NSError *fetchError = nil;
     [_feedFetchedResultsController performFetch:&fetchError];
     if (_feedFetchedResultsController) {
-        NSPredicate *feedIDPredicate = [NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs];
-        self.feedMorsels = [[[_feedFetchedResultsController fetchedObjects] filteredArrayUsingPredicate:feedIDPredicate] mutableCopy];
+        self.feedMorsels = [[_feedFetchedResultsController fetchedObjects] mutableCopy];
         [_feedMorsels sortUsingComparator:^NSComparisonResult(MRSLMorsel *morsel1, MRSLMorsel *morsel2) {
             return [@([_morselIDs indexOfObject:morsel1.morselID]) compare:@([_morselIDs indexOfObject:morsel2.morselID])];
         }];
@@ -234,28 +231,27 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 #pragma mark - Section Methods
 
-- (void)refreshFeed {
-    if ([_morselIDs count] == 0) {
-        [self.activityIndicatorView startAnimating];
-    }
-    [_appDelegate.itemApiService getFeedWithMaxID:nil
-                                        orSinceID:nil
-                                         andCount:@(4)
-                                          success:^(NSArray *responseArray) {
-                                              [self.activityIndicatorView stopAnimating];
-                                              if ([responseArray count] > 0) {
-                                                  [_morselIDs removeAllObjects];
-                                                  [_morselIDs addObjectsFromArray:responseArray];
-                                                  [_morselIDs saveFeedIDArray];
-                                                  [self populateContent];
-                                              }
-                                          } failure:^(NSError *error) {
-                                              [self.activityIndicatorView stopAnimating];
-                                              [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                           properties:@{@"view": @"main_feed",
-                                                                                        @"message" : NSNullIfNil(error.description),
-                                                                                        @"action" : @"refresh"}];
-                                          }];
+- (void)refreshContent {
+    if ([_morselIDs count] == 0) [self.activityIndicatorView startAnimating];
+    __weak __typeof (self) weakSelf = self;
+    [_appDelegate.apiService getFeedWithMaxID:nil
+                                    orSinceID:nil
+                                     andCount:@(4)
+                                      success:^(NSArray *responseArray) {
+                                          [weakSelf.activityIndicatorView stopAnimating];
+                                          if ([responseArray count] > 0) {
+                                              weakSelf.morselIDs = [responseArray mutableCopy];
+                                              [weakSelf.morselIDs saveFeedIDArray];
+                                              [weakSelf setupFetchRequest];
+                                              [weakSelf populateContent];
+                                          }
+                                      } failure:^(NSError *error) {
+                                          [weakSelf.activityIndicatorView stopAnimating];
+                                          [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
+                                                                       properties:@{@"view": @"main_feed",
+                                                                                    @"message" : NSNullIfNil(error.description),
+                                                                                    @"action" : @"refresh"}];
+                                      }];
 }
 
 - (void)loadNew {
@@ -265,92 +261,85 @@ MRSLFeedPanelCollectionViewCellDelegate>
     if (!firstValidID) return;
     MRSLMorsel *firstMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                         withValue:firstValidID];
-    [_appDelegate.itemApiService getFeedWithMaxID:nil
-                                        orSinceID:firstMorsel.feedItemID
-                                         andCount:@(4)
-                                          success:^(NSArray *responseArray) {
-                                              NSSet *existingSet = [NSSet setWithArray:_morselIDs];
-                                              NSMutableSet *potentialNewSet = [NSMutableSet setWithArray:_morselIDs];
-                                              [potentialNewSet addObjectsFromArray:responseArray];
-                                              BOOL newItemsDetected = ![existingSet isEqualToSet:potentialNewSet];
-                                              if (newItemsDetected) {
-                                                  DDLogDebug(@"%lu new feed item(s) detected!", (unsigned long)[responseArray count]);
-                                                  NSMutableArray *appendedIDs = [NSMutableArray arrayWithArray:_morselIDs];
-                                                  for (NSNumber *morselID in responseArray) {
-                                                      NSInteger index = [appendedIDs indexOfObject:morselID];
-                                                      if (index != NSNotFound) [appendedIDs removeObjectAtIndex:index];
-                                                  }
-                                                  self.morselIDs = [NSMutableArray arrayWithArray:responseArray];
-                                                  [_morselIDs addObjectsFromArray:appendedIDs];
-                                                  [_morselIDs saveFeedIDArray];
-
-                                                  NSIndexPath *indexPath = [[_feedCollectionView indexPathsForVisibleItems] firstObject];
-                                                  MRSLMorsel *visibleMorsel = [_feedMorsels objectAtIndex:indexPath.row];
-                                                  self.theNewMorselsCount = [potentialNewSet count] - [existingSet count];
-                                                  self.theNewMorselsAvailable = YES;
-
-                                                  [self populateContent];
-                                                  dispatch_async(dispatch_get_main_queue(), ^{
-                                                      [self toggleNewMorselsButton:YES
-                                                                          animated:YES];
-                                                      if (visibleMorsel) {
-                                                          [_feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[_feedMorsels indexOfObject:visibleMorsel]
-                                                                                                                          inSection:0]
-                                                                                      atScrollPosition:UICollectionViewScrollPositionNone
-                                                                                              animated:NO];
-                                                      }
-                                                  });
-                                              } else {
-                                                  DDLogDebug(@"No new feed items detected");
+    __weak __typeof (self) weakSelf = self;
+    [_appDelegate.apiService getFeedWithMaxID:nil
+                                    orSinceID:firstMorsel.feedItemID
+                                     andCount:@(4)
+                                      success:^(NSArray *responseArray) {
+                                          NSSet *existingSet = [NSSet setWithArray:weakSelf.morselIDs];
+                                          NSMutableSet *potentialNewSet = [NSMutableSet setWithArray:weakSelf.morselIDs];
+                                          [potentialNewSet addObjectsFromArray:responseArray];
+                                          BOOL newItemsDetected = ![existingSet isEqualToSet:potentialNewSet];
+                                          if (newItemsDetected) {
+                                              DDLogDebug(@"%lu new feed item(s) detected!", (unsigned long)[responseArray count]);
+                                              NSMutableArray *appendedIDs = [NSMutableArray arrayWithArray:weakSelf.morselIDs];
+                                              for (NSNumber *morselID in responseArray) {
+                                                  NSInteger index = [appendedIDs indexOfObject:morselID];
+                                                  if (index != NSNotFound) [appendedIDs removeObjectAtIndex:index];
                                               }
-                                          } failure:^(NSError *error) {
-                                              [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                           properties:@{@"view": @"main_feed",
-                                                                                        @"message" : NSNullIfNil(error.description),
-                                                                                        @"action" : @"load_new"}];
-                                          }];
+                                              weakSelf.morselIDs = [NSMutableArray arrayWithArray:responseArray];
+                                              [weakSelf.morselIDs addObjectsFromArray:appendedIDs];
+                                              [weakSelf.morselIDs saveFeedIDArray];
+
+                                              NSIndexPath *indexPath = [[weakSelf.feedCollectionView indexPathsForVisibleItems] firstObject];
+                                              MRSLMorsel *visibleMorsel = [weakSelf.feedMorsels objectAtIndex:indexPath.row];
+                                              weakSelf.theNewMorselsCount = [potentialNewSet count] - [existingSet count];
+                                              weakSelf.theNewMorselsAvailable = YES;
+
+                                              [weakSelf setupFetchRequest];
+                                              [weakSelf populateContent];
+                                              dispatch_async(dispatch_get_main_queue(), ^{
+                                                  [weakSelf toggleNewMorselsButton:YES
+                                                                          animated:YES];
+                                                  if (visibleMorsel) {
+                                                      [weakSelf.feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[weakSelf.feedMorsels indexOfObject:visibleMorsel]
+                                                                                                                              inSection:0]
+                                                                                          atScrollPosition:UICollectionViewScrollPositionNone
+                                                                                                  animated:NO];
+                                                  }
+                                              });
+                                          } else {
+                                              DDLogDebug(@"No new feed items detected");
+                                          }
+                                      } failure:^(NSError *error) {
+                                          [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
+                                                                       properties:@{@"view": @"main_feed",
+                                                                                    @"message" : NSNullIfNil(error.description),
+                                                                                    @"action" : @"load_new"}];
+                                      }];
 }
 
 - (void)loadMore {
-    if (_loadingMore) return;
+    if (_loadingMore || _loadedAll) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more feed items");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                        withValue:[_morselIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
-    [_appDelegate.itemApiService getFeedWithMaxID:@([lastMorsel feedItemIDValue] - 1)
-                                        orSinceID:nil
-                                         andCount:@(4)
-                                          success:^(NSArray *responseArray) {
-                                              DDLogDebug(@"%lu feed items added", (unsigned long)[responseArray count]);
-                                              if (weakSelf) {
-                                                  weakSelf.loadingMore = NO;
-                                                  if ([responseArray count] > 0) {
-                                                      [weakSelf.morselIDs addObjectsFromArray:responseArray];
-                                                      [weakSelf.morselIDs saveFeedIDArray];
-                                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                                          [weakSelf populateContent];
-                                                      });
-                                                  }
+    [_appDelegate.apiService getFeedWithMaxID:@([lastMorsel feedItemIDValue] - 1)
+                                    orSinceID:nil
+                                     andCount:@(4)
+                                      success:^(NSArray *responseArray) {
+                                          if ([responseArray count] == 0) weakSelf.loadedAll = YES;
+                                          DDLogDebug(@"%lu feed items added", (unsigned long)[responseArray count]);
+                                          if (weakSelf) {
+                                              weakSelf.loadingMore = NO;
+                                              if ([responseArray count] > 0) {
+                                                  [weakSelf.morselIDs addObjectsFromArray:responseArray];
+                                                  [weakSelf.morselIDs saveFeedIDArray];
+                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                      [weakSelf setupFetchRequest];
+                                                      [weakSelf populateContent];
+                                                  });
                                               }
-                                          } failure:^(NSError *error) {
-                                              if (weakSelf) weakSelf.loadingMore = NO;
-                                              [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                           properties:@{@"view": @"main_feed",
-                                                                                        @"message" : NSNullIfNil(error.description),
-                                                                                        @"action" : @"load_more"}];
-                                          }];
-}
-
-- (void)displayUserProfile {
-    [[MRSLEventManager sharedManager] track:@"Tapped Profile Icon"
-                                 properties:@{@"view": @"main_feed",
-                                              @"user_id": _currentUser.userID}];
-    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfileViewController"];
-    profileVC.user = _currentUser;
-
-    [self.navigationController pushViewController:profileVC
-                                         animated:YES];
+                                          }
+                                      } failure:^(NSError *error) {
+                                          if (weakSelf) weakSelf.loadingMore = NO;
+                                          [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
+                                                                       properties:@{@"view": @"main_feed",
+                                                                                    @"message" : NSNullIfNil(error.description),
+                                                                                    @"action" : @"load_more"}];
+                                      }];
 }
 
 #pragma mark - UICollectionViewDataSource Methods

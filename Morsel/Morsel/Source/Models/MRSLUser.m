@@ -58,6 +58,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                               forKey:@"userID"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 
     if (shouldMorselNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                                                      object:nil];
@@ -113,12 +114,9 @@
 - (void)didImport:(id)data {
     if (![data[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = data[@"photos"];
-
         self.profilePhotoURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
                                                                                      withString:@"IMAGE_SIZE"];
     }
-
-    [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
 }
 
 - (NSDictionary *)objectToJSON {
@@ -126,8 +124,6 @@
 
     if (self.email) [objectInfoJSON setObject:self.email
                                        forKey:@"email"];
-    if (self.username) [objectInfoJSON setObject:self.username
-                                          forKey:@"username"];
     if (self.first_name) [objectInfoJSON setObject:self.first_name
                                             forKey:@"first_name"];
     if (self.last_name) [objectInfoJSON setObject:self.last_name

@@ -36,6 +36,7 @@
         self.timeAgoLabel.text = [activity.creationDate timeAgo];
         self.itemImageView.item = activity.item;
         self.creatorProfileImageView.user = activity.creator;
+        [_creatorProfileImageView allowToLaunchProfile];
 
         if ([activity.actionType isEqualToString:@"Like"]) {
             [self.actionIconImageView setImage:[UIImage imageNamed:@"icon-like-dark"]];

@@ -101,7 +101,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)updateMorselStatus {
     if ([self getOrLoadMorselIfExists]) {
-        [_appDelegate.itemApiService getMorsel:_morsel
+        [_appDelegate.apiService getMorsel:_morsel
                                        success:nil
                                        failure:nil];
     }
@@ -256,7 +256,7 @@ MRSLMorselEditItemTableViewCellDelegate>
         double delayInSeconds = .4f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [_appDelegate.itemApiService deleteItem:deletedItem
+            [_appDelegate.apiService deleteItem:deletedItem
                                             success:^(BOOL success) {
                                                 if (weakSelf) {
                                                     [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
@@ -294,7 +294,7 @@ MRSLMorselEditItemTableViewCellDelegate>
     DDLogDebug(@"Item New Sort Order: %@", movedItem.sort_order);
 
     __weak __typeof(self) weakSelf = self;
-    [_appDelegate.itemApiService updateItem:movedItem
+    [_appDelegate.apiService updateItem:movedItem
                                   andMorsel:nil
                                     success:^(id responseObject) {
                                         if (weakSelf) {
@@ -375,13 +375,13 @@ MRSLMorselEditItemTableViewCellDelegate>
                 item.isUploading = @YES;
                 item.morsel = morsel;
                 [morsel addItemsObject:item];
-                [_appDelegate.itemApiService createItem:item
+                [_appDelegate.apiService createItem:item
                                                 success:^(id responseObject) {
                                                     if ([responseObject isKindOfClass:[MRSLItem class]]) {
                                                         MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
                                                         [strongSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
                                                         [strongSelf displayMorselStatus];
-                                                        [_appDelegate.itemApiService updateItemImage:itemToUploadWithImage
+                                                        [_appDelegate.apiService updateItemImage:itemToUploadWithImage
                                                                                              success:nil
                                                                                              failure:nil];
                                                     }
@@ -435,7 +435,7 @@ MRSLMorselEditItemTableViewCellDelegate>
         [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
                                      properties:@{@"view": @"Your Morsel",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-        [_appDelegate.itemApiService deleteMorsel:_morsel
+        [_appDelegate.apiService deleteMorsel:_morsel
                                           success:nil
                                           failure:nil];
         [_morsel MR_deleteEntity];

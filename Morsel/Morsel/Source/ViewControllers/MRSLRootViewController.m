@@ -95,7 +95,7 @@
                                @"created_at": NSNullIfNil(currentUser.creationDate),
                                @"title": NSNullIfNil(currentUser.title),
                                @"username": NSNullIfNil(currentUser.username)}];
-        [_appDelegate.itemApiService getUserProfile:currentUser
+        [_appDelegate.apiService getUserProfile:currentUser
                                               success:nil
                                               failure:nil];
 

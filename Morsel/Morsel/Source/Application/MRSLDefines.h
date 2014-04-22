@@ -55,6 +55,7 @@ static const CGFloat MRSLItemImageFullDimensionSize = 640.f;
 static const CGFloat MRSLItemImageLargeDimensionSize = 320.f;
 static const CGFloat MRSLItemImageThumbDimensionSize = 50.f;
 static const int MRSLMaximumMorselsToDisplayInMorselAdd = 5;
+static const int MRSLMaximumMorselsToDisplayInMorselPreview = 12;
 
 #pragma mark - Build Specific
 

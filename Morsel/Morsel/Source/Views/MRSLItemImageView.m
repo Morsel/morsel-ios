@@ -150,7 +150,6 @@
         });
     } else {
         if (errorOrNil.code != -999) {
-            DDLogError(@"Unable to set Morsel image and no local copy exists%@", (errorOrNil) ? [NSString stringWithFormat:@": %@", errorOrNil] : @".");
             self.image = [UIImage imageNamed:(itemSizeType == ItemImageSizeTypeThumbnail) ? @"graphic-thumb-morsel-null" : @"graphic-image-large-placeholder"];
         }
     }

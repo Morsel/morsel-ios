@@ -52,7 +52,7 @@ NSFetchedResultsControllerDelegate>
     self.commentInputTextView.placeholder = @"Write a comment...";
     self.commentInputTextView.placeholderColor = [UIColor morselLightContent];
 
-    [_appDelegate.itemApiService getComments:_item
+    [_appDelegate.apiService getComments:_item
                                        success:nil
                                        failure:nil];
 }
@@ -86,7 +86,7 @@ NSFetchedResultsControllerDelegate>
                                                       @"morsel_id": NSNullIfNil(_item.morsel.morselID),
                                                       @"item_id": NSNullIfNil(_item.itemID),
                                                       @"comment_count": NSNullIfNil(_item.comment_count)}];
-            [_appDelegate.itemApiService addCommentWithDescription:_commentInputTextView.text
+            [_appDelegate.apiService addCommentWithDescription:_commentInputTextView.text
                                                              toMorsel:_item
                                                               success:^(id responseObject) {
                                                                   if (_commentsTableView.contentSize.height > [_commentsTableView getHeight]) {

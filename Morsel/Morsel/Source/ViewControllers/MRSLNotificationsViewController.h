@@ -10,4 +10,6 @@
 
 @interface MRSLNotificationsViewController : MRSLBaseViewController
 
+@property (weak, nonatomic) MRSLUser *user;
+
 @end

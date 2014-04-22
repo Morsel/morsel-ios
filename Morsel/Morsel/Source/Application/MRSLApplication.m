@@ -16,8 +16,10 @@
     if ([allTouches count] > 0) {
         UITouchPhase phase = ((UITouch *)[allTouches anyObject]).phase;
         if (phase == UITouchPhaseBegan) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppTouchPhaseDidBeginNotification
-                                                                object:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppTouchPhaseDidBeginNotification
+                                                                    object:nil];
+            });
         }
     }
 }
