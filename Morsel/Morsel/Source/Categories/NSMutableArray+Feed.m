@@ -13,19 +13,13 @@
 @implementation NSMutableArray (Feed)
 
 + (NSMutableArray *)feedIDArray {
-    NSMutableArray *array = [[NSMutableArray alloc] initWithContentsOfFile:[NSMutableArray feedIDPath]] ?: [NSMutableArray array];
+    NSMutableArray *array = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"main_feedIDs"]] ?: [NSMutableArray array];
     return array;
 }
 
-+ (NSString *)feedIDPath {
-    return [NSHomeDirectory() stringByAppendingPathComponent:[@"Documents/" stringByAppendingString:@"temp.plist"]];
-}
-
 + (void)resetFeedIDArray {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[NSMutableArray feedIDPath]]) {
-        [[NSFileManager defaultManager] removeItemAtPath:[NSMutableArray feedIDPath]
-                                                   error:nil];
-    }
+    [[NSUserDefaults standardUserDefaults] setObject:[NSMutableArray array]
+                                              forKey:[NSString stringWithFormat:@"main_feedIDs"]];
 }
 
 - (NSNumber *)firstObjectWithValidFeedItemID {
@@ -43,8 +37,8 @@
 
 - (void)saveFeedIDArray {
     NSArray *arrayToSave = [(NSMutableArray *)self subarrayWithRange:NSMakeRange(0, fmin(3, [(NSMutableArray *)self count]))];
-    [arrayToSave writeToFile:[NSMutableArray feedIDPath]
-                  atomically:YES];
+    [[NSUserDefaults standardUserDefaults] setObject:arrayToSave
+                                              forKey:[NSString stringWithFormat:@"main_feedIDs"]];
 }
 
 @end

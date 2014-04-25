@@ -353,10 +353,10 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                 //  Get _facebookAccounts again after access has been granted, otherwise the account's credential will be nil
                 _facebookAccounts = [_accountStore accountsWithAccountType:[_accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook]];
                 ACAccount *selectedAccount = _facebookAccounts[buttonIndex];
-                [_appDelegate.itemApiService createFacebookAuthorizationWithToken:[[selectedAccount credential] oauthToken]
+                [_appDelegate.apiService createFacebookAuthorizationWithToken:[[selectedAccount credential] oauthToken]
                                                                           forUser:[MRSLUser currentUser]
                                                                           success:^(id responseObject) {
-                                                                              [_appDelegate.itemApiService getUserProfile:[MRSLUser currentUser]
+                                                                              [_appDelegate.apiService getUserProfile:[MRSLUser currentUser]
                                                                                                                   success:nil
                                                                                                                   failure:nil];
                                                                               [[MRSLEventManager sharedManager] track:@"User Authorized with Facebook"
@@ -378,11 +378,11 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
         [self performReverseAuthForTwitterAccount:selectedAccount
                                         withBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
                                             NSDictionary *params = [NSURL ab_parseURLQueryString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-                                            [_appDelegate.itemApiService createTwitterAuthorizationWithToken:params[@"oauth_token"]
+                                            [_appDelegate.apiService createTwitterAuthorizationWithToken:params[@"oauth_token"]
                                                                                                       secret:params[@"oauth_token_secret"]
                                                                                                      forUser:[MRSLUser currentUser]
                                                                                                      success:^(id responseObject) {
-                                                                                                         [_appDelegate.itemApiService getUserProfile:[MRSLUser currentUser]
+                                                                                                         [_appDelegate.apiService getUserProfile:[MRSLUser currentUser]
                                                                                                                                              success:nil
                                                                                                                                              failure:nil];
                                                                                                          [[MRSLEventManager sharedManager] track:@"User Authorized with Twitter"

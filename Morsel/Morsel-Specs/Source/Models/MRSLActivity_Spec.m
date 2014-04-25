@@ -32,7 +32,7 @@ describe(@"MRSLActivity", ^{
             __block MRSLActivity *importedActivity = nil;
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-users-activities.json"
                                                  forRequestPath:@"/users/activities"];
-            [_appDelegate.itemApiService getUserActivitiesForUser:nil
+            [_appDelegate.apiService getUserActivitiesForUser:nil
                                                               maxID:nil
                                                           orSinceID:nil
                                                            andCount:nil

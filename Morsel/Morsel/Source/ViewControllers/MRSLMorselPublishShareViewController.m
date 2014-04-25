@@ -40,7 +40,7 @@
     }
     _publishButton.enabled = NO;
     _morsel.draft = @NO;
-    [_appDelegate.itemApiService publishMorsel:_morsel
+    [_appDelegate.apiService publishMorsel:_morsel
                                        success:nil
                                        failure:^(NSError *error) {
                                            _publishButton.enabled = YES;

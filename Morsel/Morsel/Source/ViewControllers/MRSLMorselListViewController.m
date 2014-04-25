@@ -20,12 +20,17 @@
 UICollectionViewDelegate,
 NSFetchedResultsControllerDelegate>
 
+@property (nonatomic) BOOL refreshing;
+@property (nonatomic) BOOL loadingMore;
+@property (nonatomic) BOOL loadedAll;
+
 @property (weak, nonatomic) IBOutlet UICollectionView *morselCollectionView;
 
 @property (strong, nonatomic) NSFetchedResultsController *morselsFetchedResultsController;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
-@property (strong, nonatomic) NSMutableArray *userMorsels;
+@property (strong, nonatomic) NSArray *userMorsels;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSMutableArray *morselIDs;
 
 @end
 
@@ -34,6 +39,9 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.user = [MRSLUser currentUser];
+    self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]] ?: [NSMutableArray array];
+
     self.title = (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Draft Morsels" : @"Published Morsels";
 
     self.userMorsels = [NSMutableArray array];
@@ -41,7 +49,7 @@ NSFetchedResultsControllerDelegate>
     self.refreshControl = [[UIRefreshControl alloc] init];
     _refreshControl.tintColor = [UIColor morselLightContent];
     [_refreshControl addTarget:self
-                        action:@selector(refreshMorsels)
+                        action:@selector(refreshContent)
               forControlEvents:UIControlEventValueChanged];
 
     [self.morselCollectionView addSubview:_refreshControl];
@@ -53,56 +61,104 @@ NSFetchedResultsControllerDelegate>
 
     if (_selectedIndexPath) {
         [self.morselCollectionView deselectItemAtIndexPath:_selectedIndexPath
-                                                animated:YES];
+                                                  animated:YES];
         self.selectedIndexPath = nil;
     }
 
-    [self setupMorselsFetchRequest];
+    [self setupFetchRequest];
     [self populateContent];
-    [self refreshMorsels];
+    [self refreshContent];
 }
 
 #pragma mark - Private Methods
 
-- (void)setupMorselsFetchRequest {
-    NSPredicate *currentUserPredicate = [NSPredicate predicateWithFormat:@"creator.userID == %i", [MRSLUser currentUser].userIDValue];
-
+- (void)setupFetchRequest {
     self.morselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
-                                                             ascending:NO
-                                                         withPredicate:currentUserPredicate
-                                                               groupBy:nil
-                                                              delegate:self
-                                                             inContext:[NSManagedObjectContext MR_defaultContext]];
+                                                                 ascending:NO
+                                                             withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs]
+                                                                   groupBy:nil
+                                                                  delegate:self
+                                                                 inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
 - (void)populateContent {
     NSError *fetchError = nil;
-
     [_morselsFetchedResultsController performFetch:&fetchError];
-
-    NSPredicate *morselStatusPredicate = [NSPredicate predicateWithBlock:^BOOL(MRSLMorsel *evaluatedMorsel, NSDictionary *bindings) {
-        return (_morselStatusType == MRSLMorselStatusTypeDrafts) ? evaluatedMorsel.draftValue : !evaluatedMorsel.draftValue;
-    }];
-
-    [self.userMorsels removeAllObjects];
-    [self.userMorsels addObjectsFromArray:[[_morselsFetchedResultsController fetchedObjects] filteredArrayUsingPredicate:morselStatusPredicate]];
-
+    self.userMorsels = [_morselsFetchedResultsController fetchedObjects];
     [self.morselCollectionView reloadData];
 }
 
-- (void)refreshMorsels {
+- (void)refreshContent {
+    self.loadedAll = NO;
+    self.refreshing = YES;
+    __weak __typeof(self)weakSelf = self;
     if (_morselStatusType == MRSLMorselStatusTypeDrafts) {
-        [_appDelegate.itemApiService getUserDraftsWithSuccess:nil
-                                                        failure:nil];
+        [_appDelegate.apiService getUserDraftsWithMaxID:nil
+                                              orSinceID:nil
+                                               andCount:nil
+                                                success:^(NSArray *responseArray) {
+                                                    [weakSelf.refreshControl endRefreshing];
+                                                    weakSelf.morselIDs = [responseArray mutableCopy];
+                                                    [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                                                              forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
+                                                    [weakSelf setupFetchRequest];
+                                                    [weakSelf populateContent];
+                                                    weakSelf.refreshing = NO;
+                                                } failure:^(NSError *error) {
+                                                    [weakSelf.refreshControl endRefreshing];
+                                                    weakSelf.refreshing = NO;
+                                                }];
     } else {
-        [_appDelegate.itemApiService getUserMorsels:[MRSLUser currentUser]
-                                      includeDrafts:NO
-                                            success:^(NSArray *responseArray) {
-                                                [_refreshControl endRefreshing];
-                                            } failure:^(NSError *error) {
-                                                [_refreshControl endRefreshing];
-                                            }];
+        [_appDelegate.apiService getUserMorsels:_user
+                                      withMaxID:nil
+                                      orSinceID:nil
+                                       andCount:nil
+                                  includeDrafts:YES
+                                        success:^(NSArray *responseArray) {
+                                            [weakSelf.refreshControl endRefreshing];
+                                            weakSelf.morselIDs = [responseArray mutableCopy];
+                                            [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                                                      forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
+                                            [weakSelf setupFetchRequest];
+                                            [weakSelf populateContent];
+                                            weakSelf.refreshing = NO;
+                                        } failure:^(NSError *error) {
+                                            [weakSelf.refreshControl endRefreshing];
+                                            weakSelf.refreshing = NO;
+                                        }];
     }
+}
+
+- (void)loadMore {
+    if (_loadingMore || !_user || _loadedAll || _refreshing) return;
+    self.loadingMore = YES;
+    DDLogDebug(@"Loading more user morsels");
+    MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                       withValue:[_morselIDs lastObject]];
+    __weak __typeof (self) weakSelf = self;
+    [_appDelegate.apiService getUserMorsels:_user
+                                  withMaxID:@([lastMorsel morselIDValue] - 1)
+                                  orSinceID:nil
+                                   andCount:@(12)
+                              includeDrafts:YES
+                                    success:^(NSArray *responseArray) {
+                                        if ([responseArray count] == 0) weakSelf.loadedAll = YES;
+                                        DDLogDebug(@"%lu user morsels added", (unsigned long)[responseArray count]);
+                                        if (weakSelf) {
+                                            if ([responseArray count] > 0) {
+                                                [weakSelf.morselIDs addObjectsFromArray:responseArray];
+                                                [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
+                                                                                          forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
+                                                [weakSelf setupFetchRequest];
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    [weakSelf populateContent];
+                                                });
+                                            }
+                                            weakSelf.loadingMore = NO;
+                                        }
+                                    } failure:^(NSError *error) {
+                                        if (weakSelf) weakSelf.loadingMore = NO;
+                                    }];
 }
 
 #pragma mark - UICollectionViewDataSource Methods
@@ -112,16 +168,12 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (MRSLMorselCollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                        cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+                          cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_userMorsels objectAtIndex:indexPath.row];
-
     MRSLMorselCollectionViewCell *morselCell = [self.morselCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselCell"
-                                                                                              forIndexPath:indexPath];
+                                                                                                    forIndexPath:indexPath];
     morselCell.morsel = morsel;
-
-    // Last one hides pipe
     morselCell.morselPipeView.hidden = (indexPath.row == [_userMorsels count] - 1);
-
     return morselCell;
 }
 

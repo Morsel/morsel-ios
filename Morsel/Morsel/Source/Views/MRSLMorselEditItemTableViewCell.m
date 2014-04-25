@@ -86,16 +86,16 @@
     self.item.didFailUpload = @NO;
     self.item.isUploading = @YES;
     if (!_item.itemID) {
-        [_appDelegate.itemApiService createItem:_item
+        [_appDelegate.apiService createItem:_item
                                         success:^(id responseObject) {
                                             if ([responseObject isKindOfClass:[MRSLItem class]]) {
-                                                [_appDelegate.itemApiService updateItemImage:_item
+                                                [_appDelegate.apiService updateItemImage:_item
                                                                                      success:nil
                                                                                      failure:nil];
                                             }
                                         } failure:nil];
     } else {
-        [_appDelegate.itemApiService updateItemImage:_item
+        [_appDelegate.apiService updateItemImage:_item
                                              success:nil
                                              failure:nil];
     }

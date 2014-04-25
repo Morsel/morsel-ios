@@ -30,13 +30,12 @@
     self.morselTitleLabel.text = _morsel.title ?: @"No title";
 
     if ([_morsel.items count] > 0) {
-        MRSLItem *firstMorsel = [_morsel.itemsArray firstObject];
-        _morselThumbnailView.item = firstMorsel;
-        self.morselCountLabel.text = [NSString stringWithFormat:@"%lu MORSEL%@", (unsigned long)[_morsel.items count], ([_morsel.items count] > 1) ? @"S" : @""];
+        _morselThumbnailView.item = [_morsel coverItem];
+        self.morselCountLabel.text = [NSString stringWithFormat:@"%lu ITEM%@", (unsigned long)[_morsel.items count], ([_morsel.items count] > 1) ? @"S" : @""];
     } else {
-        DDLogError(@"MorselCollectionViewCell assigned a Morsel with no Morsels. Morsel ID: %i", _morsel.morselIDValue);
+        DDLogError(@"MorselCollectionViewCell assigned a Morsel with no items. Morsel ID: %i", _morsel.morselIDValue);
         [_morselThumbnailView displayEmptyMorselState];
-        self.morselCountLabel.text = @"NO MORSELS";
+        self.morselCountLabel.text = @"NO ITEMS";
     }
 
     [_morselCountLabel sizeToFit];

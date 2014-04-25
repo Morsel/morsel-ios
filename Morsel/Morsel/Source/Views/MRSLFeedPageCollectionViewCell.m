@@ -144,7 +144,7 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
     [_item setLikedValue:!_item.likedValue];
     [self setLikeButtonImageForMorsel:_item];
 
-    [_appDelegate.itemApiService likeItem:_item
+    [_appDelegate.apiService likeItem:_item
                                    shouldLike:_item.likedValue
                                       didLike:nil
                                       failure: ^(NSError * error) {

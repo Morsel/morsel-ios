@@ -30,6 +30,12 @@
                success:(MRSLAPISuccessBlock)userSuccessOrNil
                failure:(MRSLAPIFailureBlock)failureOrNil;
 
+- (void)updateUser:(MRSLUser *)user
+           success:(MRSLAPISuccessBlock)userSuccessOrNil
+           failure:(MRSLAPIFailureBlock)failureOrNil;
+
+#pragma mark - Authorization Services
+
 - (void)createFacebookAuthorizationWithToken:(NSString *)token
                                      forUser:(MRSLUser *)user
                                      success:(MRSLAPISuccessBlock)userSuccessOrNil
@@ -40,6 +46,7 @@
                                     forUser:(MRSLUser *)user
                                     success:(MRSLAPISuccessBlock)userSuccessOrNil
                                     failure:(MRSLAPIFailureBlock)failureOrNil;
+#pragma mark - Activity Services
 
 - (void)getUserActivitiesForUser:(MRSLUser *)user
                            maxID:(NSNumber *)maxOrNil
@@ -80,7 +87,21 @@
           success:(MRSLAPISuccessBlock)successOrNil
           failure:(MRSLAPIFailureBlock)failureOrNil;
 
-#pragma mark - Morsel Services
+- (void)getUserMorsels:(MRSLUser *)user
+             withMaxID:(NSNumber *)maxOrNil
+             orSinceID:(NSNumber *)sinceOrNil
+              andCount:(NSNumber *)countOrNil
+         includeDrafts:(BOOL)includeDrafts
+               success:(MRSLAPIArrayBlock)successOrNil
+               failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)getUserDraftsWithMaxID:(NSNumber *)maxOrNil
+                     orSinceID:(NSNumber *)sinceOrNil
+                      andCount:(NSNumber *)countOrNil
+                       success:(MRSLAPIArrayBlock)successOrNil
+                       failure:(MRSLAPIFailureBlock)failureOrNil;
+
+#pragma mark - Item Services
 
 - (void)createItem:(MRSLItem *)item
            success:(MRSLAPISuccessBlock)successOrNil
@@ -119,14 +140,6 @@
                 andCount:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
                  failure:(MRSLAPIFailureBlock)failureOrNil;
-
-- (void)getUserMorsels:(MRSLUser *)user
-         includeDrafts:(BOOL)includeDrafts
-               success:(MRSLAPIArrayBlock)successOrNil
-               failure:(MRSLAPIFailureBlock)failureOrNil;
-
-- (void)getUserDraftsWithSuccess:(MRSLAPIArrayBlock)success
-                         failure:(MRSLAPIFailureBlock)failureOrNil;
 
 #pragma mark - Comment Services
 

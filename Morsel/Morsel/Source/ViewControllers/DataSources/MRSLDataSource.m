@@ -8,22 +8,24 @@
 
 #import "MRSLDataSource.h"
 
+#import "MRSLStatusHeaderCollectionReusableView.h"
+
 @interface MRSLDataSource ()
 
-@property (nonatomic, strong) NSArray *items;
-@property (nonatomic, copy) NSString *cellIdentifier;
-@property (nonatomic, copy) MRSLCellConfigureBlock configureCellBlock;
+@property (strong, nonatomic) NSArray *objects;
+@property (copy, nonatomic) NSString *cellIdentifier;
+@property (copy, nonatomic) MRSLCellConfigureBlock configureCellBlock;
 
 @end
 
 @implementation MRSLDataSource
 
-- (id)itemAtIndexPath:(NSIndexPath *)indexPath {
-    return self.items[(NSUInteger) indexPath.row];
+- (id)objectAtIndexPath:(NSIndexPath *)indexPath {
+    return self.objects[(NSUInteger) indexPath.row];
 }
 
 - (NSUInteger)count {
-    return [self.items count];
+    return [self.objects count];
 }
 
 #pragma mark - UICollectionViewDataSource Methods
@@ -36,7 +38,7 @@
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellIdentifier
                                                                            forIndexPath:indexPath];
-    id item = [self itemAtIndexPath:indexPath];
+    id item = [self objectAtIndexPath:indexPath];
     self.configureCellBlock(cell, item, indexPath, [self count]);
     return cell;
 }

@@ -10,10 +10,10 @@
 
 @interface MRSLArrayDataSource : MRSLDataSource
 
-- (id)initWithItems:(NSArray *)anItems
-     cellIdentifier:(NSString *)aCellIdentifier
- configureCellBlock:(MRSLCellConfigureBlock)aConfigureCellBlock;
+- (id)initWithObjects:(NSArray *)objects
+     cellIdentifier:(NSString *)cellIdentifier
+ configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock;
 
-- (void)updateItems:(NSArray *)newItems;
+- (void)updateObjects:(NSArray *)newObjects;
 
 @end

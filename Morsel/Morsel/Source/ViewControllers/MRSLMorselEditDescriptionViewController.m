@@ -64,7 +64,7 @@
                                               @"item_id": NSNullIfNil(_item.itemID)}];
     if (![_item.itemDescription isEqualToString:self.itemDescriptionTextView.text]) {
         _item.itemDescription = self.itemDescriptionTextView.text;
-        [_appDelegate.itemApiService updateItem:_item
+        [_appDelegate.apiService updateItem:_item
                                       andMorsel:nil
                                         success:nil
                                         failure:nil];

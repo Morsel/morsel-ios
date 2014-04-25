@@ -13,7 +13,7 @@ typedef void (^MRSLCellConfigureBlock)(id cell, id item, NSIndexPath *indexPath,
 
 @interface MRSLDataSource : NSObject <UICollectionViewDataSource>
 
-- (id)itemAtIndexPath:(NSIndexPath *)indexPath;
+- (id)objectAtIndexPath:(NSIndexPath *)indexPath;
 
 - (NSUInteger)count;
 

@@ -16,7 +16,7 @@ UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *likersTableView;
 
-@property (nonatomic, strong) NSMutableArray *likers;
+@property (strong, nonatomic) NSMutableArray *likers;
 
 @end
 
@@ -28,7 +28,7 @@ UITableViewDelegate>
     self.likers = [NSMutableArray array];
 
     __weak __typeof(self) weakSelf = self;
-    [_appDelegate.itemApiService getItemLikes:_item
+    [_appDelegate.apiService getItemLikes:_item
                                       success:^(NSArray *responseArray) {
                                           if (weakSelf) {
                                               [weakSelf.likers addObjectsFromArray:responseArray];

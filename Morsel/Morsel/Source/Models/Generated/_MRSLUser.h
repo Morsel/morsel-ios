@@ -12,6 +12,7 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *email;
 	__unsafe_unretained NSString *facebook_uid;
 	__unsafe_unretained NSString *first_name;
+	__unsafe_unretained NSString *industry;
 	__unsafe_unretained NSString *item_count;
 	__unsafe_unretained NSString *last_name;
 	__unsafe_unretained NSString *like_count;
@@ -38,6 +39,7 @@ extern const struct MRSLUserFetchedProperties {
 @class MRSLActivity;
 @class MRSLComment;
 @class MRSLMorsel;
+
 
 
 
@@ -141,6 +143,16 @@ extern const struct MRSLUserFetchedProperties {
 
 
 //- (BOOL)validateFirst_name:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* industry;
+
+
+
+//- (BOOL)validateIndustry:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -364,6 +376,12 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSString*)primitiveFirst_name;
 - (void)setPrimitiveFirst_name:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveIndustry;
+- (void)setPrimitiveIndustry:(NSString*)value;
 
 
 

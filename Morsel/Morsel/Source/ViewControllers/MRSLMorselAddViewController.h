@@ -12,4 +12,6 @@
 
 @property (nonatomic) BOOL skipToAddTitle;
 
+@property (weak, nonatomic) MRSLUser *user;
+
 @end

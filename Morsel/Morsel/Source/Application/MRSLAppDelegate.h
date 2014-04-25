@@ -12,7 +12,7 @@
 
 @interface MRSLAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) MRSLAPIService *itemApiService;
+@property (strong, nonatomic) MRSLAPIService *apiService;
 @property (strong, nonatomic) NSDateFormatter *defaultDateFormatter;
 @property (strong, nonatomic) UIWindow *window;
 

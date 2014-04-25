@@ -11,6 +11,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.email = @"email",
 	.facebook_uid = @"facebook_uid",
 	.first_name = @"first_name",
+	.industry = @"industry",
 	.item_count = @"item_count",
 	.last_name = @"last_name",
 	.like_count = @"like_count",
@@ -154,6 +155,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 @dynamic first_name;
+
+
+
+
+
+
+@dynamic industry;
 
 
 

@@ -10,4 +10,6 @@
 
 @interface MRSLActivityViewController : MRSLBaseViewController
 
+@property (weak, nonatomic) MRSLUser *user;
+
 @end

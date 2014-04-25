@@ -54,6 +54,7 @@
 - (void)populateContent {
     _shareCoverImageView.item = [_morsel coverItem];
     _profileImageView.user = _morsel.creator;
+    [_profileImageView allowToLaunchProfile];
     _userNameLabel.text = _morsel.creator.fullName;
     _userTitleLabel.text = _morsel.creator.title;
     _userBioLabel.text = _morsel.creator.bio;

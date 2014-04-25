@@ -15,6 +15,7 @@ NSString *const MRSLServiceDidUpdateUserNotification = @"MRSLServiceDidUpdateUse
 
 NSString *const MRSLUserDidCreateCommentNotification = @"MRSLUserDidCreateCommentNotification";
 NSString *const MRSLUserDidBeginCreateMorselNotification = @"MRSLUserDidBeginCreateMorselNotification";
+NSString *const MRSLUserDidUpdateUserNotification = @"MRSLUserDidUpdateUserNotification";
 NSString *const MRSLUserDidUpdateItemNotification = @"MRSLUserDidUpdateItemNotification";
 NSString *const MRSLUserDidUpdateMorselNotification = @"MRSLUserDidUpdateMorselNotification";
 NSString *const MRSLUserDidPublishMorselNotification = @"MRSLUserDidPublishMorselNotification";

@@ -34,7 +34,7 @@ describe(@"Importing from the API", ^{
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-item-authenticated.json"
                                                  forRequestPath:@"/items/2"];
 
-            [_appDelegate.itemApiService getItem:item
+            [_appDelegate.apiService getItem:item
                                              success:^(id responseObject) {
                                                  requestCompleted = YES;
                                              } failure:nil];
@@ -80,7 +80,7 @@ describe(@"Importing from the API", ^{
                 [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-comment.json"
                                                      forRequestPath:@"/items/40/comments"];
 
-                [_appDelegate.itemApiService getComments:itemWithComments
+                [_appDelegate.apiService getComments:itemWithComments
                                                    success:^(NSArray *responseArray) {
                                                        firstComment = [[[itemWithComments comments] allObjects] firstObject];
                                                        requestCompleted = YES;
@@ -111,7 +111,7 @@ describe(@"Importing from the API", ^{
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-morsel.json"
                                                  forRequestPath:@"/morsels/1"];
 
-            [_appDelegate.itemApiService getMorsel:morsel
+            [_appDelegate.apiService getMorsel:morsel
                                            success:^(id responseObject) {
                                                requestCompleted = YES;
                                            } failure:nil];
@@ -148,7 +148,7 @@ describe(@"Importing from the API", ^{
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-user-with-auth-token.json"
                                                  forRequestPath:@"/users/sign_in"];
 
-            [_appDelegate.itemApiService signInUserWithEmail:nil
+            [_appDelegate.apiService signInUserWithEmail:nil
                                                    andPassword:nil
                                                        success:^(id responseObject) {
                                                            requestCompleted = YES;

@@ -11,7 +11,6 @@
 @interface NSMutableArray (Feed)
 
 + (NSMutableArray *)feedIDArray;
-+ (NSString *)feedIDPath;
 + (void)resetFeedIDArray;
 
 - (NSNumber *)firstObjectWithValidFeedItemID;
