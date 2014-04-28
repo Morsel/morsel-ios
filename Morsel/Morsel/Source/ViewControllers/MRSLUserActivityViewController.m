@@ -8,11 +8,10 @@
 
 #import "MRSLUserActivityViewController.h"
 
-#import "MRSLActivityCollectionViewCell.h"
 #import "MRSLArrayDataSource.h"
 #import "MRSLUserMorselsFeedViewController.h"
+#import "MRSLUserLikedItemCollectionViewCell.h"
 
-#import "MRSLActivity.h"
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
@@ -30,7 +29,7 @@ NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSMutableArray *activityIDs;
+@property (strong, nonatomic) NSMutableArray *itemIDs;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @property (strong, nonatomic) MRSLArrayDataSource *arrayDataSource;
@@ -44,7 +43,7 @@ NSFetchedResultsControllerDelegate>
 
     if (!_user) self.user = [MRSLUser currentUser];
 
-    self.activityIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_activityIDs", _user.username]] ?: [NSMutableArray array];
+    self.itemIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_activity_itemIDs", _user.username]] ?: [NSMutableArray array];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     _refreshControl.tintColor = [UIColor morselLightContent];
@@ -56,9 +55,9 @@ NSFetchedResultsControllerDelegate>
     self.collectionView.alwaysBounceVertical = YES;
 
     self.arrayDataSource = [[MRSLArrayDataSource alloc] initWithObjects:nil
-                                                         cellIdentifier:@"ruid_ActivityCell"
+                                                         cellIdentifier:@"ruid_UserLikedItemCell"
                                                      configureCellBlock:^(id cell, id item, NSIndexPath *indexPath, NSUInteger count) {
-                                                         [cell setActivity:item];
+                                                         [cell setItem:item andUser:_user];
                                                          if (indexPath.row != count) {
                                                              [cell setBorderWithDirections:MRSLBorderSouth
                                                                                borderWidth:1.0f
@@ -92,9 +91,9 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - Private Methods
 
 - (void)setupFetchRequest {
-    self.fetchedResultsController = [MRSLActivity MR_fetchAllSortedBy:@"creationDate"
+    self.fetchedResultsController = [MRSLItem MR_fetchAllSortedBy:@"likedDate"
                                                             ascending:NO
-                                                        withPredicate:[NSPredicate predicateWithFormat:@"activityID IN %@ AND actionType == 'Like'", _activityIDs]
+                                                        withPredicate:[NSPredicate predicateWithFormat:@"itemID IN %@", _itemIDs]
                                                               groupBy:nil
                                                              delegate:self
                                                             inContext:[NSManagedObjectContext MR_defaultContext]];
@@ -112,47 +111,48 @@ NSFetchedResultsControllerDelegate>
 - (void)refreshContent {
     self.loadedAll = NO;
     self.refreshing = YES;
+    self.nullStateView.hidden = YES;
     __weak typeof(self) weakSelf = self;
-    [_appDelegate.apiService getUserActivitiesForUser:[MRSLUser currentUser]
-                                                maxID:nil
-                                            orSinceID:nil
-                                             andCount:nil
-                                              success:^(NSArray *responseArray) {
-                                                  weakSelf.activityIDs = [responseArray mutableCopy];
-                                                  [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                            forKey:[NSString stringWithFormat:@"%@_activityIDs", _user.username]];
-                                                  [weakSelf setupFetchRequest];
-                                                  [weakSelf populateContent];
-                                              } failure:nil];
+    [_appDelegate.apiService getLikedItemsForUser:_user
+                                       maxID:nil
+                                   orSinceID:nil
+                                    andCount:nil
+                                     success:^(NSArray *responseArray) {
+                                         weakSelf.itemIDs = [responseArray mutableCopy];
+                                         [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                                                   forKey:[NSString stringWithFormat:@"%@_activity_itemIDs", _user.username]];
+                                         [weakSelf setupFetchRequest];
+                                         [weakSelf populateContent];
+                                     } failure:nil];
 }
 
 - (void)loadMore {
     if (_loadingMore || !_user || _loadedAll || _refreshing) return;
     self.loadingMore = YES;
-    DDLogDebug(@"Loading more activity");
+    DDLogDebug(@"Loading more liked items");
     __weak __typeof (self) weakSelf = self;
-    [_appDelegate.apiService getUserNotificationsForUser:_user
-                                                   maxID:@([[_activityIDs lastObject] intValue] - 1)
-                                               orSinceID:nil
-                                                andCount:@(12)
-                                                 success:^(NSArray *responseArray) {
-                                                     if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                                     DDLogDebug(@"%lu activity added", (unsigned long)[responseArray count]);
-                                                     if (weakSelf) {
-                                                         if ([responseArray count] > 0) {
-                                                             [weakSelf.activityIDs addObjectsFromArray:responseArray];
-                                                             [[NSUserDefaults standardUserDefaults] setObject:weakSelf.activityIDs
-                                                                                                       forKey:[NSString stringWithFormat:@"%@_activityIDs", _user.username]];
-                                                             [weakSelf setupFetchRequest];
-                                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                                                 [weakSelf populateContent];
-                                                             });
-                                                         }
-                                                         weakSelf.loadingMore = NO;
-                                                     }
-                                                 } failure:^(NSError *error) {
-                                                     if (weakSelf) weakSelf.loadingMore = NO;
-                                                 }];
+    [_appDelegate.apiService getLikedItemsForUser:_user
+                                       maxID:@([[_itemIDs lastObject] intValue] - 1)
+                                   orSinceID:nil
+                                    andCount:@(12)
+                                     success:^(NSArray *responseArray) {
+                                         if ([responseArray count] == 0) weakSelf.loadedAll = YES;
+                                         DDLogDebug(@"%lu items added", (unsigned long)[responseArray count]);
+                                         if (weakSelf) {
+                                             if ([responseArray count] > 0) {
+                                                 [weakSelf.itemIDs addObjectsFromArray:responseArray];
+                                                 [[NSUserDefaults standardUserDefaults] setObject:weakSelf.itemIDs
+                                                                                           forKey:[NSString stringWithFormat:@"%@_activity_itemIDs", _user.username]];
+                                                 [weakSelf setupFetchRequest];
+                                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                                     [weakSelf populateContent];
+                                                 });
+                                             }
+                                             weakSelf.loadingMore = NO;
+                                         }
+                                     } failure:^(NSError *error) {
+                                         if (weakSelf) weakSelf.loadingMore = NO;
+                                     }];
 }
 
 
@@ -160,14 +160,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
-    MRSLActivity *activity = [self.arrayDataSource objectAtIndexPath:indexPath];
-    MRSLItem *item = activity.item;
-
-    [[MRSLEventManager sharedManager] track:@"Tapped Activity"
-                                 properties:@{@"view": @"My Activty",
-                                              @"action_type": NSNullIfNil(activity.actionType),
-                                              @"activity_id": NSNullIfNil(activity.activityID),
-                                              @"item_id": NSNullIfNil(item.itemID)}];
+    MRSLItem *item = [self.arrayDataSource objectAtIndexPath:indexPath];
     if (item.morsel) {
         MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
         userMorselsFeedVC.morsel = item.morsel;
@@ -180,7 +173,7 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Activity detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+    DDLogDebug(@"User likes detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
     [self populateContent];
 }
 

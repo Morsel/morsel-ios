@@ -8,20 +8,23 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *auth_token;
 	__unsafe_unretained NSString *bio;
 	__unsafe_unretained NSString *creationDate;
+	__unsafe_unretained NSString *dateFollowed;
 	__unsafe_unretained NSString *draft_count;
 	__unsafe_unretained NSString *email;
 	__unsafe_unretained NSString *facebook_uid;
 	__unsafe_unretained NSString *first_name;
+	__unsafe_unretained NSString *followed_users_count;
+	__unsafe_unretained NSString *follower_count;
+	__unsafe_unretained NSString *following;
 	__unsafe_unretained NSString *industry;
-	__unsafe_unretained NSString *item_count;
 	__unsafe_unretained NSString *last_name;
-	__unsafe_unretained NSString *like_count;
+	__unsafe_unretained NSString *liked_items_count;
+	__unsafe_unretained NSString *morsel_count;
 	__unsafe_unretained NSString *profilePhotoFull;
 	__unsafe_unretained NSString *profilePhotoLarge;
 	__unsafe_unretained NSString *profilePhotoThumb;
 	__unsafe_unretained NSString *profilePhotoURL;
 	__unsafe_unretained NSString *staff;
-	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *twitter_username;
 	__unsafe_unretained NSString *userID;
 	__unsafe_unretained NSString *username;
@@ -31,6 +34,7 @@ extern const struct MRSLUserRelationships {
 	__unsafe_unretained NSString *activities;
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *morsels;
+	__unsafe_unretained NSString *tags;
 } MRSLUserRelationships;
 
 extern const struct MRSLUserFetchedProperties {
@@ -39,6 +43,10 @@ extern const struct MRSLUserFetchedProperties {
 @class MRSLActivity;
 @class MRSLComment;
 @class MRSLMorsel;
+@class MRSLTag;
+
+
+
 
 
 
@@ -104,6 +112,16 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSDate* dateFollowed;
+
+
+
+//- (BOOL)validateDateFollowed:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* draft_count;
 
 
@@ -148,25 +166,53 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* followed_users_count;
+
+
+
+@property int32_t followed_users_countValue;
+- (int32_t)followed_users_countValue;
+- (void)setFollowed_users_countValue:(int32_t)value_;
+
+//- (BOOL)validateFollowed_users_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* follower_count;
+
+
+
+@property int32_t follower_countValue;
+- (int32_t)follower_countValue;
+- (void)setFollower_countValue:(int32_t)value_;
+
+//- (BOOL)validateFollower_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* following;
+
+
+
+@property BOOL followingValue;
+- (BOOL)followingValue;
+- (void)setFollowingValue:(BOOL)value_;
+
+//- (BOOL)validateFollowing:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* industry;
 
 
 
 //- (BOOL)validateIndustry:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* item_count;
-
-
-
-@property int32_t item_countValue;
-- (int32_t)item_countValue;
-- (void)setItem_countValue:(int32_t)value_;
-
-//- (BOOL)validateItem_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -182,15 +228,29 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* like_count;
+@property (nonatomic, strong) NSNumber* liked_items_count;
 
 
 
-@property int32_t like_countValue;
-- (int32_t)like_countValue;
-- (void)setLike_countValue:(int32_t)value_;
+@property int32_t liked_items_countValue;
+- (int32_t)liked_items_countValue;
+- (void)setLiked_items_countValue:(int32_t)value_;
 
-//- (BOOL)validateLike_count:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateLiked_items_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* morsel_count;
+
+
+
+@property int32_t morsel_countValue;
+- (int32_t)morsel_countValue;
+- (void)setMorsel_countValue:(int32_t)value_;
+
+//- (BOOL)validateMorsel_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -245,16 +305,6 @@ extern const struct MRSLUserFetchedProperties {
 - (void)setStaffValue:(BOOL)value_;
 
 //- (BOOL)validateStaff:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSString* title;
-
-
-
-//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -315,6 +365,13 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSSet *tags;
+
+- (NSMutableSet*)tagsSet;
+
+
+
+
 
 @end
 
@@ -329,6 +386,11 @@ extern const struct MRSLUserFetchedProperties {
 - (void)removeMorsels:(NSSet*)value_;
 - (void)addMorselsObject:(MRSLMorsel*)value_;
 - (void)removeMorselsObject:(MRSLMorsel*)value_;
+
+- (void)addTags:(NSSet*)value_;
+- (void)removeTags:(NSSet*)value_;
+- (void)addTagsObject:(MRSLTag*)value_;
+- (void)removeTagsObject:(MRSLTag*)value_;
 
 @end
 
@@ -349,6 +411,12 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSDate*)primitiveCreationDate;
 - (void)setPrimitiveCreationDate:(NSDate*)value;
+
+
+
+
+- (NSDate*)primitiveDateFollowed;
+- (void)setPrimitiveDateFollowed:(NSDate*)value;
 
 
 
@@ -380,17 +448,35 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+- (NSNumber*)primitiveFollowed_users_count;
+- (void)setPrimitiveFollowed_users_count:(NSNumber*)value;
+
+- (int32_t)primitiveFollowed_users_countValue;
+- (void)setPrimitiveFollowed_users_countValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitiveFollower_count;
+- (void)setPrimitiveFollower_count:(NSNumber*)value;
+
+- (int32_t)primitiveFollower_countValue;
+- (void)setPrimitiveFollower_countValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitiveFollowing;
+- (void)setPrimitiveFollowing:(NSNumber*)value;
+
+- (BOOL)primitiveFollowingValue;
+- (void)setPrimitiveFollowingValue:(BOOL)value_;
+
+
+
+
 - (NSString*)primitiveIndustry;
 - (void)setPrimitiveIndustry:(NSString*)value;
-
-
-
-
-- (NSNumber*)primitiveItem_count;
-- (void)setPrimitiveItem_count:(NSNumber*)value;
-
-- (int32_t)primitiveItem_countValue;
-- (void)setPrimitiveItem_countValue:(int32_t)value_;
 
 
 
@@ -401,11 +487,20 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSNumber*)primitiveLike_count;
-- (void)setPrimitiveLike_count:(NSNumber*)value;
+- (NSNumber*)primitiveLiked_items_count;
+- (void)setPrimitiveLiked_items_count:(NSNumber*)value;
 
-- (int32_t)primitiveLike_countValue;
-- (void)setPrimitiveLike_countValue:(int32_t)value_;
+- (int32_t)primitiveLiked_items_countValue;
+- (void)setPrimitiveLiked_items_countValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitiveMorsel_count;
+- (void)setPrimitiveMorsel_count:(NSNumber*)value;
+
+- (int32_t)primitiveMorsel_countValue;
+- (void)setPrimitiveMorsel_countValue:(int32_t)value_;
 
 
 
@@ -439,12 +534,6 @@ extern const struct MRSLUserFetchedProperties {
 
 - (BOOL)primitiveStaffValue;
 - (void)setPrimitiveStaffValue:(BOOL)value_;
-
-
-
-
-- (NSString*)primitiveTitle;
-- (void)setPrimitiveTitle:(NSString*)value;
 
 
 
@@ -483,6 +572,11 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSMutableSet*)primitiveMorsels;
 - (void)setPrimitiveMorsels:(NSMutableSet*)value;
+
+
+
+- (NSMutableSet*)primitiveTags;
+- (void)setPrimitiveTags:(NSMutableSet*)value;
 
 
 @end

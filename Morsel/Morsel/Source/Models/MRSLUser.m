@@ -36,21 +36,23 @@
                                              withValue:userID
                                              inContext:[NSManagedObjectContext MR_defaultContext]];
 
+    NSString *authToken = nil;
     if (!user) {
         DDLogDebug(@"User did not exist on device. Creating new.");
         user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
     } else {
         DDLogDebug(@"User existed on device. Updating information.");
+        authToken = [user.auth_token copy];
     }
 
     [user MR_importValuesForKeysWithObject:userDictionary];
+    if (authToken) user.auth_token = authToken;
 
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel identify:[NSString stringWithFormat:@"%i", user.userIDValue]];
     [mixpanel.people set:@{@"first_name": NSNullIfNil(user.first_name),
                            @"last_name": NSNullIfNil(user.last_name),
                            @"created_at": NSNullIfNil(userDictionary[@"created_at"]),
-                           @"title": NSNullIfNil(user.title),
                            @"username": NSNullIfNil(user.username)}];
     [mixpanel.people increment:@"open_count"
                             by:@(1)];
@@ -73,7 +75,7 @@
 
 - (BOOL)shouldTrack {
     // This still allows anonymous tracking to appear before a user signs in
-    return !(!self.title || self.title.length == 0);
+    return !self.staffValue;
 }
 
 - (NSString *)fullName {
@@ -117,6 +119,8 @@
         self.profilePhotoURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
                                                                                      withString:@"IMAGE_SIZE"];
     }
+
+    if (self.profilePhotoFull) self.profilePhotoFull = nil;
 }
 
 - (NSDictionary *)objectToJSON {
@@ -128,8 +132,6 @@
                                             forKey:@"first_name"];
     if (self.last_name) [objectInfoJSON setObject:self.last_name
                                            forKey:@"last_name"];
-    if (self.title) [objectInfoJSON setObject:self.title
-                                       forKey:@"title"];
     if (self.bio) [objectInfoJSON setObject:self.bio
                                      forKey:@"bio"];
 

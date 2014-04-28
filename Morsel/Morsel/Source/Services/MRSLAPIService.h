@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MRSLComment, MRSLItem, MRSLMorsel, MRSLUser;
+@class MRSLComment, MRSLItem, MRSLKeyword, MRSLMorsel, MRSLTag, MRSLUser;
 
 @interface MRSLAPIService : NSObject
 
@@ -48,6 +48,13 @@
                                     failure:(MRSLAPIFailureBlock)failureOrNil;
 #pragma mark - Activity Services
 
+- (void)getLikedItemsForUser:(MRSLUser *)user
+                       maxID:(NSNumber *)maxOrNil
+                   orSinceID:(NSNumber *)sinceOrNil
+                    andCount:(NSNumber *)countOrNil
+                     success:(MRSLAPIArrayBlock)successOrNil
+                     failure:(MRSLAPIFailureBlock)failureOrNil;
+
 - (void)getUserActivitiesForUser:(MRSLUser *)user
                            maxID:(NSNumber *)maxOrNil
                        orSinceID:(NSNumber *)sinceOrNil
@@ -78,9 +85,9 @@
              failure:(MRSLAPIFailureBlock)failureOrNil;
 
 - (void)publishMorsel:(MRSLMorsel *)morsel
-             success:(MRSLAPISuccessBlock)successOrNil
-             failure:(MRSLAPIFailureBlock)failureOrNil
-      sendToFacebook:(BOOL)sendToFacebook
+              success:(MRSLAPISuccessBlock)successOrNil
+              failure:(MRSLAPIFailureBlock)failureOrNil
+       sendToFacebook:(BOOL)sendToFacebook
         sendToTwitter:(BOOL)sendToTwitter;
 
 - (void)getMorsel:(MRSLMorsel *)morsel
@@ -151,5 +158,58 @@
                          toMorsel:(MRSLItem *)item
                           success:(MRSLAPISuccessBlock)successOrNil
                           failure:(MRSLAPIFailureBlock)failureOrNil;
+
+#pragma mark - Tag Services
+
+- (void)getCuisinesWithSuccess:(MRSLAPIArrayBlock)successOrNil
+                       failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)getSpecialtiesWithSuccess:(MRSLAPIArrayBlock)successOrNil
+                          failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)getCuisineUsers:(MRSLKeyword *)cuisine
+                success:(MRSLAPIArrayBlock)successOrNil
+                failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)getSpecialtyUsers:(MRSLKeyword *)specialty
+                  success:(MRSLAPIArrayBlock)successOrNil
+                  failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)getUserCuisines:(MRSLUser *)user
+                success:(MRSLAPIArrayBlock)successOrNil
+                failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)getUserSpecialties:(MRSLUser *)user
+                   success:(MRSLAPIArrayBlock)successOrNil
+                   failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)createTagForKeyword:(MRSLKeyword *)keyword
+                    success:(MRSLAPISuccessBlock)successOrNil
+                    failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)deleteTag:(MRSLTag *)tag
+          success:(MRSLDataSuccessBlock)successOrNil
+          failure:(MRSLAPIFailureBlock)failureOrNil;
+
+#pragma mark - Following Services
+
+- (void)followUser:(MRSLUser *)user
+      shouldFollow:(BOOL)shouldFollow
+         didFollow:(MRSLAPIFollowBlock)followBlockOrNil
+           failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)getUserFollowers:(MRSLUser *)user
+               withMaxID:(NSNumber *)maxOrNil
+               orSinceID:(NSNumber *)sinceOrNil
+                andCount:(NSNumber *)countOrNil
+                 success:(MRSLAPIArrayBlock)successOrNil
+                 failure:(MRSLAPIFailureBlock)failureOrNil;
+
+- (void)getUserFollowables:(MRSLUser *)user
+                 withMaxID:(NSNumber *)maxOrNil
+                 orSinceID:(NSNumber *)sinceOrNil
+                  andCount:(NSNumber *)countOrNil
+                   success:(MRSLAPIArrayBlock)successOrNil
+                   failure:(MRSLAPIFailureBlock)failureOrNil;
 
 @end

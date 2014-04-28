@@ -19,6 +19,7 @@ extern const struct MRSLItemAttributes {
 	__unsafe_unretained NSString *lastUpdatedDate;
 	__unsafe_unretained NSString *like_count;
 	__unsafe_unretained NSString *liked;
+	__unsafe_unretained NSString *likedDate;
 	__unsafe_unretained NSString *localUUID;
 	__unsafe_unretained NSString *photo_processing;
 	__unsafe_unretained NSString *sort_order;
@@ -29,7 +30,6 @@ extern const struct MRSLItemRelationships {
 	__unsafe_unretained NSString *activities;
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *morsel;
-	__unsafe_unretained NSString *tags;
 } MRSLItemRelationships;
 
 extern const struct MRSLItemFetchedProperties {
@@ -38,7 +38,7 @@ extern const struct MRSLItemFetchedProperties {
 @class MRSLActivity;
 @class MRSLComment;
 @class MRSLMorsel;
-@class MRSLTag;
+
 
 
 
@@ -240,6 +240,16 @@ extern const struct MRSLItemFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSDate* likedDate;
+
+
+
+//- (BOOL)validateLikedDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* localUUID;
 
 
@@ -309,13 +319,6 @@ extern const struct MRSLItemFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *tags;
-
-- (NSMutableSet*)tagsSet;
-
-
-
-
 
 @end
 
@@ -330,11 +333,6 @@ extern const struct MRSLItemFetchedProperties {
 - (void)removeComments:(NSSet*)value_;
 - (void)addCommentsObject:(MRSLComment*)value_;
 - (void)removeCommentsObject:(MRSLComment*)value_;
-
-- (void)addTags:(NSSet*)value_;
-- (void)removeTags:(NSSet*)value_;
-- (void)addTagsObject:(MRSLTag*)value_;
-- (void)removeTagsObject:(MRSLTag*)value_;
 
 @end
 
@@ -446,6 +444,12 @@ extern const struct MRSLItemFetchedProperties {
 
 
 
+- (NSDate*)primitiveLikedDate;
+- (void)setPrimitiveLikedDate:(NSDate*)value;
+
+
+
+
 - (NSString*)primitiveLocalUUID;
 - (void)setPrimitiveLocalUUID:(NSString*)value;
 
@@ -489,11 +493,6 @@ extern const struct MRSLItemFetchedProperties {
 
 - (MRSLMorsel*)primitiveMorsel;
 - (void)setPrimitiveMorsel:(MRSLMorsel*)value;
-
-
-
-- (NSMutableSet*)primitiveTags;
-- (void)setPrimitiveTags:(NSMutableSet*)value;
 
 
 @end

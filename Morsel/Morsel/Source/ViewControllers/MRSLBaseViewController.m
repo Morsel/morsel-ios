@@ -12,10 +12,6 @@
 
 #pragma mark - Instance Methods
 
-- (void)setupWithUserInfo:(NSDictionary *)userInfo {
-    @throw @"setupWithUserInfo Not Implemented in subclass!";
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
@@ -70,11 +66,36 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - Routing Methods
+
+- (void)setupWithUserInfo:(NSDictionary *)userInfo {
+    @throw @"setupWithUserInfo Not Implemented in subclass!";
+}
+
 #pragma mark - Appearance Methods
 
 - (void)changeStatusBarStyle:(UIStatusBarStyle)style {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppDidRequestNewPreferredStatusBarStyle
                                                         object:@(style)];
+}
+
+#pragma mark - Utility Methods
+
+- (UIViewController *)topPresentingViewController {
+    UIViewController *topMostVC = (self.navigationController) ? self.navigationController : self;
+    UIViewController *potentialTopMostVC = topMostVC;
+    while (potentialTopMostVC != nil) {
+        topMostVC = potentialTopMostVC;
+        if (potentialTopMostVC.navigationController) potentialTopMostVC = potentialTopMostVC.navigationController;
+        potentialTopMostVC = potentialTopMostVC.presentedViewController;
+    }
+    return topMostVC;
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

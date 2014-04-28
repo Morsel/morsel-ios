@@ -67,8 +67,8 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
     [_itemDescriptionLabel setWidth:280.f];
 
     CGSize textSize = [_item.itemDescription sizeWithFont:_itemDescriptionLabel.font
-                                            constrainedToSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
-                                                lineBreakMode:NSLineBreakByWordWrapping];
+                                        constrainedToSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
+                                            lineBreakMode:NSLineBreakByWordWrapping];
 
     if (textSize.height > MRSLDescriptionHeightLimit) {
         [_itemDescriptionLabel setHeight:MRSLDescriptionHeightLimit];
@@ -81,11 +81,11 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
     [_itemDescriptionLabel setY:[_itemImageView getY] + [_itemImageView getHeight] - ([_itemDescriptionLabel getHeight] + ((textSize.height > MRSLDescriptionHeightLimit) ? 30.f : 5.f))];
 
     _editButton.hidden = ![_item.morsel.creator isCurrentUser];
-    
+
     [_likeCountButton setTitle:[NSString stringWithFormat:@"%i Like%@", _item.like_countValue, (_item.like_countValue != 1) ? @"s" : @""]
                       forState:UIControlStateNormal];
     [_commentCountButton setTitle:[NSString stringWithFormat:@"%i Comment%@", _item.comment_countValue, (_item.comment_countValue != 1) ? @"s" : @""]
-                      forState:UIControlStateNormal];
+                         forState:UIControlStateNormal];
 
     [self setLikeButtonImageForMorsel:_item];
 }
@@ -129,14 +129,14 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
                          [_likeCountButton setAlpha:shouldDisplay];
                          [_shareButton setAlpha:shouldDisplay];
                          [_editButton setAlpha:shouldDisplay];
-    }];
+                     }];
 }
 
 #pragma mark - Action Methods
 
 - (IBAction)toggleLike {
     _likeButton.enabled = NO;
-    
+
     [[MRSLEventManager sharedManager] track:@"Tapped Like Icon"
                                  properties:@{@"view": @"main_feed",
                                               @"item_id": _item.itemID}];
@@ -145,25 +145,23 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
     [self setLikeButtonImageForMorsel:_item];
 
     [_appDelegate.apiService likeItem:_item
-                                   shouldLike:_item.likedValue
-                                      didLike:nil
-                                      failure: ^(NSError * error) {
-                                          MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-
-                                          [UIAlertView showAlertViewForServiceError:serviceErrorInfo
-                                                                           delegate:nil];
-
-                                          _likeButton.enabled = YES;
-                                          [_item setLikedValue:!_item.likedValue];
-                                      }];
+                           shouldLike:_item.likedValue
+                              didLike:^(BOOL doesLike) {
+                                  _likeButton.enabled = YES;
+                              } failure: ^(NSError * error) {
+                                  _likeButton.enabled = YES;
+                                  [_item setLikedValue:!_item.likedValue];
+                                  [_item setLike_countValue:_item.like_countValue - 1];
+                                  [self setLikeButtonImageForMorsel:_item];
+                              }];
 }
 
 - (void)setLikeButtonImageForMorsel:(MRSLItem *)item {
     UIImage *likeImage = [UIImage imageNamed:item.likedValue ? @"icon-like-active" : @"icon-like-inactive"];
-    
+
     [_likeButton setImage:likeImage
                  forState:UIControlStateNormal];
-    
+
     _likeButton.enabled = YES;
 }
 

@@ -53,6 +53,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [super viewDidLoad];
 
     self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array];
+    if (_morsel) [self.morselIDs addObject:_morsel.morselID];
 
     self.morsels = [NSMutableArray array];
 

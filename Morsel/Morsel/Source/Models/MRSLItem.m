@@ -55,7 +55,7 @@
     }
 
     NSString *adjustedURLForType = [self.itemPhotoURL stringByReplacingOccurrencesOfString:@"IMAGE_SIZE"
-                                                                                  withString:typeSizeString];
+                                                                                withString:typeSizeString];
 
     return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
 }
@@ -95,7 +95,7 @@
 - (void)willImport:(id)data {
     if (![data[@"nonce"] isEqual:[NSNull null]]) {
         MRSLItem *localItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.localUUID
-                                                                             withValue:data[@"nonce"]];
+                                                      withValue:data[@"nonce"]];
         if (localItem &&
             !localItem.itemID &&
             localItem.didFailUploadValue &&
@@ -119,8 +119,8 @@
     if (![data[@"morsel_id"] isEqual:[NSNull null]]) {
         NSNumber *morselID = data[@"morsel_id"];
         MRSLMorsel *potentialMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                          withValue:morselID
-                                                          inContext:self.managedObjectContext];
+                                                                withValue:morselID
+                                                                inContext:self.managedObjectContext];
         if (potentialMorsel) {
             self.morsel = potentialMorsel;
             [self.morsel addItemsObject:self];
@@ -129,7 +129,11 @@
     if (![data[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = data[@"photos"];
         self.itemPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
-                                                                                      withString:@"IMAGE_SIZE"];
+                                                                                    withString:@"IMAGE_SIZE"];
+    }
+    if (![data[@"liked_at"] isEqual:[NSNull null]]) {
+        NSString *dateString = data[@"liked_at"];
+        self.likedDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
@@ -165,13 +169,13 @@
 
     if (self.morsel) {
         if (self.morsel.morselID) [objectInfoJSON setObject:self.morsel.morselID
-                                               forKey:@"morsel_id"];
+                                                     forKey:@"morsel_id"];
         if (self.sort_order) [objectInfoJSON setObject:self.sort_order
-                                          forKey:@"sort_order"];
+                                                forKey:@"sort_order"];
     }
 
     NSMutableDictionary *itemJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
-                                                                         forKey:@"item"];
+                                                                       forKey:@"item"];
     return itemJSON;
 }
 

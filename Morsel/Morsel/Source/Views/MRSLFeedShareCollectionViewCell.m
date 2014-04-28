@@ -22,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userBioLabel;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
@@ -56,7 +55,6 @@
     _profileImageView.user = _morsel.creator;
     [_profileImageView allowToLaunchProfile];
     _userNameLabel.text = _morsel.creator.fullName;
-    _userTitleLabel.text = _morsel.creator.title;
     _userBioLabel.text = _morsel.creator.bio;
 }
 

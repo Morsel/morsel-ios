@@ -34,7 +34,6 @@ UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameField;
-@property (weak, nonatomic) IBOutlet UITextField *occupationTitleField;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
 
@@ -64,8 +63,6 @@ UITextFieldDelegate>
                                    andWidth:1.f];
     [self.lastNameField setBorderWithColor:[UIColor morselLightContent]
                                   andWidth:1.f];
-    [self.occupationTitleField setBorderWithColor:[UIColor morselLightContent]
-                                         andWidth:1.f];
 
     self.contentScrollView.contentSize = CGSizeMake([self.view getWidth], MRSLSignUpContentHeight);
 
@@ -129,7 +126,6 @@ UITextFieldDelegate>
         [_emailField.text length] == 0 ||
         [_firstNameField.text length] == 0 ||
         [_lastNameField.text length] == 0 ||
-        [_occupationTitleField.text length] == 0 ||
         !_profileImageView.image) {
         [UIAlertView showAlertViewWithTitle:@"All Fields Required"
                                     message:@"Please fill in all fields and include a profile picture."
@@ -148,7 +144,6 @@ UITextFieldDelegate>
     user.last_name = _lastNameField.text;
     user.username = _usernameField.text;
     user.email = _emailField.text;
-    user.title = _occupationTitleField.text;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         UIImage *profileImageFull = [_originalProfileImage thumbnailImage:_originalProfileImage.size.width
@@ -233,7 +228,7 @@ UITextFieldDelegate>
         [[MRSLEventManager sharedManager] track:@"Added Photo"
                                      properties:@{@"view": @"Sign up"}];
 
-        self.originalProfileImage = info[UIImagePickerControllerOriginalImage];
+        self.originalProfileImage = info[UIImagePickerControllerEditedImage];
 
         [self.profileImageView addAndRenderImage:_originalProfileImage];
 
@@ -281,9 +276,6 @@ UITextFieldDelegate>
     } else if ([textField isEqual:_lastNameField]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Last Name Field"
                                      properties:@{@"view": @"Sign up"}];
-    } else if ([textField isEqual:_occupationTitleField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Title Field"
-                                     properties:@{@"view": @"Sign up"}];
     }
     return YES;
 }
@@ -299,8 +291,6 @@ UITextFieldDelegate>
         } else if ([textField isEqual:_firstNameField]) {
             [_lastNameField becomeFirstResponder];
         } else if ([textField isEqual:_lastNameField]) {
-            [_occupationTitleField becomeFirstResponder];
-        } else if ([textField isEqual:_occupationTitleField]) {
             [textField resignFirstResponder];
             [self signUp];
             [self.contentScrollView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)

@@ -4,12 +4,14 @@
 #import "_MRSLTag.h"
 
 const struct MRSLTagAttributes MRSLTagAttributes = {
-	.name = @"name",
+	.creationDate = @"creationDate",
+	.lastUpdatedDate = @"lastUpdatedDate",
 	.tagID = @"tagID",
 };
 
 const struct MRSLTagRelationships MRSLTagRelationships = {
-	.items = @"items",
+	.keyword = @"keyword",
+	.user = @"user",
 };
 
 const struct MRSLTagFetchedProperties MRSLTagFetchedProperties = {
@@ -53,7 +55,14 @@ const struct MRSLTagFetchedProperties MRSLTagFetchedProperties = {
 
 
 
-@dynamic name;
+@dynamic creationDate;
+
+
+
+
+
+
+@dynamic lastUpdatedDate;
 
 
 
@@ -86,17 +95,12 @@ const struct MRSLTagFetchedProperties MRSLTagFetchedProperties = {
 
 
 
-@dynamic items;
+@dynamic keyword;
 
 	
-- (NSMutableSet*)itemsSet {
-	[self willAccessValueForKey:@"items"];
-  
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"items"];
-  
-	[self didAccessValueForKey:@"items"];
-	return result;
-}
+
+@dynamic user;
+
 	
 
 

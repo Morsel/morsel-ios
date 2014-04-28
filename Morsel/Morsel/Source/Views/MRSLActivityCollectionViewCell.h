@@ -8,19 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class MRSLActivityCollectionViewCell, MRSLActivity;
-
-@protocol MorselActivityCollectionViewCellDelegate <NSObject>
-
-@optional
-- (void)itemActivityCollectionViewCellDidDisplayProgression:(MRSLActivityCollectionViewCell *)cell;
-- (void)itemActivityCollectionViewCellDidSelectActivity:(MRSLActivity *)activity;
-
-@end
+@class MRSLActivity;
 
 @interface MRSLActivityCollectionViewCell : UICollectionViewCell
-
-@property (weak, nonatomic) id<MorselActivityCollectionViewCellDelegate> delegate;
 
 @property (weak, nonatomic) MRSLActivity *activity;
 

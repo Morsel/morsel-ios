@@ -16,6 +16,7 @@
 typedef void (^ MRSLDataSuccessBlock)(BOOL success);
 typedef void (^ MRSLAPIArrayBlock)(NSArray *responseArray);
 typedef void (^ MRSLAPILikeBlock)(BOOL doesLike);
+typedef void (^ MRSLAPIFollowBlock)(BOOL doesFollow);
 typedef void (^ MRSLAPISuccessBlock)(id responseObject);
 typedef void (^ MRSLAPIFailureBlock)(NSError *error);
 typedef void (^ MRSLSocialSuccessBlock)(BOOL success);

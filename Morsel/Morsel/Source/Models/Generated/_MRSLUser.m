@@ -7,20 +7,23 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.auth_token = @"auth_token",
 	.bio = @"bio",
 	.creationDate = @"creationDate",
+	.dateFollowed = @"dateFollowed",
 	.draft_count = @"draft_count",
 	.email = @"email",
 	.facebook_uid = @"facebook_uid",
 	.first_name = @"first_name",
+	.followed_users_count = @"followed_users_count",
+	.follower_count = @"follower_count",
+	.following = @"following",
 	.industry = @"industry",
-	.item_count = @"item_count",
 	.last_name = @"last_name",
-	.like_count = @"like_count",
+	.liked_items_count = @"liked_items_count",
+	.morsel_count = @"morsel_count",
 	.profilePhotoFull = @"profilePhotoFull",
 	.profilePhotoLarge = @"profilePhotoLarge",
 	.profilePhotoThumb = @"profilePhotoThumb",
 	.profilePhotoURL = @"profilePhotoURL",
 	.staff = @"staff",
-	.title = @"title",
 	.twitter_username = @"twitter_username",
 	.userID = @"userID",
 	.username = @"username",
@@ -30,6 +33,7 @@ const struct MRSLUserRelationships MRSLUserRelationships = {
 	.activities = @"activities",
 	.comments = @"comments",
 	.morsels = @"morsels",
+	.tags = @"tags",
 };
 
 const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
@@ -66,13 +70,28 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"item_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"item_count"];
+	if ([key isEqualToString:@"followed_users_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"followed_users_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"like_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
+	if ([key isEqualToString:@"follower_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"follower_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"followingValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"following"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"liked_items_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"liked_items_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"morsel_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"morsel_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -108,6 +127,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 @dynamic creationDate;
+
+
+
+
+
+
+@dynamic dateFollowed;
 
 
 
@@ -161,34 +187,86 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
+@dynamic followed_users_count;
+
+
+
+- (int32_t)followed_users_countValue {
+	NSNumber *result = [self followed_users_count];
+	return [result intValue];
+}
+
+- (void)setFollowed_users_countValue:(int32_t)value_ {
+	[self setFollowed_users_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveFollowed_users_countValue {
+	NSNumber *result = [self primitiveFollowed_users_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveFollowed_users_countValue:(int32_t)value_ {
+	[self setPrimitiveFollowed_users_count:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic follower_count;
+
+
+
+- (int32_t)follower_countValue {
+	NSNumber *result = [self follower_count];
+	return [result intValue];
+}
+
+- (void)setFollower_countValue:(int32_t)value_ {
+	[self setFollower_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveFollower_countValue {
+	NSNumber *result = [self primitiveFollower_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveFollower_countValue:(int32_t)value_ {
+	[self setPrimitiveFollower_count:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic following;
+
+
+
+- (BOOL)followingValue {
+	NSNumber *result = [self following];
+	return [result boolValue];
+}
+
+- (void)setFollowingValue:(BOOL)value_ {
+	[self setFollowing:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveFollowingValue {
+	NSNumber *result = [self primitiveFollowing];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveFollowingValue:(BOOL)value_ {
+	[self setPrimitiveFollowing:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
 @dynamic industry;
 
-
-
-
-
-
-@dynamic item_count;
-
-
-
-- (int32_t)item_countValue {
-	NSNumber *result = [self item_count];
-	return [result intValue];
-}
-
-- (void)setItem_countValue:(int32_t)value_ {
-	[self setItem_count:[NSNumber numberWithInt:value_]];
-}
-
-- (int32_t)primitiveItem_countValue {
-	NSNumber *result = [self primitiveItem_count];
-	return [result intValue];
-}
-
-- (void)setPrimitiveItem_countValue:(int32_t)value_ {
-	[self setPrimitiveItem_count:[NSNumber numberWithInt:value_]];
-}
 
 
 
@@ -201,26 +279,52 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic like_count;
+@dynamic liked_items_count;
 
 
 
-- (int32_t)like_countValue {
-	NSNumber *result = [self like_count];
+- (int32_t)liked_items_countValue {
+	NSNumber *result = [self liked_items_count];
 	return [result intValue];
 }
 
-- (void)setLike_countValue:(int32_t)value_ {
-	[self setLike_count:[NSNumber numberWithInt:value_]];
+- (void)setLiked_items_countValue:(int32_t)value_ {
+	[self setLiked_items_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int32_t)primitiveLike_countValue {
-	NSNumber *result = [self primitiveLike_count];
+- (int32_t)primitiveLiked_items_countValue {
+	NSNumber *result = [self primitiveLiked_items_count];
 	return [result intValue];
 }
 
-- (void)setPrimitiveLike_countValue:(int32_t)value_ {
-	[self setPrimitiveLike_count:[NSNumber numberWithInt:value_]];
+- (void)setPrimitiveLiked_items_countValue:(int32_t)value_ {
+	[self setPrimitiveLiked_items_count:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic morsel_count;
+
+
+
+- (int32_t)morsel_countValue {
+	NSNumber *result = [self morsel_count];
+	return [result intValue];
+}
+
+- (void)setMorsel_countValue:(int32_t)value_ {
+	[self setMorsel_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveMorsel_countValue {
+	NSNumber *result = [self primitiveMorsel_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveMorsel_countValue:(int32_t)value_ {
+	[self setPrimitiveMorsel_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -276,13 +380,6 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 - (void)setPrimitiveStaffValue:(BOOL)value_ {
 	[self setPrimitiveStaff:[NSNumber numberWithBool:value_]];
 }
-
-
-
-
-
-@dynamic title;
-
 
 
 
@@ -354,6 +451,19 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"morsels"];
   
 	[self didAccessValueForKey:@"morsels"];
+	return result;
+}
+	
+
+@dynamic tags;
+
+	
+- (NSMutableSet*)tagsSet {
+	[self willAccessValueForKey:@"tags"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"tags"];
+  
+	[self didAccessValueForKey:@"tags"];
 	return result;
 }
 	
