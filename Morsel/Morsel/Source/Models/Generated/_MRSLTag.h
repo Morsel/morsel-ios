@@ -5,18 +5,22 @@
 
 
 extern const struct MRSLTagAttributes {
-	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *creationDate;
+	__unsafe_unretained NSString *lastUpdatedDate;
 	__unsafe_unretained NSString *tagID;
 } MRSLTagAttributes;
 
 extern const struct MRSLTagRelationships {
-	__unsafe_unretained NSString *items;
+	__unsafe_unretained NSString *keyword;
+	__unsafe_unretained NSString *user;
 } MRSLTagRelationships;
 
 extern const struct MRSLTagFetchedProperties {
 } MRSLTagFetchedProperties;
 
-@class MRSLItem;
+@class MRSLKeyword;
+@class MRSLUser;
+
 
 
 
@@ -34,11 +38,21 @@ extern const struct MRSLTagFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong) NSDate* creationDate;
 
 
 
-//- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateCreationDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* lastUpdatedDate;
+
+
+
+//- (BOOL)validateLastUpdatedDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -58,9 +72,16 @@ extern const struct MRSLTagFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *items;
+@property (nonatomic, strong) MRSLKeyword *keyword;
 
-- (NSMutableSet*)itemsSet;
+//- (BOOL)validateKeyword:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, strong) MRSLUser *user;
+
+//- (BOOL)validateUser:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -70,18 +91,19 @@ extern const struct MRSLTagFetchedProperties {
 
 @interface _MRSLTag (CoreDataGeneratedAccessors)
 
-- (void)addItems:(NSSet*)value_;
-- (void)removeItems:(NSSet*)value_;
-- (void)addItemsObject:(MRSLItem*)value_;
-- (void)removeItemsObject:(MRSLItem*)value_;
-
 @end
 
 @interface _MRSLTag (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSString*)primitiveName;
-- (void)setPrimitiveName:(NSString*)value;
+- (NSDate*)primitiveCreationDate;
+- (void)setPrimitiveCreationDate:(NSDate*)value;
+
+
+
+
+- (NSDate*)primitiveLastUpdatedDate;
+- (void)setPrimitiveLastUpdatedDate:(NSDate*)value;
 
 
 
@@ -96,8 +118,13 @@ extern const struct MRSLTagFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveItems;
-- (void)setPrimitiveItems:(NSMutableSet*)value;
+- (MRSLKeyword*)primitiveKeyword;
+- (void)setPrimitiveKeyword:(MRSLKeyword*)value;
+
+
+
+- (MRSLUser*)primitiveUser;
+- (void)setPrimitiveUser:(MRSLUser*)value;
 
 
 @end

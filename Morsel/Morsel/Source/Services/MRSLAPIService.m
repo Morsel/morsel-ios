@@ -18,6 +18,8 @@
 #import "MRSLItem.h"
 #import "MRSLNotification.h"
 #import "MRSLMorsel.h"
+#import "MRSLKeyword.h"
+#import "MRSLTag.h"
 #import "MRSLUser.h"
 
 @interface MRSLAPIService ()
@@ -120,10 +122,8 @@
                             parameters:parameters
                                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                    DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-
                                    [MRSLUser createOrUpdateUserFromResponseObject:responseObject[@"data"]
                                                          shouldMorselNotification:YES];
-
                                    if (successOrNil) successOrNil(responseObject[@"data"]);
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                    [self reportFailure:failureOrNil
@@ -139,17 +139,17 @@
                failure:(MRSLAPIFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:YES];
+                                              requiresAuthentication:([user isCurrentUser])];
 
     NSString *userEndpoint = ([user isCurrentUser]) ? @"users/me" : [NSString stringWithFormat:@"users/%i", user.userIDValue];
 
+    NSString *authToken = [user.auth_token copy];
     [[MRSLAPIClient sharedClient] GET:userEndpoint
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-
                                   [user MR_importValuesForKeysWithObject:responseObject[@"data"]];
-
+                                  if ([user isCurrentUser] && authToken && !user.auth_token) user.auth_token = authToken;
                                   if (successOrNil) successOrNil(responseObject);
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
@@ -164,24 +164,36 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[user]
                                               requiresAuthentication:YES];
+    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+    NSString *urlString = [[NSURL URLWithString:[NSString stringWithFormat:@"users/%i", user.userIDValue] relativeToURL:[[MRSLAPIClient sharedClient] baseURL]] absoluteString];
+    NSMutableURLRequest *request = [requestSerializer multipartFormRequestWithMethod:@"PUT"
+                                                                           URLString:urlString
+                                                                          parameters:parameters
+                                                           constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                                               if (user.profilePhotoFull) {
+                                                                   [formData appendPartWithFileData:user.profilePhotoFull
+                                                                                               name:@"user[photo]"
+                                                                                           fileName:@"photo.jpg"
+                                                                                           mimeType:@"image/jpeg"];
+                                                               }
+                                                           }];
 
-    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"users/%i", user.userIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-
-                                  [user MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                  dispatch_async(dispatch_get_main_queue(), ^{
-                                      [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidUpdateUserNotification
-                                                                                          object:user];
-                                  });
-
-                                  if (successOrNil) successOrNil(responseObject);
-                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                  [self reportFailure:failureOrNil
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    NSString *authToken = [user.auth_token copy];
+    AFHTTPRequestOperation *operation = [[MRSLAPIClient sharedClient] HTTPRequestOperationWithRequest:request
+                                                                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                                                                                  if (user.managedObjectContext) {
+                                                                                                      [user MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                                                                      if ([user isCurrentUser] && authToken && !user.auth_token) user.auth_token = authToken;
+                                                                                                      [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+                                                                                                  }
+                                                                                                  if (successOrNil) successOrNil(responseObject);
+                                                                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                                  [self reportFailure:failureOrNil
+                                                                                                            withError:error
+                                                                                                             inMethod:NSStringFromSelector(_cmd)];
+                                                                                              }];
+    [[MRSLAPIClient sharedClient].operationQueue addOperation:operation];
 }
 
 #pragma mark - Authorization Services
@@ -249,6 +261,56 @@
 
 #pragma mark - Activity Services
 
+- (void)getLikedItemsForUser:(MRSLUser *)user
+                       maxID:(NSNumber *)maxOrNil
+                   orSinceID:(NSNumber *)sinceOrNil
+                    andCount:(NSNumber *)countOrNil
+                     success:(MRSLAPIArrayBlock)successOrNil
+                     failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"type": @"Item"}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:NO];
+    if (maxOrNil && sinceOrNil) {
+        DDLogError(@"Attempting to call user likes with both max and since IDs set. Ignoring both values.");
+    } else if (maxOrNil && !sinceOrNil) {
+        parameters[@"max_id"] = maxOrNil;
+    } else if (!maxOrNil && sinceOrNil) {
+        parameters[@"since_id"] = sinceOrNil;
+    }
+    if (countOrNil) parameters[@"count"] = countOrNil;
+
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/likeables", user.userIDValue]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+                                      __block NSMutableArray *itemIDs = [NSMutableArray array];
+                                      NSArray *likeablesArray = responseObject[@"data"];
+                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                                          [likeablesArray enumerateObjectsUsingBlock:^(NSDictionary *itemDictionary, NSUInteger idx, BOOL *stop) {
+                                              MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                                                                               withValue:itemDictionary[@"morsel"][@"id"]
+                                                                                                               inContext:localContext];
+                                              if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
+                                              [morsel MR_importValuesForKeysWithObject:itemDictionary[@"morsel"]];
+                                              MRSLItem *item = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                                       withValue:itemDictionary[@"id"]
+                                                                                       inContext:localContext];
+                                              if (!item) item = [MRSLItem MR_createInContext:localContext];
+                                              [item MR_importValuesForKeysWithObject:itemDictionary];
+                                              [itemIDs addObject:itemDictionary[@"id"]];
+                                          }];
+                                      } completion:^(BOOL success, NSError *error) {
+                                          if (successOrNil) successOrNil(itemIDs);
+                                      }];
+                                  }
+                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                  [self reportFailure:failureOrNil
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
 - (void)getUserActivitiesForUser:(MRSLUser *)user
                            maxID:(NSNumber *)maxOrNil
                        orSinceID:(NSNumber *)sinceOrNil
@@ -281,6 +343,7 @@
                                                                                                    inContext:localContext];
                                               if (!activity) activity = [MRSLActivity MR_createInContext:localContext];
                                               [activity MR_importValuesForKeysWithObject:activityDictionary];
+                                              [localContext MR_saveOnlySelfAndWait];
                                               [activityIDs addObject:activityDictionary[@"id"]];
                                           }];
                                       } completion:^(BOOL success, NSError *error) {
@@ -327,6 +390,7 @@
                                                                                                                inContext:localContext];
                                               if (!notification) notification = [MRSLNotification MR_createInContext:localContext];
                                               [notification MR_importValuesForKeysWithObject:notificationDictionary];
+                                              [localContext MR_saveOnlySelfAndWait];
                                               [notificationIDs addObject:notificationDictionary[@"id"]];
                                           }];
                                       } completion:^(BOOL success, NSError *error) {
@@ -456,7 +520,7 @@
           failure:(MRSLAPIFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:YES];
+                                              requiresAuthentication:NO];
 
     int morselID = morsel.morselIDValue;
     __block MRSLMorsel *morselToGet = morsel;
@@ -646,7 +710,7 @@
         failure:(MRSLAPIFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:YES];
+                                              requiresAuthentication:NO];
 
     int itemID = item.itemIDValue;
     __block MRSLItem *itemToGet = item;
@@ -677,7 +741,7 @@
              failure:(MRSLAPIFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:YES];
+                                              requiresAuthentication:NO];
 
     [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i/likers", item.itemIDValue]
                            parameters:parameters
@@ -689,8 +753,14 @@
 
                                       MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                                                withValue:userDictionary[@"id"]];
-                                      if (!user) user = [MRSLUser MR_createEntity];
+                                      NSString *authToken = nil;
+                                      if (!user) {
+                                          user = [MRSLUser MR_createEntity];
+                                      } else {
+                                          authToken = [user.auth_token copy];
+                                      }
                                       [user MR_importValuesForKeysWithObject:userDictionary];
+                                      if (!user.auth_token && authToken) user.auth_token = authToken;
                                       [itemLikers addObject:user];
                                   }];
                                   if (successOrNil) successOrNil(itemLikers);
@@ -858,7 +928,7 @@
                  failure:(MRSLAPIFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:YES];
+                                              requiresAuthentication:NO];
     if (maxOrNil && sinceOrNil) {
         DDLogError(@"Attempting to call feed with both max and since IDs set. Ignoring both values.");
     } else if (maxOrNil && !sinceOrNil) {
@@ -908,7 +978,7 @@
             failure:(MRSLAPIFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:YES];
+                                              requiresAuthentication:NO];
 
     [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i/comments", item.itemIDValue]
                            parameters:parameters
@@ -964,21 +1034,337 @@
                                }];
 }
 
+#pragma mark - Tag Services
+
+- (void)getCuisinesWithSuccess:(MRSLAPIArrayBlock)successOrNil
+                       failure:(MRSLAPIFailureBlock)failureOrNil {
+    [self getKeywordsOfType:MRSLKeywordCuisinesType
+                    success:successOrNil
+                    failure:failureOrNil];
+}
+
+- (void)getSpecialtiesWithSuccess:(MRSLAPIArrayBlock)successOrNil
+                          failure:(MRSLAPIFailureBlock)failureOrNil {
+    [self getKeywordsOfType:MRSLKeywordSpecialtiesType
+                    success:successOrNil
+                    failure:failureOrNil];
+}
+
+- (void)getKeywordsOfType:(NSString *)tagType
+                  success:(MRSLAPIArrayBlock)successOrNil
+                  failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:NO];
+    [[MRSLAPIClient sharedClient] GET:tagType
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  [self importKeywordsWithDictionary:responseObject
+                                                             success:successOrNil];
+                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                  [self reportFailure:failureOrNil
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
+- (void)getCuisineUsers:(MRSLKeyword *)cuisine
+                success:(MRSLAPIArrayBlock)successOrNil
+                failure:(MRSLAPIFailureBlock)failureOrNil {
+    [self getTagUsersForKeyword:cuisine
+                         ofType:MRSLKeywordCuisinesType
+                        success:successOrNil
+                        failure:failureOrNil];
+}
+
+- (void)getSpecialtyUsers:(MRSLKeyword *)specialty
+                  success:(MRSLAPIArrayBlock)successOrNil
+                  failure:(MRSLAPIFailureBlock)failureOrNil {
+    [self getTagUsersForKeyword:specialty
+                         ofType:MRSLKeywordSpecialtiesType
+                        success:successOrNil
+                        failure:failureOrNil];
+}
+
+- (void)getTagUsersForKeyword:(MRSLKeyword *)keyword
+                       ofType:(NSString *)keywordType
+                      success:(MRSLAPIArrayBlock)successOrNil
+                      failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:NO];
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"%@/%i/users", keywordType, keyword.keywordIDValue]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  [self importUsersWithDictionary:responseObject
+                                                          success:successOrNil];
+                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                  [self reportFailure:failureOrNil
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
+- (void)getUserCuisines:(MRSLUser *)user
+                success:(MRSLAPIArrayBlock)successOrNil
+                failure:(MRSLAPIFailureBlock)failureOrNil {
+    [self getUserTags:user
+        ofKeywordType:MRSLKeywordCuisinesType
+              success:successOrNil
+              failure:failureOrNil];
+}
+
+- (void)getUserSpecialties:(MRSLUser *)user
+                   success:(MRSLAPIArrayBlock)successOrNil
+                   failure:(MRSLAPIFailureBlock)failureOrNil {
+    [self getUserTags:user
+        ofKeywordType:MRSLKeywordSpecialtiesType
+              success:successOrNil
+              failure:failureOrNil];
+}
+
+- (void)getUserTags:(MRSLUser *)user
+      ofKeywordType:(NSString *)keywordType
+            success:(MRSLAPIArrayBlock)successOrNil
+            failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:NO];
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/%@", user.userIDValue, keywordType]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  [self importTagsWithDictionary:responseObject
+                                                         success:successOrNil];
+                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                  [self reportFailure:failureOrNil
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
+- (void)createTagForKeyword:(MRSLKeyword *)keyword
+                    success:(MRSLAPISuccessBlock)successOrNil
+                    failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"tag": @{@"keyword_id": keyword.keywordID}}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"users/%i/tags", [MRSLUser currentUser].userIDValue]
+                            parameters:parameters
+                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                   MRSLTag *tag = [MRSLTag MR_findFirstByAttribute:MRSLTagAttributes.tagID
+                                                                                     withValue:responseObject[@"data"][@"id"]];
+                                   if (!tag) tag = [MRSLTag MR_createEntity];
+                                   [tag MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                   [tag.managedObjectContext MR_saveOnlySelfAndWait];
+                                   if (successOrNil) successOrNil(responseObject);
+                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                   [self reportFailure:failureOrNil
+                                             withError:error
+                                              inMethod:NSStringFromSelector(_cmd)];
+                               }];
+}
+
+- (void)deleteTag:(MRSLTag *)tag
+          success:(MRSLDataSuccessBlock)successOrNil
+          failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    int tagID = tag.tagIDValue;
+    [tag MR_deleteEntity];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+
+    [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"users/%i/tags/%i", [MRSLUser currentUser].userIDValue, tagID]
+                              parameters:parameters
+                                 success:nil
+                                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                     if ([operation.response statusCode] == 200) {
+                                         if (successOrNil) successOrNil(YES);
+                                     } else {
+                                         [self reportFailure:failureOrNil
+                                                   withError:error
+                                                    inMethod:NSStringFromSelector(_cmd)];
+                                     }
+                                 }];
+}
+
+#pragma mark - Following Services
+
+- (void)followUser:(MRSLUser *)user
+      shouldFollow:(BOOL)shouldFollow
+         didFollow:(MRSLAPIFollowBlock)followBlockOrNil
+           failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    if (shouldFollow) {
+        user.follower_count = @(user.follower_countValue + 1);
+        [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"users/%i/follow", user.userIDValue]
+                                parameters:parameters
+                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                       if (followBlockOrNil) followBlockOrNil(YES);
+                                   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                       MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                       if ([operation.response statusCode] == 200 || [serviceErrorInfo.errorInfo isEqualToString:@"User: already followed"]) {
+                                           if (followBlockOrNil) followBlockOrNil(YES);
+                                       } else {
+                                           [self reportFailure:failureOrNil
+                                                     withError:error
+                                                      inMethod:NSStringFromSelector(_cmd)];
+                                       }
+                                   }];
+    } else {
+        user.follower_count = @(user.follower_countValue - 1);
+        [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"users/%i/follow", user.userIDValue]
+                                  parameters:parameters
+                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                         if (followBlockOrNil) followBlockOrNil(NO);
+                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                         if ([operation.response statusCode] == 200  || [serviceErrorInfo.errorInfo isEqualToString:@"User: not followed"]) {
+                                             if (followBlockOrNil) followBlockOrNil(NO);
+                                         } else {
+                                             [self reportFailure:failureOrNil
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }
+                                     }];
+    }
+}
+
+- (void)getUserFollowers:(MRSLUser *)user
+               withMaxID:(NSNumber *)maxOrNil
+               orSinceID:(NSNumber *)sinceOrNil
+                andCount:(NSNumber *)countOrNil
+                 success:(MRSLAPIArrayBlock)successOrNil
+                 failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:NO];
+    if (maxOrNil && sinceOrNil) {
+        DDLogError(@"Attempting to call user followers with both max and since IDs set. Ignoring both values.");
+    } else if (maxOrNil && !sinceOrNil) {
+        parameters[@"max_id"] = maxOrNil;
+    } else if (!maxOrNil && sinceOrNil) {
+        parameters[@"since_id"] = sinceOrNil;
+    }
+    if (countOrNil) parameters[@"count"] = countOrNil;
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/followers", user.userIDValue]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  [self importUsersWithDictionary:responseObject
+                                                          success:successOrNil];
+                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                  [self reportFailure:failureOrNil
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
+- (void)getUserFollowables:(MRSLUser *)user
+                 withMaxID:(NSNumber *)maxOrNil
+                 orSinceID:(NSNumber *)sinceOrNil
+                  andCount:(NSNumber *)countOrNil
+                   success:(MRSLAPIArrayBlock)successOrNil
+                   failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"type": @"User"}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:NO];
+    if (maxOrNil && sinceOrNil) {
+        DDLogError(@"Attempting to call user followables with both max and since IDs set. Ignoring both values.");
+    } else if (maxOrNil && !sinceOrNil) {
+        parameters[@"max_id"] = maxOrNil;
+    } else if (!maxOrNil && sinceOrNil) {
+        parameters[@"since_id"] = sinceOrNil;
+    }
+    if (countOrNil) parameters[@"count"] = countOrNil;
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/followables", user.userIDValue]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  [self importUsersWithDictionary:responseObject
+                                                          success:successOrNil];
+                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                  [self reportFailure:failureOrNil
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
+#pragma mark - Importing Helpers
+
+- (void)importTagsWithDictionary:(NSDictionary *)responseDictionary
+                             success:(MRSLAPIArrayBlock)successOrNil {
+    __block NSMutableArray *tagIDs = [NSMutableArray array];
+    NSArray *tagArray = responseDictionary[@"data"];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [tagArray enumerateObjectsUsingBlock:^(NSDictionary *tagDictionary, NSUInteger idx, BOOL *stop) {
+            MRSLTag *tag = [MRSLTag MR_findFirstByAttribute:MRSLTagAttributes.tagID
+                                                              withValue:tagDictionary[@"id"]
+                                                              inContext:localContext];
+            if (!tag) tag = [MRSLTag MR_createInContext:localContext];
+            [tag MR_importValuesForKeysWithObject:tagDictionary];
+            [tagIDs addObject:tagDictionary[@"id"]];
+        }];
+    } completion:^(BOOL success, NSError *error) {
+        if (successOrNil) successOrNil(tagIDs);
+    }];
+}
+
+- (void)importKeywordsWithDictionary:(NSDictionary *)responseDictionary
+                             success:(MRSLAPIArrayBlock)successOrNil {
+    __block NSMutableArray *keywordIDs = [NSMutableArray array];
+    NSArray *keywordArray = responseDictionary[@"data"];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [keywordArray enumerateObjectsUsingBlock:^(NSDictionary *keywordDictionary, NSUInteger idx, BOOL *stop) {
+            MRSLKeyword *keyword = [MRSLKeyword MR_findFirstByAttribute:MRSLKeywordAttributes.keywordID
+                                                              withValue:keywordDictionary[@"id"]
+                                                              inContext:localContext];
+            if (!keyword) keyword = [MRSLKeyword MR_createInContext:localContext];
+            [keyword MR_importValuesForKeysWithObject:keywordDictionary];
+            [keywordIDs addObject:keywordDictionary[@"id"]];
+        }];
+    } completion:^(BOOL success, NSError *error) {
+        if (successOrNil) successOrNil(keywordIDs);
+    }];
+}
+
+- (void)importUsersWithDictionary:(NSDictionary *)responseDictionary
+                          success:(MRSLAPIArrayBlock)successOrNil {
+    if ([responseDictionary[@"data"] isKindOfClass:[NSArray class]]) {
+        __block NSMutableArray *userIDs = [NSMutableArray array];
+        NSArray *userArray = responseDictionary[@"data"];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            [userArray enumerateObjectsUsingBlock:^(NSDictionary *userDictionary, NSUInteger idx, BOOL *stop) {
+                MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                                                                 withValue:userDictionary[@"id"]
+                                                                                 inContext:localContext];
+                if (!user) user = [MRSLUser MR_createInContext:localContext];
+                NSString *authToken = user.auth_token;
+                [user MR_importValuesForKeysWithObject:userDictionary];
+                if ([user isCurrentUser] && authToken && !user.auth_token) user.auth_token = authToken;
+                [userIDs addObject:userDictionary[@"id"]];
+            }];
+        } completion:^(BOOL success, NSError *error) {
+            if (successOrNil) successOrNil(userIDs);
+        }];
+    }
+}
+
 #pragma mark - General Methods
 
 - (void)reportFailure:(MRSLAPIFailureBlock)failureOrNil
             withError:(NSError *)error
              inMethod:(NSString *)methodName {
     MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-    
+
     if (!serviceErrorInfo) {
         DDLogError(@"Request error in method (%@) with userInfo: %@", methodName, error.userInfo);
     } else {
         DDLogError(@"Request error in method (%@) with serviceInfo: %@", methodName, [serviceErrorInfo errorInfo]);
     }
     
-    if (failureOrNil)
-        failureOrNil(error);
+    if (failureOrNil) failureOrNil(error);
 }
 
 @end

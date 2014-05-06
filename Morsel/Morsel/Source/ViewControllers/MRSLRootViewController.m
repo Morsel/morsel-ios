@@ -10,6 +10,7 @@
 
 #import "MRSLFeedViewController.h"
 #import "MRSLMorselAddViewController.h"
+#import "MRSLProfileViewController.h"
 
 #import "MRSLMenuBarView.h"
 
@@ -93,11 +94,10 @@
         [mixpanel.people set:@{@"first_name": NSNullIfNil(currentUser.first_name),
                                @"last_name": NSNullIfNil(currentUser.last_name),
                                @"created_at": NSNullIfNil(currentUser.creationDate),
-                               @"title": NSNullIfNil(currentUser.title),
                                @"username": NSNullIfNil(currentUser.username)}];
         [_appDelegate.apiService getUserProfile:currentUser
-                                              success:nil
-                                              failure:nil];
+                                        success:nil
+                                        failure:nil];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                             object:nil];
@@ -133,12 +133,23 @@
 
 - (void)displayUserProfile:(NSNotification *)notification {
     UINavigationController *userProfileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
-    MRSLBaseViewController *profileViewController = (MRSLBaseViewController *)[userProfileNC topViewController];
+    MRSLBaseViewController *profileViewController = (MRSLBaseViewController *)[[userProfileNC viewControllers] firstObject];
     if (notification.object) [profileViewController setupWithUserInfo:notification.object];
-
-    [self presentViewController:userProfileNC
-                       animated:YES
-                     completion:nil];
+    if (self.presentedViewController) {
+        if ([self.presentedViewController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController *presentedNavigationController = (UINavigationController *)self.presentedViewController;
+            MRSLBaseViewController *currentBaseViewController = (MRSLBaseViewController *)[[presentedNavigationController viewControllers] firstObject];
+            UIViewController *topPresentingViewController = [currentBaseViewController topPresentingViewController];
+            if ([topPresentingViewController isKindOfClass:[UINavigationController class]]) {
+                [(UINavigationController *)topPresentingViewController pushViewController:profileViewController
+                                                                                 animated:YES];
+            }
+        }
+    } else {
+        [self presentViewController:userProfileNC
+                           animated:YES
+                         completion:nil];
+    }
 }
 
 - (void)showMenuBar {
@@ -214,8 +225,8 @@
 - (void)displayMenuBar {
     [UIView animateWithDuration:.2f
                      animations:^{
-        [_menuBarView setX:(_shouldMenuBarOpen) ? 0.f : -[_menuBarView getWidth]];
-    }];
+                         [_menuBarView setX:(_shouldMenuBarOpen) ? 0.f : -[_menuBarView getWidth]];
+                     }];
 }
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName

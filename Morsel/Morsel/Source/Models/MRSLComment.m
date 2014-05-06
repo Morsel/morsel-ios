@@ -24,6 +24,7 @@
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
+    if ([data[@"commentable_type"] isEqualToString:@"Item"]) [self importItem:data];
 }
 
 - (NSDictionary *)objectToJSON {
@@ -36,6 +37,18 @@
                                                             forKey:@"comment"];
 
     return commentJSON;
+}
+
+- (void)importItem:(NSDictionary *)commentableItemDictionary {
+    if (![commentableItemDictionary isEqual:[NSNull null]]) {
+        MRSLItem *item = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                             withValue:commentableItemDictionary[@"commentable_id"]
+                                                             inContext:self.managedObjectContext];
+        if (item) {
+            [self setItem:item];
+            [item addCommentsObject:self];
+        }
+    }
 }
 
 @end

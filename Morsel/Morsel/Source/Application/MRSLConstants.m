@@ -8,6 +8,8 @@
 
 #import "MRSLConstants.h"
 
+#pragma mark - Notification Constants
+
 NSString *const MRSLServiceDidLogInUserNotification = @"MRSLServiceDidLogInUserNotification";
 NSString *const MRSLServiceShouldLogOutUserNotification = @"MRSLServiceShouldLogOutUserNotification";
 NSString *const MRSLServiceDidLogOutUserNotification = @"MRSLServiceDidLogOutUserNotification";
@@ -35,6 +37,13 @@ NSString *const MRSLAppShouldDisplayUserProfileNotification = @"MRSLAppShouldDis
 NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle = @"MRSLAppDidRequestNewPreferredStatusBarStyle";
 
 NSString *const MRSLAppTouchPhaseDidBeginNotification = @"MRSLAppTouchPhaseDidBeginNotification";
+
+#pragma mark - Keyword Constants
+
+NSString *const MRSLKeywordCuisinesType = @"cuisines";
+NSString *const MRSLKeywordSpecialtiesType = @"specialties";
+
+#pragma mark - Debugging Constants
 
 #ifdef DEBUG
 int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;

@@ -18,6 +18,7 @@ const struct MRSLItemAttributes MRSLItemAttributes = {
 	.lastUpdatedDate = @"lastUpdatedDate",
 	.like_count = @"like_count",
 	.liked = @"liked",
+	.likedDate = @"likedDate",
 	.localUUID = @"localUUID",
 	.photo_processing = @"photo_processing",
 	.sort_order = @"sort_order",
@@ -28,7 +29,6 @@ const struct MRSLItemRelationships MRSLItemRelationships = {
 	.activities = @"activities",
 	.comments = @"comments",
 	.morsel = @"morsel",
-	.tags = @"tags",
 };
 
 const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
@@ -343,6 +343,13 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 
 
+@dynamic likedDate;
+
+
+
+
+
+
 @dynamic localUUID;
 
 
@@ -437,19 +444,6 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 @dynamic morsel;
 
-	
-
-@dynamic tags;
-
-	
-- (NSMutableSet*)tagsSet {
-	[self willAccessValueForKey:@"tags"];
-  
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"tags"];
-  
-	[self didAccessValueForKey:@"tags"];
-	return result;
-}
 	
 
 

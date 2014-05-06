@@ -59,9 +59,14 @@
     if (![data[@"creator_id"] isEqual:[NSNull null]] &&
         !self.creator) {
         NSNumber *creatorID = data[@"creator_id"];
-        self.creator = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+        MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                withValue:creatorID
                                                inContext:self.managedObjectContext];
+        if (!user) {
+            user = [MRSLUser MR_createEntity];
+            user.userID = data[@"creator_id"];
+        }
+        self.creator = user;
     }
 
     if (![data[@"created_at"] isEqual:[NSNull null]]) {

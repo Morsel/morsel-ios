@@ -29,8 +29,10 @@
         return @"liked";
     } else if ([self.actionType isEqualToString:@"Comment"]) {
         return @"commented on";
+    } else if ([self.actionType isEqualToString:@"Follow"]) {
+        return @"followed";
     } else {
-        return nil;
+        return [NSString stringWithFormat:@"%@ed", self.actionType];
     }
 }
 

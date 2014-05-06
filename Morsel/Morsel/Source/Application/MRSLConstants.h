@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma mark - Notification Constants
+
 extern NSString *const MRSLServiceDidLogInUserNotification;
 extern NSString *const MRSLServiceShouldLogOutUserNotification;
 extern NSString *const MRSLServiceDidLogOutUserNotification;
@@ -34,6 +36,13 @@ extern NSString *const MRSLAppShouldDisplayUserProfileNotification;
 
 extern NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle;
 extern NSString *const MRSLAppTouchPhaseDidBeginNotification;
+
+#pragma mark - Keyword Constants
+
+extern NSString *const MRSLKeywordCuisinesType;
+extern NSString *const MRSLKeywordSpecialtiesType;
+
+#pragma mark - Debugging Constants
 
 extern int LOG_LEVEL_DEF;
 

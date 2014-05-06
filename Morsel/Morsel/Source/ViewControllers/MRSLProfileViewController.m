@@ -9,41 +9,43 @@
 #import "MRSLProfileViewController.h"
 
 #import "MRSLArrayDataSource.h"
+#import "MRSLKeywordUsersViewController.h"
 #import "MRSLMorselEditViewController.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
-#import "MRSLUserActivityViewController.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLProfileEditViewController.h"
+#import "MRSLProfileStatsViewController.h"
+#import "MRSLProfileStatsTagsViewController.h"
+#import "MRSLUserActivityViewController.h"
 #import "MRSLUserMorselsFeedViewController.h"
+#import "MRSLUserFollowListViewController.h"
+#import "MRSLUserTagListViewController.h"
 
 #import "MRSLMorsel.h"
+#import "MRSLTag.h"
 #import "MRSLUser.h"
 
 @interface MRSLProfileViewController ()
 <NSFetchedResultsControllerDelegate,
-UICollectionViewDelegate>
+UICollectionViewDelegate,
+UIScrollViewDelegate,
+MRSLProfileStatsViewControllerDelegate,
+MRSLProfileStatsTagsViewControllerDelegate>
 
 @property (nonatomic) BOOL refreshing;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
+@property (nonatomic) BOOL wantsToShowFollowing;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *profileCollectionView;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userBioLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userHandleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *itemCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *followersCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *followingCountLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userTitleLabel;
-@property (weak, nonatomic) IBOutlet UIButton *followButton;
 @property (weak, nonatomic) IBOutlet UIView *nullStateView;
-
-@property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet UIScrollView *userContentScrollView;
+@property (weak, nonatomic) IBOutlet UIPageControl *userContentPageControl;
 
 @property (strong, nonatomic) NSMutableArray *morselIDs;
 @property (strong, nonatomic) NSFetchedResultsController *userMorselsFetchedResultsController;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSString *keywordType;
 
 @property (strong, nonatomic) MRSLArrayDataSource *arrayDataSource;
 
@@ -68,6 +70,16 @@ UICollectionViewDelegate>
     [super viewDidLoad];
 
     if (!_user) self.user = [MRSLUser currentUser];
+
+    for (UIViewController *childVC in self.childViewControllers) {
+        if ([childVC isKindOfClass:[MRSLProfileStatsViewController class]]) {
+            [(MRSLProfileStatsViewController *)childVC setUser:_user];
+            [(MRSLProfileStatsViewController *)childVC setDelegate:self];
+        } else if ([childVC isKindOfClass:[MRSLProfileStatsTagsViewController class]]) {
+            [(MRSLProfileStatsTagsViewController *)childVC setUser:_user];
+            [(MRSLProfileStatsTagsViewController *)childVC setDelegate:self];
+        }
+    }
 
     self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array];
 
@@ -95,7 +107,6 @@ UICollectionViewDelegate>
 
     if ([_user isCurrentUser]) {
         self.title = @"My Profile";
-        self.followButton.hidden = YES;
         UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-settings"]
                                                                       style:UIBarButtonItemStyleBordered
                                                                      target:self
@@ -110,8 +121,6 @@ UICollectionViewDelegate>
         [self populateContent];
         [self refreshContent];
     }
-
-    [self populateUserContent];
 }
 
 #pragma mark - Action Methods
@@ -121,48 +130,12 @@ UICollectionViewDelegate>
                                                         object:@(YES)];
 }
 
-- (IBAction)displayLikes {
-    [self performSegueWithIdentifier:@"seg_ProfileActivity"
-                              sender:nil];
-}
-
-- (IBAction)displayFollowers {
-    // Empty on purpose
-}
-
-- (IBAction)displayFollowing {
-    // Empty on purpose
-}
-
 - (void)displayEditProfile {
     [self performSegueWithIdentifier:@"seg_ProfileEdit"
                               sender:nil];
 }
 
-#pragma mark - Segue Methods
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue
-                 sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"seg_ProfileEdit"]) {
-        MRSLProfileEditViewController *profileEditVC = [segue destinationViewController];
-        profileEditVC.user = _user;
-    } else if ([segue.identifier isEqualToString:@"seg_ProfileActivity"]) {
-        MRSLUserActivityViewController *profileActivityVC = [segue destinationViewController];
-        profileActivityVC.user = _user;
-    }
-}
-
 #pragma mark - Private Methods
-
-- (void)populateUserContent {
-    self.profileImageView.user = _user;
-    self.userNameLabel.text = _user.fullName;
-    self.userTitleLabel.text = _user.title;
-    self.userBioLabel.text = _user.bio;
-    self.userHandleLabel.text = [NSString stringWithFormat:@"%@", _user.username];
-    self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.like_countValue];
-    self.itemCountLabel.text = [NSString stringWithFormat:@"%i", _user.item_countValue];
-}
 
 - (void)setupFetchRequest {
     self.userMorselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
@@ -185,10 +158,6 @@ UICollectionViewDelegate>
     self.loadedAll = NO;
     self.refreshing = YES;
     __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getUserProfile:_user
-                                        success:^(id responseObject) {
-                                            if (weakSelf) [weakSelf populateUserContent];
-                                        } failure:nil];
     [_appDelegate.apiService getUserMorsels:_user
                                       withMaxID:nil
                                       orSinceID:nil
@@ -261,17 +230,70 @@ UICollectionViewDelegate>
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat currentOffset = scrollView.contentOffset.y;
-    CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
-    if (maximumOffset - currentOffset <= 10.f) {
-        [self loadMore];
+    if ([scrollView isEqual:_profileCollectionView]) {
+        CGFloat currentOffset = scrollView.contentOffset.y;
+        CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+        if (maximumOffset - currentOffset <= 10.f) {
+            [self loadMore];
+        }
+    } else if ([scrollView isEqual:_userContentScrollView]) {
+        NSInteger page = scrollView.contentOffset.x / scrollView.frame.size.width;
+        self.userContentPageControl.currentPage = page;
     }
 }
 
-#pragma mark - Dealloc
+#pragma mark - Segue Methods
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"seg_ProfileEdit"]) {
+        MRSLProfileEditViewController *profileEditVC = [segue destinationViewController];
+        profileEditVC.user = _user;
+    } else if ([segue.identifier isEqualToString:@"seg_ProfileActivity"]) {
+        MRSLUserActivityViewController *profileActivityVC = [segue destinationViewController];
+        profileActivityVC.user = _user;
+    } else if ([segue.identifier isEqualToString:@"seg_KeywordList"]) {
+        MRSLUserTagListViewController *userKeywordListVC = [segue destinationViewController];
+        userKeywordListVC.user = _user;
+        userKeywordListVC.keywordType = _keywordType;
+    } else if ([segue.identifier isEqualToString:@"seg_FollowList"]) {
+        MRSLUserFollowListViewController *userFollowListVC = [segue destinationViewController];
+        userFollowListVC.user = _user;
+        userFollowListVC.shouldDisplayFollowing = _wantsToShowFollowing;
+    }
+}
+
+#pragma mark - MRSLProfileStatsViewControllerDelegate
+
+- (void)profileStatsViewControllerDidSelectLiked {
+    [self performSegueWithIdentifier:@"seg_ProfileActivity"
+                              sender:nil];
+}
+
+- (void)profileStatsViewControllerDidSelectFollowers {
+    self.wantsToShowFollowing = NO;
+    [self performSegueWithIdentifier:@"seg_FollowList"
+                              sender:nil];
+}
+
+- (void)profileStatsViewControllerDidSelectFollowing {
+    self.wantsToShowFollowing = YES;
+    [self performSegueWithIdentifier:@"seg_FollowList"
+                              sender:nil];
+}
+
+#pragma mark - MRSLProfileStatsKeywordsViewControllerDelegate
+
+- (void)profileStatsTagsViewControllerDidSelectTag:(MRSLTag *)tag {
+    MRSLKeywordUsersViewController *keywordUsersVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLKeywordUsersViewController"];
+    keywordUsersVC.keyword = tag.keyword;
+    [self.navigationController pushViewController:keywordUsersVC
+                                         animated:YES];
+}
+
+- (void)profileStatsTagsViewControllerDidSelectType:(NSString *)type {
+    self.keywordType = type;
+    [self performSegueWithIdentifier:@"seg_KeywordList"
+                              sender:nil];
 }
 
 @end
