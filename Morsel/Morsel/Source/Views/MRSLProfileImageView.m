@@ -50,7 +50,7 @@
 
         if (user) {
             if (user.profilePhotoURL) {
-                NSURLRequest *profileImageURLRequest = [user userProfilePictureURLRequestForImageSizeType:([self getWidth] > MRSLUserProfileImageThumbDimensionSize) ? ProfileImageSizeTypeMedium : ProfileImageSizeTypeSmall];
+                NSURLRequest *profileImageURLRequest = [user userProfilePictureURLRequestForImageSizeType:([self getWidth] > MRSLUserProfileImageThumbDimensionSize) ? MRSLProfileImageSizeTypeMedium : MRSLProfileImageSizeTypeSmall];
                 if (!profileImageURLRequest)
                     return;
 
@@ -74,14 +74,19 @@
     }
 }
 
-- (void)addAndRenderImage:(UIImage *)image {
+- (void)addAndRenderImage:(UIImage *)image
+                 complete:(MRSLImageProcessingBlock)completeOrNil {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         UIImage *scaledImage = [image thumbnailImage:[self getWidth]
                                 interpolationQuality:kCGInterpolationHigh];
-
-        dispatch_async(dispatch_get_main_queue(), ^ {
-            self.image = scaledImage;
-        });
+        if (scaledImage) {
+            dispatch_async(dispatch_get_main_queue(), ^ {
+                self.image = scaledImage;
+                if (completeOrNil) completeOrNil(YES);
+            });
+        } else {
+            if (completeOrNil) completeOrNil(NO);
+        }
     });
 }
 

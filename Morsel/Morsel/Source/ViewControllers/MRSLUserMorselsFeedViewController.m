@@ -10,6 +10,7 @@
 
 #import <SDWebImage/SDWebImageManager.h>
 
+#import "MRSLAPIService+Morsel.h"
 #import "NSMutableArray+Feed.h"
 
 #import "MRSLFeedPanelCollectionViewCell.h"

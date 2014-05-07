@@ -8,7 +8,8 @@
 
 #import "MRSLFeedPageCollectionViewCell.h"
 
-#import "JSONResponseSerializerWithData.h"
+#import "MRSLAPIService+Like.h"
+
 #import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
 

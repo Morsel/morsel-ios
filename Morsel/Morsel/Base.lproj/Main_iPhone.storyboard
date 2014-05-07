@@ -182,13 +182,118 @@
             </objects>
             <point key="canvasLocation" x="554" y="893"/>
         </scene>
+        <!--Web Browser View Controller-->
+        <scene sceneID="aKJ-UA-XW7">
+            <objects>
+                <viewController storyboardIdentifier="sb_MRSLWebBrowserViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="QVc-Xt-m1k" customClass="MRSLWebBrowserViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MoZ-0R-f4j">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" id="9fg-ar-Mxr">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="QVc-Xt-m1k" id="SBw-9D-Z8q"/>
+                                </connections>
+                            </webView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" id="mHL-NU-VuD">
+                                <rect key="frame" x="150" y="242" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                            <view contentMode="scaleToFill" id="5xq-2a-B5C">
+                                <rect key="frame" x="0.0" y="444" width="320" height="60"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rua-3c-q02">
+                                        <rect key="frame" x="20" y="0.0" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="icon-arrow-previous-red">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled" image="icon-arrow-previous"/>
+                                        <connections>
+                                            <action selector="goBackInBrowser" destination="QVc-Xt-m1k" eventType="touchUpInside" id="6t1-fn-U0P"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gtc-fs-F64">
+                                        <rect key="frame" x="106" y="0.0" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="icon-arrow-next-red">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled" image="icon-arrow-next"/>
+                                        <connections>
+                                            <action selector="goForwardInBrowser" destination="QVc-Xt-m1k" eventType="touchUpInside" id="tVx-Pp-RkG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pNi-gW-xwT">
+                                        <rect key="frame" x="240" y="0.0" width="60" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="icon-refresh-red">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled" image="icon-refresh"/>
+                                        <connections>
+                                            <action selector="refreshBrowser" destination="QVc-Xt-m1k" eventType="touchUpInside" id="imh-nR-ITd"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" id="Onq-eL-T7Z"/>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="mHL-NU-VuD" id="UPL-ff-lQg"/>
+                        <outlet property="goBackButton" destination="Rua-3c-q02" id="sHc-cw-FYd"/>
+                        <outlet property="goForwardButton" destination="Gtc-fs-F64" id="chM-l6-icl"/>
+                        <outlet property="refreshButton" destination="pNi-gW-xwT" id="C8z-Tm-MrL"/>
+                        <outlet property="webView" destination="9fg-ar-Mxr" id="q6i-Sf-uli"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Klt-D0-4HK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1501" y="893"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="1BM-ea-bDF">
+            <objects>
+                <navigationController storyboardIdentifier="sb_WebBrowser" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="F73-4E-LFN" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0ob-pD-uX6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="QVc-Xt-m1k" kind="relationship" relationship="rootViewController" id="iDz-QS-4bv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Md-Av-4ML" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1027" y="893"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="icon-arrow-next" width="30" height="30"/>
+        <image name="icon-arrow-next-red" width="30" height="30"/>
+        <image name="icon-arrow-previous" width="30" height="30"/>
+        <image name="icon-arrow-previous-red" width="30" height="30"/>
         <image name="icon-like-inactive" width="28" height="26"/>
         <image name="icon-menubar-home" width="30" height="30"/>
         <image name="icon-menubar-logout" width="24" height="24"/>
         <image name="icon-menubar-profile" width="30" height="30"/>
         <image name="icon-menubar-stuff" width="30" height="30"/>
+        <image name="icon-refresh" width="30" height="30"/>
+        <image name="icon-refresh-red" width="30" height="30"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

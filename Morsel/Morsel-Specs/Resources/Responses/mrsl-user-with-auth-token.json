@@ -5,7 +5,6 @@
         "first_name": "Turd",
         "last_name": "Ferguson",
         "created_at": "2014-01-07T18:35:57.877Z",
-        "title": "Executive Chef at Jeopardy",
         "bio": "Suck It, Trebek",
         "photos": {
             "_40x40": "https://morsel-staging.s3.amazonaws.com/user-images/user/3/_40x40_1389119757-batman.jpeg",
@@ -15,8 +14,8 @@
         },
         "auth_token": "butt-sack",
         "draft_count": 10,
-        "like_count": 3,
-        "item_count": 1,
+        "liked_items_count": 3,
+        "morsel_count": 1,
         "sign_in_count": 1,
         "facebook_uid": "1234567890",
         "twitter_username": "item_marty"

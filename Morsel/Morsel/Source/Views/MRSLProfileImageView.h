@@ -14,7 +14,8 @@
 
 @property (weak, nonatomic) MRSLUser *user;
 
-- (void)addAndRenderImage:(UIImage *)image;
+- (void)addAndRenderImage:(UIImage *)image
+                 complete:(MRSLImageProcessingBlock)completeOrNil;
 - (void)allowToLaunchProfile;
 
 @end

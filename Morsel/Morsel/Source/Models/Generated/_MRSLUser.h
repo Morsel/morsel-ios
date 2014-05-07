@@ -16,7 +16,7 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *followed_users_count;
 	__unsafe_unretained NSString *follower_count;
 	__unsafe_unretained NSString *following;
-	__unsafe_unretained NSString *industry;
+	__unsafe_unretained NSString *industryType;
 	__unsafe_unretained NSString *last_name;
 	__unsafe_unretained NSString *liked_items_count;
 	__unsafe_unretained NSString *morsel_count;
@@ -208,11 +208,15 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* industry;
+@property (nonatomic, strong) NSNumber* industryType;
 
 
 
-//- (BOOL)validateIndustry:(id*)value_ error:(NSError**)error_;
+@property int16_t industryTypeValue;
+- (int16_t)industryTypeValue;
+- (void)setIndustryTypeValue:(int16_t)value_;
+
+//- (BOOL)validateIndustryType:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -475,8 +479,11 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSString*)primitiveIndustry;
-- (void)setPrimitiveIndustry:(NSString*)value;
+- (NSNumber*)primitiveIndustryType;
+- (void)setPrimitiveIndustryType:(NSNumber*)value;
+
+- (int16_t)primitiveIndustryTypeValue;
+- (void)setPrimitiveIndustryTypeValue:(int16_t)value_;
 
 
 

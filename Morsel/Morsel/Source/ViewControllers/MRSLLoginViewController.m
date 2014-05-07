@@ -8,13 +8,15 @@
 
 #import "MRSLLoginViewController.h"
 
-#import "JSONResponseSerializerWithData.h"
+#import "MRSLAPIService+Authorization.h"
+#import "MRSLAPIService+Registration.h"
 
-static const CGFloat MRSLLoginScrollViewHeight = 508.f;
-static const CGFloat MRSLLoginContentHeight = 385.f;
+#import "MRSLSocialUser.h"
 
 @interface MRSLLoginViewController ()
 <UITextFieldDelegate>
+
+@property (nonatomic) CGFloat scrollViewHeight;
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -34,12 +36,17 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
     self.backButton.hidden = YES;
 #endif
 
-    self.loginScrollView.contentSize = CGSizeMake([self.view getWidth], MRSLLoginContentHeight);
+    if (_socialUser) {
+        self.emailTextField.text = _socialUser.email;
+    }
 
     [self.emailTextField setBorderWithColor:[UIColor morselLightContent]
                                    andWidth:1.f];
     [self.passwordTextField setBorderWithColor:[UIColor morselLightContent]
                                       andWidth:1.f];
+
+    self.scrollViewHeight = [self.loginScrollView getHeight];
+    [self.loginScrollView setContentSize:CGSizeMake([self.loginScrollView getWidth], ([_signInButton getHeight] + [_signInButton getY] + 20.f))];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -50,6 +57,14 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES
+                                            withAnimation:UIStatusBarAnimationSlide];
+    [self.navigationController setNavigationBarHidden:YES
+                                             animated:animated];
+    [super viewWillAppear:animated];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -64,41 +79,50 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
 
 - (IBAction)logIn {
     [[MRSLEventManager sharedManager] track:@"Tapped Log in"
-                          properties:@{@"view": @"Log in"}];
+                                 properties:@{@"view": @"Log in"}];
 
     BOOL emailValid = [MRSLUtil validateEmail:_emailTextField.text];
     BOOL passValid = ([_passwordTextField.text length] >= 8);
 
-    if (!emailValid || !passValid) {
-        [UIAlertView showAlertViewWithTitle:@"Invalid Email or Password"
-                                    message:@"Email must be valid. Password must be at least 8 characters."
-                                   delegate:nil
-                          cancelButtonTitle:@"Close"
-                          otherButtonTitles:nil];
-        return;
+    if ([_emailTextField.text rangeOfString:@"@"].location != NSNotFound) {
+        if (!emailValid || !passValid) {
+            [UIAlertView showAlertViewWithTitle:@"Invalid Email or Password"
+                                        message:@"Email must be valid. Password must be at least 8 characters."
+                                       delegate:nil
+                              cancelButtonTitle:@"Close"
+                              otherButtonTitles:nil];
+            return;
+        }
+    } else {
+        if ([_emailTextField.text length] > 15) {
+            [UIAlertView showAlertViewWithTitle:@"Invalid Username"
+                                        message:@"Username must be at less than 16 characters."
+                                       delegate:nil
+                              cancelButtonTitle:@"Close"
+                              otherButtonTitles:nil];
+            return;
+        }
     }
 
     [self.signInButton setEnabled:NO];
+    [self.activityView setHidden:NO];
 
-    self.activityView.hidden = NO;
-
-    [_appDelegate.apiService signInUserWithEmail:_emailTextField.text
-                                          andPassword:_passwordTextField.text
-                                              success:nil
-                                              failure:^(NSError *error)
-     {
-         self.activityView.hidden = YES;
+    __weak __typeof(self)weakSelf = self;
+    [_appDelegate.apiService signInUserWithEmailOrUsername:_emailTextField.text
+                                               andPassword:_passwordTextField.text
+                                          orAuthentication:nil
+                                                   success:^(id responseObject) {
+                                                       [_appDelegate.apiService createUserAuthentication:weakSelf.socialUser.authentication
+                                                                                                 success:nil
+                                                                                                 failure:nil];
+                                                   } failure:^(NSError *error) {
+         [self.activityView setHidden:YES];
          [self.signInButton setEnabled:YES];
 
          MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-
          [UIAlertView showAlertViewForServiceError:serviceErrorInfo
                                           delegate:nil];
      }];
-}
-
-- (IBAction)goBack:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -107,15 +131,13 @@ static const CGFloat MRSLLoginContentHeight = 385.f;
     [UIView animateWithDuration:.2f
                      animations:^{
                          [self.loginScrollView setHeight:[self.view getHeight] - keyboardSize.height];
-                         [self.loginScrollView scrollRectToVisible:CGRectMake(0.f, MRSLLoginContentHeight - 5.f, 5.f, 5.f)
-                                                          animated:YES];
                      }];
 }
 
 - (void)keyboardWillHide {
     [UIView animateWithDuration:.2f
                      animations:^{
-                         [self.loginScrollView setHeight:MRSLLoginScrollViewHeight];
+                         [self.loginScrollView setHeight:_scrollViewHeight];
                      }];
 }
 

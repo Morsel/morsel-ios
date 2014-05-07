@@ -18,6 +18,8 @@ pod 'ALAssetsLibrary-CustomPhotoAlbum', '~> 1.1'
 pod 'ELCImagePickerController', '~> 0.2'
 pod 'SDWebImage', '~> 3.6'
 pod 'JLRoutes', '~> 1.5'
+pod 'Facebook-iOS-SDK', '~> 3.14'
+pod 'AFOAuth1Client', :git => 'https://github.com/Morsel/AFOAuth1Client'
 
 target 'Morsel-Integration' do
 	pod 'Kiwi-KIF/XCTest', '~>1.0.1'

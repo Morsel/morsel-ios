@@ -15,7 +15,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.followed_users_count = @"followed_users_count",
 	.follower_count = @"follower_count",
 	.following = @"following",
-	.industry = @"industry",
+	.industryType = @"industryType",
 	.last_name = @"last_name",
 	.liked_items_count = @"liked_items_count",
 	.morsel_count = @"morsel_count",
@@ -82,6 +82,11 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	}
 	if ([key isEqualToString:@"followingValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"following"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"industryTypeValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"industryType"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -265,8 +270,27 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic industry;
+@dynamic industryType;
 
+
+
+- (int16_t)industryTypeValue {
+	NSNumber *result = [self industryType];
+	return [result shortValue];
+}
+
+- (void)setIndustryTypeValue:(int16_t)value_ {
+	[self setIndustryType:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveIndustryTypeValue {
+	NSNumber *result = [self primitiveIndustryType];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveIndustryTypeValue:(int16_t)value_ {
+	[self setPrimitiveIndustryType:[NSNumber numberWithShort:value_]];
+}
 
 
 

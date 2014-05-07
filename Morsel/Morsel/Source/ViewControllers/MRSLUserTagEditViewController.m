@@ -8,6 +8,9 @@
 
 #import "MRSLUserTagEditViewController.h"
 
+#import "MRSLAPIService+Keyword.h"
+#import "MRSLAPIService+Tag.h"
+
 #import "MRSLAddKeywordTableViewCell.h"
 
 #import "MRSLKeyword.h"

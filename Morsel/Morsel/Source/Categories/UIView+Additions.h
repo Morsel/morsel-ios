@@ -30,6 +30,9 @@ typedef NS_OPTIONS(NSUInteger, MRSLBorderDirection) {
 - (void)addCornersWithRadius:(CGFloat)radius;
 - (void)addStandardShadow;
 - (void)addStandardShadowWithColor:(UIColor *)shadowColor;
+- (void)addShadowWithOpacity:(float)opacity
+                   andRadius:(CGFloat)radius
+                   withColor:(UIColor *)color;
 
 - (void)removeBorder;
 - (void)removeStandardShadow;

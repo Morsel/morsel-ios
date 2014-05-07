@@ -10,6 +10,8 @@
 
 #import <GCPlaceholderTextView/GCPlaceholderTextView.h>
 
+#import "MRSLAPIService+Comment.h"
+
 #import "MRSLCommentTableViewCell.h"
 
 #import "MRSLComment.h"

@@ -9,9 +9,11 @@
 #import <Kiwi/Kiwi.h>
 #import <Accounts/Accounts.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <Social/SLRequest.h>
 
 #import "MRSLSocialService.h"
-#import <Social/SLRequest.h>
+#import "MRSLSocialServiceFacebook.h"
+#import "MRSLSocialServiceTwitter.h"
 
 @interface MRSLSocialService (PRIVATE)
 

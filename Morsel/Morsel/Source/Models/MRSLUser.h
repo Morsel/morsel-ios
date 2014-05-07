@@ -1,10 +1,5 @@
 #import "_MRSLUser.h"
 
-typedef NS_ENUM(NSUInteger, ProfileImageSizeType) {
-    ProfileImageSizeTypeSmall,
-    ProfileImageSizeTypeMedium
-};
-
 @interface MRSLUser : _MRSLUser
 
 + (MRSLUser *)currentUser;
@@ -16,6 +11,10 @@ typedef NS_ENUM(NSUInteger, ProfileImageSizeType) {
 - (BOOL)shouldTrack;
 - (NSString *)fullName;
 - (NSString *)displayName;
-- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type;
+- (NSString *)industryTypeName;
+- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(MRSLProfileImageSizeType)type;
+
+- (MRSLIndustryType)industryTypeEnum;
+- (void)setIndustryTypeEnum:(MRSLIndustryType)type;
 
 @end

@@ -66,6 +66,10 @@
                                                                                      object:nil];
 }
 
++(NSSet *)keyPathsForValuesAffectingIndustryTypeEnum {
+    return [NSSet setWithObject:@"industryType"];
+}
+
 #pragma mark - Instance Methods
 
 - (BOOL)isCurrentUser {
@@ -78,6 +82,14 @@
     return !self.staffValue;
 }
 
+- (MRSLIndustryType)industryTypeEnum {
+    return (MRSLIndustryType)[self industryTypeValue];
+}
+
+- (void)setIndustryTypeEnum:(MRSLIndustryType)type {
+    [self setIndustryType:[NSNumber numberWithInt:type]];
+}
+
 - (NSString *)fullName {
     return [NSString stringWithFormat:@"%@ %@", self.first_name, self.last_name];
 }
@@ -86,7 +98,23 @@
     return [NSString stringWithFormat:@"%@ (%@)", [self fullName], [self username]];
 }
 
-- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(ProfileImageSizeType)type {
+- (NSString *)industryTypeName {
+    switch (self.industryTypeEnum) {
+        case MRSLIndustryTypeChef:
+            return @"chef";
+            break;
+        case MRSLIndustryTypeMedia:
+            return @"media";
+            break;
+        case MRSLIndustryTypeDiner:
+            return @"diner";
+            break;
+        default:
+            break;
+    }
+}
+
+- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(MRSLProfileImageSizeType)type {
     if (!self.profilePhotoURL) return nil;
 
     BOOL isRetina = ([UIScreen mainScreen].scale == 2.f);
@@ -94,10 +122,10 @@
     NSString *typeSizeString = nil;
 
     switch (type) {
-        case ProfileImageSizeTypeSmall:
+        case MRSLProfileImageSizeTypeSmall:
             typeSizeString = (isRetina) ? @"_80x80" : @"_40x40";
             break;
-        case ProfileImageSizeTypeMedium:
+        case MRSLProfileImageSizeTypeMedium:
             typeSizeString = (isRetina) ? @"_144x144" : @"_72x72";
             break;
         default:

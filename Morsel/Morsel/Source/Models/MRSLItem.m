@@ -31,7 +31,7 @@
 
 #pragma mark - Instance Methods
 
-- (NSURLRequest *)itemPictureURLRequestForImageSizeType:(ItemImageSizeType)type {
+- (NSURLRequest *)itemPictureURLRequestForImageSizeType:(MRSLItemImageSizeType)type {
     if (!self.itemPhotoURL) return nil;
 
     BOOL isRetina = ([UIScreen mainScreen].scale == 2.f);
@@ -39,13 +39,13 @@
     NSString *typeSizeString = nil;
 
     switch (type) {
-        case ItemImageSizeTypeLarge:
+        case MRSLItemImageSizeTypeLarge:
             typeSizeString = (isRetina) ? @"_640x640" : @"_320x320";
             break;
-        case ItemImageSizeTypeThumbnail:
+        case MRSLItemImageSizeTypeThumbnail:
             typeSizeString = (isRetina) ? @"_100x100" : @"_50x50";
             break;
-        case ItemImageSizeTypeFull:
+        case MRSLItemImageSizeTypeFull:
             typeSizeString = @"_640x640";
             break;
         default:

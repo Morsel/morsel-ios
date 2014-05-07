@@ -11,13 +11,14 @@
 #import "MRSLAppDelegate+CustomURLSchemes.h"
 
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
+#import <AFOAuth1Client/AFOAuth1Client.h>
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
+#import <FacebookSDK/FacebookSDK.h>
 #import <TestFlight.h>
 
+#import "MRSLSocialServiceFacebook.h"
 #import "NSMutableArray+Feed.h"
-
-#import "MRSLAPIClient.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -28,6 +29,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
+    
+
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
 
@@ -36,6 +39,8 @@
     [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
 
     [MRSLAppDelegate setupTheme];
+
+    [[MRSLSocialServiceFacebook sharedService] checkForValidFacebookSessionWithSessionStateHandler:nil];
 
     [self setupMorselEnvironment];
 
@@ -51,7 +56,27 @@
     }
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Handle the user leaving the app while the Facebook login dialog is being shown
+    [FBAppCall handleDidBecomeActive];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    if ([url.absoluteString rangeOfString:@"fb"].location != NSNotFound) {
+        // Assuming this is a FB callback
+        [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    } else {
+        // Assuming this is a Twitter callback
+        DDLogDebug(@"Twitter Callback URL: %@", url);
+        NSNotification *notification = [NSNotification notificationWithName:kAFApplicationLaunchedWithURLNotification
+                                                                     object:nil
+                                                                   userInfo:[NSDictionary dictionaryWithObject:url
+                                                                                                        forKey:kAFApplicationLaunchOptionsURLKey]];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
     return [self handleRouteForURL:url
                  sourceApplication:sourceApplication];
 }
@@ -108,6 +133,7 @@
 
 - (void)resetDataStore {
     [[Mixpanel sharedInstance] reset];
+    [[MRSLSocialServiceFacebook sharedService] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
 
     [NSMutableArray resetFeedIDArray];

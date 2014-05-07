@@ -11,6 +11,11 @@
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
+#import "MRSLAPIService+Comment.h"
+#import "MRSLAPIService+Item.h"
+#import "MRSLAPIService+Morsel.h"
+#import "MRSLAPIService+Registration.h"
+
 SPEC_BEGIN(ModelObjectImporting_Spec)
 
 describe(@"Importing from the API", ^{
@@ -148,7 +153,7 @@ describe(@"Importing from the API", ^{
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-user-with-auth-token.json"
                                                  forRequestPath:@"/users/sign_in"];
 
-            [_appDelegate.apiService signInUserWithEmail:nil
+            [_appDelegate.apiService signInUserWithEmailOrUsername:nil
                                                    andPassword:nil
                                                        success:^(id responseObject) {
                                                            requestCompleted = YES;
@@ -178,10 +183,6 @@ describe(@"Importing from the API", ^{
             [[[currentUser creationDate] should] beKindOfClass:[NSDate class]];
         });
 
-        it(@"has title 'Executive Chef at Jeopardy'", ^{
-            [[[currentUser title] should] equal:@"Executive Chef at Jeopardy"];
-        });
-
         it(@"has bio 'Suck It, Trebek'", ^{
             [[[currentUser bio] should] equal:@"Suck It, Trebek"];
         });
@@ -198,12 +199,12 @@ describe(@"Importing from the API", ^{
             [[[currentUser draft_count] should] equal:@10];
         });
 
-        it(@"has like_count of 3", ^{
-            [[[currentUser like_count] should] equal:@3];
+        it(@"has liked_items_count of 3", ^{
+            [[[currentUser liked_items_count] should] equal:@3];
         });
 
-        it(@"has item_count of 1", ^{
-            [[[currentUser item_count] should] equal:@1];
+        it(@"has morsel_count of 1", ^{
+            [[[currentUser morsel_count] should] equal:@1];
         });
     });
 });

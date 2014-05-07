@@ -7,20 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Accounts/Accounts.h>
-
-@class ACAccount;
-@class SLRequestHandler;
 
 @interface MRSLSocialService : NSObject
 
 + (instancetype)sharedService;
-
-- (void)activateFacebookWithSuccess:(MRSLSocialSuccessBlock)successOrNil
-                       failure:(MRSLSocialFailureBlock)failureOrNil;
-
-- (void)activateTwitterWithSuccess:(MRSLSocialSuccessBlock)successOrNil
-                      failure:(MRSLSocialFailureBlock)failureOrNil;
 
 - (void)shareMorselToFacebook:(MRSLItem *)item
              inViewController:(UIViewController *)viewController

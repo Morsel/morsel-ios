@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLLoginViewController : UIViewController
+@class MRSLSocialUser;
+
+@interface MRSLLoginViewController : MRSLBaseViewController
+
+@property (strong, nonatomic) MRSLSocialUser *socialUser;
 
 @end

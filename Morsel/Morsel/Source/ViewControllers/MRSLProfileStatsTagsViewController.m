@@ -8,6 +8,8 @@
 
 #import "MRSLProfileStatsTagsViewController.h"
 
+#import "MRSLAPIService+Tag.h"
+
 #import "MRSLArrayDataSource.h"
 #import "MRSLTagBaseCell.h"
 

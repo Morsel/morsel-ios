@@ -208,7 +208,7 @@
         <attribute name="followed_users_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="follower_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="industry" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="industryType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="liked_items_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="morsel_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -253,6 +253,6 @@
         <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="285"/>
         <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="135"/>
         <element name="MRSLTag" positionX="18" positionY="153" width="128" height="118"/>
-        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="448"/>
+        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="450"/>
     </elements>
 </model>
