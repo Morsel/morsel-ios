@@ -19,8 +19,12 @@ typedef void (^ MRSLAPILikeBlock)(BOOL doesLike);
 typedef void (^ MRSLAPIFollowBlock)(BOOL doesFollow);
 typedef void (^ MRSLAPISuccessBlock)(id responseObject);
 typedef void (^ MRSLAPIFailureBlock)(NSError *error);
+typedef void (^ MRSLAPIExistsBlock)(BOOL exists, NSError *error);
+typedef void (^ MRSLAPIValidationBlock)(BOOL isAvailable, NSError *error);
+typedef void (^ MRSLImageProcessingBlock)(BOOL success);
 typedef void (^ MRSLSocialSuccessBlock)(BOOL success);
 typedef void (^ MRSLSocialFailureBlock)(NSError *error);
+typedef void (^ MRSLSocialUserInfoBlock)(NSDictionary *userInfo, NSError *error);
 typedef void (^ MRSLSocialCancelBlock)();
 typedef void (^ MRSLDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
 
@@ -37,6 +41,28 @@ typedef NS_ENUM (NSUInteger, MRSLScrollDirection) {
     MRSLScrollDirectionRight,
     MRSLScrollDirectionUp,
     MRSLScrollDirectionDown
+};
+
+typedef NS_ENUM(NSUInteger, MRSLProfileImageSizeType) {
+    MRSLProfileImageSizeTypeSmall,
+    MRSLProfileImageSizeTypeMedium
+};
+
+typedef NS_ENUM(NSUInteger, MRSLItemImageSizeType) {
+    MRSLItemImageSizeTypeLarge,
+    MRSLItemImageSizeTypeThumbnail,
+    MRSLItemImageSizeTypeFull
+};
+
+typedef NS_ENUM(NSUInteger, MRSLIndustryType) {
+    MRSLIndustryTypeChef,
+    MRSLIndustryTypeMedia,
+    MRSLIndustryTypeDiner
+};
+
+NS_ENUM(NSUInteger, MRSLSocialAlertViewType) {
+    MRSLSocialAlertViewTypeFacebook = 1,
+    MRSLSocialAlertViewTypeTwitter
 };
 
 #pragma mark - Media Capture Values
@@ -83,10 +109,12 @@ static const int MRSLMaximumMorselsToDisplayInMorselPreview = 12;
 #elif (defined(MORSEL_BETA) || defined(RELEASE))
 
 #define MORSEL_API_BASE_URL @"https://api.eatmorsel.com"
+#define MORSEL_BASE_URL @"http://www.eatmorsel.com"
 
 #else
 
 #define MORSEL_API_BASE_URL @"http://api-staging.eatmorsel.com"
+#define MORSEL_BASE_URL @"http://staging.eatmorsel.com"
 
 #endif
 
@@ -101,15 +129,26 @@ static const int MRSLMaximumMorselsToDisplayInMorselPreview = 12;
 #define NSNullIfNil(obj) ((obj == nil) ? [NSNull null] : obj)
 #define MRSLIsNull(obj) ([obj isEqual:[NSNull null]])
 
-#pragma mark - Imports
+#pragma mark - Services
+
+#import "MRSLAPIClient.h"
+#import "MRSLAPIService.h"
+
+#pragma mark - Events
+
+#import "MRSLEventManager.h"
+
+#pragma mark - General
 
 #import "MRSLConstants.h"
 #import "MRSLUtil.h"
-#import "MRSLAPIService.h"
-#import "MRSLEventManager.h"
 #import "MRSLBaseViewController.h"
 
+#pragma mark - Data
+
 #import "CoreData+MagicalRecord.h"
+
+#pragma mark - Categories
 
 #import "UIAlertView+Additions.h"
 #import "UIColor+Morsel.h"

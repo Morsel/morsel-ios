@@ -78,7 +78,7 @@
         [self reset];
 
         if (item) {
-            ItemImageSizeType itemSizeType = ([self getWidth] >= MRSLItemImageLargeDimensionSize) ? ItemImageSizeTypeLarge : ItemImageSizeTypeThumbnail;
+            MRSLItemImageSizeType itemSizeType = ([self getWidth] >= MRSLItemImageLargeDimensionSize) ? MRSLItemImageSizeTypeLarge : MRSLItemImageSizeTypeThumbnail;
             if (_item.itemPhotoURL) {
                 NSURLRequest *itemImageURLRequest = [_item itemPictureURLRequestForImageSizeType:itemSizeType];
                 if (!itemImageURLRequest)
@@ -86,9 +86,9 @@
                 __weak __typeof(self)weakSelf = self;
                 [weakSelf attemptToSetLocalMorselImageForSizeType:itemSizeType
                                                         withError:nil];
-                if (itemSizeType == ItemImageSizeTypeLarge) {
+                if (itemSizeType == MRSLItemImageSizeTypeLarge) {
                     __block BOOL fullSizeImageSet = NO;
-                    [_webImageManager downloadWithURL:[_item itemPictureURLRequestForImageSizeType:ItemImageSizeTypeThumbnail].URL
+                    [_webImageManager downloadWithURL:[_item itemPictureURLRequestForImageSizeType:MRSLItemImageSizeTypeThumbnail].URL
                                               options:SDWebImageHighPriority
                                              progress:nil
                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
@@ -115,7 +115,7 @@
                                                 }
                                             }];
                 } else {
-                    [_webImageManager downloadWithURL:[_item itemPictureURLRequestForImageSizeType:ItemImageSizeTypeThumbnail].URL
+                    [_webImageManager downloadWithURL:[_item itemPictureURLRequestForImageSizeType:MRSLItemImageSizeTypeThumbnail].URL
                                               options:SDWebImageHighPriority
                                              progress:nil
                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
@@ -137,12 +137,12 @@
     }
 }
 
-- (void)attemptToSetLocalMorselImageForSizeType:(ItemImageSizeType)itemSizeType
+- (void)attemptToSetLocalMorselImageForSizeType:(MRSLItemImageSizeType)itemSizeType
                                       withError:(NSError *)errorOrNil {
     if (_item.itemPhotoThumb && _item.itemPhotoCropped) {
         dispatch_async(dispatch_get_main_queue(), ^{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                UIImage *localImage = [UIImage imageWithData:(itemSizeType == ItemImageSizeTypeLarge) ? _item.itemPhotoCropped : _item.itemPhotoThumb];
+                UIImage *localImage = [UIImage imageWithData:(itemSizeType == MRSLItemImageSizeTypeLarge) ? _item.itemPhotoCropped : _item.itemPhotoThumb];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.image = localImage;
                 });
@@ -150,7 +150,7 @@
         });
     } else {
         if (errorOrNil.code != -999) {
-            self.image = [UIImage imageNamed:(itemSizeType == ItemImageSizeTypeThumbnail) ? @"graphic-thumb-morsel-null" : @"graphic-image-large-placeholder"];
+            self.image = [UIImage imageNamed:(itemSizeType == MRSLItemImageSizeTypeThumbnail) ? @"graphic-thumb-morsel-null" : @"graphic-image-large-placeholder"];
         }
     }
 }

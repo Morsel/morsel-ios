@@ -60,18 +60,18 @@
         coverMorsel = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
                                                 withValue:morsel.primary_item_id] ?: [morsel.itemsArray lastObject];
         [self queueRequestForMorsel:coverMorsel
-                           withType:ItemImageSizeTypeLarge
+                           withType:MRSLItemImageSizeTypeLarge
                        highPriority:YES];
     }
 
     [morsel.itemsArray enumerateObjectsUsingBlock:^(MRSLItem *item, NSUInteger idx, BOOL *stop) {
         if (![item isEqual:coverMorsel]) {
             [self queueRequestForMorsel:item
-                               withType:ItemImageSizeTypeLarge
+                               withType:MRSLItemImageSizeTypeLarge
                            highPriority:NO];
             if (itemCount < 4) {
                 [self queueRequestForMorsel:item
-                                   withType:ItemImageSizeTypeThumbnail
+                                   withType:MRSLItemImageSizeTypeThumbnail
                                highPriority:YES];
             }
             itemCount++;
@@ -80,7 +80,7 @@
 }
 
 - (void)queueRequestForMorsel:(MRSLItem *)item
-                     withType:(ItemImageSizeType)itemImageSizeType
+                     withType:(MRSLItemImageSizeType)itemImageSizeType
                  highPriority:(BOOL)isHighPriority {
     NSURLRequest *itemRequest = [item itemPictureURLRequestForImageSizeType:itemImageSizeType];
     [_webImageManager downloadWithURL:itemRequest.URL

@@ -8,6 +8,8 @@
 
 #import "MRSLProfileViewController.h"
 
+#import "MRSLAPIService+Morsel.h"
+
 #import "MRSLArrayDataSource.h"
 #import "MRSLKeywordUsersViewController.h"
 #import "MRSLMorselEditViewController.h"

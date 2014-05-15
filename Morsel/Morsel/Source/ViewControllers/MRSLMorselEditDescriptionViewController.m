@@ -10,6 +10,8 @@
 
 #import <GCPlaceholderTextView/GCPlaceholderTextView.h>
 
+#import "MRSLAPIService+Item.h"
+
 #import "MRSLItem.h"
 
 @interface MRSLMorselEditDescriptionViewController ()

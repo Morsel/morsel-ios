@@ -80,6 +80,14 @@
     [self addStandardShadowWithColor:[UIColor blackColor]];
 }
 
+- (void)addShadowWithOpacity:(float)opacity
+                   andRadius:(CGFloat)radius
+                   withColor:(UIColor *)color {
+    [self addStandardShadowWithColor:color];
+    self.layer.shadowOpacity = opacity;
+    self.layer.shadowRadius = radius;
+}
+
 - (void)addStandardShadowWithColor:(UIColor *)shadowColor; {
     self.layer.shadowColor = shadowColor.CGColor;
     self.layer.shadowOpacity = .9f;

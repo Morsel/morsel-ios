@@ -8,6 +8,8 @@
 
 #import "MRSLUserFollowTableViewCell.h"
 
+#import "MRSLAPIService+Follow.h"
+
 #import "MRSLProfileImageView.h"
 
 #import "MRSLUser.h"

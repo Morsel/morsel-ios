@@ -8,6 +8,8 @@
 
 #import "MRSLModalLikersViewController.h"
 
+#import "MRSLAPIService+Like.h"
+
 #import "MRSLLikersTableViewCell.h"
 
 @interface MRSLModalLikersViewController ()

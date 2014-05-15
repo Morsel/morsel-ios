@@ -8,6 +8,8 @@
 
 #import "MRSLKeywordUsersViewController.h"
 
+#import "MRSLAPIService+Tag.h"
+
 #import "MRSLUserFollowTableViewCell.h"
 
 #import "MRSLKeyword.h"

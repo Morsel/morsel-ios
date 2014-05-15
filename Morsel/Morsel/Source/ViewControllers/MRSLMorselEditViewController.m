@@ -10,6 +10,9 @@
 
 #import <NSDate+TimeAgo/NSDate+TimeAgo.h>
 
+#import "MRSLAPIService+Item.h"
+#import "MRSLAPIService+Morsel.h"
+
 #import "MRSLCaptureMediaViewController.h"
 #import "MRSLImagePreviewViewController.h"
 #import "MRSLMorselAddTitleViewController.h"

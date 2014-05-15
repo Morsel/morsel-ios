@@ -42,7 +42,6 @@
                  "first_name":"Turd",
                  "last_name":"Ferguson",
                  "created_at":"2014-03-13T17:01:38.219Z",
-                 "title":null,
                  "bio":"Suck it, Trebek!",
                  "photos": {
                      "_40x40": "https://morsel-staging.s3.amazonaws.com/user-images/user/8532/1389119757-batman.jpeg",

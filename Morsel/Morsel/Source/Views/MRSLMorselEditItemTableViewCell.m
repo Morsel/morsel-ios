@@ -8,6 +8,8 @@
 
 #import "MRSLMorselEditItemTableViewCell.h"
 
+#import "MRSLAPIService+Item.h"
+
 #import "MRSLItemImageView.h"
 
 #import "MRSLItem.h"

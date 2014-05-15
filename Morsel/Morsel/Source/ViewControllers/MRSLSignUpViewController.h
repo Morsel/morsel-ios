@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLSignUpViewController : UIViewController
+@class MRSLSocialUser;
+
+@interface MRSLSignUpViewController : MRSLBaseViewController
+
+@property (nonatomic) BOOL shouldOmitEmail;
+
+@property (strong, nonatomic) MRSLSocialUser *socialUser;
 
 @end

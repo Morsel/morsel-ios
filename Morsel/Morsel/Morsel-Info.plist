@@ -23,16 +23,24 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>com.eatmorsel.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_ID_SUFFIX}</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>tw-morsel</string>
+				<string>fb1406459019603393</string>
 				<string>item</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201405061203</string>
+	<string>201405151456</string>
+	<key>FacebookAppID</key>
+	<string>1406459019603393</string>
+	<key>FacebookDisplayName</key>
+	<string>Morsel Staging</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

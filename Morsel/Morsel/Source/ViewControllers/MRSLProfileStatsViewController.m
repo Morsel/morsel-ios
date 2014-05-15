@@ -8,6 +8,9 @@
 
 #import "MRSLProfileStatsViewController.h"
 
+#import "MRSLAPIService+Follow.h"
+#import "MRSLAPIService+Profile.h"
+
 #import "MRSLProfileImageView.h"
 
 #import "MRSLUser.h"

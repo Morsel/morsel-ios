@@ -8,6 +8,8 @@
 
 #import "MRSLUserActivityViewController.h"
 
+#import "MRSLAPIService+Like.h"
+
 #import "MRSLArrayDataSource.h"
 #import "MRSLUserMorselsFeedViewController.h"
 #import "MRSLUserLikedItemCollectionViewCell.h"

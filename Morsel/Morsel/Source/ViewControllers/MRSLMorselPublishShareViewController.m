@@ -8,7 +8,9 @@
 
 #import "MRSLMorselPublishShareViewController.h"
 
-#import "MRSLSocialService.h"
+#import "MRSLAPIService+Morsel.h"
+#import "MRSLSocialServiceFacebook.h"
+#import "MRSLSocialServiceTwitter.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -41,14 +43,14 @@
     _publishButton.enabled = NO;
     _morsel.draft = @NO;
     [_appDelegate.apiService publishMorsel:_morsel
-                                       success:nil
-                                       failure:^(NSError *error) {
-                                           _publishButton.enabled = YES;
-                                           [UIAlertView showAlertViewForErrorString:@"Unable to publish morsel, please try again!"
-                                                                           delegate:nil];
-                                       }
-                                sendToFacebook:_facebookSwitch.isOn
-                                 sendToTwitter:_twitterSwitch.isOn];
+                                   success:nil
+                                   failure:^(NSError *error) {
+                                       _publishButton.enabled = YES;
+                                       [UIAlertView showAlertViewForErrorString:@"Unable to publish morsel, please try again!"
+                                                                       delegate:nil];
+                                   }
+                            sendToFacebook:_facebookSwitch.isOn
+                             sendToTwitter:_twitterSwitch.isOn];
 }
 
 - (IBAction)toggleFacebook:(UISwitch *)switchControl {
@@ -65,7 +67,7 @@
         _facebookSwitch.enabled = NO;
 
         __weak __typeof(self) weakSelf = self;
-        [[MRSLSocialService sharedService] activateFacebookWithSuccess:^(BOOL success) {
+        [[MRSLSocialServiceFacebook sharedService] activateFacebookWithSuccess:^(BOOL success) {
             if (weakSelf) {
                 [[MRSLEventManager sharedManager] track:@"Tapped Share Own Morsel"
                                              properties:@{@"view": @"Publish",
@@ -100,7 +102,7 @@
         _twitterSwitch.enabled = NO;
 
         __weak __typeof(self) weakSelf = self;
-        [[MRSLSocialService sharedService] activateTwitterWithSuccess:^(BOOL success) {
+        [[MRSLSocialServiceTwitter sharedService] activateTwitterWithSuccess:^(BOOL success) {
             if (weakSelf) {
                 [[MRSLEventManager sharedManager] track:@"Tapped Share Own Morsel"
                                              properties:@{@"view": @"Publish",

@@ -11,6 +11,8 @@
 #import <GCPlaceholderTextView/GCPlaceholderTextView.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+#import "MRSLAPIService+Profile.h"
+
 #import "MRSLKeywordUsersViewController.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLProfileStatsTagsViewController.h"
@@ -259,7 +261,8 @@ MRSLProfileStatsTagsViewControllerDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *originalProfileImage = info[UIImagePickerControllerEditedImage];
-        [self.profileImageView addAndRenderImage:originalProfileImage];
+        [self.profileImageView addAndRenderImage:originalProfileImage
+                                        complete:nil];
         [self.activityIndicatorView startAnimating];
         self.editPhotoButton.hidden = YES;
 

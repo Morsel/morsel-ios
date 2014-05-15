@@ -12,11 +12,9 @@
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 
-#import "MRSLAPIClient.h"
-
 #import "MRSLComment.h"
 #import "MRSLItem.h"
-#import "MRSLItem.h"
+#import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
 @implementation MRSLSpecsAppDelegate
@@ -43,7 +41,7 @@
     [self.defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [self.defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
     
-    self.itemApiService = [[MRSLAPIService alloc] init];
+    self.apiService = [[MRSLAPIService alloc] init];
 
 #ifdef INTEGRATION_TESTING
     [self setupDatabase];
@@ -60,10 +58,10 @@
 }
 
 - (void)setupDatabase {
-    [MagicalRecord setupCoreDataStackWithStoreNamed:@"Item-Specs.sqlite"];
+    [MagicalRecord setupCoreDataStackWithStoreNamed:@"Morsel-Specs.sqlite"];
     [MRSLUser MR_truncateAll];
     [MRSLItem MR_truncateAll];
-    [MRSLItem MR_truncateAll];
+    [MRSLMorsel MR_truncateAll];
     [MRSLComment MR_truncateAll];
 
     [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
@@ -77,7 +75,7 @@
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
                                                        forName:[[NSBundle mainBundle] bundleIdentifier]];
 
-    NSURL *persistentStoreURL = [NSPersistentStore MR_urlForStoreName:@"Item-Specs.sqlite"];
+    NSURL *persistentStoreURL = [NSPersistentStore MR_urlForStoreName:@"Morsel-Specs.sqlite"];
     NSURL *shmURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-shm"]];
     NSURL *walURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-wal"]];
     NSError *error = nil;

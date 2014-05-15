@@ -8,6 +8,8 @@
 
 #import "MRSLMyStuffViewController.h"
 
+#import "MRSLAPIService+Morsel.h"
+
 #import "MRSLProfileViewController.h"
 #import "MRSLMorselCollectionViewCell.h"
 #import "MRSLStatusHeaderCollectionReusableView.h"

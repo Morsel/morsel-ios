@@ -33,6 +33,7 @@ extern NSString *const MRSLAppShouldDisplayFeedNotification;
 extern NSString *const MRSLAppShouldDisplayMorselAddNotification;
 extern NSString *const MRSLAppShouldDisplayMenuBarNotification;
 extern NSString *const MRSLAppShouldDisplayUserProfileNotification;
+extern NSString *const MRSLAppShouldDisplayWebBrowserNotification;
 
 extern NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle;
 extern NSString *const MRSLAppTouchPhaseDidBeginNotification;

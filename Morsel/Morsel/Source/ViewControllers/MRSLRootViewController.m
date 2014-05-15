@@ -8,9 +8,12 @@
 
 #import "MRSLRootViewController.h"
 
+#import "MRSLAPIService+Profile.h"
+
 #import "MRSLFeedViewController.h"
 #import "MRSLMorselAddViewController.h"
 #import "MRSLProfileViewController.h"
+#import "MRSLWebBrowserViewController.h"
 
 #import "MRSLMenuBarView.h"
 
@@ -58,6 +61,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayUserProfile:)
                                                  name:MRSLAppShouldDisplayUserProfileNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayWebBrowser:)
+                                                 name:MRSLAppShouldDisplayWebBrowserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLoggedIn:)
@@ -133,20 +140,35 @@
 
 - (void)displayUserProfile:(NSNotification *)notification {
     UINavigationController *userProfileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
-    MRSLBaseViewController *profileViewController = (MRSLBaseViewController *)[[userProfileNC viewControllers] firstObject];
-    if (notification.object) [profileViewController setupWithUserInfo:notification.object];
+    MRSLBaseViewController *profileVC = (MRSLBaseViewController *)[[userProfileNC viewControllers] firstObject];
+    if (notification.object) [profileVC setupWithUserInfo:notification.object];
+    [self presentBaseViewController:profileVC withContainingNavigationController:userProfileNC];
+}
+
+- (void)displayWebBrowser:(NSNotification *)notification {
+    UINavigationController *webBrowserNC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"sb_WebBrowser"];
+    MRSLWebBrowserViewController *webBrowserVC = (MRSLWebBrowserViewController *)[[webBrowserNC viewControllers] firstObject];
+    if (notification.object) {
+        NSDictionary *webParams = notification.object;
+        [webBrowserVC setTitle:webParams[@"title"]
+                        andURL:webParams[@"url"]];
+    }
+    [self presentBaseViewController:webBrowserVC withContainingNavigationController:webBrowserNC];
+}
+
+- (void)presentBaseViewController:(MRSLBaseViewController *)baseViewController withContainingNavigationController:(UINavigationController *)navController {
     if (self.presentedViewController) {
         if ([self.presentedViewController isKindOfClass:[UINavigationController class]]) {
             UINavigationController *presentedNavigationController = (UINavigationController *)self.presentedViewController;
             MRSLBaseViewController *currentBaseViewController = (MRSLBaseViewController *)[[presentedNavigationController viewControllers] firstObject];
             UIViewController *topPresentingViewController = [currentBaseViewController topPresentingViewController];
             if ([topPresentingViewController isKindOfClass:[UINavigationController class]]) {
-                [(UINavigationController *)topPresentingViewController pushViewController:profileViewController
+                [(UINavigationController *)topPresentingViewController pushViewController:baseViewController
                                                                                  animated:YES];
             }
         }
     } else {
-        [self presentViewController:userProfileNC
+        [self presentViewController:navController
                            animated:YES
                          completion:nil];
     }

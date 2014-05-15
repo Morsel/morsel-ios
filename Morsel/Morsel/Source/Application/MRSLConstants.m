@@ -33,6 +33,7 @@ NSString *const MRSLAppShouldDisplayFeedNotification = @"MRSLAppShouldDisplayFee
 NSString *const MRSLAppShouldDisplayMorselAddNotification = @"MRSLAppShouldDisplayMorselAddNotification";
 NSString *const MRSLAppShouldDisplayMenuBarNotification = @"MRSLAppShouldDisplayMenuBarNotification";
 NSString *const MRSLAppShouldDisplayUserProfileNotification = @"MRSLAppShouldDisplayUserProfileNotification";
+NSString *const MRSLAppShouldDisplayWebBrowserNotification = @"MRSLAppShouldDisplayWebBrowserNotification";
 
 NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle = @"MRSLAppDidRequestNewPreferredStatusBarStyle";
 
