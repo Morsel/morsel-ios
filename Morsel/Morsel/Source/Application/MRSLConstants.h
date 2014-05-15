@@ -32,11 +32,16 @@ extern NSString *const MRSLModalWillDismissNotification;
 extern NSString *const MRSLAppShouldDisplayFeedNotification;
 extern NSString *const MRSLAppShouldDisplayMorselAddNotification;
 extern NSString *const MRSLAppShouldDisplayMenuBarNotification;
+extern NSString *const MRSLAppShouldDisplayBaseViewControllerNotification;
 extern NSString *const MRSLAppShouldDisplayUserProfileNotification;
 extern NSString *const MRSLAppShouldDisplayWebBrowserNotification;
 
 extern NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle;
 extern NSString *const MRSLAppTouchPhaseDidBeginNotification;
+
+#pragma mark - Social Constants
+
+extern NSString *const MRSLTwitterCredentialsKey;
 
 #pragma mark - Keyword Constants
 

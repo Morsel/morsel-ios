@@ -12,12 +12,12 @@
 
 + (instancetype)sharedService;
 
-- (void)shareMorselToFacebook:(MRSLItem *)item
+- (void)shareMorselToFacebook:(MRSLMorsel *)morsel
              inViewController:(UIViewController *)viewController
                       success:(MRSLSocialSuccessBlock)successOrNil
                        cancel:(MRSLSocialCancelBlock)cancelBlockOrNil;
 
-- (void)shareMorselToTwitter:(MRSLItem *)item
+- (void)shareMorselToTwitter:(MRSLMorsel *)morsel
             inViewController:(UIViewController *)viewController
                      success:(MRSLSocialSuccessBlock)successOrNil
                       cancel:(MRSLSocialCancelBlock)cancelBlockOrNil;

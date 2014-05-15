@@ -107,14 +107,25 @@
     [self.signInButton setEnabled:NO];
     [self.activityView setHidden:NO];
 
+    // Just making sure that any social connections enabled are either permanently or temporarily cleared.
+    // After login, app will use authentications from backend to re-establish them
+    [_appDelegate resetSocialConnections];
+
     __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService signInUserWithEmailOrUsername:_emailTextField.text
                                                andPassword:_passwordTextField.text
                                           orAuthentication:nil
                                                    success:^(id responseObject) {
-                                                       [_appDelegate.apiService createUserAuthentication:weakSelf.socialUser.authentication
-                                                                                                 success:nil
-                                                                                                 failure:nil];
+                                                       if (weakSelf.socialUser) {
+                                                           [_appDelegate.apiService createUserAuthentication:weakSelf.socialUser.authentication
+                                                                                                     success:^(id responseObject) {
+                                                                                                         [_appDelegate.apiService getUserAuthenticationsWithSuccess:nil
+                                                                                                                                                            failure:nil];
+                                                                                                     } failure:nil];
+                                                       } else {
+                                                           [_appDelegate.apiService getUserAuthenticationsWithSuccess:nil
+                                                                                                              failure:nil];
+                                                       }
                                                    } failure:^(NSError *error) {
          [self.activityView setHidden:YES];
          [self.signInButton setEnabled:YES];

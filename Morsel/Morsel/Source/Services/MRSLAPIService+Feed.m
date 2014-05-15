@@ -21,7 +21,7 @@
                  failure:(MRSLAPIFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:NO];
+                                              requiresAuthentication:YES];
     if (maxOrNil && sinceOrNil) {
         DDLogError(@"Attempting to call feed with both max and since IDs set. Ignoring both values.");
     } else if (maxOrNil && !sinceOrNil) {

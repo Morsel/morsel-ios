@@ -32,12 +32,17 @@ NSString *const MRSLModalWillDismissNotification = @"MRSLModalWillDismissNotific
 NSString *const MRSLAppShouldDisplayFeedNotification = @"MRSLAppShouldDisplayFeedNotification";
 NSString *const MRSLAppShouldDisplayMorselAddNotification = @"MRSLAppShouldDisplayMorselAddNotification";
 NSString *const MRSLAppShouldDisplayMenuBarNotification = @"MRSLAppShouldDisplayMenuBarNotification";
+NSString *const MRSLAppShouldDisplayBaseViewControllerNotification = @"MRSLAppShouldDisplayBaseViewControllerNotification";
 NSString *const MRSLAppShouldDisplayUserProfileNotification = @"MRSLAppShouldDisplayUserProfileNotification";
 NSString *const MRSLAppShouldDisplayWebBrowserNotification = @"MRSLAppShouldDisplayWebBrowserNotification";
 
 NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle = @"MRSLAppDidRequestNewPreferredStatusBarStyle";
 
 NSString *const MRSLAppTouchPhaseDidBeginNotification = @"MRSLAppTouchPhaseDidBeginNotification";
+
+#pragma mark - Social Constants
+
+NSString *const MRSLTwitterCredentialsKey = @"MRSLTwitterCredentialsKey";
 
 #pragma mark - Keyword Constants
 

@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Registration.h"
 
+#import "MRSLAPIService+Authorization.h"
+
 #import "MRSLAPIClient.h"
 
 #import "MRSLSocialAuthentication.h"

@@ -10,7 +10,7 @@
 
 #import <AFOAuth1Client/AFOAuth1Client.h>
 
-@class ACAccount;
+@class ACAccount, MRSLSocialAuthentication;
 
 NS_ENUM(NSUInteger, CreateMorselActionSheet) {
     CreateMorselActionSheetSettings = 1,
@@ -26,13 +26,16 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
 
 - (void)authenticateWithTwitterWithSuccess:(MRSLSocialSuccessBlock)successOrNil
                                    failure:(MRSLSocialFailureBlock)failureOrNil;
-
+- (void)checkForValidTwitterAuthenticationWithSuccess:(MRSLSocialSuccessBlock)successOrNil
+                                              failure:(MRSLSocialFailureBlock)failureOrNil;
+- (void)restoreTwitterWithAuthentication:(MRSLSocialAuthentication *)authentication
+                            shouldCreate:(BOOL)shouldCreate;
 - (void)getTwitterUserInformation:(MRSLSocialUserInfoBlock)userInfoBlockOrNil;
 
+- (void)postStatus:(NSString *)status
+           success:(MRSLSocialSuccessBlock)successOrNil
+           failure:(MRSLSocialFailureBlock)failureOrNil;
 
-
-
-- (void)activateTwitterWithSuccess:(MRSLSocialSuccessBlock)successOrNil
-                           failure:(MRSLSocialFailureBlock)failureOrNil __deprecated;
+- (void)reset;
 
 @end

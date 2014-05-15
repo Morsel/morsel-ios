@@ -77,9 +77,6 @@
         [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if ([session isOpen]) {
                 [weakSelf connectFacebookAccountUsingActiveSession];
-            } else {
-                [UIAlertView showAlertViewForError:error
-                                          delegate:nil];
             }
         }];
     }

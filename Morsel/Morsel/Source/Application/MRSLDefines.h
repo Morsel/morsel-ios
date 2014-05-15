@@ -60,9 +60,14 @@ typedef NS_ENUM(NSUInteger, MRSLIndustryType) {
     MRSLIndustryTypeDiner
 };
 
-NS_ENUM(NSUInteger, MRSLSocialAlertViewType) {
+typedef NS_ENUM(NSUInteger, MRSLSocialAlertViewType) {
     MRSLSocialAlertViewTypeFacebook = 1,
     MRSLSocialAlertViewTypeTwitter
+};
+
+typedef NS_ENUM(NSUInteger, MRSLSocialAccountType) {
+    MRSLSocialAccountTypeFacebook = 1,
+    MRSLSocialAccountTypeTwitter
 };
 
 #pragma mark - Media Capture Values

@@ -10,17 +10,19 @@
 
 #import <FacebookSDK/FacebookSDK.h>
 
+@class MRSLSocialAuthentication;
+
 @interface MRSLSocialServiceFacebook : NSObject
 
 + (instancetype)sharedService;
 
-- (void)checkForValidFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler;;
+- (void)checkForValidFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler;
 - (void)openFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler;
+- (void)restoreFacebookSessionWithAuthentication:(MRSLSocialAuthentication *)authentication;
 - (void)getFacebookUserInformation:(MRSLSocialUserInfoBlock)facebookUserInfo;
-
+- (void)shareMorsel:(MRSLMorsel *)morsel
+            success:(MRSLSocialSuccessBlock)successOrNil
+             cancel:(MRSLSocialCancelBlock)cancelBlockOrNil;
 - (void)reset;
-
-- (void)activateFacebookWithSuccess:(MRSLSocialSuccessBlock)successOrNil
-                            failure:(MRSLSocialFailureBlock)failureOrNil __deprecated;
 
 @end

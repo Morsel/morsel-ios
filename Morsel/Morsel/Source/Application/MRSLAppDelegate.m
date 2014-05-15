@@ -18,6 +18,7 @@
 #import <TestFlight.h>
 
 #import "MRSLSocialServiceFacebook.h"
+#import "MRSLSocialServiceTwitter.h"
 #import "NSMutableArray+Feed.h"
 
 #import "MRSLItem.h"
@@ -29,7 +30,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
-    
+    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0
+                                                            diskCapacity:0
+                                                                diskPath:nil];
+    [NSURLCache setSharedURLCache:sharedCache];
 
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
@@ -40,6 +44,8 @@
 
     [MRSLAppDelegate setupTheme];
 
+    [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:nil
+                                                                                    failure:nil];
     [[MRSLSocialServiceFacebook sharedService] checkForValidFacebookSessionWithSessionStateHandler:nil];
 
     [self setupMorselEnvironment];
@@ -67,6 +73,7 @@
          annotation:(id)annotation {
     if ([url.absoluteString rangeOfString:@"fb"].location != NSNotFound) {
         // Assuming this is a FB callback
+        DDLogDebug(@"Facebook Callback URL: %@", url);
         [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
     } else {
         // Assuming this is a Twitter callback
@@ -131,10 +138,16 @@
 
 #pragma mark - Logout
 
+- (void)resetSocialConnections {
+    [[MRSLSocialServiceFacebook sharedService] reset];
+    [[MRSLSocialServiceTwitter sharedService] reset];
+}
+
 - (void)resetDataStore {
     [[Mixpanel sharedInstance] reset];
-    [[MRSLSocialServiceFacebook sharedService] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
+
+    [self resetSocialConnections];
 
     [NSMutableArray resetFeedIDArray];
 

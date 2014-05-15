@@ -17,5 +17,6 @@
 @property (strong, nonatomic) UIWindow *window;
 
 - (void)resetDataStore;
+- (void)resetSocialConnections;
 
 @end

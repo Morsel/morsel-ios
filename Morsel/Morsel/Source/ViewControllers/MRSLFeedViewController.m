@@ -28,6 +28,7 @@ UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
 MRSLFeedPanelCollectionViewCellDelegate>
 
+@property (nonatomic) BOOL refreshing;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 @property (nonatomic) BOOL theNewMorselsAvailable;
@@ -98,10 +99,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleLightContent];
 
     [super viewWillAppear:animated];
-    [self resumeTimer];
 
     if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
-
+    [self resumeTimer];
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];
@@ -109,6 +109,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
     [self suspendTimer];
 }
 
@@ -131,7 +132,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
         [[NSRunLoop currentRunLoop] addTimer:_timer
                                      forMode:NSRunLoopCommonModes];
     }
-    [self loadNew];
 }
 
 - (void)hideControls {
@@ -233,6 +233,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 #pragma mark - Section Methods
 
 - (void)refreshContent {
+    self.refreshing = YES;
     if ([_morselIDs count] == 0) [self.activityIndicatorView startAnimating];
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getFeedWithMaxID:nil
@@ -245,6 +246,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                               [weakSelf.morselIDs saveFeedIDArray];
                                               [weakSelf setupFetchRequest];
                                               [weakSelf populateContent];
+                                              weakSelf.refreshing = NO;
                                           }
                                       } failure:^(NSError *error) {
                                           [weakSelf.activityIndicatorView stopAnimating];
@@ -252,11 +254,12 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                                                        properties:@{@"view": @"main_feed",
                                                                                     @"message" : NSNullIfNil(error.description),
                                                                                     @"action" : @"refresh"}];
+                                          weakSelf.refreshing = NO;
                                       }];
 }
 
 - (void)loadNew {
-    if ([_morselIDs count] == 0) return;
+    if ([_morselIDs count] == 0 || _refreshing) return;
     DDLogDebug(@"Loading new feed items");
     NSNumber *firstValidID = [_morselIDs firstObjectWithValidFeedItemID];
     if (!firstValidID) return;
@@ -311,7 +314,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)loadMore {
-    if (_loadingMore || _loadedAll) return;
+    if (_loadingMore || _loadedAll || _refreshing) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more feed items");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID

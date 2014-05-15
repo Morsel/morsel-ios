@@ -8,9 +8,11 @@
 
 #import "MRSLSocialUser.h"
 
+#import <AFOAuth1Client/AFOAuth1Client.h>
 #import <FacebookSDK/FacebookSDK.h>
 
 #import "MRSLSocialAuthentication.h"
+#import "MRSLSocialServiceTwitter.h"
 
 @implementation MRSLSocialUser
 
@@ -22,12 +24,15 @@
         self.lastName = userInfo[@"last_name"];
         self.pictureURL = [NSURL URLWithString:userInfo[@"pictureURL"]];
 
-        if ([FBSession.activeSession isOpen]) {
-            self.authentication = [[MRSLSocialAuthentication alloc] init];
-            _authentication.provider = userInfo[@"provider"];
-            _authentication.uid = userInfo[@"uid"];
+        self.authentication = [[MRSLSocialAuthentication alloc] init];
+        _authentication.provider = userInfo[@"provider"];
+        _authentication.uid = userInfo[@"uid"];
+        _authentication.email = userInfo[@"email"];
+        if ([userInfo[@"provider"] isEqualToString:@"facebook"]) {
             _authentication.token = FBSession.activeSession.accessTokenData.accessToken;
-            _authentication.email = userInfo[@"email"];
+        } else if ([userInfo[@"provider"] isEqualToString:@"twitter"]) {
+            _authentication.token = [MRSLSocialServiceTwitter sharedService].twitterClient.accessToken.key;
+            _authentication.secret = [MRSLSocialServiceTwitter sharedService].twitterClient.accessToken.secret;
         }
     }
     return self;

@@ -13,6 +13,7 @@
 + (UIStoryboard *)mainStoryboard;
 + (UIStoryboard *)feedStoryboard;
 + (UIStoryboard *)profileStoryboard;
++ (UIStoryboard *)socialStoryboard;
 + (UIStoryboard *)loginStoryboard;
 + (UIStoryboard *)mediaManagementStoryboard;
 + (UIStoryboard *)morselManagementStoryboard;

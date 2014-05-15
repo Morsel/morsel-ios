@@ -33,17 +33,19 @@
 
 - (IBAction)shareToFacebook {
     _facebookButton.enabled = NO;
+    [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
+                                 properties:@{@"view": @"share",
+                                              @"morsel_id": NSNullIfNil(_item.morsel.morselID),
+                                              @"creator_id": NSNullIfNil(_item.morsel.creator.userID),
+                                              @"social_type": @"facebook"}];
     __weak __typeof(self) weakSelf = self;
-    [[MRSLSocialService sharedService] shareMorselToFacebook:_item
+    [[MRSLSocialService sharedService] shareMorselToFacebook:_item.morsel
                                             inViewController:self
                                                      success:^(BOOL success) {
-                                                         if (weakSelf) {
-                                                             [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
-                                                                                          properties:@{@"view": @"share",
-                                                                                                       @"morsel_id": NSNullIfNil(weakSelf.item.morsel.morselID),
-                                                                                                       @"creator_id": NSNullIfNil(weakSelf.item.morsel.creator.userID),
-                                                                                                       @"social_type": @"facebook"}];
+                                                         if (weakSelf && success) {
                                                              [weakSelf displaySuccess];
+                                                         } else {
+                                                             weakSelf.facebookButton.enabled = YES;
                                                          }
                                                      } cancel:^{
                                                          if (weakSelf) {
@@ -53,17 +55,20 @@
 }
 
 - (IBAction)shareToTwitter {
+    _twitterButton.enabled = NO;
+    [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
+                                 properties:@{@"view": @"share",
+                                              @"morsel_id": NSNullIfNil(_item.morsel.morselID),
+                                              @"creator_id": NSNullIfNil(_item.morsel.creator.userID),
+                                              @"social_type": @"twitter"}];
     __weak __typeof(self) weakSelf = self;
-    [[MRSLSocialService sharedService] shareMorselToTwitter:_item
+    [[MRSLSocialService sharedService] shareMorselToTwitter:_item.morsel
                                            inViewController:self
                                                     success:^(BOOL success) {
-                                                        if (weakSelf) {
-                                                            [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
-                                                                                         properties:@{@"view": @"share",
-                                                                                                      @"morsel_id": NSNullIfNil(weakSelf.item.morsel.morselID),
-                                                                                                      @"creator_id": NSNullIfNil(weakSelf.item.morsel.creator.userID),
-                                                                                                      @"social_type": @"twitter"}];
+                                                        if (weakSelf && success) {
                                                             [weakSelf displaySuccess];
+                                                        } else {
+                                                            weakSelf.twitterButton.enabled = YES;
                                                         }
                                                     } cancel:^{
                                                         if (weakSelf) {
@@ -73,46 +78,6 @@
 }
 
 #pragma mark - Private Methods
-
-- (void)displayFacebookShare {
-    __weak __typeof(self) weakSelf = self;
-    [[MRSLSocialService sharedService] shareMorselToFacebook:_item
-                                            inViewController:self
-                                                     success:^(BOOL success) {
-                                                         if (weakSelf) {
-                                                             [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
-                                                                                          properties:@{@"view": @"share",
-                                                                                                       @"morsel_id": NSNullIfNil(weakSelf.item.morsel.morselID),
-                                                                                                       @"creator_id": NSNullIfNil(weakSelf.item.morsel.creator.userID),
-                                                                                                       @"social_type": @"facebook"}];
-                                                             [weakSelf displaySuccess];
-                                                         }
-                                                     } cancel:^{
-                                                         if (weakSelf) {
-                                                             weakSelf.facebookButton.enabled = YES;
-                                                         }
-                                                     }];
-}
-
-- (void)displayTwitterShare {
-    __weak __typeof(self) weakSelf = self;
-    [[MRSLSocialService sharedService] shareMorselToTwitter:_item
-                                           inViewController:self
-                                                    success:^(BOOL success) {
-                                                        if (weakSelf) {
-                                                            [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
-                                                                                         properties:@{@"view": @"share",
-                                                                                                      @"morsel_id": NSNullIfNil(weakSelf.item.morsel.morselID),
-                                                                                                      @"creator_id": NSNullIfNil(weakSelf.item.morsel.creator.userID),
-                                                                                                      @"social_type": @"twitter"}];
-                                                            [weakSelf displaySuccess];
-                                                        }
-                                                    } cancel:^{
-                                                        if (weakSelf) {
-                                                            weakSelf.twitterButton.enabled = YES;
-                                                        }
-                                                    }];
-}
 
 - (void)displaySuccess {
     [_shareConfirmationLabel setHidden:NO];
