@@ -12,7 +12,7 @@
 
 #import "MRSLAPIService+Registration.h"
 
-#import "MRSLStandardButton.h"
+#import "MRSLLightButton.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLValidationStatusView.h"
 

@@ -13,7 +13,7 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *email;
 	__unsafe_unretained NSString *facebook_uid;
 	__unsafe_unretained NSString *first_name;
-	__unsafe_unretained NSString *followed_users_count;
+	__unsafe_unretained NSString *followed_user_count;
 	__unsafe_unretained NSString *follower_count;
 	__unsafe_unretained NSString *following;
 	__unsafe_unretained NSString *industryType;
@@ -166,15 +166,15 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* followed_users_count;
+@property (nonatomic, strong) NSNumber* followed_user_count;
 
 
 
-@property int32_t followed_users_countValue;
-- (int32_t)followed_users_countValue;
-- (void)setFollowed_users_countValue:(int32_t)value_;
+@property int32_t followed_user_countValue;
+- (int32_t)followed_user_countValue;
+- (void)setFollowed_user_countValue:(int32_t)value_;
 
-//- (BOOL)validateFollowed_users_count:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateFollowed_user_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -452,11 +452,11 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSNumber*)primitiveFollowed_users_count;
-- (void)setPrimitiveFollowed_users_count:(NSNumber*)value;
+- (NSNumber*)primitiveFollowed_user_count;
+- (void)setPrimitiveFollowed_user_count:(NSNumber*)value;
 
-- (int32_t)primitiveFollowed_users_countValue;
-- (void)setPrimitiveFollowed_users_countValue:(int32_t)value_;
+- (int32_t)primitiveFollowed_user_countValue;
+- (void)setPrimitiveFollowed_user_countValue:(int32_t)value_;
 
 
 

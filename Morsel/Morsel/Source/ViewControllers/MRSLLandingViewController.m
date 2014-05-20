@@ -10,7 +10,7 @@
 
 #import "MRSLSocialServiceFacebook.h"
 #import "MRSLSocialServiceTwitter.h"
-#import "MRSLAPIService+Authorization.h"
+#import "MRSLAPIService+Authentication.h"
 #import "MRSLAPIService+Registration.h"
 
 #import "MRSLLoginViewController.h"
@@ -83,7 +83,7 @@
 }
 
 - (IBAction)connectWithTwitter {
-    if ([MRSLSocialServiceTwitter sharedService].twitterClient.accessToken) {
+    if ([MRSLSocialServiceTwitter sharedService].oauth1Client.accessToken) {
         [self connectTwitterAccountUsingActiveSession];
     } else {
         __weak __typeof(self) weakSelf = self;

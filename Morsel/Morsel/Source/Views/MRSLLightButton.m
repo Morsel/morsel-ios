@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLStandardButton.h"
+#import "MRSLLightButton.h"
 
-@implementation MRSLStandardButton
+@implementation MRSLLightButton
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];

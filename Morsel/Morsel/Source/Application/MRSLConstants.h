@@ -42,6 +42,7 @@ extern NSString *const MRSLAppTouchPhaseDidBeginNotification;
 #pragma mark - Social Constants
 
 extern NSString *const MRSLTwitterCredentialsKey;
+extern NSString *const MRSLInstagramAccountTypeKey;
 
 #pragma mark - Keyword Constants
 

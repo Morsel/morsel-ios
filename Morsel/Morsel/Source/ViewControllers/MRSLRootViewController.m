@@ -8,7 +8,7 @@
 
 #import "MRSLRootViewController.h"
 
-#import "MRSLAPIService+Authorization.h"
+#import "MRSLAPIService+Authentication.h"
 #import "MRSLAPIService+Profile.h"
 
 #import "MRSLFeedViewController.h"
@@ -321,6 +321,12 @@
                                          properties:@{@"name": @"Activity"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Activity"
                                                           andStoryboardPrefix:@"Activity"];
+            break;
+        case MRSLMenuBarButtonTypeFind:
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
+                                         properties:@{@"name": @"Find"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"FindFriends"
+                                                          andStoryboardPrefix:@"Social"];
             break;
         case MRSLMenuBarButtonTypeLogout:
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"

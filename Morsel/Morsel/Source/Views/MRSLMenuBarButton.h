@@ -6,17 +6,18 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLStandardButton.h"
+#import "MRSLLightButton.h"
 
 typedef NS_ENUM(NSUInteger, MRSLMenuBarButtonType) {
     MRSLMenuBarButtonTypeFeed,
     MRSLMenuBarButtonTypeProfile,
     MRSLMenuBarButtonTypeMyStuff,
     MRSLMenuBarButtonTypeActivity,
+    MRSLMenuBarButtonTypeFind,
     MRSLMenuBarButtonTypeLogout
 };
 
-@interface MRSLMenuBarButton : MRSLStandardButton
+@interface MRSLMenuBarButton : MRSLLightButton
 
 @property (nonatomic) MRSLMenuBarButtonType menuBarButtonType;
 

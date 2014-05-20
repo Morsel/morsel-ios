@@ -72,7 +72,7 @@
     self.likeCountLabel.text = [NSString stringWithFormat:@"%i", _user.liked_items_countValue];
     self.morselCountLabel.text = [NSString stringWithFormat:@"%i", _user.morsel_countValue];
     self.followersCountLabel.text = [NSString stringWithFormat:@"%i", _user.follower_countValue];
-    self.followingCountLabel.text = [NSString stringWithFormat:@"%i", _user.followed_users_countValue];
+    self.followingCountLabel.text = [NSString stringWithFormat:@"%i", _user.followed_user_countValue];
     [self setFollowButtonState];
 }
 

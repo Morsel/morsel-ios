@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStandardButton : UIButton
+@interface MRSLLightButton : UIButton
 
 - (void)setUp;
 

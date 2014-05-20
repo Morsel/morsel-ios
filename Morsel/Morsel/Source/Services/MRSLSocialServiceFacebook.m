@@ -10,7 +10,7 @@
 
 #import <Social/Social.h>
 
-#import "MRSLAPIService+Authorization.h"
+#import "MRSLAPIService+Authentication.h"
 #import "MRSLAPIService+Profile.h"
 
 #import "MRSLSocialAuthentication.h"
@@ -30,7 +30,9 @@
 @property (strong, nonatomic) MRSLSocialFailureBlock facebookFailureBlock;
 @property (copy, nonatomic) FBSessionStateHandler sessionStateHandlerBlock;
 
+@property (strong, nonatomic) MRSLSocialAuthentication *facebookAuthentication;
 @property (strong, nonatomic) NSArray *facebookAccounts;
+@property (strong, nonatomic) NSArray *friendUIDs;
 
 @end
 
@@ -68,6 +70,7 @@
 
 - (void)openFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler {
     self.sessionStateHandlerBlock = handler;
+    self.facebookAuthentication = [[MRSLSocialAuthentication alloc] init];
     // Open a session showing the user the login UI
     // You must ALWAYS ask for public_profile permissions when opening a session
     [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
@@ -81,6 +84,7 @@
 }
 
 - (void)restoreFacebookSessionWithAuthentication:(MRSLSocialAuthentication *)authentication {
+    self.facebookAuthentication = authentication;
     if ([[FBSession activeSession] isOpen]) {
         if ([[FBSession activeSession].accessTokenData.accessToken isEqualToString:authentication.token]) {
             __weak __typeof(self) weakSelf = self;
@@ -122,12 +126,9 @@
     } else {
         if (![authentication.token isEqualToString:session.accessTokenData.accessToken]) {
             authentication.token = session.accessTokenData.accessToken;
-#warning Replace with UPDATE Authentication when becomes available
-            /*
-            [_appDelegate.apiService createUserAuthentication:authentication
+            [_appDelegate.apiService updateUserAuthentication:authentication
                                                       success:nil
                                                       failure:nil];
-             */
         }
     }
 }
@@ -164,6 +165,34 @@
                                                         facebookUserInfo(userInfo, userError);
                                                     }];
                           }];
+}
+
+- (void)getFacebookFriendUIDs:(MRSLSocialUIDStringBlock)uidBlockOrNil {
+    if (_friendUIDs) {
+        if (uidBlockOrNil) uidBlockOrNil([self friendUIDString], nil);
+        return;
+    }
+    [FBRequestConnection startWithGraphPath:@"/me/friends"
+                                 parameters:nil
+                                 HTTPMethod:@"GET"
+                          completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                              if (!error && result) {
+                                  DDLogVerbose(@"Facebook Friends Response: %@", result);
+                                  __block NSMutableArray *friendUIDs = [NSMutableArray array];
+                                  NSArray *friendArray = result[@"data"];
+                                  [friendArray enumerateObjectsUsingBlock:^(NSDictionary *friendDictionary, NSUInteger idx, BOOL *stop) {
+                                      [friendUIDs addObject:friendDictionary[@"id"]];
+                                  }];
+                                  self.friendUIDs = friendUIDs;
+                                  if (uidBlockOrNil) uidBlockOrNil([self friendUIDString], nil);
+                              } else {
+                                  if (uidBlockOrNil) uidBlockOrNil(nil, error);
+                              }
+                          }];
+}
+
+- (NSString *)friendUIDString {
+    return [NSString stringWithFormat:@"'%@'", [_friendUIDs componentsJoinedByString:@"','"]];
 }
 
 #pragma mark - Share Methods
@@ -254,10 +283,24 @@
                       state:(FBSessionState)state
                       error:(NSError *)error {
     // If the session was opened successfully
-    if (!error && state == FBSessionStateOpen){
+    if (!error && state == FBSessionStateOpen) {
         NSLog(@"Session opened");
         // Show the user the logged-in UI
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
+        if (_facebookAuthentication && ![_facebookAuthentication isValid]) {
+            __weak __typeof(self) weakSelf = self;
+            [self getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
+                __block MRSLSocialAuthentication *facebookAuthentication = [[MRSLSocialAuthentication alloc] init];
+                facebookAuthentication.provider = @"facebook";
+                facebookAuthentication.uid = userInfo[@"uid"];
+                facebookAuthentication.token = session.accessTokenData.accessToken;
+                [_appDelegate.apiService createUserAuthentication:facebookAuthentication
+                                                          success:^(id responseObject) {
+                                                              facebookAuthentication.authenticationID = responseObject[@"data"][@"id"];
+                                                              weakSelf.facebookAuthentication = facebookAuthentication;
+                                                          } failure:nil];
+            }];
+        }
         return;
     }
     if (state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed){
@@ -265,6 +308,12 @@
         NSLog(@"Session closed");
         // Show the user the logged-out UI
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
+        if ([_facebookAuthentication isValid]) {
+            [self reset];
+            [_appDelegate.apiService deleteUserAuthentication:_facebookAuthentication
+                                                      success:nil
+                                                      failure:nil];
+        }
     }
 
     // Handle errors
@@ -279,7 +328,7 @@
             [UIAlertView showAlertViewWithTitle:alertTitle
                                         message:alertText
                                        delegate:nil
-                              cancelButtonTitle:nil
+                              cancelButtonTitle:@"OK"
                               otherButtonTitles:nil];
         } else {
 
@@ -294,7 +343,7 @@
                 [UIAlertView showAlertViewWithTitle:alertTitle
                                             message:alertText
                                            delegate:nil
-                                  cancelButtonTitle:nil
+                                  cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
 
                 // Here we will handle all other errors with a generic error message.
@@ -310,12 +359,19 @@
                 [UIAlertView showAlertViewWithTitle:alertTitle
                                             message:alertText
                                            delegate:nil
-                                  cancelButtonTitle:nil
+                                  cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
             }
         }
         // Clear this token
         [FBSession.activeSession closeAndClearTokenInformation];
+        if (_facebookAuthentication) {
+            [_appDelegate.apiService deleteUserAuthentication:_facebookAuthentication
+                                                      success:nil
+                                                      failure:nil];
+            self.facebookAuthentication = nil;
+        }
+
         // Report Error (should log user out of FB)
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
     }

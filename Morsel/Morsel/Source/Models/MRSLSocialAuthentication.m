@@ -10,4 +10,8 @@
 
 @implementation MRSLSocialAuthentication
 
+- (BOOL)isValid {
+    return (_authenticationID != nil);
+}
+
 @end

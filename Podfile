@@ -20,6 +20,8 @@ pod 'SDWebImage', '~> 3.6'
 pod 'JLRoutes', '~> 1.5'
 pod 'Facebook-iOS-SDK', '~> 3.14'
 pod 'AFOAuth1Client', :git => 'https://github.com/Morsel/AFOAuth1Client'
+pod 'AFOAuth2Client', :git => 'https://github.com/Morsel/AFOAuth2Client'
+pod 'NXOAuth2Client', '~> 1.2'
 
 target 'Morsel-Integration' do
 	pod 'Kiwi-KIF/XCTest', '~>1.0.1'

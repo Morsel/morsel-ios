@@ -18,6 +18,7 @@
 #import <TestFlight.h>
 
 #import "MRSLSocialServiceFacebook.h"
+#import "MRSLSocialServiceInstagram.h"
 #import "MRSLSocialServiceTwitter.h"
 #import "NSMutableArray+Feed.h"
 
@@ -44,8 +45,6 @@
 
     [MRSLAppDelegate setupTheme];
 
-    [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:nil
-                                                                                    failure:nil];
     [[MRSLSocialServiceFacebook sharedService] checkForValidFacebookSessionWithSessionStateHandler:nil];
 
     [self setupMorselEnvironment];
@@ -71,18 +70,20 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    if ([url.absoluteString rangeOfString:@"fb"].location != NSNotFound) {
-        // Assuming this is a FB callback
+    if ([url.absoluteString rangeOfString:@"fb1406459019603393://"].location != NSNotFound) {
         DDLogDebug(@"Facebook Callback URL: %@", url);
         [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-    } else {
-        // Assuming this is a Twitter callback
+    } else if ([url.absoluteString rangeOfString:@"tw-morsel://"].location != NSNotFound) {
         DDLogDebug(@"Twitter Callback URL: %@", url);
         NSNotification *notification = [NSNotification notificationWithName:kAFApplicationLaunchedWithURLNotification
                                                                      object:nil
                                                                    userInfo:[NSDictionary dictionaryWithObject:url
                                                                                                         forKey:kAFApplicationLaunchOptionsURLKey]];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
+    } else if ([url.absoluteString rangeOfString:@"insta-morsel://"].location != NSNotFound) {
+        DDLogDebug(@"Instagram Callback URL: %@", url);
+        NSString *authCode = [url.absoluteString stringByReplacingOccurrencesOfString:@"insta-morsel://success?code=" withString:@""];
+        [[MRSLSocialServiceInstagram sharedService] completeAuthenticationWithCode:authCode];
     }
     return [self handleRouteForURL:url
                  sourceApplication:sourceApplication];
@@ -141,6 +142,7 @@
 - (void)resetSocialConnections {
     [[MRSLSocialServiceFacebook sharedService] reset];
     [[MRSLSocialServiceTwitter sharedService] reset];
+    [[MRSLSocialServiceInstagram sharedService] reset];
 }
 
 - (void)resetDataStore {
