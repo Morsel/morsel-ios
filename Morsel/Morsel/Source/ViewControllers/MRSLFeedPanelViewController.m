@@ -404,14 +404,14 @@ MRSLFeedShareCollectionViewCellDelegate>
 #pragma mark - MRSLFeedShareCollectionViewCellDelegate
 
 - (void)feedShareCollectionViewCellDidSelectShareFacebook {
-    [[MRSLSocialService sharedService] shareMorselToFacebook:[_morsel coverItem]
+    [[MRSLSocialService sharedService] shareMorselToFacebook:_morsel
                                             inViewController:self
                                                      success:nil
                                                       cancel:nil];
 }
 
 - (void)feedShareCollectionViewCellDidSelectShareTwitter {
-    [[MRSLSocialService sharedService] shareMorselToTwitter:[_morsel coverItem]
+    [[MRSLSocialService sharedService] shareMorselToTwitter:_morsel
                                            inViewController:self
                                                     success:nil
                                                      cancel:nil];

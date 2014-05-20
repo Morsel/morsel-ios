@@ -8,6 +8,7 @@
 
 #import "MRSLRootViewController.h"
 
+#import "MRSLAPIService+Authorization.h"
 #import "MRSLAPIService+Profile.h"
 
 #import "MRSLFeedViewController.h"
@@ -59,6 +60,10 @@
                                                  name:MRSLAppShouldDisplayMorselAddNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayBaseViewController:)
+                                                 name:MRSLAppShouldDisplayBaseViewControllerNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayUserProfile:)
                                                  name:MRSLAppShouldDisplayUserProfileNotification
                                                object:nil];
@@ -103,8 +108,10 @@
                                @"created_at": NSNullIfNil(currentUser.creationDate),
                                @"username": NSNullIfNil(currentUser.username)}];
         [_appDelegate.apiService getUserProfile:currentUser
-                                        success:nil
-                                        failure:nil];
+                                        success:^(id responseObject) {
+                                            [_appDelegate.apiService getUserAuthenticationsWithSuccess:nil
+                                                                                               failure:nil];
+                                        } failure:nil];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                             object:nil];
@@ -136,6 +143,12 @@
     [self presentViewController:morselAddNC
                        animated:YES
                      completion:nil];
+}
+
+- (void)displayBaseViewController:(NSNotification *)notification {
+    UINavigationController *baseNC = notification.object;
+    MRSLBaseViewController *baseVC = (MRSLBaseViewController *)[[baseNC viewControllers] firstObject];
+    [self presentBaseViewController:baseVC withContainingNavigationController:baseNC];
 }
 
 - (void)displayUserProfile:(NSNotification *)notification {

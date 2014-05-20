@@ -13,6 +13,9 @@
 #import "MRSLAPIService+Authorization.h"
 #import "MRSLAPIService+Profile.h"
 
+#import "MRSLSocialAuthentication.h"
+
+#import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
 #if (defined(MORSEL_BETA) || defined(RELEASE))
@@ -44,13 +47,13 @@
     return _sharedService;
 }
 
-#pragma mark - Instance Methods
+#pragma mark - Authentication and User Information Methods
 
 - (void)checkForValidFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler {
     self.sessionStateHandlerBlock = handler;
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
         // If there's one, just open the session silently, without showing the user the login UI
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
                                            allowLoginUI:NO
                                       completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
                                           // Handler for session state changes
@@ -67,7 +70,7 @@
     self.sessionStateHandlerBlock = handler;
     // Open a session showing the user the login UI
     // You must ALWAYS ask for public_profile permissions when opening a session
-    [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email"]
+    [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
                                        allowLoginUI:YES
                                   completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
                                       // Call sessionStateChanged:state:error method to handle session state changes
@@ -75,6 +78,58 @@
                                                           state:state
                                                           error:error];
                                   }];
+}
+
+- (void)restoreFacebookSessionWithAuthentication:(MRSLSocialAuthentication *)authentication {
+    if ([[FBSession activeSession] isOpen]) {
+        if ([[FBSession activeSession].accessTokenData.accessToken isEqualToString:authentication.token]) {
+            __weak __typeof(self) weakSelf = self;
+            [self getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
+                [weakSelf updateOrDeleteAuthentication:authentication
+                                           fromSession:[FBSession activeSession]
+                                                 error:error];
+            }];
+        }
+    } else {
+        FBAccessTokenData *accessTokenData = [FBAccessTokenData createTokenFromString:authentication.token
+                                                                          permissions:@[@"public_profile", @"email", @"user_friends"]
+                                                                       expirationDate:nil
+                                                                            loginType:FBSessionLoginTypeNone
+                                                                          refreshDate:nil];
+        @try {
+            __weak __typeof(self) weakSelf = self;
+            [[FBSession activeSession] openFromAccessTokenData:accessTokenData
+                                             completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                                                 [weakSelf updateOrDeleteAuthentication:authentication
+                                                                            fromSession:session
+                                                                                  error:error];
+                                             }];
+        } @catch (NSException *exception) {
+            DDLogError(@"Exception thrown while attempting to restore Facebook session with authentication: %@", exception);
+        }
+    }
+}
+
+- (void)updateOrDeleteAuthentication:(MRSLSocialAuthentication *)authentication
+                         fromSession:(FBSession *)session
+                               error:(NSError *)error {
+    if (error && ![session isOpen]) {
+        DDLogError(@"Error restoring Facebook session with authentication: %@", error);
+        [self reset];
+        [_appDelegate.apiService deleteUserAuthentication:authentication
+                                                  success:nil
+                                                  failure:nil];
+    } else {
+        if (![authentication.token isEqualToString:session.accessTokenData.accessToken]) {
+            authentication.token = session.accessTokenData.accessToken;
+#warning Replace with UPDATE Authentication when becomes available
+            /*
+            [_appDelegate.apiService createUserAuthentication:authentication
+                                                      success:nil
+                                                      failure:nil];
+             */
+        }
+    }
 }
 
 - (void)getFacebookUserInformation:(MRSLSocialUserInfoBlock)facebookUserInfo {
@@ -88,14 +143,14 @@
                                  parameters:parameters
                                  HTTPMethod:@"GET"
                           completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                              DDLogDebug(@"Facebook Picture Response: %@", result);
+                              DDLogVerbose(@"Facebook Picture Response: %@", result);
                               [userInfo setObject:result[@"data"][@"url"]
                                            forKey:@"pictureURL"];
                               [FBRequestConnection startWithGraphPath:@"/me"
                                                            parameters:nil
                                                            HTTPMethod:@"GET"
                                                     completionHandler:^(FBRequestConnection *connection, id result, NSError *userError) {
-                                                        DDLogDebug(@"Facebook User Information Response: %@", result);
+                                                        DDLogVerbose(@"Facebook User Information Response: %@", result);
                                                         [userInfo setObject:result[@"first_name"]
                                                                      forKey:@"first_name"];
                                                         [userInfo setObject:result[@"last_name"]
@@ -109,6 +164,88 @@
                                                         facebookUserInfo(userInfo, userError);
                                                     }];
                           }];
+}
+
+#pragma mark - Share Methods
+
+- (void)shareMorsel:(MRSLMorsel *)morsel
+            success:(MRSLSocialSuccessBlock)successOrNil
+             cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
+    // Check if the Facebook app is installed and we can present the share dialog
+    FBLinkShareParams *fbLinkParams = [[FBLinkShareParams alloc] init];
+    fbLinkParams.link = [NSURL URLWithString:morsel.facebook_mrsl ?: morsel.url];
+    fbLinkParams.name = [NSString stringWithFormat:@"“%@” from %@ on Morsel", morsel.title, [morsel.creator fullName]];
+    fbLinkParams.picture = [NSURL URLWithString:morsel.morselPhotoURL];
+
+    // If the Facebook app is installed and we can present the share dialog
+    if ([FBDialogs canPresentShareDialogWithParams:fbLinkParams]) {
+        // Present share dialog
+        [FBDialogs presentMessageDialogWithLink:fbLinkParams.link
+                                           name:fbLinkParams.name
+                                        caption:fbLinkParams.caption
+                                    description:fbLinkParams.description
+                                        picture:fbLinkParams.picture
+                                    clientState:nil
+                                        handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+                                            if (error) {
+                                                // An error occurred, we need to handle the error
+                                                // See: https://developers.facebook.com/docs/ios/errors
+                                                DDLogError(@"Error publishing story: %@", error.description);
+                                                if (successOrNil) successOrNil(NO);
+                                            } else {
+                                                // Success
+                                                DDLogDebug(@"result %@", results);
+                                                if (successOrNil) successOrNil(YES);
+                                            }
+                                        }];
+    } else {
+        // Present the feed dialog
+        NSDictionary *parameters = @{@"name": NSNullIfNil(fbLinkParams.name),
+                                     @"link": NSNullIfNil(fbLinkParams.link.absoluteString),
+                                     @"picture": NSNullIfNil(fbLinkParams.picture.absoluteString)};
+        // Show the feed dialog
+        [FBWebDialogs presentFeedDialogModallyWithSession:nil
+                                               parameters:parameters
+                                                  handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                      if (error) {
+                                                          // An error occurred, we need to handle the error
+                                                          // See: https://developers.facebook.com/docs/ios/errors
+                                                          DDLogError(@"Error publishing story: %@", error.description);
+                                                          if (successOrNil) successOrNil(NO);
+                                                      } else {
+                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                              // User cancelled.
+                                                              DDLogDebug(@"User cancelled.");
+                                                              if (cancelBlockOrNil) cancelBlockOrNil();
+                                                          } else {
+                                                              // Handle the publish feed callback
+                                                              NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
+                                                              if (![urlParams valueForKey:@"post_id"]) {
+                                                                  // User cancelled.
+                                                                  DDLogDebug(@"User cancelled.");
+                                                                  if (cancelBlockOrNil) cancelBlockOrNil();
+                                                              } else {
+                                                                  // User clicked the Share button
+                                                                  DDLogDebug(@"Morsel shared to Facebook story with id %@", [urlParams valueForKey:@"post_id"]);
+                                                                  if (successOrNil) successOrNil(YES);
+                                                              }
+                                                          }
+                                                      }
+                                                  }];
+    }
+}
+
+// A function for parsing URL parameters returned by the Feed Dialog.
+- (NSDictionary*)parseURLParams:(NSString *)query {
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    for (NSString *pair in pairs) {
+        NSArray *kv = [pair componentsSeparatedByString:@"="];
+        NSString *val =
+        [kv[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        params[kv[0]] = val;
+    }
+    return params;
 }
 
 #pragma mark - Private Methods
@@ -194,11 +331,6 @@
 
         // If the session state is not any of the two "open" states when the button is clicked
     }
-}
-
-- (void)activateFacebookWithSuccess:(MRSLSocialSuccessBlock)successOrNil
-                            failure:(MRSLSocialFailureBlock)failureOrNil {
-    // Deprecated
 }
 
 @end

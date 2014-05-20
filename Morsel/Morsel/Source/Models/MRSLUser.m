@@ -98,6 +98,10 @@
     return [NSString stringWithFormat:@"%@ (%@)", [self fullName], [self username]];
 }
 
+- (NSString *)fullNameOrTwitterHandle {
+    return [NSString stringWithFormat:@"@%@", self.twitter_username] ?: self.fullName;
+}
+
 - (NSString *)industryTypeName {
     switch (self.industryTypeEnum) {
         case MRSLIndustryTypeChef:

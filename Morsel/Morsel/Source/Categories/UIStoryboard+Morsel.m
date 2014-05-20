@@ -25,6 +25,11 @@
                                      bundle:nil];
 }
 
++ (UIStoryboard *)socialStoryboard {
+    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Social_iPad" : @"Social_iPhone"
+                                     bundle:nil];
+}
+
 + (UIStoryboard *)loginStoryboard {
     return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Login_iPad" : @"Login_iPhone"
                                      bundle:nil];

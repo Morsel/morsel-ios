@@ -9,11 +9,13 @@
 #import "MRSLMorselPublishShareViewController.h"
 
 #import "MRSLAPIService+Morsel.h"
+#import "MRSLAPIService+Authorization.h"
 #import "MRSLSocialServiceFacebook.h"
 #import "MRSLSocialServiceTwitter.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
+#import "MRSLSocialUser.h"
 #import "MRSLUser.h"
 
 @interface MRSLMorselPublishShareViewController ()
@@ -26,7 +28,7 @@
 
 @implementation MRSLMorselPublishShareViewController
 
-#pragma mark - Private Methods
+#pragma mark - Action Methods
 
 - (IBAction)publishMorsel:(id)sender {
     for (MRSLItem *item in _morsel.itemsArray) {
@@ -54,35 +56,41 @@
 }
 
 - (IBAction)toggleFacebook:(UISwitch *)switchControl {
-    MRSLUser *currentUser = [MRSLUser currentUser];
     [[MRSLEventManager sharedManager] track:@"Tapped Toggle Facebook"
                                  properties:@{@"view": @"Publish",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
 
-    if ([currentUser facebook_uid]) {
-        [[MRSLEventManager sharedManager] track:@"User Already Authorized with Facebook"
-                                     properties:@{@"view": @"Publish",
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-    } else {
+    if (![FBSession.activeSession isOpen]) {
         _facebookSwitch.enabled = NO;
 
         __weak __typeof(self) weakSelf = self;
-        [[MRSLSocialServiceFacebook sharedService] activateFacebookWithSuccess:^(BOOL success) {
+        [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if (weakSelf) {
-                [[MRSLEventManager sharedManager] track:@"Tapped Share Own Morsel"
-                                             properties:@{@"view": @"Publish",
-                                                          @"morsel_id": NSNullIfNil(weakSelf.morsel.morselID),
-                                                          @"creator_id": NSNullIfNil(weakSelf.morsel.creator.userID),
-                                                          @"social_type": @"facebook"}];
-                [weakSelf.facebookSwitch setEnabled:YES];
-                [weakSelf.facebookSwitch setOn:YES
-                                      animated:YES];
-            }
-        } failure:^(NSError *error) {
-            if (weakSelf) {
-                [weakSelf.facebookSwitch setEnabled:YES];
-                [weakSelf.facebookSwitch setOn:NO
-                                      animated:YES];
+                if (!error && [session isOpen]) {
+                    [[MRSLSocialServiceFacebook sharedService] getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
+                        if (!error) {
+                            MRSLSocialUser *socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
+                            [_appDelegate.apiService createUserAuthentication:socialUser.authentication
+                                                                      success:^(id responseObject) {
+                                                                          [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                                                                      forNetwork:@"facebook"
+                                                                                    shouldEnable:YES];
+                                                                      } failure:^(NSError *error) {
+                                                                          [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                                                                      forNetwork:@"facebook"
+                                                                                    shouldEnable:NO];
+                                                                      }];
+                        } else {
+                            [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                        forNetwork:@"facebook"
+                                      shouldEnable:NO];
+                        }
+                    }];
+                } else {
+                    [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                forNetwork:@"facebook"
+                              shouldEnable:NO];
+                }
             }
         }];
     }
@@ -92,35 +100,55 @@
     [[MRSLEventManager sharedManager] track:@"Tapped Toggle Twitter"
                                  properties:@{@"view": @"Publish",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-    MRSLUser *currentUser = [MRSLUser currentUser];
+    _twitterSwitch.enabled = NO;
 
-    if ([currentUser twitter_username]) {
-        [[MRSLEventManager sharedManager] track:@"User Already Authorized with Twitter"
-                                     properties:@{@"view": @"Publish",
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-    } else {
-        _twitterSwitch.enabled = NO;
-
-        __weak __typeof(self) weakSelf = self;
-        [[MRSLSocialServiceTwitter sharedService] activateTwitterWithSuccess:^(BOOL success) {
-            if (weakSelf) {
-                [[MRSLEventManager sharedManager] track:@"Tapped Share Own Morsel"
-                                             properties:@{@"view": @"Publish",
-                                                          @"morsel_id": NSNullIfNil(weakSelf.morsel.morselID),
-                                                          @"creator_id": NSNullIfNil(weakSelf.morsel.creator.userID),
-                                                          @"social_type": @"twitter"}];
-                [weakSelf.twitterSwitch setEnabled:YES];
-                [weakSelf.twitterSwitch setOn:YES
-                                     animated:YES];
-            }
+    __weak __typeof(self) weakSelf = self;
+    [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:^(BOOL success) {
+        weakSelf.twitterSwitch.enabled = YES;
+    } failure:^(NSError *error) {
+        [[MRSLSocialServiceTwitter sharedService] authenticateWithTwitterWithSuccess:^(BOOL success) {
+            [[MRSLSocialServiceTwitter sharedService] getTwitterUserInformation:^(NSDictionary *userInfo, NSError *error) {
+                if (!error) {
+                    MRSLSocialUser *socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
+                    [_appDelegate.apiService createUserAuthentication:socialUser.authentication
+                                                              success:^(id responseObject) {
+                                                                  [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                                                                              forNetwork:@"twitter"
+                                                                            shouldEnable:YES];
+                                                              } failure:^(NSError *error) {
+                                                                  [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                                                                              forNetwork:@"twitter"
+                                                                            shouldEnable:NO];
+                                                              }];
+                } else {
+                    [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                                forNetwork:@"twitter"
+                              shouldEnable:NO];
+                }
+            }];
         } failure:^(NSError *error) {
-            if (weakSelf) {
-                [weakSelf.twitterSwitch setEnabled:YES];
-                [weakSelf.twitterSwitch setOn:NO
-                                     animated:YES];
-            }
+            [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                        forNetwork:@"twitter"
+                      shouldEnable:NO];
         }];
+    }];
+}
+
+#pragma mark - Private Methods
+
+- (void)toggleSwitch:(UISwitch *)socialSwitch
+          forNetwork:(NSString *)network
+        shouldEnable:(BOOL)shouldEnable {
+    if (shouldEnable) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Share Own Morsel"
+                                     properties:@{@"view": @"Publish",
+                                                  @"morsel_id": NSNullIfNil(self.morsel.morselID),
+                                                  @"creator_id": NSNullIfNil(self.morsel.creator.userID),
+                                                  @"social_type": network}];
     }
+    [socialSwitch setEnabled:YES];
+    [socialSwitch setOn:shouldEnable
+               animated:YES];
 }
 
 @end

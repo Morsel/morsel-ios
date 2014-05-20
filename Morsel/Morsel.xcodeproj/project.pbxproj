@@ -149,6 +149,8 @@
 		06C38C3E18EA5CE90072CF8E /* MRSLModalCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */; };
 		06C38C4118EA5D370072CF8E /* MRSLModalLikersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4018EA5D370072CF8E /* MRSLModalLikersViewController.m */; };
 		06C38C4418EA5D910072CF8E /* MRSLBaseModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4318EA5D910072CF8E /* MRSLBaseModalViewController.m */; };
+		06C4CD08192A6FD3004CD3B7 /* Social_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06C4CD06192A6FD3004CD3B7 /* Social_iPhone.storyboard */; };
+		06C4CD0C192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C4CD0B192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m */; };
 		06CE1882187F13A0009F9722 /* MRSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1881187F13A0009F9722 /* MRSLConstants.m */; };
 		06D26F3C1908331C00E4FA72 /* MRSLProfileEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D26F3B1908331C00E4FA72 /* MRSLProfileEditViewController.m */; };
 		06D26F4219085EEC00E4FA72 /* MRSLUserActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D26F4119085EEC00E4FA72 /* MRSLUserActivityViewController.m */; };
@@ -469,6 +471,9 @@
 		06C38C4018EA5D370072CF8E /* MRSLModalLikersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLModalLikersViewController.m; sourceTree = "<group>"; };
 		06C38C4218EA5D910072CF8E /* MRSLBaseModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseModalViewController.h; sourceTree = "<group>"; };
 		06C38C4318EA5D910072CF8E /* MRSLBaseModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLBaseModalViewController.m; sourceTree = "<group>"; };
+		06C4CD07192A6FD3004CD3B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Social_iPhone.storyboard; sourceTree = "<group>"; };
+		06C4CD0A192AA1A7004CD3B7 /* MRSLSocialComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSocialComposeViewController.h; sourceTree = "<group>"; };
+		06C4CD0B192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSocialComposeViewController.m; sourceTree = "<group>"; };
 		06CE1880187F13A0009F9722 /* MRSLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLConstants.h; sourceTree = "<group>"; };
 		06CE1881187F13A0009F9722 /* MRSLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLConstants.m; sourceTree = "<group>"; };
 		06D26F3A1908331C00E4FA72 /* MRSLProfileEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLProfileEditViewController.h; sourceTree = "<group>"; };
@@ -901,13 +906,14 @@
 		063976D8186361A400A17211 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
-				06340916191BDFD200C67FB8 /* Web */,
 				064566F518C50C9F00C9CCBF /* Activity */,
 				0609B83A1894AA08005A11A4 /* Feed */,
-				0609B83C1894AA23005A11A4 /* Registration */,
 				060FEC3F18DCAF2300085ED1 /* Management */,
+				0609B83C1894AA23005A11A4 /* Registration */,
+				06C4CD09192AA18A004CD3B7 /* Social */,
 				061F935419102D8700608C0B /* Tags */,
 				0609B83B1894AA11005A11A4 /* User */,
+				06340916191BDFD200C67FB8 /* Web */,
 			);
 			name = Sections;
 			sourceTree = "<group>";
@@ -929,9 +935,10 @@
 				063BB6F918983D170029DAF0 /* Login_iPhone.storyboard */,
 				066066A218522E7900E780FC /* Main_iPhone.storyboard */,
 				063BB6FC18983D3F0029DAF0 /* MediaManagement_iPhone.storyboard */,
+				062AB98618C534B600742955 /* MorselManagement_iPhone.storyboard */,
 				064566F918C50D7800C9CCBF /* MyStuff_iPhone.storyboard */,
 				063BB6F618983CF80029DAF0 /* Profile_iPhone.storyboard */,
-				062AB98618C534B600742955 /* MorselManagement_iPhone.storyboard */,
+				06C4CD06192A6FD3004CD3B7 /* Social_iPhone.storyboard */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -1386,6 +1393,15 @@
 			name = ImageViews;
 			sourceTree = "<group>";
 		};
+		06C4CD09192AA18A004CD3B7 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				06C4CD0A192AA1A7004CD3B7 /* MRSLSocialComposeViewController.h */,
+				06C4CD0B192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m */,
+			);
+			name = Social;
+			sourceTree = "<group>";
+		};
 		06E7B9E418B2C63900833427 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
@@ -1708,6 +1724,7 @@
 				063F857518FF8B53000B136B /* Roboto-Regular.ttf in Resources */,
 				063F857618FF8B53000B136B /* RobotoSlab-Regular.ttf in Resources */,
 				063BB6FB18983D170029DAF0 /* Login_iPhone.storyboard in Resources */,
+				06C4CD08192A6FD3004CD3B7 /* Social_iPhone.storyboard in Resources */,
 				064566F418C50BDD00C9CCBF /* Activity_iPhone.storyboard in Resources */,
 				06ECF68C18BFEEB500577F9C /* Specs_iPhone.storyboard in Resources */,
 			);
@@ -1894,6 +1911,7 @@
 				4069CB2C189B127E001790F3 /* MRSLSocialService.m in Sources */,
 				061DF44418E36CDE00D1CA80 /* NSMutableArray+Feed.m in Sources */,
 				0693C25118F6C0D10026D6B3 /* _MRSLItem.m in Sources */,
+				06C4CD0C192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m in Sources */,
 				063250CA1860E1DD00ADDF23 /* MRSLRootViewController.m in Sources */,
 				066F5AC8185BCA3D00468210 /* _MRSLComment.m in Sources */,
 				069D281218D22A43000EBF7E /* MRSLItemImageView.m in Sources */,
@@ -2196,6 +2214,14 @@
 				0698CACF18524359007AF442 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		06C4CD06192A6FD3004CD3B7 /* Social_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				06C4CD07192A6FD3004CD3B7 /* Base */,
+			);
+			name = Social_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 		06F567DE18BBDA3D0067FCD4 /* Specs_iPhone.storyboard */ = {

@@ -11,6 +11,7 @@
 - (BOOL)shouldTrack;
 - (NSString *)fullName;
 - (NSString *)displayName;
+- (NSString *)fullNameOrTwitterHandle;
 - (NSString *)industryTypeName;
 - (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(MRSLProfileImageSizeType)type;
 

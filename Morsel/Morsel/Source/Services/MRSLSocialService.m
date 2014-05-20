@@ -10,7 +10,10 @@
 
 #import <Social/Social.h>
 
-#import "MRSLItem.h"
+#import "MRSLSocialServiceFacebook.h"
+#import "MRSLSocialServiceTwitter.h"
+#import "MRSLSocialComposeViewController.h"
+
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
@@ -29,43 +32,85 @@
 
 #pragma mark - Instance Methods
 
-- (void)shareMorselToFacebook:(MRSLItem *)item
+- (void)shareMorselToFacebook:(MRSLMorsel *)morsel
              inViewController:(UIViewController *)viewController
                       success:(MRSLSocialSuccessBlock)successOrNil
                        cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
-    [self shareMorsel:item
-            toService:SLServiceTypeFacebook
-     inViewController:viewController
-              success:successOrNil
-               cancel:cancelBlockOrNil];
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        [self shareMorsel:morsel
+                toService:SLServiceTypeFacebook
+         inViewController:viewController
+                  success:successOrNil
+                   cancel:cancelBlockOrNil];
+    } else {
+        [[MRSLSocialServiceFacebook sharedService] shareMorsel:morsel
+                                                       success:successOrNil
+                                                        cancel:cancelBlockOrNil];
+    }
 }
 
-- (void)shareMorselToTwitter:(MRSLItem *)item
+- (void)shareMorselToTwitter:(MRSLMorsel *)morsel
             inViewController:(UIViewController *)viewController
                      success:(MRSLSocialSuccessBlock)successOrNil
                       cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
-    [self shareMorsel:item
-            toService:SLServiceTypeTwitter
-     inViewController:viewController
-              success:successOrNil
-               cancel:cancelBlockOrNil];
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+        [self shareMorsel:morsel
+                toService:SLServiceTypeTwitter
+         inViewController:viewController
+                  success:successOrNil
+                   cancel:cancelBlockOrNil];
+    } else {
+        [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:^(BOOL success) {
+            [self shareMorsel:morsel
+                  withService:MRSLSocialAccountTypeTwitter
+             inViewController:viewController
+                      success:successOrNil
+                       cancel:cancelBlockOrNil];
+        } failure:^(NSError *error) {
+            [[MRSLSocialServiceTwitter sharedService] authenticateWithTwitterWithSuccess:^(BOOL success) {
+                [self shareMorsel:morsel
+                      withService:MRSLSocialAccountTypeTwitter
+                 inViewController:viewController
+                          success:successOrNil
+                           cancel:cancelBlockOrNil];
+            } failure:nil];
+        }];
+    }
 }
 
-- (void)shareMorsel:(MRSLItem *)item
+- (void)shareMorsel:(MRSLMorsel *)morsel
+        withService:(MRSLSocialAccountType)accountType
+   inViewController:(UIViewController *)viewController
+            success:(MRSLSocialSuccessBlock)successOrNil
+             cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
+    UINavigationController *shareNavNC = [[UIStoryboard socialStoryboard] instantiateViewControllerWithIdentifier:@"sb_SocialCompose"];
+    MRSLSocialComposeViewController *socialComposeVC = [shareNavNC.viewControllers firstObject];
+    socialComposeVC.morsel = morsel;
+    socialComposeVC.accountType = accountType;
+    socialComposeVC.successBlock = successOrNil;
+    socialComposeVC.cancelBlock = cancelBlockOrNil;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                            object:shareNavNC];
+    });
+}
+
+- (void)shareMorsel:(MRSLMorsel *)morsel
           toService:(NSString *)serviceType
    inViewController:(UIViewController *)viewController
             success:(MRSLSocialSuccessBlock)successOrNil
              cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
     if ([SLComposeViewController isAvailableForServiceType:serviceType]) {
         SLComposeViewController *slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:serviceType];
-        NSString *userNameOrTwitterHandle =  (item.morsel.creator.twitter_username && [serviceType isEqualToString:SLServiceTypeTwitter]) ? [NSString stringWithFormat:@"@%@", item.morsel.creator.twitter_username] : item.morsel.creator.fullName;
+        NSString *userNameOrTwitterHandle =  ([serviceType isEqualToString:SLServiceTypeTwitter]) ? [morsel.creator fullNameOrTwitterHandle] : morsel.creator.fullName;
         NSString *shareText = @"";
         if ([serviceType isEqualToString:SLServiceTypeFacebook]) {
-            shareText = [NSString stringWithFormat:@"“%@” from %@ on Morsel", item.morsel.title, userNameOrTwitterHandle];
-            [slComposerSheet addURL:[NSURL URLWithString:item.morsel.facebook_mrsl ?: item.morsel.url]];
+            shareText = [NSString stringWithFormat:@"“%@” from %@ on Morsel", morsel.title, userNameOrTwitterHandle];
+            [slComposerSheet addURL:[NSURL URLWithString:morsel.facebook_mrsl ?: morsel.url]];
         } else if ([serviceType isEqualToString:SLServiceTypeTwitter]) {
-            shareText = [NSString stringWithFormat:@"“%@” from %@ on @eatmorsel", item.morsel.title, userNameOrTwitterHandle];
-            [slComposerSheet addURL:[NSURL URLWithString:item.morsel.twitter_mrsl ?: item.morsel.url]];
+            shareText = [NSString stringWithFormat:@"“%@” from %@ on @eatmorsel", morsel.title, userNameOrTwitterHandle];
+            [slComposerSheet addURL:[NSURL URLWithString:morsel.twitter_mrsl ?: morsel.url]];
         }
         [slComposerSheet setInitialText:shareText];
         [viewController presentViewController:slComposerSheet
@@ -84,7 +129,7 @@
             }
         }];
     } else {
-        [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Please add a %@ Account to this device", (serviceType == SLServiceTypeFacebook) ? @"Facebook" : @"Twitter"]
+        [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Please add a %@ account to this device", (serviceType == SLServiceTypeFacebook) ? @"Facebook" : @"Twitter"]
                                         delegate:nil];
     }
 }

@@ -21,15 +21,11 @@
                          success:(MRSLAPISuccessBlock)userSuccessOrNil
                          failure:(MRSLAPIFailureBlock)failureOrNil;
 
-- (void)createFacebookAuthorizationWithToken:(NSString *)token
-                                     forUser:(MRSLUser *)user
-                                     success:(MRSLAPISuccessBlock)userSuccessOrNil
-                                     failure:(MRSLAPIFailureBlock)failureOrNil __deprecated;
+- (void)getUserAuthenticationsWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil
+                                  failure:(MRSLAPIFailureBlock)failureOrNil;
 
-- (void)createTwitterAuthorizationWithToken:(NSString *)token
-                                     secret:(NSString *)secret
-                                    forUser:(MRSLUser *)user
-                                    success:(MRSLAPISuccessBlock)userSuccessOrNil
-                                    failure:(MRSLAPIFailureBlock)failureOrNil __deprecated;
+- (void)deleteUserAuthentication:(MRSLSocialAuthentication *)authentication
+                         success:(MRSLAPISuccessBlock)successOrNil
+                         failure:(MRSLAPIFailureBlock)failureOrNil;
 
 @end
