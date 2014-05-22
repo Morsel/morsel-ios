@@ -24,7 +24,7 @@
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
-    if ([data[@"commentable_type"] isEqualToString:@"Item"]) [self importItem:data];
+    if ([[data[@"commentable_type"] lowercaseString] isEqualToString:@"item"]) [self importItem:data];
 }
 
 - (NSDictionary *)objectToJSON {

@@ -39,7 +39,7 @@
 
 - (void)createUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)userSuccessOrNil
-                         failure:(MRSLAPIFailureBlock)failureOrNil {
+                         failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"authentication": @{@"provider": NSNullIfNil(authentication.provider),
                                                                                             @"uid": NSNullIfNil(authentication.uid),
                                                                                             @"token": NSNullIfNil(authentication.token),
@@ -51,6 +51,7 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                  authentication.authenticationID = responseObject[@"data"][@"id"];
                                   if (userSuccessOrNil) userSuccessOrNil(responseObject);
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
@@ -60,7 +61,7 @@
 }
 
 - (void)getUserAuthenticationsWithSuccess:(MRSLAPISuccessBlock)successOrNil
-                                  failure:(MRSLAPIFailureBlock)failureOrNil {
+                                  failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -77,12 +78,12 @@
                                       socialAuth.secret = authDictionary[@"secret"];
                                       socialAuth.uid = authDictionary[@"uid"];
                                       socialAuth.username = authDictionary[@"name"];
-                                      if ([socialAuth.provider isEqualToString:@"facebook"]) {
+                                      if ([[socialAuth.provider lowercaseString] isEqualToString:@"facebook"]) {
                                           [[MRSLSocialServiceFacebook sharedService] restoreFacebookSessionWithAuthentication:socialAuth];
-                                      } else if ([socialAuth.provider isEqualToString:@"twitter"]) {
+                                      } else if ([[socialAuth.provider lowercaseString] isEqualToString:@"twitter"]) {
                                           [[MRSLSocialServiceTwitter sharedService] restoreTwitterWithAuthentication:socialAuth
                                                                                                         shouldCreate:NO];
-                                      } else if ([socialAuth.provider isEqualToString:@"instagram"]) {
+                                      } else if ([[socialAuth.provider lowercaseString] isEqualToString:@"instagram"]) {
                                           [[MRSLSocialServiceInstagram sharedService] restoreInstagramWithAuthentication:socialAuth
                                                                                                             shouldCreate:NO];
                                       } else {
@@ -102,7 +103,7 @@
                            orSinceID:(NSNumber *)sinceOrNil
                             andCount:(NSNumber *)countOrNil
                              success:(MRSLAPIArrayBlock)successOrNil
-                             failure:(MRSLAPIFailureBlock)failureOrNil {
+                             failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"provider" : NSNullIfNil(provider),
                                                                        @"uids" : NSNullIfNil(uids)}
                                                 includingMRSLObjects:nil
@@ -130,7 +131,7 @@
 
 - (void)updateUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)successOrNil
-                         failure:(MRSLAPIFailureBlock)failureOrNil {
+                         failure:(MRSLFailureBlock)failureOrNil {
     if (!authentication.authenticationID) {
         DDLogError(@"Authentication for provider (%@) does not have an id. Cannot update.", authentication.provider);
         return;
@@ -155,7 +156,7 @@
 
 - (void)deleteUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)successOrNil
-                         failure:(MRSLAPIFailureBlock)failureOrNil {
+                         failure:(MRSLFailureBlock)failureOrNil {
     if (![authentication isValid]) {
         DDLogError(@"Authentication for provider (%@) is not valid. Cannot delete.", authentication.provider);
         return;

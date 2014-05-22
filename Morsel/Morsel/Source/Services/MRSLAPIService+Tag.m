@@ -18,7 +18,7 @@
 
 - (void)getCuisineUsers:(MRSLKeyword *)cuisine
                 success:(MRSLAPIArrayBlock)successOrNil
-                failure:(MRSLAPIFailureBlock)failureOrNil {
+                failure:(MRSLFailureBlock)failureOrNil {
     [self getTagUsersForKeyword:cuisine
                          ofType:MRSLKeywordCuisinesType
                         success:successOrNil
@@ -27,7 +27,7 @@
 
 - (void)getSpecialtyUsers:(MRSLKeyword *)specialty
                   success:(MRSLAPIArrayBlock)successOrNil
-                  failure:(MRSLAPIFailureBlock)failureOrNil {
+                  failure:(MRSLFailureBlock)failureOrNil {
     [self getTagUsersForKeyword:specialty
                          ofType:MRSLKeywordSpecialtiesType
                         success:successOrNil
@@ -37,7 +37,7 @@
 - (void)getTagUsersForKeyword:(MRSLKeyword *)keyword
                        ofType:(NSString *)keywordType
                       success:(MRSLAPIArrayBlock)successOrNil
-                      failure:(MRSLAPIFailureBlock)failureOrNil {
+                      failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
@@ -55,7 +55,7 @@
 
 - (void)getUserCuisines:(MRSLUser *)user
                 success:(MRSLAPIArrayBlock)successOrNil
-                failure:(MRSLAPIFailureBlock)failureOrNil {
+                failure:(MRSLFailureBlock)failureOrNil {
     [self getUserTags:user
         ofKeywordType:MRSLKeywordCuisinesType
               success:successOrNil
@@ -64,7 +64,7 @@
 
 - (void)getUserSpecialties:(MRSLUser *)user
                    success:(MRSLAPIArrayBlock)successOrNil
-                   failure:(MRSLAPIFailureBlock)failureOrNil {
+                   failure:(MRSLFailureBlock)failureOrNil {
     [self getUserTags:user
         ofKeywordType:MRSLKeywordSpecialtiesType
               success:successOrNil
@@ -74,7 +74,7 @@
 - (void)getUserTags:(MRSLUser *)user
       ofKeywordType:(NSString *)keywordType
             success:(MRSLAPIArrayBlock)successOrNil
-            failure:(MRSLAPIFailureBlock)failureOrNil {
+            failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
@@ -92,7 +92,7 @@
 
 - (void)createTagForKeyword:(MRSLKeyword *)keyword
                     success:(MRSLAPISuccessBlock)successOrNil
-                    failure:(MRSLAPIFailureBlock)failureOrNil {
+                    failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"tag": @{@"keyword_id": keyword.keywordID}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -114,8 +114,8 @@
 }
 
 - (void)deleteTag:(MRSLTag *)tag
-          success:(MRSLDataSuccessBlock)successOrNil
-          failure:(MRSLAPIFailureBlock)failureOrNil {
+          success:(MRSLSuccessBlock)successOrNil
+          failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];

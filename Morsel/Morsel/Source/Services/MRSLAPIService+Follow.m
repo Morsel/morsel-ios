@@ -17,7 +17,7 @@
 - (void)followUser:(MRSLUser *)user
       shouldFollow:(BOOL)shouldFollow
          didFollow:(MRSLAPIFollowBlock)followBlockOrNil
-           failure:(MRSLAPIFailureBlock)failureOrNil {
+           failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -29,7 +29,7 @@
                                        if (followBlockOrNil) followBlockOrNil(YES);
                                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                        MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                       if ([operation.response statusCode] == 200 || [serviceErrorInfo.errorInfo isEqualToString:@"User: already followed"]) {
+                                       if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"user: already followed"]) {
                                            if (followBlockOrNil) followBlockOrNil(YES);
                                        } else {
                                            [self reportFailure:failureOrNil
@@ -45,7 +45,7 @@
                                          if (followBlockOrNil) followBlockOrNil(NO);
                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                          MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                         if ([operation.response statusCode] == 200  || [serviceErrorInfo.errorInfo isEqualToString:@"User: not followed"]) {
+                                         if ([operation.response statusCode] == 200  || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"user: not followed"]) {
                                              if (followBlockOrNil) followBlockOrNil(NO);
                                          } else {
                                              [self reportFailure:failureOrNil
@@ -61,7 +61,7 @@
                orSinceID:(NSNumber *)sinceOrNil
                 andCount:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
-                 failure:(MRSLAPIFailureBlock)failureOrNil {
+                 failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
@@ -90,7 +90,7 @@
                  orSinceID:(NSNumber *)sinceOrNil
                   andCount:(NSNumber *)countOrNil
                    success:(MRSLAPIArrayBlock)successOrNil
-                   failure:(MRSLAPIFailureBlock)failureOrNil {
+                   failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"type": @"User"}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];

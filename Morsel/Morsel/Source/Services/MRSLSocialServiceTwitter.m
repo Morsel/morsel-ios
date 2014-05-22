@@ -113,6 +113,7 @@
 
 - (void)restoreTwitterWithAuthentication:(MRSLSocialAuthentication *)authentication
                             shouldCreate:(BOOL)shouldCreate {
+    self.socialAuthentication = authentication;
     if (!_oauth1Client.accessToken) {
         _oauth1Client.accessToken = [[AFOAuth1Token alloc] initWithKey:authentication.token
                                                                  secret:authentication.secret
@@ -172,7 +173,7 @@
 
 - (void)getTwitterUserInformation:(MRSLSocialUserInfoBlock)userInfoBlockOrNil {
     NSMutableURLRequest *request = [_oauth1Client requestWithMethod:@"GET"
-                                                                path:[NSString stringWithFormat:@"users/show.json?screen_name=%@", _oauth1Client.accessToken.userInfo[@"screen_name"]]
+                                                                path:[NSString stringWithFormat:@"users/show.json?screen_name=%@", [self twitterUsername]]
                                                           parameters:nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperationManager manager] HTTPRequestOperationWithRequest:request
@@ -200,7 +201,7 @@
         return;
     }
     NSMutableURLRequest *request = [_oauth1Client requestWithMethod:@"GET"
-                                                                path:[NSString stringWithFormat:@"friends/ids.json?screen_name=%@", _oauth1Client.accessToken.userInfo[@"screen_name"]]
+                                                               path:[NSString stringWithFormat:@"friends/ids.json?screen_name=%@", [self twitterUsername]]
                                                           parameters:nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperationManager manager] HTTPRequestOperationWithRequest:request
@@ -221,6 +222,10 @@
 
 - (NSString *)friendUIDString {
     return [NSString stringWithFormat:@"'%@'", [_friendUIDs componentsJoinedByString:@"','"]];
+}
+
+- (NSString *)twitterUsername {
+    return _oauth1Client.accessToken.userInfo[@"screen_name"];
 }
 
 #pragma mark - Status Methods
@@ -248,6 +253,7 @@
 - (void)reset {
     [AFOAuth1Token deleteCredentialWithIdentifier:MRSLTwitterCredentialsKey];
     self.oauth1Client.accessToken = nil;
+    self.socialAuthentication = nil;
 }
 
 #pragma mark - iOS ACAccount Methods

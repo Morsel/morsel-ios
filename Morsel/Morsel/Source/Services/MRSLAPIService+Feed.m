@@ -18,7 +18,7 @@
                orSinceID:(NSNumber *)sinceOrNil
                 andCount:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
-                 failure:(MRSLAPIFailureBlock)failureOrNil {
+                 failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -40,7 +40,7 @@
                                       NSArray *feedItemsArray = responseObject[@"data"];
                                       [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                           [feedItemsArray enumerateObjectsUsingBlock:^(NSDictionary *feedItemDictionary, NSUInteger idx, BOOL *stop) {
-                                              if ([feedItemDictionary[@"subject_type"] isEqualToString:@"Morsel"]) {
+                                              if ([[feedItemDictionary[@"subject_type"] lowercaseString] isEqualToString:@"morsel"]) {
                                                   if (![feedItemDictionary[@"subject"] isEqual:[NSNull null]]) {
                                                       NSDictionary *morselDictionary = feedItemDictionary[@"subject"];
                                                       MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID

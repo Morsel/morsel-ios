@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLProfileStatsTagsViewController.h"
+#import "MRSLProfileUserTagsListViewController.h"
 
 #import "MRSLAPIService+Tag.h"
 
-#import "MRSLArrayDataSource.h"
+#import "MRSLCollectionViewArrayDataSource.h"
 #import "MRSLTagBaseCell.h"
 
 #import "MRSLKeyword.h"
 #import "MRSLTag.h"
 #import "MRSLUser.h"
 
-@interface MRSLProfileStatsTagsViewController ()
+@interface MRSLProfileUserTagsListViewController ()
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
@@ -30,11 +30,10 @@ NSFetchedResultsControllerDelegate>
 @property (strong, nonatomic) NSMutableDictionary *tagsDictionary;
 @property (strong, nonatomic) NSMutableArray *specialtyTags;
 @property (strong, nonatomic) NSMutableArray *cuisineTags;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
 
-@implementation MRSLProfileStatsTagsViewController
+@implementation MRSLProfileUserTagsListViewController
 
 #pragma mark - Instance Methods
 
@@ -44,15 +43,6 @@ NSFetchedResultsControllerDelegate>
     self.specialtyTags = [NSMutableArray array];
     self.cuisineTags = [NSMutableArray array];
     self.tagsDictionary = [NSMutableDictionary dictionary];
-
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    _refreshControl.tintColor = [UIColor morselLightContent];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshContent)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.collectionView addSubview:_refreshControl];
-    self.collectionView.alwaysBounceVertical = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -100,10 +90,8 @@ NSFetchedResultsControllerDelegate>
     [self.specialtyTags addObjectsFromArray:[[_fetchedResultsController fetchedObjects] filteredArrayUsingPredicate:specialtyPredicate]];
     [self.cuisineTags addObjectsFromArray:[[_fetchedResultsController fetchedObjects] filteredArrayUsingPredicate:cuisinePredicate]];
 
-    if (!_allowsEdit) {
-        if ([_specialtyTags count] > 4) [_specialtyTags removeObjectsInRange:NSMakeRange(3, [_specialtyTags count] - 4)];
-        if ([_cuisineTags count] > 4) [_cuisineTags removeObjectsInRange:NSMakeRange(3, [_cuisineTags count] - 4)];
-    }
+    if ([_specialtyTags count] > 4) [_specialtyTags removeObjectsInRange:NSMakeRange(3, [_specialtyTags count] - 4)];
+    if ([_cuisineTags count] > 4) [_cuisineTags removeObjectsInRange:NSMakeRange(3, [_cuisineTags count] - 4)];
 
     [self.tagsDictionary setObject:([_specialtyTags count] > 0) ? _specialtyTags : [NSArray array]
                             forKey:[MRSLKeywordSpecialtiesType capitalizedString]];
@@ -125,19 +113,14 @@ NSFetchedResultsControllerDelegate>
     [_appDelegate.apiService getUserCuisines:_user
                                      success:^(NSArray *responseArray) {
                                          [weakSelf populateTagIDsWithArray:responseArray];
-                                     } failure:^(NSError *error) {
-                                         [weakSelf.refreshControl endRefreshing];
-                                     }];
+                                     } failure:nil];
     [_appDelegate.apiService getUserSpecialties:_user
                                         success:^(NSArray *responseArray) {
                                             [weakSelf populateTagIDsWithArray:responseArray];
-                                        } failure:^(NSError *error) {
-                                            [weakSelf.refreshControl endRefreshing];
-                                        }];
+                                        } failure:nil];
 }
 
 - (void)populateTagIDsWithArray:(NSArray *)responseArray {
-    [self.refreshControl endRefreshing];
     if (_tagIDs) {
         [self.tagIDs addObjectsFromArray:responseArray];
         if ([_tagIDs count] > 0) {
@@ -164,7 +147,7 @@ NSFetchedResultsControllerDelegate>
     }
     NSString *keyForIndex = [[_tagsDictionary allKeys] objectAtIndex:section];
     NSUInteger tagsCount = [[_tagsDictionary objectForKey:keyForIndex] count];
-    return ((tagsCount > 4 && !_allowsEdit) ? 4 : tagsCount) + 2;
+    return ((tagsCount > 4) ? 4 : tagsCount) + 2;
 }
 
 - (MRSLTagBaseCell *)collectionView:(UICollectionView *)collectionView
@@ -190,6 +173,13 @@ NSFetchedResultsControllerDelegate>
     MRSLTagBaseCell *baseCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
                                                                                forIndexPath:indexPath];
     baseCell.nameLabel.text = cellName;
+
+    if (indexPath.row != [[self arrayForIndexPath:indexPath] count]) {
+        [baseCell setBorderWithDirections:MRSLBorderSouth
+                          borderWidth:1.0f
+                       andBorderColor:[UIColor morselLightOffColor]];
+    }
+
     return baseCell;
 }
 
@@ -197,35 +187,15 @@ NSFetchedResultsControllerDelegate>
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0 || indexPath.row == [[self arrayForIndexPath:indexPath] count] + 1) {
-        if ([self.delegate respondsToSelector:@selector(profileStatsTagsViewControllerDidSelectType:)]) {
-            [self.delegate profileStatsTagsViewControllerDidSelectType:[[[_tagsDictionary allKeys] objectAtIndex:indexPath.section] lowercaseString]];
+        if ([self.delegate respondsToSelector:@selector(profileUserTagsListViewControllerDidSelectType:)]) {
+            [self.delegate profileUserTagsListViewControllerDidSelectType:[[[_tagsDictionary allKeys] objectAtIndex:indexPath.section] lowercaseString]];
         }
     } else {
-        if ([self.delegate respondsToSelector:@selector(profileStatsTagsViewControllerDidSelectTag:)]) {
+        if ([self.delegate respondsToSelector:@selector(profileUserTagsListViewControllerDidSelectTag:)]) {
             MRSLTag *tag = [[self arrayForIndexPath:indexPath] objectAtIndex:indexPath.row - 1];
-            [self.delegate profileStatsTagsViewControllerDidSelectTag:tag];
+            [self.delegate profileUserTagsListViewControllerDidSelectTag:tag];
         }
     }
-}
-
-#pragma mark - UICollectionViewDelegateFlowLayout Methods
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGSize cellSize = CGSizeZero;
-    if (indexPath.row == 0) {
-        cellSize = [[NSString stringWithFormat:@"%@:", [[_tagsDictionary allKeys] objectAtIndex:indexPath.section]] sizeWithFont:[UIFont robotoSlabBoldFontOfSize:19.f]
-                                                                                                               constrainedToSize:CGSizeMake(186.f, 30.f)];
-    } else if (indexPath.row == [[self arrayForIndexPath:indexPath] count] + 1) {
-        NSString *cellName = ([[self arrayForIndexPath:indexPath] count] == 0 ) ? @"None" : @"View All";
-        if (_allowsEdit) cellName = @"Add New";
-        cellSize = [cellName sizeWithFont:[UIFont robotoLightFontOfSize:17.f]
-                        constrainedToSize:CGSizeMake(186.f, 30.f)];
-    } else {
-        MRSLTag *tag = [[self arrayForIndexPath:indexPath] objectAtIndex:indexPath.row - 1];
-        cellSize = [tag.keyword.name sizeWithFont:[UIFont robotoLightFontOfSize:17.f]
-                                constrainedToSize:CGSizeMake(186.f, 30.f)];
-    }
-    return cellSize;
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

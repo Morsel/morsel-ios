@@ -14,26 +14,26 @@
 
 - (void)getCuisineUsers:(MRSLKeyword *)cuisine
                 success:(MRSLAPIArrayBlock)successOrNil
-                failure:(MRSLAPIFailureBlock)failureOrNil;
+                failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getSpecialtyUsers:(MRSLKeyword *)specialty
                   success:(MRSLAPIArrayBlock)successOrNil
-                  failure:(MRSLAPIFailureBlock)failureOrNil;
+                  failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getUserCuisines:(MRSLUser *)user
                 success:(MRSLAPIArrayBlock)successOrNil
-                failure:(MRSLAPIFailureBlock)failureOrNil;
+                failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getUserSpecialties:(MRSLUser *)user
                    success:(MRSLAPIArrayBlock)successOrNil
-                   failure:(MRSLAPIFailureBlock)failureOrNil;
+                   failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)createTagForKeyword:(MRSLKeyword *)keyword
                     success:(MRSLAPISuccessBlock)successOrNil
-                    failure:(MRSLAPIFailureBlock)failureOrNil;
+                    failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)deleteTag:(MRSLTag *)tag
-          success:(MRSLDataSuccessBlock)successOrNil
-          failure:(MRSLAPIFailureBlock)failureOrNil;
+          success:(MRSLSuccessBlock)successOrNil
+          failure:(MRSLFailureBlock)failureOrNil;
 
 @end

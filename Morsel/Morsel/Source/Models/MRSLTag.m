@@ -17,7 +17,7 @@
         NSString *updateString = data[@"updated_at"];
         self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
     }
-    if ([data[@"taggable_type"] isEqualToString:@"User"]) {
+    if ([[data[@"taggable_type"] lowercaseString] isEqualToString:@"user"]) {
         MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                  withValue:data[@"taggable_id"]
                                                  inContext:self.managedObjectContext];

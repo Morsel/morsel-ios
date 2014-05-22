@@ -8,6 +8,7 @@
 + (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldMorselNotification:(BOOL)shouldMorselNotifications;
 
 - (BOOL)isCurrentUser;
+- (BOOL)isChef;
 - (BOOL)shouldTrack;
 - (NSString *)fullName;
 - (NSString *)displayName;

@@ -6,13 +6,12 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLDataSource.h"
+#import "MRSLCollectionViewDataSource.h"
 
-@interface MRSLArrayDataSource : MRSLDataSource
+@interface MRSLCollectionViewArrayDataSource : MRSLCollectionViewDataSource
 
 - (id)initWithObjects:(NSArray *)objects
-     cellIdentifier:(NSString *)cellIdentifier
- configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock;
+   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock;
 
 - (void)updateObjects:(NSArray *)newObjects;
 

@@ -33,7 +33,7 @@
 
 #pragma mark - Errors
 
-- (void)reportFailure:(MRSLAPIFailureBlock)failureOrNil
+- (void)reportFailure:(MRSLFailureBlock)failureOrNil
             withError:(NSError *)error
              inMethod:(NSString *)methodName;
 

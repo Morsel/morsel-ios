@@ -6,26 +6,22 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLArrayDataSource.h"
+#import "MRSLCollectionViewArrayDataSource.h"
 
-@interface MRSLDataSource ()
+@interface MRSLCollectionViewDataSource ()
 
 @property (strong, nonatomic) NSArray *objects;
-
-@property (copy, nonatomic) NSString *cellIdentifier;
 @property (copy, nonatomic) MRSLCellConfigureBlock configureCellBlock;
 
 @end
 
-@implementation MRSLArrayDataSource
+@implementation MRSLCollectionViewArrayDataSource
 
 - (id)initWithObjects:(NSArray *)objects
-     cellIdentifier:(NSString *)cellIdentifier
- configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock {
+   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock {
     self = [super init];
     if (self) {
         self.objects = objects;
-        self.cellIdentifier = cellIdentifier;
         self.configureCellBlock = [configureCellBlock copy];
     }
     return self;

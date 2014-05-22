@@ -152,6 +152,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - Getter Methods
 
 - (MRSLMorsel *)getOrLoadMorselIfExists {
+#warning Should test with mutliple item creation to ensure this doesn't cause data loss issues
+    if (self.morsel) [self.morsel.managedObjectContext MR_saveOnlySelfAndWait];
     if (_morselID) self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                            withValue:_morselID];
     return _morsel;

@@ -14,10 +14,16 @@
 
 - (void)getUserProfile:(MRSLUser *)user
                success:(MRSLAPISuccessBlock)userSuccessOrNil
-               failure:(MRSLAPIFailureBlock)failureOrNil;
+               failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)updateUser:(MRSLUser *)user
            success:(MRSLAPISuccessBlock)userSuccessOrNil
-           failure:(MRSLAPIFailureBlock)failureOrNil;
+           failure:(MRSLFailureBlock)failureOrNil;
+
+- (void)updateEmail:(NSString *)email
+           password:(NSString *)password
+    currentPassword:(NSString *)currentPassword
+            success:(MRSLAPISuccessBlock)successOrNil
+            failure:(MRSLFailureBlock)failureOrNil;
 
 @end

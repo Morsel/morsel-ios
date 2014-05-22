@@ -15,20 +15,20 @@
 - (void)followUser:(MRSLUser *)user
       shouldFollow:(BOOL)shouldFollow
          didFollow:(MRSLAPIFollowBlock)followBlockOrNil
-           failure:(MRSLAPIFailureBlock)failureOrNil;
+           failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getUserFollowers:(MRSLUser *)user
                withMaxID:(NSNumber *)maxOrNil
                orSinceID:(NSNumber *)sinceOrNil
                 andCount:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
-                 failure:(MRSLAPIFailureBlock)failureOrNil;
+                 failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getUserFollowables:(MRSLUser *)user
                  withMaxID:(NSNumber *)maxOrNil
                  orSinceID:(NSNumber *)sinceOrNil
                   andCount:(NSNumber *)countOrNil
                    success:(MRSLAPIArrayBlock)successOrNil
-                   failure:(MRSLAPIFailureBlock)failureOrNil;
+                   failure:(MRSLFailureBlock)failureOrNil;
 
 @end

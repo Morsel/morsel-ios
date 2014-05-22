@@ -15,6 +15,6 @@
               orSinceID:(NSNumber *)sinceOrNil
                andCount:(NSNumber *)countOrNil
                 success:(MRSLAPIArrayBlock)successOrNil
-                failure:(MRSLAPIFailureBlock)failureOrNil;
+                failure:(MRSLFailureBlock)failureOrNil;
 
 @end

@@ -17,7 +17,7 @@
 
 - (void)getComments:(MRSLItem *)item
             success:(MRSLAPIArrayBlock)successOrNil
-            failure:(MRSLAPIFailureBlock)failureOrNil {
+            failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
@@ -49,7 +49,7 @@
 - (void)addCommentWithDescription:(NSString *)description
                          toMorsel:(MRSLItem *)item
                           success:(MRSLAPISuccessBlock)successOrNil
-                          failure:(MRSLAPIFailureBlock)failureOrNil {
+                          failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"comment": @{@"description": NSNullIfNil(description)}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -58,22 +58,43 @@
                             parameters:parameters
                                success: ^(AFHTTPRequestOperation * operation, id responseObject) {
                                    DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-
                                    MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
                                                                                      withValue:responseObject[@"data"][@"id"]];
                                    if (!comment) comment = [MRSLComment MR_createEntity];
                                    [comment MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                    item.comment_count = @(item.comment_countValue + 1);
-                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                       [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateCommentNotification
-                                                                                           object:item];
-                                   });
                                    if (successOrNil) successOrNil(responseObject);
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                    [self reportFailure:failureOrNil
                                              withError:error
                                               inMethod:NSStringFromSelector(_cmd)];
                                }];
+}
+
+- (void)deleteComment:(MRSLComment *)comment
+              success:(MRSLSuccessBlock)successOrNil
+              failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    MRSLItem *item = comment.item;
+    item.comment_count = @(item.comment_countValue - 1);
+    int commentID = comment.commentIDValue;
+    [comment MR_deleteEntity];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+
+    [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"items/%i/comments/%i", item.itemIDValue, commentID]
+                              parameters:parameters
+                                 success:nil
+                                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                     if ([operation.response statusCode] == 200) {
+                                         if (successOrNil) successOrNil(YES);
+                                     } else {
+                                         [self reportFailure:failureOrNil
+                                                   withError:error
+                                                    inMethod:NSStringFromSelector(_cmd)];
+                                     }
+                                 }];
 }
 
 @end

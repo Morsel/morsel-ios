@@ -28,9 +28,10 @@
         _authentication.provider = userInfo[@"provider"];
         _authentication.uid = userInfo[@"uid"];
         _authentication.email = userInfo[@"email"];
-        if ([userInfo[@"provider"] isEqualToString:@"facebook"]) {
+        _authentication.username = userInfo[@"username"];
+        if ([[userInfo[@"provider"] lowercaseString] isEqualToString:@"facebook"]) {
             _authentication.token = FBSession.activeSession.accessTokenData.accessToken;
-        } else if ([userInfo[@"provider"] isEqualToString:@"twitter"]) {
+        } else if ([[userInfo[@"provider"] lowercaseString] isEqualToString:@"twitter"]) {
             _authentication.token = [MRSLSocialServiceTwitter sharedService].oauth1Client.accessToken.key;
             _authentication.secret = [MRSLSocialServiceTwitter sharedService].oauth1Client.accessToken.secret;
         }

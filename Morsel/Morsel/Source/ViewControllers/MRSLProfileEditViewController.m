@@ -8,44 +8,40 @@
 
 #import "MRSLProfileEditViewController.h"
 
-#import <GCPlaceholderTextView/GCPlaceholderTextView.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
-#import "MRSLAPIService+Profile.h"
-
+#import "MRSLCollectionViewArraySectionsDataSource.h"
 #import "MRSLKeywordUsersViewController.h"
-#import "MRSLProfileImageView.h"
-#import "MRSLProfileStatsTagsViewController.h"
+#import "MRSLPlacesAddViewController.h"
+#import "MRSLProfileCredentialsViewController.h"
+#import "MRSLProfileEditFieldsViewController.h"
+#import "MRSLProfileUserTagsListViewController.h"
+#import "MRSLSocialConnectionsTableViewController.h"
 #import "MRSLUserTagEditViewController.h"
+
+#import "MRSLContainerCollectionViewCell.h"
+#import "MRSLSectionHeaderReusableView.h"
 
 #import "MRSLTag.h"
 #import "MRSLUser.h"
 
 @interface MRSLProfileEditViewController ()
-<UIActionSheetDelegate,
-UIImagePickerControllerDelegate,
-UINavigationControllerDelegate,
-UITextFieldDelegate,
-UITextViewDelegate,
-MRSLProfileStatsTagsViewControllerDelegate>
+<MRSLProfileUserTagsListViewControllerDelegate>
 
 @property (nonatomic) CGFloat scrollViewContentHeight;
 
+@property (strong, nonatomic) NSArray *editSections;
 @property (strong, nonatomic) NSString *keywordType;
 
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (weak, nonatomic) IBOutlet UITextField *firstNameField;
-@property (weak, nonatomic) IBOutlet UITextField *lastNameField;
-@property (weak, nonatomic) IBOutlet UITextField *emailField;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIButton *logoutButton;
-@property (weak, nonatomic) IBOutlet UIButton *editPhotoButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (strong, nonatomic) MRSLCollectionViewArrayDataSource *collectionViewDataSource;
 
-@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *bioTextView;
-@property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
+@property (strong, nonatomic) MRSLProfileEditFieldsViewController *profileEditFieldsVC;
+@property (strong, nonatomic) MRSLPlacesAddViewController *profileEditPlacesVC;
+@property (strong, nonatomic) MRSLSocialConnectionsTableViewController *profileEditSocialVC;
+@property (strong, nonatomic) MRSLProfileUserTagsListViewController *profileEditTagsVC;
+@property (strong, nonatomic) MRSLProfileCredentialsViewController *profileEditSecurityVC;
 
-@property (strong, nonatomic) IBOutletCollection(NSObject) NSArray *requiredFields;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 
@@ -65,48 +61,109 @@ MRSLProfileStatsTagsViewControllerDelegate>
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-
-    MRSLProfileStatsTagsViewController *profileStatsKeywordsVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileStatsKeywordsViewController"];
-    profileStatsKeywordsVC.allowsEdit = YES;
-    profileStatsKeywordsVC.user = _user;
-    [profileStatsKeywordsVC.view setY:[_bioTextView getHeight] + [_bioTextView getY] + 8.f];
-    [profileStatsKeywordsVC.view setHeight:214.f];
-    [profileStatsKeywordsVC.view setBackgroundColor:self.view.backgroundColor];
-    profileStatsKeywordsVC.delegate = self;
-    [self addChildViewController:profileStatsKeywordsVC];
-    [self.scrollView addSubview:profileStatsKeywordsVC.view];
-
-    [_logoutButton setY:[profileStatsKeywordsVC.view getHeight] + [profileStatsKeywordsVC.view getY] + 8.f];
-
-    self.scrollViewContentHeight = [_logoutButton getHeight] + [_logoutButton getY] + 20.f;
-    _bioTextView.placeholder = @"Biography";
-    self.scrollView.contentSize = CGSizeMake([self.view getWidth], _scrollViewContentHeight);
-
-    [self populateContent];
-}
-
-- (void)setUser:(MRSLUser *)user {
-    if (_user != user) {
-        _user = user;
-        [self populateContent];
+    if ([[MRSLUser currentUser] isChef]) {
+        self.editSections = @[@"Basics", @"Places", @"Social", @"Tags", @"Security"];
+    } else {
+        self.editSections = @[@"Basics", @"Social", @"Security"];
     }
+    __weak __typeof(self) weakSelf = self;
+    self.collectionViewDataSource = [[MRSLCollectionViewArraySectionsDataSource alloc] initWithObjects:@[[NSNull null]]
+                                                                                              sections:_editSections
+                                                                                    configureCellBlock:^UICollectionViewCell *(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
+                                                                                        return [weakSelf configureCellForCollectionView:collectionView
+                                                                                                                              indexPath:indexPath];
+                                                                                    } supplementaryBlock:^UICollectionReusableView *(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
+                                                                                        MRSLSectionHeaderReusableView *sectionHeader = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                                          withReuseIdentifier:@"ruid_SectionHeader"
+                                                                                                                                                                                 forIndexPath:indexPath];
+                                                                                        sectionHeader.titleLabel.text = [weakSelf.editSections objectAtIndex:[indexPath section]];
+                                                                                        return sectionHeader;
+                                                                                    } cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
+                                                                                        return [weakSelf configureCellSizeForCollectionView:collectionView
+                                                                                                                                  indexPath:indexPath];
+                                                                                    }];
+    [self.collectionView setDataSource:_collectionViewDataSource];
+    [self.collectionView setDelegate:_collectionViewDataSource];
 }
 
 #pragma mark - Private Methods
 
-- (void)populateContent {
-    self.profileImageView.user = _user;
-    self.usernameLabel.text = _user.username;
-    self.firstNameField.text = _user.first_name;
-    self.lastNameField.text = _user.last_name;
-    self.emailField.text = _user.email;
-    self.bioTextView.text = _user.bio;
+- (UICollectionViewCell *)configureCellForCollectionView:(UICollectionView *)collectionView
+                                               indexPath:(NSIndexPath *)indexPath {
+    MRSLContainerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_ContainerCell"
+                                                                                      forIndexPath:indexPath];
+    UIViewController *viewController = nil;
+    NSString *sectionName = [_editSections objectAtIndex:[indexPath section]];
+
+    if ([sectionName isEqualToString:@"Basics"]) {
+        if (!_profileEditFieldsVC) {
+            self.profileEditFieldsVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileEditFieldsViewController"];
+            _profileEditFieldsVC.containingView = self.view;
+            [self addChildViewController:_profileEditFieldsVC];
+        }
+        viewController = _profileEditFieldsVC;
+    } else if ([sectionName isEqualToString:@"Places"]) {
+        if (!_profileEditPlacesVC) {
+            self.profileEditPlacesVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"];
+            [self addChildViewController:_profileEditPlacesVC];
+        }
+        viewController = _profileEditPlacesVC;
+    } else if ([sectionName isEqualToString:@"Social"]) {
+        if (!_profileEditSocialVC) {
+            self.profileEditSocialVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLSocialConnectionsTableViewController"];
+            [self addChildViewController:_profileEditSocialVC];
+        }
+        viewController = _profileEditSocialVC;
+    } else if ([sectionName isEqualToString:@"Tags"]) {
+        if (!_profileEditTagsVC) {
+            self.profileEditTagsVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileStatsTagsViewController"];
+            _profileEditTagsVC.allowsEdit = YES;
+            _profileEditTagsVC.user = [MRSLUser currentUser];
+            _profileEditTagsVC.delegate = self;
+            [self addChildViewController:_profileEditTagsVC];
+        }
+        viewController = _profileEditTagsVC;
+    } else if ([sectionName isEqualToString:@"Security"]) {
+        if (!_profileEditSecurityVC) {
+            self.profileEditSecurityVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileCredentialsViewController"];
+            [self addChildViewController:_profileEditSecurityVC];
+        }
+        viewController = _profileEditSecurityVC;
+    }
+
+    [cell addViewController:viewController];
+
+    return cell;
 }
 
-- (void)focusScrollViewToFrame:(CGRect)frame {
-    frame.origin.y = frame.origin.y - ([_scrollView getHeight] / 2);
-    [_scrollView scrollRectToVisible:frame
-                            animated:YES];
+- (CGSize)configureCellSizeForCollectionView:(UICollectionView *)collectionView
+                                   indexPath:(NSIndexPath *)indexPath {
+    NSString *sectionName = [_editSections objectAtIndex:[indexPath section]];
+    CGSize cellSize = CGSizeMake(320.f, 214.f);
+    if ([sectionName isEqualToString:@"Basics"]) {
+        cellSize.height = 360.f;
+    } else if ([sectionName isEqualToString:@"Places"]) {
+        cellSize.height = 100.f;
+    } else if ([sectionName isEqualToString:@"Social"]) {
+        cellSize.height = 130.f;
+    } else if ([sectionName isEqualToString:@"Tags"]) {
+        cellSize.height = 500.f;
+    } else if ([sectionName isEqualToString:@"Security"]) {
+        cellSize.height = 460.f;
+    }
+    return cellSize;
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)done {
+    __weak __typeof(self) weakSelf = self;
+    [self.profileEditFieldsVC updateProfileWithCompletion:^(BOOL success) {
+        [weakSelf goBack];
+    } failure:^(NSError *error) {
+        [UIAlertView showAlertViewForError:error
+                                  delegate:nil];
+    }];
 }
 
 #pragma mark - Segue Methods
@@ -125,193 +182,27 @@ MRSLProfileStatsTagsViewControllerDelegate>
 
     [UIView animateWithDuration:.2f
                      animations:^{
-                         [self.scrollView setHeight:[self.view getHeight] - keyboardSize.height];
+                         [self.collectionView setHeight:[self.view getHeight] - keyboardSize.height];
                      }];
 }
 
 - (void)keyboardWillHide {
     [UIView animateWithDuration:.2f
                      animations:^{
-                         [self.scrollView setHeight:[self.view getHeight]];
+                         [self.collectionView setHeight:[self.view getHeight]];
                      }];
-}
-
-#pragma mark - Action Methods
-
-- (IBAction)logout {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
-                                                        object:nil];
-}
-
-- (IBAction)updateProfile {
-    BOOL fieldsFilled = YES;
-    for (NSObject *requiredField in _requiredFields) {
-        if ([requiredField respondsToSelector:@selector(text)]) {
-            if ([[(UITextField *)requiredField text] length] == 0) {
-                [(UIView *)requiredField setBorderWithColor:[UIColor morselRed]
-                                                   andWidth:2.f];
-                fieldsFilled = NO;
-            } else {
-                [(UIView *)requiredField setBorderWithColor:nil
-                                                   andWidth:0.f];
-            }
-        }
-    }
-    if (!fieldsFilled) {
-        [UIAlertView showAlertViewForErrorString:@"Please fill in all fields."
-                                        delegate:nil];
-        return;
-    }
-
-    BOOL userDidUpdate = (_user.first_name) ? ![_user.first_name isEqualToString:_firstNameField.text] : (![_firstNameField.text length] == 0);
-    userDidUpdate = (_user.last_name) ? ![_user.last_name isEqualToString:_lastNameField.text] : (![_lastNameField.text length] == 0);
-    userDidUpdate = (_user.email) ? ![_user.email isEqualToString:_emailField.text] : (![_emailField.text length] == 0);
-    userDidUpdate = (_user.bio) ? ![_user.bio isEqualToString:_bioTextView.text] : (![_bioTextView.text length] == 0);
-
-    if (userDidUpdate) {
-        _user.first_name = _firstNameField.text;
-        _user.last_name = _lastNameField.text;
-        _user.email = _emailField.text;
-        _user.bio = _bioTextView.text;
-
-        __weak __typeof(self) weakSelf = self;
-        [_appDelegate.apiService updateUser:_user
-                                    success:^(id responseObject) {
-                                        [weakSelf goBack];
-                                    } failure:nil];
-    } else {
-        [self goBack];
-    }
-}
-
-- (IBAction)addPhoto {
-    [[MRSLEventManager sharedManager] track:@"Tapped Add Photo Icon"
-                                 properties:@{@"view": @"Sign up"}];
-
-    [self.view endEditing:YES];
-
-    UIActionSheet *profileActionSheet = [[UIActionSheet alloc] initWithTitle:@"Add a Profile Photo"
-                                                                    delegate:self
-                                                           cancelButtonTitle:nil
-                                                      destructiveButtonTitle:nil
-                                                           otherButtonTitles:@"Take Photo", @"Select from Library", nil];
-
-    [profileActionSheet setCancelButtonIndex:[profileActionSheet addButtonWithTitle:@"Cancel"]];
-
-    [profileActionSheet showInView:self.view];
-}
-
-#pragma mark - UITextFieldDelegate
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    [self focusScrollViewToFrame:textField.frame];
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if ([string isEqualToString:@"\n"]) {
-        [textField resignFirstResponder];
-        return NO;
-    }
-    return YES;
-}
-
-#pragma mark - UITextViewDelegate
-
-- (void)textViewDidBeginEditing:(UITextView *)textView {
-    [self focusScrollViewToFrame:textView.frame];
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    NSUInteger textLength = (textView.text.length - range.length) + text.length;
-    if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
-    } else if (textLength > 255) {
-        return NO;
-    }
-    return YES;
-}
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) return;
-
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take Photo"]) {
-        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-    } else {
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-
-    imagePicker.allowsEditing = YES;
-    imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
-    imagePicker.delegate = self;
-
-    [self presentViewController:imagePicker
-                       animated:YES
-                     completion:nil];
-}
-
-#pragma mark - UIImagePickerControllerDelegate Methods
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
-        UIImage *originalProfileImage = info[UIImagePickerControllerEditedImage];
-        [self.profileImageView addAndRenderImage:originalProfileImage
-                                        complete:nil];
-        [self.activityIndicatorView startAnimating];
-        self.editPhotoButton.hidden = YES;
-
-        __weak __typeof(self) weakSelf = self;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            UIImage *profileImageFull = [originalProfileImage thumbnailImage:originalProfileImage.size.width
-                                                        interpolationQuality:kCGInterpolationHigh];
-            UIImage *profileImageLarge = [profileImageFull thumbnailImage:MRSLUserProfileImageLargeDimensionSize
-                                                     interpolationQuality:kCGInterpolationHigh];
-            UIImage *profileImageThumb = [profileImageFull thumbnailImage:MRSLUserProfileImageThumbDimensionSize
-                                                     interpolationQuality:kCGInterpolationHigh];
-            weakSelf.user.profilePhotoLarge = UIImageJPEGRepresentation(profileImageLarge, 1.f);
-            weakSelf.user.profilePhotoThumb = UIImageJPEGRepresentation(profileImageThumb, 1.f);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                weakSelf.user.profilePhotoFull = UIImageJPEGRepresentation(profileImageFull, 1.f);
-                [_appDelegate.apiService updateUser:weakSelf.user success:^(id responseObject) {
-                    weakSelf.editPhotoButton.hidden = NO;
-                    [weakSelf.activityIndicatorView stopAnimating];
-                    weakSelf.profileImageView.user = weakSelf.user;
-                } failure:^(NSError *error) {
-                    weakSelf.editPhotoButton.hidden = NO;
-                    [weakSelf.activityIndicatorView stopAnimating];
-                }];
-            });
-        });
-    }
-
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 #pragma mark - MRSLProfileStatsKeywordsViewControllerDelegate Methods
 
-- (void)profileStatsTagsViewControllerDidSelectTag:(MRSLTag *)tag {
+- (void)profileUserTagsListViewControllerDidSelectTag:(MRSLTag *)tag {
     MRSLKeywordUsersViewController *keywordUsersVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLKeywordUsersViewController"];
     keywordUsersVC.keyword = tag.keyword;
     [self.navigationController pushViewController:keywordUsersVC
                                          animated:YES];
 }
 
-- (void)profileStatsTagsViewControllerDidSelectType:(NSString *)type {
+- (void)profileUserTagsListViewControllerDidSelectType:(NSString *)type {
     self.keywordType = type;
     [self performSegueWithIdentifier:@"seg_EditKeywords"
                               sender:nil];

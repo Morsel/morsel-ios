@@ -14,23 +14,23 @@
 
 - (void)createItem:(MRSLItem *)item
            success:(MRSLAPISuccessBlock)successOrNil
-           failure:(MRSLAPIFailureBlock)failureOrNil;
+           failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getItem:(MRSLItem *)item
         success:(MRSLAPISuccessBlock)successOrNil
-        failure:(MRSLAPIFailureBlock)failureOrNil;
+        failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)updateItem:(MRSLItem *)item
          andMorsel:(MRSLMorsel *)morselOrNil
            success:(MRSLAPISuccessBlock)successOrNil
-           failure:(MRSLAPIFailureBlock)failureOrNil;
+           failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)updateItemImage:(MRSLItem *)item
                 success:(MRSLAPISuccessBlock)successOrNil
-                failure:(MRSLAPIFailureBlock)failureOrNil;
+                failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)deleteItem:(MRSLItem *)item
-           success:(MRSLDataSuccessBlock)successOrNil
-           failure:(MRSLAPIFailureBlock)failureOrNil;
+           success:(MRSLSuccessBlock)successOrNil
+           failure:(MRSLFailureBlock)failureOrNil;
 
 @end

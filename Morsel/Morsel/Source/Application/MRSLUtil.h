@@ -16,6 +16,9 @@
 + (BOOL)imageIsLandscape:(UIImage *)image;
 + (CGFloat)cameraDimensionScaleFromImage:(UIImage *)image;
 
++ (Class)classForDataSourceType:(MRSLDataSourceType)dataSourceTabType;
++ (NSString *)stringForDataSortType:(MRSLDataSortType)dataSortType;
++ (NSString *)stringForDataSourceType:(MRSLDataSourceType)dataSourceTabType;
 + (NSString *)appVersionBuildString;
 + (NSString *)appMajorMinorPatchString;
 

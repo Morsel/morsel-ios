@@ -13,12 +13,12 @@
 
 #pragma mark - Blocks
 
-typedef void (^ MRSLDataSuccessBlock)(BOOL success);
+typedef void (^ MRSLSuccessBlock)(BOOL success);
+typedef void (^ MRSLFailureBlock)(NSError *error);
 typedef void (^ MRSLAPIArrayBlock)(NSArray *responseArray);
 typedef void (^ MRSLAPILikeBlock)(BOOL doesLike);
 typedef void (^ MRSLAPIFollowBlock)(BOOL doesFollow);
 typedef void (^ MRSLAPISuccessBlock)(id responseObject);
-typedef void (^ MRSLAPIFailureBlock)(NSError *error);
 typedef void (^ MRSLAPIExistsBlock)(BOOL exists, NSError *error);
 typedef void (^ MRSLAPIValidationBlock)(BOOL isAvailable, NSError *error);
 typedef void (^ MRSLImageProcessingBlock)(BOOL success);
@@ -71,6 +71,21 @@ typedef NS_ENUM(NSUInteger, MRSLSocialAccountType) {
     MRSLSocialAccountTypeTwitter
 };
 
+typedef NS_ENUM(NSUInteger, MRSLDataSortType) {
+    MRSLDataSortTypeCreationDate,
+    MRSLDataSortTypeName,
+    MRSLDataSortTypeLastName,
+    MRSLDataSortTypeSortOrder
+};
+
+typedef NS_ENUM(NSUInteger, MRSLDataSourceType) {
+    MRSLDataSourceTypeMorsel,
+    MRSLDataSourceTypePlace,
+    MRSLDataSourceTypeTag,
+    MRSLDataSourceTypeActivityItem,
+    MRSLDataSourceTypeUser
+};
+
 #pragma mark - Media Capture Values
 
 // It is assumed the standard image to be passed through will be 5 MP (approx. 1920 x 2560 resolution).
@@ -89,6 +104,7 @@ static const CGFloat MRSLItemImageLargeDimensionSize = 320.f;
 static const CGFloat MRSLItemImageThumbDimensionSize = 50.f;
 static const int MRSLMaximumMorselsToDisplayInMorselAdd = 5;
 static const int MRSLMaximumMorselsToDisplayInMorselPreview = 12;
+static const int MRSLStatsTagViewTag = 9991;
 
 #pragma mark - Build Specific
 

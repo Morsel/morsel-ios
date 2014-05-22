@@ -27,8 +27,6 @@
 @property (strong, nonatomic) MRSLSocialSuccessBlock instagramSuccessBlock;
 @property (strong, nonatomic) MRSLSocialFailureBlock instagramFailureBlock;
 
-@property (strong, nonatomic) AFOAuthCredential *instagramCredentials;
-
 @property (strong, nonatomic) NSArray *friendUIDs;
 @property (strong, nonatomic) NSDictionary *userInfo;
 
@@ -108,6 +106,7 @@
 
 - (void)restoreInstagramWithAuthentication:(MRSLSocialAuthentication *)authentication
                               shouldCreate:(BOOL)shouldCreate {
+    self.socialAuthentication = authentication;
     if (!_instagramCredentials) {
         AFOAuthCredential *credential = [[AFOAuthCredential alloc] initWithOAuthToken:authentication.token
                                                                             tokenType:authentication.tokenType ?: @"bearer"
@@ -141,13 +140,14 @@
                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                    DDLogVerbose(@"Instagram User Information Response: %@", responseObject);
                    NSDictionary *data = responseObject[@"data"];
-                   NSMutableArray *nameArray = [[data[@"name"] componentsSeparatedByString:@" "] mutableCopy];
+                   NSMutableArray *nameArray = [[data[@"full_name"] componentsSeparatedByString:@" "] mutableCopy];
                    NSString *firstName = [nameArray firstObject];
                    [nameArray removeObjectAtIndex:0];
                    NSString *lastName = ([nameArray count] > 0) ? [nameArray componentsJoinedByString:@" "] : @"";
                    NSDictionary *userInfo = @{@"first_name": NSNullIfNil(firstName),
                                               @"last_name": NSNullIfNil(lastName),
                                               @"uid": NSNullIfNil(data[@"id"]),
+                                              @"username": NSNullIfNil(data[@"username"]),
                                               @"pictureURL": NSNullIfNil(data[@"profile_picture"]),
                                               @"provider": @"instagram"};
                    if (userInfoBlockOrNil) userInfoBlockOrNil(userInfo, nil);
@@ -183,12 +183,17 @@
     return [NSString stringWithFormat:@"'%@'", [_friendUIDs componentsJoinedByString:@"','"]];
 }
 
+- (NSString *)instagramUsername {
+    return _instagramCredentials.authorizationResponse[@"user"][@"username"];
+}
+
 #pragma mark - Reset Methods
 
 - (void)reset {
     NXOAuth2Account *account = [[NXOAuth2AccountStore sharedStore] accountWithIdentifier:MRSLInstagramAccountTypeKey];
     [[NXOAuth2AccountStore sharedStore] removeAccount:account];
     self.instagramCredentials = nil;
+    self.socialAuthentication = nil;
 }
 
 @end

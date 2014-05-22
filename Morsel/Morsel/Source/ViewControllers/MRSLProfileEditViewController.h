@@ -10,6 +10,4 @@
 
 @interface MRSLProfileEditViewController : MRSLBaseViewController
 
-@property (weak, nonatomic) MRSLUser *user;
-
 @end

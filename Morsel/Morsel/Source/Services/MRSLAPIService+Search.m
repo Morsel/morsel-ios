@@ -15,7 +15,7 @@
               orSinceID:(NSNumber *)sinceOrNil
                andCount:(NSNumber *)countOrNil
                 success:(MRSLAPIArrayBlock)successOrNil
-                failure:(MRSLAPIFailureBlock)failureOrNil {
+                failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user" : @{@"query": NSNullIfNil(query),
                                                                                    @"promoted": ([query length] > 0) ? @"false" : @"true"}}
                                                 includingMRSLObjects:nil

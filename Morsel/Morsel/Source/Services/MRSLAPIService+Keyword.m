@@ -15,14 +15,14 @@
 #pragma mark - Keyword Services
 
 - (void)getCuisinesWithSuccess:(MRSLAPIArrayBlock)successOrNil
-                       failure:(MRSLAPIFailureBlock)failureOrNil {
+                       failure:(MRSLFailureBlock)failureOrNil {
     [self getKeywordsOfType:MRSLKeywordCuisinesType
                     success:successOrNil
                     failure:failureOrNil];
 }
 
 - (void)getSpecialtiesWithSuccess:(MRSLAPIArrayBlock)successOrNil
-                          failure:(MRSLAPIFailureBlock)failureOrNil {
+                          failure:(MRSLFailureBlock)failureOrNil {
     [self getKeywordsOfType:MRSLKeywordSpecialtiesType
                     success:successOrNil
                     failure:failureOrNil];
@@ -30,7 +30,7 @@
 
 - (void)getKeywordsOfType:(NSString *)tagType
                   success:(MRSLAPIArrayBlock)successOrNil
-                  failure:(MRSLAPIFailureBlock)failureOrNil {
+                  failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
