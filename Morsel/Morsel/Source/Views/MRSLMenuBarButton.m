@@ -18,12 +18,9 @@
 
 - (void)setValue:(id)value
           forKey:(NSString *)key {
-    if ([key isEqualToString:@"buttonType"])
-    {
+    if ([key isEqualToString:@"buttonType"]) {
         self.menuBarButtonType = [value intValue];
-    }
-    else
-    {
+    } else {
         [super setValue:value forKey:key];
     }
 }

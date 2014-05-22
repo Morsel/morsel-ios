@@ -123,6 +123,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)resumeTimer {
+    [self suspendTimer];
     if (!_timer) {
         self.timer = [NSTimer timerWithTimeInterval:60.f
                                              target:self
@@ -456,8 +457,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 #pragma mark - Dealloc
 
 - (void)dealloc {
-    [_timer invalidate];
-    self.timer = nil;
+    [self suspendTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

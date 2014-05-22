@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLStandardButton.h"
+#import "MRSLLightButton.h"
 
-@interface MRSLLargeButton : MRSLStandardButton
+@interface MRSLColoredBackgroundLightButton : MRSLLightButton
 
 @end

@@ -66,7 +66,7 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
     if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call user followers with both max and since IDs set. Ignoring both values.");
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
     } else if (maxOrNil && !sinceOrNil) {
         parameters[@"max_id"] = maxOrNil;
     } else if (!maxOrNil && sinceOrNil) {
@@ -95,7 +95,7 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
     if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call user followables with both max and since IDs set. Ignoring both values.");
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
     } else if (maxOrNil && !sinceOrNil) {
         parameters[@"max_id"] = maxOrNil;
     } else if (!maxOrNil && sinceOrNil) {

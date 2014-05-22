@@ -20,9 +20,11 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
 
 @interface MRSLSocialServiceTwitter : NSObject
 
-@property (strong, nonatomic) AFOAuth1Client *twitterClient;
+@property (strong, nonatomic) AFOAuth1Client *oauth1Client;
 
 + (instancetype)sharedService;
+
+#pragma mark - Authentication Methods
 
 - (void)authenticateWithTwitterWithSuccess:(MRSLSocialSuccessBlock)successOrNil
                                    failure:(MRSLSocialFailureBlock)failureOrNil;
@@ -30,11 +32,17 @@ NS_ENUM(NSUInteger, CreateMorselActionSheet) {
                                               failure:(MRSLSocialFailureBlock)failureOrNil;
 - (void)restoreTwitterWithAuthentication:(MRSLSocialAuthentication *)authentication
                             shouldCreate:(BOOL)shouldCreate;
+
+#pragma mark - User Methods
+
 - (void)getTwitterUserInformation:(MRSLSocialUserInfoBlock)userInfoBlockOrNil;
+- (void)getTwitterFollowingUIDs:(MRSLSocialUIDStringBlock)uidBlockOrNil;
 
 - (void)postStatus:(NSString *)status
            success:(MRSLSocialSuccessBlock)successOrNil
            failure:(MRSLSocialFailureBlock)failureOrNil;
+
+#pragma mark - Reset Methods
 
 - (void)reset;
 

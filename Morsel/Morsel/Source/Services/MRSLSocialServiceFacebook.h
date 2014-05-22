@@ -16,13 +16,21 @@
 
 + (instancetype)sharedService;
 
+#pragma mark - Authentication and User Information Methods
+
 - (void)checkForValidFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler;
 - (void)openFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler;
 - (void)restoreFacebookSessionWithAuthentication:(MRSLSocialAuthentication *)authentication;
+
 - (void)getFacebookUserInformation:(MRSLSocialUserInfoBlock)facebookUserInfo;
+- (void)getFacebookFriendUIDs:(MRSLSocialUIDStringBlock)uidBlock;
+
+#pragma mark - Share Methods
+
 - (void)shareMorsel:(MRSLMorsel *)morsel
             success:(MRSLSocialSuccessBlock)successOrNil
              cancel:(MRSLSocialCancelBlock)cancelBlockOrNil;
+
 - (void)reset;
 
 @end

@@ -19,6 +19,8 @@ PODS:
     - AFNetworking/NSURLConnection
   - AFOAuth1Client (0.3.4):
     - AFNetworking (~> 2.1)
+  - AFOAuth2Client (0.1.1):
+    - AFNetworking (~> 2.0)
   - ALAssetsLibrary-CustomPhotoAlbum (1.1.5)
   - Bolts (1.1.0)
   - CocoaLumberjack (1.6.5.1):
@@ -48,6 +50,7 @@ PODS:
   - NSData+Base64 (1.0.0)
   - NSDate+TimeAgo (1.0.2)
   - NullSafe (1.2)
+  - NXOAuth2Client (1.2.5)
   - OAuthCore (0.0.1):
     - NSData+Base64
   - OHHTTPStubs (3.1.0)
@@ -59,6 +62,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - AFOAuth1Client (from `https://github.com/Morsel/AFOAuth1Client`)
+  - AFOAuth2Client (from `https://github.com/Morsel/AFOAuth2Client`)
   - ALAssetsLibrary-CustomPhotoAlbum (~> 1.1)
   - CocoaLumberjack (~> 1.6.5.1)
   - ELCImagePickerController (~> 0.2)
@@ -71,6 +75,7 @@ DEPENDENCIES:
   - Mixpanel (~> 2.3.1)
   - NSDate+TimeAgo (~> 1.0.2)
   - NullSafe (~> 1.2)
+  - NXOAuth2Client (~> 1.2)
   - OAuthCore (~> 0.0.1)
   - OHHTTPStubs (~> 3.1.0)
   - SDWebImage (~> 3.6)
@@ -79,28 +84,32 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   AFOAuth1Client:
     :git: https://github.com/Morsel/AFOAuth1Client
+  AFOAuth2Client:
+    :git: https://github.com/Morsel/AFOAuth2Client
 
 SPEC CHECKSUMS:
-  AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
+  AFNetworking: a4d0e9a64de9242986620dafd1b3cee3b413ac5c
   AFOAuth1Client: 0e47493d961445520e688f795944f9b8995a14d2
-  ALAssetsLibrary-CustomPhotoAlbum: 1a60eddafc065a5f1e05786f7850448d8cf2cbf5
-  Bolts: dc620a31cf67c29bce3e3d14a07a12e797a1a154
-  CocoaLumberjack: 17803afbade3126a377d32b8d23367264b44ced6
-  ELCImagePickerController: 1baf64fadfe088550c16f82225469e4dfad917e2
-  Facebook-iOS-SDK: 63e19ff8d275d63b765819f492a4e71e445f9822
-  GCPlaceholderTextView: 8f0e4cb4b93827c9ec8d9bf9e850bbd328d1db0b
-  JLRoutes: 377be327c3070c5b7131e4fc3debdbe0fd704939
-  KIF: c01fb8fb593cf8ffeeb69ed8d402ce88143e0697
-  Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
-  Kiwi-KIF: b5391f7f57e91f43fdb2d4227d64277a67cf9e09
-  MagicalRecord: 95d49d74ef752cd52f6ad87bcb474817fc3978cf
-  Mixpanel: 8d189c58bcaac429de9cb4f18a54621df99b7e38
-  NSData+Base64: bd5dacbc799c0339bd6a961a9ea80dd6eba11b33
-  NSDate+TimeAgo: fe93d3042e83093ae3630bc47ae7d57f782733f6
-  NullSafe: b0389fab0a39b1722fb30227cd80a3a203924c09
-  OAuthCore: 946cd0ac34bbb32d79b69e65417568e4b7ee8e9e
-  OHHTTPStubs: d67c42c0212f0883ddb8592375aa0dc00dc50a36
-  SDWebImage: 7eb273e54ca8a2e506ad9bd5e80c35b2a4d7c95e
-  TestFlightSDK: fe0567a897456b6f65b180541892ef0154986e01
+  AFOAuth2Client: 05536bd4175add72e7efcb6b749d4e9685ed02f7
+  ALAssetsLibrary-CustomPhotoAlbum: 785e1852efacd51235dd8dd19a8a467196fdeafa
+  Bolts: 91c2af8eae1d44e1dd75946a5b0ae04a43ea43e4
+  CocoaLumberjack: baf4a09a3bcbdfea3363556a90104e026d3504e2
+  ELCImagePickerController: 4dc83bb6ce995f4964b0080d77ad5a01141e6db2
+  Facebook-iOS-SDK: 93aae4f3dacd6bad35f419e09889397697b1e20b
+  GCPlaceholderTextView: d48f3558c8d71daaae65679275075592ca13e1c8
+  JLRoutes: 1a32dbc34b8af9c2a0174c4799afdc72ad5fe447
+  KIF: 45369d4a30f5ac140be8267f31f637b9d2a239f4
+  Kiwi: 7b9bc7294de746357213067a1df49cc0a59384e8
+  Kiwi-KIF: c8731acc48d55258ca39810868043d88fc467848
+  MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
+  Mixpanel: 9cc470a58346f60da8ce2982096bcc72b5a7372b
+  NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
+  NSDate+TimeAgo: c01d6ac0b81add41f77f264fa4276d355723fcde
+  NullSafe: 9685bb76b0fa73cab04a69c176622662d46f0160
+  NXOAuth2Client: 9359e8e703bb8357f41c1e169ec3e107612a794c
+  OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
+  OHHTTPStubs: 8b032ab399e356050010ed34613ee1761c6c8ae3
+  SDWebImage: c6989652c1cdf27cbdf3f56957e2030f825af5bc
+  TestFlightSDK: 36b8a207c5a119a3144aa2e6d24973eb9d5e0d0a
 
-COCOAPODS: 0.32.1
+COCOAPODS: 0.33.1

@@ -17,7 +17,10 @@
 @property (strong, nonatomic) NSString *provider;
 @property (strong, nonatomic) NSString *token;
 @property (strong, nonatomic) NSString *secret;
+@property (strong, nonatomic) NSString *tokenType;
 @property (strong, nonatomic) NSString *uid;
 @property (strong, nonatomic) NSString *username;
+
+- (BOOL)isValid;
 
 @end

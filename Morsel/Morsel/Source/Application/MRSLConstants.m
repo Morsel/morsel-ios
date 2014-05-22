@@ -43,6 +43,7 @@ NSString *const MRSLAppTouchPhaseDidBeginNotification = @"MRSLAppTouchPhaseDidBe
 #pragma mark - Social Constants
 
 NSString *const MRSLTwitterCredentialsKey = @"MRSLTwitterCredentialsKey";
+NSString *const MRSLInstagramAccountTypeKey = @"MRSLInstagramAccountTypeKey";
 
 #pragma mark - Keyword Constants
 

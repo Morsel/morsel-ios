@@ -23,7 +23,7 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call feed with both max and since IDs set. Ignoring both values.");
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
     } else if (maxOrNil && !sinceOrNil) {
         parameters[@"max_id"] = maxOrNil;
     } else if (!maxOrNil && sinceOrNil) {

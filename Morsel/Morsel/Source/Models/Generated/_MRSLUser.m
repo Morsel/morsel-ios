@@ -12,7 +12,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.email = @"email",
 	.facebook_uid = @"facebook_uid",
 	.first_name = @"first_name",
-	.followed_users_count = @"followed_users_count",
+	.followed_user_count = @"followed_user_count",
 	.follower_count = @"follower_count",
 	.following = @"following",
 	.industryType = @"industryType",
@@ -70,8 +70,8 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"followed_users_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"followed_users_count"];
+	if ([key isEqualToString:@"followed_user_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"followed_user_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -192,26 +192,26 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic followed_users_count;
+@dynamic followed_user_count;
 
 
 
-- (int32_t)followed_users_countValue {
-	NSNumber *result = [self followed_users_count];
+- (int32_t)followed_user_countValue {
+	NSNumber *result = [self followed_user_count];
 	return [result intValue];
 }
 
-- (void)setFollowed_users_countValue:(int32_t)value_ {
-	[self setFollowed_users_count:[NSNumber numberWithInt:value_]];
+- (void)setFollowed_user_countValue:(int32_t)value_ {
+	[self setFollowed_user_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int32_t)primitiveFollowed_users_countValue {
-	NSNumber *result = [self primitiveFollowed_users_count];
+- (int32_t)primitiveFollowed_user_countValue {
+	NSNumber *result = [self primitiveFollowed_user_count];
 	return [result intValue];
 }
 
-- (void)setPrimitiveFollowed_users_countValue:(int32_t)value_ {
-	[self setPrimitiveFollowed_users_count:[NSNumber numberWithInt:value_]];
+- (void)setPrimitiveFollowed_user_countValue:(int32_t)value_ {
+	[self setPrimitiveFollowed_user_count:[NSNumber numberWithInt:value_]];
 }
 
 

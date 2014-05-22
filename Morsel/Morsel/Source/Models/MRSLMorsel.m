@@ -63,7 +63,7 @@
                                                withValue:creatorID
                                                inContext:self.managedObjectContext];
         if (!user) {
-            user = [MRSLUser MR_createEntity];
+            user = [MRSLUser MR_createInContext:self.managedObjectContext];
             user.userID = data[@"creator_id"];
         }
         self.creator = user;

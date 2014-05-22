@@ -76,6 +76,33 @@
                                             <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="zDn-ww-gb1"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="aql-Rl-IJf" customClass="MRSLMenuBarButton">
+                                        <rect key="frame" x="0.0" y="272" width="80" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" label="View Activity"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
+                                        <state key="normal" title="Find Friends" image="icon-search">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="menuBarButtonType">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="selectedButton:" destination="OXi-ay-p36" eventType="touchUpInside" id="iW2-2P-Vaj"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="jLr-C9-Neq" customClass="MRSLMenuBarButton">
                                         <rect key="frame" x="0.0" y="476" width="80" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -96,7 +123,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="menuBarButtonType">
-                                                <integer key="value" value="4"/>
+                                                <integer key="value" value="5"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
@@ -167,6 +194,7 @@
                                     <outletCollection property="menuBarButtons" destination="lAZ-OY-Dws" id="OEa-Cd-haL"/>
                                     <outletCollection property="menuBarButtons" destination="6z6-0t-kaz" id="xA3-3c-0QJ"/>
                                     <outletCollection property="menuBarButtons" destination="jLr-C9-Neq" id="hSm-0i-Nea"/>
+                                    <outletCollection property="menuBarButtons" destination="aql-Rl-IJf" id="Jvb-bw-GYJ"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -294,6 +322,7 @@
         <image name="icon-menubar-stuff" width="30" height="30"/>
         <image name="icon-refresh" width="30" height="30"/>
         <image name="icon-refresh-red" width="30" height="30"/>
+        <image name="icon-search" width="20" height="20"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

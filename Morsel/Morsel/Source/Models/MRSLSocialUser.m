@@ -31,8 +31,8 @@
         if ([userInfo[@"provider"] isEqualToString:@"facebook"]) {
             _authentication.token = FBSession.activeSession.accessTokenData.accessToken;
         } else if ([userInfo[@"provider"] isEqualToString:@"twitter"]) {
-            _authentication.token = [MRSLSocialServiceTwitter sharedService].twitterClient.accessToken.key;
-            _authentication.secret = [MRSLSocialServiceTwitter sharedService].twitterClient.accessToken.secret;
+            _authentication.token = [MRSLSocialServiceTwitter sharedService].oauth1Client.accessToken.key;
+            _authentication.secret = [MRSLSocialServiceTwitter sharedService].oauth1Client.accessToken.secret;
         }
     }
     return self;

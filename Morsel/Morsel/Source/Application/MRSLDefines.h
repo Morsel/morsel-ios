@@ -25,6 +25,7 @@ typedef void (^ MRSLImageProcessingBlock)(BOOL success);
 typedef void (^ MRSLSocialSuccessBlock)(BOOL success);
 typedef void (^ MRSLSocialFailureBlock)(NSError *error);
 typedef void (^ MRSLSocialUserInfoBlock)(NSDictionary *userInfo, NSError *error);
+typedef void (^ MRSLSocialUIDStringBlock)(NSString *uids, NSError *error);
 typedef void (^ MRSLSocialCancelBlock)();
 typedef void (^ MRSLDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
 

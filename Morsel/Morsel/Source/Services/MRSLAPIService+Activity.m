@@ -28,7 +28,7 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call activities with both max and since IDs set. Ignoring both values.");
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
     } else if (maxOrNil && !sinceOrNil) {
         parameters[@"max_id"] = maxOrNil;
     } else if (!maxOrNil && sinceOrNil) {
@@ -75,7 +75,7 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call notifications with both max and since IDs set. Ignoring both values.");
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
     } else if (maxOrNil && !sinceOrNil) {
         parameters[@"max_id"] = maxOrNil;
     } else if (!maxOrNil && sinceOrNil) {

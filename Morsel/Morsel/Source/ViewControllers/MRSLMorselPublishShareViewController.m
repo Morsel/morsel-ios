@@ -9,7 +9,7 @@
 #import "MRSLMorselPublishShareViewController.h"
 
 #import "MRSLAPIService+Morsel.h"
-#import "MRSLAPIService+Authorization.h"
+#import "MRSLAPIService+Authentication.h"
 #import "MRSLSocialServiceFacebook.h"
 #import "MRSLSocialServiceTwitter.h"
 

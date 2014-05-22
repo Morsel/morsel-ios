@@ -1,19 +1,20 @@
 //
-//  MRSLAPIService+Authorization.m
+//  MRSLAPIService+Authentication.m
 //  Morsel
 //
 //  Created by Javier Otero on 5/5/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLAPIService+Authorization.h"
+#import "MRSLAPIService+Authentication.h"
 
 #import "MRSLSocialAuthentication.h"
 
 #import "MRSLSocialServiceFacebook.h"
+#import "MRSLSocialServiceInstagram.h"
 #import "MRSLSocialServiceTwitter.h"
 
-@implementation MRSLAPIService (Authorization)
+@implementation MRSLAPIService (Authentication)
 
 #pragma mark - Authorization Services
 
@@ -46,7 +47,7 @@
                                                                                             @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] POST:@"users/authentications"
+    [[MRSLAPIClient sharedClient] POST:@"authentications"
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -63,7 +64,7 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] GET:@"users/authentications"
+    [[MRSLAPIClient sharedClient] GET:@"authentications"
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -81,6 +82,9 @@
                                       } else if ([socialAuth.provider isEqualToString:@"twitter"]) {
                                           [[MRSLSocialServiceTwitter sharedService] restoreTwitterWithAuthentication:socialAuth
                                                                                                         shouldCreate:NO];
+                                      } else if ([socialAuth.provider isEqualToString:@"instagram"]) {
+                                          [[MRSLSocialServiceInstagram sharedService] restoreInstagramWithAuthentication:socialAuth
+                                                                                                            shouldCreate:NO];
                                       } else {
                                           DDLogError(@"Cannot restore unsupported user authentication for provider (%@).", socialAuth.provider);
                                       }
@@ -92,17 +96,74 @@
                               }];
 }
 
-- (void)deleteUserAuthentication:(MRSLSocialAuthentication *)authentication
+- (void)getSocialProviderConnections:(NSString *)provider
+                           usingUIDs:(NSString *)uids
+                               maxID:(NSNumber *)maxOrNil
+                           orSinceID:(NSNumber *)sinceOrNil
+                            andCount:(NSNumber *)countOrNil
+                             success:(MRSLAPIArrayBlock)successOrNil
+                             failure:(MRSLAPIFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"provider" : NSNullIfNil(provider),
+                                                                       @"uids" : NSNullIfNil(uids)}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    if (maxOrNil && sinceOrNil) {
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
+    } else if (maxOrNil && !sinceOrNil) {
+        parameters[@"max_id"] = maxOrNil;
+    } else if (!maxOrNil && sinceOrNil) {
+        parameters[@"since_id"] = sinceOrNil;
+    }
+    if (countOrNil) parameters[@"count"] = countOrNil;
+
+    [[MRSLAPIClient sharedClient] GET:@"authentications/connections"
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  [self importUsersWithDictionary:responseObject
+                                                          success:successOrNil];
+                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                  [self reportFailure:failureOrNil
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
+- (void)updateUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)successOrNil
                          failure:(MRSLAPIFailureBlock)failureOrNil {
     if (!authentication.authenticationID) {
-        DDLogError(@"Authentication for provider (%@) does not have an id. Cannot delete.", authentication.provider);
+        DDLogError(@"Authentication for provider (%@) does not have an id. Cannot update.", authentication.provider);
+        return;
+    }
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"authentication": @{@"provider": NSNullIfNil(authentication.provider),
+                                                                                            @"uid": NSNullIfNil(authentication.uid),
+                                                                                            @"token": NSNullIfNil(authentication.token),
+                                                                                            @"secret": NSNullIfNil(authentication.secret),
+                                                                                            @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"authentications/%i", [authentication.authenticationID intValue]]
+                              parameters:parameters
+                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                     if (successOrNil) successOrNil(responseObject);
+                                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                     [self reportFailure:failureOrNil
+                                               withError:error
+                                                inMethod:NSStringFromSelector(_cmd)];
+                                 }];
+}
+
+- (void)deleteUserAuthentication:(MRSLSocialAuthentication *)authentication
+                         success:(MRSLAPISuccessBlock)successOrNil
+                         failure:(MRSLAPIFailureBlock)failureOrNil {
+    if (![authentication isValid]) {
+        DDLogError(@"Authentication for provider (%@) is not valid. Cannot delete.", authentication.provider);
         return;
     }
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"users/authentications/%i", [authentication.authenticationID intValue]]
+    [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"authentications/%i", [authentication.authenticationID intValue]]
                               parameters:parameters
                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                      if (successOrNil) successOrNil(responseObject);

@@ -8,7 +8,7 @@
 
 #import "MRSLLoginViewController.h"
 
-#import "MRSLAPIService+Authorization.h"
+#import "MRSLAPIService+Authentication.h"
 #import "MRSLAPIService+Registration.h"
 
 #import "MRSLSocialUser.h"
