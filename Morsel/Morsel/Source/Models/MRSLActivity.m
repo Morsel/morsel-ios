@@ -59,6 +59,15 @@
 - (NSString *)subjectDisplayName {
     if ([[self.subjectType lowercaseString] isEqualToString:@"item"]) {
         return [self.item displayName];
+    } else if ([[self.subjectType lowercaseString] isEqualToString:@"user"]) {
+        if (self.subjectIDValue == [MRSLUser currentUser].userIDValue) {
+            return @"you";
+        } else {
+            MRSLUser *subjectUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                                            withValue:self.subjectID
+                                                            inContext:self.managedObjectContext];
+            return [subjectUser displayName] ?: @"someone";
+        }
     } else {
         return nil;
     }

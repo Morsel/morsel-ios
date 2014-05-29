@@ -26,8 +26,7 @@ NS_ENUM(NSUInteger, MRSLActivityRootViewControllerSegments) {
 
 @implementation MRSLActivityRootViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     UIViewController *viewController = [self viewControllerForSegmentIndex:_notificationsActivitySegmentedControl.selectedSegmentIndex];

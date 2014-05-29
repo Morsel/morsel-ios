@@ -10,9 +10,11 @@
 
 #import <NSDate+TimeAgo/NSDate+TimeAgo.h>
 
-#import "MRSLActivity.h"
 #import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
+
+#import "MRSLActivity.h"
+#import "MRSLUser.h"
 
 @interface MRSLActivityCollectionViewCell ()
 
@@ -20,32 +22,55 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *itemImageView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *creatorProfileImageView;
+@property (weak, nonatomic) IBOutlet MRSLProfileImageView *subjectProfileImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *actionIconImageView;
 
 @end
 
 @implementation MRSLActivityCollectionViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self.creatorProfileImageView allowToLaunchProfile];
+    [self.subjectProfileImageView allowToLaunchProfile];
+}
+
 - (void)setActivity:(MRSLActivity *)activity {
     if (_activity != activity) {
         _activity = activity;
 
+        [self reset];
+
         self.descriptionLabel.text = [activity message];
-        [self.descriptionLabel sizeToFit];
-        [self.descriptionLabel setWidth:160.0f];
         self.timeAgoLabel.text = [activity.creationDate timeAgo];
         self.itemImageView.item = activity.item;
         self.creatorProfileImageView.user = activity.creator;
-        [_creatorProfileImageView allowToLaunchProfile];
+
+        [self.descriptionLabel sizeToFit];
+        [self.descriptionLabel setWidth:160.f];
 
         if ([[activity.actionType lowercaseString] isEqualToString:@"like"]) {
             [self.actionIconImageView setImage:[UIImage imageNamed:@"icon-like-dark"]];
-        } else if([[activity.actionType lowercaseString] isEqualToString:@"comment"]) {
+        } else if ([[activity.actionType lowercaseString] isEqualToString:@"comment"]) {
             [self.actionIconImageView setImage:[UIImage imageNamed:@"icon-comment-dark"]];
+        } else if ([[activity.actionType lowercaseString] isEqualToString:@"follow"]) {
+            self.itemImageView.hidden = YES;
+            self.subjectProfileImageView.hidden = NO;
+            [self.actionIconImageView setImage:nil];
+
+            MRSLUser *subjectUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                                            withValue:_activity.subjectID];
+            self.subjectProfileImageView.user = subjectUser;
         } else {
+            self.subjectProfileImageView.user = nil;
             [self.actionIconImageView setImage:nil];
         }
     }
+}
+
+- (void)reset {
+    self.itemImageView.hidden = NO;
+    self.subjectProfileImageView.hidden = YES;
 }
 
 @end

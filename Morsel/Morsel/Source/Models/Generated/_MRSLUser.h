@@ -348,9 +348,9 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) MRSLActivity *activities;
+@property (nonatomic, strong) NSSet *activities;
 
-//- (BOOL)validateActivities:(id*)value_ error:(NSError**)error_;
+- (NSMutableSet*)activitiesSet;
 
 
 
@@ -380,6 +380,11 @@ extern const struct MRSLUserFetchedProperties {
 @end
 
 @interface _MRSLUser (CoreDataGeneratedAccessors)
+
+- (void)addActivities:(NSSet*)value_;
+- (void)removeActivities:(NSSet*)value_;
+- (void)addActivitiesObject:(MRSLActivity*)value_;
+- (void)removeActivitiesObject:(MRSLActivity*)value_;
 
 - (void)addComments:(NSSet*)value_;
 - (void)removeComments:(NSSet*)value_;
@@ -567,8 +572,8 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (MRSLActivity*)primitiveActivities;
-- (void)setPrimitiveActivities:(MRSLActivity*)value;
+- (NSMutableSet*)primitiveActivities;
+- (void)setPrimitiveActivities:(NSMutableSet*)value;
 
 
 

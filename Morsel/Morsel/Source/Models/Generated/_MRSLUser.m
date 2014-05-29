@@ -452,6 +452,15 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 @dynamic activities;
 
 	
+- (NSMutableSet*)activitiesSet {
+	[self willAccessValueForKey:@"activities"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"activities"];
+  
+	[self didAccessValueForKey:@"activities"];
+	return result;
+}
+	
 
 @dynamic comments;
 

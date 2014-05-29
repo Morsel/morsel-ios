@@ -116,6 +116,7 @@ NSFetchedResultsControllerDelegate>
 - (void)refreshContent {
     self.loadedAll = NO;
     self.refreshing = YES;
+    self.nullStateView.hidden = YES;
     __weak typeof(self) weakSelf = self;
     [_appDelegate.apiService getUserActivitiesForUser:[MRSLUser currentUser]
                                                 maxID:nil

@@ -93,9 +93,11 @@
 #pragma mark - Private Methods
 
 - (void)displayUserProfile {
-    NSDictionary *parameters = @{@"user_id": NSNullIfNil(_user.userID)};
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayUserProfileNotification
-                                                        object:parameters];
+    if (_user) {
+        NSDictionary *parameters = @{@"user_id": NSNullIfNil(_user.userID)};
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayUserProfileNotification
+                                                            object:parameters];
+    }
 }
 
 - (void)reset {
