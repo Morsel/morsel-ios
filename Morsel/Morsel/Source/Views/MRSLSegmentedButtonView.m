@@ -10,6 +10,8 @@
 
 @interface MRSLSegmentedButtonView ()
 
+@property (nonatomic) BOOL defaultSet;
+
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *buttons;
 
 @end
@@ -30,7 +32,22 @@
                    action:@selector(selectedButton:)
          forControlEvents:UIControlEventTouchUpInside];
     }];
-    [self selectedButton:[_buttons firstObject]];
+}
+
+- (void)setShouldDisplayChefTabs:(BOOL)shouldDisplayChefTabs {
+    if (!_defaultSet) {
+        self.defaultSet = YES;
+        _shouldDisplayChefTabs = shouldDisplayChefTabs;
+        if (_shouldDisplayChefTabs) {
+            [self selectedButton:[_buttons firstObject]];
+        } else {
+            UIButton *activityButton = [_buttons lastObject];
+            [self selectedButton:activityButton];
+            [activityButton setX:0.f];
+            [activityButton setWidth:[self getWidth]];
+            [self bringSubviewToFront:activityButton];
+        }
+    }
 }
 
 #pragma mark - Action Methods

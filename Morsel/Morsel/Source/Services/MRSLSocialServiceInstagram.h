@@ -16,6 +16,8 @@
 @interface MRSLSocialServiceInstagram : NSObject
 
 @property (strong, nonatomic) AFOAuth2Client *oauth2Client;
+@property (strong, nonatomic) MRSLSocialAuthentication *socialAuthentication;
+@property (strong, nonatomic) AFOAuthCredential *instagramCredentials;
 
 + (instancetype)sharedService;
 
@@ -33,6 +35,8 @@
 
 - (void)getInstagramUserInformation:(MRSLSocialUserInfoBlock)userInfoBlockOrNil;
 - (void)getInstagramFollowingUIDs:(MRSLSocialUIDStringBlock)uidBlockOrNil;
+
+- (NSString *)instagramUsername;
 
 #pragma mark - Reset Methods
 

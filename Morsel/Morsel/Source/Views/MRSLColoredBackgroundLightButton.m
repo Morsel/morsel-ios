@@ -112,10 +112,15 @@
 }
 
 - (void)dealloc {
-    [self removeObserver:self
-              forKeyPath:@"highlighted"];
-    [self removeObserver:self
-              forKeyPath:@"selected"];
+    @try {
+        [self removeObserver:self
+                  forKeyPath:@"highlighted"];
+        [self removeObserver:self
+                  forKeyPath:@"selected"];
+    }
+    @catch (NSException *exception) {
+        DDLogError(@"Key paths not observed and removal attempt failed: %@", exception);
+    }
 }
 
 @end

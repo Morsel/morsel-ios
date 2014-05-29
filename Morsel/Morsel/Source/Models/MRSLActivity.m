@@ -13,7 +13,7 @@
 }
 
 - (void)didImport:(id)data {
-    if ([data[@"subject_type"] isEqualToString:@"Item"]) [self importItem:data[@"subject"]];
+    if ([[data[@"subject_type"] lowercaseString] isEqualToString:@"item"]) [self importItem:data[@"subject"]];
 
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
@@ -25,11 +25,11 @@
 #pragma mark - Private Methods
 
 - (NSString *)actionDisplayName {
-    if ([self.actionType isEqualToString:@"Like"]) {
+    if ([[self.actionType lowercaseString] isEqualToString:@"like"]) {
         return @"liked";
-    } else if ([self.actionType isEqualToString:@"Comment"]) {
+    } else if ([[self.actionType lowercaseString] isEqualToString:@"comment"]) {
         return @"commented on";
-    } else if ([self.actionType isEqualToString:@"Follow"]) {
+    } else if ([[self.actionType lowercaseString] isEqualToString:@"follow"]) {
         return @"followed";
     } else {
         return [NSString stringWithFormat:@"%@ed", self.actionType];
@@ -57,7 +57,7 @@
 }
 
 - (NSString *)subjectDisplayName {
-    if ([self.subjectType isEqualToString:@"Item"]) {
+    if ([[self.subjectType lowercaseString] isEqualToString:@"item"]) {
         return [self.item displayName];
     } else {
         return nil;

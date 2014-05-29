@@ -23,7 +23,7 @@
                        orSinceID:(NSNumber *)sinceOrNil
                         andCount:(NSNumber *)countOrNil
                          success:(MRSLAPIArrayBlock)successOrNil
-                         failure:(MRSLAPIFailureBlock)failureOrNil {
+                         failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -69,7 +69,7 @@
                           orSinceID:(NSNumber *)sinceOrNil
                            andCount:(NSNumber *)countOrNil
                             success:(MRSLAPIArrayBlock)successOrNil
-                            failure:(MRSLAPIFailureBlock)failureOrNil {
+                            failure:(MRSLFailureBlock)failureOrNil {
 
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil

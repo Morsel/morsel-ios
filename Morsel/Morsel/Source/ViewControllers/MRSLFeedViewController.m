@@ -99,8 +99,13 @@ MRSLFeedPanelCollectionViewCellDelegate>
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleLightContent];
 
     [super viewWillAppear:animated];
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    if (!currentUser || _feedFetchedResultsController) return;
 
-    if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
+    if (![currentUser isChef]) {
+        self.addMorselButton.hidden = YES;
+    }
+
     [self resumeTimer];
     [self setupFetchRequest];
     [self populateContent];

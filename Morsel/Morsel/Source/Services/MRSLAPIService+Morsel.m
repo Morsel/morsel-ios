@@ -17,7 +17,7 @@
 
 - (void)createMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
-             failure:(MRSLAPIFailureBlock)failureOrNil {
+             failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
@@ -38,7 +38,7 @@
 
 - (void)deleteMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
-             failure:(MRSLAPIFailureBlock)failureOrNil {
+             failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
@@ -66,7 +66,7 @@
 
 - (void)updateMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
-             failure:(MRSLAPIFailureBlock)failureOrNil {
+             failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
@@ -92,7 +92,7 @@
 
 - (void)publishMorsel:(MRSLMorsel *)morsel
               success:(MRSLAPISuccessBlock)successOrNil
-              failure:(MRSLAPIFailureBlock)failureOrNil
+              failure:(MRSLFailureBlock)failureOrNil
        sendToFacebook:(BOOL)sendToFacebook
         sendToTwitter:(BOOL)sendToTwitter {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
@@ -125,7 +125,7 @@
 
 - (void)getMorsel:(MRSLMorsel *)morsel
           success:(MRSLAPISuccessBlock)successOrNil
-          failure:(MRSLAPIFailureBlock)failureOrNil {
+          failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
@@ -163,7 +163,7 @@
               andCount:(NSNumber *)countOrNil
          includeDrafts:(BOOL)includeDrafts
                success:(MRSLAPIArrayBlock)successOrNil
-               failure:(MRSLAPIFailureBlock)failureOrNil {
+               failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -211,7 +211,7 @@
                      orSinceID:(NSNumber *)sinceOrNil
                       andCount:(NSNumber *)countOrNil
                        success:(MRSLAPIArrayBlock)successOrNil
-                       failure:(MRSLAPIFailureBlock)failureOrNil {
+                       failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];

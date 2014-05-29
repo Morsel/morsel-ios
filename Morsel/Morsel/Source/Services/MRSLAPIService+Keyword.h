@@ -13,9 +13,9 @@
 #pragma mark - Keyword Services
 
 - (void)getCuisinesWithSuccess:(MRSLAPIArrayBlock)successOrNil
-                       failure:(MRSLAPIFailureBlock)failureOrNil;
+                       failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getSpecialtiesWithSuccess:(MRSLAPIArrayBlock)successOrNil
-                          failure:(MRSLAPIFailureBlock)failureOrNil;
+                          failure:(MRSLFailureBlock)failureOrNil;
 
 @end

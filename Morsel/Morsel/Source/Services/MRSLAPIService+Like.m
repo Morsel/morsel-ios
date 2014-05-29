@@ -21,7 +21,7 @@
                    orSinceID:(NSNumber *)sinceOrNil
                     andCount:(NSNumber *)countOrNil
                      success:(MRSLAPIArrayBlock)successOrNil
-                     failure:(MRSLAPIFailureBlock)failureOrNil {
+                     failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"type": @"Item"}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
@@ -68,7 +68,7 @@
 
 - (void)getItemLikes:(MRSLItem *)item
              success:(MRSLAPIArrayBlock)successOrNil
-             failure:(MRSLAPIFailureBlock)failureOrNil {
+             failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
@@ -104,7 +104,7 @@
 - (void)likeItem:(MRSLItem *)item
       shouldLike:(BOOL)shouldLike
          didLike:(MRSLAPILikeBlock)likeBlockOrNil
-         failure:(MRSLAPIFailureBlock)failureOrNil {
+         failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -116,7 +116,7 @@
                                        if (likeBlockOrNil) likeBlockOrNil(YES);
                                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                        MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                       if ([operation.response statusCode] == 200 || [serviceErrorInfo.errorInfo isEqualToString:@"Item: already liked"]) {
+                                       if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"item: already liked"]) {
                                            if (likeBlockOrNil) likeBlockOrNil(YES);
                                        } else {
                                            [self reportFailure:failureOrNil
@@ -132,7 +132,7 @@
                                          if (likeBlockOrNil) likeBlockOrNil(NO);
                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                          MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                         if ([operation.response statusCode] == 200  || [serviceErrorInfo.errorInfo isEqualToString:@"Item: not liked"]) {
+                                         if ([operation.response statusCode] == 200  || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"item: not liked"]) {
                                              if (likeBlockOrNil) likeBlockOrNil(NO);
                                          } else {
                                              [self reportFailure:failureOrNil

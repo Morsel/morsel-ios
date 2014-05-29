@@ -8,6 +8,12 @@
 
 #import "MRSLUtil.h"
 
+#import "MRSLActivity.h"
+#import "MRSLMorsel.h"
+#import "MRSLItem.h"
+#import "MRSLTag.h"
+#import "MRSLUser.h"
+
 @implementation MRSLUtil
 
 + (BOOL)validateEmail:(NSString *)emailAddress {
@@ -57,6 +63,72 @@
     //DDLogDebug(@"Camera Dimension Scale Multiplier: %f", dimensionScale);
 
     return dimensionScale;
+}
+
++ (Class)classForDataSourceType:(MRSLDataSourceType)dataSourceTabType {
+    switch (dataSourceTabType) {
+        case MRSLDataSourceTypeMorsel:
+            return [MRSLMorsel class];
+            break;
+        case MRSLDataSourceTypeActivityItem:
+            return [MRSLItem class];
+            break;
+        case MRSLDataSourceTypePlace:
+            return [NSNull class];
+            break;
+        case MRSLDataSourceTypeTag:
+            return [MRSLTag class];
+            break;
+        case MRSLDataSourceTypeUser:
+            return [MRSLUser class];
+            break;
+        default:
+            return [NSNull class];
+            break;
+    }
+}
+
++ (NSString *)stringForDataSortType:(MRSLDataSortType)dataSortType {
+    switch (dataSortType) {
+        case MRSLDataSortTypeCreationDate:
+            return @"creationDate";
+            break;
+        case MRSLDataSortTypeName:
+            return @"name";
+            break;
+        case MRSLDataSortTypeLastName:
+            return @"last_name";
+            break;
+        case MRSLDataSortTypeSortOrder:
+            return @"sort_order";
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
+
++ (NSString *)stringForDataSourceType:(MRSLDataSourceType)dataSourceTabType {
+    switch (dataSourceTabType) {
+        case MRSLDataSourceTypeMorsel:
+            return @"morsel";
+            break;
+        case MRSLDataSourceTypeActivityItem:
+            return @"item";
+            break;
+        case MRSLDataSourceTypePlace:
+            return @"place";
+            break;
+        case MRSLDataSourceTypeTag:
+            return @"tag";
+            break;
+        case MRSLDataSourceTypeUser:
+            return @"user";
+            break;
+        default:
+            return @"unknown";
+            break;
+    }
 }
 
 + (NSString *)appVersionBuildString {

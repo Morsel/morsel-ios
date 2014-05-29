@@ -8,6 +8,8 @@
 
 #import "MRSLMenuBarView.h"
 
+#import "MRSLUser.h"
+
 @interface MRSLMenuBarView ()
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *menuBarButtons;
@@ -25,10 +27,18 @@
                                              selector:@selector(highlightFeed)
                                                  name:MRSLUserDidPublishMorselNotification
                                                object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userLoggedIn)
+                                                 name:MRSLServiceDidLogInUserNotification
+                                               object:nil];
 }
 
 #pragma mark - Notification Methods
+
+- (void)userLoggedIn {
+    MRSLMenuBarButton *myStuffButton = [self buttonWithName:@"My Stuff"];
+    [myStuffButton setHidden:(![[MRSLUser currentUser] isChef])];
+}
 
 - (void)highlightFeed {
     MRSLMenuBarButton *feedButton = [self buttonWithName:@"Feed"];

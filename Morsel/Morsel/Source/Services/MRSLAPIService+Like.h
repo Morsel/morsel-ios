@@ -17,15 +17,15 @@
                    orSinceID:(NSNumber *)sinceOrNil
                     andCount:(NSNumber *)countOrNil
                      success:(MRSLAPIArrayBlock)successOrNil
-                     failure:(MRSLAPIFailureBlock)failureOrNil;
+                     failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getItemLikes:(MRSLItem *)item
              success:(MRSLAPIArrayBlock)successOrNil
-             failure:(MRSLAPIFailureBlock)failureOrNil;
+             failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)likeItem:(MRSLItem *)item
       shouldLike:(BOOL)shouldLike
          didLike:(MRSLAPILikeBlock)didLikeOrNil
-         failure:(MRSLAPIFailureBlock)failureOrNil;
+         failure:(MRSLFailureBlock)failureOrNil;
 
 @end

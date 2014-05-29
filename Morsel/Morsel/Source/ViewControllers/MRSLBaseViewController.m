@@ -8,6 +8,8 @@
 
 #import "MRSLBaseViewController.h"
 
+#import "MRSLUser.h"
+
 @implementation MRSLBaseViewController
 
 #pragma mark - Instance Methods
@@ -28,12 +30,13 @@
                                                                           target:self
                                                                           action:@selector(displayMenuBar)];
             [self.navigationItem setLeftBarButtonItem:menuButton];
-
-            UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-add-red"]
-                                                                          style:UIBarButtonItemStyleBordered
-                                                                         target:self
-                                                                         action:@selector(displayMorselAdd)];
-            [self.navigationItem setRightBarButtonItem:addButton];
+            if ([[MRSLUser currentUser] isChef]) {
+                UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-add-red"]
+                                                                              style:UIBarButtonItemStyleBordered
+                                                                             target:self
+                                                                             action:@selector(displayMorselAdd)];
+                [self.navigationItem setRightBarButtonItem:addButton];
+            }
         }
     } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
         if (self.navigationController) {

@@ -14,6 +14,8 @@
 
 @interface MRSLSocialServiceFacebook : NSObject
 
+@property (strong, nonatomic) MRSLSocialAuthentication *socialAuthentication;
+
 + (instancetype)sharedService;
 
 #pragma mark - Authentication and User Information Methods
@@ -24,6 +26,8 @@
 
 - (void)getFacebookUserInformation:(MRSLSocialUserInfoBlock)facebookUserInfo;
 - (void)getFacebookFriendUIDs:(MRSLSocialUIDStringBlock)uidBlock;
+
+- (NSString *)facebookUsername;
 
 #pragma mark - Share Methods
 

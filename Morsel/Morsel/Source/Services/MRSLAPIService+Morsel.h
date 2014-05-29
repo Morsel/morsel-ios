@@ -14,25 +14,25 @@
 
 - (void)createMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
-             failure:(MRSLAPIFailureBlock)failureOrNil;
+             failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)deleteMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
-             failure:(MRSLAPIFailureBlock)failureOrNil;
+             failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)updateMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
-             failure:(MRSLAPIFailureBlock)failureOrNil;
+             failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)publishMorsel:(MRSLMorsel *)morsel
               success:(MRSLAPISuccessBlock)successOrNil
-              failure:(MRSLAPIFailureBlock)failureOrNil
+              failure:(MRSLFailureBlock)failureOrNil
        sendToFacebook:(BOOL)sendToFacebook
         sendToTwitter:(BOOL)sendToTwitter;
 
 - (void)getMorsel:(MRSLMorsel *)morsel
           success:(MRSLAPISuccessBlock)successOrNil
-          failure:(MRSLAPIFailureBlock)failureOrNil;
+          failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getUserMorsels:(MRSLUser *)user
              withMaxID:(NSNumber *)maxOrNil
@@ -40,12 +40,12 @@
               andCount:(NSNumber *)countOrNil
          includeDrafts:(BOOL)includeDrafts
                success:(MRSLAPIArrayBlock)successOrNil
-               failure:(MRSLAPIFailureBlock)failureOrNil;
+               failure:(MRSLFailureBlock)failureOrNil __deprecated;
 
 - (void)getUserDraftsWithMaxID:(NSNumber *)maxOrNil
                      orSinceID:(NSNumber *)sinceOrNil
                       andCount:(NSNumber *)countOrNil
                        success:(MRSLAPIArrayBlock)successOrNil
-                       failure:(MRSLAPIFailureBlock)failureOrNil;
+                       failure:(MRSLFailureBlock)failureOrNil;
 
 @end

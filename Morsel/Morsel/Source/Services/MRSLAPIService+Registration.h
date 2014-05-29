@@ -18,25 +18,25 @@
       withPassword:(NSString *)password
  andAuthentication:(MRSLSocialAuthentication *)authentication
            success:(MRSLAPISuccessBlock)successOrNil
-           failure:(MRSLAPIFailureBlock)failureOrNil;
+           failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)signInUserWithEmailOrUsername:(NSString *)emailOrUsername
                           andPassword:(NSString *)password
                      orAuthentication:(MRSLSocialAuthentication *)authenticationOrNil
                               success:(MRSLAPISuccessBlock)successOrNil
-                              failure:(MRSLAPIFailureBlock)failureOrNil;
+                              failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)updateUserBio:(MRSLUser *)user
               success:(MRSLAPISuccessBlock)successOrNil
-              failure:(MRSLAPIFailureBlock)failureOrNil;
+              failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)updateUserIndustry:(MRSLUser *)user
                    success:(MRSLAPISuccessBlock)successOrNil
-                   failure:(MRSLAPIFailureBlock)failureOrNil;
+                   failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)forgotPasswordWithEmail:(NSString *)emailAddress
                         success:(MRSLAPISuccessBlock)successOrNil
-                        failure:(MRSLAPIFailureBlock)failureOrNil;
+                        failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)checkUsernameAvailability:(NSString *)username
                         validated:(MRSLAPIValidationBlock)validateOrNil;

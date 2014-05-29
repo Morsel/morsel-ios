@@ -10,14 +10,20 @@
 
 @interface UIStoryboard (Morsel)
 
-+ (UIStoryboard *)mainStoryboard;
+#pragma mark - Main
+
++ (UIStoryboard *)activityStoryboard;
 + (UIStoryboard *)feedStoryboard;
-+ (UIStoryboard *)profileStoryboard;
-+ (UIStoryboard *)socialStoryboard;
 + (UIStoryboard *)loginStoryboard;
++ (UIStoryboard *)mainStoryboard;
 + (UIStoryboard *)mediaManagementStoryboard;
 + (UIStoryboard *)morselManagementStoryboard;
-+ (UIStoryboard *)activityStoryboard;
++ (UIStoryboard *)placesStoryboard;
++ (UIStoryboard *)profileStoryboard;
++ (UIStoryboard *)socialStoryboard;
+
+#pragma mark - Specs
+
 + (UIStoryboard *)specsStoryboardInBundle:(NSBundle *)bundleOrNil;
 
 @end

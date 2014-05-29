@@ -10,6 +10,8 @@
 
 #import <NSDate+TimeAgo/NSDate+TimeAgo.h>
 
+#import "MRSLAPIService+Comment.h"
+
 #import "MRSLProfileImageView.h"
 
 #import "MRSLComment.h"
@@ -20,11 +22,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentBodyLabel;
+@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
 @end
 
 @implementation MRSLCommentTableViewCell
+
+#pragma mark - Instance Methods
 
 - (void)setComment:(MRSLComment *)comment {
     [self reset];
@@ -42,8 +47,20 @@
                                                       lineBreakMode:NSLineBreakByWordWrapping];
 
         [_commentBodyLabel setHeight:ceilf(bodySize.height)];
+
+        self.deleteButton.hidden = ![_comment.creator isCurrentUser];
     }
 }
+
+#pragma mark - Action Methods
+
+- (IBAction)deleteComment {
+    [_appDelegate.apiService deleteComment:self.comment
+                                   success:nil
+                                   failure:nil];
+}
+
+#pragma mark - Reset
 
 - (void)reset {
     self.userNameLabel.text = nil;

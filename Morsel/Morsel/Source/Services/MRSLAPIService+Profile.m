@@ -16,7 +16,7 @@
 
 - (void)getUserProfile:(MRSLUser *)user
                success:(MRSLAPISuccessBlock)successOrNil
-               failure:(MRSLAPIFailureBlock)failureOrNil {
+               failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:([user isCurrentUser])];
@@ -40,7 +40,7 @@
 
 - (void)updateUser:(MRSLUser *)user
            success:(MRSLAPISuccessBlock)successOrNil
-           failure:(MRSLAPIFailureBlock)failureOrNil {
+           failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[user]
                                               requiresAuthentication:YES];
@@ -74,6 +74,33 @@
                                                                                                              inMethod:NSStringFromSelector(_cmd)];
                                                                                               }];
     [[MRSLAPIClient sharedClient].operationQueue addOperation:operation];
+}
+
+- (void)updateEmail:(NSString *)email
+           password:(NSString *)password
+       currentPassword:(NSString *)currentPassword
+               success:(MRSLAPISuccessBlock)successOrNil
+               failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user": @{@"current_password": currentPassword}}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+
+    if (email) [parameters setObject:email forKey:@"user[email]"];
+    if (password) [parameters setObject:password forKey:@"user[password]"];
+
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"users/%i", currentUser.userIDValue]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  if (currentUser.managedObjectContext) {
+                                      [currentUser MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                      [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+                                  }
+                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                  [self reportFailure:failureOrNil
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
 }
 
 @end

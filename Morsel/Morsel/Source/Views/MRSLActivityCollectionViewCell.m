@@ -38,9 +38,9 @@
         self.creatorProfileImageView.user = activity.creator;
         [_creatorProfileImageView allowToLaunchProfile];
 
-        if ([activity.actionType isEqualToString:@"Like"]) {
+        if ([[activity.actionType lowercaseString] isEqualToString:@"like"]) {
             [self.actionIconImageView setImage:[UIImage imageNamed:@"icon-like-dark"]];
-        } else if([activity.actionType isEqualToString:@"Comment"]) {
+        } else if([[activity.actionType lowercaseString] isEqualToString:@"comment"]) {
             [self.actionIconImageView setImage:[UIImage imageNamed:@"icon-comment-dark"]];
         } else {
             [self.actionIconImageView setImage:nil];

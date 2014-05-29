@@ -19,10 +19,10 @@
 
 - (void)createUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)userSuccessOrNil
-                         failure:(MRSLAPIFailureBlock)failureOrNil;
+                         failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getUserAuthenticationsWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil
-                                  failure:(MRSLAPIFailureBlock)failureOrNil;
+                                  failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getSocialProviderConnections:(NSString *)provider
                            usingUIDs:(NSString *)uids
@@ -30,14 +30,14 @@
                            orSinceID:(NSNumber *)sinceOrNil
                             andCount:(NSNumber *)countOrNil
                              success:(MRSLAPIArrayBlock)successOrNil
-                             failure:(MRSLAPIFailureBlock)failureOrNil;
+                             failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)updateUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)successOrNil
-                         failure:(MRSLAPIFailureBlock)failureOrNil;
+                         failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)deleteUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)successOrNil
-                         failure:(MRSLAPIFailureBlock)failureOrNil;
+                         failure:(MRSLFailureBlock)failureOrNil;
 
 @end

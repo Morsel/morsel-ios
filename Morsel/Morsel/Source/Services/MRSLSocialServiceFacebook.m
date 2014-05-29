@@ -30,7 +30,6 @@
 @property (strong, nonatomic) MRSLSocialFailureBlock facebookFailureBlock;
 @property (copy, nonatomic) FBSessionStateHandler sessionStateHandlerBlock;
 
-@property (strong, nonatomic) MRSLSocialAuthentication *facebookAuthentication;
 @property (strong, nonatomic) NSArray *facebookAccounts;
 @property (strong, nonatomic) NSArray *friendUIDs;
 
@@ -70,7 +69,7 @@
 
 - (void)openFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler {
     self.sessionStateHandlerBlock = handler;
-    self.facebookAuthentication = [[MRSLSocialAuthentication alloc] init];
+    self.socialAuthentication = [[MRSLSocialAuthentication alloc] init];
     // Open a session showing the user the login UI
     // You must ALWAYS ask for public_profile permissions when opening a session
     [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
@@ -84,7 +83,7 @@
 }
 
 - (void)restoreFacebookSessionWithAuthentication:(MRSLSocialAuthentication *)authentication {
-    self.facebookAuthentication = authentication;
+    self.socialAuthentication = authentication;
     if ([[FBSession activeSession] isOpen]) {
         if ([[FBSession activeSession].accessTokenData.accessToken isEqualToString:authentication.token]) {
             __weak __typeof(self) weakSelf = self;
@@ -195,6 +194,10 @@
     return [NSString stringWithFormat:@"'%@'", [_friendUIDs componentsJoinedByString:@"','"]];
 }
 
+- (NSString *)facebookUsername {
+    return _socialAuthentication.username;
+}
+
 #pragma mark - Share Methods
 
 - (void)shareMorsel:(MRSLMorsel *)morsel
@@ -287,7 +290,7 @@
         NSLog(@"Session opened");
         // Show the user the logged-in UI
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
-        if (_facebookAuthentication && ![_facebookAuthentication isValid]) {
+        if (_socialAuthentication && ![_socialAuthentication isValid]) {
             __weak __typeof(self) weakSelf = self;
             [self getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
                 __block MRSLSocialAuthentication *facebookAuthentication = [[MRSLSocialAuthentication alloc] init];
@@ -297,7 +300,7 @@
                 [_appDelegate.apiService createUserAuthentication:facebookAuthentication
                                                           success:^(id responseObject) {
                                                               facebookAuthentication.authenticationID = responseObject[@"data"][@"id"];
-                                                              weakSelf.facebookAuthentication = facebookAuthentication;
+                                                              weakSelf.socialAuthentication = facebookAuthentication;
                                                           } failure:nil];
             }];
         }
@@ -308,9 +311,9 @@
         NSLog(@"Session closed");
         // Show the user the logged-out UI
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
-        if ([_facebookAuthentication isValid]) {
+        if ([_socialAuthentication isValid]) {
             [self reset];
-            [_appDelegate.apiService deleteUserAuthentication:_facebookAuthentication
+            [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
                                                       success:nil
                                                       failure:nil];
         }
@@ -365,11 +368,11 @@
         }
         // Clear this token
         [FBSession.activeSession closeAndClearTokenInformation];
-        if (_facebookAuthentication) {
-            [_appDelegate.apiService deleteUserAuthentication:_facebookAuthentication
+        if (_socialAuthentication) {
+            [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
                                                       success:nil
                                                       failure:nil];
-            self.facebookAuthentication = nil;
+            self.socialAuthentication = nil;
         }
 
         // Report Error (should log user out of FB)

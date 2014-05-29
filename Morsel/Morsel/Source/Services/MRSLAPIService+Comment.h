@@ -14,11 +14,15 @@
 
 - (void)getComments:(MRSLItem *)item
             success:(MRSLAPIArrayBlock)successOrNil
-            failure:(MRSLAPIFailureBlock)failureOrNil;
+            failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)addCommentWithDescription:(NSString *)description
                          toMorsel:(MRSLItem *)item
                           success:(MRSLAPISuccessBlock)successOrNil
-                          failure:(MRSLAPIFailureBlock)failureOrNil;
+                          failure:(MRSLFailureBlock)failureOrNil;
+
+- (void)deleteComment:(MRSLComment *)comment
+              success:(MRSLSuccessBlock)successOrNil
+              failure:(MRSLFailureBlock)failureOrNil;
 
 @end

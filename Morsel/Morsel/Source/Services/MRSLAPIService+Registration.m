@@ -23,7 +23,7 @@
       withPassword:(NSString *)password
  andAuthentication:(MRSLSocialAuthentication *)authentication
            success:(MRSLAPISuccessBlock)userSuccessOrNil
-           failure:(MRSLAPIFailureBlock)failureOrNil {
+           failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user[username]": NSNullIfNil(user.username)}
                                                 includingMRSLObjects:@[user]
                                               requiresAuthentication:NO];
@@ -67,7 +67,7 @@
                           andPassword:(NSString *)password
                      orAuthentication:(MRSLSocialAuthentication *)authenticationOrNil
                               success:(MRSLAPISuccessBlock)successOrNil
-                              failure:(MRSLAPIFailureBlock)failureOrNil {
+                              failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = nil;
     if (authenticationOrNil) {
         parameters = [self parametersWithDictionary:@{@"authentication": @{@"provider": NSNullIfNil(authenticationOrNil.provider),
@@ -100,7 +100,7 @@
 
 - (void)updateUserBio:(MRSLUser *)user
               success:(MRSLAPISuccessBlock)successOrNil
-              failure:(MRSLAPIFailureBlock)failureOrNil {
+              failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user": @{@"bio": NSNullIfNil(user.bio)}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -121,7 +121,7 @@
 
 - (void)updateUserIndustry:(MRSLUser *)user
                    success:(MRSLAPISuccessBlock)successOrNil
-                   failure:(MRSLAPIFailureBlock)failureOrNil {
+                   failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user": @{@"industry": NSNullIfNil(user.industryTypeName)}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -142,7 +142,7 @@
 
 - (void)forgotPasswordWithEmail:(NSString *)emailAddress
                         success:(MRSLAPISuccessBlock)successOrNil
-                        failure:(MRSLAPIFailureBlock)failureOrNil {
+                        failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"email" : NSNullIfNil(emailAddress)}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];

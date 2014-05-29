@@ -11,7 +11,7 @@
 #import "MRSLAPIService+Activity.h"
 
 #import "MRSLActivityCollectionViewCell.h"
-#import "MRSLArrayDataSource.h"
+#import "MRSLCollectionViewArrayDataSource.h"
 #import "MRSLUserMorselsFeedViewController.h"
 
 #import "MRSLNotification.h"
@@ -36,7 +36,7 @@ NSFetchedResultsControllerDelegate>
 @property (strong, nonatomic) NSMutableArray *notificationIDs;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
-@property (strong, nonatomic) MRSLArrayDataSource *arrayDataSource;
+@property (strong, nonatomic) MRSLCollectionViewArrayDataSource *arrayDataSource;
 
 @end
 
@@ -58,14 +58,12 @@ NSFetchedResultsControllerDelegate>
     [self.collectionView addSubview:_refreshControl];
     self.collectionView.alwaysBounceVertical = YES;
 
-    self.arrayDataSource = [[MRSLArrayDataSource alloc] initWithObjects:nil
-                                                         cellIdentifier:@"ruid_ActivityCell"
-                                                     configureCellBlock:^(id cell, id item, NSIndexPath *indexPath, NSUInteger count) {
-                                                         //  NOTE: Since the only payload type returned by Notifications
-                                                         //   right now is an Activity, reuse the ActivityCell. Eventually
-                                                         //   when other notifications (like announcements, events, etc.)
-                                                         //   are introduced this will need to be changed.
-                                                         [cell setActivity:[item activity]];
+    self.arrayDataSource = [[MRSLCollectionViewArrayDataSource alloc] initWithObjects:nil
+                                                     configureCellBlock:^(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
+                                                         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_ActivityCell"
+                                                                                                          forIndexPath:indexPath];
+                                                         [(MRSLActivityCollectionViewCell *)cell setActivity:[item activity]];
+                                                         return cell;
                                                      }];
     [self.collectionView setDataSource:_arrayDataSource];
 }

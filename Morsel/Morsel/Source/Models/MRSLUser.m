@@ -77,6 +77,10 @@
     return ([currentUserID intValue] == self.userIDValue);
 }
 
+- (BOOL)isChef {
+    return (self.industryTypeEnum == MRSLIndustryTypeChef);
+}
+
 - (BOOL)shouldTrack {
     // This still allows anonymous tracking to appear before a user signs in
     return !self.staffValue;
@@ -158,8 +162,6 @@
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
 
-    if (self.email) [objectInfoJSON setObject:self.email
-                                       forKey:@"email"];
     if (self.first_name) [objectInfoJSON setObject:self.first_name
                                             forKey:@"first_name"];
     if (self.last_name) [objectInfoJSON setObject:self.last_name

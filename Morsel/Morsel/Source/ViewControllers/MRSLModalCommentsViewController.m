@@ -55,8 +55,8 @@ NSFetchedResultsControllerDelegate>
     self.commentInputTextView.placeholderColor = [UIColor morselLightContent];
 
     [_appDelegate.apiService getComments:_item
-                                       success:nil
-                                       failure:nil];
+                                 success:nil
+                                 failure:nil];
 }
 
 - (void)setItem:(MRSLItem *)item {
@@ -89,16 +89,16 @@ NSFetchedResultsControllerDelegate>
                                                       @"item_id": NSNullIfNil(_item.itemID),
                                                       @"comment_count": NSNullIfNil(_item.comment_count)}];
             [_appDelegate.apiService addCommentWithDescription:_commentInputTextView.text
-                                                             toMorsel:_item
-                                                              success:^(id responseObject) {
-                                                                  if (_commentsTableView.contentSize.height > [_commentsTableView getHeight]) {
-                                                                      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                                          CGPoint bottomOffset = CGPointMake(0, _commentsTableView.contentSize.height - _commentsTableView.bounds.size.height);
-                                                                          [_commentsTableView setContentOffset:bottomOffset
-                                                                                                      animated:YES];
-                                                                      });
-                                                                  }
-                                                              } failure:nil];
+                                                      toMorsel:_item
+                                                       success:^(id responseObject) {
+                                                           if (_commentsTableView.contentSize.height > [_commentsTableView getHeight]) {
+                                                               dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                                   CGPoint bottomOffset = CGPointMake(0, _commentsTableView.contentSize.height - _commentsTableView.bounds.size.height);
+                                                                   [_commentsTableView setContentOffset:bottomOffset
+                                                                                               animated:YES];
+                                                               });
+                                                           }
+                                                       } failure:nil];
             _commentInputTextView.text = nil;
         } else {
             [UIAlertView showAlertViewForErrorString:@"Please add some text to submit a comment!"
@@ -130,7 +130,7 @@ NSFetchedResultsControllerDelegate>
                              [_commentsTableView setContentOffset:bottomOffset
                                                          animated:NO];
                          }
-    }];
+                     }];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -176,15 +176,13 @@ NSFetchedResultsControllerDelegate>
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     NSArray *comments = [controller fetchedObjects];
-    if ([comments count] > 0) {
-        DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu comments.", (unsigned long)[comments count]);
-        NSError *fetchError = nil;
-        [_fetchedResultsController performFetch:&fetchError];
-        if (fetchError) {
-            DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
-        }
-        [self.commentsTableView reloadData];
+    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu comments.", (unsigned long)[comments count]);
+    NSError *fetchError = nil;
+    [_fetchedResultsController performFetch:&fetchError];
+    if (fetchError) {
+        DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
     }
+    [self.commentsTableView reloadData];
 }
 
 #pragma mark - UITextViewDelegate Methods
