@@ -61,7 +61,12 @@ NSFetchedResultsControllerDelegate>
     self.arrayDataSource = [[MRSLCollectionViewArrayDataSource alloc] initWithObjects:nil
                                                      configureCellBlock:^(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
                                                          UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_ActivityCell"
-                                                                                                          forIndexPath:indexPath];
+                                                                                                                                forIndexPath:indexPath];
+                                                         if (indexPath.row != count) {
+                                                             [cell setBorderWithDirections:MRSLBorderSouth
+                                                                               borderWidth:1.0f
+                                                                            andBorderColor:[UIColor morselLightOffColor]];
+                                                         }
                                                          [(MRSLActivityCollectionViewCell *)cell setActivity:[item activity]];
                                                          return cell;
                                                      }];
@@ -111,6 +116,7 @@ NSFetchedResultsControllerDelegate>
 - (void)refreshContent {
     self.loadedAll = NO;
     self.refreshing = YES;
+    self.nullStateView.hidden = YES;
     __weak typeof(self) weakSelf = self;
     [_appDelegate.apiService getUserNotificationsForUser:_user
                                                    maxID:nil

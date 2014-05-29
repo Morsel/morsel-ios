@@ -43,7 +43,7 @@
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return [self.sections count];
+    return (self.sections) ? [self.sections count] : 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
