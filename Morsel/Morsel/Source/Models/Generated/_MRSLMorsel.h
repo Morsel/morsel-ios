@@ -24,6 +24,7 @@ extern const struct MRSLMorselAttributes {
 extern const struct MRSLMorselRelationships {
 	__unsafe_unretained NSString *creator;
 	__unsafe_unretained NSString *items;
+	__unsafe_unretained NSString *place;
 } MRSLMorselRelationships;
 
 extern const struct MRSLMorselFetchedProperties {
@@ -31,6 +32,7 @@ extern const struct MRSLMorselFetchedProperties {
 
 @class MRSLUser;
 @class MRSLItem;
+@class MRSLPlace;
 
 
 
@@ -238,6 +240,13 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) MRSLPlace *place;
+
+//- (BOOL)validatePlace:(id*)value_ error:(NSError**)error_;
+
+
+
+
 
 @end
 
@@ -363,6 +372,11 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSMutableSet*)primitiveItems;
 - (void)setPrimitiveItems:(NSMutableSet*)value;
+
+
+
+- (MRSLPlace*)primitivePlace;
+- (void)setPrimitivePlace:(MRSLPlace*)value;
 
 
 @end

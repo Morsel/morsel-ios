@@ -26,4 +26,8 @@
             success:(MRSLAPISuccessBlock)successOrNil
             failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)updateAutoFollow:(BOOL)shouldAutoFollow
+                 success:(MRSLAPISuccessBlock)successOrNil
+                 failure:(MRSLFailureBlock)failureOrNil;
+
 @end

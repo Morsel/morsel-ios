@@ -31,6 +31,11 @@
 #pragma mark - Action Methods
 
 - (IBAction)publishMorsel:(id)sender {
+    if ([[_morsel items] count] == 0) {
+        [UIAlertView showAlertViewForErrorString:@"Sorry, it looks like this Morsel has no items!"
+                                        delegate:nil];
+        return;
+    }
     for (MRSLItem *item in _morsel.itemsArray) {
         if (item.didFailUploadValue) {
             [UIAlertView showAlertViewForErrorString:@"Sorry, it looks like an item failed to upload, return to the previous screen to try again!"

@@ -18,4 +18,12 @@
             success:(MRSLAPIArrayBlock)successOrNil
             failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)getPlaceData:(MRSLPlace *)place
+   forDataSourceType:(MRSLDataSourceType)dataSourceType
+           withMaxID:(NSNumber *)maxOrNil
+           orSinceID:(NSNumber *)sinceOrNil
+            andCount:(NSNumber *)countOrNil
+             success:(MRSLAPIArrayBlock)successOrNil
+             failure:(MRSLFailureBlock)failureOrNil;
+
 @end

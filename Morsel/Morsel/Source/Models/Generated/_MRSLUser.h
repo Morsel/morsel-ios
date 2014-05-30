@@ -6,6 +6,7 @@
 
 extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *auth_token;
+	__unsafe_unretained NSString *auto_follow;
 	__unsafe_unretained NSString *bio;
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *dateFollowed;
@@ -18,13 +19,14 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *following;
 	__unsafe_unretained NSString *industryType;
 	__unsafe_unretained NSString *last_name;
-	__unsafe_unretained NSString *liked_items_count;
+	__unsafe_unretained NSString *liked_item_count;
 	__unsafe_unretained NSString *morsel_count;
 	__unsafe_unretained NSString *profilePhotoFull;
 	__unsafe_unretained NSString *profilePhotoLarge;
 	__unsafe_unretained NSString *profilePhotoThumb;
 	__unsafe_unretained NSString *profilePhotoURL;
 	__unsafe_unretained NSString *staff;
+	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *twitter_username;
 	__unsafe_unretained NSString *userID;
 	__unsafe_unretained NSString *username;
@@ -34,6 +36,7 @@ extern const struct MRSLUserRelationships {
 	__unsafe_unretained NSString *activities;
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *morsels;
+	__unsafe_unretained NSString *places;
 	__unsafe_unretained NSString *tags;
 } MRSLUserRelationships;
 
@@ -43,7 +46,10 @@ extern const struct MRSLUserFetchedProperties {
 @class MRSLActivity;
 @class MRSLComment;
 @class MRSLMorsel;
+@class MRSLPlace;
 @class MRSLTag;
+
+
 
 
 
@@ -87,6 +93,20 @@ extern const struct MRSLUserFetchedProperties {
 
 
 //- (BOOL)validateAuth_token:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* auto_follow;
+
+
+
+@property BOOL auto_followValue;
+- (BOOL)auto_followValue;
+- (void)setAuto_followValue:(BOOL)value_;
+
+//- (BOOL)validateAuto_follow:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -232,15 +252,15 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* liked_items_count;
+@property (nonatomic, strong) NSNumber* liked_item_count;
 
 
 
-@property int32_t liked_items_countValue;
-- (int32_t)liked_items_countValue;
-- (void)setLiked_items_countValue:(int32_t)value_;
+@property int32_t liked_item_countValue;
+- (int32_t)liked_item_countValue;
+- (void)setLiked_item_countValue:(int32_t)value_;
 
-//- (BOOL)validateLiked_items_count:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateLiked_item_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -314,6 +334,16 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* title;
+
+
+
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* twitter_username;
 
 
@@ -369,6 +399,13 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSSet *places;
+
+- (NSMutableSet*)placesSet;
+
+
+
+
 @property (nonatomic, strong) NSSet *tags;
 
 - (NSMutableSet*)tagsSet;
@@ -396,6 +433,11 @@ extern const struct MRSLUserFetchedProperties {
 - (void)addMorselsObject:(MRSLMorsel*)value_;
 - (void)removeMorselsObject:(MRSLMorsel*)value_;
 
+- (void)addPlaces:(NSSet*)value_;
+- (void)removePlaces:(NSSet*)value_;
+- (void)addPlacesObject:(MRSLPlace*)value_;
+- (void)removePlacesObject:(MRSLPlace*)value_;
+
 - (void)addTags:(NSSet*)value_;
 - (void)removeTags:(NSSet*)value_;
 - (void)addTagsObject:(MRSLTag*)value_;
@@ -408,6 +450,15 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSString*)primitiveAuth_token;
 - (void)setPrimitiveAuth_token:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveAuto_follow;
+- (void)setPrimitiveAuto_follow:(NSNumber*)value;
+
+- (BOOL)primitiveAuto_followValue;
+- (void)setPrimitiveAuto_followValue:(BOOL)value_;
 
 
 
@@ -499,11 +550,11 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSNumber*)primitiveLiked_items_count;
-- (void)setPrimitiveLiked_items_count:(NSNumber*)value;
+- (NSNumber*)primitiveLiked_item_count;
+- (void)setPrimitiveLiked_item_count:(NSNumber*)value;
 
-- (int32_t)primitiveLiked_items_countValue;
-- (void)setPrimitiveLiked_items_countValue:(int32_t)value_;
+- (int32_t)primitiveLiked_item_countValue;
+- (void)setPrimitiveLiked_item_countValue:(int32_t)value_;
 
 
 
@@ -550,6 +601,12 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
+
+
+
+
 - (NSString*)primitiveTwitter_username;
 - (void)setPrimitiveTwitter_username:(NSString*)value;
 
@@ -584,6 +641,11 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSMutableSet*)primitiveMorsels;
 - (void)setPrimitiveMorsels:(NSMutableSet*)value;
+
+
+
+- (NSMutableSet*)primitivePlaces;
+- (void)setPrimitivePlaces:(NSMutableSet*)value;
 
 
 

@@ -23,6 +23,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
 	.creator = @"creator",
 	.items = @"items",
+	.place = @"place",
 };
 
 const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
@@ -318,6 +319,10 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	[self didAccessValueForKey:@"items"];
 	return result;
 }
+	
+
+@dynamic place;
+
 	
 
 

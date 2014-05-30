@@ -1,6 +1,7 @@
 #import "MRSLMorsel.h"
 
 #import "MRSLItem.h"
+#import "MRSLPlace.h"
 #import "MRSLUser.h"
 
 @interface MRSLMorsel ()
@@ -40,6 +41,9 @@
     MRSLItem *coverItem = [self coverItem];
     if (coverItem)[objectInfoJSON setObject:NSNullIfNil(coverItem.itemID)
                        forKey:@"primary_item_id"];
+
+    if (self.place) [objectInfoJSON setObject:NSNullIfNil(self.place.placeID)
+                                       forKey:@"place_id"];
 
     NSMutableDictionary *morselJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
                                                                        forKey:@"morsel"];

@@ -32,7 +32,7 @@
 }
 
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.objects count] == 0) return nil;
+    if ([self.objects count] == 0 || indexPath.row >= [self count]) return nil;
     return self.objects[(NSUInteger) indexPath.row];
 }
 
@@ -47,7 +47,11 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self count];
+    if ([self.delegate respondsToSelector:@selector(collectionViewDataSourceNumberOfItemsInSection:)]) {
+        return [self.delegate collectionViewDataSourceNumberOfItemsInSection:section];
+    } else {
+        return [self count];
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView

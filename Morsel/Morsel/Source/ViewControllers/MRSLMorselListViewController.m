@@ -94,73 +94,54 @@ NSFetchedResultsControllerDelegate>
     self.loadedAll = NO;
     self.refreshing = YES;
     __weak __typeof(self)weakSelf = self;
-    if (_morselStatusType == MRSLMorselStatusTypeDrafts) {
-        [_appDelegate.apiService getUserDraftsWithMaxID:nil
-                                              orSinceID:nil
-                                               andCount:nil
-                                                success:^(NSArray *responseArray) {
-                                                    [weakSelf.refreshControl endRefreshing];
-                                                    weakSelf.morselIDs = [responseArray mutableCopy];
-                                                    [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                              forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
-                                                    [weakSelf setupFetchRequest];
-                                                    [weakSelf populateContent];
-                                                    weakSelf.refreshing = NO;
-                                                } failure:^(NSError *error) {
-                                                    [weakSelf.refreshControl endRefreshing];
-                                                    weakSelf.refreshing = NO;
-                                                }];
-    } else {
-        [_appDelegate.apiService getUserMorsels:_user
-                                      withMaxID:nil
-                                      orSinceID:nil
-                                       andCount:nil
-                                  includeDrafts:YES
-                                        success:^(NSArray *responseArray) {
-                                            [weakSelf.refreshControl endRefreshing];
-                                            weakSelf.morselIDs = [responseArray mutableCopy];
-                                            [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                      forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
-                                            [weakSelf setupFetchRequest];
-                                            [weakSelf populateContent];
-                                            weakSelf.refreshing = NO;
-                                        } failure:^(NSError *error) {
-                                            [weakSelf.refreshControl endRefreshing];
-                                            weakSelf.refreshing = NO;
-                                        }];
-    }
+    [_appDelegate.apiService getMorselsForUser:nil
+                                     withMaxID:nil
+                                     orSinceID:nil
+                                      andCount:nil
+                                    onlyDrafts:(_morselStatusType == MRSLMorselStatusTypeDrafts)
+                                       success:^(NSArray *responseArray) {
+                                           [weakSelf.refreshControl endRefreshing];
+                                           weakSelf.morselIDs = [responseArray mutableCopy];
+                                           [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                                                     forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
+                                           [weakSelf setupFetchRequest];
+                                           [weakSelf populateContent];
+                                           weakSelf.refreshing = NO;
+                                       } failure:^(NSError *error) {
+                                           [weakSelf.refreshControl endRefreshing];
+                                           weakSelf.refreshing = NO;
+                                       }];
 }
 
 - (void)loadMore {
     if (_loadingMore || !_user || _loadedAll || _refreshing) return;
     self.loadingMore = YES;
-    DDLogDebug(@"Loading more user morsels");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                        withValue:[_morselIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
-    [_appDelegate.apiService getUserMorsels:_user
-                                  withMaxID:@([lastMorsel morselIDValue] - 1)
-                                  orSinceID:nil
-                                   andCount:@(12)
-                              includeDrafts:YES
-                                    success:^(NSArray *responseArray) {
-                                        if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                        DDLogDebug(@"%lu user morsels added", (unsigned long)[responseArray count]);
-                                        if (weakSelf) {
-                                            if ([responseArray count] > 0) {
-                                                [weakSelf.morselIDs addObjectsFromArray:responseArray];
-                                                [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
-                                                                                          forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
-                                                [weakSelf setupFetchRequest];
-                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                    [weakSelf populateContent];
-                                                });
-                                            }
-                                            weakSelf.loadingMore = NO;
-                                        }
-                                    } failure:^(NSError *error) {
-                                        if (weakSelf) weakSelf.loadingMore = NO;
-                                    }];
+    [_appDelegate.apiService getMorselsForUser:_user
+                                     withMaxID:@([lastMorsel morselIDValue] - 1)
+                                     orSinceID:nil
+                                      andCount:@(12)
+                                    onlyDrafts:(_morselStatusType == MRSLMorselStatusTypeDrafts)
+                                       success:^(NSArray *responseArray) {
+                                           if ([responseArray count] == 0) weakSelf.loadedAll = YES;
+                                           DDLogDebug(@"%lu user morsels added", (unsigned long)[responseArray count]);
+                                           if (weakSelf) {
+                                               if ([responseArray count] > 0) {
+                                                   [weakSelf.morselIDs addObjectsFromArray:responseArray];
+                                                   [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
+                                                                                             forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
+                                                   [weakSelf setupFetchRequest];
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       [weakSelf populateContent];
+                                                   });
+                                               }
+                                               weakSelf.loadingMore = NO;
+                                           }
+                                       } failure:^(NSError *error) {
+                                           if (weakSelf) weakSelf.loadingMore = NO;
+                                       }];
 }
 
 #pragma mark - UICollectionViewDataSource Methods

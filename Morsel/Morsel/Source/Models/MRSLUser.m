@@ -35,18 +35,12 @@
     MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                              withValue:userID
                                              inContext:[NSManagedObjectContext MR_defaultContext]];
-
-    NSString *authToken = nil;
     if (!user) {
         DDLogDebug(@"User did not exist on device. Creating new.");
         user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
-    } else {
-        DDLogDebug(@"User existed on device. Updating information.");
-        authToken = [user.auth_token copy];
     }
 
     [user MR_importValuesForKeysWithObject:userDictionary];
-    if (authToken) user.auth_token = authToken;
 
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel identify:[NSString stringWithFormat:@"%i", user.userIDValue]];
@@ -154,6 +148,12 @@
         NSDictionary *photoDictionary = data[@"photos"];
         self.profilePhotoURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
                                                                                      withString:@"IMAGE_SIZE"];
+    }
+
+    if (![data[@"settings"] isEqual:[NSNull null]]) {
+        if (![data[@"auto_follow"] isEqual:[NSNull null]]) {
+            self.auto_follow = @([data[@"auto_follow"] boolValue]);
+        }
     }
 
     if (self.profilePhotoFull) self.profilePhotoFull = nil;

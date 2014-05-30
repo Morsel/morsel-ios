@@ -17,6 +17,11 @@
          didFollow:(MRSLAPIFollowBlock)followBlockOrNil
            failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)followPlace:(MRSLPlace *)place
+       shouldFollow:(BOOL)shouldFollow
+          didFollow:(MRSLAPIFollowBlock)followBlockOrNil
+            failure:(MRSLFailureBlock)failureOrNil;
+
 - (void)getUserFollowers:(MRSLUser *)user
                withMaxID:(NSNumber *)maxOrNil
                orSinceID:(NSNumber *)sinceOrNil

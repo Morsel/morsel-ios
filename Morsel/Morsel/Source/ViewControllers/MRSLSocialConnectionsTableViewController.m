@@ -9,11 +9,13 @@
 #import "MRSLSocialConnectionsTableViewController.h"
 
 #import "MRSLAPIService+Authentication.h"
+#import "MRSLAPIService+Profile.h"
 
 #import "MRSLSocialServiceFacebook.h"
 #import "MRSLSocialServiceTwitter.h"
 #import "MRSLSocialServiceInstagram.h"
 
+#import "MRSLUser.h"
 #import "MRSLSocialAuthentication.h"
 #import "MRSLSocialUser.h"
 
@@ -25,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *facebookSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *twitterSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *instagramSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *autoFollowSwitch;
 
 @end
 
@@ -48,6 +51,7 @@
     } failure:^(NSError *error) {
         weakSelf.instagramSwitch.on = NO;
     }];
+    self.autoFollowSwitch.on = [MRSLUser currentUser].auto_followValue;
 }
 
 - (IBAction)toggleFacebook:(UISwitch *)switchControl {
@@ -141,6 +145,24 @@
                       shouldEnable:NO];
         }];
     }];
+}
+
+- (IBAction)toggleAutoFollow {
+    _autoFollowSwitch.enabled = NO;
+
+    BOOL shouldAutoFollow = ![MRSLUser currentUser].auto_followValue;
+    [_autoFollowSwitch setOn:shouldAutoFollow
+                    animated:NO];
+    __weak __typeof(self) weakSelf = self;
+    [_appDelegate.apiService updateAutoFollow:shouldAutoFollow
+                                      success:^(id responseObject) {
+                                          weakSelf.autoFollowSwitch.enabled = YES;
+                                          [MRSLUser currentUser].auto_follow = @(shouldAutoFollow);
+                                      } failure:^(NSError *error) {
+                                          weakSelf.autoFollowSwitch.enabled = YES;
+                                          [weakSelf.autoFollowSwitch setOn:!shouldAutoFollow
+                                                          animated:NO];
+                                      }];
 }
 
 #pragma mark - Private Methods

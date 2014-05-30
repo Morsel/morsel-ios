@@ -8,6 +8,7 @@
 
 #import "MRSLAPIService+Follow.h"
 
+#import "MRSLPlace.h"
 #import "MRSLUser.h"
 
 @implementation MRSLAPIService (Follow)
@@ -29,7 +30,8 @@
                                        if (followBlockOrNil) followBlockOrNil(YES);
                                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                        MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                       if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"user: already followed"]) {
+                                       if ([operation.response statusCode] == 200 ||
+                                           [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"user: already followed"]) {
                                            if (followBlockOrNil) followBlockOrNil(YES);
                                        } else {
                                            [self reportFailure:failureOrNil
@@ -45,7 +47,50 @@
                                          if (followBlockOrNil) followBlockOrNil(NO);
                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                          MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                         if ([operation.response statusCode] == 200  || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"user: not followed"]) {
+                                         if ([operation.response statusCode] == 200  ||
+                                             [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"user: not followed"]) {
+                                             if (followBlockOrNil) followBlockOrNil(NO);
+                                         } else {
+                                             [self reportFailure:failureOrNil
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }
+                                     }];
+    }
+}
+
+- (void)followPlace:(MRSLPlace *)place
+      shouldFollow:(BOOL)shouldFollow
+         didFollow:(MRSLAPIFollowBlock)followBlockOrNil
+           failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    if (shouldFollow) {
+        [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"places/%i/follow", place.placeIDValue]
+                                parameters:parameters
+                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                       if (followBlockOrNil) followBlockOrNil(YES);
+                                   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                       MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                       if ([operation.response statusCode] == 200 ||
+                                           [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"place: already followed"]) {
+                                           if (followBlockOrNil) followBlockOrNil(YES);
+                                       } else {
+                                           [self reportFailure:failureOrNil
+                                                     withError:error
+                                                      inMethod:NSStringFromSelector(_cmd)];
+                                       }
+                                   }];
+    } else {
+        [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"places/%i/follow", place.placeIDValue]
+                                  parameters:parameters
+                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                         if (followBlockOrNil) followBlockOrNil(NO);
+                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                         if ([operation.response statusCode] == 200  ||
+                                             [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"place: not followed"]) {
                                              if (followBlockOrNil) followBlockOrNil(NO);
                                          } else {
                                              [self reportFailure:failureOrNil

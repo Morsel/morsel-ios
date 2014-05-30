@@ -9,6 +9,7 @@
 #import "MRSLAPIService+Morsel.h"
 
 #import "MRSLMorsel.h"
+#import "MRSLPlace.h"
 #import "MRSLUser.h"
 
 @implementation MRSLAPIService (Morsel)
@@ -157,19 +158,16 @@
                               }];
 }
 
-- (void)getUserMorsels:(MRSLUser *)user
-             withMaxID:(NSNumber *)maxOrNil
-             orSinceID:(NSNumber *)sinceOrNil
-              andCount:(NSNumber *)countOrNil
-         includeDrafts:(BOOL)includeDrafts
-               success:(MRSLAPIArrayBlock)successOrNil
-               failure:(MRSLFailureBlock)failureOrNil {
+- (void)getMorselsForUser:(MRSLUser *)userOrNil
+                withMaxID:(NSNumber *)maxOrNil
+                orSinceID:(NSNumber *)sinceOrNil
+                 andCount:(NSNumber *)countOrNil
+               onlyDrafts:(BOOL)shouldOnlyDisplayDrafts
+                  success:(MRSLAPIArrayBlock)successOrNil
+                  failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-
-    if (includeDrafts) parameters[@"include_drafts"] = @"true";
-
     if (maxOrNil && sinceOrNil) {
         DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
     } else if (maxOrNil && !sinceOrNil) {
@@ -179,7 +177,15 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/morsels", user.userIDValue]
+    NSString *endpoint = nil;
+
+    if (shouldOnlyDisplayDrafts) {
+        endpoint = @"morsels/drafts";
+    } else {
+        endpoint = (userOrNil) ? [NSString stringWithFormat:@"users/%i/morsels", userOrNil.userIDValue] : @"morsels";
+    }
+
+    [[MRSLAPIClient sharedClient] GET:endpoint
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -207,11 +213,12 @@
                               }];
 }
 
-- (void)getUserDraftsWithMaxID:(NSNumber *)maxOrNil
-                     orSinceID:(NSNumber *)sinceOrNil
-                      andCount:(NSNumber *)countOrNil
-                       success:(MRSLAPIArrayBlock)successOrNil
-                       failure:(MRSLFailureBlock)failureOrNil {
+- (void)getMorselsForPlace:(MRSLPlace *)placeOrNil
+                 withMaxID:(NSNumber *)maxOrNil
+                 orSinceID:(NSNumber *)sinceOrNil
+                  andCount:(NSNumber *)countOrNil
+                   success:(MRSLAPIArrayBlock)successOrNil
+                   failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -224,7 +231,7 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] GET:@"morsels/drafts"
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"places/%i/morsels", placeOrNil.placeIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);

@@ -410,11 +410,17 @@ MRSLCapturePreviewsViewControllerDelegate>
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         if (weakSelf) {
-            UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension)
-                                                               scaled:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)];
+            CGRect cropRect = CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension);
+
+            if (fullSizeImage.size.width == fullSizeImage.size.height) {
+                // Square
+                cropRect = CGRectMake(0.f, 0.f, minimumImageDimension, minimumImageDimension);
+            }
+            UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:cropRect
+                                                                 scaled:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)];
             mediaItem.mediaFullImage = croppedFullSizeImage;
             mediaItem.mediaThumbImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageThumbDimensionSize
-                                                               interpolationQuality:kCGInterpolationHigh];
+                                                        interpolationQuality:kCGInterpolationHigh];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 mediaItem.mediaCroppedImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageLargeDimensionSize
                                                               interpolationQuality:kCGInterpolationHigh];
@@ -648,7 +654,7 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
         mediaItem.mediaFullImage = mediaInfo[UIImagePickerControllerOriginalImage];
         [self processMediaItem:mediaItem];
     }];
-
+    
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }
