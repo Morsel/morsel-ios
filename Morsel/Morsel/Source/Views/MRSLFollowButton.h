@@ -11,5 +11,6 @@
 @interface MRSLFollowButton : MRSLColoredBackgroundLightButton
 
 @property (weak, nonatomic) MRSLUser *user;
+@property (weak, nonatomic) MRSLPlace *place;
 
 @end

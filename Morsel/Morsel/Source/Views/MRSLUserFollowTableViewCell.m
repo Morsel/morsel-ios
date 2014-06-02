@@ -25,6 +25,11 @@
 
 @implementation MRSLUserFollowTableViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self.profileImageView allowToLaunchProfile];
+}
+
 - (void)setUser:(MRSLUser *)user {
     if (_user != user) {
         _user = user;

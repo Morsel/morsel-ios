@@ -8,6 +8,8 @@
 
 #import "MRSLCollectionViewFetchResultsDataSource.h"
 
+#import "MRSLPlace.h"
+
 @interface MRSLCollectionViewDataSource ()
 
 @property (weak, nonatomic) UICollectionView *collectionView;
@@ -20,10 +22,6 @@
 @end
 
 @interface MRSLCollectionViewFetchResultsDataSource ()
-
-@property (nonatomic) BOOL ascending;
-
-@property (nonatomic) MRSLDataSortType sortType;
 
 @property (nonatomic) Class managedObjectClass;
 
@@ -40,6 +38,9 @@
                   collectionView:(UICollectionView *)collectionView {
     self = [super initWithCollectionView:collectionView];
     if (self) {
+
+        if ([[MRSLPlace class] isSubclassOfClass:objectClass]) self.sortType = MRSLDataSortTypeName;
+
         self.managedObjectClass = objectClass;
         self.fetchPredicate = predicateOrNil;
         self.configureCellBlock = configureCellBlock;

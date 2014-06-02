@@ -14,6 +14,7 @@
 #import "MRSLKeywordUsersViewController.h"
 #import "MRSLFollowButton.h"
 #import "MRSLPanelSegmentedCollectionViewDataSource.h"
+#import "MRSLPlaceViewController.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLProfileEditViewController.h"
 #import "MRSLProfileUserTagsListViewController.h"
@@ -24,12 +25,13 @@
 #import "MRSLContainerCollectionViewCell.h"
 #import "MRSLUserLikedItemCollectionViewCell.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
+#import "MRSLPlaceCollectionViewCell.h"
 #import "MRSLProfilePanelCollectionViewCell.h"
 #import "MRSLSegmentedHeaderReusableView.h"
-#import "MRSLStickyHeaderCollectionViewLayout.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
+#import "MRSLPlace.h"
 #import "MRSLTag.h"
 #import "MRSLUser.h"
 
@@ -292,6 +294,15 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                       borderWidth:1.0f
                                    andBorderColor:[UIColor morselLightOffColor]];
                 }
+            } else if ([item isKindOfClass:[MRSLPlace class]]) {
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PlaceCell"
+                                                                 forIndexPath:indexPath];
+                [(MRSLPlaceCollectionViewCell *)cell setPlace:item];
+                if (indexPath.row != count) {
+                    [cell setBorderWithDirections:MRSLBorderSouth
+                                      borderWidth:1.0f
+                                   andBorderColor:[UIColor morselLightOffColor]];
+                }
             }
         } else {
             if (_dataSourceTabType == MRSLDataSourceTypeTag) {
@@ -354,7 +365,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
         userMorselsFeedVC.user = _user;
         [self.navigationController pushViewController:userMorselsFeedVC
                                              animated:YES];
-    }else if ([item isKindOfClass:[MRSLItem class]]) {
+    } else if ([item isKindOfClass:[MRSLItem class]]) {
         MRSLItem *morselItem = item;
         if (morselItem.morsel) {
             MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
@@ -363,6 +374,11 @@ MRSLSegmentedHeaderReusableViewDelegate>
             [self.navigationController pushViewController:userMorselsFeedVC
                                                  animated:YES];
         }
+    } else if ([item isKindOfClass:[MRSLPlace class]]) {
+        MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceViewController"];
+        placeVC.place = item;
+        [self.navigationController pushViewController:placeVC
+                                             animated:YES];
     }
 }
 
@@ -391,6 +407,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)segmentedHeaderDidSelectIndex:(NSUInteger)index {
     if (_dataSourceTabType != index) {
         self.dataSourceTabType = index;
+        self.segmentedPanelCollectionViewDataSource.sortType = (_dataSourceTabType == MRSLDataSourceTypePlace) ? MRSLDataSortTypeName : MRSLDataSortTypeCreationDate;
         [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
         [self loadObjectIDs];
         [self updateDataSourcePredicate];

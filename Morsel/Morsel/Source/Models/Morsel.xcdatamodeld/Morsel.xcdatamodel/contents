@@ -144,6 +144,11 @@
                 <entry key="relatedByAttribute" value="itemID"/>
             </userInfo>
         </relationship>
+        <relationship name="place" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLPlace" inverseName="morsels" inverseEntity="MRSLPlace" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="placeID"/>
+            </userInfo>
+        </relationship>
     </entity>
     <entity name="MRSLNotification" representedClassName="MRSLNotification" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -166,6 +171,111 @@
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="notification" inverseEntity="MRSLActivity" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="activityID"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="MRSLPlace" representedClassName="MRSLPlace" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="credit_cards" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.credit_cards"/>
+            </userInfo>
+        </attribute>
+        <attribute name="days" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dining_options" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.dining_options"/>
+            </userInfo>
+        </attribute>
+        <attribute name="dining_style" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.dining_style"/>
+            </userInfo>
+        </attribute>
+        <attribute name="dress_code" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.dress_code"/>
+            </userInfo>
+        </attribute>
+        <attribute name="facebook_page_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="follower_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="formatted_phone" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.formatted_phone"/>
+            </userInfo>
+        </attribute>
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="menu_mobile_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.menu_mobile_url"/>
+            </userInfo>
+        </attribute>
+        <attribute name="menu_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.menu_url"/>
+            </userInfo>
+        </attribute>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="outdoor_seating" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.outdoor_seating"/>
+            </userInfo>
+        </attribute>
+        <attribute name="parking" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.parking"/>
+            </userInfo>
+        </attribute>
+        <attribute name="parking_details" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.parking_details"/>
+            </userInfo>
+        </attribute>
+        <attribute name="placeID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="postal_code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="price_tier" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.price_tier"/>
+            </userInfo>
+        </attribute>
+        <attribute name="public_transit" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.public_transit"/>
+            </userInfo>
+        </attribute>
+        <attribute name="reservations" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.reservations"/>
+            </userInfo>
+        </attribute>
+        <attribute name="reservations_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.reservations_url"/>
+            </userInfo>
+        </attribute>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twitter_username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="website_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.website_url"/>
+            </userInfo>
+        </attribute>
+        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="place" inverseEntity="MRSLMorsel" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="morselID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="places" inverseEntity="MRSLUser" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="userID"/>
             </userInfo>
         </relationship>
     </entity>
@@ -193,6 +303,7 @@
     </entity>
     <entity name="MRSLUser" representedClassName="MRSLUser" syncable="YES">
         <attribute name="auth_token" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="auto_follow" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="bio" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES">
             <userInfo>
@@ -210,13 +321,14 @@
         <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="industryType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="liked_items_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="liked_item_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="morsel_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="profilePhotoFull" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="profilePhotoLarge" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="profilePhotoThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="profilePhotoURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="staff" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="twitter_username" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
             <userInfo>
@@ -239,6 +351,11 @@
                 <entry key="relatedByAttribute" value="morselID"/>
             </userInfo>
         </relationship>
+        <relationship name="places" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLPlace" inverseName="users" inverseEntity="MRSLPlace" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="placeID"/>
+            </userInfo>
+        </relationship>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLTag" inverseName="user" inverseEntity="MRSLTag" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="tagID"/>
@@ -250,9 +367,10 @@
         <element name="MRSLComment" positionX="0" positionY="0" width="128" height="118"/>
         <element name="MRSLItem" positionX="0" positionY="0" width="128" height="373"/>
         <element name="MRSLKeyword" positionX="0" positionY="0" width="128" height="103"/>
-        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="285"/>
+        <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="298"/>
         <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="135"/>
+        <element name="MRSLPlace" positionX="18" positionY="153" width="128" height="508"/>
         <element name="MRSLTag" positionX="18" positionY="153" width="128" height="118"/>
-        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="450"/>
+        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="493"/>
     </elements>
 </model>

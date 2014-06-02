@@ -5,6 +5,7 @@
 
 const struct MRSLUserAttributes MRSLUserAttributes = {
 	.auth_token = @"auth_token",
+	.auto_follow = @"auto_follow",
 	.bio = @"bio",
 	.creationDate = @"creationDate",
 	.dateFollowed = @"dateFollowed",
@@ -17,13 +18,14 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.following = @"following",
 	.industryType = @"industryType",
 	.last_name = @"last_name",
-	.liked_items_count = @"liked_items_count",
+	.liked_item_count = @"liked_item_count",
 	.morsel_count = @"morsel_count",
 	.profilePhotoFull = @"profilePhotoFull",
 	.profilePhotoLarge = @"profilePhotoLarge",
 	.profilePhotoThumb = @"profilePhotoThumb",
 	.profilePhotoURL = @"profilePhotoURL",
 	.staff = @"staff",
+	.title = @"title",
 	.twitter_username = @"twitter_username",
 	.userID = @"userID",
 	.username = @"username",
@@ -33,6 +35,7 @@ const struct MRSLUserRelationships MRSLUserRelationships = {
 	.activities = @"activities",
 	.comments = @"comments",
 	.morsels = @"morsels",
+	.places = @"places",
 	.tags = @"tags",
 };
 
@@ -65,6 +68,11 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"auto_followValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"auto_follow"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"draft_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"draft_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -90,8 +98,8 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"liked_items_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"liked_items_count"];
+	if ([key isEqualToString:@"liked_item_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"liked_item_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -119,6 +127,32 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 @dynamic auth_token;
 
+
+
+
+
+
+@dynamic auto_follow;
+
+
+
+- (BOOL)auto_followValue {
+	NSNumber *result = [self auto_follow];
+	return [result boolValue];
+}
+
+- (void)setAuto_followValue:(BOOL)value_ {
+	[self setAuto_follow:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveAuto_followValue {
+	NSNumber *result = [self primitiveAuto_follow];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveAuto_followValue:(BOOL)value_ {
+	[self setPrimitiveAuto_follow:[NSNumber numberWithBool:value_]];
+}
 
 
 
@@ -303,26 +337,26 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic liked_items_count;
+@dynamic liked_item_count;
 
 
 
-- (int32_t)liked_items_countValue {
-	NSNumber *result = [self liked_items_count];
+- (int32_t)liked_item_countValue {
+	NSNumber *result = [self liked_item_count];
 	return [result intValue];
 }
 
-- (void)setLiked_items_countValue:(int32_t)value_ {
-	[self setLiked_items_count:[NSNumber numberWithInt:value_]];
+- (void)setLiked_item_countValue:(int32_t)value_ {
+	[self setLiked_item_count:[NSNumber numberWithInt:value_]];
 }
 
-- (int32_t)primitiveLiked_items_countValue {
-	NSNumber *result = [self primitiveLiked_items_count];
+- (int32_t)primitiveLiked_item_countValue {
+	NSNumber *result = [self primitiveLiked_item_count];
 	return [result intValue];
 }
 
-- (void)setPrimitiveLiked_items_countValue:(int32_t)value_ {
-	[self setPrimitiveLiked_items_count:[NSNumber numberWithInt:value_]];
+- (void)setPrimitiveLiked_item_countValue:(int32_t)value_ {
+	[self setPrimitiveLiked_item_count:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -409,6 +443,13 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
+@dynamic title;
+
+
+
+
+
+
 @dynamic twitter_username;
 
 
@@ -484,6 +525,19 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"morsels"];
   
 	[self didAccessValueForKey:@"morsels"];
+	return result;
+}
+	
+
+@dynamic places;
+
+	
+- (NSMutableSet*)placesSet {
+	[self willAccessValueForKey:@"places"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"places"];
+  
+	[self didAccessValueForKey:@"places"];
 	return result;
 }
 	

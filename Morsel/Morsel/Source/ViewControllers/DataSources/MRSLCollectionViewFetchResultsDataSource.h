@@ -11,6 +11,10 @@
 @interface MRSLCollectionViewFetchResultsDataSource : MRSLCollectionViewDataSource
 <NSFetchedResultsControllerDelegate>
 
+@property (nonatomic) BOOL ascending;
+
+@property (nonatomic) MRSLDataSortType sortType;
+
 - (id)initWithManagedObjectClass:(Class)objectClass
                        predicate:(NSPredicate *)predicateOrNil
               configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock

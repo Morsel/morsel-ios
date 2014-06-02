@@ -375,4 +375,14 @@ MRSLSegmentedButtonViewDelegate>
     }
 }
 
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [self.view endEditing:YES];
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [self suspendTimer];
+}
+
 @end

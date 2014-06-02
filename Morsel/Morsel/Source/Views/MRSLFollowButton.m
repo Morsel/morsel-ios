@@ -10,6 +10,7 @@
 
 #import "MRSLAPIService+Follow.h"
 
+#import "MRSLPlace.h"
 #import "MRSLUser.h"
 
 @implementation MRSLFollowButton
@@ -27,31 +28,55 @@
     }
 }
 
+- (void)setPlace:(MRSLPlace *)place {
+    if (_place != place) {
+        _place = place;
+        [self setFollowState];
+    }
+}
+
 - (void)setFollowState {
-    [self setBackgroundColor:(_user.followingValue) ? [UIColor lightGrayColor] : [UIColor morselGreen]];
-    [self setTitle:(_user.followingValue) ? @"Following" : @"Follow"
+    [self setBackgroundColor:(_user.followingValue || _place.followingValue) ? [UIColor lightGrayColor] : [UIColor morselGreen]];
+    [self setTitle:(_user.followingValue || _place.followingValue) ? @"Following" : @"Follow"
           forState:UIControlStateNormal];
 }
 
 - (void)toggleFollow {
-    [[MRSLEventManager sharedManager] track:@"Tapped Follow"
-                                 properties:@{@"view": @"profile",
-                                              @"user_id": _user.userID}];
-
-    [_user setFollowingValue:!_user.followingValue];
-    [self setFollowState];
-
     __weak __typeof(self) weakSelf = self;
-    [_appDelegate.apiService followUser:_user
-                           shouldFollow:_user.followingValue
-                              didFollow:^(BOOL doesFollow) {
-                                  weakSelf.enabled = YES;
-                              } failure:^(NSError *error) {
-                                  weakSelf.enabled = YES;
-                                  [weakSelf.user setFollowingValue:!weakSelf.user.followingValue];
-                                  [weakSelf.user setFollower_countValue:weakSelf.user.follower_countValue - 1];
-                                  [weakSelf setFollowState];
-                              }];
+    if (_user) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Follow"
+                                     properties:@{@"view": @"profile",
+                                                  @"user_id": _user.userID}];
+
+        [_user setFollowingValue:!_user.followingValue];
+        [self setFollowState];
+
+        [_appDelegate.apiService followUser:_user
+                               shouldFollow:_user.followingValue
+                                  didFollow:^(BOOL doesFollow) {
+                                      weakSelf.enabled = YES;
+                                  } failure:^(NSError *error) {
+                                      weakSelf.enabled = YES;
+                                      [weakSelf.user setFollowingValue:!weakSelf.user.followingValue];
+                                      [weakSelf.user setFollower_countValue:weakSelf.user.follower_countValue - 1];
+                                      [weakSelf setFollowState];
+                                  }];
+    }
+    if (_place) {
+        [_place setFollowingValue:!_place.followingValue];
+        [self setFollowState];
+
+        [_appDelegate.apiService followPlace:_place
+                                shouldFollow:_place.followingValue
+                                   didFollow:^(BOOL doesFollow) {
+                                       weakSelf.enabled = YES;
+                                   } failure:^(NSError *error) {
+                                       weakSelf.enabled = YES;
+                                       [weakSelf.place setFollowingValue:!weakSelf.place.followingValue];
+                                       [weakSelf.place setFollower_countValue:weakSelf.place.follower_countValue - 1];
+                                       [weakSelf setFollowState];
+                                   }];
+    }
 }
 
 @end

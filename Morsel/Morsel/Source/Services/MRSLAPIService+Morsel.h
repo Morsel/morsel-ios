@@ -34,18 +34,19 @@
           success:(MRSLAPISuccessBlock)successOrNil
           failure:(MRSLFailureBlock)failureOrNil;
 
-- (void)getUserMorsels:(MRSLUser *)user
-             withMaxID:(NSNumber *)maxOrNil
-             orSinceID:(NSNumber *)sinceOrNil
-              andCount:(NSNumber *)countOrNil
-         includeDrafts:(BOOL)includeDrafts
-               success:(MRSLAPIArrayBlock)successOrNil
-               failure:(MRSLFailureBlock)failureOrNil __deprecated;
+- (void)getMorselsForUser:(MRSLUser *)userOrNil
+                withMaxID:(NSNumber *)maxOrNil
+                orSinceID:(NSNumber *)sinceOrNil
+                 andCount:(NSNumber *)countOrNil
+               onlyDrafts:(BOOL)shouldOnlyDisplayDrafts
+                  success:(MRSLAPIArrayBlock)successOrNil
+                  failure:(MRSLFailureBlock)failureOrNil;
 
-- (void)getUserDraftsWithMaxID:(NSNumber *)maxOrNil
-                     orSinceID:(NSNumber *)sinceOrNil
-                      andCount:(NSNumber *)countOrNil
-                       success:(MRSLAPIArrayBlock)successOrNil
-                       failure:(MRSLFailureBlock)failureOrNil;
+- (void)getMorselsForPlace:(MRSLPlace *)placeOrNil
+                 withMaxID:(NSNumber *)maxOrNil
+                 orSinceID:(NSNumber *)sinceOrNil
+                  andCount:(NSNumber *)countOrNil
+                   success:(MRSLAPIArrayBlock)successOrNil
+                   failure:(MRSLFailureBlock)failureOrNil;
 
 @end

@@ -22,6 +22,7 @@ typedef UIEdgeInsets (^MRSLLayoutSectionInsetConfigureBlock)(UICollectionView *c
                    didSelectItem:(id)item;
 - (void)collectionViewDataSourceDidScroll:(UICollectionView *)collectionView
                                withOffset:(CGFloat)offset;
+- (NSInteger)collectionViewDataSourceNumberOfItemsInSection:(NSInteger)section;
 
 @end
 

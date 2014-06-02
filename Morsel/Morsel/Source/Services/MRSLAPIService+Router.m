@@ -10,6 +10,7 @@
 
 #import "MRSLAPIService+Like.h"
 #import "MRSLAPIService+Morsel.h"
+#import "MRSLAPIService+Place.h"
 
 @implementation MRSLAPIService (Router)
 
@@ -22,21 +23,60 @@
             failure:(MRSLFailureBlock)failureOrNil {
     switch (dataSourceType) {
         case MRSLDataSourceTypeMorsel:
-            [_appDelegate.apiService getUserMorsels:user
-                                          withMaxID:maxOrNil
-                                          orSinceID:sinceOrNil
-                                           andCount:countOrNil
-                                      includeDrafts:NO
-                                            success:successOrNil
-                                            failure:failureOrNil];
+            [_appDelegate.apiService getMorselsForUser:user
+                                             withMaxID:maxOrNil
+                                             orSinceID:sinceOrNil
+                                              andCount:countOrNil
+                                            onlyDrafts:NO
+                                               success:successOrNil
+                                               failure:failureOrNil];
             break;
         case MRSLDataSourceTypeActivityItem:
             [_appDelegate.apiService getLikedItemsForUser:user
-                                          maxID:maxOrNil
-                                          orSinceID:sinceOrNil
-                                           andCount:countOrNil
-                                            success:successOrNil
-                                            failure:failureOrNil];
+                                                    maxID:maxOrNil
+                                                orSinceID:sinceOrNil
+                                                 andCount:countOrNil
+                                                  success:successOrNil
+                                                  failure:failureOrNil];
+            break;
+        case MRSLDataSourceTypePlace:
+            [_appDelegate.apiService getPlacesForUser:user
+                                            withMaxID:maxOrNil
+                                            orSinceID:sinceOrNil
+                                             andCount:countOrNil
+                                              success:successOrNil
+                                              failure:failureOrNil];
+            break;
+        default:
+            if (failureOrNil) failureOrNil(nil);
+            DDLogError(@"MRSLAPIService+Router received unsupported MRSLDataSourceType: %@", [MRSLUtil stringForDataSourceType:dataSourceType]);
+            break;
+    }
+}
+
+- (void)getPlaceData:(MRSLPlace *)place
+   forDataSourceType:(MRSLDataSourceType)dataSourceType
+           withMaxID:(NSNumber *)maxOrNil
+           orSinceID:(NSNumber *)sinceOrNil
+            andCount:(NSNumber *)countOrNil
+             success:(MRSLAPIArrayBlock)successOrNil
+             failure:(MRSLFailureBlock)failureOrNil {
+    switch (dataSourceType) {
+        case MRSLDataSourceTypeMorsel:
+            [_appDelegate.apiService getMorselsForPlace:place
+                                             withMaxID:maxOrNil
+                                             orSinceID:sinceOrNil
+                                              andCount:countOrNil
+                                               success:successOrNil
+                                               failure:failureOrNil];
+            break;
+        case MRSLDataSourceTypeUser:
+            [_appDelegate.apiService getUsersForPlace:place
+                                            withMaxID:maxOrNil
+                                            orSinceID:sinceOrNil
+                                             andCount:countOrNil
+                                              success:successOrNil
+                                              failure:failureOrNil];
             break;
         default:
             if (failureOrNil) failureOrNil(nil);

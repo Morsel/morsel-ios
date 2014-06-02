@@ -15,6 +15,7 @@
 #import "MRSLItem.h"
 #import "MRSLNotification.h"
 #import "MRSLMorsel.h"
+#import "MRSLPlace.h"
 #import "MRSLKeyword.h"
 #import "MRSLTag.h"
 #import "MRSLUser.h"
@@ -101,9 +102,7 @@
                                                                                  withValue:userDictionary[@"id"]
                                                                                  inContext:localContext];
                 if (!user) user = [MRSLUser MR_createInContext:localContext];
-                NSString *authToken = user.auth_token;
                 [user MR_importValuesForKeysWithObject:userDictionary];
-                if ([user isCurrentUser] && authToken && !user.auth_token) user.auth_token = authToken;
                 [userIDs addObject:userDictionary[@"id"]];
             }];
         } completion:^(BOOL success, NSError *error) {

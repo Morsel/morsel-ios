@@ -83,14 +83,8 @@
 
                                       MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                                                withValue:userDictionary[@"id"]];
-                                      NSString *authToken = nil;
-                                      if (!user) {
-                                          user = [MRSLUser MR_createEntity];
-                                      } else {
-                                          authToken = [user.auth_token copy];
-                                      }
+                                      if (!user) user = [MRSLUser MR_createEntity];
                                       [user MR_importValuesForKeysWithObject:userDictionary];
-                                      if (!user.auth_token && authToken) user.auth_token = authToken;
                                       [itemLikers addObject:user];
                                   }];
                                   if (successOrNil) successOrNil(itemLikers);

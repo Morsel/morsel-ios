@@ -12,9 +12,11 @@
 
 #import "MRSLCollectionViewArraySectionsDataSource.h"
 #import "MRSLKeywordUsersViewController.h"
+#import "MRSLPlaceViewController.h"
 #import "MRSLPlacesAddViewController.h"
 #import "MRSLProfileCredentialsViewController.h"
 #import "MRSLProfileEditFieldsViewController.h"
+#import "MRSLProfileEditPlacesViewController.h"
 #import "MRSLProfileUserTagsListViewController.h"
 #import "MRSLSocialConnectionsTableViewController.h"
 #import "MRSLUserTagEditViewController.h"
@@ -26,7 +28,8 @@
 #import "MRSLUser.h"
 
 @interface MRSLProfileEditViewController ()
-<MRSLProfileUserTagsListViewControllerDelegate>
+<MRSLProfileEditPlacesViewControllerDelegate,
+MRSLProfileUserTagsListViewControllerDelegate>
 
 @property (nonatomic) CGFloat scrollViewContentHeight;
 
@@ -36,7 +39,7 @@
 @property (strong, nonatomic) MRSLCollectionViewArrayDataSource *collectionViewDataSource;
 
 @property (strong, nonatomic) MRSLProfileEditFieldsViewController *profileEditFieldsVC;
-@property (strong, nonatomic) MRSLPlacesAddViewController *profileEditPlacesVC;
+@property (strong, nonatomic) MRSLProfileEditPlacesViewController *profileEditPlacesVC;
 @property (strong, nonatomic) MRSLSocialConnectionsTableViewController *profileEditSocialVC;
 @property (strong, nonatomic) MRSLProfileUserTagsListViewController *profileEditTagsVC;
 @property (strong, nonatomic) MRSLProfileCredentialsViewController *profileEditSecurityVC;
@@ -104,7 +107,8 @@
         viewController = _profileEditFieldsVC;
     } else if ([sectionName isEqualToString:@"Places"]) {
         if (!_profileEditPlacesVC) {
-            self.profileEditPlacesVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"];
+            self.profileEditPlacesVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileEditPlacesViewController"];
+            self.profileEditPlacesVC.delegate = self;
             [self addChildViewController:_profileEditPlacesVC];
         }
         viewController = _profileEditPlacesVC;
@@ -143,9 +147,9 @@
     if ([sectionName isEqualToString:@"Basics"]) {
         cellSize.height = 360.f;
     } else if ([sectionName isEqualToString:@"Places"]) {
-        cellSize.height = 100.f;
+        cellSize.height = 200.f;
     } else if ([sectionName isEqualToString:@"Social"]) {
-        cellSize.height = 130.f;
+        cellSize.height = 200.f;
     } else if ([sectionName isEqualToString:@"Tags"]) {
         cellSize.height = 500.f;
     } else if ([sectionName isEqualToString:@"Security"]) {
@@ -193,7 +197,22 @@
                      }];
 }
 
-#pragma mark - MRSLProfileStatsKeywordsViewControllerDelegate Methods
+#pragma mark - MRSLProfileEditPlacesViewControllerDelegate
+
+- (void)profileEditPlacesDidSelectPlace:(MRSLPlace *)place {
+    MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceViewController"];
+    placeVC.place = place;
+    [self.navigationController pushViewController:placeVC
+                                         animated:YES];
+}
+
+- (void)profileEditPlacesDidSelectAddNew {
+    MRSLPlacesAddViewController *placesAddVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"];
+    [self.navigationController pushViewController:placesAddVC
+                                         animated:YES];
+}
+
+#pragma mark - MRSLProfileStatsKeywordsViewControllerDelegate
 
 - (void)profileUserTagsListViewControllerDidSelectTag:(MRSLTag *)tag {
     MRSLKeywordUsersViewController *keywordUsersVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLKeywordUsersViewController"];

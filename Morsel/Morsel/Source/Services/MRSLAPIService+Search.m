@@ -16,6 +16,11 @@
                andCount:(NSNumber *)countOrNil
                 success:(MRSLAPIArrayBlock)successOrNil
                 failure:(MRSLFailureBlock)failureOrNil {
+    if ([query length] > 0 && [query length] < 3) {
+        DDLogError(@"Cannot search places. Query is less than minimum character length of 3.");
+        if (failureOrNil) failureOrNil(nil);
+        return;
+    }
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user" : @{@"query": NSNullIfNil(query),
                                                                                    @"promoted": ([query length] > 0) ? @"false" : @"true"}}
                                                 includingMRSLObjects:nil

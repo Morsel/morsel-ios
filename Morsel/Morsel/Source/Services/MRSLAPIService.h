@@ -10,7 +10,7 @@
 
 #import "JSONResponseSerializerWithData.h"
 
-@class MRSLComment, MRSLItem, MRSLKeyword, MRSLMorsel, MRSLTag, MRSLUser;
+@class MRSLComment, MRSLItem, MRSLKeyword, MRSLMorsel, MRSLPlace, MRSLTag, MRSLUser;
 
 @interface MRSLAPIService : NSObject
 

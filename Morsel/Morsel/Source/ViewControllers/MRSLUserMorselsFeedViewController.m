@@ -138,33 +138,33 @@ MRSLFeedPanelCollectionViewCellDelegate>
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                        withValue:[_morselIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
-    [_appDelegate.apiService getUserMorsels:_user
-                                  withMaxID:@([lastMorsel morselIDValue] - 1)
-                                  orSinceID:nil
-                                   andCount:@(4)
-                              includeDrafts:NO
-                                    success:^(NSArray *responseArray) {
-                                        if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                          DDLogDebug(@"%lu user morsels added", (unsigned long)[responseArray count]);
-                                          if (weakSelf) {
-                                              if ([responseArray count] > 0) {
-                                                  [weakSelf.morselIDs addObjectsFromArray:responseArray];
-                                                  [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
-                                                                                            forKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]];
-                                                  [weakSelf setupFetchRequest];
-                                                  dispatch_async(dispatch_get_main_queue(), ^{
-                                                      [weakSelf populateContent];
-                                                  });
-                                              }
-                                              weakSelf.loadingMore = NO;
-                                          }
-                                      } failure:^(NSError *error) {
-                                          if (weakSelf) weakSelf.loadingMore = NO;
-                                          [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                       properties:@{@"view": @"user_feed",
-                                                                                    @"message" : NSNullIfNil(error.description),
-                                                                                    @"action" : @"load_more"}];
-                                      }];
+    [_appDelegate.apiService getMorselsForUser:_user
+                                     withMaxID:@([lastMorsel morselIDValue] - 1)
+                                     orSinceID:nil
+                                      andCount:@(4)
+                                    onlyDrafts:NO
+                                       success:^(NSArray *responseArray) {
+                                           if ([responseArray count] == 0) weakSelf.loadedAll = YES;
+                                           DDLogDebug(@"%lu user morsels added", (unsigned long)[responseArray count]);
+                                           if (weakSelf) {
+                                               if ([responseArray count] > 0) {
+                                                   [weakSelf.morselIDs addObjectsFromArray:responseArray];
+                                                   [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
+                                                                                             forKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]];
+                                                   [weakSelf setupFetchRequest];
+                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                       [weakSelf populateContent];
+                                                   });
+                                               }
+                                               weakSelf.loadingMore = NO;
+                                           }
+                                       } failure:^(NSError *error) {
+                                           if (weakSelf) weakSelf.loadingMore = NO;
+                                           [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
+                                                                        properties:@{@"view": @"user_feed",
+                                                                                     @"message" : NSNullIfNil(error.description),
+                                                                                     @"action" : @"load_more"}];
+                                       }];
 }
 
 #pragma mark - UICollectionViewDataSource Methods

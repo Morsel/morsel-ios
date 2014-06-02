@@ -10,6 +10,7 @@
 
 #import "MRSLActivity.h"
 #import "MRSLMorsel.h"
+#import "MRSLPlace.h"
 #import "MRSLItem.h"
 #import "MRSLTag.h"
 #import "MRSLUser.h"
@@ -74,7 +75,7 @@
             return [MRSLItem class];
             break;
         case MRSLDataSourceTypePlace:
-            return [NSNull class];
+            return [MRSLPlace class];
             break;
         case MRSLDataSourceTypeTag:
             return [MRSLTag class];
