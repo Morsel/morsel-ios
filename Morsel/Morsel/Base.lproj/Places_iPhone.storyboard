@@ -346,7 +346,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Place" id="ZRg-iE-7sx">
+                    <navigationItem key="navigationItem" id="ZRg-iE-7sx">
                         <barButtonItem key="rightBarButtonItem" id="zka-MT-UD4">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="ItT-VA-jhp" customClass="MRSLFollowButton">
                                 <rect key="frame" x="232" y="8" width="72" height="27"/>
