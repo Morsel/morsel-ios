@@ -43,7 +43,6 @@
         self.timeAgoLabel.text = [item.likedDate timeAgo];
         self.itemImageView.item = item;
         self.creatorProfileImageView.user = user;
-        [_creatorProfileImageView allowToLaunchProfile];
     }
 }
 

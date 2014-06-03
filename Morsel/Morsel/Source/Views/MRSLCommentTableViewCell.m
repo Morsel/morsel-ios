@@ -37,7 +37,6 @@
     _comment = comment;
     if (_comment) {
         _profileImageView.user = _comment.creator;
-        [_profileImageView allowToLaunchProfile];
         _userNameLabel.text = _comment.creator.fullName;
         _commentBodyLabel.text = _comment.commentDescription;
         _timeAgoLabel.text = [_comment.creationDate timeAgo];

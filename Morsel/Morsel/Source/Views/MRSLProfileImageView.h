@@ -16,6 +16,5 @@
 
 - (void)addAndRenderImage:(UIImage *)image
                  complete:(MRSLImageProcessingBlock)completeOrNil;
-- (void)allowToLaunchProfile;
 
 @end

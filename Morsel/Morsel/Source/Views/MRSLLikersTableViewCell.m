@@ -26,7 +26,6 @@
         _user = user;
 
         self.profileImageView.user = _user;
-        [_profileImageView allowToLaunchProfile];
         self.userNameLabel.text = [_user fullName];
     }
 }

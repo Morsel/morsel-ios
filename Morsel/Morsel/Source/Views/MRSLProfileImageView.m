@@ -28,19 +28,15 @@
     self.layer.borderWidth = 1.f;
 
     if (!self.image) [self setImageToPlaceholder];
-}
 
-#pragma mark - Instance Methods
-
-- (void)allowToLaunchProfile {
     if (!_tapRecognizer) {
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayUserProfile)];
-
         [self addGestureRecognizer:_tapRecognizer];
-
         self.userInteractionEnabled = YES;
     }
 }
+
+#pragma mark - Instance Methods
 
 - (void)setUser:(MRSLUser *)user {
     if (_user != user || !user) {

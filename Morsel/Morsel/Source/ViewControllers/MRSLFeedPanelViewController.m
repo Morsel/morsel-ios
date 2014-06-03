@@ -107,7 +107,6 @@ MRSLFeedShareCollectionViewCellDelegate>
         self.view.backgroundColor = [UIColor whiteColor];
 
         self.profileImageView.user = _morsel.creator;
-        [_profileImageView allowToLaunchProfile];
 
         self.userNameLabel.text = _morsel.creator.fullName;
         self.userNameLabel.textColor = [UIColor morselDarkContent];
