@@ -14,6 +14,7 @@
 #import "MRSLPlaceDetailPanelCollectionViewCell.h"
 
 #import "MRSLPlace.h"
+#import "MRSLPlaceInfo.h"
 
 @interface MRSLPlaceDetailViewController ()
 <MRSLCollectionViewDataSourceDelegate,
@@ -149,6 +150,30 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
         numberOfItems = [_directionsInfo count];
     }
     return numberOfItems;
+}
+
+- (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *sectionName = [_detailSections objectAtIndex:indexPath.section];
+    if ([sectionName isEqualToString:@"Contact"]) {
+        [self handleContactSelectionForPlaceInfo:_contactInfo[indexPath.row]];
+    }
+}
+
+- (void)handleContactSelectionForPlaceInfo:(MRSLPlaceInfo *)placeInfo {
+    if (!placeInfo.secondaryInfo) return;
+
+    if ([placeInfo.primaryInfo isEqualToString:@"twitter"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification
+                                                            object:@{@"title": self.place.name,
+                                                                     @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", TWITTER_BASE_URL, placeInfo.secondaryInfo]]}];
+    } else if ([placeInfo.primaryInfo isEqualToString:@"phone"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldCallPhoneNumberNotification
+                                                            object:@{@"phone": placeInfo.secondaryInfo}];
+    } else if ([placeInfo.primaryInfo isEqualToString:@"website"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification
+                                                            object:@{@"title": self.place.name,
+                                                                     @"url": [NSURL URLWithString:placeInfo.secondaryInfo]}];
+    }
 }
 
 #pragma mark - MRSLPlaceDetailPanelCollectionViewCellDelegate

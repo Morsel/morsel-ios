@@ -21,6 +21,8 @@ typedef CGSize (^MRSLLayoutSectionSizeConfigureBlock)(UICollectionView *collecti
 @optional
 - (void)collectionViewDataSource:(UICollectionView *)collectionView
                    didSelectItem:(id)item;
+- (void)collectionViewDataSource:(UICollectionView *)collectionView
+        didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)collectionViewDataSourceDidScroll:(UICollectionView *)collectionView
                                withOffset:(CGFloat)offset;
 - (NSInteger)collectionViewDataSourceNumberOfItemsInSection:(NSInteger)section;
