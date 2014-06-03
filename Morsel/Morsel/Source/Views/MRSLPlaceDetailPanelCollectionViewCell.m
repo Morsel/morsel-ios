@@ -29,8 +29,8 @@
 
         self.nameLabel.text = _place.name;
         self.addressLabel.text = [_place fullAddress];
-        self.viewMenuButton.enabled = (_place.menu_url != nil || _place.menu_mobile_url != nil);
-        self.makeReservationButton.enabled = (_place.reservations_url != nil);
+        self.viewMenuButton.hidden = (_place.menu_url == nil || _place.menu_mobile_url == nil);
+        self.makeReservationButton.hidden = (_place.reservations_url == nil);
     }
 }
 
