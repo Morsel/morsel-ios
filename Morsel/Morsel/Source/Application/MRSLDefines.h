@@ -140,6 +140,8 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #endif
 
+#define TWITTER_BASE_URL @"https://www.twitter.com"
+
 #ifdef SPEC_TESTING
 #import "MRSLSpecsAppDelegate.h"
     #define _appDelegate ((MRSLSpecsAppDelegate *)[[UIApplication sharedApplication] delegate])

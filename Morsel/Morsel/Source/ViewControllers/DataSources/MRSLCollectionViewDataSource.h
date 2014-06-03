@@ -14,12 +14,15 @@ typedef UICollectionReusableView *(^MRSLSupplementaryCellConfigureBlock)(UIColle
 typedef CGSize (^MRSLLayoutHeaderSizeConfigureBlock)(UICollectionView *collectionView, NSInteger section);
 typedef CGSize (^MRSLLayoutCellSizeConfigureBlock)(UICollectionView *collectionView, NSIndexPath *indexPath);
 typedef UIEdgeInsets (^MRSLLayoutSectionInsetConfigureBlock)(UICollectionView *collectionView, NSInteger section);
+typedef CGSize (^MRSLLayoutSectionSizeConfigureBlock)(UICollectionView *collectionView, NSInteger section);
 
 @protocol MRSLCollectionViewDataSourceDelegate <NSObject>
 
 @optional
 - (void)collectionViewDataSource:(UICollectionView *)collectionView
                    didSelectItem:(id)item;
+- (void)collectionViewDataSource:(UICollectionView *)collectionView
+        didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)collectionViewDataSourceDidScroll:(UICollectionView *)collectionView
                                withOffset:(CGFloat)offset;
 - (NSInteger)collectionViewDataSourceNumberOfItemsInSection:(NSInteger)section;

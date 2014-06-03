@@ -72,6 +72,10 @@
                                                  name:MRSLAppShouldDisplayWebBrowserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(callPhoneNumber:)
+                                                 name:MRSLAppShouldCallPhoneNumberNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLoggedIn:)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
@@ -167,6 +171,12 @@
                         andURL:webParams[@"url"]];
     }
     [self presentBaseViewController:webBrowserVC withContainingNavigationController:webBrowserNC];
+}
+
+- (void)callPhoneNumber:(NSNotification *)notification {
+    if (notification.object) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", notification.object[@"phone"]]]];
+    }
 }
 
 - (void)presentBaseViewController:(MRSLBaseViewController *)baseViewController withContainingNavigationController:(UINavigationController *)navController {

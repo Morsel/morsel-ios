@@ -47,7 +47,7 @@
 
         [_commentBodyLabel setHeight:ceilf(bodySize.height)];
 
-        self.deleteButton.hidden = ![_comment.creator isCurrentUser];
+        self.deleteButton.hidden = ![_comment deleteableByUser:[MRSLUser currentUser]];
     }
 }
 

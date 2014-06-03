@@ -370,7 +370,7 @@
             </objects>
             <point key="canvasLocation" x="1195" y="582"/>
         </scene>
-        <!--Place Detail View Controller - Place Detail-->
+        <!--Place Detail View Controller - Details-->
         <scene sceneID="aUQ-CC-G0f">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLPlaceDetailViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="iaM-rs-kia" customClass="MRSLPlaceDetailViewController" sceneMemberID="viewController">
@@ -555,7 +555,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Place Detail" id="VSY-lL-hYf"/>
+                    <navigationItem key="navigationItem" title="Details" id="VSY-lL-hYf"/>
                     <connections>
                         <outlet property="collectionView" destination="CFS-et-d7V" id="wtu-EK-YZD"/>
                     </connections>

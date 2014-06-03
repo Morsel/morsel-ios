@@ -14,6 +14,7 @@
 #import "MRSLPlaceDetailPanelCollectionViewCell.h"
 
 #import "MRSLPlace.h"
+#import "MRSLPlaceInfo.h"
 
 @interface MRSLPlaceDetailViewController ()
 <MRSLCollectionViewDataSourceDelegate,
@@ -63,6 +64,9 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
                                                                                                                                                                                  forIndexPath:indexPath];
                                                                                         sectionHeader.titleLabel.text = [weakSelf.detailSections objectAtIndex:[indexPath section]];
                                                                                         return sectionHeader;
+                                                                                    } sectionSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                        return [weakSelf configureSectionSizeForCollectionView:collectionView
+                                                                                                                                     section:section];
                                                                                     } cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
                                                                                         return [weakSelf configureCellSizeForCollectionView:collectionView
                                                                                                                                   indexPath:indexPath];
@@ -109,6 +113,16 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
     return cell;
 }
 
+- (CGSize)configureSectionSizeForCollectionView:(UICollectionView *)collectionView
+                                        section:(NSInteger)section {
+    NSString *sectionName = [_detailSections objectAtIndex:section];
+    CGSize cellSize = CGSizeMake(320.f, 44.f);
+    if ([sectionName isEqualToString:@"Details"]) {
+        cellSize.height = 0.f;
+    }
+    return cellSize;
+}
+
 - (CGSize)configureCellSizeForCollectionView:(UICollectionView *)collectionView
                                    indexPath:(NSIndexPath *)indexPath {
     NSString *sectionName = [_detailSections objectAtIndex:[indexPath section]];
@@ -136,6 +150,30 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
         numberOfItems = [_directionsInfo count];
     }
     return numberOfItems;
+}
+
+- (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *sectionName = [_detailSections objectAtIndex:indexPath.section];
+    if ([sectionName isEqualToString:@"Contact"]) {
+        [self handleContactSelectionForPlaceInfo:_contactInfo[indexPath.row]];
+    }
+}
+
+- (void)handleContactSelectionForPlaceInfo:(MRSLPlaceInfo *)placeInfo {
+    if (!placeInfo.secondaryInfo) return;
+
+    if ([placeInfo.primaryInfo isEqualToString:@"twitter"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification
+                                                            object:@{@"title": self.place.name,
+                                                                     @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", TWITTER_BASE_URL, placeInfo.secondaryInfo]]}];
+    } else if ([placeInfo.primaryInfo isEqualToString:@"phone"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldCallPhoneNumberNotification
+                                                            object:@{@"phone": placeInfo.secondaryInfo}];
+    } else if ([placeInfo.primaryInfo isEqualToString:@"website"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification
+                                                            object:@{@"title": self.place.name,
+                                                                     @"url": [NSURL URLWithString:placeInfo.secondaryInfo]}];
+    }
 }
 
 #pragma mark - MRSLPlaceDetailPanelCollectionViewCellDelegate
