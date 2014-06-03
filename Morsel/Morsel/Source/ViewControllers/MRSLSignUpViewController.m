@@ -56,6 +56,8 @@ UITextFieldDelegate>
     if (_socialUser) {
         self.userConnectedWithSocial = YES;
 
+        self.socialAuthentication = _socialUser.authentication;
+
         self.firstNameField.text = _socialUser.firstName;
         self.lastNameField.text = _socialUser.lastName;
         if (!_shouldOmitEmail) self.emailField.text = _socialUser.email;
@@ -175,7 +177,7 @@ UITextFieldDelegate>
     }
 
     if ([_usernameField.text length] == 0 ||
-        ([_passwordField.text length] == 0 || _userConnectedWithSocial) ||
+        ([_passwordField.text length] == 0 && !_userConnectedWithSocial) ||
         [_emailField.text length] == 0 ||
         [_firstNameField.text length] == 0 ||
         [_lastNameField.text length] == 0 ||

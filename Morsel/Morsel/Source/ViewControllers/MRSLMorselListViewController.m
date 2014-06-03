@@ -94,10 +94,10 @@ NSFetchedResultsControllerDelegate>
     self.loadedAll = NO;
     self.refreshing = YES;
     __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getMorselsForUser:nil
+    [_appDelegate.apiService getMorselsForUser:_user
                                      withMaxID:nil
                                      orSinceID:nil
-                                      andCount:nil
+                                      andCount:@(12)
                                     onlyDrafts:(_morselStatusType == MRSLMorselStatusTypeDrafts)
                                        success:^(NSArray *responseArray) {
                                            [weakSelf.refreshControl endRefreshing];
