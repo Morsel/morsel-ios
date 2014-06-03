@@ -97,7 +97,7 @@
 }
 
 - (NSString *)fullNameOrTwitterHandle {
-    return [NSString stringWithFormat:@"@%@", self.twitter_username] ?: self.fullName;
+    return (self.twitter_username) ? [NSString stringWithFormat:@"@%@", self.twitter_username] : self.fullName;
 }
 
 - (NSString *)industryTypeName {
