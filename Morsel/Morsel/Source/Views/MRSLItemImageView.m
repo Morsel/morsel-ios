@@ -158,8 +158,8 @@
 #pragma mark - Private Methods
 
 - (void)displayMorsel {
-    if ([self.delegate respondsToSelector:@selector(itemImageViewDidSelectMorsel:)] && _item) {
-        [self.delegate itemImageViewDidSelectMorsel:_item];
+    if ([self.delegate respondsToSelector:@selector(itemImageViewDidSelectItem:)] && _item) {
+        [self.delegate itemImageViewDidSelectItem:_item];
     }
 }
 

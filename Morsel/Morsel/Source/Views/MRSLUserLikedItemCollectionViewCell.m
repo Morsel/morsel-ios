@@ -39,7 +39,7 @@
 
         self.descriptionLabel.text = [NSString stringWithFormat:@"%@ liked %@", [user displayName], [_item displayName]];
         [self.descriptionLabel sizeToFit];
-        [self.descriptionLabel setWidth:160.0f];
+        [self.descriptionLabel setWidth:160.f];
         self.timeAgoLabel.text = [item.likedDate timeAgo];
         self.itemImageView.item = item;
         self.creatorProfileImageView.user = user;

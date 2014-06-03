@@ -11,7 +11,7 @@
 @protocol MRSLItemImageViewDelegate <NSObject>
 
 @optional
-- (void)itemImageViewDidSelectMorsel:(MRSLItem *)item;
+- (void)itemImageViewDidSelectItem:(MRSLItem *)item;
 
 @end
 

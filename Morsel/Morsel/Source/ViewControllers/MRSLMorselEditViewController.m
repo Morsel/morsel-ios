@@ -105,6 +105,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)updateMorselStatus {
     if ([self getOrLoadMorselIfExists]) {
         [_appDelegate.apiService getMorsel:_morsel
+                                  orWithID:nil
                                        success:nil
                                        failure:nil];
     }

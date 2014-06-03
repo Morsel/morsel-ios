@@ -125,31 +125,34 @@
 }
 
 - (void)getMorsel:(MRSLMorsel *)morsel
+         orWithID:(NSNumber *)morselID
           success:(MRSLAPISuccessBlock)successOrNil
           failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
 
-    int morselID = morsel.morselIDValue;
-    __block MRSLMorsel *morselToGet = morsel;
-
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i", morselID]
+    int morselObjectID = (morsel) ? morsel.morselIDValue : [morselID intValue];
+    if (!morsel && !morselID) {
+        DDLogError(@"Unable to get Morsel because both MRSLMorsel and morselID are nil!");
+        if (failureOrNil) failureOrNil(nil);
+        return;
+    }
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i", morselObjectID]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if (!morselToGet || !morselToGet.managedObjectContext) {
-                                      morselToGet = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                              withValue:@(morselID)];
-                                  }
-                                  if (morselToGet.managedObjectContext) {
+                                      MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                                              withValue:@(morselObjectID)];
+                                  if (!morsel) morsel = [MRSLMorsel MR_createEntity];
+
+                                  if (morsel.managedObjectContext) {
                                       @try {
-                                          [morselToGet MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                          [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                       } @catch (NSException *exception) {
                                           DDLogError(@"Unable to import morsel data due to exception: %@", exception.debugDescription);
                                       }
-
-                                      if (successOrNil) successOrNil(morselToGet);
+                                      if (successOrNil) successOrNil(morsel);
                                   }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
