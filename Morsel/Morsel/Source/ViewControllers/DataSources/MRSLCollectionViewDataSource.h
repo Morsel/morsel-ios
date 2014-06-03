@@ -14,6 +14,7 @@ typedef UICollectionReusableView *(^MRSLSupplementaryCellConfigureBlock)(UIColle
 typedef CGSize (^MRSLLayoutHeaderSizeConfigureBlock)(UICollectionView *collectionView, NSInteger section);
 typedef CGSize (^MRSLLayoutCellSizeConfigureBlock)(UICollectionView *collectionView, NSIndexPath *indexPath);
 typedef UIEdgeInsets (^MRSLLayoutSectionInsetConfigureBlock)(UICollectionView *collectionView, NSInteger section);
+typedef CGSize (^MRSLLayoutSectionSizeConfigureBlock)(UICollectionView *collectionView, NSInteger section);
 
 @protocol MRSLCollectionViewDataSourceDelegate <NSObject>
 

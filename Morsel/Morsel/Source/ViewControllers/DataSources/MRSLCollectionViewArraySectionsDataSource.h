@@ -16,4 +16,11 @@
    supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
         cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock;
 
+- (id)initWithObjects:(NSArray *)objects
+             sections:(NSArray *)sectionsOrNil
+   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+   supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
+     sectionSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionSizeBlock
+        cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock;
+
 @end

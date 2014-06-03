@@ -63,6 +63,9 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
                                                                                                                                                                                  forIndexPath:indexPath];
                                                                                         sectionHeader.titleLabel.text = [weakSelf.detailSections objectAtIndex:[indexPath section]];
                                                                                         return sectionHeader;
+                                                                                    } sectionSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                        return [weakSelf configureSectionSizeForCollectionView:collectionView
+                                                                                                                                     section:section];
                                                                                     } cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
                                                                                         return [weakSelf configureCellSizeForCollectionView:collectionView
                                                                                                                                   indexPath:indexPath];
@@ -107,6 +110,16 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
     }
 
     return cell;
+}
+
+- (CGSize)configureSectionSizeForCollectionView:(UICollectionView *)collectionView
+                                        section:(NSInteger)section {
+    NSString *sectionName = [_detailSections objectAtIndex:section];
+    CGSize cellSize = CGSizeMake(320.f, 44.f);
+    if ([sectionName isEqualToString:@"Details"]) {
+        cellSize.height = 0.f;
+    }
+    return cellSize;
 }
 
 - (CGSize)configureCellSizeForCollectionView:(UICollectionView *)collectionView
