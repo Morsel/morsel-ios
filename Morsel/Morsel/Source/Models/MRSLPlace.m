@@ -36,7 +36,7 @@
 
 - (NSArray *)diningInfo {
     NSMutableArray *info = [NSMutableArray array];
-    if (self.price_tier) [info addObject:[[MRSLPlaceInfo alloc] initWithPrimaryInfo:@"Price:"
+    if (self.price_tierValue > 0) [info addObject:[[MRSLPlaceInfo alloc] initWithPrimaryInfo:@"Price:"
                                                                    andSecondaryInfo:[@"" stringByPaddingToLength:self.price_tierValue withString:@"$" startingAtIndex:0]]];
     if (self.reservations) [info addObject:[[MRSLPlaceInfo alloc] initWithPrimaryInfo:@"Reservations:"
                                                                      andSecondaryInfo:self.reservations]];
