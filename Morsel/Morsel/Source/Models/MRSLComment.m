@@ -9,14 +9,21 @@
 
 @implementation MRSLComment
 
+- (BOOL)deleteableByUser:(MRSLUser *)user {
+    // Only the comment creator OR the Item's creator can delete a Comment
+    if (user == self.creator) return YES;
+    if (user.userID == self.item.creator_id) return YES;
+    return NO;
+}
+
 - (void)didImport:(id)data {
     if (![data[@"item_id"] isEqual:[NSNull null]]) {
         NSNumber *itemID = data[@"item_id"];
-        MRSLItem *potentialMorsel = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+        MRSLItem *potentialItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
                                                                 withValue:itemID
                                                                 inContext:self.managedObjectContext];
-        if (potentialMorsel) {
-            self.item = potentialMorsel;
+        if (potentialItem) {
+            self.item = potentialItem;
             [self.item addCommentsObject:self];
         }
     }

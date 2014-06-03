@@ -298,6 +298,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="commentBodyLabel" destination="kBr-7h-PmN" id="W9F-h1-hLz"/>
+                                            <outlet property="deleteButton" destination="THM-RY-f8b" id="Hr9-FT-Rob"/>
                                             <outlet property="profileImageView" destination="cf7-lY-Sq0" id="Yhq-dc-O5F"/>
                                             <outlet property="timeAgoLabel" destination="fD5-ag-UF2" id="GNE-6g-tCW"/>
                                             <outlet property="userNameLabel" destination="dqa-2u-Po2" id="lPG-v3-2Bt"/>
