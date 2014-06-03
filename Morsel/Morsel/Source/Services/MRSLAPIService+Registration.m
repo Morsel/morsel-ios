@@ -24,7 +24,8 @@
  andAuthentication:(MRSLSocialAuthentication *)authentication
            success:(MRSLAPISuccessBlock)userSuccessOrNil
            failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user[username]": NSNullIfNil(user.username)}
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user[username]": NSNullIfNil(user.username),
+                                                                       @"user[email]": NSNullIfNil(user.email)}
                                                 includingMRSLObjects:@[user]
                                               requiresAuthentication:NO];
     if (password) [parameters setObject:NSNullIfNil(password)

@@ -12,9 +12,8 @@
 
 @property (nonatomic) BOOL allowsToggle;
 
-@property (strong, nonatomic) UIColor *originalBackgroundColor;
+@property (copy, nonatomic) UIColor *originalBackgroundColor;
 @property (strong, nonatomic) UIColor *highlightedBackgroundColor;
-@property (strong, nonatomic) UIColor *disabledBackgroundColor;
 
 @end
 
@@ -27,6 +26,10 @@
               context:NULL];
     [self addObserver:self
            forKeyPath:@"selected"
+              options:NSKeyValueObservingOptionNew
+              context:NULL];
+    [self addObserver:self
+           forKeyPath:@"enabled"
               options:NSKeyValueObservingOptionNew
               context:NULL];
 
@@ -49,13 +52,13 @@
                forState:UIControlStateSelected];
 
     if (![backgroundColor isEqual:self.originalBackgroundColor] &&
-        ![backgroundColor isEqual:self.highlightedBackgroundColor] &&
-        ![backgroundColor isEqual:self.disabledBackgroundColor]) {
+        ![backgroundColor isEqual:self.highlightedBackgroundColor]) {
         [self setupColors];
     }
 }
 
 - (void)setupColors {
+    if (self.backgroundColor == nil) return;
     self.originalBackgroundColor = self.backgroundColor;
 
     CGFloat hue;
@@ -93,7 +96,7 @@
     } else if (!self.highlighted && self.enabled && (!self.selected && _allowsToggle)) {
         self.backgroundColor = self.highlightedBackgroundColor;
     } else if (!self.enabled) {
-        self.backgroundColor = self.disabledBackgroundColor;
+        self.backgroundColor = [UIColor darkGrayColor];
     } else {
         self.backgroundColor = self.originalBackgroundColor;
     }
@@ -117,6 +120,8 @@
                   forKeyPath:@"highlighted"];
         [self removeObserver:self
                   forKeyPath:@"selected"];
+        [self removeObserver:self
+                  forKeyPath:@"enabled"];
     }
     @catch (NSException *exception) {
         DDLogError(@"Key paths not observed and removal attempt failed: %@", exception);
