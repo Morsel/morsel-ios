@@ -37,7 +37,6 @@ UITextFieldDelegate>
 
 @property (strong, nonatomic) CLLocation *userLocation;
 @property (strong, nonatomic) CLLocationManager *locationManager;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSArray *foursquarePlaces;
 @property (strong, nonatomic) NSTimer *searchTimer;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
@@ -52,15 +51,6 @@ UITextFieldDelegate>
     [super viewDidLoad];
 
     self.foursquarePlaces = [NSArray array];
-
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    _refreshControl.tintColor = [UIColor morselLightContent];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshContent)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.tableView addSubview:_refreshControl];
-    self.tableView.alwaysBounceVertical = YES;
 
     [self.titleField setBorderWithColor:[UIColor morselLightContent]
                                andWidth:1.f];
