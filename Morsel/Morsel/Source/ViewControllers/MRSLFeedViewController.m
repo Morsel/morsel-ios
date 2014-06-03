@@ -302,10 +302,14 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                                   [weakSelf toggleNewMorselsButton:YES
                                                                           animated:YES];
                                                   if (visibleMorsel) {
-                                                      [weakSelf.feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[weakSelf.feedMorsels indexOfObject:visibleMorsel]
-                                                                                                                              inSection:0]
-                                                                                          atScrollPosition:UICollectionViewScrollPositionNone
-                                                                                                  animated:NO];
+                                                      @try {
+                                                          [weakSelf.feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[weakSelf.feedMorsels indexOfObject:visibleMorsel]
+                                                                                                                                  inSection:0]
+                                                                                              atScrollPosition:UICollectionViewScrollPositionNone
+                                                                                                      animated:NO];
+                                                      } @catch (NSException *exception) {
+                                                          DDLogError(@"Invalid NSIndexPath: %@", exception);
+                                                      }
                                                   }
                                               });
                                           } else {
