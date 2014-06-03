@@ -31,6 +31,7 @@
         sendToTwitter:(BOOL)sendToTwitter;
 
 - (void)getMorsel:(MRSLMorsel *)morsel
+         orWithID:(NSNumber *)morselID
           success:(MRSLAPISuccessBlock)successOrNil
           failure:(MRSLFailureBlock)failureOrNil;
 

@@ -8,6 +8,7 @@
 
 #import "MRSLProfileViewController.h"
 
+#import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Profile.h"
 #import "MRSLAPIService+Router.h"
 
@@ -263,6 +264,14 @@ MRSLSegmentedHeaderReusableViewDelegate>
     return (lastID == 0) ? 0 : lastID - 1;
 }
 
+- (void)displayUserFeedWithMorsel:(MRSLMorsel *)morsel {
+    MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
+    userMorselsFeedVC.morsel = morsel;
+    userMorselsFeedVC.user = morsel.creator;
+    [self.navigationController pushViewController:userMorselsFeedVC
+                                         animated:YES];
+}
+
 #pragma mark - MRSLPanelSegmentedCollectionViewDataSource
 
 - (UICollectionViewCell *)configureCellForItem:(id)item
@@ -368,11 +377,16 @@ MRSLSegmentedHeaderReusableViewDelegate>
     } else if ([item isKindOfClass:[MRSLItem class]]) {
         MRSLItem *morselItem = item;
         if (morselItem.morsel) {
-            MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
-            userMorselsFeedVC.morsel = morselItem.morsel;
-            userMorselsFeedVC.user = morselItem.morsel.creator;
-            [self.navigationController pushViewController:userMorselsFeedVC
-                                                 animated:YES];
+            [self displayUserFeedWithMorsel:morselItem.morsel];
+        } else if (morselItem.morsel_id) {
+            __weak __typeof(self) weakSelf = self;
+            [_appDelegate.apiService getMorsel:nil
+                                      orWithID:morselItem.morsel_id
+                                       success:^(id responseObject) {
+                                           if ([responseObject isKindOfClass:[MRSLMorsel class]]) {
+                                               [weakSelf displayUserFeedWithMorsel:responseObject];
+                                           }
+                                       } failure:nil];
         }
     } else if ([item isKindOfClass:[MRSLPlace class]]) {
         MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceViewController"];

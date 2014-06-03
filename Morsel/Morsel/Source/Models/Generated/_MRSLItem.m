@@ -20,6 +20,7 @@ const struct MRSLItemAttributes MRSLItemAttributes = {
 	.liked = @"liked",
 	.likedDate = @"likedDate",
 	.localUUID = @"localUUID",
+	.morsel_id = @"morsel_id",
 	.photo_processing = @"photo_processing",
 	.sort_order = @"sort_order",
 	.url = @"url",
@@ -92,6 +93,11 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 	}
 	if ([key isEqualToString:@"likedValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"liked"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"morsel_idValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"morsel_id"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -352,6 +358,32 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 @dynamic localUUID;
 
+
+
+
+
+
+@dynamic morsel_id;
+
+
+
+- (int32_t)morsel_idValue {
+	NSNumber *result = [self morsel_id];
+	return [result intValue];
+}
+
+- (void)setMorsel_idValue:(int32_t)value_ {
+	[self setMorsel_id:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveMorsel_idValue {
+	NSNumber *result = [self primitiveMorsel_id];
+	return [result intValue];
+}
+
+- (void)setPrimitiveMorsel_idValue:(int32_t)value_ {
+	[self setPrimitiveMorsel_id:[NSNumber numberWithInt:value_]];
+}
 
 
 

@@ -86,6 +86,7 @@
         <attribute name="liked" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="likedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="localUUID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="morsel_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="photo_processing" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="sort_order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
@@ -365,7 +366,7 @@
     <elements>
         <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="163"/>
         <element name="MRSLComment" positionX="0" positionY="0" width="128" height="118"/>
-        <element name="MRSLItem" positionX="0" positionY="0" width="128" height="373"/>
+        <element name="MRSLItem" positionX="0" positionY="0" width="128" height="390"/>
         <element name="MRSLKeyword" positionX="0" positionY="0" width="128" height="103"/>
         <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="298"/>
         <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="135"/>

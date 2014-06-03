@@ -131,8 +131,14 @@ UITextFieldDelegate>
 
 - (IBAction)displayTermsOfService {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Terms of Service",
-                                                                                                                   @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/terms", MORSEL_BASE_URL]]}];
+                                                                                                                   @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/terms_text", MORSEL_BASE_URL]]}];
 }
+
+- (IBAction)displayPrivacyPolicy {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Privacy Policy",
+                                                                                                                   @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/privacy_text", MORSEL_BASE_URL]]}];
+}
+
 
 - (IBAction)addPhoto:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Add Photo Icon"

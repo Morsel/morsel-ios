@@ -21,6 +21,7 @@ extern const struct MRSLItemAttributes {
 	__unsafe_unretained NSString *liked;
 	__unsafe_unretained NSString *likedDate;
 	__unsafe_unretained NSString *localUUID;
+	__unsafe_unretained NSString *morsel_id;
 	__unsafe_unretained NSString *photo_processing;
 	__unsafe_unretained NSString *sort_order;
 	__unsafe_unretained NSString *url;
@@ -38,6 +39,7 @@ extern const struct MRSLItemFetchedProperties {
 @class MRSLActivity;
 @class MRSLComment;
 @class MRSLMorsel;
+
 
 
 
@@ -260,6 +262,20 @@ extern const struct MRSLItemFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* morsel_id;
+
+
+
+@property int32_t morsel_idValue;
+- (int32_t)morsel_idValue;
+- (void)setMorsel_idValue:(int32_t)value_;
+
+//- (BOOL)validateMorsel_id:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* photo_processing;
 
 
@@ -452,6 +468,15 @@ extern const struct MRSLItemFetchedProperties {
 
 - (NSString*)primitiveLocalUUID;
 - (void)setPrimitiveLocalUUID:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveMorsel_id;
+- (void)setPrimitiveMorsel_id:(NSNumber*)value;
+
+- (int32_t)primitiveMorsel_idValue;
+- (void)setPrimitiveMorsel_idValue:(int32_t)value_;
 
 
 

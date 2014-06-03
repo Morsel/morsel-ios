@@ -10,6 +10,7 @@
 
 @interface MRSLUserLikedItemCollectionViewCell : UICollectionViewCell
 
-- (void)setItem:(MRSLItem *)item andUser:(MRSLUser *)user;
+- (void)setItem:(MRSLItem *)item
+        andUser:(MRSLUser *)user;
 
 @end

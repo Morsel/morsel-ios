@@ -9,6 +9,7 @@
 #import "MRSLActivityViewController.h"
 
 #import "MRSLAPIService+Activity.h"
+#import "MRSLAPIService+Morsel.h"
 
 #import "MRSLActivityCollectionViewCell.h"
 #import "MRSLCollectionViewArrayDataSource.h"
@@ -160,6 +161,13 @@ NSFetchedResultsControllerDelegate>
                                                  }];
 }
 
+- (void)displayUserFeedWithMorsel:(MRSLMorsel *)morsel {
+    MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
+    userMorselsFeedVC.morsel = morsel;
+    userMorselsFeedVC.user = morsel.creator;
+    [self.navigationController pushViewController:userMorselsFeedVC
+                                         animated:YES];
+}
 
 #pragma mark - UICollectionViewDelegate Methods
 
@@ -174,11 +182,16 @@ NSFetchedResultsControllerDelegate>
                                               @"activity_id": NSNullIfNil(activity.activityID),
                                               @"item_id": NSNullIfNil(item.itemID)}];
     if (item.morsel) {
-        MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
-        userMorselsFeedVC.morsel = item.morsel;
-        userMorselsFeedVC.user = item.morsel.creator;
-        [self.navigationController pushViewController:userMorselsFeedVC
-                                             animated:YES];
+        [self displayUserFeedWithMorsel:item.morsel];
+    } else if (item.morsel_id) {
+        __weak __typeof(self) weakSelf = self;
+        [_appDelegate.apiService getMorsel:nil
+                                  orWithID:item.morsel_id
+                                   success:^(id responseObject) {
+                                       if ([responseObject isKindOfClass:[MRSLMorsel class]]) {
+                                           [weakSelf displayUserFeedWithMorsel:responseObject];
+                                       }
+                                   } failure:nil];
     }
 }
 

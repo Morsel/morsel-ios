@@ -29,12 +29,6 @@
 
 @implementation MRSLActivityCollectionViewCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    [self.creatorProfileImageView allowToLaunchProfile];
-    [self.subjectProfileImageView allowToLaunchProfile];
-}
-
 - (void)setActivity:(MRSLActivity *)activity {
     if (_activity != activity) {
         _activity = activity;

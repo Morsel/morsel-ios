@@ -105,7 +105,7 @@
 
 #pragma mark - MRSLItemImageViewDelegate
 
-- (void)itemImageViewDidSelectMorsel:(MRSLItem *)item {
+- (void)itemImageViewDidSelectItem:(MRSLItem *)item {
     [[MRSLEventManager sharedManager] track:@"Tapped Morsel Thumbnail"
                                  properties:@{@"view": @"main_feed",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
