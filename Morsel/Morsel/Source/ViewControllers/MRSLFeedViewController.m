@@ -180,7 +180,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
         MRSLMorsel *morsel = [notification object];
         [_morselIDs insertObject:morsel.morselID
                          atIndex:0];
-        [_feedCollectionView reloadData];
+        [self setupFetchRequest];
+        [self populateContent];
         [_feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                                     atScrollPosition:UICollectionViewScrollPositionNone
                                             animated:NO];
