@@ -32,9 +32,6 @@ UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UIView *addTitleView;
-@property (weak, nonatomic) IBOutlet UILabel *titleHeaderLabel;
-@property (weak, nonatomic) IBOutlet UITextField *titleField;
 
 @property (strong, nonatomic) MRSLFoursquarePlace *selectedFoursquarePlace;
 
@@ -52,11 +49,7 @@ UITextFieldDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     self.foursquarePlaces = [NSArray array];
-
-    [self.titleField setBorderWithColor:[UIColor morselLightContent]
-                               andWidth:1.f];
     self.shouldDisplayStatus = YES;
     self.statusType = MRSLStatusTypeNone;
 }
@@ -121,62 +114,11 @@ UITextFieldDelegate>
                                            } failure:nil];
 }
 
-- (void)addPlace {
-    if (_titleField.text.length == 0) {
-        [UIAlertView showAlertViewForErrorString:@"Sorry, your title cannot be empty!"
-                                        delegate:nil];
-        return;
-    }
-    __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService addUserToPlaceWithFoursquareID:_selectedFoursquarePlace
-                                                  userTitle:_titleField.text
-                                                    success:^(id responseObject) {
-                                                        weakSelf.selectedFoursquarePlace = nil;
-                                                        [weakSelf goBack];
-                                                    } failure:^(NSError *error) {
-                                                        weakSelf.selectedFoursquarePlace = nil;
-                                                        [UIAlertView showAlertViewForError:error
-                                                                                  delegate:nil];
-                                                    }];
-}
-
 - (void)cancelAdd {
     self.selectedFoursquarePlace = nil;
     [self.tableView deselectRowAtIndexPath:_selectedIndexPath
                                   animated:YES];
-    [UIView animateWithDuration:.4f
-                     animations:^{
-                         self.addTitleView.alpha = 0.f;
-                     } completion:^(BOOL finished) {
-                         self.titleField.text = nil;
-                         self.titleHeaderLabel.text = nil;
-                         self.addTitleView.hidden = YES;
-                     }];
     [self resetBarButtonItems];
-}
-
-- (void)addBarButtonItemsAndDisplayAlert {
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
-                                                                     style:UIBarButtonItemStyleBordered
-                                                                    target:self
-                                                                    action:@selector(cancelAdd)];
-    [self.navigationItem setLeftBarButtonItem:cancelButton];
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Add"
-                                                                  style:UIBarButtonItemStyleBordered
-                                                                 target:self
-                                                                 action:@selector(addPlace)];
-    [self.navigationItem setRightBarButtonItem:addButton];
-
-    self.addTitleView.hidden = NO;
-    self.titleHeaderLabel.text = [NSString stringWithFormat:@"Great! Before we can add %@ to your profile, we'll need your title:", self.selectedFoursquarePlace.name];
-
-    [UIView animateWithDuration:.4f animations:^{
-        self.addTitleView.alpha = 1.f;
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.3f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.titleField becomeFirstResponder];
-    });
 }
 
 - (void)resetBarButtonItems {
@@ -219,7 +161,11 @@ UITextFieldDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
     self.selectedFoursquarePlace = [_foursquarePlaces objectAtIndex:indexPath.row];
-    [self addBarButtonItemsAndDisplayAlert];
+    [UIAlertView showAlertViewWithTitle:@"Add Your Title"
+                                message:[NSString stringWithFormat:@"Great! Before we can add %@ to your profile, we'll need your title:", self.selectedFoursquarePlace.name]
+                               delegate:self style:UIAlertViewStylePlainTextInput
+                      cancelButtonTitle:@"Cancel"
+                      otherButtonTitles:@"Done"];
 }
 
 #pragma mark - UISearchBarDelegate
@@ -280,7 +226,6 @@ UITextFieldDelegate>
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
-        [self addPlace];
         return NO;
     }
     return YES;
@@ -289,8 +234,27 @@ UITextFieldDelegate>
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"]) {
+    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:@"OK"]) {
         [self updateLocationOfUser];
+    } else if ([buttonTitle isEqualToString:@"Done"]) {
+        UITextField *alertTextField = [alertView textFieldAtIndex:0];
+        if (alertTextField.text.length == 0) {
+            [UIAlertView showAlertViewForErrorString:@"Sorry, your title cannot be empty!"
+                                            delegate:nil];
+            return;
+        }
+        __weak __typeof(self)weakSelf = self;
+        [_appDelegate.apiService addUserToPlaceWithFoursquareID:_selectedFoursquarePlace
+                                                      userTitle:alertTextField.text
+                                                        success:^(id responseObject) {
+                                                            weakSelf.selectedFoursquarePlace = nil;
+                                                            [weakSelf goBack];
+                                                        } failure:^(NSError *error) {
+                                                            weakSelf.selectedFoursquarePlace = nil;
+                                                            [UIAlertView showAlertViewForError:error
+                                                                                      delegate:nil];
+                                                        }];
     }
 }
 

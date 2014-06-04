@@ -39,7 +39,10 @@
     self = [super initWithCollectionView:collectionView];
     if (self) {
 
-        if ([[MRSLPlace class] isSubclassOfClass:objectClass]) self.sortType = MRSLDataSortTypeName;
+        if ([[MRSLPlace class] isSubclassOfClass:objectClass]) {
+            self.sortType = MRSLDataSortTypeName;
+            self.ascending = YES;
+        }
 
         self.managedObjectClass = objectClass;
         self.fetchPredicate = predicateOrNil;

@@ -93,9 +93,8 @@ MRSLProfileUserTagsListViewControllerDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (!_profileEditPlacesVC || !_profileEditTagsVC) return;
-    [self.profileEditPlacesVC refreshContent];
-    [self.profileEditTagsVC refreshContent];
+    if (_profileEditPlacesVC) [self.profileEditPlacesVC refreshContent];
+    if (_profileEditTagsVC) [self.profileEditTagsVC refreshContent];
 }
 
 #pragma mark - Private Methods

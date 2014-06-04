@@ -46,6 +46,21 @@
     return alertView;
 }
 
++ (UIAlertView *)showAlertViewWithTitle:(NSString *)title
+                                message:(NSString *)message
+                               delegate:(id /*<UIAlertViewDelegate>*/)delegate
+                                  style:(UIAlertViewStyle)alertViewStyle
+                      cancelButtonTitle:(NSString *)cancelButtonTitle
+                      otherButtonTitles:(NSString *)otherButtonTitles, ... {
+    UIAlertView *alertView = [UIAlertView showAlertViewWithTitle:title
+                                                         message:message
+                                                        delegate:delegate
+                                               cancelButtonTitle:cancelButtonTitle
+                                               otherButtonTitles:otherButtonTitles, nil];
+    alertView.alertViewStyle = alertViewStyle;
+    return alertView;
+}
+
 + (UIAlertView *)showAlertViewForError:(NSError *)error
                               delegate:(id)delegate {
     return [UIAlertView showAlertViewForErrorString:[error localizedDescription]
