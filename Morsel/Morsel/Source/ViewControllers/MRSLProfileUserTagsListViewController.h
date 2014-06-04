@@ -24,4 +24,6 @@
 
 @property (weak, nonatomic) MRSLUser *user;
 
+- (void)refreshContent;
+
 @end

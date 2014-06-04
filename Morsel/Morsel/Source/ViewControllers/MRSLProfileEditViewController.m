@@ -81,12 +81,21 @@ MRSLProfileUserTagsListViewControllerDelegate>
                                                                                                                                                                                  forIndexPath:indexPath];
                                                                                         sectionHeader.titleLabel.text = [weakSelf.editSections objectAtIndex:[indexPath section]];
                                                                                         return sectionHeader;
+                                                                                    } sectionSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                        return CGSizeMake(320.f, 44.f);
                                                                                     } cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
                                                                                         return [weakSelf configureCellSizeForCollectionView:collectionView
                                                                                                                                   indexPath:indexPath];
                                                                                     }];
     [self.collectionView setDataSource:_collectionViewDataSource];
     [self.collectionView setDelegate:_collectionViewDataSource];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (!_profileEditPlacesVC || !_profileEditTagsVC) return;
+    [self.profileEditPlacesVC refreshContent];
+    [self.profileEditTagsVC refreshContent];
 }
 
 #pragma mark - Private Methods
