@@ -13,6 +13,7 @@
 - (NSString *)fullAddress {
     NSMutableString *fullAddress = [NSMutableString string];
     if (self.address)       [fullAddress appendCommaSeparatedString:self.address];
+    if ([fullAddress length] > 0 && ([self.city length] > 0 || [self.state length] > 0 || [self.postal_code length] > 0)) [fullAddress appendString:@"\n"];
     if (self.city)          [fullAddress appendCommaSeparatedString:self.city];
     if (self.state)         [fullAddress appendCommaSeparatedString:self.state];
     if (self.postal_code)   [fullAddress appendCommaSeparatedString:self.postal_code];

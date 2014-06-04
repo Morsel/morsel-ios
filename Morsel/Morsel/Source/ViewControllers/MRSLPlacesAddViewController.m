@@ -24,8 +24,11 @@ UITableViewDataSource,
 UITableViewDelegate,
 UITextFieldDelegate>
 
+@property (nonatomic) BOOL shouldDisplayStatus;
 @property (nonatomic) BOOL locationDisabled;
 @property (nonatomic) BOOL searchQueued;
+
+@property (nonatomic) MRSLStatusType statusType;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -58,7 +61,6 @@ UITextFieldDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 }
 
@@ -72,12 +74,9 @@ UITextFieldDelegate>
                               cancelButtonTitle:@"Not now"
                               otherButtonTitles:@"OK", nil];
         } else {
-            [UIAlertView showAlertViewWithTitle:@"Location Permission Denied"
-                                        message:@"Uh oh, looks like location permission hasn't been allowed for Morsel. Please check your settings in order to use Place adding."
-                                       delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
             self.locationDisabled = YES;
+            self.searchBar.userInteractionEnabled = NO;
+            [self.tableView reloadData];
         }
     } else {
         [self updateLocationOfUser];
@@ -98,11 +97,21 @@ UITextFieldDelegate>
         self.searchQueued = YES;
         return;
     }
+    self.shouldDisplayStatus = YES;
+    self.statusType = MRSLStatusTypeLoading;
+    [self.tableView reloadData];
     __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService searchPlacesWithQuery:_searchBar.text
                                        andLocation:_userLocation
                                            success:^(NSArray *responseArray) {
                                                weakSelf.foursquarePlaces = responseArray;
+                                               if ([responseArray count] == 0) {
+                                                   weakSelf.statusType = MRSLStatusTypeNoResults;
+                                                   weakSelf.shouldDisplayStatus = YES;
+                                               } else {
+                                                   weakSelf.statusType = MRSLStatusTypeNone;
+                                                   weakSelf.shouldDisplayStatus = NO;
+                                               }
                                                [weakSelf.tableView reloadData];
                                            } failure:nil];
 }
@@ -181,14 +190,22 @@ UITextFieldDelegate>
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_foursquarePlaces count];
+    return (_locationDisabled || _shouldDisplayStatus) ? 1 : [_foursquarePlaces count];
 }
 
-- (MRSLFoursquarePlaceTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLFoursquarePlace *foursquarePlace = [_foursquarePlaces objectAtIndex:indexPath.row];
-    MRSLFoursquarePlaceTableViewCell *foursquarePlaceCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_FoursquarePlaceCell"];
-    foursquarePlaceCell.foursquarePlace = foursquarePlace;
-    return foursquarePlaceCell;
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_locationDisabled || _shouldDisplayStatus) {
+        NSString *ruid = @"ruid_LocationDisabledCell";
+        if (_statusType == MRSLStatusTypeNoResults) ruid = @"ruid_NoResultsCell";
+        if (_statusType == MRSLStatusTypeLoading) ruid = @"ruid_LoadingCell";
+        if (_statusType == MRSLStatusTypeMoreCharactersRequired) ruid = @"ruid_MoreCharactersCell";
+        return [tableView dequeueReusableCellWithIdentifier:ruid];
+    } else {
+        MRSLFoursquarePlace *foursquarePlace = [_foursquarePlaces objectAtIndex:indexPath.row];
+        MRSLFoursquarePlaceTableViewCell *foursquarePlaceCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_FoursquarePlaceCell"];
+        foursquarePlaceCell.foursquarePlace = foursquarePlace;
+        return foursquarePlaceCell;
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -222,7 +239,15 @@ UITextFieldDelegate>
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [self resumeTimer];
+    NSUInteger textLength = searchText.length;
+    if (textLength <= 2 && [_foursquarePlaces count] > 0) {
+        self.shouldDisplayStatus = YES;
+        self.statusType = MRSLStatusTypeMoreCharactersRequired;
+        self.foursquarePlaces = [NSArray array];
+        [self.tableView reloadData];
+    } else {
+        [self resumeTimer];
+    }
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
@@ -268,6 +293,8 @@ UITextFieldDelegate>
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     if (status == kCLAuthorizationStatusAuthorized) {
         self.locationDisabled = NO;
+        self.searchBar.userInteractionEnabled = YES;
+        [self.tableView reloadData];
     }
 }
 

@@ -12,9 +12,18 @@
 
 - (void)appendCommaSeparatedString:(NSString *)aString {
     if (self.length > 0) {
-        [self appendFormat:@", %@", aString];
+        NSString *potentialNewlineString = nil;
+        if (self.length >= 2) {
+            NSRange potentialNewlineRange = NSMakeRange(self.length - 1, 1);
+            potentialNewlineString = [self substringWithRange:potentialNewlineRange];
+        }
+        if (![potentialNewlineString isEqualToString:@"\n"]) {
+            [self appendFormat:@", %@", aString];
+        } else {
+            [self appendString:aString];
+        }
     } else {
-        [self appendString: aString];
+        [self appendString:aString];
     }
 }
 
