@@ -30,7 +30,9 @@
         self.addressLabel.text = [_place fullAddress];
 
         if (_place.lat && _place.lon) {
-            CLLocationCoordinate2D locationCoordinate = CLLocationCoordinate2DMake(_place.latValue, _place.lonValue);
+            CLLocationDegrees lat = [_place.lat doubleValue];
+            CLLocationDegrees lon = [_place.lon doubleValue];
+            CLLocationCoordinate2D locationCoordinate = CLLocationCoordinate2DMake(lat, lon);
             MKCoordinateRegion coordinateRegion = MKCoordinateRegionMake(locationCoordinate, MKCoordinateSpanMake(.002f, .002f));
             [self.placeMapView setRegion:coordinateRegion];
         } else {
