@@ -378,7 +378,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Edit Profile" id="z0C-j8-rML">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="CES-xB-mwd">
+                        <barButtonItem key="rightBarButtonItem" title="Update" id="CES-xB-mwd">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="done" destination="NMh-dY-Mm8" id="vAp-mz-lAT"/>
