@@ -708,7 +708,7 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="9QL-rR-DuS">
                                                     <rect key="frame" x="251" y="4" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="toggleFacebook:" destination="SlV-n0-q9z" eventType="valueChanged" id="KXG-Cv-ahK"/>
                                                     </connections>
@@ -736,7 +736,7 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="DpU-8v-w3E">
                                                     <rect key="frame" x="251" y="4" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="toggleTwitter:" destination="SlV-n0-q9z" eventType="valueChanged" id="bLt-c6-MgF"/>
                                                     </connections>
@@ -764,7 +764,7 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="WoH-ZJ-Hht">
                                                     <rect key="frame" x="251" y="4" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="toggleInstagram:" destination="SlV-n0-q9z" eventType="valueChanged" id="aMX-Bp-WcK"/>
                                                     </connections>
@@ -799,7 +799,7 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="llg-gl-d9A">
                                                     <rect key="frame" x="251" y="4" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="toggleAutoFollow" destination="SlV-n0-q9z" eventType="valueChanged" id="AU5-Ly-JlH"/>
                                                     </connections>
