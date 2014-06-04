@@ -142,8 +142,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [self.profileCollectionView setDelegate:_segmentedPanelCollectionViewDataSource];
 
     [self.segmentedPanelCollectionViewDataSource setDelegate:self];
-
-    [self refreshContent];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -160,6 +158,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
     }
 
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
+
+    [self refreshContent];
 }
 
 - (void)setUser:(MRSLUser *)user {
