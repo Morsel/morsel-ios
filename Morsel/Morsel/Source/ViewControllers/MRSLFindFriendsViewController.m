@@ -296,7 +296,7 @@ MRSLSegmentedButtonViewDelegate>
 
         }
     } else {
-        self.searchBar.placeholder = @"Search";
+        self.searchBar.placeholder = @"Find people on Morsel";
     }
 }
 
