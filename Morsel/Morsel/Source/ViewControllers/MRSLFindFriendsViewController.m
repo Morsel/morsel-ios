@@ -296,7 +296,7 @@ MRSLSegmentedButtonViewDelegate>
 
         }
     } else {
-        self.searchBar.placeholder = @"Search";
+        self.searchBar.placeholder = @"Find people on Morsel";
     }
 }
 
@@ -316,6 +316,18 @@ MRSLSegmentedButtonViewDelegate>
     userFollowCell.user = user;
     userFollowCell.pipeView.hidden = (indexPath.row == [_users count] - 1);
     return userFollowCell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (_friendSection == 0) {
+        if ([_searchBar.text length] < 3) {
+            return @"Suggested People";
+        } else {
+            return @"Search Results";
+        }
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

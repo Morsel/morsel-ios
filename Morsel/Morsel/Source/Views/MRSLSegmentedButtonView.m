@@ -23,7 +23,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 
-    [self addCornersWithRadius:4.f];
     self.buttons =  [_buttons sortedArrayUsingComparator:^NSComparisonResult(UIButton *buttonA, UIButton *buttonB) {
         return [buttonA getX] > [buttonB getX];
     }];

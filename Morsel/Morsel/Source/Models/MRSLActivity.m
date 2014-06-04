@@ -40,7 +40,7 @@
     if ([self.creator isCurrentUser]) {
         return @"You";
     } else {
-        return [self.creator displayName];
+        return [self.creator username];
     }
 }
 
@@ -66,7 +66,7 @@
             MRSLUser *subjectUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                             withValue:self.subjectID
                                                             inContext:self.managedObjectContext];
-            return [subjectUser displayName] ?: @"someone";
+            return [subjectUser username] ?: @"someone";
         }
     } else {
         return nil;
