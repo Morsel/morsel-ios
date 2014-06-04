@@ -322,6 +322,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                     statsTagVC.delegate = self;
                     statsTagVC.user = _user;
                     statsTagVC.view.tag = MRSLStatsTagViewTag;
+                    [statsTagVC.view setHeight:500.f];
                     [self addChildViewController:statsTagVC];
                     [cell.contentView addSubview:statsTagVC.view];
                 }

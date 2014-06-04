@@ -48,17 +48,11 @@ NSFetchedResultsControllerDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    if (_user) self.tagIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_specialty_cuisine_tagIDs", _user.username]] ?: [NSMutableArray array];
+
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];
-}
-
-- (void)setUser:(MRSLUser *)user {
-    if (_user != user) {
-        _user = user;
-
-        self.tagIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_specialty_cuisine_tagIDs", _user.username]] ?: [NSMutableArray array];
-    }
 }
 
 #pragma mark - Private Methods

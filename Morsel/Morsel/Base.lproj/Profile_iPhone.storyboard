@@ -925,7 +925,7 @@
         <!--Profile User Tags List View Controller-->
         <scene sceneID="1SS-Nt-8bG">
             <objects>
-                <viewController storyboardIdentifier="sb_MRSLProfileStatsTagsViewController" automaticallyAdjustsScrollViewInsets="NO" id="waq-iT-bDR" customClass="MRSLProfileUserTagsListViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLProfileStatsTagsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="waq-iT-bDR" customClass="MRSLProfileUserTagsListViewController" sceneMemberID="viewController">
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="3z2-P3-iNt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1014,6 +1014,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

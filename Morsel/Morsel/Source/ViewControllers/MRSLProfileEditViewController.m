@@ -135,6 +135,7 @@ MRSLProfileUserTagsListViewControllerDelegate>
             _profileEditTagsVC.delegate = self;
             [self addChildViewController:_profileEditTagsVC];
         }
+        [_profileEditTagsVC.view setHeight:500.f];
         viewController = _profileEditTagsVC;
     } else if ([sectionName isEqualToString:@"Security"]) {
         if (!_profileEditSecurityVC) {
