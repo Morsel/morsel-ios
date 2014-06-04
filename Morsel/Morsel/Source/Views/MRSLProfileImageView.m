@@ -27,7 +27,7 @@
     self.layer.borderColor = [UIColor whiteColor].CGColor;
     self.layer.borderWidth = 1.f;
 
-    if (!self.image) [self setImageToPlaceholder];
+    if (!self.image) [self setImageToPlaceholderOrLocal];
 
     if (!_tapRecognizer) {
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayUserProfile)];
@@ -53,18 +53,11 @@
                 __weak __typeof(self)weakSelf = self;
                 [self setImageWithURL:profileImageURLRequest.URL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                     if (error) {
-                        [weakSelf setImageToPlaceholder];
+                        [weakSelf setImageToPlaceholderOrLocal];
                     }
                 }];
             } else {
-                if (self.user.profilePhotoLarge) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        UIImage *localImage = [UIImage imageWithData:([self getWidth] > MRSLUserProfileImageThumbDimensionSize) ? self.user.profilePhotoLarge : self.user.profilePhotoThumb];
-                        self.image = localImage;
-                    });
-                } else {
-                    [self setImageToPlaceholder];
-                }
+                [self setImageToPlaceholderOrLocal];
             }
         }
     }
@@ -100,8 +93,15 @@
     self.image = nil;
 }
 
-- (void)setImageToPlaceholder {
-    self.image = [UIImage imageNamed:@"graphic-placeholder-profile"];
+- (void)setImageToPlaceholderOrLocal {
+    if (self.user.profilePhotoLarge) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIImage *localImage = [UIImage imageWithData:([self getWidth] > MRSLUserProfileImageThumbDimensionSize) ? self.user.profilePhotoLarge : self.user.profilePhotoThumb];
+            self.image = localImage;
+        });
+    } else {
+        self.image = [UIImage imageNamed:@"graphic-placeholder-profile"];
+    }
 }
 
 #pragma mark - Dealloc Methods

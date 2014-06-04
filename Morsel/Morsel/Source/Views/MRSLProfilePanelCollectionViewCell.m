@@ -45,6 +45,7 @@
 
     self.nameLabel.text = userNameString;
     self.bioLabel.text = _user.bio;
+    self.profileImageView.user = nil;
     self.profileImageView.user = _user;
     [self.followersButton setTitle:[NSString stringWithFormat:@"%i Followers", _user.follower_countValue]
                           forState:UIControlStateNormal];
