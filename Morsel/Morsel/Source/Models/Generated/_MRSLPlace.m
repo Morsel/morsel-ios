@@ -31,6 +31,7 @@ const struct MRSLPlaceAttributes MRSLPlaceAttributes = {
 	.reservations = @"reservations",
 	.reservations_url = @"reservations_url",
 	.state = @"state",
+	.title = @"title",
 	.twitter_username = @"twitter_username",
 	.website_url = @"website_url",
 };
@@ -355,6 +356,13 @@ const struct MRSLPlaceFetchedProperties MRSLPlaceFetchedProperties = {
 
 
 @dynamic state;
+
+
+
+
+
+
+@dynamic title;
 
 
 

@@ -9,6 +9,7 @@
 #import "MRSLPlaceCollectionViewCell.h"
 
 #import "MRSLPlace.h"
+#import "MRSLUser.h"
 
 @interface MRSLPlaceCollectionViewCell ()
 
@@ -23,10 +24,20 @@
 - (void)setPlace:(MRSLPlace *)place {
     if (_place != place) {
         _place = place;
+        [self populateContent];
+    }
+}
 
-        self.placeNameLabel.text = _place.name;
+- (void)populateContent {
+    self.placeNameLabel.text = _place.name;
+    if (_place.title) {
+        self.placeCityStateLabel.text = _place.title;
+    } else {
         self.placeCityStateLabel.text = [_place fullAddress];
     }
+    CGSize subSize = [_placeCityStateLabel.text sizeWithFont:_placeCityStateLabel.font constrainedToSize:CGSizeMake([_placeCityStateLabel getWidth], CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    [self.placeCityStateLabel setHeight:subSize.height];
+    [self.placeCityStateLabel setY:[_placeNameLabel getY] + [_placeNameLabel getHeight]];
 }
 
 @end

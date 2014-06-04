@@ -23,12 +23,10 @@
 @implementation MRSLPlaceUserCollectionViewCell
 
 - (void)setUser:(MRSLUser *)user {
-    if (_user != user) {
-        _user = user;
-        self.profileImageView.user = _user;
-        self.nameLabel.text = [_user fullName];
-        self.positionLabel.text = [_user title];
-    }
+    _user = user;
+    self.profileImageView.user = _user;
+    self.nameLabel.text = [_user fullName];
+    self.positionLabel.text = [_user title];
 }
 
 @end
