@@ -32,6 +32,7 @@ extern const struct MRSLPlaceAttributes {
 	__unsafe_unretained NSString *reservations;
 	__unsafe_unretained NSString *reservations_url;
 	__unsafe_unretained NSString *state;
+	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *twitter_username;
 	__unsafe_unretained NSString *website_url;
 } MRSLPlaceAttributes;
@@ -46,6 +47,7 @@ extern const struct MRSLPlaceFetchedProperties {
 
 @class MRSLMorsel;
 @class MRSLUser;
+
 
 
 
@@ -376,6 +378,16 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* title;
+
+
+
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* twitter_username;
 
 
@@ -600,6 +612,12 @@ extern const struct MRSLPlaceFetchedProperties {
 
 - (NSString*)primitiveState;
 - (void)setPrimitiveState:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
 
 
 

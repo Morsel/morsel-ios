@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C1021" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="MRSLActivity" representedClassName="MRSLActivity" syncable="YES">
         <attribute name="actionType" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -263,6 +263,7 @@
             </userInfo>
         </attribute>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="twitter_username" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="website_url" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -370,7 +371,7 @@
         <element name="MRSLKeyword" positionX="0" positionY="0" width="128" height="103"/>
         <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="298"/>
         <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="135"/>
-        <element name="MRSLPlace" positionX="18" positionY="153" width="128" height="510"/>
+        <element name="MRSLPlace" positionX="18" positionY="153" width="128" height="525"/>
         <element name="MRSLTag" positionX="18" positionY="153" width="128" height="118"/>
         <element name="MRSLUser" positionX="0" positionY="0" width="128" height="493"/>
     </elements>

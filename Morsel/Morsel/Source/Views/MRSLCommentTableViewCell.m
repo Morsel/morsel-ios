@@ -18,6 +18,7 @@
 #import "MRSLUser.h"
 
 @interface MRSLCommentTableViewCell  ()
+<UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
@@ -54,9 +55,21 @@
 #pragma mark - Action Methods
 
 - (IBAction)deleteComment {
-    [_appDelegate.apiService deleteComment:self.comment
-                                   success:nil
-                                   failure:nil];
+    [UIAlertView showAlertViewWithTitle:@"Delete Comment"
+                                message:@"Are you sure you want to delete this comment?"
+                               delegate:self
+                      cancelButtonTitle:@"Cancel"
+                      otherButtonTitles:@"Yes", nil];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+        [_appDelegate.apiService deleteComment:self.comment
+                                       success:nil
+                                       failure:nil];
+    }
 }
 
 #pragma mark - Reset
