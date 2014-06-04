@@ -70,6 +70,16 @@ UITableViewDataSource>
     });
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    if (_fetchedResultsController) return;
+
+    [self setupFetchRequest];
+    [self populateContent];
+    [self refreshContent];
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)next:(id)sender {
@@ -174,12 +184,12 @@ UITableViewDataSource>
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.places count] + 1;
+    return ([self.places count] == 0) ? 1 : [self.places count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = nil;
-    if (indexPath.row == [self.places count]) {
+    if ([self.places count] == 0) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_EmptyCell"];
     } else {
         MRSLPlace *place = [_places objectAtIndex:indexPath.row];

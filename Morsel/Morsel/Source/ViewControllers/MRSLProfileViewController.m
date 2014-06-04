@@ -142,8 +142,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [self.profileCollectionView setDelegate:_segmentedPanelCollectionViewDataSource];
 
     [self.segmentedPanelCollectionViewDataSource setDelegate:self];
-
-    [self refreshContent];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -160,6 +158,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
     }
 
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
+
+    [self refreshContent];
 }
 
 - (void)setUser:(MRSLUser *)user {
@@ -322,6 +322,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                     statsTagVC.delegate = self;
                     statsTagVC.user = _user;
                     statsTagVC.view.tag = MRSLStatsTagViewTag;
+                    [statsTagVC.view setHeight:500.f];
                     [self addChildViewController:statsTagVC];
                     [cell.contentView addSubview:statsTagVC.view];
                 }
@@ -421,7 +422,16 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)segmentedHeaderDidSelectIndex:(NSUInteger)index {
     if (_dataSourceTabType != index) {
         self.dataSourceTabType = index;
-        self.segmentedPanelCollectionViewDataSource.sortType = (_dataSourceTabType == MRSLDataSourceTypePlace) ? MRSLDataSortTypeName : MRSLDataSortTypeCreationDate;
+        if (_dataSourceTabType == MRSLDataSourceTypePlace) {
+            self.segmentedPanelCollectionViewDataSource.ascending = YES;
+            self.segmentedPanelCollectionViewDataSource.sortType = MRSLDataSortTypeName;
+        } else if (_dataSourceTabType == MRSLDataSourceTypeActivityItem) {
+            self.segmentedPanelCollectionViewDataSource.ascending = NO;
+            self.segmentedPanelCollectionViewDataSource.sortType = MRSLDataSortTypeLikedDate;
+        } else {
+            self.segmentedPanelCollectionViewDataSource.ascending = NO;
+            self.segmentedPanelCollectionViewDataSource.sortType = MRSLDataSortTypeCreationDate;
+        }
         [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
         [self loadObjectIDs];
         [self updateDataSourcePredicate];

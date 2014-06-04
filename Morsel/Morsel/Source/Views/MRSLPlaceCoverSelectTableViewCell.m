@@ -8,8 +8,12 @@
 
 #import "MRSLPlaceCoverSelectTableViewCell.h"
 
+#import "MRSLPlace.h"
+
 @interface MRSLPlaceCoverSelectTableViewCell ()
 
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *cityStateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *checkmarkView;
 
 @end
@@ -19,7 +23,9 @@
 - (void)setPlace:(MRSLPlace *)place {
     if (_place != place) {
         _place = place;
-
+        
+        self.nameLabel.text = _place.name;
+        self.cityStateLabel.text = [_place fullAddress];
     }
 }
 

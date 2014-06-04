@@ -28,6 +28,9 @@
             [[UIBarButtonItem appearance] setBackgroundImage:[[UIImage alloc] init]
                                                     forState:UIControlStateNormal
                                                   barMetrics:UIBarMetricsDefault];
+            [[UISearchBar appearance] setBackgroundImage:[UIImage imageNamed:@"graphic-searchbar"]];
+            [[UISearchBar appearance] setSearchFieldBackgroundImage:[UIImage imageNamed:@"graphic-searchbar-field"]
+                                                           forState:UIControlStateNormal];
         }
 
         [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];

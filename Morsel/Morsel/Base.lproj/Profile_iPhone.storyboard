@@ -680,6 +680,8 @@
                         <outlet property="lastNameField" destination="pSd-Wv-85e" id="rM7-ye-nhC"/>
                         <outlet property="profileImageView" destination="eE3-Is-Hut" id="sEC-kk-Skd"/>
                         <outlet property="usernameLabel" destination="uEP-D4-DYM" id="EXa-df-5vl"/>
+                        <outletCollection property="requiredFields" destination="pSd-Wv-85e" id="Npe-3X-4yg"/>
+                        <outletCollection property="requiredFields" destination="aL9-0h-lWc" id="nFi-8M-sko"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6GD-YF-Xxa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -706,7 +708,7 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="9QL-rR-DuS">
                                                     <rect key="frame" x="251" y="4" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="toggleFacebook:" destination="SlV-n0-q9z" eventType="valueChanged" id="KXG-Cv-ahK"/>
                                                     </connections>
@@ -734,7 +736,7 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="DpU-8v-w3E">
                                                     <rect key="frame" x="251" y="4" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="toggleTwitter:" destination="SlV-n0-q9z" eventType="valueChanged" id="bLt-c6-MgF"/>
                                                     </connections>
@@ -762,7 +764,7 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="WoH-ZJ-Hht">
                                                     <rect key="frame" x="251" y="4" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="toggleInstagram:" destination="SlV-n0-q9z" eventType="valueChanged" id="aMX-Bp-WcK"/>
                                                     </connections>
@@ -797,7 +799,7 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="llg-gl-d9A">
                                                     <rect key="frame" x="251" y="4" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="toggleAutoFollow" destination="SlV-n0-q9z" eventType="valueChanged" id="AU5-Ly-JlH"/>
                                                     </connections>
@@ -923,7 +925,7 @@
         <!--Profile User Tags List View Controller-->
         <scene sceneID="1SS-Nt-8bG">
             <objects>
-                <viewController storyboardIdentifier="sb_MRSLProfileStatsTagsViewController" automaticallyAdjustsScrollViewInsets="NO" id="waq-iT-bDR" customClass="MRSLProfileUserTagsListViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLProfileStatsTagsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="waq-iT-bDR" customClass="MRSLProfileUserTagsListViewController" sceneMemberID="viewController">
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="3z2-P3-iNt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1012,6 +1014,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

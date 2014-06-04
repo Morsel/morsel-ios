@@ -45,7 +45,7 @@
 
     [MRSLAppDelegate setupTheme];
 
-    [[MRSLSocialServiceFacebook sharedService] checkForValidFacebookSessionWithSessionStateHandler:nil];
+    [FBSession.activeSession closeAndClearTokenInformation];
 
     [self setupMorselEnvironment];
 
