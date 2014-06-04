@@ -37,7 +37,7 @@
         _item = item;
         _user = user;
 
-        self.descriptionLabel.text = [NSString stringWithFormat:@"%@ liked %@", [user displayName], [_item displayName]];
+        self.descriptionLabel.text = [NSString stringWithFormat:@"%@ liked %@", [user username], [_item displayName]];
         [self.descriptionLabel sizeToFit];
         [self.descriptionLabel setWidth:160.f];
         self.timeAgoLabel.text = [item.likedDate timeAgo];
