@@ -57,6 +57,8 @@ UITextFieldDelegate>
 
     [self.titleField setBorderWithColor:[UIColor morselLightContent]
                                andWidth:1.f];
+    self.shouldDisplayStatus = YES;
+    self.statusType = MRSLStatusTypeNone;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -93,6 +95,7 @@ UITextFieldDelegate>
 }
 
 - (void)refreshContent {
+    if ([_searchBar.text length] <= 2) return;
     if (_locationDisabled || !_userLocation) {
         self.searchQueued = YES;
         return;
@@ -104,15 +107,17 @@ UITextFieldDelegate>
     [_appDelegate.apiService searchPlacesWithQuery:_searchBar.text
                                        andLocation:_userLocation
                                            success:^(NSArray *responseArray) {
-                                               weakSelf.foursquarePlaces = responseArray;
-                                               if ([responseArray count] == 0) {
-                                                   weakSelf.statusType = MRSLStatusTypeNoResults;
-                                                   weakSelf.shouldDisplayStatus = YES;
-                                               } else {
-                                                   weakSelf.statusType = MRSLStatusTypeNone;
-                                                   weakSelf.shouldDisplayStatus = NO;
+                                               if ([weakSelf.searchBar.text length] > 2) {
+                                                   weakSelf.foursquarePlaces = responseArray;
+                                                   if ([responseArray count] == 0) {
+                                                       weakSelf.statusType = MRSLStatusTypeNoResults;
+                                                       weakSelf.shouldDisplayStatus = YES;
+                                                   } else {
+                                                       weakSelf.statusType = MRSLStatusTypeNone;
+                                                       weakSelf.shouldDisplayStatus = NO;
+                                                   }
+                                                   [weakSelf.tableView reloadData];
                                                }
-                                               [weakSelf.tableView reloadData];
                                            } failure:nil];
 }
 
@@ -196,6 +201,7 @@ UITextFieldDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_locationDisabled || _shouldDisplayStatus) {
         NSString *ruid = @"ruid_LocationDisabledCell";
+        if (_statusType == MRSLStatusTypeNone) ruid = @"ruid_InstructionCell";
         if (_statusType == MRSLStatusTypeNoResults) ruid = @"ruid_NoResultsCell";
         if (_statusType == MRSLStatusTypeLoading) ruid = @"ruid_LoadingCell";
         if (_statusType == MRSLStatusTypeMoreCharactersRequired) ruid = @"ruid_MoreCharactersCell";
@@ -240,10 +246,10 @@ UITextFieldDelegate>
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     NSUInteger textLength = searchText.length;
-    if (textLength <= 2 && [_foursquarePlaces count] > 0) {
+    if (textLength <= 2) {
         self.shouldDisplayStatus = YES;
         self.statusType = MRSLStatusTypeMoreCharactersRequired;
-        self.foursquarePlaces = [NSArray array];
+        if ([_foursquarePlaces count] > 0) self.foursquarePlaces = [NSArray array];
         [self.tableView reloadData];
     } else {
         [self resumeTimer];
