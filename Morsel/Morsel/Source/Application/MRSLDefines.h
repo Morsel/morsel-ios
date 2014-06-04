@@ -88,6 +88,13 @@ typedef NS_ENUM(NSUInteger, MRSLDataSourceType) {
     MRSLDataSourceTypeUser
 };
 
+typedef NS_ENUM(NSUInteger, MRSLStatusType) {
+    MRSLStatusTypeNone,
+    MRSLStatusTypeLoading,
+    MRSLStatusTypeNoResults,
+    MRSLStatusTypeMoreCharactersRequired
+};
+
 #pragma mark - Media Capture Values
 
 // It is assumed the standard image to be passed through will be 5 MP (approx. 1920 x 2560 resolution).

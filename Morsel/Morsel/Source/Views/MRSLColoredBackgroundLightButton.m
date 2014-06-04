@@ -37,7 +37,7 @@
                forState:UIControlStateNormal];
     [self setTitleColor:[UIColor darkGrayColor]
                forState:UIControlStateHighlighted];
-    [self setTitleColor:[UIColor lightGrayColor]
+    [self setTitleColor:[UIColor whiteColor]
                forState:UIControlStateDisabled];
     [self setTitleColor:[UIColor whiteColor]
                forState:UIControlStateSelected];
@@ -96,7 +96,7 @@
     } else if (!self.highlighted && self.enabled && (!self.selected && _allowsToggle)) {
         self.backgroundColor = self.highlightedBackgroundColor;
     } else if (!self.enabled) {
-        self.backgroundColor = [UIColor darkGrayColor];
+        self.backgroundColor = [UIColor lightGrayColor];
     } else {
         self.backgroundColor = self.originalBackgroundColor;
     }
