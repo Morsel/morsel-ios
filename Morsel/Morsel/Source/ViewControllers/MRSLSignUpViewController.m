@@ -393,11 +393,14 @@ UITextFieldDelegate>
         
         [self.contentScrollView scrollRectToVisible:centeredFrame
                                            animated:YES];
-        
+        if ([textField isEqual:_usernameField]) {
+            NSUInteger textLength = (textField.text.length - range.length) + string.length;
+            if (textLength > 15) {
+                return NO;
+            }
+        }
         return YES;
     }
-    
-    return YES;
 }
 
 #pragma mark - Dealloc

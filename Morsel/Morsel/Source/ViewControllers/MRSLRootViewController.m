@@ -94,6 +94,10 @@
 #ifdef SPEC_TESTING
     return;
 #endif
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 
     MRSLUser *currentUser = [MRSLUser currentUser];
 
@@ -116,7 +120,6 @@
                                             [_appDelegate.apiService getUserAuthenticationsWithSuccess:nil
                                                                                                failure:nil];
                                         } failure:nil];
-
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                             object:nil];
     }
