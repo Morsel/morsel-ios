@@ -318,6 +318,18 @@ MRSLSegmentedButtonViewDelegate>
     return userFollowCell;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (_friendSection == 0) {
+        if ([_searchBar.text length] < 3) {
+            return @"Suggested People";
+        } else {
+            return @"Search Results";
+        }
+    } else {
+        return nil;
+    }
+}
+
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
