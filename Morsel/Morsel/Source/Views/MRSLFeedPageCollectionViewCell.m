@@ -87,6 +87,11 @@ static const CGFloat MRSLDescriptionHeightLimit = 60.f;
                       forState:UIControlStateNormal];
     [_commentCountButton setTitle:[NSString stringWithFormat:@"%i Comment%@", _item.comment_countValue, (_item.comment_countValue != 1) ? @"s" : @""]
                          forState:UIControlStateNormal];
+    
+    if (![_viewMoreButton isHidden]) {
+        [_viewMoreButton setHeight:(CGRectGetMinY(_likeButton.frame) - CGRectGetMinY(_itemDescriptionLabel.frame))];
+        [_viewMoreButton setY:(CGRectGetMinY(_likeButton.frame) - CGRectGetHeight(_viewMoreButton.frame) - 10.0f)];
+    }
 
     [self setLikeButtonImageForMorsel:_item];
 }
