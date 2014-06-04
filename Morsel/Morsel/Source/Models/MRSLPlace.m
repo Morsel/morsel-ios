@@ -10,12 +10,13 @@
 
 #pragma mark - Instance Methods
 
-- (NSString *)cityState {
-    return [NSString stringWithFormat:@"%@, %@", self.city, self.state];
-}
-
 - (NSString *)fullAddress {
-    return [NSString stringWithFormat:@"%@\n%@, %@ %@", self.address, self.city, self.state, self.postal_code];
+    NSMutableString *fullAddress = [NSMutableString string];
+    if (self.address)       [fullAddress appendCommaSeparatedString:self.address];
+    if (self.city)          [fullAddress appendCommaSeparatedString:self.city];
+    if (self.state)         [fullAddress appendCommaSeparatedString:self.state];
+    if (self.postal_code)   [fullAddress appendCommaSeparatedString:self.postal_code];
+    return fullAddress;
 }
 
 - (NSArray *)contactInfo {
@@ -36,7 +37,7 @@
 
 - (NSArray *)diningInfo {
     NSMutableArray *info = [NSMutableArray array];
-    if (self.price_tier) [info addObject:[[MRSLPlaceInfo alloc] initWithPrimaryInfo:@"Price:"
+    if (self.price_tierValue > 0) [info addObject:[[MRSLPlaceInfo alloc] initWithPrimaryInfo:@"Price:"
                                                                    andSecondaryInfo:[@"" stringByPaddingToLength:self.price_tierValue withString:@"$" startingAtIndex:0]]];
     if (self.reservations) [info addObject:[[MRSLPlaceInfo alloc] initWithPrimaryInfo:@"Reservations:"
                                                                      andSecondaryInfo:self.reservations]];

@@ -11,6 +11,8 @@
 #import "MRSLAPIService+Place.h"
 #import "MRSLAPIService+Router.h"
 
+#import "MRSLSocialService.h"
+
 #import "MRSLFollowButton.h"
 #import "MRSLPanelSegmentedCollectionViewDataSource.h"
 #import "MRSLPlaceDetailViewController.h"
@@ -244,8 +246,21 @@ MRSLSegmentedHeaderReusableViewDelegate>
             }
         }
     }
-    return cell ?: [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_EmptyCell"
-                                                             forIndexPath:indexPath];
+
+    if (!cell) {
+        // Create an empty state cell.
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_EmptyCell"
+                                                         forIndexPath:indexPath];
+        // If the place doesn't have twitter, set the label inside the cell to black to not look tappable (default)
+        if (!_place.twitter_username) {
+            [[[cell contentView] subviews] enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop) {
+                if ([subview isKindOfClass:[UILabel class]]) {
+                    [(UILabel *)subview setTextColor:[UIColor blackColor]];
+                }
+            }];
+        }
+    }
+    return cell;
 }
 
 - (CGSize)configureSizeForCollectionView:(UICollectionView *)collectionView
@@ -280,6 +295,16 @@ MRSLSegmentedHeaderReusableViewDelegate>
         NSDictionary *parameters = @{@"user_id": NSNullIfNil([item userID])};
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayUserProfileNotification
                                                             object:parameters];
+    }
+}
+
+- (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    if ([cell.reuseIdentifier isEqualToString:@"ruid_EmptyCell"] && _place.twitter_username) {
+        [[MRSLSocialService sharedService] shareTextToTwitter:[NSString stringWithFormat:@"Hey @%@ I’d love to see your food and drinks on @eatmorsel!", _place.twitter_username]
+                                             inViewController:self
+                                                      success:nil
+                                                       cancel:nil];
     }
 }
 

@@ -32,8 +32,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.textView.placeholder = [NSString stringWithFormat:@"Let your friends know why %@ is awesome!", _morsel.title];
-    self.textView.text = [NSString stringWithFormat:@"“%@” from %@ on Morsel %@", _morsel.title, [_morsel.creator fullNameOrTwitterHandle], _morsel.twitter_mrsl ?: _morsel.url];
+    if (_morsel) {
+        self.textView.placeholder = [NSString stringWithFormat:@"Let your friends know why %@ is awesome!", _morsel.title];
+        self.textView.text = [NSString stringWithFormat:@"“%@” from %@ on Morsel %@", _morsel.title, [_morsel.creator fullNameOrTwitterHandle], _morsel.twitter_mrsl ?: _morsel.url];
+    } else if (_placeholderText) {
+        self.textView.text = _placeholderText;
+    }
     [self textViewDidChange:_textView];
    // [NSURL URLWithString:_morsel.morselPhotoURL];
 }

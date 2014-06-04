@@ -2,7 +2,6 @@
 
 @interface MRSLPlace : _MRSLPlace {}
 
-- (NSString *)cityState;
 - (NSString *)fullAddress;
 
 - (NSArray *)contactInfo;
