@@ -273,6 +273,9 @@
 		4069CB2D189B127E001790F3 /* MRSLSocialService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB25189B127E001790F3 /* MRSLSocialService.m */; };
 		40D702AA18E9F225001CCC42 /* MRSLFactory+User.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D702A918E9F225001CCC42 /* MRSLFactory+User.m */; };
 		40D702AC18E9F72A001CCC42 /* mrsl-users-activities.json in Resources */ = {isa = PBXBuildFile; fileRef = 40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */; };
+		40F637D6193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
+		40F637D7193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
+		40F637D8193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
 		83193CDB90584AB6BE66EE88 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D39BCA7E9BC46D8914312A8 /* libPods.a */; };
 		F74BE655C47B487989CEC74D /* libPods-Morsel-Integration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85BAA024FEB848BEB18EFEBB /* libPods-Morsel-Integration.a */; };
 /* End PBXBuildFile section */
@@ -693,6 +696,8 @@
 		40D702A818E9F225001CCC42 /* MRSLFactory+User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLFactory+User.h"; sourceTree = "<group>"; };
 		40D702A918E9F225001CCC42 /* MRSLFactory+User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLFactory+User.m"; sourceTree = "<group>"; };
 		40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-users-activities.json"; sourceTree = "<group>"; };
+		40F637D4193E987A003AD040 /* NSMutableString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Additions.h"; sourceTree = "<group>"; };
+		40F637D5193E987A003AD040 /* NSMutableString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Additions.m"; sourceTree = "<group>"; };
 		4D39BCA7E9BC46D8914312A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		85BAA024FEB848BEB18EFEBB /* libPods-Morsel-Integration.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Morsel-Integration.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Specs.xcconfig"; path = "../Pods/Pods-Morsel-Specs.xcconfig"; sourceTree = "<group>"; };
@@ -1277,6 +1282,8 @@
 				068602A71891B43E000CD576 /* UIStoryboard+Morsel.m */,
 				068602A31891AE26000CD576 /* UIView+Additions.h */,
 				068602A41891AE26000CD576 /* UIView+Additions.m */,
+				40F637D4193E987A003AD040 /* NSMutableString+Additions.h */,
+				40F637D5193E987A003AD040 /* NSMutableString+Additions.m */,
 			);
 			name = Categories;
 			path = Morsel/Source/Categories;
@@ -2214,6 +2221,7 @@
 				06B877FF193C1C6100160707 /* MRSLFoursquarePlace.m in Sources */,
 				06B87805193C750E00160707 /* MRSLPlaceCoverSelectTableViewCell.m in Sources */,
 				061142A118F2766A00FA38BC /* MRSLModalShareViewController.m in Sources */,
+				40F637D6193E987A003AD040 /* NSMutableString+Additions.m in Sources */,
 				06B87811193CBB5700160707 /* MRSLPlaceDetailHoursCollectionViewCell.m in Sources */,
 				06340924191C5A3500C67FB8 /* MRSLValidationStatusView.m in Sources */,
 				064566FE18C50DF300C9CCBF /* MRSLMyStuffViewController.m in Sources */,
@@ -2302,6 +2310,7 @@
 				400350A218EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */,
 				40D702AA18E9F225001CCC42 /* MRSLFactory+User.m in Sources */,
 				06ECF68918BFE3F000577F9C /* MRSLSpecUtil.m in Sources */,
+				40F637D7193E987A003AD040 /* NSMutableString+Additions.m in Sources */,
 				4005ED8518A19965005B8484 /* UIAlertView+Additions.m in Sources */,
 				4069CB2B189B127E001790F3 /* MRSLAPIService.m in Sources */,
 				06ECF68018BFE38400577F9C /* ModelObjectImporting_Spec.m in Sources */,
@@ -2324,6 +2333,7 @@
 				065E523918C147220040C391 /* KIFUITestActor+Additions.m in Sources */,
 				4040D49E18E627ED008A39E5 /* _MRSLActivity.m in Sources */,
 				065E523D18C147280040C391 /* LoginFlow_Integration.m in Sources */,
+				40F637D8193E987A003AD040 /* NSMutableString+Additions.m in Sources */,
 				4005ED8618A19965005B8484 /* UIAlertView+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
