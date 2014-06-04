@@ -422,7 +422,16 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)segmentedHeaderDidSelectIndex:(NSUInteger)index {
     if (_dataSourceTabType != index) {
         self.dataSourceTabType = index;
-        self.segmentedPanelCollectionViewDataSource.sortType = (_dataSourceTabType == MRSLDataSourceTypePlace) ? MRSLDataSortTypeName : MRSLDataSortTypeCreationDate;
+        if (_dataSourceTabType == MRSLDataSourceTypePlace) {
+            self.segmentedPanelCollectionViewDataSource.ascending = YES;
+            self.segmentedPanelCollectionViewDataSource.sortType = MRSLDataSortTypeName;
+        } else if (_dataSourceTabType == MRSLDataSourceTypeActivityItem) {
+            self.segmentedPanelCollectionViewDataSource.ascending = NO;
+            self.segmentedPanelCollectionViewDataSource.sortType = MRSLDataSortTypeLikedDate;
+        } else {
+            self.segmentedPanelCollectionViewDataSource.ascending = NO;
+            self.segmentedPanelCollectionViewDataSource.sortType = MRSLDataSortTypeCreationDate;
+        }
         [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
         [self loadObjectIDs];
         [self updateDataSourcePredicate];

@@ -103,6 +103,10 @@
         case MRSLDataSortTypeSortOrder:
             return @"sort_order";
             break;
+        case MRSLDataSortTypeLikedDate:
+            return @"likedDate";
+            break;
+        case MRSLDataSortTypeNone:
         default:
             return nil;
             break;
