@@ -84,15 +84,14 @@ UITextViewDelegate>
         return;
     }
 
-    BOOL userDidUpdate = (_user.first_name) ? ![_user.first_name isEqualToString:_firstNameField.text] : ([_firstNameField.text length] != 0);
-    userDidUpdate = (_user.last_name) ? ![_user.last_name isEqualToString:_lastNameField.text] : ([_lastNameField.text length] != 0);
-    userDidUpdate = (_user.bio) ? ![_user.bio isEqualToString:_bioTextView.text] : (![_bioTextView.text length] == 0);
+    BOOL firstNameUpdated = (_user.first_name) ? ![_user.first_name isEqualToString:_firstNameField.text] : ([_firstNameField.text length] != 0);
+    BOOL lastNameUpdated = (_user.last_name) ? ![_user.last_name isEqualToString:_lastNameField.text] : ([_lastNameField.text length] != 0);
+    BOOL bioUpdated = (_user.bio) ? ![_user.bio isEqualToString:_bioTextView.text] : (![_bioTextView.text length] == 0);
 
-    if (userDidUpdate) {
-        _user.first_name = _firstNameField.text;
-        _user.last_name = _lastNameField.text;
-        _user.bio = _bioTextView.text;
-
+    if (firstNameUpdated || lastNameUpdated || bioUpdated) {
+        if (firstNameUpdated) _user.first_name = _firstNameField.text;
+        if (lastNameUpdated) _user.last_name = _lastNameField.text;
+        if (bioUpdated) _user.bio = _bioTextView.text;
         [_appDelegate.apiService updateUser:_user
                                     success:^(id responseObject) {
                                         if (didUpdateOrNil) didUpdateOrNil(YES);
