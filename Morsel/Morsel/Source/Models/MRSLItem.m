@@ -84,9 +84,9 @@
             message = [NSString stringWithFormat:@"\"%@\"", self.itemDescription];
         }
     } else if([MRSLUser currentUserOwnsMorselWithCreatorID:self.creator_idValue]) {
-        message = @"your morsel";
+        message = @"your item";
     } else {
-        message = @"a morsel";
+        message = @"an item";
     }
 
     return message;
