@@ -164,10 +164,7 @@ MRSLProfileUserTagsListViewControllerDelegate>
     __weak __typeof(self) weakSelf = self;
     [self.profileEditFieldsVC updateProfileWithCompletion:^(BOOL success) {
         [weakSelf goBack];
-    } failure:^(NSError *error) {
-        [UIAlertView showAlertViewForError:error
-                                  delegate:nil];
-    }];
+    } failure:nil];
 }
 
 #pragma mark - Segue Methods

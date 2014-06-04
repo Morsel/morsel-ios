@@ -680,6 +680,8 @@
                         <outlet property="lastNameField" destination="pSd-Wv-85e" id="rM7-ye-nhC"/>
                         <outlet property="profileImageView" destination="eE3-Is-Hut" id="sEC-kk-Skd"/>
                         <outlet property="usernameLabel" destination="uEP-D4-DYM" id="EXa-df-5vl"/>
+                        <outletCollection property="requiredFields" destination="pSd-Wv-85e" id="Npe-3X-4yg"/>
+                        <outletCollection property="requiredFields" destination="aL9-0h-lWc" id="nFi-8M-sko"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6GD-YF-Xxa" userLabel="First Responder" sceneMemberID="firstResponder"/>

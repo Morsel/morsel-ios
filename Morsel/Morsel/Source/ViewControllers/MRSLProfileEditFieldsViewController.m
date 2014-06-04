@@ -34,7 +34,7 @@ UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *bioTextView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
-@property (strong, nonatomic) IBOutletCollection(NSObject) NSArray *requiredFields;
+@property (strong, nonatomic) IBOutletCollection(UITextField) NSArray *requiredFields;
 
 @end
 
@@ -67,26 +67,25 @@ UITextViewDelegate>
 - (void)updateProfileWithCompletion:(MRSLSuccessBlock)didUpdateOrNil
                             failure:(MRSLFailureBlock)failureOrNil {
     BOOL fieldsFilled = YES;
-    for (NSObject *requiredField in _requiredFields) {
-        if ([requiredField respondsToSelector:@selector(text)]) {
-            if ([[(UITextField *)requiredField text] length] == 0) {
-                [(UIView *)requiredField setBorderWithColor:[UIColor morselRed]
-                                                   andWidth:2.f];
-                fieldsFilled = NO;
-            } else {
-                [(UIView *)requiredField setBorderWithColor:nil
-                                                   andWidth:0.f];
-            }
+    for (UITextField *requiredField in _requiredFields) {
+        if ([[requiredField text] length] == 0) {
+            [requiredField setBorderWithColor:[UIColor morselRed]
+                                     andWidth:2.f];
+            fieldsFilled = NO;
+        } else {
+            [requiredField setBorderWithColor:[UIColor morselLightContent]
+                                     andWidth:1.f];
         }
     }
     if (!fieldsFilled) {
         [UIAlertView showAlertViewForErrorString:@"Please fill in all fields."
                                         delegate:nil];
+        if (failureOrNil) failureOrNil(nil);
         return;
     }
 
-    BOOL userDidUpdate = (_user.first_name) ? ![_user.first_name isEqualToString:_firstNameField.text] : (![_firstNameField.text length] == 0);
-    userDidUpdate = (_user.last_name) ? ![_user.last_name isEqualToString:_lastNameField.text] : (![_lastNameField.text length] == 0);
+    BOOL userDidUpdate = (_user.first_name) ? ![_user.first_name isEqualToString:_firstNameField.text] : ([_firstNameField.text length] != 0);
+    userDidUpdate = (_user.last_name) ? ![_user.last_name isEqualToString:_lastNameField.text] : ([_lastNameField.text length] != 0);
     userDidUpdate = (_user.bio) ? ![_user.bio isEqualToString:_bioTextView.text] : (![_bioTextView.text length] == 0);
 
     if (userDidUpdate) {
