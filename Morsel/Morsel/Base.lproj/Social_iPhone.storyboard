@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Find Friends View Controller - Find Friends-->
+        <!--Find Friends View Controller - Find People-->
         <scene sceneID="lhz-GA-3ux">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLFindFriendsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="FEW-fa-5ct" customClass="MRSLFindFriendsViewController" sceneMemberID="viewController">
@@ -152,7 +152,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Find Friends" id="ZDo-qd-1pN"/>
+                    <navigationItem key="navigationItem" title="Find People" id="ZDo-qd-1pN"/>
                     <connections>
                         <outlet property="nullStateView" destination="WIm-A5-agB" id="hMq-ny-PzS"/>
                         <outlet property="searchBar" destination="4yV-6W-3mq" id="cgE-1Q-M5i"/>
