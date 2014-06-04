@@ -16,6 +16,6 @@
 @property (strong, nonatomic) MRSLSocialCancelBlock cancelBlock;
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
-@property (weak, nonatomic) NSString *placeholderText;
+@property (strong, nonatomic) NSString *placeholderText;
 
 @end

@@ -84,6 +84,7 @@
                     cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
     UINavigationController *shareNavNC = [[UIStoryboard socialStoryboard] instantiateViewControllerWithIdentifier:@"sb_SocialCompose"];
     MRSLSocialComposeViewController *socialComposeVC = [shareNavNC.viewControllers firstObject];
+    socialComposeVC.title = @"Post to Twitter";
     socialComposeVC.placeholderText = text;
     socialComposeVC.accountType = MRSLSocialAccountTypeTwitter;
     socialComposeVC.successBlock = successOrNil;
