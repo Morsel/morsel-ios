@@ -10,4 +10,6 @@
 
 @interface NSMutableString (Additions)
 
+- (void)appendCommaSeparatedString:(NSString *)aString;
+
 @end

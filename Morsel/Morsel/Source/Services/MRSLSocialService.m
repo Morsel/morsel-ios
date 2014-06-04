@@ -78,6 +78,23 @@
     }
 }
 
+- (void)shareTextToTwitter:(NSString *)text
+          inViewController:(UIViewController *)viewController
+                   success:(MRSLSocialSuccessBlock)successOrNil
+                    cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
+    UINavigationController *shareNavNC = [[UIStoryboard socialStoryboard] instantiateViewControllerWithIdentifier:@"sb_SocialCompose"];
+    MRSLSocialComposeViewController *socialComposeVC = [shareNavNC.viewControllers firstObject];
+    socialComposeVC.placeholderText = text;
+    socialComposeVC.accountType = MRSLSocialAccountTypeTwitter;
+    socialComposeVC.successBlock = successOrNil;
+    socialComposeVC.cancelBlock = cancelBlockOrNil;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                            object:shareNavNC];
+    });
+}
+
 - (void)shareMorsel:(MRSLMorsel *)morsel
         withService:(MRSLSocialAccountType)accountType
    inViewController:(UIViewController *)viewController

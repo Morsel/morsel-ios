@@ -10,4 +10,12 @@
 
 @implementation NSMutableString (Additions)
 
+- (void)appendCommaSeparatedString:(NSString *)aString {
+    if (self.length > 0) {
+        [self appendFormat:@", %@", aString];
+    } else {
+        [self appendString: aString];
+    }
+}
+
 @end

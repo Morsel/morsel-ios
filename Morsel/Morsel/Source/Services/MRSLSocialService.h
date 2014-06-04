@@ -22,4 +22,9 @@
                      success:(MRSLSocialSuccessBlock)successOrNil
                       cancel:(MRSLSocialCancelBlock)cancelBlockOrNil;
 
+- (void)shareTextToTwitter:(NSString *)text
+          inViewController:(UIViewController *)viewController
+                   success:(MRSLSocialSuccessBlock)successOrNil
+                    cancel:(MRSLSocialCancelBlock)cancelBlockOrNil;
+
 @end

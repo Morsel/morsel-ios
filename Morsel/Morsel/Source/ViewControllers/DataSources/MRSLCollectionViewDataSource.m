@@ -66,7 +66,8 @@
     id item = [self objectAtIndexPath:indexPath];
     if ([self.delegate respondsToSelector:@selector(collectionViewDataSource:didSelectItem:)]) {
         [self.delegate collectionViewDataSource:collectionView didSelectItem:item];
-    } else if ([self.delegate respondsToSelector:@selector(collectionViewDataSource:didSelectItemAtIndexPath:)]) {
+    }
+    if ([self.delegate respondsToSelector:@selector(collectionViewDataSource:didSelectItemAtIndexPath:)]) {
         [self.delegate collectionViewDataSource:collectionView didSelectItemAtIndexPath:indexPath];
     }
 }
