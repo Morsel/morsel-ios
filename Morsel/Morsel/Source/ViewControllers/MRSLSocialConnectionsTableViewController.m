@@ -38,6 +38,7 @@
     if ([FBSession.activeSession isOpen]) {
         self.facebookUsernameLabel.text = [[MRSLSocialServiceFacebook sharedService] facebookUsername];
     }
+    self.facebookSwitch.on = [FBSession.activeSession isOpen];
     __weak __typeof(self) weakSelf = self;
     [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:^(BOOL success) {
         weakSelf.twitterSwitch.on = success;
