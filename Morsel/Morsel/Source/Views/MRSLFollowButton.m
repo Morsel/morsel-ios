@@ -36,9 +36,13 @@
 }
 
 - (void)setFollowState {
-    [self setBackgroundColor:(_user.followingValue || _place.followingValue) ? [UIColor lightGrayColor] : [UIColor morselGreen]];
-    [self setTitle:(_user.followingValue || _place.followingValue) ? @"Following" : @"Follow"
-          forState:UIControlStateNormal];
+    if (![_user isCurrentUser]) {
+        [self setBackgroundColor:(_user.followingValue || _place.followingValue) ? [UIColor lightGrayColor] : [UIColor morselGreen]];
+        [self setTitle:(_user.followingValue || _place.followingValue) ? @"Following" : @"Follow"
+              forState:UIControlStateNormal];
+    } else {
+        self.hidden = YES;
+    }
 }
 
 - (void)toggleFollow {
