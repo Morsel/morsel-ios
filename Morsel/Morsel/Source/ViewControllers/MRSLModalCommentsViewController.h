@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MRSLBaseModalViewController.h"
-
-@interface MRSLModalCommentsViewController : MRSLBaseModalViewController
+@interface MRSLModalCommentsViewController : MRSLBaseViewController
 
 @property (weak, nonatomic) MRSLItem *item;
 
