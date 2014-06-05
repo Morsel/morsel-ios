@@ -156,12 +156,12 @@
     }
     if (![data[@"industry"] isEqual:[NSNull null]]) {
         NSString *industry = data[@"industry"];
-        if ([industry isEqualToString:@"chef"]) {
-            self.industryType = @(MRSLIndustryTypeChef);
+        if ([industry isEqualToString:@"diner"]) {
+            self.industryType = @(MRSLIndustryTypeDiner);
         } else if ([industry isEqualToString:@"media"]) {
             self.industryType = @(MRSLIndustryTypeMedia);
         } else {
-            self.industryType = @(MRSLIndustryTypeDiner);
+            self.industryType = @(MRSLIndustryTypeChef);
         }
     }
     if (self.profilePhotoFull) self.profilePhotoFull = nil;
