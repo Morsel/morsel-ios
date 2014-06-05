@@ -421,10 +421,10 @@
             </objects>
             <point key="canvasLocation" x="1163" y="845"/>
         </scene>
-        <!--Morsel Publish View Controller - Select Cover and Place-->
+        <!--Morsel Publish Cover View Controller - Select Cover-->
         <scene sceneID="5Og-AE-TPy">
             <objects>
-                <viewController storyboardIdentifier="sb_MRSLMorselPublishViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="HS6-Lc-kLD" customClass="MRSLMorselPublishViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLMorselPublishViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="HS6-Lc-kLD" customClass="MRSLMorselPublishCoverViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HgW-tB-tDd">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -471,10 +471,55 @@
                                 <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="sbg-07-dcL">
+                                <rect key="frame" x="141" y="313" width="39" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="pageIndicatorTintColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="currentPageIndicatorTintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </pageControl>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe left or right to select the cover photo for your Morsel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rxS-Cf-oQ0" customClass="MRSLRobotoLightLabel">
+                                <rect key="frame" x="15" y="340" width="290" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Select Cover" id="Meq-Pb-DDR">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="SeR-xl-OW7">
+                            <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="next:" destination="HS6-Lc-kLD" id="7UA-vr-j28"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="coverCollectionView" destination="yQG-sy-psc" id="dyv-do-lDr"/>
+                        <outlet property="morselTitleLabel" destination="xPP-2b-9VQ" id="q80-Us-bpX"/>
+                        <outlet property="pageControl" destination="sbg-07-dcL" id="4GP-bX-xsO"/>
+                        <segue destination="Skl-OL-Y5W" kind="push" identifier="seg_SelectPlace" id="lB3-8C-rvx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SJv-ij-o0x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1706" y="1654"/>
+        </scene>
+        <!--Morsel Publish Place View Controller - Associate Place-->
+        <scene sceneID="fHN-I5-fAE">
+            <objects>
+                <viewController storyboardIdentifier="sb_MRSLMorselPublishPlaceViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Skl-OL-Y5W" customClass="MRSLMorselPublishPlaceViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NWb-hk-CW8">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="n1G-03-9UO">
-                                <rect key="frame" x="0.0" y="320" width="320" height="184"/>
+                                <rect key="frame" x="0.0" y="66" width="320" height="438"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_PlaceCell" id="P2f-a2-cCn" customClass="MRSLPlaceCoverSelectTableViewCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="60"/>
@@ -546,32 +591,37 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="HS6-Lc-kLD" id="Xa8-vr-cY1"/>
-                                    <outlet property="delegate" destination="HS6-Lc-kLD" id="Wwz-Qq-wrK"/>
+                                    <outlet property="dataSource" destination="Skl-OL-Y5W" id="vxd-8j-igX"/>
+                                    <outlet property="delegate" destination="Skl-OL-Y5W" id="iy8-R5-i6f"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select a place to associate your Morsel with:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eQC-za-w1l" customClass="MRSLRobotoLightLabel">
+                                <rect key="frame" x="20" y="11" width="280" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Select Cover and Place" id="Meq-Pb-DDR">
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="SeR-xl-OW7">
+                    <navigationItem key="navigationItem" title="Associate Place" id="L2c-zT-CFl">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="TJV-d5-Krg">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="next:" destination="HS6-Lc-kLD" id="7UA-vr-j28"/>
+                                <action selector="next:" destination="Skl-OL-Y5W" id="bkz-hN-f02"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="coverCollectionView" destination="yQG-sy-psc" id="dyv-do-lDr"/>
-                        <outlet property="morselTitleLabel" destination="xPP-2b-9VQ" id="q80-Us-bpX"/>
-                        <outlet property="placeTableView" destination="n1G-03-9UO" id="x8H-Pl-Zqt"/>
-                        <segue destination="Wym-zL-icT" kind="push" identifier="seg_PublishShareMorsel" id="ODx-Md-I47"/>
+                        <outlet property="placeTableView" destination="n1G-03-9UO" id="6Bv-xX-sSa"/>
+                        <segue destination="Wym-zL-icT" kind="push" identifier="seg_PublishShareMorsel" id="9lu-zA-0DL"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SJv-ij-o0x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H5u-9B-UwB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1706" y="1654"/>
+            <point key="canvasLocation" x="2178" y="1654"/>
         </scene>
         <!--Morsel Publish Share View Controller-->
         <scene sceneID="5Nl-ac-03G">
@@ -647,7 +697,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mby-0n-c1B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2210" y="1654"/>
+            <point key="canvasLocation" x="2634" y="1654"/>
         </scene>
         <!--Morsel List View Controller-->
         <scene sceneID="cXI-Ne-8d0">

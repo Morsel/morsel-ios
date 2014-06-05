@@ -18,7 +18,7 @@
 #import "MRSLMorselAddTitleViewController.h"
 #import "MRSLMorselEditItemTableViewCell.h"
 #import "MRSLMorselEditDescriptionViewController.h"
-#import "MRSLMorselPublishViewController.h"
+#import "MRSLMorselPublishCoverViewController.h"
 
 #import "MRSLMediaItem.h"
 
@@ -175,7 +175,7 @@ MRSLMorselEditItemTableViewCellDelegate>
         morselAddTitleVC.isUserEditingTitle = YES;
         morselAddTitleVC.morselID = _morsel.morselID;
     } else if ([segue.identifier isEqualToString:@"seg_PublishMorsel"]) {
-        MRSLMorselPublishViewController *morselPublishVC = [segue destinationViewController];
+        MRSLMorselPublishCoverViewController *morselPublishVC = [segue destinationViewController];
         morselPublishVC.morsel = _morsel;
     }
 }

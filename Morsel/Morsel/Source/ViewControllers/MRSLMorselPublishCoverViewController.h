@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLMorselPublishViewController : MRSLBaseViewController
+@interface MRSLMorselPublishCoverViewController : MRSLBaseViewController
 
 @property (strong, nonatomic) MRSLMorsel *morsel;
 
