@@ -155,7 +155,7 @@ NSFetchedResultsControllerDelegate>
     } else if (indexPath.row == [[self arrayForIndexPath:indexPath] count] + 1) {
         reuseIdentifier = @"ruid_SupplementaryCell";
         if (_allowsEdit) {
-            cellName = @"Add New";
+            cellName = @"Edit";
         } else {
             cellName = ([[self arrayForIndexPath:indexPath] count] == 0 ) ? @"None" : @"View All";
         }
