@@ -334,7 +334,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 
     // Create the image picker
     ELCImagePickerController *imagePicker = [[ELCImagePickerController alloc] init];
-    imagePicker.maximumImagesCount = 4;
+    imagePicker.maximumImagesCount = 10;
     imagePicker.imagePickerDelegate = self;
 
     //Present modally

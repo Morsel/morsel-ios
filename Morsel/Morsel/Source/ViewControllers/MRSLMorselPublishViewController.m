@@ -122,7 +122,7 @@ UITableViewDelegate>
     [_fetchedResultsController performFetch:&fetchError];
     self.places = [_fetchedResultsController fetchedObjects];
     [self.placeTableView reloadData];
-    if ([_places count] > 0) {
+    if ([_places count] == 1) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.placeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                                              animated:NO
