@@ -38,26 +38,24 @@
 #pragma mark - Instance Methods
 
 - (void)setUser:(MRSLUser *)user {
-    if (_user != user || !user) {
-        _user = user;
+    if (!user) _user = user;
 
-        [self reset];
+    [self reset];
 
-        if (user) {
-            if (user.profilePhotoURL) {
-                NSURLRequest *profileImageURLRequest = [user userProfilePictureURLRequestForImageSizeType:([self getWidth] > MRSLUserProfileImageThumbDimensionSize) ? MRSLProfileImageSizeTypeMedium : MRSLProfileImageSizeTypeSmall];
-                if (!profileImageURLRequest)
-                    return;
+    if (user) {
+        if (user.profilePhotoURL) {
+            NSURLRequest *profileImageURLRequest = [user userProfilePictureURLRequestForImageSizeType:([self getWidth] > MRSLUserProfileImageThumbDimensionSize) ? MRSLProfileImageSizeTypeMedium : MRSLProfileImageSizeTypeSmall];
+            if (!profileImageURLRequest)
+                return;
 
-                __weak __typeof(self)weakSelf = self;
-                [self setImageWithURL:profileImageURLRequest.URL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                    if (error) {
-                        [weakSelf setImageToPlaceholderOrLocal];
-                    }
-                }];
-            } else {
-                [self setImageToPlaceholderOrLocal];
-            }
+            __weak __typeof(self)weakSelf = self;
+            [self setImageWithURL:profileImageURLRequest.URL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                if (error) {
+                    [weakSelf setImageToPlaceholderOrLocal];
+                }
+            }];
+        } else {
+            [self setImageToPlaceholderOrLocal];
         }
     }
 }

@@ -7,11 +7,13 @@
 //
 
 #import "MRSLProfileUserTagsListViewController.h"
+#import "MRSLUserTagEditViewController.h"
 
 #import "MRSLAPIService+Tag.h"
 
 #import "MRSLCollectionViewArrayDataSource.h"
 #import "MRSLTagBaseCell.h"
+#import "MRSLReusableView.h"
 
 #import "MRSLKeyword.h"
 #import "MRSLTag.h"
@@ -21,7 +23,8 @@
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
-NSFetchedResultsControllerDelegate>
+NSFetchedResultsControllerDelegate,
+UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
@@ -84,9 +87,6 @@ NSFetchedResultsControllerDelegate>
     [self.specialtyTags addObjectsFromArray:[[_fetchedResultsController fetchedObjects] filteredArrayUsingPredicate:specialtyPredicate]];
     [self.cuisineTags addObjectsFromArray:[[_fetchedResultsController fetchedObjects] filteredArrayUsingPredicate:cuisinePredicate]];
 
-    if ([_specialtyTags count] > 4) [_specialtyTags removeObjectsInRange:NSMakeRange(3, [_specialtyTags count] - 4)];
-    if ([_cuisineTags count] > 4) [_cuisineTags removeObjectsInRange:NSMakeRange(3, [_cuisineTags count] - 4)];
-
     [self.tagsDictionary setObject:([_specialtyTags count] > 0) ? _specialtyTags : [NSArray array]
                             forKey:[MRSLKeywordSpecialtiesType capitalizedString]];
     [self.tagsDictionary setObject:([_cuisineTags count] > 0) ? _cuisineTags : [NSArray array]
@@ -129,6 +129,16 @@ NSFetchedResultsControllerDelegate>
     [self populateContent];
 }
 
+- (IBAction)addTag:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Add New Tag"
+                                delegate:self
+                       cancelButtonTitle:@"Cancel"
+                  destructiveButtonTitle:nil
+                       otherButtonTitles:@"Cuisine", @"Specialty", nil];
+
+    [actionSheet showInView:self.view];
+}
+
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -136,12 +146,10 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([_tagsDictionary count] == 0) {
-        return 2;
-    }
+    if ([_tagsDictionary count] == 0) return 1;
+
     NSString *keyForIndex = [[_tagsDictionary allKeys] objectAtIndex:section];
-    NSUInteger tagsCount = [[_tagsDictionary objectForKey:keyForIndex] count];
-    return ((tagsCount > 4) ? 4 : tagsCount) + 2;
+    return [[_tagsDictionary objectForKey:keyForIndex] count];
 }
 
 - (MRSLTagBaseCell *)collectionView:(UICollectionView *)collectionView
@@ -192,6 +200,33 @@ NSFetchedResultsControllerDelegate>
         }
     }
 }
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        MRSLReusableView *reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                            withReuseIdentifier:@"ruid_TagsFooter"
+                                                                                   forIndexPath:indexPath];
+        return reusableView;
+    }
+
+    return nil;
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) return;
+
+    MRSLUserTagEditViewController *userTagEditVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserTagEditViewController"];
+
+    userTagEditVC.keywordType = [actionSheet buttonTitleAtIndex:buttonIndex];
+
+    [self.navigationController pushViewController:userTagEditVC
+                                         animated:YES];
+}
+
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 

@@ -149,6 +149,8 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #endif
 
+#define MORSEL_SUPPORT_EMAIL @"Morsel Support <support@eatmorsel.com>"
+
 #define TWITTER_BASE_URL @"https://www.twitter.com"
 
 #ifdef SPEC_TESTING
@@ -189,5 +191,6 @@ static const int MRSLStatsTagViewTag = 9991;
 #import "UIFont+Morsel.h"
 #import "UIImage+Resize.h"
 #import "NSMutableString+Additions.h"
+#import "NSString+Additions.h"
 #import "UIStoryboard+Morsel.h"
 #import "UIView+Additions.h"

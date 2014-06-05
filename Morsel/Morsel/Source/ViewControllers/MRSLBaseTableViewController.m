@@ -1,16 +1,14 @@
 //
-//  MRSLBaseViewController.m
+//  MRSLBaseTableViewController.m
 //  Morsel
 //
-//  Created by Javier Otero on 3/21/14.
+//  Created by Marty Trzpit on 6/5/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLBaseViewController.h"
+#import "MRSLBaseTableViewController.h"
 
-@implementation MRSLBaseViewController
-
-#pragma mark - Instance Methods
+@implementation MRSLBaseTableViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
