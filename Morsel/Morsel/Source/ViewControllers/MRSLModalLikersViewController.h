@@ -10,7 +10,7 @@
 
 #import "MRSLBaseModalViewController.h"
 
-@interface MRSLModalLikersViewController : MRSLBaseModalViewController
+@interface MRSLModalLikersViewController : MRSLBaseViewController
 
 @property (weak, nonatomic) MRSLItem *item;
 

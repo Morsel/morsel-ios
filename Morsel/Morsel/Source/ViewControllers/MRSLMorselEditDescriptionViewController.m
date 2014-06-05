@@ -15,7 +15,8 @@
 #import "MRSLItem.h"
 
 @interface MRSLMorselEditDescriptionViewController ()
-<UITextViewDelegate>
+<UIAlertViewDelegate,
+UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *itemDescriptionTextView;
 
@@ -58,6 +59,18 @@
 
 #pragma mark - Action Methods
 
+- (void)goBack {
+    if (![_item.itemDescription isEqualToString:self.itemDescriptionTextView.text]) {
+        [UIAlertView showAlertViewWithTitle:@"Discard Changes?"
+                                    message:@"If you go back, you'll lose all your changes. Are you sure you want to do this?"
+                                   delegate:self
+                          cancelButtonTitle:@"No"
+                          otherButtonTitles:@"Yes", nil];
+    } else {
+        [super goBack];
+    }
+}
+
 - (IBAction)done:(id)sender {
     self.item = [self getOrLoadMorselIfExists];
     [[MRSLEventManager sharedManager] track:@"Tapped Done"
@@ -74,11 +87,19 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - UITextViewDelegate Methods
+#pragma mark - UITextViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView {
     NSUInteger textLength = textView.text.length;
     _doneBarButtonItem.enabled = !(textLength == 0);
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

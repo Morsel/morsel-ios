@@ -146,7 +146,7 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
                                      withMaxID:nil
                                      orSinceID:nil
                                       andCount:nil
-                                    onlyDrafts:NO
+                                    onlyDrafts:YES
                                        success:^(NSArray *responseArray) {
                                            [weakSelf.refreshControl endRefreshing];
                                            weakSelf.morselIDs = [responseArray mutableCopy];
@@ -172,7 +172,7 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
                                      withMaxID:@([lastMorsel morselIDValue] - 1)
                                      orSinceID:nil
                                       andCount:@(12)
-                                    onlyDrafts:NO
+                                    onlyDrafts:YES
                                        success:^(NSArray *responseArray) {
                                            if ([responseArray count] == 0) weakSelf.loadedAll = YES;
                                            DDLogDebug(@"%lu user morsels added", (unsigned long)[responseArray count]);

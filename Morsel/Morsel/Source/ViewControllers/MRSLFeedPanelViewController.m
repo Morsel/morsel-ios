@@ -257,10 +257,11 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(visibleMorsel.itemID),
                                                   @"comment_count": NSNullIfNil(visibleMorsel.comment_count)}];
-        MRSLModalCommentsViewController *modalCommentsVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalCommentsViewController"];
+        UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Comments"];
+        MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
         modalCommentsVC.item = visibleMorsel;
-        [self addChildViewController:modalCommentsVC];
-        [self.view addSubview:modalCommentsVC.view];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                            object:commentNC];
     }
 }
 
@@ -273,10 +274,11 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(visibleMorsel.itemID),
                                                   @"like_count": NSNullIfNil(visibleMorsel.like_count)}];
-        MRSLModalLikersViewController *modalLikersVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalLikesViewController"];
+        UINavigationController *likesNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Likes"];
+        MRSLModalLikersViewController *modalLikersVC = [[likesNC viewControllers] firstObject];
         modalLikersVC.item = visibleMorsel;
-        [self addChildViewController:modalLikersVC];
-        [self.view addSubview:modalLikersVC.view];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                            object:likesNC];
     }
 }
 

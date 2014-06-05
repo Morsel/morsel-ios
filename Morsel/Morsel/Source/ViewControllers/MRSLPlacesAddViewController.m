@@ -161,6 +161,7 @@ UITextFieldDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
     self.selectedFoursquarePlace = [_foursquarePlaces objectAtIndex:indexPath.row];
+    [self.view endEditing:YES];
     [UIAlertView showAlertViewWithTitle:@"Add Your Title"
                                 message:[NSString stringWithFormat:@"Great! Before we can add %@ to your profile, we'll need your title:", self.selectedFoursquarePlace.name]
                                delegate:self style:UIAlertViewStylePlainTextInput

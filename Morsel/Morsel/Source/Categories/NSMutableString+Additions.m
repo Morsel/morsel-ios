@@ -27,4 +27,13 @@
     }
 }
 
+- (NSMutableString *)stringCleanedForPhonePrompt {
+    [self setString:[self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    [self setString:[self stringByReplacingOccurrencesOfString:@"(" withString:@""]];
+    [self setString:[self stringByReplacingOccurrencesOfString:@")" withString:@""]];
+    [self setString:[self stringByReplacingOccurrencesOfString:@"-" withString:@""]];
+    [self setString:[self stringByReplacingOccurrencesOfString:@" " withString:@""]];
+    return self;
+}
+
 @end

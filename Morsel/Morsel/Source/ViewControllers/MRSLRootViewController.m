@@ -24,6 +24,7 @@
 <MRSLMenuBarViewDelegate>
 
 @property (nonatomic) BOOL shouldMenuBarOpen;
+@property (nonatomic) BOOL shouldCheckForUser;
 
 @property (nonatomic) UIStatusBarStyle currentStatusBarStyle;
 
@@ -43,6 +44,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.shouldCheckForUser = YES;
     self.currentStatusBarStyle = UIStatusBarStyleDefault;
 
     [self.menuBarView setX:-[_menuBarView getWidth]];
@@ -98,30 +100,33 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    if (_shouldCheckForUser) {
+        self.shouldCheckForUser = NO;
 
-    MRSLUser *currentUser = [MRSLUser currentUser];
+        MRSLUser *currentUser = [MRSLUser currentUser];
 
-    if (!currentUser) {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES];
-        double delayInSeconds = 0.f;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-            [self displaySignUpAnimated:NO];
-        });
-    } else {
-        Mixpanel *mixpanel = [Mixpanel sharedInstance];
-        [mixpanel identify:[NSString stringWithFormat:@"%i", currentUser.userIDValue]];
-        [mixpanel.people set:@{@"first_name": NSNullIfNil(currentUser.first_name),
-                               @"last_name": NSNullIfNil(currentUser.last_name),
-                               @"created_at": NSNullIfNil(currentUser.creationDate),
-                               @"username": NSNullIfNil(currentUser.username)}];
-        [_appDelegate.apiService getUserProfile:currentUser
-                                        success:^(id responseObject) {
-                                            [_appDelegate.apiService getUserAuthenticationsWithSuccess:nil
-                                                                                               failure:nil];
-                                        } failure:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
-                                                            object:nil];
+        if (!currentUser) {
+            [[UIApplication sharedApplication] setStatusBarHidden:YES];
+            double delayInSeconds = 0.f;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+                [self displaySignUpAnimated:NO];
+            });
+        } else {
+            Mixpanel *mixpanel = [Mixpanel sharedInstance];
+            [mixpanel identify:[NSString stringWithFormat:@"%i", currentUser.userIDValue]];
+            [mixpanel.people set:@{@"first_name": NSNullIfNil(currentUser.first_name),
+                                   @"last_name": NSNullIfNil(currentUser.last_name),
+                                   @"created_at": NSNullIfNil(currentUser.creationDate),
+                                   @"username": NSNullIfNil(currentUser.username)}];
+            [_appDelegate.apiService getUserProfile:currentUser
+                                            success:^(id responseObject) {
+                                                [_appDelegate.apiService getUserAuthenticationsWithSuccess:nil
+                                                                                                   failure:nil];
+                                            } failure:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+                                                                object:nil];
+        }
     }
 }
 
@@ -178,7 +183,13 @@
 
 - (void)callPhoneNumber:(NSNotification *)notification {
     if (notification.object) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", notification.object[@"phone"]]]];
+        NSMutableString *phoneString = [NSMutableString stringWithString:notification.object[@"phone"]];
+        NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", [phoneString stringCleanedForPhonePrompt]]];
+        if ([[UIApplication sharedApplication] canOpenURL:phoneURL]) {
+            [[UIApplication sharedApplication] openURL:phoneURL];
+        } else {
+            [UIAlertView showAlertViewForErrorString:@"Calling not available on this device" delegate:nil];
+        }
     }
 }
 

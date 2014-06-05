@@ -107,14 +107,6 @@ NSFetchedResultsControllerDelegate>
     }
 }
 
-- (IBAction)dismiss:(id)sender {
-    if ([_commentInputTextView isFirstResponder] && ![sender isKindOfClass:[UIButton class]]) {
-        [_commentInputTextView resignFirstResponder];
-    } else {
-        [super dismiss:sender];
-    }
-}
-
 #pragma mark - Notification Methods
 
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -154,7 +146,7 @@ NSFetchedResultsControllerDelegate>
     CGSize bodySize = [comment.commentDescription sizeWithFont:[UIFont robotoLightFontOfSize:12.f]
                                              constrainedToSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
                                                  lineBreakMode:NSLineBreakByWordWrapping];
-    CGFloat defaultCellSize = 110.f;
+    CGFloat defaultCellSize = 70.f;
 
     if (bodySize.height > MRSLDefaultCommentLabelHeight) {
         defaultCellSize = defaultCellSize + (bodySize.height - MRSLDefaultCommentLabelHeight);

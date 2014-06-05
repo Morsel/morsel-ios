@@ -13,6 +13,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        self.font = [UIFont robotoLightFontOfSize:16.f];
         [self setUp];
     }
     return self;

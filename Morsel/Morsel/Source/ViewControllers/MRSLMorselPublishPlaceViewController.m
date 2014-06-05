@@ -1,35 +1,30 @@
 //
-//  MRSLMorselSettingsViewController.m
+//  MRSLMorselPublishPlaceViewController.m
 //  Morsel
 //
-//  Created by Javier Otero on 3/7/14.
+//  Created by Javier Otero on 6/5/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLMorselPublishViewController.h"
+#import "MRSLMorselPublishPlaceViewController.h"
 
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Place.h"
 
-#import "MRSLItemImageView.h"
 #import "MRSLMorselPublishShareViewController.h"
-
-#import "MRSLImagePreviewCollectionViewCell.h"
 #import "MRSLPlaceCoverSelectTableViewCell.h"
+#import "MRSLPlacesAddViewController.h"
+#import "MRSLRobotoLightLabel.h"
 
-#import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
 
-@interface MRSLMorselPublishViewController ()
+@interface MRSLMorselPublishPlaceViewController ()
 <NSFetchedResultsControllerDelegate,
-UIActionSheetDelegate,
-UICollectionViewDataSource,
-UITableViewDataSource>
+UITableViewDataSource,
+UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
-@property (weak, nonatomic) IBOutlet UICollectionView *coverCollectionView;
 @property (weak, nonatomic) IBOutlet UITableView *placeTableView;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -39,13 +34,10 @@ UITableViewDataSource>
 
 @end
 
-@implementation MRSLMorselPublishViewController
-
-#pragma mark - Instance Methods
+@implementation MRSLMorselPublishPlaceViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     self.placeIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username]] ?: [NSMutableArray array];
 
     self.places = [NSMutableArray array];
@@ -58,23 +50,10 @@ UITableViewDataSource>
 
     [self.placeTableView addSubview:_refreshControl];
     self.placeTableView.alwaysBounceVertical = YES;
-
-    _morselTitleLabel.text = _morsel.title;
-    [_morselTitleLabel addStandardShadow];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        NSUInteger coverIndex = [[self.morsel itemsArray] indexOfObject:[self.morsel coverItem]];
-        [self.coverCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:coverIndex inSection:0]
-                                         atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                                 animated:NO];
-    });
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    if (_fetchedResultsController) return;
-
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];
@@ -98,10 +77,6 @@ UITableViewDataSource>
 #pragma mark - Private Methods
 
 - (void)updateMorsel {
-    NSIndexPath *selectedCoverIndexPath = [self.coverCollectionView indexPathForCell:[[self.coverCollectionView visibleCells] firstObject]];
-    MRSLItem *coverItem = [[self.morsel itemsArray] objectAtIndex:selectedCoverIndexPath.row];
-    self.morsel.primary_item_id = coverItem.itemID;
-
     if ([_places count] > 0) {
         NSIndexPath *selectedIndexPath = [_placeTableView indexPathForSelectedRow];
         MRSLPlace *place = [_places objectAtIndex:selectedIndexPath.row];
@@ -111,7 +86,7 @@ UITableViewDataSource>
 
 - (void)setupFetchRequest {
     self.fetchedResultsController = [MRSLPlace MR_fetchAllSortedBy:@"name"
-                                                         ascending:NO
+                                                         ascending:YES
                                                      withPredicate:[NSPredicate predicateWithFormat:@"placeID IN %@", _placeIDs]
                                                            groupBy:nil
                                                           delegate:self
@@ -123,9 +98,10 @@ UITableViewDataSource>
     [_fetchedResultsController performFetch:&fetchError];
     self.places = [_fetchedResultsController fetchedObjects];
     [self.placeTableView reloadData];
-    if ([_places count] > 0) {
+    if ([_places count] == 1) {
+        NSUInteger indexOfPlace = (_morsel.place) ? [_places indexOfObject:_morsel.place] : 0;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.placeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+            [self.placeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfPlace inSection:0]
                                              animated:NO
                                        scrollPosition:UITableViewScrollPositionNone];
         });
@@ -159,24 +135,6 @@ UITableViewDataSource>
     }
 }
 
-#pragma mark - UICollectionViewDataSource
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [[_morsel items] count];
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLItem *item = [[_morsel itemsArray] objectAtIndex:indexPath.row];
-    MRSLImagePreviewCollectionViewCell *imagePreviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MediaPreviewCell"
-                                                                                                     forIndexPath:indexPath];
-    imagePreviewCell.mediaPreviewItem = item;
-    return imagePreviewCell;
-}
-
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -198,6 +156,16 @@ UITableViewDataSource>
         cell = placeCell;
     }
     return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.places count] == 0) {
+        MRSLPlacesAddViewController *placesAddVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"];
+        [self.navigationController pushViewController:placesAddVC
+                                             animated:YES];
+    }
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
