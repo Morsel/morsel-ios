@@ -27,6 +27,11 @@
 
 #pragma mark - Instance Methods
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.profileImageView.userInteractionEnabled = NO;
+}
+
 - (void)setUser:(MRSLUser *)user {
     _user = user;
 
