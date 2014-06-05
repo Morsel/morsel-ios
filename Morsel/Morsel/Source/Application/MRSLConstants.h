@@ -28,7 +28,6 @@ extern NSString *const MRSLItemUploadDidFailNotification;
 extern NSString *const MRSLModalWillDisplayNotification;
 extern NSString *const MRSLModalWillDismissNotification;
 
-extern NSString *const MRSLAppShouldDisplayFeedNotification;
 extern NSString *const MRSLAppShouldDisplayMorselAddNotification;
 extern NSString *const MRSLAppShouldDisplayMenuBarNotification;
 extern NSString *const MRSLAppShouldDisplayBaseViewControllerNotification;

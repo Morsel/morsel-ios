@@ -149,6 +149,8 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #endif
 
+#define MORSEL_DEV_BASE_URL @"http://dev.eatmorsel.com"
+
 #define TWITTER_BASE_URL @"https://www.twitter.com"
 
 #ifdef SPEC_TESTING

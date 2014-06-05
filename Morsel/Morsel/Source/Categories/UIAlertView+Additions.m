@@ -69,7 +69,7 @@
 
 + (UIAlertView *)showAlertViewForErrorString:(NSString *)errorString
                                     delegate:(id)delegate {
-    return [UIAlertView showAlertViewWithTitle:@"Oops, something went wrong"
+    return [UIAlertView showAlertViewWithTitle:@"Something went wrong"
                                        message:errorString
                                       delegate:delegate
                              cancelButtonTitle:@"Close"
