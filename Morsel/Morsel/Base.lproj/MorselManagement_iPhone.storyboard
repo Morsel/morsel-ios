@@ -521,12 +521,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JWU-89-UCF" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="45" y="0.0" width="230" height="60"/>
+                                                    <rect key="frame" x="52" y="0.0" width="215" height="60"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                                     <attributedString key="attributedText">
-                                                        <fragment content="You haven't added any places to your profile yet!">
+                                                        <fragment content="You haven't added any places to your profile yet! ">
                                                             <attributes>
                                                                 <color key="NSColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <font key="NSFont" size="17" name="Helvetica-Light"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                        <fragment content="Add one now">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.90980392694473267" green="0.3803921639919281" blue="0.26666668057441711" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <font key="NSFont" size="17" name="Helvetica-Light"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                             </attributes>

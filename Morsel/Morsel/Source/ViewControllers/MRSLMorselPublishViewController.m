@@ -11,11 +11,12 @@
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Place.h"
 
+#import "MRSLImagePreviewCollectionViewCell.h"
 #import "MRSLItemImageView.h"
 #import "MRSLMorselPublishShareViewController.h"
-
-#import "MRSLImagePreviewCollectionViewCell.h"
 #import "MRSLPlaceCoverSelectTableViewCell.h"
+#import "MRSLPlacesAddViewController.h"
+#import "MRSLRobotoLightLabel.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -26,7 +27,8 @@
 <NSFetchedResultsControllerDelegate,
 UIActionSheetDelegate,
 UICollectionViewDataSource,
-UITableViewDataSource>
+UITableViewDataSource,
+UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *coverCollectionView;
@@ -72,9 +74,6 @@ UITableViewDataSource>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    if (_fetchedResultsController) return;
-
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];
@@ -111,7 +110,7 @@ UITableViewDataSource>
 
 - (void)setupFetchRequest {
     self.fetchedResultsController = [MRSLPlace MR_fetchAllSortedBy:@"name"
-                                                         ascending:NO
+                                                         ascending:YES
                                                      withPredicate:[NSPredicate predicateWithFormat:@"placeID IN %@", _placeIDs]
                                                            groupBy:nil
                                                           delegate:self
@@ -198,6 +197,28 @@ UITableViewDataSource>
         cell = placeCell;
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.places count] == 0) {
+        MRSLPlacesAddViewController *placesAddVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"];
+        [self.navigationController pushViewController:placesAddVC
+                                             animated:YES];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 44.f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 44.f)];
+    headerView.backgroundColor = [UIColor morselUserInterface];
+    MRSLRobotoLightLabel *headerLabel = [[MRSLRobotoLightLabel alloc] initWithFrame:CGRectMake(20.f, 0.f, 280.f, 44.f)];
+    headerLabel.text = @"Associate to Place";
+    headerLabel.textColor = [UIColor morselDarkContent];
+    [headerView addSubview:headerLabel];
+    return headerView;
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
