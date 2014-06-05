@@ -26,7 +26,6 @@
 		0609B8401894B52E005A11A4 /* MRSLCameraPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B83F1894B52E005A11A4 /* MRSLCameraPreviewView.m */; };
 		060FEC4618DCC46100085ED1 /* MRSLApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 060FEC4518DCC46100085ED1 /* MRSLApplication.m */; };
 		060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */; };
-		0611429E18F2622100FA38BC /* MRSLLikersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0611429D18F2622100FA38BC /* MRSLLikersTableViewCell.m */; };
 		061142A118F2766A00FA38BC /* MRSLModalShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061142A018F2766A00FA38BC /* MRSLModalShareViewController.m */; };
 		061531C218E220530025F07E /* RobotoSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 061531C018E220530025F07E /* RobotoSlab-Bold.ttf */; };
 		0615C37F1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0615C37E1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.m */; };
@@ -307,8 +306,6 @@
 		060FEC4518DCC46100085ED1 /* MRSLApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLApplication.m; sourceTree = "<group>"; };
 		060FEC4718DCC75E00085ED1 /* MRSLBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseViewController.h; sourceTree = "<group>"; };
 		060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLBaseViewController.m; sourceTree = "<group>"; };
-		0611429C18F2622100FA38BC /* MRSLLikersTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLLikersTableViewCell.h; path = Source/Views/MRSLLikersTableViewCell.h; sourceTree = "<group>"; };
-		0611429D18F2622100FA38BC /* MRSLLikersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLLikersTableViewCell.m; path = Source/Views/MRSLLikersTableViewCell.m; sourceTree = "<group>"; };
 		0611429F18F2766A00FA38BC /* MRSLModalShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalShareViewController.h; sourceTree = "<group>"; };
 		061142A018F2766A00FA38BC /* MRSLModalShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLModalShareViewController.m; sourceTree = "<group>"; };
 		061531C018E220530025F07E /* RobotoSlab-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Bold.ttf"; sourceTree = "<group>"; };
@@ -823,15 +820,6 @@
 			name = Management;
 			sourceTree = "<group>";
 		};
-		0611429B18F261DE00FA38BC /* Likers */ = {
-			isa = PBXGroup;
-			children = (
-				0611429C18F2622100FA38BC /* MRSLLikersTableViewCell.h */,
-				0611429D18F2622100FA38BC /* MRSLLikersTableViewCell.m */,
-			);
-			name = Likers;
-			sourceTree = "<group>";
-		};
 		0615C3801908CDA000A1C361 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -866,7 +854,6 @@
 				063250CB1860E85700ADDF23 /* Feed */,
 				06FE51021911676F003A6D7D /* Follow */,
 				0698298419188A36005DBA3D /* Keyword */,
-				0611429B18F261DE00FA38BC /* Likers */,
 				063250CC1860E86600ADDF23 /* Management */,
 				06B877DE193BCF5E00160707 /* Places */,
 				0684C1BB1906FA3E009D8D73 /* Profile */,
@@ -2160,7 +2147,6 @@
 				062AB98B18C53DE800742955 /* MRSLAppDelegate+SetupAppearance.m in Sources */,
 				066F5AF9185BCD3700468210 /* MRSLProfileImageView.m in Sources */,
 				062AB99418C5885F00742955 /* MRSLMorselListViewController.m in Sources */,
-				0611429E18F2622100FA38BC /* MRSLLikersTableViewCell.m in Sources */,
 				06584C5B18C7CE8F00D9035A /* MRSLMediaItemPreviewCollectionViewCell.m in Sources */,
 				062AB99A18C655DF00742955 /* MRSLMorselEditViewController.m in Sources */,
 				4069CB28189B127E001790F3 /* MRSLAPIClient.m in Sources */,

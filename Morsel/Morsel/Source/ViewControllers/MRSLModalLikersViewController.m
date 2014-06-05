@@ -10,7 +10,7 @@
 
 #import "MRSLAPIService+Like.h"
 
-#import "MRSLLikersTableViewCell.h"
+#import "MRSLUserFollowTableViewCell.h"
 
 @interface MRSLModalLikersViewController ()
 <UITableViewDataSource,
@@ -45,11 +45,12 @@ UITableViewDelegate>
     return [_likers count];
 }
 
-- (MRSLLikersTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (MRSLUserFollowTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLUser *user = [_likers objectAtIndex:indexPath.row];
 
-    MRSLLikersTableViewCell *likerCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_LikerCell"];
+    MRSLUserFollowTableViewCell *likerCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_UserFollowCell"];
     likerCell.user = user;
+    likerCell.pipeView.hidden = (indexPath.row == [_likers count] - 1);
 
     return likerCell;
 }
