@@ -29,7 +29,7 @@
         self.nameLabel.text = _place.name;
         self.addressLabel.text = [_place fullAddress];
 
-        if (_place.lat && _place.lon) {
+        if (_place.latValue != 0.0f && _place.lonValue != 0.0f) {
             CLLocationDegrees lat = [_place.lat doubleValue];
             CLLocationDegrees lon = [_place.lon doubleValue];
             CLLocationCoordinate2D locationCoordinate = CLLocationCoordinate2DMake(lat, lon);

@@ -80,6 +80,16 @@ const struct MRSLPlaceFetchedProperties MRSLPlaceFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"latValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"lat"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"lonValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"lon"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"placeIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"placeID"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -223,11 +233,49 @@ const struct MRSLPlaceFetchedProperties MRSLPlaceFetchedProperties = {
 
 
 
+- (float)latValue {
+	NSNumber *result = [self lat];
+	return [result floatValue];
+}
+
+- (void)setLatValue:(float)value_ {
+	[self setLat:[NSNumber numberWithFloat:value_]];
+}
+
+- (float)primitiveLatValue {
+	NSNumber *result = [self primitiveLat];
+	return [result floatValue];
+}
+
+- (void)setPrimitiveLatValue:(float)value_ {
+	[self setPrimitiveLat:[NSNumber numberWithFloat:value_]];
+}
+
+
 
 
 
 @dynamic lon;
 
+
+
+- (float)lonValue {
+	NSNumber *result = [self lon];
+	return [result floatValue];
+}
+
+- (void)setLonValue:(float)value_ {
+	[self setLon:[NSNumber numberWithFloat:value_]];
+}
+
+- (float)primitiveLonValue {
+	NSNumber *result = [self primitiveLon];
+	return [result floatValue];
+}
+
+- (void)setPrimitiveLonValue:(float)value_ {
+	[self setPrimitiveLon:[NSNumber numberWithFloat:value_]];
+}
 
 
 

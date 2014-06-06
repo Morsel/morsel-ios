@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C1021" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="MRSLActivity" representedClassName="MRSLActivity" syncable="YES">
         <attribute name="actionType" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -208,8 +208,8 @@
                 <entry key="mappedKeyName" value="information.formatted_phone"/>
             </userInfo>
         </attribute>
-        <attribute name="lat" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="lon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="menu_mobile_url" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="information.menu_mobile_url"/>

@@ -220,9 +220,13 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* lat;
+@property (nonatomic, strong) NSNumber* lat;
 
 
+
+@property float latValue;
+- (float)latValue;
+- (void)setLatValue:(float)value_;
 
 //- (BOOL)validateLat:(id*)value_ error:(NSError**)error_;
 
@@ -230,9 +234,13 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSString* lon;
+@property (nonatomic, strong) NSNumber* lon;
 
 
+
+@property float lonValue;
+- (float)lonValue;
+- (void)setLonValue:(float)value_;
 
 //- (BOOL)validateLon:(id*)value_ error:(NSError**)error_;
 
@@ -520,14 +528,20 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
-- (NSString*)primitiveLat;
-- (void)setPrimitiveLat:(NSString*)value;
+- (NSNumber*)primitiveLat;
+- (void)setPrimitiveLat:(NSNumber*)value;
+
+- (float)primitiveLatValue;
+- (void)setPrimitiveLatValue:(float)value_;
 
 
 
 
-- (NSString*)primitiveLon;
-- (void)setPrimitiveLon:(NSString*)value;
+- (NSNumber*)primitiveLon;
+- (void)setPrimitiveLon:(NSNumber*)value;
+
+- (float)primitiveLonValue;
+- (void)setPrimitiveLonValue:(float)value_;
 
 
 
