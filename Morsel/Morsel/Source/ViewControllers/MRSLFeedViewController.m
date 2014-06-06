@@ -61,6 +61,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.isFeed = YES;
     self.feedCollectionView.accessibilityLabel = @"Feed";
 
     self.feedMorsels = [NSMutableArray array];
@@ -70,6 +71,10 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [self resumeTimer];
     [self toggleNewMorselsButton:NO
                         animated:NO];
+
+    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-identity-nav"]];
+    [titleView setY:-4.f];
+    [self.navigationController.navigationBar.topItem setTitleView:titleView];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayPublishedMorsel:)
@@ -94,9 +99,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:YES
-                                             animated:animated];
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleLightContent];
+    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
     [super viewWillAppear:animated];
     MRSLUser *currentUser = [MRSLUser currentUser];
@@ -381,7 +384,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return collectionView.frame.size;
+    UIDeviceScreenSize screenSize = [[UIDevice currentDevice] screenSize];
+    return CGSizeMake(320.f, (screenSize == UIDeviceScreenSize35Inch) ? 416.f : 504.f);
 }
 
 #pragma mark - UIScrollViewDelegate

@@ -23,6 +23,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userBioLabel;
+@property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextMorselButton;
@@ -39,6 +40,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+    [self.morselTitleLabel addStandardShadow];
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
@@ -52,9 +54,13 @@
 
 - (void)populateContent {
     _shareCoverImageView.item = [_morsel coverItem];
+    _morselTitleLabel.text = _morsel.title;
     _profileImageView.user = _morsel.creator;
     _userNameLabel.text = _morsel.creator.fullName;
     _userBioLabel.text = _morsel.creator.bio;
+
+    [_userBioLabel sizeToFit];
+    [_userBioLabel setWidth:192.f];
 }
 
 #pragma mark - Notification Methods

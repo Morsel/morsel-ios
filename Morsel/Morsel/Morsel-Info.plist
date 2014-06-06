@@ -31,17 +31,17 @@
 			<array>
 				<string>tw-morsel</string>
 				<string>insta-morsel</string>
-				<string>fb1406459019603393</string>
+				<string>fb1402286360015732</string>
 				<string>item</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201406051902</string>
+	<string>201406061551</string>
 	<key>FacebookAppID</key>
-	<string>1406459019603393</string>
+	<string>1402286360015732</string>
 	<key>FacebookDisplayName</key>
-	<string>Morsel Staging</string>
+	<string>Morsel</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

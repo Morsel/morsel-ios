@@ -8,23 +8,34 @@
 
 #import "MRSLFeedCoverCollectionViewCell.h"
 
+#import "NSDate+TimeAgoMinimized.h"
+
 #import "MRSLItemImageView.h"
+#import "MRSLPlaceViewController.h"
 #import "MRSLProfileImageView.h"
+#import "MRSLProfileViewController.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
+#import "MRSLPlace.h"
 #import "MRSLUser.h"
+
+static const CGFloat MRSLPlaceHeightLimit = 34.f;
 
 @interface MRSLFeedCoverCollectionViewCell ()
 <MRSLItemImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
-@property (weak, nonatomic) IBOutlet UILabel *additionalMorselsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *placeCityStateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 
+@property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *morselCoverImageView;
-
-@property (strong, nonatomic) IBOutletCollection (MRSLItemImageView) NSArray *morselItemThumbnails;
+@property (weak, nonatomic) IBOutlet MRSLItemImageView *moreItemImageView;
 
 @end
 
@@ -38,16 +49,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
-
-    self.morselItemThumbnails = [_morselItemThumbnails sortedArrayUsingComparator:^NSComparisonResult(MRSLItemImageView *itemImageViewA, MRSLItemImageView *itemImageViewB) {
-        return [itemImageViewA getX] > [itemImageViewB getX];
-    }];
-    [_morselItemThumbnails enumerateObjectsUsingBlock:^(MRSLItemImageView *itemImageView, NSUInteger idx, BOOL *stop) {
-        [itemImageView setBorderWithColor:[UIColor whiteColor]
-                                 andWidth:2.f];
-        itemImageView.delegate = self;
-    }];
-    [_additionalMorselsLabel addStandardShadow];
+    [self.morselTitleLabel addStandardShadow];
+    self.shareButton.hidden = (![[MRSLUser currentUser] isChef]);
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
@@ -57,29 +60,68 @@
     }
 }
 
+#pragma mark - Action Methods
+
+- (IBAction)displayProfile {
+    UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
+    MRSLProfileViewController *profileVC = [[profileNC viewControllers] firstObject];
+    profileVC.user = _morsel.creator;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                        object:profileNC];
+}
+
+- (IBAction)displayPlace {
+    UINavigationController *placeNC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_Place"];
+    MRSLPlaceViewController *placeVC = [[placeNC viewControllers] firstObject];
+    placeVC.place = _morsel.place;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                        object:placeNC];
+}
+
 #pragma mark - Private Methods
 
 - (void)populateContent {
     dispatch_async(dispatch_get_main_queue(), ^{
         _morselCoverImageView.item = [_morsel coverItem];
-        if ([_morsel.items count] > 4) {
-            self.additionalMorselsLabel.hidden = NO;
-            self.additionalMorselsLabel.text = [NSString stringWithFormat:@"+%lu", (unsigned long)[_morsel.items count] - 4];
-        } else {
-            self.additionalMorselsLabel.hidden = YES;
+
+        self.morselTitleLabel.text = _morsel.title;
+        self.profileImageView.user = _morsel.creator;
+        self.timeAgoLabel.text = [_morsel.publishedDate timeAgoMinimized];
+
+        NSString *userNameString = [_morsel.creator fullName];
+        CGSize nameSize = [userNameString sizeWithFont:self.userNameLabel.font
+                                     constrainedToSize:CGSizeMake(self.userNameLabel.frame.size.width, CGFLOAT_MAX)
+                                         lineBreakMode:NSLineBreakByWordWrapping];
+        if (nameSize.height > [self.userNameLabel getHeight]) {
+            userNameString = [NSString stringWithFormat:@"%@ %@", _morsel.creator.first_name, ([_morsel.creator.last_name length] > 0) ? [NSString stringWithFormat:@"%@.", [_morsel.creator.last_name substringToIndex:1]] : @""];
         }
+        self.userNameLabel.text = userNameString;
+
         _editButton.hidden = ![_morsel.creator isCurrentUser];
 
-        [_morselItemThumbnails enumerateObjectsUsingBlock:^(MRSLItemImageView *itemImageView, NSUInteger idx, BOOL *stop) {
-            if (idx < [_morsel.items count] && [_morsel.items count] != 1) {
-                MRSLItem *item = [_morsel.itemsArray objectAtIndex:idx];
-                itemImageView.item = item;
-                itemImageView.hidden = NO;
+        MRSLItem *firstItem = [_morsel.itemsArray firstObject];
+        self.moreItemImageView.grayScale = YES;
+        self.moreItemImageView.item = firstItem;
+        self.moreItemImageView.delegate = self;
+
+        _placeNameLabel.hidden = (!_morsel.place);
+        _placeCityStateLabel.hidden = (!_morsel.place);
+
+        if (_morsel.place) {
+            _placeNameLabel.text = _morsel.place.name;
+            _placeCityStateLabel.text = [NSString stringWithFormat:@"%@, %@", _morsel.place.city, _morsel.place.state];
+
+            CGSize textSize = [_placeNameLabel.text sizeWithFont:_placeNameLabel.font
+                                                constrainedToSize:CGSizeMake([_placeNameLabel getWidth], CGFLOAT_MAX)
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
+
+            if (textSize.height > MRSLPlaceHeightLimit) {
+                [_placeNameLabel setHeight:MRSLPlaceHeightLimit];
             } else {
-                itemImageView.item = nil;
-                itemImageView.hidden = YES;
+                [_placeNameLabel setHeight:textSize.height];
             }
-        }];
+            [_placeNameLabel setY:[_placeCityStateLabel getY] - ([_placeNameLabel getHeight] - 5.f)];
+        }
     });
 }
 

@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setAlpha:.0f];
+    if (!_disableFade) [self.view setAlpha:.0f];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismiss:)];
     [self.view addGestureRecognizer:tap];
@@ -30,10 +30,12 @@
         [self.view setY:[self.view getY] - 22.f];
         [self.view setHeight:[self.view getHeight] + 22.f];
     }
-    [UIView animateWithDuration:animated ? 0.f : .4f
-                     animations:^{
-                         [self.view setAlpha:1.f];
-    }];
+    if (!_disableFade) {
+        [UIView animateWithDuration:animated ? 0.f : .4f
+                         animations:^{
+                             [self.view setAlpha:1.f];
+                         }];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLModalWillDisplayNotification
                                                         object:nil];
 }
@@ -43,13 +45,21 @@
 - (IBAction)dismiss:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLModalWillDismissNotification
                                                         object:nil];
-    [UIView animateWithDuration:.4f
-                     animations:^{
-        [self.view setAlpha:.0f];
-    } completion:^(BOOL finished) {
-        [self.view removeFromSuperview];
-        [self removeFromParentViewController];
-    }];
+    [self viewWillDisappear:YES];
+    if (!_disableFade) {
+        [UIView animateWithDuration:.4f
+                         animations:^{
+                             [self.view setAlpha:.0f];
+                         } completion:^(BOOL finished) {
+                             [self.view removeFromSuperview];
+                             [self removeFromParentViewController];
+                         }];
+    } else {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.view removeFromSuperview];
+            [self removeFromParentViewController];
+        });
+    }
 }
 
 @end

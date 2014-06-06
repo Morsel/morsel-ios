@@ -91,7 +91,7 @@
 - (void)addStandardShadowWithColor:(UIColor *)shadowColor; {
     self.layer.shadowColor = shadowColor.CGColor;
     self.layer.shadowOpacity = .9f;
-    self.layer.shadowRadius = 2.f;
+    self.layer.shadowRadius = 4.f;
     self.layer.shadowOffset = CGSizeMake(.0f, .0f);
     self.layer.masksToBounds = NO;
     self.layer.needsDisplayOnBoundsChange = NO;

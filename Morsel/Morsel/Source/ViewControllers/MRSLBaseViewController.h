@@ -10,9 +10,12 @@
 
 @interface MRSLBaseViewController : UIViewController
 
+@property (nonatomic) BOOL isFeed;
+
 - (IBAction)dismiss;
 - (IBAction)displayMenuBar;
 - (IBAction)displayMorselAdd;
+- (IBAction)displayMorselShare;
 - (IBAction)goBack;
 
 - (void)changeStatusBarStyle:(UIStatusBarStyle)style;

@@ -10,6 +10,8 @@
 
 @interface MRSLBaseModalViewController : UIViewController
 
+@property (nonatomic) BOOL disableFade;
+
 - (IBAction)dismiss:(id)sender;
 
 @end

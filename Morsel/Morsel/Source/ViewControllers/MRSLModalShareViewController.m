@@ -21,7 +21,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
-@property (weak, nonatomic) IBOutlet UILabel *shareConfirmationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *shareStatusLabel;
 
 @property (strong, nonatomic) SLComposeViewController *mySLComposerSheet;
 
@@ -43,7 +43,7 @@
                                             inViewController:self
                                                      success:^(BOOL success) {
                                                          if (weakSelf && success) {
-                                                             [weakSelf displaySuccess];
+                                                             weakSelf.shareStatusLabel.text = @"Shared to Facebook";
                                                          } else {
                                                              weakSelf.facebookButton.enabled = YES;
                                                          }
@@ -66,7 +66,7 @@
                                            inViewController:self
                                                     success:^(BOOL success) {
                                                         if (weakSelf && success) {
-                                                            [weakSelf displaySuccess];
+                                                            weakSelf.shareStatusLabel.text = @"Shared to Twitter";
                                                         } else {
                                                             weakSelf.twitterButton.enabled = YES;
                                                         }
@@ -77,24 +77,11 @@
                                                     }];
 }
 
-#pragma mark - Private Methods
-
-- (void)displaySuccess {
-    [_shareConfirmationLabel setHidden:NO];
-    [UIView animateWithDuration:.3f
-                     animations:^{
-                         [_facebookButton setAlpha:0.f];
-                         [_twitterButton setAlpha:0.f];
-                     } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:.3f
-                                          animations:^{
-                                              [_shareConfirmationLabel setAlpha:1.f];
-                                          } completion:^(BOOL finished) {
-                                              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                  [self dismiss:nil];
-                                              });
-                                          }];
-                     }];
+- (IBAction)saveToClipboard {
+    NSString *morselShareURL = _item.morsel.url;
+    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+    [pasteBoard setString:morselShareURL];
+    _shareStatusLabel.text = @"Copied share link to clipboard";
 }
 
 @end

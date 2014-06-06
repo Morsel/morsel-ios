@@ -10,6 +10,8 @@
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
+#import "UIImage+Resize.h"
+
 #import "MRSLItem.h"
 
 @interface MRSLItemImageView ()
@@ -54,6 +56,10 @@
 
 #pragma mark - Instance Methods
 
+- (void)setItemImage:(UIImage *)image {
+    self.image = (self.grayScale) ? [image convertImageToGrayScale] : image;
+}
+
 - (void)setDelegate:(id<MRSLItemImageViewDelegate>)delegate {
     _delegate = delegate;
 
@@ -94,7 +100,7 @@
                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
                                                 if (!fullSizeImageSet && image) {
                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                        weakSelf.image = image;
+                                                        [weakSelf setItemImage:image];
                                                     });
                                                 }
                                             }];
@@ -110,7 +116,7 @@
                                                 } else {
                                                     dispatch_async(dispatch_get_main_queue(), ^{
                                                         fullSizeImageSet = YES;
-                                                        weakSelf.image = image;
+                                                        [weakSelf setItemImage:image];
                                                     });
                                                 }
                                             }];
@@ -121,7 +127,7 @@
                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
                                                 if (image) {
                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                        weakSelf.image = image;
+                                                        [weakSelf setItemImage:image];
                                                     });
                                                 } else {
                                                     [weakSelf attemptToSetLocalMorselImageForSizeType:itemSizeType
@@ -144,7 +150,7 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 UIImage *localImage = [UIImage imageWithData:(itemSizeType == MRSLItemImageSizeTypeLarge) ? _item.itemPhotoCropped : _item.itemPhotoThumb];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.image = localImage;
+                    [self setItemImage:localImage];
                 });
             });
         });

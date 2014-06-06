@@ -29,4 +29,6 @@
      interpolationQuality:(CGInterpolationQuality)quality;
 - (CGAffineTransform)transformForOrientation:(CGSize)newSize;
 
+- (UIImage *)convertImageToGrayScale;
+
 @end
