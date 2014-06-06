@@ -11,6 +11,7 @@
 #import "MRSLAPIService+Follow.h"
 
 #import "MRSLUserFollowTableViewCell.h"
+#import "MRSLProfileViewController.h"
 
 #import "MRSLUser.h"
 
@@ -189,6 +190,16 @@ NSFetchedResultsControllerDelegate>
     userCell.user = user;
     userCell.pipeView.hidden = (indexPath.row == [_users count] - 1);
     return userCell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLUser *user = [_users objectAtIndex:indexPath.row];
+    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+    profileVC.user = user;
+    [self.navigationController pushViewController:profileVC
+                                         animated:YES];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

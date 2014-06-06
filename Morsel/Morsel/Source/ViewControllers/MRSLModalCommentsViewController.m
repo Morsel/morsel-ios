@@ -13,6 +13,7 @@
 #import "MRSLAPIService+Comment.h"
 
 #import "MRSLCommentTableViewCell.h"
+#import "MRSLProfileViewController.h"
 
 #import "MRSLComment.h"
 #import "MRSLItem.h"
@@ -162,6 +163,16 @@ NSFetchedResultsControllerDelegate>
     commentCell.pipeView.hidden = (indexPath.row == _commentCount - 1);
 
     return commentCell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
+    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+    profileVC.user = comment.creator;
+    [self.navigationController pushViewController:profileVC
+                                         animated:YES];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

@@ -11,6 +11,7 @@
 #import "MRSLAPIService+Like.h"
 
 #import "MRSLUserFollowTableViewCell.h"
+#import "MRSLProfileViewController.h"
 
 @interface MRSLModalLikersViewController ()
 <UITableViewDataSource,
@@ -53,6 +54,16 @@ UITableViewDelegate>
     likerCell.pipeView.hidden = (indexPath.row == [_likers count] - 1);
 
     return likerCell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLUser *user = [_likers objectAtIndex:indexPath.row];
+    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+    profileVC.user = user;
+    [self.navigationController pushViewController:profileVC
+                                         animated:YES];
 }
 
 @end

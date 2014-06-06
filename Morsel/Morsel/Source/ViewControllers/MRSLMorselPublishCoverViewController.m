@@ -51,15 +51,11 @@ UICollectionViewDelegate>
 
 - (IBAction)next:(id)sender {
     [self updateMorsel];
-    __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService updateMorsel:_morsel
-                                  success:^(id responseObject) {
-                                      [weakSelf performSegueWithIdentifier:@"seg_SelectPlace"
-                                                                    sender:nil];
-                                  } failure:^(NSError *error) {
-                                      [UIAlertView showAlertViewForError:error
-                                                                delegate:nil];
-                                  }];
+                                  success:nil
+                                  failure:nil];
+    [self performSegueWithIdentifier:@"seg_SelectPlace"
+                              sender:nil];
 }
 
 #pragma mark - Private Methods

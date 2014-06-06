@@ -32,7 +32,6 @@
     if (!_tapRecognizer && self.userInteractionEnabled) {
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayUserProfile)];
         [self addGestureRecognizer:_tapRecognizer];
-        self.userInteractionEnabled = YES;
     }
 }
 
