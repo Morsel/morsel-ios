@@ -63,15 +63,11 @@ UITableViewDelegate>
 
 - (IBAction)next:(id)sender {
     [self updateMorsel];
-    __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService updateMorsel:_morsel
-                                  success:^(id responseObject) {
-                                      [weakSelf performSegueWithIdentifier:@"seg_PublishShareMorsel"
-                                                                    sender:nil];
-                                  } failure:^(NSError *error) {
-                                      [UIAlertView showAlertViewForError:error
-                                                                delegate:nil];
-                                  }];
+                                  success:nil
+                                  failure:nil];
+    [self performSegueWithIdentifier:@"seg_PublishShareMorsel"
+                              sender:nil];
 }
 
 #pragma mark - Private Methods

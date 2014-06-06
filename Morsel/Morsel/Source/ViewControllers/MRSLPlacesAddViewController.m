@@ -64,7 +64,7 @@ UITextFieldDelegate>
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
             [UIAlertView showAlertViewWithTitle:@"Location Permission"
-                                        message:@"Hey! We're going to need access to your location to make Place search more convenient. If you're ready to grant permission, press OK for the next prompt."
+                                        message:@"To improve your place search, we’d like to access your location. If you're ready to grant permission, press OK for the next prompt."
                                        delegate:self
                               cancelButtonTitle:@"Not now"
                               otherButtonTitles:@"OK", nil];

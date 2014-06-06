@@ -32,10 +32,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-#if (defined(MORSEL_BETA))
-    self.backButton.hidden = YES;
-#endif
-
     if (_socialUser) {
         self.emailTextField.text = _socialUser.email;
     }

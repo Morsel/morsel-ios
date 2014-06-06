@@ -39,11 +39,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-#if (defined(MORSEL_BETA))
-    [self performSegueWithIdentifier:@"seg_DisplayLogin"
-                              sender:nil];
-#endif
-
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self.navigationController setNavigationBarHidden:NO
                                              animated:NO];

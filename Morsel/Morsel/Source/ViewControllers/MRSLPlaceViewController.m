@@ -16,6 +16,7 @@
 #import "MRSLFollowButton.h"
 #import "MRSLPanelSegmentedCollectionViewDataSource.h"
 #import "MRSLPlaceDetailViewController.h"
+#import "MRSLProfileViewController.h"
 #import "MRSLSegmentedHeaderReusableView.h"
 #import "MRSLUserMorselsFeedViewController.h"
 
@@ -292,9 +293,10 @@ MRSLSegmentedHeaderReusableViewDelegate>
         [self.navigationController pushViewController:userMorselsFeedVC
                                              animated:YES];
     } else if ([item isKindOfClass:[MRSLUser class]]) {
-        NSDictionary *parameters = @{@"user_id": NSNullIfNil([item userID])};
-        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayUserProfileNotification
-                                                            object:parameters];
+        MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+        profileVC.user = item;
+        [self.navigationController pushViewController:profileVC
+                                             animated:YES];
     }
 }
 

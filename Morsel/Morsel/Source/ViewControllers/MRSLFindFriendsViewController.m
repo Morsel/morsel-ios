@@ -17,6 +17,7 @@
 
 #import "MRSLSegmentedButtonView.h"
 #import "MRSLUserFollowTableViewCell.h"
+#import "MRSLProfileViewController.h"
 
 #import "MRSLUser.h"
 
@@ -328,6 +329,16 @@ MRSLSegmentedButtonViewDelegate>
     } else {
         return nil;
     }
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLUser *user = [_users objectAtIndex:indexPath.row];
+    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+    profileVC.user = user;
+    [self.navigationController pushViewController:profileVC
+                                         animated:YES];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

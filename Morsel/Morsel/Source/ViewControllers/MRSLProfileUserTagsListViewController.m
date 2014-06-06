@@ -155,7 +155,7 @@ NSFetchedResultsControllerDelegate>
     } else if (indexPath.row == [[self arrayForIndexPath:indexPath] count] + 1) {
         reuseIdentifier = @"ruid_SupplementaryCell";
         if (_allowsEdit) {
-            cellName = @"Add New";
+            cellName = @"Edit";
         } else {
             cellName = ([[self arrayForIndexPath:indexPath] count] == 0 ) ? @"None" : @"View All";
         }
@@ -181,6 +181,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0 || indexPath.row == [[self arrayForIndexPath:indexPath] count] + 1) {
+        if (!_allowsEdit) return;
         if ([self.delegate respondsToSelector:@selector(profileUserTagsListViewControllerDidSelectType:)]) {
             [self.delegate profileUserTagsListViewControllerDidSelectType:[[[_tagsDictionary allKeys] objectAtIndex:indexPath.section] lowercaseString]];
         }

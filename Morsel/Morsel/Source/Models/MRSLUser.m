@@ -149,13 +149,21 @@
         self.profilePhotoURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
                                                                                      withString:@"IMAGE_SIZE"];
     }
-
     if (![data[@"settings"] isEqual:[NSNull null]]) {
         if (![data[@"auto_follow"] isEqual:[NSNull null]]) {
             self.auto_follow = @([data[@"auto_follow"] boolValue]);
         }
     }
-
+    if (![data[@"industry"] isEqual:[NSNull null]]) {
+        NSString *industry = data[@"industry"];
+        if ([industry isEqualToString:@"diner"]) {
+            self.industryType = @(MRSLIndustryTypeDiner);
+        } else if ([industry isEqualToString:@"media"]) {
+            self.industryType = @(MRSLIndustryTypeMedia);
+        } else {
+            self.industryType = @(MRSLIndustryTypeChef);
+        }
+    }
     if (self.profilePhotoFull) self.profilePhotoFull = nil;
 }
 
