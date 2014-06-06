@@ -108,7 +108,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <accessibility key="accessibilityConfiguration" label="Logout"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
-                                        <state key="normal" title="Logout" image="icon-menubar-logout">
+                                        <state key="normal" title="Settings" image="icon-settings">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -317,12 +317,12 @@
         <image name="icon-arrow-previous-red" width="30" height="30"/>
         <image name="icon-like-inactive" width="28" height="26"/>
         <image name="icon-menubar-home" width="30" height="30"/>
-        <image name="icon-menubar-logout" width="24" height="24"/>
         <image name="icon-menubar-profile" width="30" height="30"/>
         <image name="icon-menubar-stuff" width="30" height="30"/>
         <image name="icon-refresh" width="30" height="30"/>
         <image name="icon-refresh-red" width="30" height="30"/>
         <image name="icon-search" width="20" height="20"/>
+        <image name="icon-settings" width="21" height="21"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

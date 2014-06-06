@@ -33,6 +33,7 @@ NSString *const MRSLAppShouldDisplayMenuBarNotification = @"MRSLAppShouldDisplay
 NSString *const MRSLAppShouldDisplayBaseViewControllerNotification = @"MRSLAppShouldDisplayBaseViewControllerNotification";
 NSString *const MRSLAppShouldDisplayUserProfileNotification = @"MRSLAppShouldDisplayUserProfileNotification";
 NSString *const MRSLAppShouldDisplayWebBrowserNotification = @"MRSLAppShouldDisplayWebBrowserNotification";
+NSString *const MRSLAppShouldDisplayEmailComposerNotification = @"MRSLAppShouldDisplayEmailComposerNotification";
 NSString *const MRSLAppShouldCallPhoneNumberNotification = @"MRSLAppShouldCallPhoneNumberNotification";
 
 

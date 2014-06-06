@@ -1,6 +1,7 @@
 #import "MRSLUser.h"
 
 #import <AFNetworking/AFNetworking.h>
+#import "MRSLAPIService+Profile.h"
 
 @interface MRSLUser ()
 
@@ -26,6 +27,12 @@
 
 + (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID {
     return ([MRSLUser currentUser].userIDValue == creatorID);
+}
+
++ (void)refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil failure:(MRSLFailureBlock)failureOrNil {
+    [_appDelegate.apiService getUserProfile:[MRSLUser currentUser]
+                                    success:userSuccessOrNil
+                                    failure:failureOrNil];
 }
 
 + (void)createOrUpdateUserFromResponseObject:(id)userDictionary

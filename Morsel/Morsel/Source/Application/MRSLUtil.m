@@ -148,4 +148,33 @@
     return [NSString stringWithFormat:@"%@.%@", versionString, buildString];
 }
 
++ (NSString *)supportDiagnostics {
+    UIDevice *currentDevice = [UIDevice currentDevice];
+
+    return [NSString stringWithFormat:@"<i>Support Information</i>\
+        <ul> \
+            <li> \
+                User ID: %1$@\
+            </li> \
+            <li> \
+                App Version: %2$@ \
+            </li> \
+            <li> \
+                Device: %3$@ - %4$@ \
+            </li> \
+        </ul> \
+    ",  [[MRSLUser currentUser] userID],
+        [MRSLUtil appMajorMinorPatchString],
+        [currentDevice model],
+        [currentDevice systemVersion]];
+
+    // Device Info
+}
+
++ (NSString *)supportDiagnosticsURLParams {
+    UIDevice *currentDevice = [UIDevice currentDevice];
+
+    return [NSString stringWithFormat:@"user_id=%@&app_version=%@&device_model=%@&device_system_version=%@", [[MRSLUser currentUser] userID], [[MRSLUtil appMajorMinorPatchString] stringWithNSUTF8StringEncoding], [[currentDevice model] stringWithNSUTF8StringEncoding], [[currentDevice systemVersion] stringWithNSUTF8StringEncoding]];
+}
+
 @end

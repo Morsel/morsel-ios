@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseViewController.h"
 
 @protocol MRSLProfileUserTagsListViewControllerDelegate <NSObject>
 
@@ -16,7 +16,7 @@
 
 @end
 
-@interface MRSLProfileUserTagsListViewController : UIViewController
+@interface MRSLProfileUserTagsListViewController : MRSLBaseViewController
 
 @property (nonatomic) BOOL allowsEdit;
 

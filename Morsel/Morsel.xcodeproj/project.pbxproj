@@ -273,6 +273,27 @@
 		4069CB2B189B127E001790F3 /* MRSLAPIService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB23189B127E001790F3 /* MRSLAPIService.m */; };
 		4069CB2C189B127E001790F3 /* MRSLSocialService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB25189B127E001790F3 /* MRSLSocialService.m */; };
 		4069CB2D189B127E001790F3 /* MRSLSocialService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB25189B127E001790F3 /* MRSLSocialService.m */; };
+		408504A3193FEE48003AE38B /* Settings_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 408504A1193FEE48003AE38B /* Settings_iPhone.storyboard */; };
+		408504A4193FEE48003AE38B /* Settings_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 408504A1193FEE48003AE38B /* Settings_iPhone.storyboard */; };
+		408504A5193FEE48003AE38B /* Settings_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 408504A1193FEE48003AE38B /* Settings_iPhone.storyboard */; };
+		408504A9193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */; };
+		408504AA193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */; };
+		408504AB193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */; };
+		408744371940DAB2000B491F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744361940DAB2000B491F /* NSString+Additions.m */; };
+		408744381940DAB2000B491F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744361940DAB2000B491F /* NSString+Additions.m */; };
+		408744391940DAB2000B491F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744361940DAB2000B491F /* NSString+Additions.m */; };
+		4087443C1940F273000B491F /* MRSLBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4087443B1940F273000B491F /* MRSLBaseTableViewController.m */; };
+		4087443D1940F273000B491F /* MRSLBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4087443B1940F273000B491F /* MRSLBaseTableViewController.m */; };
+		4087443E1940F273000B491F /* MRSLBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4087443B1940F273000B491F /* MRSLBaseTableViewController.m */; };
+		408744411940F376000B491F /* UIViewController+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744401940F376000B491F /* UIViewController+Base.m */; };
+		408744421940F376000B491F /* UIViewController+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744401940F376000B491F /* UIViewController+Base.m */; };
+		408744431940F376000B491F /* UIViewController+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744401940F376000B491F /* UIViewController+Base.m */; };
+		40874446194167EA000B491F /* MRSLReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40874445194167EA000B491F /* MRSLReusableView.m */; };
+		40874447194167EA000B491F /* MRSLReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40874445194167EA000B491F /* MRSLReusableView.m */; };
+		40874448194167EA000B491F /* MRSLReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40874445194167EA000B491F /* MRSLReusableView.m */; };
+		40A4E11C194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */; };
+		40A4E11D194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */; };
+		40A4E11E194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */; };
 		40D702AA18E9F225001CCC42 /* MRSLFactory+User.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D702A918E9F225001CCC42 /* MRSLFactory+User.m */; };
 		40D702AC18E9F72A001CCC42 /* mrsl-users-activities.json in Resources */ = {isa = PBXBuildFile; fileRef = 40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */; };
 		40F637D6193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
@@ -699,6 +720,19 @@
 		4069CB23189B127E001790F3 /* MRSLAPIService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLAPIService.m; sourceTree = "<group>"; };
 		4069CB24189B127E001790F3 /* MRSLSocialService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSocialService.h; sourceTree = "<group>"; };
 		4069CB25189B127E001790F3 /* MRSLSocialService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSocialService.m; sourceTree = "<group>"; };
+		408504A2193FEE48003AE38B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings_iPhone.storyboard; sourceTree = "<group>"; };
+		408504A7193FF0F5003AE38B /* MRSLSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSettingsViewController.h; sourceTree = "<group>"; };
+		408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSettingsViewController.m; sourceTree = "<group>"; };
+		408744351940DAB2000B491F /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
+		408744361940DAB2000B491F /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
+		4087443A1940F273000B491F /* MRSLBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseTableViewController.h; sourceTree = "<group>"; };
+		4087443B1940F273000B491F /* MRSLBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLBaseTableViewController.m; sourceTree = "<group>"; };
+		4087443F1940F376000B491F /* UIViewController+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Base.h"; sourceTree = "<group>"; };
+		408744401940F376000B491F /* UIViewController+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Base.m"; sourceTree = "<group>"; };
+		40874444194167EA000B491F /* MRSLReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLReusableView.h; path = Source/Views/MRSLReusableView.h; sourceTree = "<group>"; };
+		40874445194167EA000B491F /* MRSLReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLReusableView.m; path = Source/Views/MRSLReusableView.m; sourceTree = "<group>"; };
+		40A4E11A194026F200251AA5 /* MRSLSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSettingsTableViewController.h; sourceTree = "<group>"; };
+		40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSettingsTableViewController.m; sourceTree = "<group>"; };
 		40D702A818E9F225001CCC42 /* MRSLFactory+User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLFactory+User.h"; sourceTree = "<group>"; };
 		40D702A918E9F225001CCC42 /* MRSLFactory+User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLFactory+User.m"; sourceTree = "<group>"; };
 		40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-users-activities.json"; sourceTree = "<group>"; };
@@ -865,6 +899,8 @@
 				0684C1BB1906FA3E009D8D73 /* Profile */,
 				0634091D191C2C7300C67FB8 /* Registration */,
 				061F93451910086600608C0B /* Tags */,
+				40874444194167EA000B491F /* MRSLReusableView.h */,
+				40874445194167EA000B491F /* MRSLReusableView.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1020,12 +1056,16 @@
 		063976D71863619A00A17211 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				063250C81860E1DD00ADDF23 /* MRSLRootViewController.h */,
-				063250C91860E1DD00ADDF23 /* MRSLRootViewController.m */,
-				060FEC4718DCC75E00085ED1 /* MRSLBaseViewController.h */,
-				060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */,
 				06C38C4218EA5D910072CF8E /* MRSLBaseModalViewController.h */,
 				06C38C4318EA5D910072CF8E /* MRSLBaseModalViewController.m */,
+				4087443A1940F273000B491F /* MRSLBaseTableViewController.h */,
+				4087443B1940F273000B491F /* MRSLBaseTableViewController.m */,
+				060FEC4718DCC75E00085ED1 /* MRSLBaseViewController.h */,
+				060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */,
+				063250C81860E1DD00ADDF23 /* MRSLRootViewController.h */,
+				063250C91860E1DD00ADDF23 /* MRSLRootViewController.m */,
+				4087443F1940F376000B491F /* UIViewController+Base.h */,
+				408744401940F376000B491F /* UIViewController+Base.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -1038,6 +1078,7 @@
 				060FEC3F18DCAF2300085ED1 /* Management */,
 				0637B67619377B3200358F25 /* Places */,
 				0609B83C1894AA23005A11A4 /* Registration */,
+				408504A6193FF0C7003AE38B /* Settings */,
 				06C4CD09192AA18A004CD3B7 /* Social */,
 				061F935419102D8700608C0B /* Tags */,
 				0609B83B1894AA11005A11A4 /* User */,
@@ -1067,6 +1108,7 @@
 				0637B67A19377B8D00358F25 /* Places_iPhone.storyboard */,
 				063BB6F618983CF80029DAF0 /* Profile_iPhone.storyboard */,
 				06C4CD06192A6FD3004CD3B7 /* Social_iPhone.storyboard */,
+				408504A1193FEE48003AE38B /* Settings_iPhone.storyboard */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -1272,6 +1314,8 @@
 				061DF44318E36CDE00D1CA80 /* NSMutableArray+Feed.m */,
 				40F637D4193E987A003AD040 /* NSMutableString+Additions.h */,
 				40F637D5193E987A003AD040 /* NSMutableString+Additions.m */,
+				408744351940DAB2000B491F /* NSString+Additions.h */,
+				408744361940DAB2000B491F /* NSString+Additions.m */,
 				4005ED8218A19965005B8484 /* UIAlertView+Additions.h */,
 				4005ED8318A19965005B8484 /* UIAlertView+Additions.m */,
 				0686029D1891A8D3000CD576 /* UIColor+Morsel.h */,
@@ -1798,6 +1842,17 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		408504A6193FF0C7003AE38B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				40A4E11A194026F200251AA5 /* MRSLSettingsTableViewController.h */,
+				40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */,
+				408504A7193FF0F5003AE38B /* MRSLSettingsViewController.h */,
+				408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1924,6 +1979,7 @@
 				063F857618FF8B53000B136B /* RobotoSlab-Regular.ttf in Resources */,
 				063BB6FB18983D170029DAF0 /* Login_iPhone.storyboard in Resources */,
 				06C4CD08192A6FD3004CD3B7 /* Social_iPhone.storyboard in Resources */,
+				408504A3193FEE48003AE38B /* Settings_iPhone.storyboard in Resources */,
 				064566F418C50BDD00C9CCBF /* Activity_iPhone.storyboard in Resources */,
 				06ECF68C18BFEEB500577F9C /* Specs_iPhone.storyboard in Resources */,
 			);
@@ -1939,6 +1995,7 @@
 				40D702AC18E9F72A001CCC42 /* mrsl-users-activities.json in Resources */,
 				06F567D318BBB1270067FCD4 /* mrsl-user-with-auth-token.json in Resources */,
 				06F567D718BBB18C0067FCD4 /* mrsl-morsel.json in Resources */,
+				408504A4193FEE48003AE38B /* Settings_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1947,6 +2004,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0698CAD018524359007AF442 /* InfoPlist.strings in Resources */,
+				408504A5193FEE48003AE38B /* Settings_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2158,6 +2216,7 @@
 				062AB98B18C53DE800742955 /* MRSLAppDelegate+SetupAppearance.m in Sources */,
 				066F5AF9185BCD3700468210 /* MRSLProfileImageView.m in Sources */,
 				062AB99418C5885F00742955 /* MRSLMorselListViewController.m in Sources */,
+				40A4E11C194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */,
 				06584C5B18C7CE8F00D9035A /* MRSLMediaItemPreviewCollectionViewCell.m in Sources */,
 				062AB99A18C655DF00742955 /* MRSLMorselEditViewController.m in Sources */,
 				4069CB28189B127E001790F3 /* MRSLAPIClient.m in Sources */,
@@ -2167,6 +2226,7 @@
 				061F9344190F67BB00608C0B /* MRSLProfileUserTagsListViewController.m in Sources */,
 				06E89F8F1885ED3B00DA3A90 /* MRSLUtil.m in Sources */,
 				066F5AD7185BCA4D00468210 /* MRSLComment.m in Sources */,
+				40874446194167EA000B491F /* MRSLReusableView.m in Sources */,
 				061F93531910174300608C0B /* MRSLTagBaseCell.m in Sources */,
 				06DAFB5E191A93FA0044AF3E /* MRSLAPIService+Follow.m in Sources */,
 				061F93501910096E00608C0B /* MRSLTagStatsSupplmentaryCell.m in Sources */,
@@ -2175,6 +2235,7 @@
 				068602A51891AE26000CD576 /* UIView+Additions.m in Sources */,
 				0637B66F19368B9C00358F25 /* MRSLContainerCollectionViewCell.m in Sources */,
 				06CE1882187F13A0009F9722 /* MRSLConstants.m in Sources */,
+				408504A9193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */,
 				0686029C1891A7B7000CD576 /* UIFont+Morsel.m in Sources */,
 				06584C5818C7CB6A00D9035A /* MRSLMediaItem.m in Sources */,
 				066F5ADF185BCB5000468210 /* MRSLProfileViewController.m in Sources */,
@@ -2186,6 +2247,7 @@
 				064A0F5818A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m in Sources */,
 				063F857918FF9007000B136B /* MRSLRobotoLightTextView.m in Sources */,
 				4005ED8418A19965005B8484 /* UIAlertView+Additions.m in Sources */,
+				408744411940F376000B491F /* UIViewController+Base.m in Sources */,
 				062AB99118C56DC800742955 /* MRSLStatusHeaderCollectionReusableView.m in Sources */,
 				064566F818C50CB200C9CCBF /* MRSLActivityViewController.m in Sources */,
 				0637B66C1936858C00358F25 /* MRSLProfileEditFieldsViewController.m in Sources */,
@@ -2206,6 +2268,7 @@
 				06D26F3C1908331C00E4FA72 /* MRSLProfileEditViewController.m in Sources */,
 				06584C5418C7C37300D9035A /* MRSLCapturePreviewsViewController.m in Sources */,
 				060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */,
+				408744371940DAB2000B491F /* NSString+Additions.m in Sources */,
 				06D52EB218C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m in Sources */,
 				061F936019105C7A00608C0B /* MRSLKeywordUsersViewController.m in Sources */,
 				066E8C32191AD81200991165 /* MRSLLandingViewController.m in Sources */,
@@ -2218,6 +2281,7 @@
 				06A049651896D82500BD1C5B /* MRSLMorselCollectionViewCell.m in Sources */,
 				068602A21891AD2C000CD576 /* MRSLLightButton.m in Sources */,
 				06B8781A193CCEC700160707 /* MRSLPlaceDetailBaseCollectionViewCell.m in Sources */,
+				4087443C1940F273000B491F /* MRSLBaseTableViewController.m in Sources */,
 				063C345F1923CFC3002682B4 /* MRSLSocialUser.m in Sources */,
 				063B177718922BDD00ABFEAE /* MRSLRobotoLightLabel.m in Sources */,
 				0698CA8C18523A8C007AF442 /* Morsel.xcdatamodeld in Sources */,
@@ -2288,6 +2352,7 @@
 				066E8C2E191AAC7200991165 /* MRSLSocialServiceFacebook.m in Sources */,
 				066E8C2F191AAC7200991165 /* MRSLSocialServiceTwitter.m in Sources */,
 				06DAFB65191AA20E0044AF3E /* MRSLAPIService+Tag.m in Sources */,
+				408744421940F376000B491F /* UIViewController+Base.m in Sources */,
 				06DAFB66191AA20E0044AF3E /* MRSLAPIService+Keyword.m in Sources */,
 				06DAFB67191AA20E0044AF3E /* MRSLAPIService+Registration.m in Sources */,
 				06ECF68418BFE39A00577F9C /* Crash_Spec.m in Sources */,
@@ -2300,12 +2365,14 @@
 				4040D49D18E627ED008A39E5 /* _MRSLActivity.m in Sources */,
 				4040D4AD18E62DF9008A39E5 /* MRSLFactory+Activity.m in Sources */,
 				4040D4AA18E62BA4008A39E5 /* MRSLFactory.m in Sources */,
+				4087443D1940F273000B491F /* MRSLBaseTableViewController.m in Sources */,
 				4003509418EB578C00C97DDC /* MRSLCollectionViewArrayDataSource.m in Sources */,
 				4040D4A218E62809008A39E5 /* MRSLActivity.m in Sources */,
 				4003509E18EB928800C97DDC /* MRSLCustomURLScheme_Spec.m in Sources */,
 				068E278C18BBFBB50020CA84 /* _MRSLUser.m in Sources */,
 				069AE51A18B80FDF002F63D5 /* MRSLCaptureMediaViewController.m in Sources */,
 				400350A418EBA79A00C97DDC /* MRSLProfileViewController.m in Sources */,
+				408504AA193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */,
 				06ECF67A18BFE36500577F9C /* MRSLSpecsAppDelegate.m in Sources */,
 				403E9E2618EDCC20003CDE3B /* MRSLNotification.m in Sources */,
 				4069CB2D189B127E001790F3 /* MRSLSocialService.m in Sources */,
@@ -2313,8 +2380,11 @@
 				4069CB27189B127E001790F3 /* JSONResponseSerializerWithData.m in Sources */,
 				400350A218EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */,
 				40D702AA18E9F225001CCC42 /* MRSLFactory+User.m in Sources */,
+				40A4E11D194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */,
+				408744381940DAB2000B491F /* NSString+Additions.m in Sources */,
 				06ECF68918BFE3F000577F9C /* MRSLSpecUtil.m in Sources */,
 				40F637D7193E987A003AD040 /* NSMutableString+Additions.m in Sources */,
+				40874447194167EA000B491F /* MRSLReusableView.m in Sources */,
 				4005ED8518A19965005B8484 /* UIAlertView+Additions.m in Sources */,
 				4069CB2B189B127E001790F3 /* MRSLAPIService.m in Sources */,
 				06ECF68018BFE38400577F9C /* ModelObjectImporting_Spec.m in Sources */,
@@ -2327,6 +2397,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40A4E11E194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */,
 				4040D4A318E62809008A39E5 /* MRSLActivity.m in Sources */,
 				4003509518EB578C00C97DDC /* MRSLCollectionViewArrayDataSource.m in Sources */,
 				400350A318EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */,
@@ -2334,6 +2405,11 @@
 				4003509B18EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m in Sources */,
 				403E9E2218EDCC09003CDE3B /* _MRSLNotification.m in Sources */,
 				065E523C18C147280040C391 /* FeedFlow_Integration.m in Sources */,
+				40874448194167EA000B491F /* MRSLReusableView.m in Sources */,
+				4087443E1940F273000B491F /* MRSLBaseTableViewController.m in Sources */,
+				408744391940DAB2000B491F /* NSString+Additions.m in Sources */,
+				408744431940F376000B491F /* UIViewController+Base.m in Sources */,
+				408504AB193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */,
 				065E523918C147220040C391 /* KIFUITestActor+Additions.m in Sources */,
 				4040D49E18E627ED008A39E5 /* _MRSLActivity.m in Sources */,
 				065E523D18C147280040C391 /* LoginFlow_Integration.m in Sources */,
@@ -2469,6 +2545,14 @@
 			);
 			name = Specs_iPhone.storyboard;
 			path = ../Morsel;
+			sourceTree = "<group>";
+		};
+		408504A1193FEE48003AE38B /* Settings_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				408504A2193FEE48003AE38B /* Base */,
+			);
+			name = Settings_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

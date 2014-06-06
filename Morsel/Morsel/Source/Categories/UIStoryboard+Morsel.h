@@ -20,6 +20,7 @@
 + (UIStoryboard *)morselManagementStoryboard;
 + (UIStoryboard *)placesStoryboard;
 + (UIStoryboard *)profileStoryboard;
++ (UIStoryboard *)settingsStoryboard;
 + (UIStoryboard *)socialStoryboard;
 
 #pragma mark - Specs

@@ -33,8 +33,9 @@
 
 @implementation MRSLSocialConnectionsTableViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
     if ([FBSession.activeSession isOpen]) {
         self.facebookUsernameLabel.text = [[MRSLSocialServiceFacebook sharedService] facebookUsername];
     }
