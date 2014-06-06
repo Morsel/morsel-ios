@@ -21,5 +21,7 @@
 + (NSString *)stringForDataSourceType:(MRSLDataSourceType)dataSourceTabType;
 + (NSString *)appVersionBuildString;
 + (NSString *)appMajorMinorPatchString;
++ (NSString *)supportDiagnostics;
++ (NSString *)supportDiagnosticsURLParams;
 
 @end

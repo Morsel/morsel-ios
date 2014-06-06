@@ -14,7 +14,7 @@ typedef NS_ENUM(NSUInteger, MRSLMenuBarButtonType) {
     MRSLMenuBarButtonTypeMyStuff,
     MRSLMenuBarButtonTypeActivity,
     MRSLMenuBarButtonTypeFind,
-    MRSLMenuBarButtonTypeLogout
+    MRSLMenuBarButtonTypeSettings
 };
 
 @interface MRSLMenuBarButton : MRSLLightButton

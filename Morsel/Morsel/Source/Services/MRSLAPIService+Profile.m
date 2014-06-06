@@ -77,12 +77,13 @@
        currentPassword:(NSString *)currentPassword
                success:(MRSLAPISuccessBlock)successOrNil
                failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user": @{@"current_password": currentPassword}}
+    NSMutableDictionary *userParameters = [NSMutableDictionary dictionaryWithDictionary:@{ @"current_password": currentPassword }];
+    if (email) [userParameters setObject:email forKey:@"email"];
+    if (password) [userParameters setObject:password forKey:@"password"];
+
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{ @"user": userParameters }
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-
-    if (email) [parameters setObject:email forKey:@"user[email]"];
-    if (password) [parameters setObject:password forKey:@"user[password]"];
 
     MRSLUser *currentUser = [MRSLUser currentUser];
     [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"users/%i", currentUser.userIDValue]
@@ -92,6 +93,7 @@
                                       [currentUser MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                       [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
                                   }
+                                  if (successOrNil) successOrNil(responseObject);
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                             withError:error

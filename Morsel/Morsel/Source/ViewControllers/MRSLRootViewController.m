@@ -8,6 +8,8 @@
 
 #import "MRSLRootViewController.h"
 
+#import <MessageUI/MFMailComposeViewController.h>
+
 #import "MRSLAPIService+Authentication.h"
 #import "MRSLAPIService+Profile.h"
 
@@ -21,7 +23,8 @@
 #import "MRSLUser.h"
 
 @interface MRSLRootViewController ()
-<MRSLMenuBarViewDelegate>
+<MRSLMenuBarViewDelegate,
+MFMailComposeViewControllerDelegate>
 
 @property (nonatomic) BOOL shouldMenuBarOpen;
 @property (nonatomic) BOOL shouldCheckForUser;
@@ -50,7 +53,7 @@
     [self.menuBarView setX:-[_menuBarView getWidth]];
     self.navigationControllers = [NSMutableArray array];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeStatusBarStyle:)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeToNewStatusBarStyle:)
                                                  name:MRSLAppDidRequestNewPreferredStatusBarStyle
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -72,6 +75,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayWebBrowser:)
                                                  name:MRSLAppShouldDisplayWebBrowserNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayEmailComposer:)
+                                                 name:MRSLAppShouldDisplayEmailComposerNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(callPhoneNumber:)
@@ -136,7 +143,7 @@
 
 #pragma mark - Notification Methods
 
-- (void)changeStatusBarStyle:(NSNotification *)notification {
+- (void)changeToNewStatusBarStyle:(NSNotification *)notification {
     self.currentStatusBarStyle = [notification.object intValue];
     [self setNeedsStatusBarAppearanceUpdate];
 }
@@ -179,6 +186,21 @@
                         andURL:webParams[@"url"]];
     }
     [self presentBaseViewController:webBrowserVC withContainingNavigationController:webBrowserNC];
+}
+
+- (void)displayEmailComposer:(NSNotification *)notification {
+    MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+    [mailComposeViewController setMailComposeDelegate:self];
+    [mailComposeViewController setToRecipients:@[ MORSEL_SUPPORT_EMAIL ]];
+    if (notification.object) {
+        [mailComposeViewController setTitle:notification.object[@"title"] ?: @""];
+        [mailComposeViewController setSubject:notification.object[@"subject"] ?: @""];
+        [mailComposeViewController setMessageBody:notification.object[@"body"] ?: @"" isHTML:YES];
+    }
+
+    [self presentViewController:mailComposeViewController
+                       animated:YES
+                     completion:nil];
 }
 
 - (void)callPhoneNumber:(NSNotification *)notification {
@@ -352,15 +374,40 @@
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"FindFriends"
                                                           andStoryboardPrefix:@"Social"];
             break;
-        case MRSLMenuBarButtonTypeLogout:
+        case MRSLMenuBarButtonTypeSettings:
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
-                                         properties:@{@"name": @"Logout"}];
-            [self logUserOut];
+                                         properties:@{@"name": @"Settings"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Settings"
+                                                          andStoryboardPrefix:@"Settings"];
             break;
         default:
             break;
     }
 }
+
+#pragma mark - MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    switch (result) {
+        case MFMailComposeResultCancelled:
+            DDLogInfo(@"Mail cancelled: you cancelled the operation and no email message was queued.");
+            break;
+        case MFMailComposeResultSaved:
+            DDLogInfo(@"Mail saved: you saved the email message in the drafts folder.");
+            break;
+        case MFMailComposeResultSent:
+            DDLogInfo(@"Mail send: the email message is queued in the outbox. It is ready to send.");
+            break;
+        case MFMailComposeResultFailed:
+            DDLogInfo(@"Mail failed: the email message was not saved or queued, possibly due to an error.");
+            break;
+        default:
+            DDLogInfo(@"Mail not sent.");
+            break;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 #pragma mark - Dealloc
 

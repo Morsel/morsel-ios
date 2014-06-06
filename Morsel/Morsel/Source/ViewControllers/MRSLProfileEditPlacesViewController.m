@@ -7,6 +7,7 @@
 //
 
 #import "MRSLProfileEditPlacesViewController.h"
+#import "MRSLPlacesAddViewController.h"
 
 #import "MRSLAPIService+Place.h"
 
@@ -23,6 +24,7 @@
 
 @property (strong, nonatomic) NSMutableArray *placeIDs;
 @property (strong, nonatomic) MRSLCollectionViewFetchResultsDataSource *dataSource;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
 
@@ -37,21 +39,28 @@
     self.dataSource = [[MRSLCollectionViewFetchResultsDataSource alloc] initWithManagedObjectClass:[MRSLPlace class]
                                                                                          predicate:[NSPredicate predicateWithFormat:@"placeID IN %@", _placeIDs]
                                                                                 configureCellBlock:^UICollectionViewCell *(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
-                                                                                    if (!item) {
-                                                                                        UICollectionViewCell *addCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PlaceAddCell"
-                                                                                                                                                                  forIndexPath:indexPath];
-                                                                                        return addCell;
-                                                                                    } else {
-                                                                                        MRSLPlaceCollectionViewCell *placeCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PlaceCell"
+                                                                                    MRSLPlaceCollectionViewCell *placeCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PlaceCell"
                                                                                                                                                                            forIndexPath:indexPath];
                                                                                         placeCell.place = item;
                                                                                         return placeCell;
-                                                                                    }
                                                                                     return nil;
                                                                                 } collectionView:_collectionView];
     self.dataSource.delegate = self;
     [self.collectionView setDataSource:_dataSource];
     [self.collectionView setDelegate:_dataSource];
+
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    _refreshControl.tintColor = [UIColor morselLightContent];
+    [_refreshControl addTarget:self
+                        action:@selector(refreshContent)
+              forControlEvents:UIControlEventValueChanged];
+
+    [self.collectionView addSubview:_refreshControl];
+    self.collectionView.alwaysBounceVertical = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self refreshContent];
 }
 
@@ -66,9 +75,15 @@
                                           [[NSUserDefaults standardUserDefaults] setObject:responseArray
                                                                                     forKey:[NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username]];
                                           [weakSelf updateDataSourcePredicate];
+                                          [weakSelf.refreshControl endRefreshing];
     } failure:^(NSError *error) {
-
+        [weakSelf.refreshControl endRefreshing];
     }];
+}
+
+- (IBAction)addPlace:(id)sender {
+    [self.navigationController pushViewController:[[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"]
+                                         animated:YES];
 }
 
 #pragma mark - Private Methods
@@ -81,18 +96,12 @@
 #pragma mark - MRSLCollectionViewDataSourceDelegate
 
 - (NSInteger)collectionViewDataSourceNumberOfItemsInSection:(NSInteger)section {
-    return [_dataSource count] + 1;
+    return [_dataSource count];
 }
 
 - (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItem:(id)item {
-    if (!item) {
-        if ([self.delegate respondsToSelector:@selector(profileEditPlacesDidSelectAddNew)]) {
-            [self.delegate profileEditPlacesDidSelectAddNew];
-        }
-    } else {
-        if ([self.delegate respondsToSelector:@selector(profileEditPlacesDidSelectPlace:)]) {
-            [self.delegate profileEditPlacesDidSelectPlace:item];
-        }
+    if ([self.delegate respondsToSelector:@selector(profileEditPlacesDidSelectPlace:)]) {
+        [self.delegate profileEditPlacesDidSelectPlace:item];
     }
 }
 

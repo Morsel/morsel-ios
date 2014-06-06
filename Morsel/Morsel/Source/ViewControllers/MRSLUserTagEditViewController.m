@@ -79,7 +79,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)refreshContent {
     __weak __typeof(self)weakSelf = self;
-    if ([_keywordType isEqualToString:MRSLKeywordCuisinesType]) {
+    if ([_keywordType isEqualToString:@"Cuisine"]) {
         [_appDelegate.apiService getUserCuisines:[MRSLUser currentUser]
                                          success:^(NSArray *responseArray) {
                                              if ([weakSelf.keywordIDs count] == 0) {
@@ -99,7 +99,7 @@ NSFetchedResultsControllerDelegate>
                                          } failure:^(NSError *error) {
                                              [weakSelf.refreshControl endRefreshing];
                                          }];
-    } else if ([_keywordType isEqualToString:MRSLKeywordSpecialtiesType]) {
+    } else if ([_keywordType isEqualToString:@"Specialty"]) {
         [_appDelegate.apiService getUserSpecialties:[MRSLUser currentUser]
                                             success:^(NSArray *responseArray) {
                                                 if ([weakSelf.keywordIDs count] == 0) {

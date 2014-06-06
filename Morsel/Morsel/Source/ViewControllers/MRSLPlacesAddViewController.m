@@ -16,6 +16,8 @@
 
 #import "MRSLFoursquarePlace.h"
 
+#import "MRSLPlace.h"
+
 @interface MRSLPlacesAddViewController ()
 <CLLocationManagerDelegate,
 UIAlertViewDelegate,
@@ -250,7 +252,15 @@ UITextFieldDelegate>
                                                       userTitle:alertTextField.text
                                                         success:^(id responseObject) {
                                                             weakSelf.selectedFoursquarePlace = nil;
-                                                            [weakSelf goBack];
+                                                            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                                                                MRSLPlace *place = [MRSLPlace MR_findFirstByAttribute:MRSLPlaceAttributes.placeID
+                                                                                                            withValue:responseObject[@"data"][@"id"]
+                                                                                                            inContext:localContext];
+                                                                if (!place) place = [MRSLPlace MR_createInContext:localContext];
+                                                                [place MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                            } completion:^(BOOL success, NSError *error) {
+                                                                [weakSelf goBack];
+                                                            }];
                                                         } failure:^(NSError *error) {
                                                             weakSelf.selectedFoursquarePlace = nil;
                                                             [UIAlertView showAlertViewForError:error
