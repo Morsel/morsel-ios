@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.7</string>
+	<string>0.8</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -31,15 +31,15 @@
 			<array>
 				<string>tw-morsel</string>
 				<string>insta-morsel</string>
-				<string>fb1402286360015732</string>
+				<string>fb1406459019603393</string>
 				<string>item</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201406070056</string>
+	<string>201406070137</string>
 	<key>FacebookAppID</key>
-	<string>1402286360015732</string>
+	<string>1406459019603393</string>
 	<key>FacebookDisplayName</key>
 	<string>Morsel</string>
 	<key>LSRequiresIPhoneOS</key>

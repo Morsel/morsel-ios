@@ -45,11 +45,10 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"authentication": @{@"provider": NSNullIfNil(authentication.provider),
                                                                                             @"uid": NSNullIfNil(uid),
                                                                                             @"token": NSNullIfNil(authentication.token),
+                                                                                            @"secret": NSNullIfNil(authentication.secret),
                                                                                             @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (authentication.secret) [parameters setObject:authentication.secret
-                                              forKey:@"authentication[secret]"];
     [[MRSLAPIClient sharedClient] POST:@"authentications"
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -145,11 +144,10 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"authentication": @{@"provider": NSNullIfNil(authentication.provider),
                                                                                             @"uid": NSNullIfNil(authentication.uid),
                                                                                             @"token": NSNullIfNil(authentication.token),
+                                                                                            @"secret": NSNullIfNil(authentication.secret),
                                                                                             @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (authentication.secret) [parameters setObject:authentication.secret
-                                              forKey:@"authentication[secret]"];
     [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"authentications/%i", [authentication.authenticationID intValue]]
                               parameters:parameters
                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {

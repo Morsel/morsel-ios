@@ -43,9 +43,9 @@
 
     [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
 
-    [MRSLAppDelegate setupTheme];
+    [[MRSLSocialServiceFacebook sharedService] checkForValidFacebookSessionWithSessionStateHandler:nil];
 
-    [FBSession.activeSession closeAndClearTokenInformation];
+    [MRSLAppDelegate setupTheme];
 
     [self setupMorselEnvironment];
 
