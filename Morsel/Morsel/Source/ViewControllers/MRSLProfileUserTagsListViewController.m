@@ -204,14 +204,16 @@ UIActionSheetDelegate>
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
                                  atIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        MRSLReusableView *reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                            withReuseIdentifier:@"ruid_TagsFooter"
-                                                                                   forIndexPath:indexPath];
-        return reusableView;
-    }
+    MRSLReusableView *reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                        withReuseIdentifier:@"ruid_TagsHeader"
+                                                                               forIndexPath:indexPath];
 
-    return nil;
+    if (indexPath.section > 0) {
+        reusableView.hidden = YES;
+    } else {
+      reusableView.hidden = NO;
+    }
+    return reusableView;
 }
 
 #pragma mark - UIActionSheetDelegate
