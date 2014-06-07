@@ -8,11 +8,14 @@
 
 #import "MRSLProfileImageView.h"
 
+#import <GPUImage/GPUImageGaussianBlurFilter.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #import "MRSLUser.h"
 
 @interface MRSLProfileImageView ()
+
+@property (nonatomic) BOOL imageProcessed;
 
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
 
@@ -23,9 +26,11 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 
-    [self addCornersWithRadius:[self getWidth] / 2];
-    self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.layer.borderWidth = 1.f;
+    if (!_shouldBlur) {
+        [self addCornersWithRadius:[self getWidth] / 2];
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.layer.borderWidth = 2.f;
+    }
 
     if (!self.image) [self setImageToPlaceholderOrLocal];
 
@@ -38,6 +43,7 @@
 #pragma mark - Instance Methods
 
 - (void)setUser:(MRSLUser *)user {
+    if (_imageProcessed) return;
     if (!user) _user = user;
 
     [self reset];
@@ -49,9 +55,19 @@
                 return;
 
             __weak __typeof(self)weakSelf = self;
-            [self setImageWithURL:profileImageURLRequest.URL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [self setImageWithURL:profileImageURLRequest.URL
+                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (error) {
                     [weakSelf setImageToPlaceholderOrLocal];
+                } else {
+                    if (weakSelf.shouldBlur && !weakSelf.imageProcessed) {
+                        weakSelf.imageProcessed = YES;
+                        GPUImageGaussianBlurFilter *blurFilter = [GPUImageGaussianBlurFilter new];
+                        blurFilter.blurPasses = 30.f;
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            weakSelf.image = [blurFilter imageByFilteringImage:image];
+                        });
+                    }
                 }
             }];
         } else {
@@ -91,6 +107,7 @@
 }
 
 - (void)setImageToPlaceholderOrLocal {
+    if (_shouldBlur) return;
     if (self.user.profilePhotoLarge) {
         dispatch_async(dispatch_get_main_queue(), ^{
             UIImage *localImage = [UIImage imageWithData:([self getWidth] > MRSLUserProfileImageThumbDimensionSize) ? self.user.profilePhotoLarge : self.user.profilePhotoThumb];

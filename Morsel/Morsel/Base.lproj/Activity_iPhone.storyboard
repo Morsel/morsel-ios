@@ -109,15 +109,10 @@
                                                     <color key="textColor" red="0.71372549019999998" green="0.71372549019999998" blue="0.71372549019999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="dyY-jD-8hI">
-                                                    <rect key="frame" x="45" y="11" width="20" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <outlet property="actionIconImageView" destination="dyY-jD-8hI" id="YWr-A4-ln2"/>
                                             <outlet property="creatorProfileImageView" destination="DLT-lt-MzK" id="U9p-gN-4tH"/>
                                             <outlet property="descriptionLabel" destination="A69-za-lTt" id="9NS-QQ-XRm"/>
                                             <outlet property="itemImageView" destination="uEA-Nr-5yc" id="cCD-iK-Mlb"/>
@@ -213,15 +208,10 @@ any activity yet!</string>
                                                     <color key="textColor" red="0.71372549019999998" green="0.71372549019999998" blue="0.71372549019999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="QIR-bD-fnS">
-                                                    <rect key="frame" x="45" y="11" width="20" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <outlet property="actionIconImageView" destination="QIR-bD-fnS" id="rFz-E0-bSf"/>
                                             <outlet property="creatorProfileImageView" destination="JXc-nl-AfM" id="j0C-yC-OeH"/>
                                             <outlet property="descriptionLabel" destination="uz4-Dd-RRL" id="709-Wa-cW9"/>
                                             <outlet property="itemImageView" destination="Tqa-Pa-GjC" id="wHY-4N-1cZ"/>

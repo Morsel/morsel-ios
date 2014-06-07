@@ -10,4 +10,11 @@
 
 @interface MRSLColoredBackgroundLightButton : MRSLLightButton
 
+@property (nonatomic) BOOL allowsToggle;
+
+@property (copy, nonatomic) UIColor *originalBackgroundColor;
+@property (strong, nonatomic) UIColor *highlightedBackgroundColor;
+
+- (void)setupColors;
+
 @end

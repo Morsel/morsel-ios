@@ -17,6 +17,8 @@
 
 @interface MRSLItemImageView : UIImageView
 
+@property (nonatomic) BOOL grayScale;
+
 @property (weak, nonatomic) id <MRSLItemImageViewDelegate> delegate;
 
 @property (weak, nonatomic) MRSLItem *item;

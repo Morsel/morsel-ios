@@ -8,15 +8,6 @@
 
 #import "MRSLColoredBackgroundLightButton.h"
 
-@interface MRSLColoredBackgroundLightButton ()
-
-@property (nonatomic) BOOL allowsToggle;
-
-@property (copy, nonatomic) UIColor *originalBackgroundColor;
-@property (strong, nonatomic) UIColor *highlightedBackgroundColor;
-
-@end
-
 @implementation MRSLColoredBackgroundLightButton
 
 - (void)setUp {

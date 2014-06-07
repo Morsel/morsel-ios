@@ -6,8 +6,23 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "UIViewController+Base.h"
+#import <UIKit/UIKit.h>
 
 @interface MRSLBaseViewController : UIViewController
+
+@property (nonatomic) BOOL isFeed;
+
+- (void)setupNavigationItems;
+
+- (IBAction)dismiss;
+- (IBAction)displayMenuBar;
+- (IBAction)displayMorselAdd;
+- (IBAction)displayMorselShare;
+- (IBAction)goBack;
+
+- (void)changeStatusBarStyle:(UIStatusBarStyle)style;
+- (void)setupWithUserInfo:(NSDictionary *)userInfo;
+
+- (UIViewController *)topPresentingViewController;
 
 @end

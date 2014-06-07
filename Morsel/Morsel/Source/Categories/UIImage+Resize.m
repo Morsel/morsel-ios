@@ -35,18 +35,18 @@
     CGAffineTransform rectTransform;
 
     switch (self.imageOrientation) {
-    case UIImageOrientationLeft:
-        rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(M_PI_2), 0, -self.size.height);
-        break;
-    case UIImageOrientationRight:
-        rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI_2), -self.size.width, 0);
-        break;
-    case UIImageOrientationDown:
-        rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI), -self.size.width, -self.size.height);
-        break;
-    default:
-        rectTransform = CGAffineTransformIdentity;
-        break;
+        case UIImageOrientationLeft:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(M_PI_2), 0, -self.size.height);
+            break;
+        case UIImageOrientationRight:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI_2), -self.size.width, 0);
+            break;
+        case UIImageOrientationDown:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI), -self.size.width, -self.size.height);
+            break;
+        default:
+            rectTransform = CGAffineTransformIdentity;
+            break;
     };
 
     rectTransform = CGAffineTransformScale(rectTransform, self.scale, self.scale);
@@ -102,14 +102,14 @@
     BOOL drawTransposed;
 
     switch (self.imageOrientation) {
-    case UIImageOrientationLeft:
-    case UIImageOrientationLeftMirrored:
-    case UIImageOrientationRight:
-    case UIImageOrientationRightMirrored:
-        drawTransposed = YES;
-        break;
-    default:
-        drawTransposed = NO;
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            drawTransposed = YES;
+            break;
+        default:
+            drawTransposed = NO;
     }
     CGAffineTransform transform = [self transformForOrientation:newSize];
 
@@ -128,15 +128,15 @@
     CGFloat ratio = 0.f;
 
     switch (contentMode) {
-    case UIViewContentModeScaleAspectFill:
-        ratio = MAX(horizontalRatio, verticalRatio);
-        break;
-    case UIViewContentModeScaleAspectFit:
-        ratio = MIN(horizontalRatio, verticalRatio);
-        break;
-    default:
-        DDLogError(@"Unsupported content mode!");
-        break;
+        case UIViewContentModeScaleAspectFill:
+            ratio = MAX(horizontalRatio, verticalRatio);
+            break;
+        case UIViewContentModeScaleAspectFit:
+            ratio = MIN(horizontalRatio, verticalRatio);
+            break;
+        default:
+            DDLogError(@"Unsupported content mode!");
+            break;
     }
 
     CGSize newSize = CGSizeMake(self.size.width * ratio, self.size.height * ratio);
@@ -195,44 +195,105 @@
     CGAffineTransform transform = CGAffineTransformIdentity;
 
     switch (self.imageOrientation) {
-    case UIImageOrientationDown: // EXIF = 3
-    case UIImageOrientationDownMirrored: // EXIF = 4
-        transform = CGAffineTransformTranslate(transform, newSize.width, newSize.height);
-        transform = CGAffineTransformRotate(transform, M_PI);
-        break;
+        case UIImageOrientationDown: // EXIF = 3
+        case UIImageOrientationDownMirrored: // EXIF = 4
+            transform = CGAffineTransformTranslate(transform, newSize.width, newSize.height);
+            transform = CGAffineTransformRotate(transform, M_PI);
+            break;
 
-    case UIImageOrientationLeft: // EXIF = 6
-    case UIImageOrientationLeftMirrored: // EXIF = 5
-        transform = CGAffineTransformTranslate(transform, newSize.width, 0);
-        transform = CGAffineTransformRotate(transform, M_PI_2);
-        break;
+        case UIImageOrientationLeft: // EXIF = 6
+        case UIImageOrientationLeftMirrored: // EXIF = 5
+            transform = CGAffineTransformTranslate(transform, newSize.width, 0);
+            transform = CGAffineTransformRotate(transform, M_PI_2);
+            break;
 
-    case UIImageOrientationRight: // EXIF = 8
-    case UIImageOrientationRightMirrored: // EXIF = 7
-        transform = CGAffineTransformTranslate(transform, 0, newSize.height);
-        transform = CGAffineTransformRotate(transform, -M_PI_2);
-        break;
-    default:
-        break;
+        case UIImageOrientationRight: // EXIF = 8
+        case UIImageOrientationRightMirrored: // EXIF = 7
+            transform = CGAffineTransformTranslate(transform, 0, newSize.height);
+            transform = CGAffineTransformRotate(transform, -M_PI_2);
+            break;
+        default:
+            break;
     }
 
     switch (self.imageOrientation) {
-    case UIImageOrientationUpMirrored: // EXIF = 2
-    case UIImageOrientationDownMirrored: // EXIF = 4
-        transform = CGAffineTransformTranslate(transform, newSize.width, 0);
-        transform = CGAffineTransformScale(transform, -1, 1);
-        break;
+        case UIImageOrientationUpMirrored: // EXIF = 2
+        case UIImageOrientationDownMirrored: // EXIF = 4
+            transform = CGAffineTransformTranslate(transform, newSize.width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
 
-    case UIImageOrientationLeftMirrored: // EXIF = 5
-    case UIImageOrientationRightMirrored: // EXIF = 7
-        transform = CGAffineTransformTranslate(transform, newSize.height, 0);
-        transform = CGAffineTransformScale(transform, -1, 1);
-        break;
-    default:
-        break;
+        case UIImageOrientationLeftMirrored: // EXIF = 5
+        case UIImageOrientationRightMirrored: // EXIF = 7
+            transform = CGAffineTransformTranslate(transform, newSize.height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+        default:
+            break;
     }
 
     return transform;
+}
+
+- (UIImage *)convertImageToGrayScale {
+    int kRed = 1;
+    int kGreen = 2;
+    int kBlue = 4;
+
+    int colors = kGreen | kBlue | kRed;
+    int m_width = self.size.width;
+    int m_height = self.size.height;
+
+    uint32_t *rgbImage = (uint32_t *) malloc(m_width * m_height * sizeof(uint32_t));
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(rgbImage, m_width, m_height, 8, m_width * 4, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipLast);
+    CGContextSetInterpolationQuality(context, kCGInterpolationHigh);
+    CGContextSetShouldAntialias(context, NO);
+    CGContextDrawImage(context, CGRectMake(0, 0, m_width, m_height), [self CGImage]);
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+
+    // now convert to grayscale
+    uint8_t *m_imageData = (uint8_t *) malloc(m_width * m_height);
+    for(int y = 0; y < m_height; y++) {
+        for(int x = 0; x < m_width; x++) {
+            uint32_t rgbPixel=rgbImage[y*m_width+x];
+            uint32_t sum=0,count=0;
+            if (colors & kRed) {sum += (rgbPixel>>24)&255; count++;}
+            if (colors & kGreen) {sum += (rgbPixel>>16)&255; count++;}
+            if (colors & kBlue) {sum += (rgbPixel>>8)&255; count++;}
+            m_imageData[y*m_width+x]=sum/count;
+        }
+    }
+    free(rgbImage);
+
+    // convert from a gray scale image back into a UIImage
+    uint8_t *result = (uint8_t *) calloc(m_width * m_height *sizeof(uint32_t), 1);
+
+    // process the image back to rgb
+    for(int i = 0; i < m_height * m_width; i++) {
+        result[i*4]=0;
+        int val=m_imageData[i];
+        result[i*4+1]=val;
+        result[i*4+2]=val;
+        result[i*4+3]=val;
+    }
+
+    // create a UIImage
+    colorSpace = CGColorSpaceCreateDeviceRGB();
+    context = CGBitmapContextCreate(result, m_width, m_height, 8, m_width * sizeof(uint32_t), colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipLast);
+    CGImageRef image = CGBitmapContextCreateImage(context);
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    UIImage *resultUIImage = [UIImage imageWithCGImage:image];
+    CGImageRelease(image);
+    
+    free(m_imageData);
+    
+    // make sure the data will be released by giving it to an autoreleased NSData
+    [NSData dataWithBytesNoCopy:result length:m_width * m_height];
+    
+    return resultUIImage;
 }
 
 @end

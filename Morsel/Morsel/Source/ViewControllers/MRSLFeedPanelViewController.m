@@ -8,8 +8,6 @@
 
 #import "MRSLFeedPanelViewController.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
-
 #import "MRSLFeedCoverCollectionViewCell.h"
 #import "MRSLFeedPageCollectionViewCell.h"
 #import "MRSLFeedShareCollectionViewCell.h"
@@ -38,11 +36,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 @property (nonatomic) MRSLScrollDirection scrollDirection;
 
-@property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *timeSinceLabel;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @end
@@ -53,16 +47,9 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideContent)
-                                                                     name:MRSLModalWillDisplayNotification
-                                                                   object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showContent)
-                                                 name:MRSLModalWillDismissNotification
-                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
-    [self.morselTitleLabel addStandardShadow];
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
@@ -73,14 +60,6 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 #pragma mark - Notification Methods
-
-- (void)hideContent {
-    [self toggleContent:NO];
-}
-
-- (void)showContent {
-    [self toggleContent:YES];
-}
 
 - (void)updateContent:(NSNotification *)notification {
     NSDictionary *userInfoDictionary = [notification userInfo];
@@ -106,42 +85,13 @@ MRSLFeedShareCollectionViewCellDelegate>
     if (_collectionView && _morsel) {
         self.view.backgroundColor = [UIColor whiteColor];
 
-        self.profileImageView.user = _morsel.creator;
-
-        self.userNameLabel.text = _morsel.creator.fullName;
-        self.userNameLabel.textColor = [UIColor morselDarkContent];
-
-        self.pageControl.alpha = 0.f;
-        self.pageControl.numberOfPages = [_morsel.items count];
-        self.pageControl.hidden = !([_morsel.items count] > 1);
-        [self.pageControl setY:[self.view getHeight] - ((([_pageControl sizeForNumberOfPages:_pageControl.numberOfPages].width) / 2) + 34.f)];
+        self.pageControl.numberOfPages = [_morsel.items count] + 2;
+        [self.pageControl setY:320.f - ((([_pageControl sizeForNumberOfPages:_pageControl.numberOfPages].width) / 2) + 34.f)];
         self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
-
-        self.morselTitleLabel.text = _morsel.title;
-        [self.morselTitleLabel setX:30.f];
-        [self.morselTitleLabel setY:86.f];
-        [self.morselTitleLabel setHeight:140.f];
-        [self.morselTitleLabel setWidth:260.f];
-        [self.morselTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
-
-        self.timeSinceLabel.text = [_morsel.publishedDate timeAgo];
 
         [self.collectionView reloadData];
         [self resetCollectionViewContentOffset:NO];
-
-        CGFloat currentPage = _collectionView.contentOffset.y / _collectionView.frame.size.height;
-        [self determineLayoutForPage:currentPage];
     }
-}
-
-- (void)toggleContent:(BOOL)shouldDisplay {
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [_morselTitleLabel setAlpha:shouldDisplay];
-                         [_profileImageView setAlpha:shouldDisplay];
-                         [_userNameLabel setAlpha:shouldDisplay];
-                         [_timeSinceLabel setAlpha:shouldDisplay];
-                     }];
 }
 
 - (void)resetCollectionViewContentOffset:(BOOL)animated {
@@ -149,154 +99,81 @@ MRSLFeedShareCollectionViewCellDelegate>
                                  animated:animated];
 }
 
-- (void)setupCoverLayout {
-    self.profileImageView.hidden = NO;
-    self.userNameLabel.hidden = NO;
-    self.timeSinceLabel.hidden = NO;
-
-    if (_isPresentingMorselLayout) {
-        self.isPresentingMorselLayout = NO;
-    } else {
-        return;
+- (MRSLItem *)visibleItem {
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    MRSLItem *visibleItem = [_morsel coverItem];
+    if (indexPath.row - 1 >= 0 && indexPath.row - 1 < [_morsel.items count]) {
+        visibleItem = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
     }
-
-    [self.morselTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:32.f]];
-    [self.morselTitleLabel setHeight:140.f];
-    [self.morselTitleLabel setWidth:260.f];
-
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [self.userNameLabel setTextColor:[UIColor morselDarkContent]];
-                         [self.morselTitleLabel setX:30.f];
-                         [self.morselTitleLabel setY:(![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) ? 66.f : 86.f];
-                         [self.pageControl setAlpha:0.f];
-                     }];
-    [self.view.layer removeAnimationForKey:@"fadeToBlackAnimation"];
-    CABasicAnimation *fadeToBlack = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-    fadeToBlack.fromValue = (id)[UIColor blackColor].CGColor;
-    fadeToBlack.toValue = (id)[UIColor whiteColor].CGColor;
-    [fadeToBlack setDuration:.3f];
-    [self.view.layer addAnimation:fadeToBlack
-                           forKey:@"fadeToWhiteAnimation"];
-    [self.view setBackgroundColor:[UIColor whiteColor]];
-}
-
-- (void)setupMorselLayout {
-    if (!_isPresentingMorselLayout) {
-        self.isPresentingMorselLayout = YES;
-    } else {
-        return;
-    }
-
-    self.profileImageView.hidden = NO;
-    self.userNameLabel.hidden = NO;
-    self.timeSinceLabel.hidden = NO;
-
-    [self.morselTitleLabel setFont:[UIFont robotoSlabBoldFontOfSize:17.f]];
-    CGSize morselTitleLabelSize = [self.morselTitleLabel.text sizeWithFont:_morselTitleLabel.font constrainedToSize:CGSizeMake(212.f, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-    [self.morselTitleLabel setHeight:morselTitleLabelSize.height];
-    [self.morselTitleLabel setWidth:212.f];
-
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [self.userNameLabel setTextColor:[UIColor morselLightOffColor]];
-                         [self.morselTitleLabel setX:54.f];
-                         [self.morselTitleLabel setY:(![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) ? 8.f : 28.f];
-                         [self.pageControl setAlpha:1.f];
-                     }];
-    [self.view.layer removeAnimationForKey:@"fadeToWhiteAnimation"];
-    CABasicAnimation *fadeToBlack = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-    fadeToBlack.fromValue = (id)[UIColor whiteColor].CGColor;
-    fadeToBlack.toValue = (id)[UIColor blackColor].CGColor;
-    [fadeToBlack setDuration:.3f];
-    [self.view.layer addAnimation:fadeToBlack
-                           forKey:@"fadeToBlackAnimation"];
-    [self.view setBackgroundColor:[UIColor blackColor]];
-}
-
-- (void)setupShareLayout {
-    [self setupCoverLayout];
-    self.profileImageView.hidden = YES;
-    self.userNameLabel.hidden = YES;
-    self.timeSinceLabel.hidden = YES;
-}
-
-- (void)determineLayoutForPage:(CGFloat)page {
-    CGFloat finalPageThreshold = ([_morsel.items count] + 1) - .5f;
-    if (page > .5f && page < finalPageThreshold) {
-        [self setupMorselLayout];
-    } else if (page <= .5f) {
-        [self setupCoverLayout];
-    } else if (page >= finalPageThreshold) {
-        [self setupShareLayout];
-    }
+    return visibleItem;
 }
 
 #pragma mark - Action Methods
 
 - (IBAction)viewMore {
-    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath) {
-        MRSLItem *visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
-        [[MRSLEventManager sharedManager] track:@"Tapped View More Description"
-                                     properties:@{@"view": @"main_feed",
-                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID)}];
-        MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalDescriptionViewController"];
-        modalDescriptionVC.item = visibleMorsel;
-        [self addChildViewController:modalDescriptionVC];
-        [self.view addSubview:modalDescriptionVC.view];
-    }
+    MRSLItem *visibleItem = [self visibleItem];
+    [[MRSLEventManager sharedManager] track:@"Tapped View More Description"
+                                 properties:@{@"view": @"main_feed",
+                                              @"item_id": NSNullIfNil(visibleItem.itemID)}];
+    MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalDescriptionViewController"];
+    modalDescriptionVC.item = visibleItem;
+    [self addChildViewController:modalDescriptionVC];
+    [self.view addSubview:modalDescriptionVC.view];
 }
 
 - (IBAction)displayComments {
-    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath) {
-        MRSLItem *visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
-        [[MRSLEventManager sharedManager] track:@"Tapped Comments"
-                                     properties:@{@"view": @"main_feed",
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID),
-                                                  @"comment_count": NSNullIfNil(visibleMorsel.comment_count)}];
-        UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Comments"];
-        MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
-        modalCommentsVC.item = visibleMorsel;
-        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
-                                                            object:commentNC];
-    }
+    MRSLItem *visibleItem = [self visibleItem];
+    [[MRSLEventManager sharedManager] track:@"Tapped Comments"
+                                 properties:@{@"view": @"main_feed",
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                              @"item_id": NSNullIfNil(visibleItem.itemID),
+                                              @"comment_count": NSNullIfNil(visibleItem.comment_count)}];
+    UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Comments"];
+    MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
+    modalCommentsVC.item = visibleItem;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                        object:commentNC];
 }
 
 - (IBAction)displayLikers {
-    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath) {
-        MRSLItem *visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+    __block BOOL alreadyDisplayed = NO;
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *childVC, NSUInteger idx, BOOL *stop) {
+        if ([childVC isKindOfClass:[MRSLModalLikersViewController class]]) {
+            alreadyDisplayed = YES;
+            *stop = YES;
+        }
+    }];
+    if (!alreadyDisplayed) {
+        MRSLItem *visibleItem = [self visibleItem];
         [[MRSLEventManager sharedManager] track:@"Tapped Likes"
                                      properties:@{@"view": @"main_feed",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID),
-                                                  @"like_count": NSNullIfNil(visibleMorsel.like_count)}];
+                                                  @"item_id": NSNullIfNil(visibleItem.itemID),
+                                                  @"like_count": NSNullIfNil(visibleItem.like_count)}];
         UINavigationController *likesNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Likes"];
         MRSLModalLikersViewController *modalLikersVC = [[likesNC viewControllers] firstObject];
-        modalLikersVC.item = visibleMorsel;
+        modalLikersVC.item = visibleItem;
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
                                                             object:likesNC];
     }
 }
 
 - (IBAction)displayShare {
-    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath) {
-        MRSLItem *visibleMorsel = nil;
-        if (_isPresentingMorselLayout) {
-            visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
-        } else {
-            visibleMorsel = [_morsel coverItem];
+    __block BOOL alreadyDisplayed = NO;
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *childVC, NSUInteger idx, BOOL *stop) {
+        if ([childVC isKindOfClass:[MRSLModalShareViewController class]]) {
+            alreadyDisplayed = YES;
+            *stop = YES;
         }
+    }];
+    if (!alreadyDisplayed) {
+        MRSLItem *visibleItem = [self visibleItem];
         [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
                                      properties:@{@"view": @"main_feed",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID)}];
+                                                  @"item_id": NSNullIfNil(visibleItem.itemID)}];
         MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalShareViewController"];
-        modalShareVC.item = visibleMorsel;
+        modalShareVC.item = visibleItem;
         [self addChildViewController:modalShareVC];
         [self.view addSubview:modalShareVC.view];
     }
@@ -322,19 +199,19 @@ MRSLFeedShareCollectionViewCellDelegate>
     UICollectionViewCell *cell = nil;
     if (indexPath.row == 0) {
         MRSLFeedCoverCollectionViewCell *morselCoverCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedCoverCell"
-                                                                                                    forIndexPath:indexPath];
+                                                                                                     forIndexPath:indexPath];
         morselCoverCell.morsel = _morsel;
         morselCoverCell.delegate = self;
         cell = morselCoverCell;
     } else if (indexPath.row == [_morsel.items count] + 1) {
         MRSLFeedShareCollectionViewCell *shareCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedShareCell"
-                                                                                                    forIndexPath:indexPath];
+                                                                                               forIndexPath:indexPath];
         shareCell.morsel = _morsel;
         shareCell.delegate = self;
         cell = shareCell;
     } else {
         MRSLFeedPageCollectionViewCell *morselPageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedPageCell"
-                                                                                                  forIndexPath:indexPath];
+                                                                                                   forIndexPath:indexPath];
         morselPageCell.item = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
         cell = morselPageCell;
     }
@@ -346,7 +223,8 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return collectionView.frame.size;
+    UIDeviceScreenSize screenSize = [[UIDevice currentDevice] screenSize];
+    return CGSizeMake(320.f, (screenSize == UIDeviceScreenSize35Inch) ? 416.f : 504.f);
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -354,8 +232,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
     CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
-    self.pageControl.currentPage = (translation.y > 0) ? ceilf(currentPage - 1) : floorf(currentPage - 1);
-    [self determineLayoutForPage:currentPage];
+    self.pageControl.currentPage = (translation.y > 0) ? ceilf(currentPage) : floorf(currentPage);
     if (_previousContentOffset > scrollView.contentOffset.y) {
         self.scrollDirection = MRSLScrollDirectionDown;
     } else if (_previousContentOffset < scrollView.contentOffset.y) {
@@ -398,7 +275,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (void)feedCoverCollectionViewCellDidSelectMorsel:(MRSLItem *)item {
     NSInteger itemIndex = [_morsel.itemsArray indexOfObject:item] + 1;
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:itemIndex inSection:0]
-                                atScrollPosition:UICollectionViewScrollPositionNone
+                                atScrollPosition:UICollectionViewScrollPositionTop
                                         animated:YES];
 }
 

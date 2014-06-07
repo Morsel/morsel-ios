@@ -22,4 +22,7 @@
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
 
+- (IBAction)displayLikers;
+- (IBAction)displayShare;
+
 @end

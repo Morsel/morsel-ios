@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *followersButton;
 @property (weak, nonatomic) IBOutlet UIButton *followingButton;
 
+@property (weak, nonatomic) IBOutlet MRSLProfileImageView *blurProfileImageView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
 @end
@@ -30,6 +31,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.profileImageView.userInteractionEnabled = NO;
+    self.blurProfileImageView.shouldBlur = YES;
 }
 
 - (void)setUser:(MRSLUser *)user {
@@ -52,9 +54,10 @@
     self.bioLabel.text = _user.bio;
     self.profileImageView.user = nil;
     self.profileImageView.user = _user;
-    [self.followersButton setTitle:[NSString stringWithFormat:@"%i Followers", _user.follower_countValue]
+    self.blurProfileImageView.user = _user;
+    [self.followersButton setTitle:[NSString stringWithFormat:@"Followers: %i", _user.follower_countValue]
                           forState:UIControlStateNormal];
-    [self.followingButton setTitle:[NSString stringWithFormat:@"%i Following", _user.followed_user_countValue]
+    [self.followingButton setTitle:[NSString stringWithFormat:@"Following: %i", _user.followed_user_countValue]
                           forState:UIControlStateNormal];
 }
 

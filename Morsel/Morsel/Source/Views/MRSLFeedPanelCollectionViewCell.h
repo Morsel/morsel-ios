@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class MRSLFeedPanelViewController;
+
 @protocol MRSLFeedPanelCollectionViewCellDelegate <NSObject>
 
 @optional
@@ -19,6 +21,8 @@
 @interface MRSLFeedPanelCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) id <MRSLFeedPanelCollectionViewCellDelegate> delegate;
+
+@property (strong, nonatomic) MRSLFeedPanelViewController *feedPanelViewController;
 
 - (void)setOwningViewController:(UIViewController *)owningViewController
                        withMorsel:(MRSLMorsel *)morsel;

@@ -124,7 +124,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                                           return reusableView;
                                                                                                                       } headerConfig:^(UICollectionView *collectionView, NSInteger section) {
                                                                                                                           if (section != 0) {
-                                                                                                                              return CGSizeMake(collectionView.bounds.size.width, 34.f);
+                                                                                                                              return CGSizeMake(collectionView.bounds.size.width, 50.f);
                                                                                                                           } else {
                                                                                                                               return CGSizeZero;
                                                                                                                           }
@@ -149,14 +149,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                              animated:animated];
     [super viewWillAppear:animated];
 
-    if ([_user isCurrentUser]) {
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-settings"]
-                                                                       style:UIBarButtonItemStyleBordered
-                                                                      target:self
-                                                                      action:@selector(displayEditProfile)];
-        [self.navigationItem setRightBarButtonItem:editButton];
-    }
-
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
     [self refreshContent];
@@ -174,11 +166,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (IBAction)displayMorselAdd {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayMorselAddNotification
                                                         object:@(YES)];
-}
-
-- (void)displayEditProfile {
-    [self performSegueWithIdentifier:@"seg_ProfileEdit"
-                              sender:nil];
 }
 
 #pragma mark - Private Methods
@@ -336,7 +323,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (CGSize)configureSizeForCollectionView:(UICollectionView *)collectionView
                              atIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return CGSizeMake(320.f, 120.f);
+        return CGSizeMake(320.f, 124.f);
     } else {
         if ([self.segmentedPanelCollectionViewDataSource count] == 0) {
             return CGSizeMake(320.f, (_dataSourceTabType == MRSLDataSourceTypeTag) ? 500.f : 80.f);
