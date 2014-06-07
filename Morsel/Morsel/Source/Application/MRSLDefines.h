@@ -164,6 +164,34 @@ static const int MRSLStatsTagViewTag = 9991;
 #define NSNullIfNil(obj) ((obj == nil) ? [NSNull null] : obj)
 #define MRSLIsNull(obj) ([obj isEqual:[NSNull null]])
 
+#pragma mark - Social
+
+#if (defined(MORSEL_BETA) || defined(RELEASE))
+
+#define FACEBOOK_APP_ID @"1402286360015732"
+
+#define TWITTER_CONSUMER_KEY @"ETEvZdAoQ4pzi1boCxdZoA"
+#define TWITTER_CONSUMER_SECRET @"0CBD7gMuymBSBCqpy8G7uuLwyD7peyeUetAQZhUqu0"
+#define TWITTER_CALLBACK @"tw-morsel://success"
+
+#define INSTAGRAM_CONSUMER_KEY @"39d91666b98c41cfa69e14d70794a09b"
+#define INSTAGRAM_CONSUMER_SECRET @"0887a6cfbea54cdea71ad7b7b3dc1a29"
+#define INSTAGRAM_CALLBACK @"insta-morsel://success"
+
+#else
+
+#define FACEBOOK_APP_ID @"1406459019603393"
+
+#define TWITTER_CONSUMER_KEY @"OWJtM9wGQSSdMctOI0gHkQ"
+#define TWITTER_CONSUMER_SECRET @"21EsTV2n8QjBUGZPfYx5JPKnxjicxboV0IHflBZB6w"
+#define TWITTER_CALLBACK @"tw-morsel-staging://success"
+
+#define INSTAGRAM_CONSUMER_KEY @"2a431459c80145edb6608eaafddfb8ed"
+#define INSTAGRAM_CONSUMER_SECRET @"29edc5d19e8f4a3eac53d8e9a0c101e1"
+#define INSTAGRAM_CALLBACK @"insta-morsel-staging://success"
+
+#endif
+
 #pragma mark - Services
 
 #import "MRSLAPIClient.h"

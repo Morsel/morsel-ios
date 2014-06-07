@@ -43,9 +43,9 @@
 
     [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
 
-    [MRSLAppDelegate setupTheme];
+    [[MRSLSocialServiceFacebook sharedService] checkForValidFacebookSessionWithSessionStateHandler:nil];
 
-    [FBSession.activeSession closeAndClearTokenInformation];
+    [MRSLAppDelegate setupTheme];
 
     [self setupMorselEnvironment];
 
@@ -70,17 +70,18 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    if ([url.absoluteString rangeOfString:@"fb1406459019603393://"].location != NSNotFound) {
+    NSString *fbID = [NSString stringWithFormat:@"fb%@://", FACEBOOK_APP_ID];
+    if ([url.absoluteString rangeOfString:fbID].location != NSNotFound) {
         DDLogDebug(@"Facebook Callback URL: %@", url);
         [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-    } else if ([url.absoluteString rangeOfString:@"tw-morsel://"].location != NSNotFound) {
+    } else if ([url.absoluteString rangeOfString:@"tw-morsel"].location != NSNotFound) {
         DDLogDebug(@"Twitter Callback URL: %@", url);
         NSNotification *notification = [NSNotification notificationWithName:kAFApplicationLaunchedWithURLNotification
                                                                      object:nil
                                                                    userInfo:[NSDictionary dictionaryWithObject:url
                                                                                                         forKey:kAFApplicationLaunchOptionsURLKey]];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
-    } else if ([url.absoluteString rangeOfString:@"insta-morsel://"].location != NSNotFound) {
+    } else if ([url.absoluteString rangeOfString:@"insta-morsel"].location != NSNotFound) {
         DDLogDebug(@"Instagram Callback URL: %@", url);
         NSString *authCode = [url.absoluteString stringByReplacingOccurrencesOfString:@"insta-morsel://success?code=" withString:@""];
         [[MRSLSocialServiceInstagram sharedService] completeAuthenticationWithCode:authCode];

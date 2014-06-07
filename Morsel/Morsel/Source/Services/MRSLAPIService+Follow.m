@@ -35,6 +35,7 @@
                                            if (followBlockOrNil) followBlockOrNil(YES);
                                        } else {
                                            [self reportFailure:failureOrNil
+                                                  forOperation:operation
                                                      withError:error
                                                       inMethod:NSStringFromSelector(_cmd)];
                                        }
@@ -52,6 +53,7 @@
                                              if (followBlockOrNil) followBlockOrNil(NO);
                                          } else {
                                              [self reportFailure:failureOrNil
+                                                    forOperation:operation
                                                        withError:error
                                                         inMethod:NSStringFromSelector(_cmd)];
                                          }
@@ -78,6 +80,7 @@
                                            if (followBlockOrNil) followBlockOrNil(YES);
                                        } else {
                                            [self reportFailure:failureOrNil
+                                                  forOperation:operation
                                                      withError:error
                                                       inMethod:NSStringFromSelector(_cmd)];
                                        }
@@ -94,6 +97,7 @@
                                              if (followBlockOrNil) followBlockOrNil(NO);
                                          } else {
                                              [self reportFailure:failureOrNil
+                                                    forOperation:operation
                                                        withError:error
                                                         inMethod:NSStringFromSelector(_cmd)];
                                          }
@@ -125,6 +129,7 @@
                                                           success:successOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
@@ -154,6 +159,7 @@
                                                           success:successOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];

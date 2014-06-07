@@ -63,6 +63,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 #pragma mark - Action Methods
 
 - (IBAction)displayProfile {
+    if (!_morsel.creator) return;
     UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
     MRSLProfileViewController *profileVC = [[profileNC viewControllers] firstObject];
     profileVC.user = _morsel.creator;
@@ -71,6 +72,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 }
 
 - (IBAction)displayPlace {
+    if (!_morsel.place) return;
     UINavigationController *placeNC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_Place"];
     MRSLPlaceViewController *placeVC = [[placeNC viewControllers] firstObject];
     placeVC.place = _morsel.place;

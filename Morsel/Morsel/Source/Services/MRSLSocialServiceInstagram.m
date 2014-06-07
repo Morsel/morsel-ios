@@ -14,14 +14,6 @@
 
 #import "MRSLUser.h"
 
-#if (defined(MORSEL_BETA) || defined(RELEASE))
-#define INSTAGRAM_CONSUMER_KEY @"39d91666b98c41cfa69e14d70794a09b"
-#define INSTAGRAM_CONSUMER_SECRET @"0887a6cfbea54cdea71ad7b7b3dc1a29"
-#else
-#define INSTAGRAM_CONSUMER_KEY @"2a431459c80145edb6608eaafddfb8ed"
-#define INSTAGRAM_CONSUMER_SECRET @"29edc5d19e8f4a3eac53d8e9a0c101e1"
-#endif
-
 @interface MRSLSocialServiceInstagram ()
 
 @property (strong, nonatomic) MRSLSocialSuccessBlock instagramSuccessBlock;
@@ -50,7 +42,7 @@
                                                  secret:INSTAGRAM_CONSUMER_SECRET
                                        authorizationURL:[NSURL URLWithString:@"https://api.instagram.com/oauth/authorize"]
                                                tokenURL:[NSURL URLWithString:@"https://api.instagram.com/oauth/access_token"]
-                                            redirectURL:[NSURL URLWithString:@"insta-morsel://success"]
+                                            redirectURL:[NSURL URLWithString:INSTAGRAM_CALLBACK]
                                          forAccountType:MRSLInstagramAccountTypeKey];
         self.oauth2Client = [AFOAuth2Client clientWithBaseURL:[NSURL URLWithString:@"https://api.instagram.com/"]
                                                      clientID:INSTAGRAM_CONSUMER_KEY
@@ -72,7 +64,7 @@
 - (void)completeAuthenticationWithCode:(NSString *)code {
     [_oauth2Client authenticateUsingOAuthWithURLString:@"https://api.instagram.com/oauth/access_token"
                                                   code:code
-                                           redirectURI:@"insta-morsel://success"
+                                           redirectURI:INSTAGRAM_CALLBACK
                                                success:^(AFOAuthCredential *credential) {
                                                    DDLogDebug(@"Instagram accessToken: %@", credential.accessToken);
                                                    if (credential.accessToken) {

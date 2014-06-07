@@ -53,6 +53,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.title = [NSString stringWithFormat:@"%@'s Morsels", _user.username];
+
     self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array];
     if (_morsel) [self.morselIDs addObject:_morsel.morselID];
 
@@ -67,10 +69,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:YES
-                                             animated:animated];
     [super viewWillAppear:animated];
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleLightContent];
+    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
     if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
 

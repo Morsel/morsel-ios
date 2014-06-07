@@ -48,6 +48,7 @@
                                                           success:successOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
@@ -85,6 +86,7 @@
                                                          success:successOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
@@ -108,6 +110,7 @@
                                    if (successOrNil) successOrNil(responseObject);
                                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                    [self reportFailure:failureOrNil
+                                          forOperation:operation
                                              withError:error
                                               inMethod:NSStringFromSelector(_cmd)];
                                }];
@@ -131,6 +134,7 @@
                                          if (successOrNil) successOrNil(YES);
                                      } else {
                                          [self reportFailure:failureOrNil
+                                                forOperation:operation
                                                    withError:error
                                                     inMethod:NSStringFromSelector(_cmd)];
                                      }

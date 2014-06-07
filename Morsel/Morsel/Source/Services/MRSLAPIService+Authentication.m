@@ -32,6 +32,7 @@
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   if (existsOrNil) existsOrNil(NO, error);
                                   [self reportFailure:nil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
@@ -44,11 +45,10 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"authentication": @{@"provider": NSNullIfNil(authentication.provider),
                                                                                             @"uid": NSNullIfNil(uid),
                                                                                             @"token": NSNullIfNil(authentication.token),
+                                                                                            @"secret": NSNullIfNil(authentication.secret),
                                                                                             @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (authentication.secret) [parameters setObject:authentication.secret
-                                              forKey:@"authentication[secret]"];
     [[MRSLAPIClient sharedClient] POST:@"authentications"
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -57,6 +57,7 @@
                                   if (userSuccessOrNil) userSuccessOrNil(responseObject);
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
@@ -94,6 +95,7 @@
                                   }];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
@@ -126,6 +128,7 @@
                                                           success:successOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
@@ -141,17 +144,17 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"authentication": @{@"provider": NSNullIfNil(authentication.provider),
                                                                                             @"uid": NSNullIfNil(authentication.uid),
                                                                                             @"token": NSNullIfNil(authentication.token),
+                                                                                            @"secret": NSNullIfNil(authentication.secret),
                                                                                             @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (authentication.secret) [parameters setObject:authentication.secret
-                                              forKey:@"authentication[secret]"];
     [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"authentications/%i", [authentication.authenticationID intValue]]
                               parameters:parameters
                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                      if (successOrNil) successOrNil(responseObject);
                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                      [self reportFailure:failureOrNil
+                                            forOperation:operation
                                                withError:error
                                                 inMethod:NSStringFromSelector(_cmd)];
                                  }];
@@ -173,6 +176,7 @@
                                      if (successOrNil) successOrNil(responseObject);
                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                      [self reportFailure:failureOrNil
+                                            forOperation:operation
                                                withError:error
                                                 inMethod:NSStringFromSelector(_cmd)];
                                  }];

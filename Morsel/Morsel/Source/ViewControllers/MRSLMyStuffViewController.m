@@ -48,6 +48,7 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.shouldDisplayAdd = YES;
     self.user = [MRSLUser currentUser];
 
     self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_all_morselIDs", _user.username]] ?: [NSMutableArray array];
@@ -75,8 +76,6 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
                                                   animated:YES];
         self.selectedIndexPath = nil;
     }
-
-    if (self.morselsFetchedResultsController) return;
 
     [self setupFetchRequest];
     [self populateContent];

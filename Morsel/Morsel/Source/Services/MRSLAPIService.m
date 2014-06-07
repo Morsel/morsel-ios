@@ -20,6 +20,11 @@
 #import "MRSLTag.h"
 #import "MRSLUser.h"
 
+@interface MRSLAPIService ()
+<UIAlertViewDelegate>
+
+@end
+
 @implementation MRSLAPIService
 
 #pragma mark - Parameters
@@ -114,8 +119,16 @@
 #pragma mark - Errors
 
 - (void)reportFailure:(MRSLFailureBlock)failureOrNil
+         forOperation:(AFHTTPRequestOperation *)operation
             withError:(NSError *)error
              inMethod:(NSString *)methodName {
+    if (operation.response.statusCode == 401) {
+        [UIAlertView showAlertViewWithTitle:@"Session Expired"
+                                    message:@"Your session has expired and you will now be logged out."
+                                   delegate:self
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil];
+    }
     MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
 
     if (!serviceErrorInfo) {
@@ -125,6 +138,15 @@
     }
     
     if (failureOrNil) failureOrNil(error);
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                            object:nil];
+    }
 }
 
 @end
