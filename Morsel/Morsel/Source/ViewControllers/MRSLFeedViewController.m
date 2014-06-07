@@ -63,7 +63,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.isFeed = YES;
+    self.shouldDisplayAdd = YES;
     self.feedCollectionView.accessibilityLabel = @"Feed";
 
     self.feedMorsels = [NSMutableArray array];

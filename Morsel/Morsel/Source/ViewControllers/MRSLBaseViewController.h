@@ -10,7 +10,7 @@
 
 @interface MRSLBaseViewController : UIViewController
 
-@property (nonatomic) BOOL isFeed;
+@property (nonatomic) BOOL shouldDisplayAdd;
 
 - (void)setupNavigationItems;
 

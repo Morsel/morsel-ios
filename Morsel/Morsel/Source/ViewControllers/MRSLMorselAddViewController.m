@@ -53,7 +53,7 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
     [super viewDidLoad];
 
     self.user = [MRSLUser currentUser];
-    self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_all_morselIDs", _user.username]] ?: [NSMutableArray array];
+    self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_draft_morselIDs", _user.username]] ?: [NSMutableArray array];
 
     self.draftMorsels = [NSMutableArray array];
     self.publishedMorsels = [NSMutableArray array];
@@ -86,7 +86,7 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
         self.selectedIndexPath = nil;
     }
 
-    if (![MRSLUser currentUser] || self.morselsFetchedResultsController) return;
+    if (![MRSLUser currentUser]) return;
 
     [self setupFetchRequest];
     [self populateContent];
@@ -151,7 +151,7 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
                                            [weakSelf.refreshControl endRefreshing];
                                            weakSelf.morselIDs = [responseArray mutableCopy];
                                            [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                     forKey:[NSString stringWithFormat:@"%@_all_morselIDs", _user.username]];
+                                                                                     forKey:[NSString stringWithFormat:@"%@_draft_morselIDs", _user.username]];
                                            [weakSelf setupFetchRequest];
                                            [weakSelf populateContent];
                                            weakSelf.refreshing = NO;
@@ -180,7 +180,7 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
                                                if ([responseArray count] > 0) {
                                                    [weakSelf.morselIDs addObjectsFromArray:responseArray];
                                                    [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
-                                                                                             forKey:[NSString stringWithFormat:@"%@_all_morselIDs", _user.username]];
+                                                                                             forKey:[NSString stringWithFormat:@"%@_draft_morselIDs", _user.username]];
                                                    [weakSelf setupFetchRequest];
                                                    dispatch_async(dispatch_get_main_queue(), ^{
                                                        [weakSelf populateContent];
