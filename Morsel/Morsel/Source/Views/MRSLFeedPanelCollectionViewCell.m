@@ -15,8 +15,6 @@
 
 @property (weak, nonatomic) UIViewController *owningViewController;
 
-@property (strong, nonatomic) MRSLFeedPanelViewController *feedPanelViewController;
-
 @end
 
 @implementation MRSLFeedPanelCollectionViewCell

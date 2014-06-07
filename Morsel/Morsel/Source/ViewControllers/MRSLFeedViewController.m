@@ -17,6 +17,8 @@
 #import "MRSLMediaManager.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLMorselEditViewController.h"
+#import "MRSLFeedPanelCollectionViewCell.h"
+#import "MRSLFeedPanelViewController.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
@@ -200,6 +202,14 @@ MRSLFeedPanelCollectionViewCellDelegate>
             [_morselIDs removeObjectAtIndex:morselIndex];
             [_morselIDs saveFeedIDArray];
         }
+    }
+}
+
+- (void)displayMorselShare {
+    NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLFeedPanelCollectionViewCell *visibleFeedPanel = (MRSLFeedPanelCollectionViewCell *)[self.feedCollectionView cellForItemAtIndexPath:indexPath];
+        [visibleFeedPanel.feedPanelViewController displayShare];
     }
 }
 

@@ -1,14 +1,20 @@
 //
-//  MorselLargeButton.m
+//  MRSLColoredBackgroundToggleButton.m
 //  Morsel
 //
-//  Created by Javier Otero on 1/24/14.
+//  Created by Javier Otero on 6/6/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLColoredBackgroundLightButton.h"
+#import "MRSLColoredBackgroundToggleButton.h"
 
-@implementation MRSLColoredBackgroundLightButton
+@interface MRSLColoredBackgroundToggleButton ()
+
+@property (nonatomic) BOOL colorSet;
+
+@end
+
+@implementation MRSLColoredBackgroundToggleButton
 
 - (void)setUp {
     [self addObserver:self
@@ -24,7 +30,7 @@
               options:NSKeyValueObservingOptionNew
               context:NULL];
 
-    [self setTitleColor:[UIColor whiteColor]
+    [self setTitleColor:[UIColor lightGrayColor]
                forState:UIControlStateNormal];
     [self setTitleColor:[UIColor darkGrayColor]
                forState:UIControlStateHighlighted];
@@ -33,17 +39,13 @@
     [self setTitleColor:[UIColor whiteColor]
                forState:UIControlStateSelected];
 
-    [self.titleLabel setFont:[UIFont robotoLightFontOfSize:self.titleLabel.font.pointSize]];
+    [self.titleLabel setFont:[UIFont robotoRegularFontOfSize:self.titleLabel.font.pointSize]];
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
     [super setBackgroundColor:backgroundColor];
-
-    [self setTitleColor:([backgroundColor isEqual:self.originalBackgroundColor]) ? [UIColor whiteColor] : [UIColor lightGrayColor]
-               forState:UIControlStateSelected];
-
-    if (![backgroundColor isEqual:self.originalBackgroundColor] &&
-        ![backgroundColor isEqual:self.highlightedBackgroundColor]) {
+    if (!_colorSet) {
+        self.colorSet = YES;
         [self setupColors];
     }
 }
@@ -78,14 +80,14 @@
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
-    if (self.highlighted && self.enabled && !_allowsToggle) {
+    if (self.highlighted && self.enabled && !self.allowsToggle) {
         self.backgroundColor = self.highlightedBackgroundColor;
-    } else if (self.highlighted && self.enabled && _allowsToggle) {
+    } else if (self.highlighted && self.enabled && self.allowsToggle) {
         self.backgroundColor = self.originalBackgroundColor;
-    } else if (!self.highlighted && self.enabled && (self.selected && _allowsToggle)) {
+    } else if (!self.highlighted && self.enabled && (self.selected && self.allowsToggle)) {
         self.backgroundColor = self.originalBackgroundColor;
-    } else if (!self.highlighted && self.enabled && (!self.selected && _allowsToggle)) {
-        self.backgroundColor = self.highlightedBackgroundColor;
+    } else if (!self.highlighted && self.enabled && (!self.selected && self.allowsToggle)) {
+        self.backgroundColor = [UIColor whiteColor];
     } else if (!self.enabled) {
         self.backgroundColor = [UIColor lightGrayColor];
     } else {
@@ -99,7 +101,7 @@
           forKey:(NSString *)key {
     if ([key isEqualToString:@"allowsToggle"]) {
         self.allowsToggle = [value boolValue];
-        [self setBackgroundColor:self.selected ? self.originalBackgroundColor : self.highlightedBackgroundColor];
+        [self setBackgroundColor:self.selected ? self.originalBackgroundColor : [UIColor whiteColor]];
     } else {
         [super setValue:value forKey:key];
     }

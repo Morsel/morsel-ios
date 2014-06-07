@@ -94,7 +94,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                                           return reusableView;
                                                                                                                       } headerConfig:^(UICollectionView *collectionView, NSInteger section) {
                                                                                                                           if (section != 0) {
-                                                                                                                              return CGSizeMake(collectionView.bounds.size.width, 34.f);
+                                                                                                                              return CGSizeMake(collectionView.bounds.size.width, 50.f);
                                                                                                                           } else {
                                                                                                                               return CGSizeZero;
                                                                                                                           }

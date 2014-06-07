@@ -208,8 +208,8 @@
                 <entry key="mappedKeyName" value="information.formatted_phone"/>
             </userInfo>
         </attribute>
-        <attribute name="lat" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="lon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="menu_mobile_url" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="information.menu_mobile_url"/>

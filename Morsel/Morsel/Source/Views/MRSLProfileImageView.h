@@ -12,6 +12,8 @@
 
 @interface MRSLProfileImageView : UIImageView
 
+@property (nonatomic) BOOL shouldBlur;
+
 @property (weak, nonatomic) MRSLUser *user;
 
 - (void)addAndRenderImage:(UIImage *)image

@@ -17,7 +17,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="22" maxX="0.0" maxY="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="4kb-pk-6b3">
                                     <size key="itemSize" width="320" height="504"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -154,6 +153,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="504"/>
                     <connections>
                         <outlet property="facebookButton" destination="zLo-Y2-J9L" id="phf-qh-zLz"/>
                         <outlet property="shareStatusLabel" destination="MRu-2x-RTN" id="C3f-Bz-z94"/>
@@ -174,7 +174,7 @@
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="Exw-3E-NwD">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="444"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="ER7-rF-fQW">
                                         <rect key="frame" x="0.0" y="184" width="320" height="260"/>
@@ -203,6 +203,7 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="504"/>
                     <connections>
                         <outlet property="descriptionContainerView" destination="ER7-rF-fQW" id="5sd-ID-sKb"/>
                         <outlet property="descriptionTextView" destination="wBz-A9-rbx" id="WQD-Py-iUZ"/>
@@ -291,7 +292,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wyp-8d-VK5" customClass="GCPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6.9999995559953261" width="250" height="36"/>
+                                        <rect key="frame" x="11" y="7" width="250" height="35.999999723693179"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -317,7 +318,6 @@
                         <accessibility key="accessibilityConfiguration" label="Morsel Comments">
                             <bool key="isElement" value="YES"/>
                         </accessibility>
-                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="22" maxX="0.0" maxY="0.0"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Comments" id="TJ2-eP-Gu9"/>
@@ -343,7 +343,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="22" maxX="0.0" maxY="-22"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ruid_UserFollowCell" id="Zc1-lf-nqY" customClass="MRSLUserFollowTableViewCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="60"/>
@@ -398,7 +397,6 @@
                         <accessibility key="accessibilityConfiguration" label="Morsel Likes">
                             <bool key="isElement" value="YES"/>
                         </accessibility>
-                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="22" maxX="0.0" maxY="0.0"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Likes" id="QsC-bt-tAX"/>

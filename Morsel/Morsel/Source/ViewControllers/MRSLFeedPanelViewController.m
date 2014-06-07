@@ -84,7 +84,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (void)displayContent {
     if (_collectionView && _morsel) {
         self.view.backgroundColor = [UIColor whiteColor];
-        
+
         self.pageControl.numberOfPages = [_morsel.items count] + 2;
         [self.pageControl setY:320.f - ((([_pageControl sizeForNumberOfPages:_pageControl.numberOfPages].width) / 2) + 34.f)];
         self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
@@ -99,71 +99,81 @@ MRSLFeedShareCollectionViewCellDelegate>
                                  animated:animated];
 }
 
+- (MRSLItem *)visibleItem {
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    MRSLItem *visibleItem = [_morsel coverItem];
+    if (indexPath.row - 1 >= 0 && indexPath.row - 1 < [_morsel.items count]) {
+        visibleItem = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+    }
+    return visibleItem;
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)viewMore {
-    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath) {
-        MRSLItem *visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
-        [[MRSLEventManager sharedManager] track:@"Tapped View More Description"
-                                     properties:@{@"view": @"main_feed",
-                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID)}];
-        MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalDescriptionViewController"];
-        modalDescriptionVC.item = visibleMorsel;
-        [self addChildViewController:modalDescriptionVC];
-        [self.view addSubview:modalDescriptionVC.view];
-    }
+    MRSLItem *visibleItem = [self visibleItem];
+    [[MRSLEventManager sharedManager] track:@"Tapped View More Description"
+                                 properties:@{@"view": @"main_feed",
+                                              @"item_id": NSNullIfNil(visibleItem.itemID)}];
+    MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalDescriptionViewController"];
+    modalDescriptionVC.item = visibleItem;
+    [self addChildViewController:modalDescriptionVC];
+    [self.view addSubview:modalDescriptionVC.view];
 }
 
 - (IBAction)displayComments {
-    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath) {
-        MRSLItem *visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
-        [[MRSLEventManager sharedManager] track:@"Tapped Comments"
-                                     properties:@{@"view": @"main_feed",
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID),
-                                                  @"comment_count": NSNullIfNil(visibleMorsel.comment_count)}];
-        UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Comments"];
-        MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
-        modalCommentsVC.item = visibleMorsel;
-        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
-                                                            object:commentNC];
-    }
+    MRSLItem *visibleItem = [self visibleItem];
+    [[MRSLEventManager sharedManager] track:@"Tapped Comments"
+                                 properties:@{@"view": @"main_feed",
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                              @"item_id": NSNullIfNil(visibleItem.itemID),
+                                              @"comment_count": NSNullIfNil(visibleItem.comment_count)}];
+    UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Comments"];
+    MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
+    modalCommentsVC.item = visibleItem;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                        object:commentNC];
 }
 
 - (IBAction)displayLikers {
-    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath) {
-        MRSLItem *visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+    __block BOOL alreadyDisplayed = NO;
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *childVC, NSUInteger idx, BOOL *stop) {
+        if ([childVC isKindOfClass:[MRSLModalLikersViewController class]]) {
+            alreadyDisplayed = YES;
+            *stop = YES;
+        }
+    }];
+    if (!alreadyDisplayed) {
+        MRSLItem *visibleItem = [self visibleItem];
         [[MRSLEventManager sharedManager] track:@"Tapped Likes"
                                      properties:@{@"view": @"main_feed",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID),
-                                                  @"like_count": NSNullIfNil(visibleMorsel.like_count)}];
+                                                  @"item_id": NSNullIfNil(visibleItem.itemID),
+                                                  @"like_count": NSNullIfNil(visibleItem.like_count)}];
         UINavigationController *likesNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Likes"];
         MRSLModalLikersViewController *modalLikersVC = [[likesNC viewControllers] firstObject];
-        modalLikersVC.item = visibleMorsel;
+        modalLikersVC.item = visibleItem;
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
                                                             object:likesNC];
     }
 }
 
 - (IBAction)displayShare {
-    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath) {
-        MRSLItem *visibleMorsel = nil;
-        if (_isPresentingMorselLayout) {
-            visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
-        } else {
-            visibleMorsel = [_morsel coverItem];
+    __block BOOL alreadyDisplayed = NO;
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *childVC, NSUInteger idx, BOOL *stop) {
+        if ([childVC isKindOfClass:[MRSLModalShareViewController class]]) {
+            alreadyDisplayed = YES;
+            *stop = YES;
         }
+    }];
+    if (!alreadyDisplayed) {
+        MRSLItem *visibleItem = [self visibleItem];
         [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
                                      properties:@{@"view": @"main_feed",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(visibleMorsel.itemID)}];
+                                                  @"item_id": NSNullIfNil(visibleItem.itemID)}];
         MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalShareViewController"];
-        modalShareVC.item = visibleMorsel;
+        modalShareVC.item = visibleItem;
         [self addChildViewController:modalShareVC];
         [self.view addSubview:modalShareVC.view];
     }
@@ -189,19 +199,19 @@ MRSLFeedShareCollectionViewCellDelegate>
     UICollectionViewCell *cell = nil;
     if (indexPath.row == 0) {
         MRSLFeedCoverCollectionViewCell *morselCoverCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedCoverCell"
-                                                                                                    forIndexPath:indexPath];
+                                                                                                     forIndexPath:indexPath];
         morselCoverCell.morsel = _morsel;
         morselCoverCell.delegate = self;
         cell = morselCoverCell;
     } else if (indexPath.row == [_morsel.items count] + 1) {
         MRSLFeedShareCollectionViewCell *shareCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedShareCell"
-                                                                                                    forIndexPath:indexPath];
+                                                                                               forIndexPath:indexPath];
         shareCell.morsel = _morsel;
         shareCell.delegate = self;
         cell = shareCell;
     } else {
         MRSLFeedPageCollectionViewCell *morselPageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedPageCell"
-                                                                                                  forIndexPath:indexPath];
+                                                                                                   forIndexPath:indexPath];
         morselPageCell.item = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
         cell = morselPageCell;
     }

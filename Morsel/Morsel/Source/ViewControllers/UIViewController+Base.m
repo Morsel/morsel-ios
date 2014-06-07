@@ -26,12 +26,18 @@
                                                                           target:self
                                                                           action:@selector(displayMenuBar)];
             [self.navigationItem setLeftBarButtonItem:menuButton];
-            if (![self isKindOfClass:NSClassFromString(@"MRSLSettingsViewController")] && [[MRSLUser currentUser] isChef]) {
-                UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-add-red"]
+            if ([[MRSLUser currentUser] isChef]) {
+                UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Add"
                                                                               style:UIBarButtonItemStyleBordered
                                                                              target:self
                                                                              action:@selector(displayMorselAdd)];
                 [self.navigationItem setRightBarButtonItem:addButton];
+            } else {
+                UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithTitle:@"Share"
+                                                                                style:UIBarButtonItemStyleBordered
+                                                                               target:self
+                                                                               action:@selector(displayMorselShare)];
+                [self.navigationItem setRightBarButtonItem:shareButton];
             }
         }
     } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
@@ -89,6 +95,12 @@
         potentialTopMostVC = potentialTopMostVC.presentedViewController;
     }
     return topMostVC;
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

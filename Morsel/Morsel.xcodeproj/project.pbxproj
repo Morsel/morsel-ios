@@ -53,6 +53,7 @@
 		062AB99718C5970400742955 /* MRSLMorselAddTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB99618C5970400742955 /* MRSLMorselAddTitleViewController.m */; };
 		062AB99A18C655DF00742955 /* MRSLMorselEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB99918C655DF00742955 /* MRSLMorselEditViewController.m */; };
 		062AB9A218C681C900742955 /* MRSLImagePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB9A118C681C900742955 /* MRSLImagePreviewViewController.m */; };
+		062D7D651942AA950079F999 /* MRSLColoredBackgroundToggleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D7D641942AA950079F999 /* MRSLColoredBackgroundToggleButton.m */; };
 		062DF21718845B7E00C199D8 /* MRSLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062DF21618845B7D00C199D8 /* MRSLLoginViewController.m */; };
 		063250CA1860E1DD00ADDF23 /* MRSLRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063250C91860E1DD00ADDF23 /* MRSLRootViewController.m */; };
 		06340919191BDFE500C67FB8 /* MRSLWebBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06340918191BDFE500C67FB8 /* MRSLWebBrowserViewController.m */; };
@@ -381,6 +382,8 @@
 		062AB99918C655DF00742955 /* MRSLMorselEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselEditViewController.m; sourceTree = "<group>"; };
 		062AB9A018C681C900742955 /* MRSLImagePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLImagePreviewViewController.h; sourceTree = "<group>"; };
 		062AB9A118C681C900742955 /* MRSLImagePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLImagePreviewViewController.m; sourceTree = "<group>"; };
+		062D7D631942AA950079F999 /* MRSLColoredBackgroundToggleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLColoredBackgroundToggleButton.h; path = Source/Views/MRSLColoredBackgroundToggleButton.h; sourceTree = "<group>"; };
+		062D7D641942AA950079F999 /* MRSLColoredBackgroundToggleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLColoredBackgroundToggleButton.m; path = Source/Views/MRSLColoredBackgroundToggleButton.m; sourceTree = "<group>"; };
 		062DF21518845B7D00C199D8 /* MRSLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLLoginViewController.h; sourceTree = "<group>"; };
 		062DF21618845B7D00C199D8 /* MRSLLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLLoginViewController.m; sourceTree = "<group>"; };
 		063250C81860E1DD00ADDF23 /* MRSLRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLRootViewController.h; sourceTree = "<group>"; };
@@ -990,6 +993,8 @@
 				0676B49118996241001D7483 /* MRSLBoldButton.m */,
 				06F2F4F11892F78A00977DEB /* MRSLColoredBackgroundLightButton.h */,
 				06F2F4F21892F78A00977DEB /* MRSLColoredBackgroundLightButton.m */,
+				062D7D631942AA950079F999 /* MRSLColoredBackgroundToggleButton.h */,
+				062D7D641942AA950079F999 /* MRSLColoredBackgroundToggleButton.m */,
 				06DF5E2519362D4D002B1AA6 /* MRSLFollowButton.h */,
 				06DF5E2619362D4D002B1AA6 /* MRSLFollowButton.m */,
 				068602A01891AD2C000CD576 /* MRSLLightButton.h */,
@@ -2222,6 +2227,7 @@
 				4069CB28189B127E001790F3 /* MRSLAPIClient.m in Sources */,
 				06845049192F9DB100B38870 /* MRSLProfilePanelCollectionViewCell.m in Sources */,
 				06DAFB46191A914C0044AF3E /* MRSLAPIService+Authentication.m in Sources */,
+				062D7D651942AA950079F999 /* MRSLColoredBackgroundToggleButton.m in Sources */,
 				06DAFB5B191A93D20044AF3E /* MRSLAPIService+Tag.m in Sources */,
 				061F9344190F67BB00608C0B /* MRSLProfileUserTagsListViewController.m in Sources */,
 				06E89F8F1885ED3B00DA3A90 /* MRSLUtil.m in Sources */,
