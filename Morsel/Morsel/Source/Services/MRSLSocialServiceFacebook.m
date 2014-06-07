@@ -18,12 +18,6 @@
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
-#if (defined(MORSEL_BETA) || defined(RELEASE))
-#define FACEBOOK_APP_ID @"1402286360015732"
-#else
-#define FACEBOOK_APP_ID @"1406459019603393"
-#endif
-
 @interface MRSLSocialServiceFacebook ()
 
 @property (strong, nonatomic) MRSLSocialSuccessBlock facebookSuccessBlock;

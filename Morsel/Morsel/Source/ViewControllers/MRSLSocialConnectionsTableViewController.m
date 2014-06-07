@@ -68,7 +68,10 @@
             if (weakSelf) {
                 if (!error && [session isOpen]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        weakSelf.facebookUsernameLabel.text = [[MRSLSocialServiceFacebook sharedService] facebookUsername];
+                        __weak __typeof(self) weakSelf = self;
+                        [[MRSLSocialServiceFacebook sharedService] getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
+                            weakSelf.facebookUsernameLabel.text = [NSString stringWithFormat:@"%@ %@", userInfo[@"first_name"], userInfo[@"last_name"]];
+                        }];
                     });
                     [weakSelf toggleSwitch:weakSelf.facebookSwitch
                               shouldEnable:YES];

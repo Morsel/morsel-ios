@@ -29,19 +29,19 @@
 			<string>com.eatmorsel.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_ID_SUFFIX}</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tw-morsel</string>
-				<string>insta-morsel</string>
-				<string>fb1406459019603393</string>
+				<string>${TW_CALLBACK}</string>
+				<string>${INSTA_CALLBACK}</string>
+				<string>fb${FB_APP_ID}</string>
 				<string>item</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201406070137</string>
+	<string>201406070207</string>
 	<key>FacebookAppID</key>
-	<string>1406459019603393</string>
+	<string>${FB_APP_ID}</string>
 	<key>FacebookDisplayName</key>
-	<string>Morsel</string>
+	<string>${SOCIAL_DISPLAY_NAME}</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

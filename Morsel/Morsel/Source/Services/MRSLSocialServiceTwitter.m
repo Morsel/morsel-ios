@@ -20,14 +20,6 @@
 
 #import "MRSLUser.h"
 
-#if (defined(MORSEL_BETA) || defined(RELEASE))
-#define TWITTER_CONSUMER_KEY @"ETEvZdAoQ4pzi1boCxdZoA"
-#define TWITTER_CONSUMER_SECRET @"0CBD7gMuymBSBCqpy8G7uuLwyD7peyeUetAQZhUqu0"
-#else
-#define TWITTER_CONSUMER_KEY @"OWJtM9wGQSSdMctOI0gHkQ"
-#define TWITTER_CONSUMER_SECRET @"21EsTV2n8QjBUGZPfYx5JPKnxjicxboV0IHflBZB6w"
-#endif
-
 /*
  Adding a strong reference due to potential bug of accountType being prematurely nil. This is added on top of the solution below for extra safety.
 
@@ -146,7 +138,7 @@
     // Your application will be sent to the background until the user authenticates, and then the app will be brought back using the callback URL
     [_oauth1Client authorizeUsingOAuthWithRequestTokenPath:@"/oauth/request_token"
                                       userAuthorizationPath:@"/oauth/authorize"
-                                                callbackURL:[NSURL URLWithString:@"tw-morsel://success"]
+                                                callbackURL:[NSURL URLWithString:TWITTER_CALLBACK]
                                             accessTokenPath:@"/oauth/access_token"
                                                accessMethod:@"POST"
                                                       scope:nil
