@@ -12,7 +12,7 @@
 - (BOOL)deleteableByUser:(MRSLUser *)user {
     // Only the comment creator OR the Item's creator can delete a Comment
     if (user == self.creator) return YES;
-    if (user.userID == self.item.creator_id) return YES;
+    if (user.userIDValue == self.item.creator_idValue) return YES;
     return NO;
 }
 
