@@ -59,6 +59,7 @@
                                   }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];

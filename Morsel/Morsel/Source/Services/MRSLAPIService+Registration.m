@@ -59,6 +59,7 @@
                  if (userSuccessOrNil) userSuccessOrNil(responseObject[@"data"]);
              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                  [self reportFailure:failureOrNil
+                        forOperation:operation
                            withError:error
                             inMethod:NSStringFromSelector(_cmd)];
              }];
@@ -94,6 +95,7 @@
                                    if (successOrNil) successOrNil(responseObject[@"data"]);
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                    [self reportFailure:failureOrNil
+                                          forOperation:operation
                                              withError:error
                                               inMethod:NSStringFromSelector(_cmd)];
                                }];
@@ -114,6 +116,7 @@
                                    if (successOrNil) successOrNil(nil);
                                } else {
                                    [self reportFailure:failureOrNil
+                                          forOperation:operation
                                              withError:error
                                               inMethod:NSStringFromSelector(_cmd)];
                                }
@@ -135,6 +138,7 @@
                                       if (successOrNil) successOrNil(nil);
                                   } else {
                                       [self reportFailure:failureOrNil
+                                             forOperation:operation
                                                 withError:error
                                                  inMethod:NSStringFromSelector(_cmd)];
                                   }
@@ -157,6 +161,7 @@
                                        if (successOrNil) successOrNil(nil);
                                    } else {
                                        [self reportFailure:failureOrNil
+                                              forOperation:operation
                                                  withError:error
                                                   inMethod:NSStringFromSelector(_cmd)];
                                    }

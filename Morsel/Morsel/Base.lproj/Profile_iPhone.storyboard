@@ -1297,7 +1297,7 @@
         <!--Navigation Controller-->
         <scene sceneID="MAm-BU-cdH">
             <objects>
-                <navigationController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="jVf-MD-7pH" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_UserFeed" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="jVf-MD-7pH" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Emf-kj-fzi">

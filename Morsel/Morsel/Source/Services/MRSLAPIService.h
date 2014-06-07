@@ -34,6 +34,7 @@
 #pragma mark - Errors
 
 - (void)reportFailure:(MRSLFailureBlock)failureOrNil
+         forOperation:(AFHTTPRequestOperation *)operation
             withError:(NSError *)error
              inMethod:(NSString *)methodName;
 

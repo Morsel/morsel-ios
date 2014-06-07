@@ -61,6 +61,7 @@
                                   }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
@@ -90,6 +91,7 @@
                                   if (successOrNil) successOrNil(itemLikers);
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
+                                         forOperation:operation
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
@@ -114,6 +116,7 @@
                                            if (likeBlockOrNil) likeBlockOrNil(YES);
                                        } else {
                                            [self reportFailure:failureOrNil
+                                                  forOperation:operation
                                                      withError:error
                                                       inMethod:NSStringFromSelector(_cmd)];
                                        }
@@ -130,6 +133,7 @@
                                              if (likeBlockOrNil) likeBlockOrNil(NO);
                                          } else {
                                              [self reportFailure:failureOrNil
+                                                    forOperation:operation
                                                        withError:error
                                                         inMethod:NSStringFromSelector(_cmd)];
                                          }
