@@ -40,8 +40,7 @@ UICollectionViewDelegate>
     _pageControl.numberOfPages = [_morsel.items count];
 }
 
-- (void)viewDidLayoutSubviews
-{
+- (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 
     NSUInteger coverIndex = [[self.morsel itemsArray] indexOfObject:[self.morsel coverItem]];
