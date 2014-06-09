@@ -31,7 +31,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *viewMoreButton;
 @property (weak, nonatomic) IBOutlet UIView *descriptionPanelView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *itemImageView;
@@ -77,17 +76,8 @@
         [_viewMoreButton setHidden:NO];
     }
 
-    NSString *userNameString = [_item.morsel.creator fullName];
-    CGSize nameSize = [userNameString sizeWithFont:self.userNameLabel.font
-                                 constrainedToSize:CGSizeMake(self.userNameLabel.frame.size.width, CGFLOAT_MAX)
-                                     lineBreakMode:NSLineBreakByWordWrapping];
-    if (nameSize.height > [self.userNameLabel getHeight]) {
-        userNameString = [NSString stringWithFormat:@"%@ %@", _item.morsel.creator.first_name, ([_item.morsel.creator.last_name length] > 0) ? [NSString stringWithFormat:@"%@.", [_item.morsel.creator.last_name substringToIndex:1]] : @""];
-    }
-
     _profileImageView.user = _item.morsel.creator;
-    _userNameLabel.text = userNameString;
-    _timeAgoLabel.text = [_item.morsel.creationDate timeAgo];
+    _userNameLabel.text = [_item.morsel.creator fullName];
     _editButton.hidden = ![_item.morsel.creator isCurrentUser];
 
     [_likeCountButton setTitle:[NSString stringWithFormat:@"%i", _item.like_countValue]

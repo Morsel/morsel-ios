@@ -90,14 +90,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
         self.profileImageView.user = _morsel.creator;
         self.timeAgoLabel.text = [_morsel.publishedDate timeAgoMinimized];
 
-        NSString *userNameString = [_morsel.creator fullName];
-        CGSize nameSize = [userNameString sizeWithFont:self.userNameLabel.font
-                                     constrainedToSize:CGSizeMake(self.userNameLabel.frame.size.width, CGFLOAT_MAX)
-                                         lineBreakMode:NSLineBreakByWordWrapping];
-        if (nameSize.height > [self.userNameLabel getHeight]) {
-            userNameString = [NSString stringWithFormat:@"%@ %@", _morsel.creator.first_name, ([_morsel.creator.last_name length] > 0) ? [NSString stringWithFormat:@"%@.", [_morsel.creator.last_name substringToIndex:1]] : @""];
-        }
-        self.userNameLabel.text = userNameString;
+        self.userNameLabel.text = [_morsel.creator fullName];
 
         _editButton.hidden = ![_morsel.creator isCurrentUser];
 
