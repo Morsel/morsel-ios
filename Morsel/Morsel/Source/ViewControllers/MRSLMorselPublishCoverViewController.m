@@ -38,13 +38,16 @@ UICollectionViewDelegate>
     [_morselTitleLabel addStandardShadow];
 
     _pageControl.numberOfPages = [_morsel.items count];
+}
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        NSUInteger coverIndex = [[self.morsel itemsArray] indexOfObject:[self.morsel coverItem]];
-        [self.coverCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:coverIndex inSection:0]
-                                         atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                                 animated:NO];
-    });
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+
+    NSUInteger coverIndex = [[self.morsel itemsArray] indexOfObject:[self.morsel coverItem]];
+    [self.coverCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:coverIndex inSection:0]
+                                     atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                             animated:NO];
 }
 
 #pragma mark - Action Methods
