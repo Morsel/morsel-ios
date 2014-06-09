@@ -107,7 +107,7 @@
     // After login, app will use authentications from backend to re-establish them
     [_appDelegate resetSocialConnections];
 
-    __weak __typeof(self)weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService signInUserWithEmailOrUsername:_emailTextField.text
                                                andPassword:_passwordTextField.text
                                           orAuthentication:nil
@@ -123,13 +123,13 @@
                                                                                                               failure:nil];
                                                        }
                                                    } failure:^(NSError *error) {
-         [self.activityView setHidden:YES];
-         [self.signInButton setEnabled:YES];
+                                                       [weakSelf.activityView setHidden:YES];
+                                                       [weakSelf.signInButton setEnabled:YES];
 
-         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-         [UIAlertView showAlertViewForServiceError:serviceErrorInfo
-                                          delegate:nil];
-     }];
+                                                       MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                       [UIAlertView showAlertViewForServiceError:serviceErrorInfo
+                                                                                        delegate:nil];
+                                                   }];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification {
