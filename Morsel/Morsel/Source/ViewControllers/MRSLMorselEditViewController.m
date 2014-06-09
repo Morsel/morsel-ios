@@ -137,7 +137,9 @@ MRSLMorselEditItemTableViewCellDelegate>
         [self.items addObjectsFromArray:[_itemsFetchedResultsController fetchedObjects]];
     }
 
-    [self.morselMorselsTableView reloadData];
+    [self.morselMorselsTableView performSelectorOnMainThread:@selector(reloadData)
+                                                  withObject:nil
+                                               waitUntilDone:NO];
 
     [self displayMorselStatus];
 }
