@@ -21,6 +21,8 @@
 
 @property (weak, nonatomic) id <MRSLCapturePreviewsViewControllerDelegate> delegate;
 
-- (void)addPreviewMediaItems:(NSMutableArray *)previewMediaItems;
+- (NSUInteger)thumbImageCount;
+
+- (void)addPreviewMediaItemThumb:(UIImage *)thumbImage;
 
 @end

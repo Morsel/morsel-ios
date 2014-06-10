@@ -21,7 +21,7 @@ MRSLImagePreviewViewControllerDelegate>
 
 @property (nonatomic) NSUInteger selectedIndex;
 
-@property (strong, nonatomic) NSMutableArray *previewMediaItems;
+@property (strong, nonatomic) NSMutableArray *previewMediaItemThumbs;
 
 @end
 
@@ -29,20 +29,30 @@ MRSLImagePreviewViewControllerDelegate>
 
 #pragma mark - Instance Methods
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    if (!_previewMediaItemThumbs) _previewMediaItemThumbs = [[NSMutableArray alloc] init];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     [self.previewCollectionView reloadData];
 }
 
-- (void)addPreviewMediaItems:(NSMutableArray *)previewMediaItems {
-    self.previewMediaItems = previewMediaItems;
-    
-    [self.previewCollectionView reloadData];
+- (NSUInteger)thumbImageCount {
+    return [_previewMediaItemThumbs count];
+}
 
-    [self.previewCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[_previewMediaItems count] - 1 inSection:0]
-                                       atScrollPosition:UICollectionViewScrollPositionRight
-                                               animated:YES];
+- (void)addPreviewMediaItemThumb:(UIImage *)thumbImage {
+    if (thumbImage) {
+        [self.previewMediaItemThumbs addObject:thumbImage];
+        [self.previewCollectionView reloadData];
+
+        [self.previewCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[_previewMediaItemThumbs count] - 1 inSection:0]
+                                           atScrollPosition:UICollectionViewScrollPositionRight
+                                                   animated:YES];
+    }
 }
 
 #pragma mark - Segue Methods
@@ -51,7 +61,7 @@ MRSLImagePreviewViewControllerDelegate>
     if ([segue.identifier isEqualToString:@"seg_DisplayImagePreview"]) {
         MRSLImagePreviewViewController *previewMediaVC = [segue destinationViewController];
         previewMediaVC.delegate = self;
-        [previewMediaVC setPreviewMedia:_previewMediaItems
+        [previewMediaVC setPreviewMedia:_previewMediaItemThumbs
                        andStartingIndex:_selectedIndex];
     }
 }
@@ -59,16 +69,16 @@ MRSLImagePreviewViewControllerDelegate>
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_previewMediaItems count];
+    return [_previewMediaItemThumbs count];
 }
 
 - (MRSLMediaItemPreviewCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMediaItem *mediaItem = [_previewMediaItems objectAtIndex:indexPath.row];
+    UIImage *mediaThumbImage = [_previewMediaItemThumbs objectAtIndex:indexPath.row];
 
     MRSLMediaItemPreviewCollectionViewCell *mediaPreviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MediaItemCell"
                                                                                                          forIndexPath:indexPath];
-    mediaPreviewCell.mediaItem = mediaItem;
+    mediaPreviewCell.mediaThumbImage = mediaThumbImage;
 
     return mediaPreviewCell;
 }
