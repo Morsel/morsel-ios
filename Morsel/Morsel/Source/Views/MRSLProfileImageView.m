@@ -62,7 +62,7 @@
                 } else {
                     if (weakSelf.shouldBlur && !weakSelf.imageProcessed) {
                         weakSelf.imageProcessed = YES;
-                        GPUImageGaussianBlurFilter *blurFilter = [GPUImageGaussianBlurFilter new];
+                        GPUImageGaussianBlurFilter *blurFilter = [[GPUImageGaussianBlurFilter alloc] init];
                         blurFilter.blurPasses = 30.f;
                         dispatch_async(dispatch_get_main_queue(), ^{
                             weakSelf.image = [blurFilter imageByFilteringImage:image];

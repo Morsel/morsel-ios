@@ -130,7 +130,7 @@ UIActionSheetDelegate>
 }
 
 - (IBAction)addTag:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Add New Tag"
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Edit Tags"
                                 delegate:self
                        cancelButtonTitle:@"Cancel"
                   destructiveButtonTitle:nil

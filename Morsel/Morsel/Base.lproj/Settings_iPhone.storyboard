@@ -50,28 +50,8 @@
                         <sections>
                             <tableViewSection headerTitle="" id="Unt-kR-RxD">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="aBs-f8-WE1" style="IBUITableViewCellStyleDefault" id="PnP-3q-Uz0">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7r4-Vv-cXy" style="IBUITableViewCellStyleDefault" id="NsP-bS-Nco" userLabel="Manage Places Cell">
                                         <rect key="frame" x="0.0" y="44" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PnP-3q-Uz0" id="E7H-9c-EnM">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Edit Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aBs-f8-WE1">
-                                                    <rect key="frame" x="15" y="0.0" width="270" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="qw9-yF-Jf9" kind="push" id="700-Vj-Cks"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7r4-Vv-cXy" style="IBUITableViewCellStyleDefault" id="NsP-bS-Nco">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NsP-bS-Nco" id="8LP-Ge-2k1">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -90,8 +70,8 @@
                                             <segue destination="ZhL-PA-ZjH" kind="push" id="vd6-uW-8zl"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="uNS-ea-hLF" style="IBUITableViewCellStyleDefault" id="XDh-Cd-mfD">
-                                        <rect key="frame" x="0.0" y="132" width="320" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="uNS-ea-hLF" style="IBUITableViewCellStyleDefault" id="XDh-Cd-mfD" userLabel="Manage Tags Cell">
+                                        <rect key="frame" x="0.0" y="88" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XDh-Cd-mfD" id="4oa-p2-YDh">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -110,7 +90,31 @@
                                             <segue destination="Boo-Mf-jFg" kind="push" id="x2C-cx-ssN"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="SoO-ZC-cr4" style="IBUITableViewCellStyleDefault" id="jaH-5Y-Eqq">
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="H59-ba-Jzx">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="aBs-f8-WE1" style="IBUITableViewCellStyleDefault" id="PnP-3q-Uz0" userLabel="Edit Profile Cell">
+                                        <rect key="frame" x="0.0" y="132" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PnP-3q-Uz0" id="E7H-9c-EnM">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Edit Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aBs-f8-WE1">
+                                                    <rect key="frame" x="15" y="0.0" width="270" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qw9-yF-Jf9" kind="push" id="700-Vj-Cks"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="SoO-ZC-cr4" style="IBUITableViewCellStyleDefault" id="jaH-5Y-Eqq" userLabel="Social Connections Cell">
                                         <rect key="frame" x="0.0" y="176" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jaH-5Y-Eqq" id="bG2-G1-hT8">
@@ -130,7 +134,7 @@
                                             <segue destination="QZP-QV-mgC" kind="push" id="Eiq-8I-Vrt"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="puJ-UQ-bdw" style="IBUITableViewCellStyleDefault" id="SX1-Oi-pTb">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="puJ-UQ-bdw" style="IBUITableViewCellStyleDefault" id="SX1-Oi-pTb" userLabel="Account Settings Cell">
                                         <rect key="frame" x="0.0" y="220" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SX1-Oi-pTb" id="P1W-7G-CXh">
@@ -564,7 +568,7 @@ Tell us which tags describe your skillset.</string>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Manage Tags" id="0rE-Nj-NBz">
-                        <barButtonItem key="rightBarButtonItem" title="Add" id="eTM-dg-Fy5">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="eTM-dg-Fy5">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="addTag:" destination="Boo-Mf-jFg" id="ymm-cW-hlR"/>

@@ -47,7 +47,8 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
 }
@@ -62,6 +63,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 #pragma mark - Notification Methods
 
 - (void)updateContent:(NSNotification *)notification {
+    if (![self isViewLoaded]) return;
     NSDictionary *userInfoDictionary = [notification userInfo];
     NSSet *updatedObjects = [userInfoDictionary objectForKey:NSUpdatedObjectsKey];
 

@@ -60,4 +60,12 @@
                                                                                                                    @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/privacy_text", MORSEL_BASE_URL]]}];
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    //  Hide the first section if the User is not a chef since they have no Places or Tags to manage
+    if (section == 0 && ![[MRSLUser currentUser] isChef]) {
+        return 0;
+    }
+    return [super tableView:tableView numberOfRowsInSection:section];
+}
+
 @end

@@ -78,18 +78,25 @@
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
-    if (self.highlighted && self.enabled && !_allowsToggle) {
-        self.backgroundColor = self.highlightedBackgroundColor;
-    } else if (self.highlighted && self.enabled && _allowsToggle) {
-        self.backgroundColor = self.originalBackgroundColor;
-    } else if (!self.highlighted && self.enabled && (self.selected && _allowsToggle)) {
-        self.backgroundColor = self.originalBackgroundColor;
-    } else if (!self.highlighted && self.enabled && (!self.selected && _allowsToggle)) {
-        self.backgroundColor = self.highlightedBackgroundColor;
-    } else if (!self.enabled) {
-        self.backgroundColor = [UIColor lightGrayColor];
-    } else {
-        self.backgroundColor = self.originalBackgroundColor;
+    if (self.highlighted) {
+        if (self.enabled) {
+            if (_allowsToggle) {
+                self.backgroundColor = self.originalBackgroundColor;
+            } else {
+                self.backgroundColor = self.highlightedBackgroundColor;
+            }
+            
+        }
+    } else if (self.enabled) {
+        if (_allowsToggle) {
+            if (self.selected) {
+                self.backgroundColor = self.originalBackgroundColor;
+            } else {
+                self.backgroundColor = self.highlightedBackgroundColor;
+            }
+        } else {
+            self.backgroundColor = self.originalBackgroundColor;
+        }
     }
 
     [self setNeedsDisplay];

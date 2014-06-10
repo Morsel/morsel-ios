@@ -37,20 +37,11 @@
 - (void)setUser:(MRSLUser *)user {
     _user = user;
 
-    NSString *userNameString = [_user fullName];
-
-    CGSize nameSize = [userNameString sizeWithFont:self.nameLabel.font
-                                 constrainedToSize:CGSizeMake(self.nameLabel.frame.size.width, CGFLOAT_MAX)
-                                     lineBreakMode:NSLineBreakByWordWrapping];
     CGSize bioSize = [_user.bio sizeWithFont:self.bioLabel.font constrainedToSize:CGSizeMake(self.bioLabel.frame.size.width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-
-    if (nameSize.height > [self.nameLabel getHeight]) {
-        userNameString = [NSString stringWithFormat:@"%@ %@", _user.first_name, ([_user.last_name length] > 0) ? [NSString stringWithFormat:@"%@.", [_user.last_name substringToIndex:1]] : @""];
-    }
 
     [self.bioLabel setHeight:bioSize.height];
 
-    self.nameLabel.text = userNameString;
+    self.nameLabel.text = [_user fullName];
     self.bioLabel.text = _user.bio;
     self.profileImageView.user = nil;
     self.profileImageView.user = _user;

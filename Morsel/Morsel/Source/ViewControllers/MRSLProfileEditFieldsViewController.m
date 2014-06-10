@@ -289,6 +289,7 @@ UIAlertViewDelegate>
                 weakSelf.user.profilePhotoFull = UIImageJPEGRepresentation(profileImageFull, 1.f);
                 [weakSelf.activityIndicatorView stopAnimating];
                 weakSelf.photoChanged = YES;
+                [[weakSelf.navigationItem rightBarButtonItem] setEnabled:[self isDirty]];
             });
         });
     }

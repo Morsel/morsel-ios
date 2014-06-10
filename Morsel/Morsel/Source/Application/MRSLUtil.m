@@ -18,17 +18,39 @@
 @implementation MRSLUtil
 
 + (BOOL)validateEmail:(NSString *)emailAddress {
+    return [self validationErrorsForEmail:emailAddress] == nil;
+}
+
++ (NSArray *)validationErrorsForEmail:(NSString *)emailAddress {
+    //  Return right away if empty
+    if ([emailAddress length] == 0) return @[@"is required"];
+
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
-    return [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex] evaluateWithObject:emailAddress];
+    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex] evaluateWithObject:emailAddress]) return @[@"is invalid"];
+    
+    return nil;
 }
 
 + (BOOL)validateUsername:(NSString *)username {
-    BOOL passedRegex = NO;
-    BOOL passedLength = ([username length] <= 15);
-    NSString *usernameRegex = @"[A-Z0-9a-z_]+";
-    passedRegex = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", usernameRegex] evaluateWithObject:username];
-    return (passedRegex && passedLength);
+    return [self validationErrorsForUsername:username] == nil;
 }
+
++ (NSArray *)validationErrorsForUsername:(NSString *)username {
+    //  Return right away if empty
+    if ([username length] == 0) return @[@"is required"];
+
+    NSMutableArray *errors = [NSMutableArray array];
+
+    if ([username length] > 15) [errors addObject:@"must be less than 16 characters"];
+    
+    NSRange whiteSpaceRange = [username rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (whiteSpaceRange.location != NSNotFound) [errors addObject:@"cannot contain spaces"];
+
+    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"[a-zA-Z][A-Za-z0-9_]+$"] evaluateWithObject:username]) [errors addObject:@"must start with a letter and can only contain alphanumeric characters and underscores"];
+
+    return ([errors count] > 0) ? errors : nil;
+}
+
 
 + (BOOL)imageIsLandscape:(UIImage *)image {
     // Temporarily using width to height comparison due to jpegStillImageNSDataRepresentation: not capturing image orientation

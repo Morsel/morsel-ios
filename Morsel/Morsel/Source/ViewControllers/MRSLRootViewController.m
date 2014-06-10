@@ -99,10 +99,6 @@ MFMailComposeViewControllerDelegate>
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideMenuBar)
                                                  name:MRSLAppTouchPhaseDidBeginNotification
                                                object:nil];
-
-#ifdef SPEC_TESTING
-    return;
-#endif
 }
 
 - (void)viewDidAppear:(BOOL)animated {
