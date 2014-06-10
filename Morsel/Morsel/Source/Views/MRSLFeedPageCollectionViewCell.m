@@ -12,6 +12,8 @@
 
 #import "MRSLAPIService+Like.h"
 
+#import "MRSLProfileViewController.h"
+
 #import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
 
@@ -135,6 +137,14 @@
 }
 
 #pragma mark - Action Methods
+
+- (IBAction)displayProfile {
+    UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
+    MRSLProfileViewController *profileVC = [[profileNC viewControllers] firstObject];
+    profileVC.user = _item.morsel.creator;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                        object:profileNC];
+}
 
 - (IBAction)toggleLike {
     _likeButton.enabled = NO;

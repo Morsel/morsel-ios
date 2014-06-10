@@ -8,6 +8,8 @@
 
 #import "MRSLFeedShareCollectionViewCell.h"
 
+#import "MRSLProfileViewController.h"
+
 #import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLSocialService.h"
@@ -84,6 +86,14 @@
 }
 
 #pragma mark - Action Methods
+
+- (IBAction)displayProfile {
+    UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
+    MRSLProfileViewController *profileVC = [[profileNC viewControllers] firstObject];
+    profileVC.user = _morsel.creator;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                        object:profileNC];
+}
 
 - (IBAction)displayPreviousMorsel:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Prev Morsel"
