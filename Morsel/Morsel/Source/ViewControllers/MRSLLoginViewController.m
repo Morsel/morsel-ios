@@ -73,31 +73,31 @@
 
 #pragma mark - Private Methods
 
+- (void)showInvalidLoginAlert {
+    [UIAlertView showAlertViewWithTitle:@"Invalid Login"
+                                message:@"Check your credentials and try again"
+                               delegate:nil
+                      cancelButtonTitle:@"Close"
+                      otherButtonTitles:nil];
+}
+
+- (BOOL)validateFields {
+    if ([_passwordTextField.text length] < 8) return NO;
+
+    if ([_emailTextField.text rangeOfString:@"@"].location == NSNotFound)
+        return [MRSLUtil validateUsername:_emailTextField.text];
+    else
+        return [MRSLUtil validateEmail:_emailTextField.text];
+}
+
 - (IBAction)logIn {
     [[MRSLEventManager sharedManager] track:@"Tapped Log in"
                                  properties:@{@"view": @"Log in"}];
 
-    BOOL emailValid = [MRSLUtil validateEmail:_emailTextField.text];
-    BOOL passValid = ([_passwordTextField.text length] >= 8);
-
-    if ([_emailTextField.text rangeOfString:@"@"].location != NSNotFound) {
-        if (!emailValid || !passValid) {
-            [UIAlertView showAlertViewWithTitle:@"Invalid Email or Password"
-                                        message:@"Email must be valid. Password must be at least 8 characters."
-                                       delegate:nil
-                              cancelButtonTitle:@"Close"
-                              otherButtonTitles:nil];
-            return;
-        }
-    } else {
-        if ([_emailTextField.text length] > 15) {
-            [UIAlertView showAlertViewWithTitle:@"Invalid Username"
-                                        message:@"Username must be at less than 16 characters."
-                                       delegate:nil
-                              cancelButtonTitle:@"Close"
-                              otherButtonTitles:nil];
-            return;
-        }
+    //  We shouldn't care too much about validation on the login page and just let them throw whatever
+    if (![self validateFields]) {
+        [self showInvalidLoginAlert];
+        return;
     }
 
     [self.signInButton setEnabled:NO];
