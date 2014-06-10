@@ -103,7 +103,10 @@ MRSLSegmentedButtonViewDelegate>
     NSError *fetchError = nil;
     [_fetchedResultsController performFetch:&fetchError];
     self.users = [_fetchedResultsController fetchedObjects];
-    [self.tableView reloadData];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 
     self.nullStateView.hidden = ([_users count] > 0);
 }
