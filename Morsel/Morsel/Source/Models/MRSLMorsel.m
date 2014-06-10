@@ -32,6 +32,10 @@
     return [[self.items allObjects] sortedArrayUsingDescriptors:@[idSort]];
 }
 
+- (NSString *)jsonKeyName {
+    return @"morsel";
+}
+
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
     [objectInfoJSON setObject:(self.title) ? self.title : [NSNull null]
@@ -45,10 +49,7 @@
     if (self.place) [objectInfoJSON setObject:NSNullIfNil(self.place.placeID)
                                        forKey:@"place_id"];
 
-    NSMutableDictionary *morselJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
-                                                                       forKey:@"morsel"];
-
-    return morselJSON;
+    return objectInfoJSON;
 }
 
 - (MRSLItem *)coverItem {

@@ -34,16 +34,17 @@
     if ([[data[@"commentable_type"] lowercaseString] isEqualToString:@"item"]) [self importItem:data];
 }
 
+- (NSString *)jsonKeyName {
+    return @"comment";
+}
+
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
 
     if (self.commentDescription) [objectInfoJSON setObject:self.commentDescription
                                                     forKey:@"description"];
 
-    NSDictionary *commentJSON = [NSDictionary dictionaryWithObject:objectInfoJSON
-                                                            forKey:@"comment"];
-
-    return commentJSON;
+    return objectInfoJSON;
 }
 
 - (void)importItem:(NSDictionary *)commentableItemDictionary {

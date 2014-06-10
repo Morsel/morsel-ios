@@ -10,6 +10,8 @@
 
 @interface NSManagedObject (JSON)
 
+- (NSString *)jsonKeyName;
+
 - (NSDictionary *)objectToJSON;
 
 @end
