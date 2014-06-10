@@ -18,6 +18,14 @@
 
 @implementation MRSLMediaItemPreviewCollectionViewCell
 
+- (void)setMediaThumbImage:(UIImage *)mediaThumbImage {
+    if (_mediaThumbImage != mediaThumbImage) {
+        [self reset];
+        _mediaThumbImage = mediaThumbImage;
+        self.mediaImage.image = mediaThumbImage;
+    }
+}
+
 - (void)setMediaItem:(MRSLMediaItem *)mediaItem {
     if (_mediaItem != mediaItem || !self.mediaImage.image) {
         [self reset];

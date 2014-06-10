@@ -430,7 +430,7 @@ MRSLCapturePreviewsViewControllerDelegate>
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (weakSelf) {
                     [weakSelf.capturedMediaItems addObject:mediaItem];
-                    [weakSelf.capturePreviewsViewController addPreviewMediaItems:_capturedMediaItems];
+                    [weakSelf.capturePreviewsViewController addPreviewMediaItemThumb:mediaItem.mediaThumbImage];
                     weakSelf.approvalImageView.image = mediaItem.mediaCroppedImage;
                 }
             });

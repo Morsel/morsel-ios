@@ -51,6 +51,7 @@ MRSLFeedShareCollectionViewCellDelegate>
                                              selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+    [self.collectionView setScrollsToTop:YES];
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
