@@ -37,9 +37,18 @@
     if (dictionaryOrNil) [parametersDictionary addEntriesFromDictionary:dictionaryOrNil];
     // loop through objects and convert into JSON
     for (NSManagedObject *managedObject in objects) {
-        if ([managedObject respondsToSelector:@selector(objectToJSON)]) {
-            NSDictionary *objectDictionary = [managedObject objectToJSON];
-            [parametersDictionary addEntriesFromDictionary:objectDictionary];
+        if ([managedObject respondsToSelector:@selector(jsonKeyName)]) {
+            NSString *jsonKeyName = [managedObject jsonKeyName];
+            if (parametersDictionary[jsonKeyName] != nil) {
+                //  Since the key already exists, we need to merge the passed in parameters onto the existing managedObject values
+                NSMutableDictionary *combinedDictionary = [NSMutableDictionary dictionaryWithDictionary:[managedObject objectToJSON]];
+                [combinedDictionary addEntriesFromDictionary:parametersDictionary[jsonKeyName]];
+                [parametersDictionary setObject:combinedDictionary
+                                         forKey:jsonKeyName];
+            } else {
+                [parametersDictionary setObject:[managedObject objectToJSON]
+                                         forKey:jsonKeyName];
+            }
         }
     }
     // apply authentication

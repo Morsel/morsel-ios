@@ -174,6 +174,10 @@
     if (self.profilePhotoFull) self.profilePhotoFull = nil;
 }
 
+- (NSString *)jsonKeyName {
+    return @"user";
+}
+
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
 
@@ -184,10 +188,7 @@
     if (self.bio) [objectInfoJSON setObject:self.bio
                                      forKey:@"bio"];
 
-    NSMutableDictionary *userJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
-                                                                       forKey:@"user"];
-    
-    return userJSON;
+    return objectInfoJSON;
 }
 
 @end

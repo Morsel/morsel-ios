@@ -158,6 +158,10 @@
     }
 }
 
+- (NSString *)jsonKeyName {
+    return @"item";
+}
+
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
 
@@ -174,9 +178,7 @@
                                                 forKey:@"sort_order"];
     }
 
-    NSMutableDictionary *itemJSON = [NSMutableDictionary dictionaryWithObject:objectInfoJSON
-                                                                       forKey:@"item"];
-    return itemJSON;
+    return objectInfoJSON;
 }
 
 @end

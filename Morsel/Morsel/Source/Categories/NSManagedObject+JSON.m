@@ -10,6 +10,10 @@
 
 @implementation NSManagedObject (JSON)
 
+- (NSString *)jsonKeyName {
+    return nil;
+}
+
 - (NSDictionary *)objectToJSON {
     return nil;
 }
