@@ -49,14 +49,7 @@
 
     [user MR_importValuesForKeysWithObject:userDictionary];
 
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel identify:[NSString stringWithFormat:@"%i", user.userIDValue]];
-    [mixpanel.people set:@{@"first_name": NSNullIfNil(user.first_name),
-                           @"last_name": NSNullIfNil(user.last_name),
-                           @"created_at": NSNullIfNil(userDictionary[@"created_at"]),
-                           @"username": NSNullIfNil(user.username)}];
-    [mixpanel.people increment:@"open_count"
-                            by:@(1)];
+    [user setThirdPartySettings];
 
     [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                               forKey:@"userID"];
@@ -69,6 +62,14 @@
 
 +(NSSet *)keyPathsForValuesAffectingIndustryTypeEnum {
     return [NSSet setWithObject:@"industryType"];
+}
+
++ (void)resetThirdPartySettings {
+    [[Rollbar currentConfiguration] setPersonId:nil
+                                       username:nil
+                                          email:nil];
+    
+    [[Mixpanel sharedInstance] identify:nil];
 }
 
 #pragma mark - Instance Methods
@@ -93,6 +94,15 @@
 
 - (void)setIndustryTypeEnum:(MRSLIndustryType)type {
     [self setIndustryType:[NSNumber numberWithInt:type]];
+}
+
+- (void)setThirdPartySettings {
+    NSString *idString = [NSString stringWithFormat:@"%i", self.userIDValue];
+    [[Rollbar currentConfiguration] setPersonId:idString
+                                       username:self.username
+                                          email:nil];
+
+    [[Mixpanel sharedInstance] identify:idString];
 }
 
 - (NSString *)fullName {

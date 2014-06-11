@@ -55,15 +55,18 @@
     if (requiresAuthentication) [parametersDictionary setObject:[MRSLUser apiTokenForCurrentUser]
                                                          forKey:@"api_key"];
     // apply device information
-    [parametersDictionary setObject:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"ipad" : @"iphone"
-                             forKey:@"client[device]"];
-
     NSString *releaseAppendedIdentifier = @"";
 #if defined(MORSEL_BETA)
     releaseAppendedIdentifier = @"b";
 #endif
-    [parametersDictionary setObject:[NSString stringWithFormat:@"%@%@", [MRSLUtil appMajorMinorPatchString], releaseAppendedIdentifier]
-                             forKey:@"client[version]"];
+
+    parametersDictionary[@"client"] = @{
+                                        @"device": (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"ipad" : @"iphone",
+                                        @"version": [NSString stringWithFormat:@"%@%@", [MRSLUtil appMajorMinorPatchString], releaseAppendedIdentifier],
+                                        @"model": NSNullIfNil([MRSLUtil deviceModel]),
+                                        @"os": NSNullIfNil([MRSLUtil deviceVersion])
+                                        };
+
     return parametersDictionary;
 }
 

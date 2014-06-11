@@ -247,6 +247,8 @@
 		4005ED8418A19965005B8484 /* UIAlertView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4005ED8318A19965005B8484 /* UIAlertView+Additions.m */; };
 		4005ED8518A19965005B8484 /* UIAlertView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4005ED8318A19965005B8484 /* UIAlertView+Additions.m */; };
 		4005ED8618A19965005B8484 /* UIAlertView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4005ED8318A19965005B8484 /* UIAlertView+Additions.m */; };
+		400F1C0C1947DA250062219A /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40F155681947CCFB0097C796 /* CrashReporter.framework */; };
+		400F1C0D1947DA250062219A /* Rollbar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40F155691947CCFB0097C796 /* Rollbar.framework */; };
 		403E9E2018EDCC09003CDE3B /* _MRSLNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 403E9E1F18EDCC09003CDE3B /* _MRSLNotification.m */; };
 		403E9E2118EDCC09003CDE3B /* _MRSLNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 403E9E1F18EDCC09003CDE3B /* _MRSLNotification.m */; };
 		403E9E2218EDCC09003CDE3B /* _MRSLNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 403E9E1F18EDCC09003CDE3B /* _MRSLNotification.m */; };
@@ -297,6 +299,10 @@
 		40A4E11E194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */; };
 		40D702AA18E9F225001CCC42 /* MRSLFactory+User.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D702A918E9F225001CCC42 /* MRSLFactory+User.m */; };
 		40D702AC18E9F72A001CCC42 /* mrsl-users-activities.json in Resources */ = {isa = PBXBuildFile; fileRef = 40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */; };
+		40F1556B1947CCFB0097C796 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40F155681947CCFB0097C796 /* CrashReporter.framework */; };
+		40F1556C1947CCFC0097C796 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40F155681947CCFB0097C796 /* CrashReporter.framework */; };
+		40F1556E1947CCFC0097C796 /* Rollbar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40F155691947CCFB0097C796 /* Rollbar.framework */; };
+		40F1556F1947CCFC0097C796 /* Rollbar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40F155691947CCFB0097C796 /* Rollbar.framework */; };
 		40F637D6193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
 		40F637D7193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
 		40F637D8193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
@@ -739,6 +745,8 @@
 		40D702A818E9F225001CCC42 /* MRSLFactory+User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLFactory+User.h"; sourceTree = "<group>"; };
 		40D702A918E9F225001CCC42 /* MRSLFactory+User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLFactory+User.m"; sourceTree = "<group>"; };
 		40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-users-activities.json"; sourceTree = "<group>"; };
+		40F155681947CCFB0097C796 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Frameworks/CrashReporter.framework; sourceTree = "<group>"; };
+		40F155691947CCFB0097C796 /* Rollbar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Rollbar.framework; path = ../Frameworks/Rollbar.framework; sourceTree = "<group>"; };
 		40F637D4193E987A003AD040 /* NSMutableString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Additions.h"; sourceTree = "<group>"; };
 		40F637D5193E987A003AD040 /* NSMutableString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Additions.m"; sourceTree = "<group>"; };
 		4D39BCA7E9BC46D8914312A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -754,6 +762,8 @@
 			files = (
 				06B8781C193CD7E900160707 /* MapKit.framework in Frameworks */,
 				83193CDB90584AB6BE66EE88 /* libPods.a in Frameworks */,
+				400F1C0C1947DA250062219A /* CrashReporter.framework in Frameworks */,
+				400F1C0D1947DA250062219A /* Rollbar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -762,6 +772,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				057749E490424AA8A501241D /* libPods-Morsel-Specs.a in Frameworks */,
+				40F1556E1947CCFC0097C796 /* Rollbar.framework in Frameworks */,
+				40F1556B1947CCFB0097C796 /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,6 +782,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F74BE655C47B487989CEC74D /* libPods-Morsel-Integration.a in Frameworks */,
+				40F1556F1947CCFC0097C796 /* Rollbar.framework in Frameworks */,
+				40F1556C1947CCFC0097C796 /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1254,6 +1268,8 @@
 		0660668F18522E7900E780FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				40F155681947CCFB0097C796 /* CrashReporter.framework */,
+				40F155691947CCFB0097C796 /* Rollbar.framework */,
 				06B8781B193CD7E900160707 /* MapKit.framework */,
 				4D39BCA7E9BC46D8914312A8 /* libPods.a */,
 				85BAA024FEB848BEB18EFEBB /* libPods-Morsel-Integration.a */,
@@ -1872,6 +1888,7 @@
 				2D110345279C4A75AB205E62 /* Copy Pods Resources */,
 				06D9908918AADB20000158EE /* Update Build Version */,
 				0693C25B18F6CC2D0026D6B3 /* Storyboard Lint */,
+				40F155701947D3030097C796 /* Upload dSym to Rollbar */,
 			);
 			buildRules = (
 			);
@@ -2089,6 +2106,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		40F155701947D3030097C796 /* Upload dSym to Rollbar */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload dSym to Rollbar";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/python;
+			shellScript = "import os\nimport subprocess\nimport zipfile\n\nif os.environ['DEBUG_INFORMATION_FORMAT'] != 'dwarf-with-dsym' or os.environ['EFFECTIVE_PLATFORM_NAME'] == '-iphonesimulator':\n    exit(0)\n\nACCESS_TOKEN = '928237b9e51e4a03ae600d9ac3c22ee4'\n\ndsym_file_path = os.path.join(os.environ['DWARF_DSYM_FOLDER_PATH'], os.environ['DWARF_DSYM_FILE_NAME'])\nzip_location = '%s.zip' % (dsym_file_path)\n\nos.chdir(os.environ['DWARF_DSYM_FOLDER_PATH'])\nwith zipfile.ZipFile(zip_location, 'w') as zipf:\n    for root, dirs, files in os.walk(os.environ['DWARF_DSYM_FILE_NAME']):\n        zipf.write(root)\n\n        for f in files:\n            zipf.write(os.path.join(root, f))\n\np = subprocess.Popen('/usr/libexec/PlistBuddy -c \"Print :CFBundleVersion\" -c \"Print :CFBundleIdentifier\" \"%s\"' % os.environ['PRODUCT_SETTINGS_PATH'],\n                     stdout=subprocess.PIPE, shell=True)\nstdout, stderr = p.communicate()\nversion, identifier = stdout.split()\n\np = subprocess.Popen('curl -X POST https://api.rollbar.com/api/1/dsym -F access_token=%s -F version=%s -F bundle_identifier=\"%s\" -F dsym=@\"%s\"' \n                     % (ACCESS_TOKEN, version, identifier, zip_location), shell=True)\np.communicate()\n";
 		};
 		5361A47E7D614D63B40E5478 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2616,6 +2647,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FB_APP_ID = 1406459019603393;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/../Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
@@ -2648,6 +2683,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					Frameworks,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -2672,6 +2708,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					Frameworks,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -2771,6 +2808,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FB_APP_ID = 1406459019603393;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/../Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
@@ -2797,6 +2838,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				FB_APP_ID = 1402286360015732;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/../Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2840,6 +2885,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -2863,6 +2909,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -2883,6 +2930,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -2906,6 +2954,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -2968,6 +3017,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FB_APP_ID = 1406459019603393;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/../Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
@@ -3000,6 +3053,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -3024,6 +3078,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -3083,6 +3138,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				FB_APP_ID = 1402286360015732;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/../Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3111,6 +3170,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -3137,6 +3197,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -3192,6 +3253,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				FB_APP_ID = 1406459019603393;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/../Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3220,6 +3285,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -3246,6 +3312,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"${SRCROOT}/../Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";

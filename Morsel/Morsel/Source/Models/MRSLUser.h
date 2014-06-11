@@ -7,6 +7,7 @@
 + (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID;
 + (void)refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil failure:(MRSLFailureBlock)failureOrNil;
 + (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldMorselNotification:(BOOL)shouldMorselNotifications;
++ (void)resetThirdPartySettings;
 
 - (BOOL)isCurrentUser;
 - (BOOL)isChef;
@@ -19,5 +20,7 @@
 
 - (MRSLIndustryType)industryTypeEnum;
 - (void)setIndustryTypeEnum:(MRSLIndustryType)type;
+
+- (void)setThirdPartySettings;
 
 @end

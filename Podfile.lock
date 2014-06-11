@@ -58,7 +58,6 @@ PODS:
   - SDWebImage (3.6):
     - SDWebImage/Core
   - SDWebImage/Core (3.6)
-  - TestFlightSDK (3.0.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
@@ -81,7 +80,6 @@ DEPENDENCIES:
   - OAuthCore (~> 0.0.1)
   - OHHTTPStubs (~> 3.1.0)
   - SDWebImage (~> 3.6)
-  - TestFlightSDK (~> 3.0)
 
 EXTERNAL SOURCES:
   AFOAuth1Client:
@@ -116,6 +114,5 @@ SPEC CHECKSUMS:
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   OHHTTPStubs: 8b032ab399e356050010ed34613ee1761c6c8ae3
   SDWebImage: c6989652c1cdf27cbdf3f56957e2030f825af5bc
-  TestFlightSDK: 36b8a207c5a119a3144aa2e6d24973eb9d5e0d0a
 
 COCOAPODS: 0.33.1
