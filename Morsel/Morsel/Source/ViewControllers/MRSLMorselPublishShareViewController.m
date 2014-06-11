@@ -18,11 +18,17 @@
 #import "MRSLSocialUser.h"
 #import "MRSLUser.h"
 
+# import <SDWebImage/SDWebImageManager.h>
+
 @interface MRSLMorselPublishShareViewController ()
+<UIDocumentInteractionControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UISwitch *twitterSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *facebookSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *instagramSwitch;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *publishButton;
+
+@property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;
 
 @end
 
@@ -49,15 +55,18 @@
     }
     _publishButton.enabled = NO;
     _morsel.draft = @NO;
+    __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService publishMorsel:_morsel
-                                   success:nil
-                                   failure:^(NSError *error) {
+                                   success:^(id responseObject) {
+                                       if (weakSelf.instagramSwitch.isOn) [weakSelf sendToInstagram];
+                                   } failure:^(NSError *error) {
                                        _publishButton.enabled = YES;
                                        [UIAlertView showAlertViewForErrorString:@"Unable to publish morsel, please try again!"
                                                                        delegate:nil];
                                    }
                             sendToFacebook:_facebookSwitch.isOn
-                             sendToTwitter:_twitterSwitch.isOn];
+                             sendToTwitter:_twitterSwitch.isOn
+                       willOpenInInstagram:_instagramSwitch.isOn];
 }
 
 - (IBAction)toggleFacebook:(UISwitch *)switchControl {
@@ -79,25 +88,46 @@
                                                                       success:^(id responseObject) {
                                                                           [weakSelf toggleSwitch:weakSelf.facebookSwitch
                                                                                       forNetwork:@"facebook"
-                                                                                    shouldEnable:YES];
+                                                                                    shouldTurnOn:YES];
                                                                       } failure:^(NSError *error) {
                                                                           [weakSelf toggleSwitch:weakSelf.facebookSwitch
                                                                                       forNetwork:@"facebook"
-                                                                                    shouldEnable:NO];
+                                                                                    shouldTurnOn:NO];
                                                                       }];
                         } else {
                             [weakSelf toggleSwitch:weakSelf.facebookSwitch
                                         forNetwork:@"facebook"
-                                      shouldEnable:NO];
+                                      shouldTurnOn:NO];
                         }
                     }];
                 } else {
                     [weakSelf toggleSwitch:weakSelf.facebookSwitch
                                 forNetwork:@"facebook"
-                              shouldEnable:NO];
+                              shouldTurnOn:NO];
                 }
             }
         }];
+    }
+}
+
+- (IBAction)toggleInstagram:(UISwitch *)switchControler {
+    [[MRSLEventManager sharedManager] track:@"Tapped Toggle Instagram"
+                                 properties:@{@"view": @"Publish",
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://app"]]) {
+        [self toggleSwitch:_instagramSwitch
+                forNetwork:@"instagram"
+              shouldTurnOn:YES];
+    } else {
+        [self toggleSwitch:_instagramSwitch
+                forNetwork:@"instagram"
+              shouldTurnOn:NO];
+        [UIAlertView showAlertViewWithTitle:@"Instagram not found"
+                                    message:@"Please install Instagram to share your morsel there"
+                                   delegate:nil
+                          cancelButtonTitle:@"Ok"
+                          otherButtonTitles:nil];
     }
 }
 
@@ -105,6 +135,7 @@
     [[MRSLEventManager sharedManager] track:@"Tapped Toggle Twitter"
                                  properties:@{@"view": @"Publish",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    
     _twitterSwitch.enabled = NO;
 
     __weak __typeof(self) weakSelf = self;
@@ -119,32 +150,63 @@
                                                               success:^(id responseObject) {
                                                                   [weakSelf toggleSwitch:weakSelf.twitterSwitch
                                                                               forNetwork:@"twitter"
-                                                                            shouldEnable:YES];
+                                                                            shouldTurnOn:YES];
                                                               } failure:^(NSError *error) {
                                                                   [weakSelf toggleSwitch:weakSelf.twitterSwitch
                                                                               forNetwork:@"twitter"
-                                                                            shouldEnable:NO];
+                                                                            shouldTurnOn:NO];
                                                               }];
                 } else {
                     [weakSelf toggleSwitch:weakSelf.twitterSwitch
                                 forNetwork:@"twitter"
-                              shouldEnable:NO];
+                              shouldTurnOn:NO];
                 }
             }];
         } failure:^(NSError *error) {
             [weakSelf toggleSwitch:weakSelf.twitterSwitch
                         forNetwork:@"twitter"
-                      shouldEnable:NO];
+                      shouldTurnOn:NO];
         }];
     }];
 }
 
 #pragma mark - Private Methods
 
+- (void)sendToInstagram {
+    __weak __typeof(self) weakSelf = self;
+
+    SDWebImageManager *webImageManager = [SDWebImageManager sharedManager];
+    [webImageManager downloadWithURL:[[_morsel coverItem] itemPictureURLRequestForImageSizeType:MRSLItemImageSizeTypeLarge].URL
+                             options:SDWebImageHighPriority
+                            progress:nil
+                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                               if (image) {
+                                   NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
+                                   if ([UIImageJPEGRepresentation(image, 1.f) writeToFile:photoFilePath atomically:YES]) {
+                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                           _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
+                                           _documentInteractionController.UTI = @"com.instagram.exclusivegram";
+                                           _documentInteractionController.delegate = weakSelf;
+                                           _documentInteractionController.annotation = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"\"%@\" on @eatmorsel", ([weakSelf.morsel title] ?: @"(untitled)")]
+                                                                                                                   forKey:@"InstagramCaption"];
+                                           [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
+                                                                                              inView:weakSelf.view
+                                                                                            animated:YES];
+
+                                       });
+                                   } else {
+                                       [UIAlertView showAlertViewForErrorString:@"Unable to set Instagram photo. Please try again." delegate:nil];
+                                   }
+                               } else {
+                                   [UIAlertView showAlertViewForErrorString:@"Unable to set Instagram photo. Please try again." delegate:nil];
+                               }
+                           }];
+}
+
 - (void)toggleSwitch:(UISwitch *)socialSwitch
           forNetwork:(NSString *)network
-        shouldEnable:(BOOL)shouldEnable {
-    if (shouldEnable) {
+        shouldTurnOn:(BOOL)shouldTurnOn {
+    if (shouldTurnOn) {
         [[MRSLEventManager sharedManager] track:@"Tapped Share Own Morsel"
                                      properties:@{@"view": @"Publish",
                                                   @"morsel_id": NSNullIfNil(self.morsel.morselID),
@@ -152,8 +214,27 @@
                                                   @"social_type": network}];
     }
     [socialSwitch setEnabled:YES];
-    [socialSwitch setOn:shouldEnable
+    [socialSwitch setOn:shouldTurnOn
                animated:YES];
+}
+
+
+#pragma mark - UIDocumentInteractionControllerDelegate Methods
+
+- (void)documentInteractionController:(UIDocumentInteractionController *)controller
+        willBeginSendingToApplication:(NSString *)application {
+    [self.presentingViewController dismissViewControllerAnimated:YES
+                                                      completion:nil];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidPublishMorselNotification
+                                                            object:_morsel];
+    });
+}
+
+- (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
+    [self.presentingViewController dismissViewControllerAnimated:YES
+                                                      completion:nil];
 }
 
 @end
