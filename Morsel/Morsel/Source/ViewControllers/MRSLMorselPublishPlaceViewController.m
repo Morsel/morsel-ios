@@ -93,7 +93,9 @@ UITableViewDelegate>
     NSError *fetchError = nil;
     [_fetchedResultsController performFetch:&fetchError];
     self.places = [_fetchedResultsController fetchedObjects];
-    [self.placeTableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.placeTableView reloadData];
+    });
     if ([_places count] == 1) {
         NSUInteger indexOfPlace = (_morsel.place) ? [_places indexOfObject:_morsel.place] : 0;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

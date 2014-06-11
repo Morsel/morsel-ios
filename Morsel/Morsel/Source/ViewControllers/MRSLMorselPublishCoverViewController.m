@@ -43,10 +43,12 @@ UICollectionViewDelegate>
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 
-    NSUInteger coverIndex = [[self.morsel itemsArray] indexOfObject:[self.morsel coverItem]];
-    [self.coverCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:coverIndex inSection:0]
-                                     atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                             animated:NO];
+    if (self.morsel) {
+        NSUInteger coverIndex = [[self.morsel itemsArray] indexOfObject:[self.morsel coverItem]];
+        [self.coverCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:coverIndex inSection:0]
+                                         atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                                 animated:NO];
+    }
 }
 
 #pragma mark - Action Methods

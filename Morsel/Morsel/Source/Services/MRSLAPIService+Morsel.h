@@ -28,7 +28,8 @@
               success:(MRSLAPISuccessBlock)successOrNil
               failure:(MRSLFailureBlock)failureOrNil
        sendToFacebook:(BOOL)sendToFacebook
-        sendToTwitter:(BOOL)sendToTwitter;
+        sendToTwitter:(BOOL)sendToTwitter
+  willOpenInInstagram:(BOOL)willOpenInInstagram;
 
 - (void)getMorsel:(MRSLMorsel *)morsel
          orWithID:(NSNumber *)morselID

@@ -34,7 +34,7 @@
     self.backgroundColor = [UIColor morselDarkContent];
     self.contentMode = UIViewContentModeScaleToFill;
 
-    self.webImageManager = [[SDWebImageManager alloc] init];
+    self.webImageManager = [SDWebImageManager sharedManager];
 
     self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [_activityIndicatorView setX:([self getWidth] / 2) - ([_activityIndicatorView getWidth] / 2)];

@@ -98,7 +98,8 @@
               success:(MRSLAPISuccessBlock)successOrNil
               failure:(MRSLFailureBlock)failureOrNil
        sendToFacebook:(BOOL)sendToFacebook
-        sendToTwitter:(BOOL)sendToTwitter {
+        sendToTwitter:(BOOL)sendToTwitter
+  willOpenInInstagram:(BOOL)willOpenInInstagram {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
@@ -114,11 +115,13 @@
                                    DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
                                    [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                       [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidPublishMorselNotification
-                                                                                           object:morsel];
-                                   });
                                    if (successOrNil) successOrNil(responseObject);
+                                   if (!willOpenInInstagram) {
+                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                           [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidPublishMorselNotification
+                                                                                               object:morsel];
+                                       });
+                                   }
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                    if (morsel) morsel.draft = @(!morsel.draftValue);
                                    [self reportFailure:failureOrNil
