@@ -10,7 +10,7 @@
 
 #import <CocoaLumberjack/DDLog.h>
 #import <Mixpanel/Mixpanel.h>
-#import <Rollbar/Rollbar.h>
+#import "Rollbar.h"
 
 #pragma mark - Blocks
 
