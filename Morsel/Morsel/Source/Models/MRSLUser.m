@@ -167,8 +167,8 @@
                                                                                      withString:@"IMAGE_SIZE"];
     }
     if (![data[@"settings"] isEqual:[NSNull null]]) {
-        if (![data[@"auto_follow"] isEqual:[NSNull null]]) {
-            self.auto_follow = @([data[@"auto_follow"] boolValue]);
+        if (![data[@"settings"][@"auto_follow"] isEqual:[NSNull null]]) {
+            self.auto_follow = @([data[@"settings"][@"auto_follow"] boolValue]);
         }
     }
     if (![data[@"industry"] isEqual:[NSNull null]]) {
