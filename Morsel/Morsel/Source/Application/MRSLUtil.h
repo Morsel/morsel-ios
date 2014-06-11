@@ -26,5 +26,7 @@
 + (NSString *)appMajorMinorPatchString;
 + (NSString *)supportDiagnostics;
 + (NSString *)supportDiagnosticsURLParams;
++ (NSString *)deviceModel;
++ (NSString *)deviceVersion;
 
 @end

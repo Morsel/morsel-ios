@@ -15,6 +15,8 @@
 #import "MRSLTag.h"
 #import "MRSLUser.h"
 
+#import <sys/sysctl.h>
+
 @implementation MRSLUtil
 
 + (BOOL)validateEmail:(NSString *)emailAddress {
@@ -187,7 +189,7 @@
         </ul> \
     ",  [[MRSLUser currentUser] userID],
         [MRSLUtil appMajorMinorPatchString],
-        [currentDevice model],
+        [MRSLUtil deviceModel],
         [currentDevice systemVersion]];
 
     // Device Info
@@ -197,6 +199,23 @@
     UIDevice *currentDevice = [UIDevice currentDevice];
 
     return [NSString stringWithFormat:@"user_id=%@&app_version=%@&device_model=%@&device_system_version=%@", [[MRSLUser currentUser] userID], [[MRSLUtil appMajorMinorPatchString] stringWithNSUTF8StringEncoding], [[currentDevice model] stringWithNSUTF8StringEncoding], [[currentDevice systemVersion] stringWithNSUTF8StringEncoding]];
+}
+
++ (NSString *)deviceModel {
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+
+    char *answer = malloc(size);
+    sysctlbyname("hw.machine", answer, &size, NULL, 0);
+
+    NSString *results = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
+
+    free(answer);
+    return results;
+}
+
++ (NSString *)deviceVersion {
+    return [[UIDevice currentDevice] systemVersion];
 }
 
 @end

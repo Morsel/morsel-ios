@@ -116,12 +116,8 @@ MFMailComposeViewControllerDelegate>
                 [self displaySignUpAnimated:NO];
             });
         } else {
-            Mixpanel *mixpanel = [Mixpanel sharedInstance];
-            [mixpanel identify:[NSString stringWithFormat:@"%i", currentUser.userIDValue]];
-            [mixpanel.people set:@{@"first_name": NSNullIfNil(currentUser.first_name),
-                                   @"last_name": NSNullIfNil(currentUser.last_name),
-                                   @"created_at": NSNullIfNil(currentUser.creationDate),
-                                   @"username": NSNullIfNil(currentUser.username)}];
+            [currentUser setThirdPartySettings];
+
             [_appDelegate.apiService getUserProfile:currentUser
                                             success:^(id responseObject) {
                                                 [_appDelegate.apiService getUserAuthenticationsWithSuccess:nil

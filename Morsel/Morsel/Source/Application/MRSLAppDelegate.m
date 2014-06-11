@@ -15,7 +15,6 @@
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <FacebookSDK/FacebookSDK.h>
-#import <TestFlight.h>
 
 #import "MRSLSocialServiceFacebook.h"
 #import "MRSLSocialServiceInstagram.h"
@@ -39,7 +38,13 @@
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
 
-    [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
+    if (ROLLBAR_ENVIRONMENT) {
+        RollbarConfiguration *rollbarConfiguration = [RollbarConfiguration configuration];
+        [rollbarConfiguration setEnvironment:ROLLBAR_ENVIRONMENT];
+
+        [Rollbar initWithAccessToken:ROLLBAR_ACCESS_TOKEN
+                       configuration:rollbarConfiguration];
+    }
 
     [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
 
@@ -52,13 +57,6 @@
     [self setupRouteHandler];
 
     return YES;
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    if ([MRSLUser currentUser]) {
-        [[Mixpanel sharedInstance].people increment:@"open_count"
-                                                 by:@(1)];
-    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -140,6 +138,10 @@
 
 #pragma mark - Logout
 
+- (void)resetThirdPartySettings {
+    [MRSLUser resetThirdPartySettings];
+}
+
 - (void)resetSocialConnections {
     [[MRSLSocialServiceFacebook sharedService] reset];
     [[MRSLSocialServiceTwitter sharedService] reset];
@@ -151,6 +153,7 @@
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
 
     [self resetSocialConnections];
+    [self resetThirdPartySettings];
 
     [NSMutableArray resetFeedIDArray];
 
