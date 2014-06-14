@@ -173,34 +173,25 @@
 #pragma mark - Private Methods
 
 - (void)sendToInstagram {
-    __weak __typeof(self) weakSelf = self;
+    NSData *photoCroppedData = [[_morsel coverItem] itemPhotoCropped];
 
-    SDWebImageManager *webImageManager = [SDWebImageManager sharedManager];
-    [webImageManager downloadWithURL:[[_morsel coverItem] itemPictureURLRequestForImageSizeType:MRSLItemImageSizeTypeLarge].URL
-                             options:SDWebImageHighPriority
-                            progress:nil
-                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                               if (image) {
-                                   NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
-                                   if ([UIImageJPEGRepresentation(image, 1.f) writeToFile:photoFilePath atomically:YES]) {
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
-                                           _documentInteractionController.UTI = @"com.instagram.exclusivegram";
-                                           _documentInteractionController.delegate = weakSelf;
-                                           _documentInteractionController.annotation = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"\"%@\" on @eatmorsel", ([weakSelf.morsel title] ?: @"(untitled)")]
-                                                                                                                   forKey:@"InstagramCaption"];
-                                           [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
-                                                                                              inView:weakSelf.view
-                                                                                            animated:YES];
-
-                                       });
-                                   } else {
-                                       [UIAlertView showAlertViewForErrorString:@"Unable to set Instagram photo. Please try again." delegate:nil];
-                                   }
-                               } else {
-                                   [UIAlertView showAlertViewForErrorString:@"Unable to set Instagram photo. Please try again." delegate:nil];
-                               }
-                           }];
+    if (photoCroppedData) {
+        NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
+        if ([photoCroppedData writeToFile:photoFilePath atomically:YES]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
+                _documentInteractionController.UTI = @"com.instagram.exclusivegram";
+                _documentInteractionController.delegate = self;
+                _documentInteractionController.annotation = @{ @"InstagramCaption" : (self.morsel.title ? [NSString stringWithFormat:@"\"%@\" on @eatmorsel", self.morsel.title] : @"Posted on @eatmorsel") };
+                [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
+                                                                   inView:self.view
+                                                                 animated:YES];
+                
+            });
+        } else {
+            [UIAlertView showAlertViewForErrorString:@"Unable to set Instagram photo. Please try again." delegate:nil];
+        }
+    }
 }
 
 - (void)toggleSwitch:(UISwitch *)socialSwitch
