@@ -45,9 +45,11 @@ UICollectionViewDelegate>
 
     if (self.morsel) {
         NSUInteger coverIndex = [[self.morsel itemsArray] indexOfObject:[self.morsel coverItem]];
-        [self.coverCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:coverIndex inSection:0]
-                                         atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                                 animated:NO];
+        if (coverIndex != NSNotFound) {
+            [self.coverCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:coverIndex inSection:0]
+                                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                                     animated:NO];
+        }
     }
 }
 
