@@ -70,11 +70,12 @@
                                         constrainedToSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
                                             lineBreakMode:NSLineBreakByWordWrapping];
 
-    if (textSize.height < [_descriptionPanelView getHeight] - 34.f || [_item.itemDescription length] == 0) {
+    CGFloat maxDescriptionHeight = [_descriptionPanelView getHeight] - ([UIDevice has35InchScreen] ? 15.0f : 35.f);
+    if (textSize.height < maxDescriptionHeight || [_item.itemDescription length] == 0) {
         [_itemDescriptionLabel setHeight:textSize.height];
         [_viewMoreButton setHidden:YES];
     } else {
-        [_itemDescriptionLabel setHeight:[_descriptionPanelView getHeight] - 34.f];
+        [_itemDescriptionLabel setHeight:maxDescriptionHeight];
         [_viewMoreButton setHidden:NO];
     }
 

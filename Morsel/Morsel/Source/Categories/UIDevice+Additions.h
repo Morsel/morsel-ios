@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, UIDeviceScreenSize) {
 + (BOOL)currentDeviceSystemVersionIsAtLeastIOS6;
 + (BOOL)currentDeviceSystemVersionIsAtLeastIOS7;
 + (BOOL)currentDeviceIsIpad;
++ (BOOL)has35InchScreen;
 
 - (UIDeviceScreenSize)screenSize;
 
