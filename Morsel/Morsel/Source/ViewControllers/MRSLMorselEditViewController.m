@@ -164,7 +164,10 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if (_morselMorselsTableView.isEditing) [_morselMorselsTableView setEditing:NO animated:YES];
+    if (_morselMorselsTableView.isEditing) {
+        [_morselMorselsTableView setEditing:NO animated:NO];
+        self.shouldShowAddCell = YES;
+    }
     if ([segue.identifier isEqualToString:@"seg_EditItemText"]) {
         MRSLMorselEditDescriptionViewController *itemEditTextVC = [segue destinationViewController];
         if (_item.itemID) {

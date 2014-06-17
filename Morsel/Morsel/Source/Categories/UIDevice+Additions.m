@@ -22,6 +22,10 @@
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
 }
 
++ (BOOL)has35InchScreen {
+    return [[UIDevice currentDevice] screenSize] == UIDeviceScreenSize35Inch;
+}
+
 - (UIDeviceScreenSize)screenSize
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
