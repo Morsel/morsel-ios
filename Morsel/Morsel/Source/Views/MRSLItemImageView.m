@@ -170,7 +170,7 @@
 }
 
 - (void)reset {
-    [_webImageManager cancelAll];
+    [self cancelCurrentImageLoad];
     self.image = nil;
 }
 
