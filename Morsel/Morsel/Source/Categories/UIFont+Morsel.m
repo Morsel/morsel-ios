@@ -30,4 +30,9 @@
                            size:fontSize];
 }
 
++ (UIFont *)robotoBoldFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Roboto-Bold"
+                           size:fontSize];
+}
+
 @end

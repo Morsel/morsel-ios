@@ -165,6 +165,11 @@ static const int MRSLStatsTagViewTag = 9991;
     #define _appDelegate ((MRSLAppDelegate *)[[UIApplication sharedApplication] delegate])
 #endif
 
+#pragma mark - Macros
+
+#define CASE(str)                       if ([__s__ isEqualToString:(str)])
+#define SWITCH(s)                       for (NSString *__s__ = (s); ; )
+#define DEFAULT
 #define NSNullIfNil(obj) ((obj == nil) ? [NSNull null] : obj)
 #define MRSLIsNull(obj) ([obj isEqual:[NSNull null]])
 

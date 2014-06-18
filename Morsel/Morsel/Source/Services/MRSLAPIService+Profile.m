@@ -64,6 +64,10 @@
                                                                                                       [user MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                                                                                       [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
                                                                                                   }
+                                                                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                                      [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidUpdateUserNotification
+                                                                                                                                                          object:nil];
+                                                                                                  });
                                                                                                   if (successOrNil) successOrNil(responseObject);
                                                                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                                                                   [self reportFailure:failureOrNil

@@ -44,7 +44,7 @@ NSFetchedResultsControllerDelegate>
     self.user = [MRSLUser currentUser];
     self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]] ?: [NSMutableArray array];
 
-    self.title = (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Draft Morsels" : @"Published Morsels";
+    self.title = (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Drafts" : @"Published";
 
     self.userMorsels = [NSMutableArray array];
 
@@ -166,7 +166,7 @@ NSFetchedResultsControllerDelegate>
     self.selectedIndexPath = indexPath;
     MRSLMorsel *morsel = [_userMorsels objectAtIndex:indexPath.row];
     [[MRSLEventManager sharedManager] track:@"Tapped Morsel"
-                                 properties:@{@"view": [NSString stringWithFormat:@"%@", (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Draft Morsels" : @"Published Morsels"],
+                                 properties:@{@"view": [NSString stringWithFormat:@"%@", (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Drafts" : @"Published"],
                                               @"morsel_id": NSNullIfNil(morsel.morselID),
                                               @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
     MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];

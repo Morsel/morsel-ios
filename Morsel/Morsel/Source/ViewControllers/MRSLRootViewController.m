@@ -15,28 +15,39 @@
 
 #import "MRSLFeedViewController.h"
 #import "MRSLMorselAddViewController.h"
+#import "MRSLMenuViewController.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLWebBrowserViewController.h"
 
-#import "MRSLMenuBarView.h"
-
 #import "MRSLUser.h"
 
-@interface MRSLRootViewController ()
-<MRSLMenuBarViewDelegate,
-MFMailComposeViewControllerDelegate>
+static const CGFloat kOffscreenSwipeThreshold = 40.f;
+static const CGFloat kDirectionPanThreshold = 4.f;
 
-@property (nonatomic) BOOL shouldMenuBarOpen;
+@interface MRSLRootViewController ()
+<MFMailComposeViewControllerDelegate,
+UIGestureRecognizerDelegate,
+MRSLMenuViewControllerDelegate>
+
+@property (nonatomic) BOOL isMenuOpen;
+@property (nonatomic) BOOL hasRespondedToPan;
 @property (nonatomic) BOOL shouldCheckForUser;
+@property (nonatomic) BOOL shouldRespondToPan;
+@property (nonatomic) BOOL keyboardOpen;
+
+@property (nonatomic) CGFloat panMovementX;
+@property (nonatomic) CGFloat panMovementY;
+@property (nonatomic) CGPoint previousPanPoint;
 
 @property (nonatomic) UIStatusBarStyle currentStatusBarStyle;
 
 @property (strong, nonatomic) NSMutableArray *navigationControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
 
+@property (weak, nonatomic) IBOutlet UIView *menuContainerView;
 @property (weak, nonatomic) IBOutlet UIView *rootContainerView;
 
-@property (weak, nonatomic) IBOutlet MRSLMenuBarView *menuBarView;
+@property (weak, nonatomic) MRSLMenuViewController *menuViewController;
 
 @end
 
@@ -50,15 +61,12 @@ MFMailComposeViewControllerDelegate>
     self.shouldCheckForUser = YES;
     self.currentStatusBarStyle = UIStatusBarStyleDefault;
 
-    [self.menuBarView setX:-[_menuBarView getWidth]];
     self.navigationControllers = [NSMutableArray array];
+    self.menuViewController = [self.childViewControllers lastObject];
+    self.menuViewController.delegate = self;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeToNewStatusBarStyle:)
                                                  name:MRSLAppDidRequestNewPreferredStatusBarStyle
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayFeed)
-                                                 name:MRSLUserDidPublishMorselNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayMorselAdd:)
@@ -85,20 +93,26 @@ MFMailComposeViewControllerDelegate>
                                                  name:MRSLAppShouldCallPhoneNumberNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(userLoggedIn:)
-                                                 name:MRSLServiceDidLogInUserNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(logUserOut)
                                                  name:MRSLServiceShouldLogOutUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(showMenuBar)
+                                             selector:@selector(toggleMenu)
                                                  name:MRSLAppShouldDisplayMenuBarNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideMenuBar)
-                                                 name:MRSLAppTouchPhaseDidBeginNotification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow)
+                                                 name:UIKeyboardWillShowNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(userPanning:)];
+    panRecognizer.delegate = self;
+    [self.view addGestureRecognizer:panRecognizer];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -135,16 +149,17 @@ MFMailComposeViewControllerDelegate>
 
 #pragma mark - Notification Methods
 
+- (void)keyboardWillShow {
+    self.keyboardOpen = YES;
+}
+
+- (void)keyboardWillHide {
+    self.keyboardOpen = NO;
+}
+
 - (void)changeToNewStatusBarStyle:(NSNotification *)notification {
     self.currentStatusBarStyle = [notification.object intValue];
     [self setNeedsStatusBarAppearanceUpdate];
-}
-
-- (void)displayFeed {
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
-                                                  andStoryboardPrefix:@"Feed"];
 }
 
 - (void)displayMorselAdd:(NSNotification *)notification {
@@ -225,22 +240,6 @@ MFMailComposeViewControllerDelegate>
     }
 }
 
-- (void)showMenuBar {
-    self.shouldMenuBarOpen = YES;
-    [self displayMenuBar];
-}
-
-- (void)hideMenuBar {
-    if (_shouldMenuBarOpen) {
-        self.shouldMenuBarOpen = NO;
-        [self displayMenuBar];
-    }
-}
-
-- (void)userLoggedIn:(NSNotification *)notification {
-    [self syncDataAndPresentFeed];
-}
-
 - (void)logUserOut {
     if (![UIApplication sharedApplication].statusBarHidden) {
         [[UIApplication sharedApplication] setStatusBarHidden:YES
@@ -253,7 +252,6 @@ MFMailComposeViewControllerDelegate>
         [viewController.view removeFromSuperview];
     }];
     [_navigationControllers removeAllObjects];
-    [_menuBarView reset];
     [_appDelegate resetDataStore];
 }
 
@@ -276,17 +274,6 @@ MFMailComposeViewControllerDelegate>
     return foundNC;
 }
 
-- (void)syncDataAndPresentFeed {
-    if ([UIApplication sharedApplication].statusBarHidden) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO
-                                                withAnimation:UIStatusBarAnimationSlide];
-    }
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
-                                                  andStoryboardPrefix:@"Feed"];
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-}
-
 - (void)displaySignUpAnimated:(BOOL)animated {
     UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:@"sb_SignUp"];
 
@@ -295,11 +282,16 @@ MFMailComposeViewControllerDelegate>
                      completion:nil];
 }
 
-- (void)displayMenuBar {
+- (void)toggleMenu {
+    if (_keyboardOpen) return;
     [UIView animateWithDuration:.2f
+                          delay:0.f
+                        options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         [_menuBarView setX:(_shouldMenuBarOpen) ? 0.f : -[_menuBarView getWidth]];
-                     }];
+                         [_rootContainerView setX:(_isMenuOpen) ? 0.f : 270.f];
+    } completion:nil];
+    [self.rootContainerView setUserInteractionEnabled:_isMenuOpen];
+    self.isMenuOpen = !_isMenuOpen;
 }
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
@@ -332,48 +324,77 @@ MFMailComposeViewControllerDelegate>
     }
 }
 
-#pragma mark - MRSLMenuBarViewDelegate
+#pragma mark - MRSLMenuViewControllerDelegate
 
-- (void)menuBarDidSelectButtonOfType:(MRSLMenuBarButtonType)buttonType {
-    switch (buttonType) {
-        case MRSLMenuBarButtonTypeFeed:
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
+- (void)menuViewControllerDidSelectMenuOption:(NSString *)menuOption {
+    if (_isMenuOpen) [self toggleMenu];
+    SWITCH(menuOption) {
+        CASE(MRSLMenuAddKey) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
+                                         properties:@{@"name": @"Morsel Add"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"MorselAdd"
+                                                          andStoryboardPrefix:@"MorselManagement"];
+            break;
+        }
+        CASE(MRSLMenuDraftsKey) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
+                                         properties:@{@"name": @"Drafts"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"MorselList"
+                                                          andStoryboardPrefix:@"MorselManagement"];
+            break;
+        }
+        CASE(MRSLMenuFeedKey) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Feed"}];
+            if (self.presentedViewController) {
+                [self dismissViewControllerAnimated:YES
+                                         completion:nil];
+            }
+            if ([UIApplication sharedApplication].statusBarHidden) {
+                [[UIApplication sharedApplication] setStatusBarHidden:NO
+                                                        withAnimation:UIStatusBarAnimationSlide];
+            }
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
                                                           andStoryboardPrefix:@"Feed"];
             break;
-        case MRSLMenuBarButtonTypeProfile:
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
-                                         properties:@{@"name": @"Profile"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"
-                                                          andStoryboardPrefix:@"Profile"];
-            break;
-        case MRSLMenuBarButtonTypeMyStuff:
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
-                                         properties:@{@"name": @"My Stuff"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"MyStuff"
-                                                          andStoryboardPrefix:@"MyStuff"];
-            break;
-        case MRSLMenuBarButtonTypeActivity:
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
+        }
+        CASE(MRSLMenuNotificationsKey) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Activity"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Activity"
                                                           andStoryboardPrefix:@"Activity"];
             break;
-        case MRSLMenuBarButtonTypeFind:
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
+        }
+        CASE(MRSLMenuPlacesKey) {
+            break;
+        }
+        CASE(MRSLMenuPeopleKey) {
+            break;
+        }
+        CASE(MRSLMenuFindKey) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Find"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"FindFriends"
                                                           andStoryboardPrefix:@"Social"];
             break;
-        case MRSLMenuBarButtonTypeSettings:
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Bar Icon"
+        }
+        CASE(MRSLMenuSettingsKey) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Settings"}];
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Settings"
                                                           andStoryboardPrefix:@"Settings"];
             break;
-        default:
+        }
+        CASE(MRSLMenuProfileKey) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
+                                         properties:@{@"name": @"Profile"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"
+                                                          andStoryboardPrefix:@"Profile"];
             break;
+        }
+        DEFAULT {
+            break;
+        }
     }
 }
 
@@ -400,6 +421,70 @@ MFMailComposeViewControllerDelegate>
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - UIGestureRecognizerDelegate
+
+- (void)userPanning:(UIPanGestureRecognizer *)panRecognizer {
+    if (panRecognizer.state == UIGestureRecognizerStateFailed) return;
+    if (panRecognizer.state == UIGestureRecognizerStateBegan) {
+        self.previousPanPoint = [panRecognizer locationInView:self.view];
+    }
+    if (panRecognizer.state == UIGestureRecognizerStateChanged) {
+        CGPoint currentPanPoint = [panRecognizer locationInView:self.view];
+        CGFloat panX = currentPanPoint.x;
+        if (!_hasRespondedToPan) {
+            _panMovementX += _previousPanPoint.x - currentPanPoint.x;
+            _panMovementY += _previousPanPoint.y - currentPanPoint.y;
+            if (abs(_panMovementX) > kDirectionPanThreshold) {
+                _hasRespondedToPan = YES;
+                if (_previousPanPoint.x < kOffscreenSwipeThreshold || _isMenuOpen) {
+                    self.shouldRespondToPan = YES;
+                    [self.rootContainerView setUserInteractionEnabled:NO];
+                } else {
+                    self.shouldRespondToPan = NO;
+                    [self.rootContainerView setUserInteractionEnabled:YES];
+                }
+            } else if (abs(_panMovementY) > kDirectionPanThreshold) {
+                _hasRespondedToPan = YES;
+            }
+        }
+        if (!_shouldRespondToPan) return;
+        [self.rootContainerView setX:(panX > 0 && panX <= 270.f) ? panX : ((panX <= 0) ? 0 : 270.f)];
+    }
+    if ((panRecognizer.state == UIGestureRecognizerStateEnded ||
+        panRecognizer.state == UIGestureRecognizerStateCancelled)) {
+        if (_shouldRespondToPan) {
+            CGFloat percentOpen = [self.rootContainerView getX] / [self.view getWidth];
+            CGFloat velocityX = [panRecognizer velocityInView:self.view].x;
+            NSTimeInterval duration = [self.view getWidth] / velocityX;
+            BOOL shouldOpen = (percentOpen > .5f || velocityX > 800.f);
+            if (velocityX < -800.f) shouldOpen = NO;
+            self.isMenuOpen = shouldOpen;
+            [UIView animateWithDuration:MIN(duration, .2f)
+                                  delay:0.f
+                                options:UIViewAnimationOptionCurveEaseOut
+                             animations:^{
+                                 [self.rootContainerView setX:shouldOpen ? 270.f : 0.f];
+                             } completion:nil];
+            [self.rootContainerView setUserInteractionEnabled:!shouldOpen];
+        }
+        self.panMovementX = 0.f;
+        self.panMovementY = 0.f;
+        self.shouldRespondToPan = NO;
+        self.hasRespondedToPan = NO;
+    }
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return YES;
+}
 
 #pragma mark - Dealloc
 

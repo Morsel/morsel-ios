@@ -37,7 +37,6 @@ extern NSString *const MRSLAppShouldDisplayEmailComposerNotification;
 extern NSString *const MRSLAppShouldCallPhoneNumberNotification;
 
 extern NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle;
-extern NSString *const MRSLAppTouchPhaseDidBeginNotification;
 
 #pragma mark - Social Constants
 
@@ -48,6 +47,18 @@ extern NSString *const MRSLInstagramAccountTypeKey;
 
 extern NSString *const MRSLKeywordCuisinesType;
 extern NSString *const MRSLKeywordSpecialtiesType;
+
+#pragma mark - Menu Constants
+
+extern NSString *const MRSLMenuProfileKey;
+extern NSString *const MRSLMenuAddKey;
+extern NSString *const MRSLMenuDraftsKey;
+extern NSString *const MRSLMenuFeedKey;
+extern NSString *const MRSLMenuNotificationsKey;
+extern NSString *const MRSLMenuPlacesKey;
+extern NSString *const MRSLMenuPeopleKey;
+extern NSString *const MRSLMenuFindKey;
+extern NSString *const MRSLMenuSettingsKey;
 
 #pragma mark - Debugging Constants
 

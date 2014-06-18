@@ -10,6 +10,7 @@
 
 @interface MRSLStandardLabel : UILabel
 
+- (id)initWithFrame:(CGRect)frame andFontSize:(CGFloat)fontSize;
 - (void)setUp;
 
 @end
