@@ -296,6 +296,7 @@ MFMailComposeViewControllerDelegate>
 }
 
 - (void)displayMenuBar {
+    if (_shouldMenuBarOpen) [self.view.window endEditing:YES];
     [UIView animateWithDuration:.2f
                      animations:^{
                          [_menuBarView setX:(_shouldMenuBarOpen) ? 0.f : -[_menuBarView getWidth]];
