@@ -102,6 +102,12 @@ UITableViewDelegate>
     }
 }
 
+- (IBAction)collapseMenu {
+    if ([self.delegate respondsToSelector:@selector(menuViewControllerDidSelectMenuOption:)]) {
+        [self.delegate menuViewControllerDidSelectMenuOption:nil];
+    }
+}
+
 #pragma mark - Notification Methods
 
 - (void)displayUserInformation {
