@@ -52,7 +52,7 @@
                              userTitle:(NSString *)title
                                success:(MRSLAPISuccessBlock)successOrNil
                                failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"place" : @{@"foursquare_venue_id": NSNullIfNil(foursquarePlace.foursquarePlaceID),
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"place" : @{
                                                                                     @"name": NSNullIfNil(foursquarePlace.name),
                                                                                     @"address": NSNullIfNil(foursquarePlace.address),
                                                                                     @"city": NSNullIfNil(foursquarePlace.city),
@@ -60,7 +60,7 @@
                                                                        @"title": title}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] POST:@"places/join"
+    [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"places/%@/employment", foursquarePlace.foursquarePlaceID]
                             parameters:parameters
                                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                    DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
