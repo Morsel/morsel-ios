@@ -430,7 +430,7 @@ MRSLCapturePreviewsViewControllerDelegate>
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (weakSelf) {
                     [weakSelf.capturedMediaItems addObject:mediaItem];
-                    [weakSelf.capturePreviewsViewController addPreviewMediaItemThumb:mediaItem.mediaThumbImage];
+                    [weakSelf.capturePreviewsViewController addPreviewMediaItem:mediaItem];
                     weakSelf.approvalImageView.image = mediaItem.mediaCroppedImage;
                 }
             });
@@ -666,7 +666,8 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 
 #pragma mark - MRSLCapturePreviewsViewControllerDelegate
 
-- (void)capturePreviewsDidDeleteMedia {
+- (void)capturePreviewsDidDeleteMediaItem:(MRSLMediaItem *)mediaItem {
+    [self.capturedMediaItems removeObject:mediaItem];
     [self updateFinishButtonAvailability];
 }
 
