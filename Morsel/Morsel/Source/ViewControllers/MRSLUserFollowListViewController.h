@@ -12,6 +12,6 @@
 
 @property (weak, nonatomic) MRSLUser *user;
 
-@property (nonatomic) BOOL shouldDisplayFollowing;
+@property (nonatomic) BOOL shouldDisplayFollowers;
 
 @end

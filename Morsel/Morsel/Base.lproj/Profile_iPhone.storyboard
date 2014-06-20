@@ -478,7 +478,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TyD-W3-D2u" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1297" y="836"/>
+            <point key="canvasLocation" x="1840" y="1596"/>
         </scene>
         <!--Profile Credentials View Controller-->
         <scene sceneID="njA-Fs-ktT">
@@ -1085,10 +1085,27 @@
             </objects>
             <point key="canvasLocation" x="1840" y="96"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="A0T-6o-kWN">
+            <objects>
+                <navigationController storyboardIdentifier="sb_FollowingPeople" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" definesPresentationContext="YES" id="c5m-pg-ZfQ" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Pxz-PS-9bQ">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="cTM-Ai-v5D" kind="relationship" relationship="rootViewController" id="RKX-mt-OrP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XiM-Ot-b8H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1297" y="836"/>
+        </scene>
         <!--User Follow List View Controller - Followers-->
         <scene sceneID="lZs-9L-01G">
             <objects>
-                <viewController storyboardIdentifier="sb_MRSLUserFollowListViewController" id="cTM-Ai-v5D" customClass="MRSLUserFollowListViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLUserFollowListViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="cTM-Ai-v5D" customClass="MRSLUserFollowListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fmh-bv-mbb">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1149,6 +1166,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Followers" id="1T4-0I-uxG"/>
                     <connections>
                         <outlet property="tableView" destination="pwC-dN-jEb" id="Ojy-Ha-qED"/>
@@ -1312,7 +1330,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MIK-cl-SnQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="771" y="836"/>
+            <point key="canvasLocation" x="1297" y="1596"/>
         </scene>
     </scenes>
     <resources>
@@ -1328,4 +1346,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="RKX-mt-OrP"/>
+    </inferredMetricsTieBreakers>
 </document>

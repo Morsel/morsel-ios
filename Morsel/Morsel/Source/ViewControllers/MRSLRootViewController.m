@@ -388,6 +388,10 @@ MRSLMenuViewControllerDelegate>
             break;
         }
         CASE(MRSLMenuPeopleKey) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
+                                         properties:@{@"name": @"Following People"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"FollowingPeople"
+                                                          andStoryboardPrefix:@"Profile"];
             break;
         }
         CASE(MRSLMenuFindKey) {
