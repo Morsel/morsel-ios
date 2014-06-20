@@ -14,5 +14,6 @@
 + (UIFont *)robotoSlabRegularFontOfSize:(CGFloat)fontSize;
 + (UIFont *)robotoLightFontOfSize:(CGFloat)fontSize;
 + (UIFont *)robotoRegularFontOfSize:(CGFloat)fontSize;
++ (UIFont *)robotoBoldFontOfSize:(CGFloat)fontSize;
 
 @end

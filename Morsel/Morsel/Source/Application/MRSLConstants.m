@@ -39,8 +39,6 @@ NSString *const MRSLAppShouldCallPhoneNumberNotification = @"MRSLAppShouldCallPh
 
 NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle = @"MRSLAppDidRequestNewPreferredStatusBarStyle";
 
-NSString *const MRSLAppTouchPhaseDidBeginNotification = @"MRSLAppTouchPhaseDidBeginNotification";
-
 #pragma mark - Social Constants
 
 NSString *const MRSLTwitterCredentialsKey = @"MRSLTwitterCredentialsKey";
@@ -50,6 +48,18 @@ NSString *const MRSLInstagramAccountTypeKey = @"MRSLInstagramAccountTypeKey";
 
 NSString *const MRSLKeywordCuisinesType = @"cuisines";
 NSString *const MRSLKeywordSpecialtiesType = @"specialties";
+
+#pragma mark - Menu Constants
+
+NSString *const MRSLMenuProfileKey = @"profile";
+NSString *const MRSLMenuAddKey = @"morseladd";
+NSString *const MRSLMenuDraftsKey = @"morseldrafts";
+NSString *const MRSLMenuFeedKey = @"feed";
+NSString *const MRSLMenuNotificationsKey = @"notifications";
+NSString *const MRSLMenuPlacesKey = @"places";
+NSString *const MRSLMenuPeopleKey = @"people";
+NSString *const MRSLMenuFindKey = @"find";
+NSString *const MRSLMenuSettingsKey = @"settings";
 
 #pragma mark - Debugging Constants
 

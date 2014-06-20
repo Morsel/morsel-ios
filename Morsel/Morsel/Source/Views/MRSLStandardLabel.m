@@ -10,6 +10,16 @@
 
 @implementation MRSLStandardLabel
 
+- (id)initWithFrame:(CGRect)frame
+        andFontSize:(CGFloat)fontSize {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.font = [UIFont robotoLightFontOfSize:fontSize];
+        [self setUp];
+    }
+    return self;
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {

@@ -40,8 +40,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 @property (nonatomic) MRSLScrollDirection scrollDirection;
 
-@property (weak, nonatomic) IBOutlet UIButton *menuBarButton;
-@property (weak, nonatomic) IBOutlet UIButton *addMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *theNewMorselsButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *feedCollectionView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
@@ -87,12 +85,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                              selector:@selector(removePublishedMorsel:)
                                                  name:MRSLUserDidDeleteMorselNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideControls)
-                                                 name:MRSLModalWillDisplayNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showControls)
-                                                 name:MRSLModalWillDismissNotification
-                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(suspendTimer)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
@@ -107,10 +99,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [super viewWillAppear:animated];
     MRSLUser *currentUser = [MRSLUser currentUser];
     if (!currentUser || _feedFetchedResultsController) return;
-
-    if (![currentUser isChef]) {
-        self.addMorselButton.hidden = YES;
-    }
 
     [self resumeTimer];
     [self setupFetchRequest];
@@ -144,25 +132,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
         [[NSRunLoop currentRunLoop] addTimer:_timer
                                      forMode:NSRunLoopCommonModes];
     }
-}
-
-- (void)hideControls {
-    [self toggleControls:NO];
-}
-
-- (void)showControls {
-    [self toggleControls:YES];
-}
-
-- (void)toggleControls:(BOOL)shouldDisplay {
-    _feedCollectionView.scrollEnabled = shouldDisplay;
-    _menuBarButton.enabled = shouldDisplay;
-    _addMorselButton.enabled = shouldDisplay;
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [_menuBarButton setAlpha:shouldDisplay];
-                         [_addMorselButton setAlpha:shouldDisplay];
-                     }];
 }
 
 - (void)toggleNewMorselsButton:(BOOL)shouldDisplay

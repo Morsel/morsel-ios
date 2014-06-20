@@ -37,7 +37,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201406111357</string>
+	<string>201406191850</string>
 	<key>FacebookAppID</key>
 	<string>${FB_APP_ID}</string>
 	<key>FacebookDisplayName</key>
@@ -47,6 +47,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Light.ttf</string>
+		<string>Roboto-Bold.ttf</string>
 		<string>Roboto-Regular.ttf</string>
 		<string>RobotoSlab-Regular.ttf</string>
 		<string>RobotoSlab-Bold.ttf</string>
