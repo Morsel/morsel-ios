@@ -36,21 +36,19 @@
 
         self.descriptionLabel.text = [activity message];
         self.timeAgoLabel.text = [activity.creationDate timeAgo];
-        self.itemImageView.item = activity.item;
         self.creatorProfileImageView.user = activity.creator;
 
         [self.descriptionLabel sizeToFit];
         [self.descriptionLabel setWidth:160.f];
 
-        if ([[activity.actionType lowercaseString] isEqualToString:@"follow"]) {
+        if ([activity hasUserSubject]) {
             self.itemImageView.hidden = YES;
             self.subjectProfileImageView.hidden = NO;
 
-            MRSLUser *subjectUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                                            withValue:_activity.subjectID];
-            self.subjectProfileImageView.user = subjectUser;
+            self.subjectProfileImageView.user = activity.userSubject;
         } else {
             self.subjectProfileImageView.user = nil;
+            self.itemImageView.item = activity.itemSubject;
         }
     }
 }

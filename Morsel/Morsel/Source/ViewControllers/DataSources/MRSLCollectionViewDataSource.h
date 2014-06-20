@@ -1,5 +1,5 @@
 //
-//  MRSLDataSource.h
+//  MRSLCollectionViewDataSource.h
 //  Morsel
 //
 //  Created by Marty Trzpit on 4/2/14.
@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-// Based off of: http://www.objc.io/issue-1/lighter-view-controllers.html
 typedef UICollectionViewCell *(^MRSLCellConfigureBlock)(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count);
 typedef UICollectionReusableView *(^MRSLSupplementaryCellConfigureBlock)(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath);
 typedef CGSize (^MRSLLayoutHeaderSizeConfigureBlock)(UICollectionView *collectionView, NSInteger section);

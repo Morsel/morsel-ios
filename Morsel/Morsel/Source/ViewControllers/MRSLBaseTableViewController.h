@@ -10,4 +10,6 @@
 
 @interface MRSLBaseTableViewController : UITableViewController
 
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
 @end

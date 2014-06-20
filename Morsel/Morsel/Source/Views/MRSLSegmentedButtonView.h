@@ -21,4 +21,6 @@
 
 @property (weak, nonatomic) IBOutlet id <MRSLSegmentedButtonViewDelegate> delegate;
 
+@property (nonatomic) NSInteger selectedIndex;
+
 @end

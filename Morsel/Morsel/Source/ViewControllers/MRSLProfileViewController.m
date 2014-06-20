@@ -406,7 +406,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 
 #pragma mark - MRSLSegmentedHeaderReusableViewDelegate
 
-- (void)segmentedHeaderDidSelectIndex:(NSUInteger)index {
+- (void)segmentedHeaderDidSelectIndex:(NSInteger)index {
     if (_dataSourceTabType != index) {
         self.dataSourceTabType = index;
         if (_dataSourceTabType == MRSLDataSourceTypePlace) {

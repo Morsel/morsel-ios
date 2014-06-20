@@ -19,6 +19,13 @@
                          success:(MRSLAPIArrayBlock)successOrNil
                          failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)getFollowablesActivitiesForUser:(MRSLUser *)user
+                                  maxID:(NSNumber *)maxOrNil
+                              orSinceID:(NSNumber *)sinceOrNil
+                               andCount:(NSNumber *)countOrNil
+                                success:(MRSLAPIArrayBlock)successOrNil
+                                failure:(MRSLFailureBlock)failureOrNil;
+
 - (void)getUserNotificationsForUser:(MRSLUser *)user
                               maxID:(NSNumber *)maxOrNil
                           orSinceID:(NSNumber *)sinceOrNil

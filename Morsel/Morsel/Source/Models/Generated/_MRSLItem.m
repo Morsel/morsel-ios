@@ -27,7 +27,7 @@ const struct MRSLItemAttributes MRSLItemAttributes = {
 };
 
 const struct MRSLItemRelationships MRSLItemRelationships = {
-	.activities = @"activities",
+	.activitiesAsSubject = @"activitiesAsSubject",
 	.comments = @"comments",
 	.morsel = @"morsel",
 };
@@ -448,15 +448,15 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 
 
-@dynamic activities;
+@dynamic activitiesAsSubject;
 
 	
-- (NSMutableSet*)activitiesSet {
-	[self willAccessValueForKey:@"activities"];
+- (NSMutableSet*)activitiesAsSubjectSet {
+	[self willAccessValueForKey:@"activitiesAsSubject"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"activities"];
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"activitiesAsSubject"];
   
-	[self didAccessValueForKey:@"activities"];
+	[self didAccessValueForKey:@"activitiesAsSubject"];
 	return result;
 }
 	

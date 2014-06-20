@@ -33,6 +33,7 @@
     }];
 }
 
+//  TODO: Make a delegate for this: - (void)segmentButtonView:()segementButtonView hideButtonsInIndexSet:()
 - (void)setShouldDisplayChefTabs:(BOOL)shouldDisplayChefTabs {
     if (!_defaultSet) {
         self.defaultSet = YES;
@@ -47,6 +48,16 @@
             [self bringSubviewToFront:activityButton];
         }
     }
+}
+
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
+    [_buttons enumerateObjectsUsingBlock:^(UIButton *segmentButton, NSUInteger idx, BOOL *stop) {
+        if (segmentButton.tag == selectedIndex) {
+            [self selectedButton:segmentButton];
+            _selectedIndex = selectedIndex;
+            *stop = YES;
+        }
+    }];
 }
 
 #pragma mark - Action Methods

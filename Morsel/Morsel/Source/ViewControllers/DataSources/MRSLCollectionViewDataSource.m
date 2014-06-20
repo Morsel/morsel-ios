@@ -1,5 +1,5 @@
 //
-//  MRSLDataSource.m
+//  MRSLCollectionViewDataSource.m
 //  Morsel
 //
 //  Created by Marty Trzpit on 4/2/14.

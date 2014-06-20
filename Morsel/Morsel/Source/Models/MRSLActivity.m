@@ -13,7 +13,10 @@
 }
 
 - (void)didImport:(id)data {
-    if ([[data[@"subject_type"] lowercaseString] isEqualToString:@"item"]) [self importItem:data[@"subject"]];
+    if ([data[@"subject_type"] isEqualToString:@"Item"])
+        [self importItemSubject:data[@"subject"]];
+    else if ([data[@"subject_type"] isEqualToString:@"User"])
+        [self importUserSubject:data[@"subject"]];
 
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
@@ -21,18 +24,37 @@
     }
 }
 
+- (BOOL)hasItemSubject {
+    return [self.subjectType isEqualToString:@"Item"];
+}
+
+- (BOOL)hasUserSubject {
+    return [self.subjectType isEqualToString:@"User"];
+}
+
+- (BOOL)isCommentAction {
+    return [self.actionType isEqualToString:@"Comment"];
+}
+
+- (BOOL)isFollowAction {
+    return [self.actionType isEqualToString:@"Follow"];
+}
+
+- (BOOL)isLikeAction {
+    return [self.actionType isEqualToString:@"Like"];
+}
 
 #pragma mark - Private Methods
 
 - (NSString *)actionDisplayName {
-    if ([[self.actionType lowercaseString] isEqualToString:@"like"]) {
+    if ([self isLikeAction]) {
         return @"liked";
-    } else if ([[self.actionType lowercaseString] isEqualToString:@"comment"]) {
+    } else if ([self isCommentAction]) {
         return @"commented on";
-    } else if ([[self.actionType lowercaseString] isEqualToString:@"follow"]) {
+    } else if ([self isFollowAction]) {
         return @"followed";
     } else {
-        return [NSString stringWithFormat:@"%@ed", self.actionType];
+        return [NSString stringWithFormat:@"%@ed", [self.actionType lowercaseString]];
     }
 }
 
@@ -44,29 +66,38 @@
     }
 }
 
-- (void)importItem:(NSDictionary *)itemDictionary {
-    if (![itemDictionary isEqual:[NSNull null]]) {
+- (void)importItemSubject:(NSDictionary *)subjectDictionary {
+    if (![subjectDictionary isEqual:[NSNull null]]) {
         MRSLItem *item = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
-                                                       withValue:itemDictionary[@"id"]
+                                                       withValue:subjectDictionary[@"id"]
                                                        inContext:self.managedObjectContext];
         if (!item) item = [MRSLItem MR_createInContext:self.managedObjectContext];
-        [item MR_importValuesForKeysWithObject:itemDictionary];
-        [self setItem:item];
-        [item addActivitiesObject:self];
+        [item MR_importValuesForKeysWithObject:subjectDictionary];
+        [self setItemSubject:item];
+        [item addActivitiesAsSubjectObject:self];
+    }
+}
+
+- (void)importUserSubject:(NSDictionary *)subjectDictionary {
+    if (![subjectDictionary isEqual:[NSNull null]]) {
+        MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                                 withValue:subjectDictionary[@"id"]
+                                                 inContext:self.managedObjectContext];
+        if (!user) user = [MRSLUser MR_createInContext:self.managedObjectContext];
+        [user MR_importValuesForKeysWithObject:subjectDictionary];
+        [self setUserSubject:user];
+        [user addActivitiesAsSubjectObject:self];
     }
 }
 
 - (NSString *)subjectDisplayName {
-    if ([[self.subjectType lowercaseString] isEqualToString:@"item"]) {
-        return [self.item displayName];
-    } else if ([[self.subjectType lowercaseString] isEqualToString:@"user"]) {
-        if (self.subjectIDValue == [MRSLUser currentUser].userIDValue) {
+    if ([self hasItemSubject]) {
+        return [self.itemSubject displayName];
+    } else if ([self hasUserSubject]) {
+        if (self.userSubject.userIDValue == [MRSLUser currentUser].userIDValue) {
             return @"you";
         } else {
-            MRSLUser *subjectUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                                            withValue:self.subjectID
-                                                            inContext:self.managedObjectContext];
-            return [subjectUser username] ?: @"someone";
+            return [self.userSubject username] ?: @"someone";
         }
     } else {
         return nil;
