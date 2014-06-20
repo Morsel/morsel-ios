@@ -23,10 +23,7 @@
 
 @property (nonatomic, strong) NSString *tappedItemEventName;
 @property (nonatomic, strong) NSString *tappedItemEventView;
-
-- (void)refreshContent;
-- (void)setupFetchRequest;
-- (void)populateContent;
+@property (copy, nonatomic) MRSLRemoteRequestBlock remoteRequestBlock;
 
 @end
 
@@ -37,21 +34,19 @@
     self.tappedItemEventName = @"Tapped My Activity";
     self.tappedItemEventView = @"My Activity";
 
+    self.remoteRequestBlock = ^(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+        [_appDelegate.apiService getUserActivitiesForUser:[MRSLUser currentUser]
+                                                    maxID:maxID
+                                                orSinceID:sinceID
+                                                 andCount:count
+                                                  success:^(NSArray *responseArray) {
+                                                      remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                                  } failure:^(NSError *error) {
+                                                      remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                                  }];
+    };
+
     [super viewDidLoad];
 }
-
-- (void)refreshContent {
-    __weak typeof(self) weakSelf = self;
-    [_appDelegate.apiService getUserActivitiesForUser:[MRSLUser currentUser]
-                                                maxID:nil
-                                            orSinceID:nil
-                                             andCount:nil
-                                              success:^(NSArray *responseArray) {
-                                                  weakSelf.objectIDs = [responseArray copy];
-                                                  [weakSelf setupFetchRequest];
-                                                  [weakSelf populateContent];
-                                              } failure:nil];
-}
-
 
 @end

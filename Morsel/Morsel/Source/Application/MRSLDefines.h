@@ -29,6 +29,8 @@ typedef void (^ MRSLSocialUserInfoBlock)(NSDictionary *userInfo, NSError *error)
 typedef void (^ MRSLSocialUIDStringBlock)(NSString *uids, NSError *error);
 typedef void (^ MRSLSocialCancelBlock)();
 typedef void (^ MRSLDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
+typedef void (^ MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock)(NSArray *objectIDs, NSError *error);
+typedef void (^ MRSLRemoteRequestBlock)(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock);
 
 #pragma mark - Enum
 

@@ -63,21 +63,12 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
     [self addChildViewController:viewController];
     
     if (self.currentViewController) {
-        [self transitionFromViewController:self.currentViewController
-                          toViewController:viewController
-                                  duration:0.3
-                                   options:UIViewAnimationOptionTransitionNone
-                                animations:^{
-                                    [self displayContentController:viewController didMoveToParentViewController:NO];
-                                } completion:^(BOOL finished) {
-                                    [viewController didMoveToParentViewController:self];
-                                    [self hideContentController:self.currentViewController];
-                                    self.currentViewController = viewController;
-                                }];
+        [self displayContentController:viewController didMoveToParentViewController:YES];
+        [self hideContentController:self.currentViewController];
     } else {
         [self displayContentController:viewController didMoveToParentViewController:YES];
-        self.currentViewController = viewController;
     }
+    self.currentViewController = viewController;
 }
 
 - (UIViewController *)viewControllerForSegmentIndex:(NSInteger)index {

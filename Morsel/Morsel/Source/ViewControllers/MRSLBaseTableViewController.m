@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tableView setScrollsToTop:YES];
     if (self.objectIDsKey) _objectIDs = [[NSUserDefaults standardUserDefaults] arrayForKey:self.objectIDsKey] ?: @[];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }

@@ -343,6 +343,9 @@
 		40C7E0A41953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7E0A11953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m */; };
 		40D702AA18E9F225001CCC42 /* MRSLFactory+User.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D702A918E9F225001CCC42 /* MRSLFactory+User.m */; };
 		40D702AC18E9F72A001CCC42 /* mrsl-users-activities.json in Resources */ = {isa = PBXBuildFile; fileRef = 40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */; };
+		40DC742F19549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40DC742E19549DA2005CFECF /* MRSLBaseTableViewCell.m */; };
+		40DC743019549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40DC742E19549DA2005CFECF /* MRSLBaseTableViewCell.m */; };
+		40DC743119549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40DC742E19549DA2005CFECF /* MRSLBaseTableViewCell.m */; };
 		40F637D6193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
 		40F637D7193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
 		40F637D8193E987A003AD040 /* NSMutableString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F637D5193E987A003AD040 /* NSMutableString+Additions.m */; };
@@ -814,6 +817,8 @@
 		40D702A818E9F225001CCC42 /* MRSLFactory+User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLFactory+User.h"; sourceTree = "<group>"; };
 		40D702A918E9F225001CCC42 /* MRSLFactory+User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLFactory+User.m"; sourceTree = "<group>"; };
 		40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-users-activities.json"; sourceTree = "<group>"; };
+		40DC742D19549DA2005CFECF /* MRSLBaseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLBaseTableViewCell.h; path = Source/Views/MRSLBaseTableViewCell.h; sourceTree = "<group>"; };
+		40DC742E19549DA2005CFECF /* MRSLBaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLBaseTableViewCell.m; path = Source/Views/MRSLBaseTableViewCell.m; sourceTree = "<group>"; };
 		40F637D4193E987A003AD040 /* NSMutableString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Additions.h"; sourceTree = "<group>"; };
 		40F637D5193E987A003AD040 /* NSMutableString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Additions.m"; sourceTree = "<group>"; };
 		4D39BCA7E9BC46D8914312A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -982,6 +987,8 @@
 				0684C1BB1906FA3E009D8D73 /* Profile */,
 				0634091D191C2C7300C67FB8 /* Registration */,
 				061F93451910086600608C0B /* Tags */,
+				40DC742D19549DA2005CFECF /* MRSLBaseTableViewCell.h */,
+				40DC742E19549DA2005CFECF /* MRSLBaseTableViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -2319,6 +2326,7 @@
 			files = (
 				06ECF68B18BFED9100577F9C /* MRSLSpecsAppDelegate.m in Sources */,
 				06B87814193CBB7500160707 /* MRSLPlaceDetailInfoCollectionViewCell.m in Sources */,
+				40DC742F19549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */,
 				06B87808193CB01F00160707 /* MRSLPlacePanelCollectionViewCell.m in Sources */,
 				061F935D191052FB00608C0B /* MRSLUserTagEditViewController.m in Sources */,
 				0692743A1935094A00F59621 /* MRSLPanelSegmentedCollectionViewDataSource.m in Sources */,
@@ -2565,6 +2573,7 @@
 				400350A218EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */,
 				40D702AA18E9F225001CCC42 /* MRSLFactory+User.m in Sources */,
 				40A4E11D194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */,
+				40DC743019549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */,
 				408744381940DAB2000B491F /* NSString+Additions.m in Sources */,
 				407FDF5C194807E4005FEEBF /* RollbarFileReader.m in Sources */,
 				06ECF68918BFE3F000577F9C /* MRSLSpecUtil.m in Sources */,
@@ -2603,6 +2612,7 @@
 				40874448194167EA000B491F /* MRSLReusableView.m in Sources */,
 				4087443E1940F273000B491F /* MRSLBaseTableViewController.m in Sources */,
 				40C7E0A41953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m in Sources */,
+				40DC743119549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */,
 				40348F3B1953AC1500BDDC15 /* MRSLBaseActivitiesTableViewController.m in Sources */,
 				407FDF63194807E4005FEEBF /* RollbarNotifier.m in Sources */,
 				407FDF60194807E4005FEEBF /* RollbarLogger.m in Sources */,

@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseTableViewCell.h"
 
 @class MRSLActivity;
 
-@interface MRSLActivityTableViewCell : UITableViewCell
+@interface MRSLActivityTableViewCell : MRSLBaseTableViewCell
 
 - (void)setActivity:(MRSLActivity *)activity;
 
