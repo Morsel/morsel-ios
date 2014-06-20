@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.objectIDsKey) _objectIDs = [[NSUserDefaults standardUserDefaults] arrayForKey:self.objectIDsKey] ?: @[];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -35,7 +36,7 @@
 - (void)registerCellsWithNames:(NSArray *)cellNames {
     [cellNames enumerateObjectsUsingBlock:^(NSString *cellName, NSUInteger idx, BOOL *stop) {
         [self.tableView registerNib:[UINib nibWithNibName:cellName bundle:[NSBundle mainBundle]]
-             forCellReuseIdentifier:[NSString stringWithFormat:@"ruid_%@", cellName]];
+             forCellReuseIdentifier:[NSString stringWithFormat:@"%@_%@", @"ruid", cellName]];
     }];
 }
 

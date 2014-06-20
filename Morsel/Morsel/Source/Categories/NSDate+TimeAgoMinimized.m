@@ -99,7 +99,7 @@ NSLocalizedStringFromTableInBundle(key, @"NSDateTimeAgo", [NSBundle bundleWithPa
     // Russian (ru)
     if([localeCode isEqual:@"ru"]) {
         NSString *valueStr = [NSString stringWithFormat:@"%.f", value];
-        int l = valueStr.length;
+        int l = (int)valueStr.length;
         int XY = [[valueStr substringWithRange:NSMakeRange(l - 2, l)] intValue];
         int Y = (int)floor(value) % 10;
 

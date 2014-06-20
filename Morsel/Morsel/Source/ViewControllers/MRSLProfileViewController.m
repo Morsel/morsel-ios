@@ -46,7 +46,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 @property (nonatomic) BOOL refreshing;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
-@property (nonatomic) BOOL wantsToShowFollowing;
+@property (nonatomic) BOOL shouldShowFollowers;
 
 @property (nonatomic) MRSLDataSourceType dataSourceTabType;
 
@@ -348,7 +348,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
     } else if ([segue.identifier isEqualToString:@"seg_FollowList"]) {
         MRSLUserFollowListViewController *userFollowListVC = [segue destinationViewController];
         userFollowListVC.user = _user;
-        userFollowListVC.shouldDisplayFollowing = _wantsToShowFollowing;
+        userFollowListVC.shouldDisplayFollowers = _shouldShowFollowers;
     }
 }
 
@@ -393,13 +393,13 @@ MRSLSegmentedHeaderReusableViewDelegate>
 #pragma mark - MRSLProfilePanelCollectionViewCellDelegate
 
 - (void)profilePanelDidSelectFollowers {
-    self.wantsToShowFollowing = NO;
+    self.shouldShowFollowers = YES;
     [self performSegueWithIdentifier:@"seg_FollowList"
                               sender:nil];
 }
 
 - (void)profilePanelDidSelectFollowing {
-    self.wantsToShowFollowing = YES;
+    self.shouldShowFollowers = NO;
     [self performSegueWithIdentifier:@"seg_FollowList"
                               sender:nil];
 }

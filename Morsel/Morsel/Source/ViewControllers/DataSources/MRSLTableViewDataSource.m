@@ -60,7 +60,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.configureCellBlock([self objectAtIndexPath:indexPath], tableView, indexPath, [self count]);
+    UITableViewCell *tableViewCell = self.configureCellBlock([self objectAtIndexPath:indexPath], tableView, indexPath, [self count]);
+    [tableViewCell setBorderWithDirections:MRSLBorderSouth
+                               borderWidth:1.f
+                            andBorderColor:[UIColor morselLightOffColor]];
+    return tableViewCell;
 }
 
 @end

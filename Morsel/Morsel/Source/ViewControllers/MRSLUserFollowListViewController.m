@@ -39,9 +39,11 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (!_user) self.user = [MRSLUser currentUser];
+
     self.userIDs = [NSMutableArray array];
 
-    self.title = _shouldDisplayFollowing ? @"Following" : @"Followers";
+    self.title = _shouldDisplayFollowers ? @"Followers" : @"Following";
 
     self.users = [NSMutableArray array];
 
@@ -91,24 +93,7 @@ NSFetchedResultsControllerDelegate>
     self.loadedAll = NO;
     self.refreshing = YES;
     __weak __typeof(self)weakSelf = self;
-    if (_shouldDisplayFollowing) {
-        [_appDelegate.apiService getUserFollowables:_user
-                                          withMaxID:nil
-                                          orSinceID:nil
-                                           andCount:nil
-                                            success:^(NSArray *responseArray) {
-                                                [weakSelf.refreshControl endRefreshing];
-                                                weakSelf.userIDs = [responseArray mutableCopy];
-                                                [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                          forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowing ? @"following" : @"followers"]];
-                                                [weakSelf setupFetchRequest];
-                                                [weakSelf populateContent];
-                                                weakSelf.refreshing = NO;
-                                            } failure:^(NSError *error) {
-                                                [weakSelf.refreshControl endRefreshing];
-                                                weakSelf.refreshing = NO;
-                                            }];
-    } else {
+    if (_shouldDisplayFollowers) {
         [_appDelegate.apiService getUserFollowers:_user
                                         withMaxID:nil
                                         orSinceID:nil
@@ -117,7 +102,7 @@ NSFetchedResultsControllerDelegate>
                                               [weakSelf.refreshControl endRefreshing];
                                               weakSelf.userIDs = [responseArray mutableCopy];
                                               [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                        forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowing ? @"following" : @"followers"]];
+                                                                                        forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
                                               [weakSelf setupFetchRequest];
                                               [weakSelf populateContent];
                                               weakSelf.refreshing = NO;
@@ -125,6 +110,23 @@ NSFetchedResultsControllerDelegate>
                                               [weakSelf.refreshControl endRefreshing];
                                               weakSelf.refreshing = NO;
                                           }];
+    } else {
+        [_appDelegate.apiService getUserFollowables:_user
+                                          withMaxID:nil
+                                          orSinceID:nil
+                                           andCount:nil
+                                            success:^(NSArray *responseArray) {
+                                                [weakSelf.refreshControl endRefreshing];
+                                                weakSelf.userIDs = [responseArray mutableCopy];
+                                                [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                                                          forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
+                                                [weakSelf setupFetchRequest];
+                                                [weakSelf populateContent];
+                                                weakSelf.refreshing = NO;
+                                            } failure:^(NSError *error) {
+                                                [weakSelf.refreshControl endRefreshing];
+                                                weakSelf.refreshing = NO;
+                                            }];
     }
 }
 
@@ -135,24 +137,7 @@ NSFetchedResultsControllerDelegate>
     MRSLUser *lastUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                               withValue:[_userIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
-    if (_shouldDisplayFollowing) {
-        [_appDelegate.apiService getUserFollowables:_user
-                                          withMaxID:nil
-                                          orSinceID:nil
-                                           andCount:nil
-                                            success:^(NSArray *responseArray) {
-                                                [weakSelf.refreshControl endRefreshing];
-                                                weakSelf.userIDs = [responseArray mutableCopy];
-                                                [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                          forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowing ? @"following" : @"followers"]];
-                                                [weakSelf setupFetchRequest];
-                                                [weakSelf populateContent];
-                                                weakSelf.refreshing = NO;
-                                            } failure:^(NSError *error) {
-                                                [weakSelf.refreshControl endRefreshing];
-                                                weakSelf.refreshing = NO;
-                                            }];
-    } else {
+    if (_shouldDisplayFollowers) {
         [_appDelegate.apiService getUserFollowers:_user
                                         withMaxID:@([lastUser userIDValue] - 1)
                                         orSinceID:nil
@@ -164,7 +149,7 @@ NSFetchedResultsControllerDelegate>
                                                   if ([responseArray count] > 0) {
                                                       [weakSelf.userIDs addObjectsFromArray:responseArray];
                                                       [[NSUserDefaults standardUserDefaults] setObject:weakSelf.userIDs
-                                                                                                forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowing ? @"following" : @"followers"]];
+                                                                                                forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
                                                       [weakSelf setupFetchRequest];
                                                       dispatch_async(dispatch_get_main_queue(), ^{
                                                           [weakSelf populateContent];
@@ -175,6 +160,23 @@ NSFetchedResultsControllerDelegate>
                                           } failure:^(NSError *error) {
                                               if (weakSelf) weakSelf.loadingMore = NO;
                                           }];
+    } else {
+        [_appDelegate.apiService getUserFollowables:_user
+                                          withMaxID:nil
+                                          orSinceID:nil
+                                           andCount:nil
+                                            success:^(NSArray *responseArray) {
+                                                [weakSelf.refreshControl endRefreshing];
+                                                weakSelf.userIDs = [responseArray mutableCopy];
+                                                [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                                                          forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
+                                                [weakSelf setupFetchRequest];
+                                                [weakSelf populateContent];
+                                                weakSelf.refreshing = NO;
+                                            } failure:^(NSError *error) {
+                                                [weakSelf.refreshControl endRefreshing];
+                                                weakSelf.refreshing = NO;
+                                            }];
     }
 }
 
