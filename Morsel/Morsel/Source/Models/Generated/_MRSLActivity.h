@@ -14,8 +14,9 @@ extern const struct MRSLActivityAttributes {
 
 extern const struct MRSLActivityRelationships {
 	__unsafe_unretained NSString *creator;
-	__unsafe_unretained NSString *item;
+	__unsafe_unretained NSString *itemSubject;
 	__unsafe_unretained NSString *notification;
+	__unsafe_unretained NSString *userSubject;
 } MRSLActivityRelationships;
 
 extern const struct MRSLActivityFetchedProperties {
@@ -24,6 +25,7 @@ extern const struct MRSLActivityFetchedProperties {
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLNotification;
+@class MRSLUser;
 
 
 
@@ -109,9 +111,9 @@ extern const struct MRSLActivityFetchedProperties {
 
 
 
-@property (nonatomic, strong) MRSLItem *item;
+@property (nonatomic, strong) MRSLItem *itemSubject;
 
-//- (BOOL)validateItem:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateItemSubject:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -119,6 +121,13 @@ extern const struct MRSLActivityFetchedProperties {
 @property (nonatomic, strong) MRSLNotification *notification;
 
 //- (BOOL)validateNotification:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, strong) MRSLUser *userSubject;
+
+//- (BOOL)validateUserSubject:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -175,13 +184,18 @@ extern const struct MRSLActivityFetchedProperties {
 
 
 
-- (MRSLItem*)primitiveItem;
-- (void)setPrimitiveItem:(MRSLItem*)value;
+- (MRSLItem*)primitiveItemSubject;
+- (void)setPrimitiveItemSubject:(MRSLItem*)value;
 
 
 
 - (MRSLNotification*)primitiveNotification;
 - (void)setPrimitiveNotification:(MRSLNotification*)value;
+
+
+
+- (MRSLUser*)primitiveUserSubject;
+- (void)setPrimitiveUserSubject:(MRSLUser*)value;
 
 
 @end

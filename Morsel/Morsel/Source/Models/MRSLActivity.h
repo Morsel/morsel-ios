@@ -2,6 +2,13 @@
 
 @interface MRSLActivity : _MRSLActivity
 
+- (BOOL)hasItemSubject;
+- (BOOL)hasUserSubject;
+
+- (BOOL)isCommentAction;
+- (BOOL)isFollowAction;
+- (BOOL)isLikeAction;
+
 - (NSString *)message;
 
 @end

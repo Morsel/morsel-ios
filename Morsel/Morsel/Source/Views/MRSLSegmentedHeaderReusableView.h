@@ -11,7 +11,7 @@
 @protocol MRSLSegmentedHeaderReusableViewDelegate <NSObject>
 
 @optional
-- (void)segmentedHeaderDidSelectIndex:(NSUInteger)index;
+- (void)segmentedHeaderDidSelectIndex:(NSInteger)index;
 
 @end
 

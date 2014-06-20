@@ -1,5 +1,5 @@
 //
-//  MRSLActivityRootViewController.h
+//  MRSLNotificationsRootViewController.h
 //  Morsel
 //
 //  Created by Marty Trzpit on 4/2/14.
@@ -8,6 +8,6 @@
 
 #import "MRSLBaseViewController.h"
 
-@interface MRSLActivityRootViewController : MRSLBaseViewController
+@interface MRSLNotificationsRootViewController : MRSLBaseViewController
 
 @end

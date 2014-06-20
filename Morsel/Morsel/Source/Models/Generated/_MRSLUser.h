@@ -34,6 +34,7 @@ extern const struct MRSLUserAttributes {
 
 extern const struct MRSLUserRelationships {
 	__unsafe_unretained NSString *activities;
+	__unsafe_unretained NSString *activitiesAsSubject;
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *morsels;
 	__unsafe_unretained NSString *places;
@@ -43,6 +44,7 @@ extern const struct MRSLUserRelationships {
 extern const struct MRSLUserFetchedProperties {
 } MRSLUserFetchedProperties;
 
+@class MRSLActivity;
 @class MRSLActivity;
 @class MRSLComment;
 @class MRSLMorsel;
@@ -385,6 +387,13 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSSet *activitiesAsSubject;
+
+- (NSMutableSet*)activitiesAsSubjectSet;
+
+
+
+
 @property (nonatomic, strong) NSSet *comments;
 
 - (NSMutableSet*)commentsSet;
@@ -422,6 +431,11 @@ extern const struct MRSLUserFetchedProperties {
 - (void)removeActivities:(NSSet*)value_;
 - (void)addActivitiesObject:(MRSLActivity*)value_;
 - (void)removeActivitiesObject:(MRSLActivity*)value_;
+
+- (void)addActivitiesAsSubject:(NSSet*)value_;
+- (void)removeActivitiesAsSubject:(NSSet*)value_;
+- (void)addActivitiesAsSubjectObject:(MRSLActivity*)value_;
+- (void)removeActivitiesAsSubjectObject:(MRSLActivity*)value_;
 
 - (void)addComments:(NSSet*)value_;
 - (void)removeComments:(NSSet*)value_;
@@ -631,6 +645,11 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSMutableSet*)primitiveActivities;
 - (void)setPrimitiveActivities:(NSMutableSet*)value;
+
+
+
+- (NSMutableSet*)primitiveActivitiesAsSubject;
+- (void)setPrimitiveActivitiesAsSubject:(NSMutableSet*)value;
 
 
 

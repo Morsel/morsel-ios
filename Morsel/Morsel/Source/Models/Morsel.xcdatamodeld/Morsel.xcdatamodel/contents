@@ -27,7 +27,7 @@
                 <entry key="relatedByAttribute" value="userID"/>
             </userInfo>
         </relationship>
-        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="activities" inverseEntity="MRSLItem" syncable="YES">
+        <relationship name="itemSubject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="activitiesAsSubject" inverseEntity="MRSLItem" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="itemID"/>
             </userInfo>
@@ -37,6 +37,7 @@
                 <entry key="relatedByAttribute" value="notificationID"/>
             </userInfo>
         </relationship>
+        <relationship name="userSubject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="activitiesAsSubject" inverseEntity="MRSLUser" syncable="YES"/>
     </entity>
     <entity name="MRSLComment" representedClassName="MRSLComment" syncable="YES">
         <attribute name="commentDescription" optional="YES" attributeType="String" syncable="YES">
@@ -90,7 +91,7 @@
         <attribute name="photo_processing" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="sort_order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="activities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="item" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="itemSubject" inverseEntity="MRSLActivity" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="item" inverseEntity="MRSLComment" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="commentID"/>
@@ -343,6 +344,7 @@
                 <entry key="relatedByAttribute" value="activityID"/>
             </userInfo>
         </relationship>
+        <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="userSubject" inverseEntity="MRSLActivity" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLComment" inverseName="creator" inverseEntity="MRSLComment" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="commentID"/>
@@ -365,14 +367,14 @@
         </relationship>
     </entity>
     <elements>
-        <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="163"/>
+        <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="178"/>
         <element name="MRSLComment" positionX="0" positionY="0" width="128" height="118"/>
-        <element name="MRSLItem" positionX="0" positionY="0" width="128" height="390"/>
+        <element name="MRSLItem" positionX="0" positionY="0" width="128" height="388"/>
         <element name="MRSLKeyword" positionX="0" positionY="0" width="128" height="103"/>
         <element name="MRSLMorsel" positionX="0" positionY="0" width="128" height="298"/>
         <element name="MRSLNotification" positionX="9" positionY="153" width="128" height="135"/>
         <element name="MRSLPlace" positionX="18" positionY="153" width="128" height="525"/>
         <element name="MRSLTag" positionX="18" positionY="153" width="128" height="118"/>
-        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="493"/>
+        <element name="MRSLUser" positionX="0" positionY="0" width="128" height="508"/>
     </elements>
 </model>

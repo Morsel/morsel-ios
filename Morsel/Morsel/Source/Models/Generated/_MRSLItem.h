@@ -28,7 +28,7 @@ extern const struct MRSLItemAttributes {
 } MRSLItemAttributes;
 
 extern const struct MRSLItemRelationships {
-	__unsafe_unretained NSString *activities;
+	__unsafe_unretained NSString *activitiesAsSubject;
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *morsel;
 } MRSLItemRelationships;
@@ -314,9 +314,9 @@ extern const struct MRSLItemFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *activities;
+@property (nonatomic, strong) NSSet *activitiesAsSubject;
 
-- (NSMutableSet*)activitiesSet;
+- (NSMutableSet*)activitiesAsSubjectSet;
 
 
 
@@ -340,10 +340,10 @@ extern const struct MRSLItemFetchedProperties {
 
 @interface _MRSLItem (CoreDataGeneratedAccessors)
 
-- (void)addActivities:(NSSet*)value_;
-- (void)removeActivities:(NSSet*)value_;
-- (void)addActivitiesObject:(MRSLActivity*)value_;
-- (void)removeActivitiesObject:(MRSLActivity*)value_;
+- (void)addActivitiesAsSubject:(NSSet*)value_;
+- (void)removeActivitiesAsSubject:(NSSet*)value_;
+- (void)addActivitiesAsSubjectObject:(MRSLActivity*)value_;
+- (void)removeActivitiesAsSubjectObject:(MRSLActivity*)value_;
 
 - (void)addComments:(NSSet*)value_;
 - (void)removeComments:(NSSet*)value_;
@@ -506,8 +506,8 @@ extern const struct MRSLItemFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveActivities;
-- (void)setPrimitiveActivities:(NSMutableSet*)value;
+- (NSMutableSet*)primitiveActivitiesAsSubject;
+- (void)setPrimitiveActivitiesAsSubject:(NSMutableSet*)value;
 
 
 

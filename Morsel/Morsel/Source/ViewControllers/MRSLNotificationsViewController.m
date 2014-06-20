@@ -175,7 +175,7 @@ NSFetchedResultsControllerDelegate>
     self.selectedIndexPath = indexPath;
     MRSLNotification *notification = [self.arrayDataSource objectAtIndexPath:indexPath];
     MRSLActivity *activity = notification.activity;
-    MRSLItem *item = activity.item;
+    MRSLItem *item = activity.itemSubject;
 
     [[MRSLEventManager sharedManager] track:@"Tapped Notification"
                                  properties:@{@"view": @"Notifications",
