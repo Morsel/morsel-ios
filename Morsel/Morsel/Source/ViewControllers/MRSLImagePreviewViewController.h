@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class MRSLMediaItem;
+
 @protocol MRSLImagePreviewViewControllerDelegate <NSObject>
 
 @optional
-- (void)imagePreviewDidDeleteMedia;
+- (void)imagePreviewDidDeleteMediaItem:(MRSLMediaItem *)mediaItem;
 
 @end
 

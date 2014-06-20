@@ -44,14 +44,18 @@ MRSLImagePreviewViewControllerDelegate>
     return [_previewMediaItemThumbs count];
 }
 
-- (void)addPreviewMediaItemThumb:(UIImage *)thumbImage {
-    if (thumbImage) {
-        [self.previewMediaItemThumbs addObject:thumbImage];
+- (void)addPreviewMediaItem:(MRSLMediaItem *)mediaItem {
+    if (mediaItem) {
+        [self.previewMediaItemThumbs addObject:mediaItem];
         [self.previewCollectionView reloadData];
 
-        [self.previewCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[_previewMediaItemThumbs count] - 1 inSection:0]
-                                           atScrollPosition:UICollectionViewScrollPositionRight
-                                                   animated:YES];
+        NSInteger indexPathRow = [_previewMediaItemThumbs count] - 1;
+        if (indexPathRow >= 0) {
+            [self.previewCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:indexPathRow
+                                                                                   inSection:0]
+                                               atScrollPosition:UICollectionViewScrollPositionRight
+                                                       animated:YES];
+        }
     }
 }
 
@@ -74,11 +78,11 @@ MRSLImagePreviewViewControllerDelegate>
 
 - (MRSLMediaItemPreviewCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UIImage *mediaThumbImage = [_previewMediaItemThumbs objectAtIndex:indexPath.row];
+    MRSLMediaItem *mediaItem = [_previewMediaItemThumbs objectAtIndex:indexPath.row];
 
     MRSLMediaItemPreviewCollectionViewCell *mediaPreviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MediaItemCell"
                                                                                                          forIndexPath:indexPath];
-    mediaPreviewCell.mediaThumbImage = mediaThumbImage;
+    mediaPreviewCell.mediaItem = mediaItem;
 
     return mediaPreviewCell;
 }
@@ -95,9 +99,9 @@ MRSLImagePreviewViewControllerDelegate>
 
 #pragma mark - MRSLImagePreviewViewControllerDelegate
 
-- (void)imagePreviewDidDeleteMedia {
-    if ([self.delegate respondsToSelector:@selector(capturePreviewsDidDeleteMedia)]) {
-        [self.delegate capturePreviewsDidDeleteMedia];
+- (void)imagePreviewDidDeleteMediaItem:(MRSLMediaItem *)mediaItem {
+    if ([self.delegate respondsToSelector:@selector(capturePreviewsDidDeleteMediaItem:)]) {
+        [self.delegate capturePreviewsDidDeleteMediaItem:mediaItem];
     }
 }
 
