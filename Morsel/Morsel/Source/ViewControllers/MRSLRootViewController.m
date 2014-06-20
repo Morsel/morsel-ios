@@ -97,6 +97,10 @@ MRSLMenuViewControllerDelegate>
                                                  name:MRSLServiceShouldLogOutUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userLoggedIn:)
+                                                 name:MRSLServiceDidLogInUserNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(toggleMenu)
                                                  name:MRSLAppShouldDisplayMenuBarNotification
                                                object:nil];
@@ -148,6 +152,10 @@ MRSLMenuViewControllerDelegate>
 }
 
 #pragma mark - Notification Methods
+
+- (void)userLoggedIn:(NSNotification *)notification {
+    [self syncDataAndPresentFeed];
+}
 
 - (void)keyboardWillShow {
     self.keyboardOpen = YES;
@@ -272,6 +280,17 @@ MRSLMenuViewControllerDelegate>
     }];
 
     return foundNC;
+}
+
+- (void)syncDataAndPresentFeed {
+    if ([UIApplication sharedApplication].statusBarHidden) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO
+                                                withAnimation:UIStatusBarAnimationSlide];
+    }
+    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
+                                                  andStoryboardPrefix:@"Feed"];
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 - (void)displaySignUpAnimated:(BOOL)animated {
