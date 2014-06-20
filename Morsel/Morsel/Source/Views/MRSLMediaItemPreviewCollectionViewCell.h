@@ -12,7 +12,6 @@
 
 @interface MRSLMediaItemPreviewCollectionViewCell : UICollectionViewCell
 
-@property (strong, nonatomic) UIImage *mediaThumbImage;
 @property (strong, nonatomic) MRSLMediaItem *mediaItem;
 
 @end

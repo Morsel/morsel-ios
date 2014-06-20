@@ -10,6 +10,7 @@
 
 #import "MRSLImagePreviewCollectionViewCell.h"
 
+#import "MRSLMediaItem.h"
 #import "MRSLItem.h"
 
 @interface MRSLImagePreviewViewController ()
@@ -79,7 +80,7 @@ UICollectionViewDelegate>
 
     [self.previewMediaCollectionView reloadData];
 
-    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex
+    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
                                                                                  inSection:0]
                                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                                     animated:NO];
@@ -108,13 +109,13 @@ UICollectionViewDelegate>
 
 - (IBAction)deleteMedia {
     if (_currentIndex > [_previewMedia count] - 1) self.currentIndex = [_previewMedia count] - 1;
-    id objectToRemove = [_previewMedia objectAtIndex:_currentIndex];
+    MRSLMediaItem *mediaItemToRemove = [_previewMedia objectAtIndex:_currentIndex];
 
-    [_previewMedia removeObject:objectToRemove];
-    [self.previewMediaCollectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:_currentIndex inSection:0]]];
+    [_previewMedia removeObject:mediaItemToRemove];
+    [self.previewMediaCollectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:_currentIndex inSection:0]]];
 
-    if ([self.delegate respondsToSelector:@selector(imagePreviewDidDeleteMedia)]) {
-        [self.delegate imagePreviewDidDeleteMedia];
+    if ([self.delegate respondsToSelector:@selector(imagePreviewDidDeleteMediaItem:)]) {
+        [self.delegate imagePreviewDidDeleteMediaItem:mediaItemToRemove];
     }
 
     if ([_previewMedia count] == 0) {
@@ -127,7 +128,7 @@ UICollectionViewDelegate>
 - (IBAction)displayPrevious {
     if (_currentIndex == 0) return;
     self.currentIndex = _currentIndex - 1;
-    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex inSection:0]
+    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]
                                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                                     animated:YES];
 }
@@ -136,13 +137,13 @@ UICollectionViewDelegate>
     if (_currentIndex == [_previewMedia count] - 1) return;
     self.currentIndex = _currentIndex + 1;
 
-    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex inSection:0]
+    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]
                                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                                     animated:YES];
 }
 
 - (void)changePage:(UIPageControl *)pageControl {
-    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:pageControl.currentPage inSection:0]
+    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:pageControl.currentPage inSection:0]
                                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                                     animated:YES];
 }

@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class MRSLMediaItem;
+
 @protocol MRSLCapturePreviewsViewControllerDelegate <NSObject>
 
 @optional
-- (void)capturePreviewsDidDeleteMedia;
+- (void)capturePreviewsDidDeleteMediaItem:(MRSLMediaItem *)mediaItem;
 
 @end
 
@@ -23,6 +25,6 @@
 
 - (NSUInteger)thumbImageCount;
 
-- (void)addPreviewMediaItemThumb:(UIImage *)thumbImage;
+- (void)addPreviewMediaItem:(MRSLMediaItem *)mediaItem;
 
 @end
