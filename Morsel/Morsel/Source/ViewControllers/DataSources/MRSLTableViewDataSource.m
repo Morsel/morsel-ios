@@ -67,4 +67,12 @@
     return tableViewCell;
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if ([self.delegate respondsToSelector:@selector(tableViewDataSourceScrollViewDidScroll:)]) {
+        return [self.delegate tableViewDataSourceScrollViewDidScroll:scrollView];
+    }
+}
+
 @end

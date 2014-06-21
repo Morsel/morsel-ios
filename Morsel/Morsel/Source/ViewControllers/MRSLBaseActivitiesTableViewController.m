@@ -43,6 +43,13 @@ NSFetchedResultsControllerDelegate>
 @property (nonatomic, strong) NSString *tappedItemEventName;
 @property (nonatomic, strong) NSString *tappedItemEventView;
 
+@property (nonatomic, getter = isLoading) BOOL loading;
+@property (nonatomic) BOOL stopLoadingNextPage;
+
+@property (copy, nonatomic) MRSLRemoteRequestBlock remoteRequestBlock;
+
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicatorView;
+
 - (void)refreshContent;
 - (void)setupFetchRequest;
 - (void)populateContent;
@@ -75,6 +82,16 @@ NSFetchedResultsControllerDelegate>
     [self.tableView setDataSource:_dataSource];
     [self.tableView setDelegate:_dataSource];
     [_dataSource setDelegate:self];
+
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [_activityIndicatorView setColor:[UIColor morselDarkContent]];
+    [_activityIndicatorView setHidesWhenStopped:YES];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(.0f, .0f, [self.tableView getWidth], 60.f)];
+    [footerView addSubview:_activityIndicatorView];
+    [_activityIndicatorView setX:([footerView getWidth] * .5f) - ([_activityIndicatorView getWidth] * .5f)];
+    [_activityIndicatorView setY:([footerView getHeight] * .5f) - ([_activityIndicatorView getHeight] * .5f)];
+
+    [self.tableView setTableFooterView:footerView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -92,6 +109,14 @@ NSFetchedResultsControllerDelegate>
 
 #pragma mark - Private Methods
 
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+    if (loading)
+        [_activityIndicatorView startAnimating];
+    else
+        [_activityIndicatorView stopAnimating];
+}
+
 - (void)setupFetchRequest {
     self.fetchedResultsController = [MRSLActivity MR_fetchAllSortedBy:@"activityID"
                                                             ascending:NO
@@ -102,6 +127,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)refreshContent {
+    [self fetchAPIWithNextPage:NO];
 }
 
 - (void)populateContent {
@@ -152,6 +178,60 @@ NSFetchedResultsControllerDelegate>
     [self displayUser:userSubject];
 }
 
+- (void)appendObjectIDs:(NSArray *)newObjectIDs {
+    self.objectIDs = [self.objectIDs arrayByAddingObjectsFromArray:newObjectIDs];
+}
+
+- (void)prependObjectIDs:(NSArray *)newObjectIDs {
+    self.objectIDs = [newObjectIDs arrayByAddingObjectsFromArray:self.objectIDs];
+}
+
+- (void)loadNextPage {
+    if (!self.stopLoadingNextPage) [self fetchAPIWithNextPage:YES];
+}
+
+- (void)fetchAPIWithNextPage:(BOOL)nextPage {
+    if ([self isLoading] || !self.remoteRequestBlock) return;
+
+    self.loading = YES;
+    __weak typeof(self) weakSelf = self;
+    self.remoteRequestBlock((nextPage ? [self maxID] : nil), (nextPage ? nil : [self sinceID]), nil, ^(NSArray *objectIDs, NSError *error) {
+        if ([objectIDs count] > 0) {
+            //  If no data has been loaded or the first new objectID doesn't already exist
+            if ([weakSelf.dataSource count] == 0 || ![[objectIDs firstObject] isEqualToNumber:[weakSelf.objectIDs firstObject]]) {
+                if (nextPage)
+                    [weakSelf appendObjectIDs:[objectIDs copy]];
+                else
+                    [weakSelf prependObjectIDs:[objectIDs copy]];
+                [weakSelf setupFetchRequest];
+                [weakSelf populateContent];
+            }
+        } else if (nextPage) {
+            //  Reached the end, stop loading nextPage
+            weakSelf.stopLoadingNextPage = YES;
+        }
+        [weakSelf.refreshControl endRefreshing];
+        weakSelf.loading = NO;
+    });
+}
+
+- (NSNumber *)maxID {
+    if ([self.objectIDs count] > 0) {
+        return @([[self.objectIDs lastObject] integerValue] - 1);
+    } else {
+        return nil;
+    }
+}
+
+- (NSNumber *)sinceID {
+    if ([self.objectIDs count] > 0) {
+        return [self.objectIDs firstObject];
+    } else {
+        return nil;
+    }
+}
+
+
 #pragma mark - MRSLTableViewDataSourceDelegate
 
 - (void)tableViewDataSource:(UITableView *)tableView
@@ -174,6 +254,14 @@ NSFetchedResultsControllerDelegate>
 
 - (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
     return 80.f;
+}
+
+- (void)tableViewDataSourceScrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat currentOffset = scrollView.contentOffset.y;
+    CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    if (maximumOffset - currentOffset <= 10.f) {
+        [self loadNextPage];
+    }
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

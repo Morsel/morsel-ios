@@ -15,7 +15,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" id="Wg3-jh-dBZ" customClass="MRSLSegmentedButtonView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="0BB-b0-pK3" customClass="MRSLColoredBackgroundToggleButton">
                                         <rect key="frame" x="0.0" y="0.0" width="108" height="50"/>

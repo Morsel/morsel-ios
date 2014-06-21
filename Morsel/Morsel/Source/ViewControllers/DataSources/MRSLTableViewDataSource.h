@@ -24,6 +24,8 @@ typedef UITableViewCell *(^MRSLCellConfigureBlock)(id item, UITableView *tableVi
 - (CGFloat)tableViewDataSource:(UITableView *)tableView
    heightForItemAtIndexPath:(NSIndexPath *)indexPath;
 
+- (void)tableViewDataSourceScrollViewDidScroll:(UIScrollView *)scrollView;
+
 @end
 
 @interface MRSLTableViewDataSource : MRSLDataSource
