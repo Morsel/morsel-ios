@@ -40,6 +40,10 @@ UITableViewDelegate>
                                                  name:MRSLUserDidPublishMorselNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(presentFeed)
+                                                 name:MRSLServiceDidLogInUserNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayUserInformation)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
@@ -114,7 +118,6 @@ UITableViewDelegate>
     MRSLUser *currentUser = [MRSLUser currentUser];
     self.profileImageView.user = currentUser;
     self.userNameLabel.text = [currentUser fullName];
-    [self presentFeed];
 }
 
 - (void)clearUserInformation {

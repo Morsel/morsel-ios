@@ -46,7 +46,7 @@ NSFetchedResultsControllerDelegate>
 
     self.title = (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Drafts" : @"Published";
 
-    self.userMorsels = [NSMutableArray array];
+    self.userMorsels = [NSArray array];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     _refreshControl.tintColor = [UIColor morselLightContent];
