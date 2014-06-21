@@ -41,9 +41,6 @@ MRSLMenuViewControllerDelegate>
 
 @property (nonatomic) UIStatusBarStyle currentStatusBarStyle;
 
-@property (strong, nonatomic) NSMutableArray *navigationControllers;
-@property (strong, nonatomic) UIViewController *currentViewController;
-
 @property (weak, nonatomic) IBOutlet UIView *menuContainerView;
 @property (weak, nonatomic) IBOutlet UIView *rootContainerView;
 
@@ -61,7 +58,6 @@ MRSLMenuViewControllerDelegate>
     self.shouldCheckForUser = YES;
     self.currentStatusBarStyle = UIStatusBarStyleDefault;
 
-    self.navigationControllers = [NSMutableArray array];
     self.menuViewController = [self.childViewControllers lastObject];
     self.menuViewController.delegate = self;
 
@@ -95,10 +91,6 @@ MRSLMenuViewControllerDelegate>
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(logUserOut)
                                                  name:MRSLServiceShouldLogOutUserNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(userLoggedIn:)
-                                                 name:MRSLServiceDidLogInUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(toggleMenu)
@@ -152,10 +144,6 @@ MRSLMenuViewControllerDelegate>
 }
 
 #pragma mark - Notification Methods
-
-- (void)userLoggedIn:(NSNotification *)notification {
-    [self syncDataAndPresentFeed];
-}
 
 - (void)keyboardWillShow {
     self.keyboardOpen = YES;
@@ -254,43 +242,21 @@ MRSLMenuViewControllerDelegate>
                                                 withAnimation:UIStatusBarAnimationSlide];
     }
     [self displaySignUpAnimated:YES];
-
-    [_navigationControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
-        [viewController removeFromParentViewController];
-        [viewController.view removeFromSuperview];
-    }];
-    [_navigationControllers removeAllObjects];
+    [self removeChildNavigationControllers];
     [_appDelegate resetDataStore];
 }
 
 #pragma mark - Private Methods
 
-- (UINavigationController *)getNavControllerWithClass:(Class)class {
-    __block UINavigationController *foundNC = nil;
-
-    [_navigationControllers enumerateObjectsUsingBlock:^(UINavigationController *navigationController, NSUInteger idx, BOOL *stop) {
-        if ([navigationController isKindOfClass:[UINavigationController class]]) {
-            if ([navigationController.viewControllers count] > 0) {
-                if ([[navigationController.viewControllers objectAtIndex:0] isKindOfClass:class]) {
-                    foundNC = navigationController;
-                    *stop = YES;
-                }
-            }
+- (void)removeChildNavigationControllers {
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UINavigationController *navController, NSUInteger idx, BOOL *stop) {
+        if ([navController isKindOfClass:[UINavigationController class]]) {
+            [navController setViewControllers:nil];
+            [navController willMoveToParentViewController:nil];
+            [navController.view removeFromSuperview];
+            [navController removeFromParentViewController];
         }
     }];
-
-    return foundNC;
-}
-
-- (void)syncDataAndPresentFeed {
-    if ([UIApplication sharedApplication].statusBarHidden) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO
-                                                withAnimation:UIStatusBarAnimationSlide];
-    }
-    [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
-                                                  andStoryboardPrefix:@"Feed"];
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
 }
 
 - (void)displaySignUpAnimated:(BOOL)animated {
@@ -302,45 +268,27 @@ MRSLMenuViewControllerDelegate>
 }
 
 - (void)toggleMenu {
-    if (_keyboardOpen) return;
+    if (_keyboardOpen) [self.view endEditing:YES];
+    self.isMenuOpen = ([self.rootContainerView getX] > 0.f);
     [UIView animateWithDuration:.2f
                           delay:0.f
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          [_rootContainerView setX:(_isMenuOpen) ? 0.f : 270.f];
-    } completion:nil];
+                     } completion:nil];
     [self.rootContainerView setUserInteractionEnabled:_isMenuOpen];
     self.isMenuOpen = !_isMenuOpen;
 }
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
                                                 andStoryboardPrefix:(NSString *)storyboardPrefixName {
-    Class viewControllerClass = NSClassFromString([NSString stringWithFormat:@"MRSL%@ViewController", classPrefixName]);
-    UINavigationController *viewControllerNC = [self getNavControllerWithClass:[viewControllerClass class]];
-
-    if (!viewControllerNC) {
-        UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@_iPhone", storyboardPrefixName]
-                                                                   bundle:nil];
-        viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:[NSString stringWithFormat:@"%@_%@", @"sb", classPrefixName]];
-        [self.navigationControllers addObject:viewControllerNC];
-    }
-
-    if ([_currentViewController isEqual:viewControllerNC]) {
-        UINavigationController *navController = (UINavigationController *)self.currentViewController;
-        [navController popToRootViewControllerAnimated:YES];
-    } else {
-        [_currentViewController removeFromParentViewController];
-        [_currentViewController.view removeFromSuperview];
-        if (![[[(UINavigationController *)_currentViewController viewControllers] firstObject] isKindOfClass:[MRSLFeedViewController class]]) {
-            [_navigationControllers removeObject:_currentViewController];
-        }
-        self.currentViewController = nil;
-
-        [self addChildViewController:viewControllerNC];
-        [self.rootContainerView addSubview:viewControllerNC.view];
-
-        self.currentViewController = viewControllerNC;
-    }
+    UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@_iPhone", storyboardPrefixName]
+                                                               bundle:nil];
+    UINavigationController *viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:[NSString stringWithFormat:@"%@_%@", @"sb", classPrefixName]];
+    [self removeChildNavigationControllers];
+    [self addChildViewController:viewControllerNC];
+    [self.rootContainerView addSubview:viewControllerNC.view];
+    [viewControllerNC didMoveToParentViewController:self];
 }
 
 #pragma mark - MRSLMenuViewControllerDelegate
@@ -365,16 +313,16 @@ MRSLMenuViewControllerDelegate>
         CASE(MRSLMenuFeedKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Feed"}];
-            if (self.presentedViewController) {
-                [self dismissViewControllerAnimated:YES
-                                         completion:nil];
-            }
             if ([UIApplication sharedApplication].statusBarHidden) {
                 [[UIApplication sharedApplication] setStatusBarHidden:NO
                                                         withAnimation:UIStatusBarAnimationSlide];
             }
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
                                                           andStoryboardPrefix:@"Feed"];
+            if (self.presentedViewController) {
+                [self dismissViewControllerAnimated:YES
+                                         completion:nil];
+            }
             break;
         }
         CASE(MRSLMenuNotificationsKey) {
@@ -474,7 +422,7 @@ MRSLMenuViewControllerDelegate>
         [self.rootContainerView setX:(panX > 0 && panX <= 270.f) ? panX : ((panX <= 0) ? 0 : 270.f)];
     }
     if ((panRecognizer.state == UIGestureRecognizerStateEnded ||
-        panRecognizer.state == UIGestureRecognizerStateCancelled)) {
+         panRecognizer.state == UIGestureRecognizerStateCancelled)) {
         if (_shouldRespondToPan) {
             CGFloat percentOpen = [self.rootContainerView getX] / [self.view getWidth];
             CGFloat velocityX = [panRecognizer velocityInView:self.view].x;
