@@ -83,10 +83,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
 
     if (!_user) self.user = [MRSLUser currentUser];
 
-    if (![_user isChef]) {
-        self.dataSourceTabType = MRSLDataSourceTypeActivityItem;
-    }
-
     [self loadObjectIDs];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -115,8 +111,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                                                                                                 withReuseIdentifier:@"ruid_HeaderCell"
                                                                                                                                                                                        forIndexPath:indexPath];
 
-                                                                                                                              [(MRSLSegmentedHeaderReusableView *)reusableView setShouldDisplayChefTabs:[weakSelf.user isChef]];
                                                                                                                               [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
+                                                                                                                              [(MRSLSegmentedHeaderReusableView *)reusableView setShouldDisplayProfessionalTabs:[weakSelf.user isProfessional]];
                                                                                                                           } else {
                                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                                                                                                                                 withReuseIdentifier:@"ruid_HeaderCell"
@@ -152,8 +148,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [super viewWillAppear:animated];
 
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-
-    [self refreshContent];
 }
 
 - (void)setUser:(MRSLUser *)user {
@@ -187,14 +181,17 @@ MRSLSegmentedHeaderReusableViewDelegate>
 }
 
 - (void)loadObjectIDs {
-    NSString *objectIDsKey = [NSString stringWithFormat:@"%@_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
-    self.objectIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:objectIDsKey] ?: [NSMutableArray array];
+    self.objectIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[self objectIDsKey]] ?: [NSMutableArray array];
 }
 
 - (void)updateDataSourcePredicate {
     NSString *predicateString = [NSString stringWithFormat:@"%@ID", [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
     [self.segmentedPanelCollectionViewDataSource updateFetchRequestWithManagedObjectClass:[MRSLUtil classForDataSourceType:_dataSourceTabType]
                                                                             withPredicate:[NSPredicate predicateWithFormat:@"%K IN %@", predicateString, _objectIDs]];
+}
+
+- (NSString *)objectIDsKey {
+    return [NSString stringWithFormat:@"%@_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
 }
 
 - (void)refreshContent {
@@ -211,7 +208,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                      [weakSelf.refreshControl endRefreshing];
                                      weakSelf.objectIDs = [responseArray mutableCopy];
                                      [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                               forKey:[NSString stringWithFormat:@"%@_%@IDs", weakSelf.user.username, [MRSLUtil stringForDataSourceType:weakSelf.dataSourceTabType]]];
+                                                                               forKey:[weakSelf objectIDsKey]];
                                      [weakSelf updateDataSourcePredicate];
                                      weakSelf.refreshing = NO;
                                  } failure:^(NSError *error) {
@@ -236,7 +233,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                          if ([responseArray count] > 0) {
                                              [weakSelf.objectIDs addObjectsFromArray:responseArray];
                                              [[NSUserDefaults standardUserDefaults] setObject:weakSelf.objectIDs
-                                                                                       forKey:[NSString stringWithFormat:@"%@_%@IDs", weakSelf.user.username, [MRSLUtil stringForDataSourceType:weakSelf.dataSourceTabType]]];
+                                                                                       forKey:[self objectIDsKey]];
                                              dispatch_async(dispatch_get_main_queue(), ^{
                                                  [weakSelf updateDataSourcePredicate];
                                              });

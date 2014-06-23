@@ -26,7 +26,7 @@
                                                                           target:self
                                                                           action:@selector(displayMenuBar)];
             [self.navigationItem setLeftBarButtonItem:menuButton];
-            if ([[MRSLUser currentUser] isChef]) {
+            if ([[MRSLUser currentUser] isProfessional]) {
                 UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Add"
                                                                               style:UIBarButtonItemStyleBordered
                                                                              target:self

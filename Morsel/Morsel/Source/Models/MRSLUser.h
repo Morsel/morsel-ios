@@ -9,19 +9,16 @@
 + (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID;
 + (void)refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil failure:(MRSLFailureBlock)failureOrNil;
 + (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldMorselNotification:(BOOL)shouldMorselNotifications;
++ (void)updateCurrentUserToProfessional;
 + (void)resetThirdPartySettings;
 
 - (BOOL)isCurrentUser;
-- (BOOL)isChef;
+- (BOOL)isProfessional;
 - (BOOL)shouldTrack;
 - (NSString *)fullName;
 - (NSString *)displayName;
 - (NSString *)fullNameOrTwitterHandle;
-- (NSString *)industryTypeName;
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type;
-
-- (MRSLIndustryType)industryTypeEnum;
-- (void)setIndustryTypeEnum:(MRSLIndustryType)type;
 
 - (void)setThirdPartySettings;
 

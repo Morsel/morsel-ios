@@ -19,9 +19,9 @@
 
 @implementation MRSLSegmentedHeaderReusableView
 
-- (void)setShouldDisplayChefTabs:(BOOL)shouldDisplayChefTabs {
-    _shouldDisplayChefTabs = shouldDisplayChefTabs;
-    self.buttonView.shouldDisplayChefTabs = _shouldDisplayChefTabs;
+- (void)setShouldDisplayProfessionalTabs:(BOOL)shouldDisplayProfessionalTabs {
+    _shouldDisplayProfessionalTabs = shouldDisplayProfessionalTabs;
+    self.buttonView.shouldDisplayProfessionalTabs = _shouldDisplayProfessionalTabs;
 }
 
 #pragma mark - MRSLSegmentedButtonViewDelegate

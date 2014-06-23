@@ -44,6 +44,7 @@ PODS:
   - Kiwi/XCTest (HEAD based on 2.2.3):
     - Kiwi/ARC
     - Kiwi/NonARC
+  - M13Checkbox (1.1.0)
   - MagicalRecord (2.2):
     - MagicalRecord/Core
   - MagicalRecord/Core (2.2)
@@ -72,6 +73,7 @@ DEPENDENCIES:
   - JLRoutes (~> 1.5)
   - Kiwi-KIF/XCTest (~> 1.0.1)
   - Kiwi/XCTest (HEAD)
+  - M13Checkbox (from `git@github.com:Marxon13/M13Checkbox.git`, commit `8c3a6f167e0f602dd47928492ef3777e604be66b`)
   - MagicalRecord (~> 2.2)
   - Mixpanel (~> 2.3.1)
   - NSDate+TimeAgo (~> 1.0.2)
@@ -89,6 +91,9 @@ EXTERNAL SOURCES:
   GPUImage:
     :git: git@github.com:BradLarson/GPUImage.git
     :tag: 0.1.5
+  M13Checkbox:
+    :commit: 8c3a6f167e0f602dd47928492ef3777e604be66b
+    :git: git@github.com:Marxon13/M13Checkbox.git
 
 SPEC CHECKSUMS:
   AFNetworking: a4d0e9a64de9242986620dafd1b3cee3b413ac5c
@@ -105,6 +110,7 @@ SPEC CHECKSUMS:
   KIF: 45369d4a30f5ac140be8267f31f637b9d2a239f4
   Kiwi: 7b9bc7294de746357213067a1df49cc0a59384e8
   Kiwi-KIF: c8731acc48d55258ca39810868043d88fc467848
+  M13Checkbox: 4223ca1325bd4fefacf92ae616eb52341a98dce0
   MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
   Mixpanel: 9cc470a58346f60da8ce2982096bcc72b5a7372b
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548

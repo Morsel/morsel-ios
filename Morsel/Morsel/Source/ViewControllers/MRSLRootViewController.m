@@ -77,6 +77,10 @@ MRSLMenuViewControllerDelegate>
                                                  name:MRSLAppShouldDisplayUserProfileNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayProfessionalSettings:)
+                                                 name:MRSLAppShouldDisplayProfessionalSettingsNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayWebBrowser:)
                                                  name:MRSLAppShouldDisplayWebBrowserNotification
                                                object:nil];
@@ -171,6 +175,13 @@ MRSLMenuViewControllerDelegate>
     UINavigationController *baseNC = notification.object;
     MRSLBaseViewController *baseVC = (MRSLBaseViewController *)[[baseNC viewControllers] firstObject];
     [self presentBaseViewController:baseVC withContainingNavigationController:baseNC];
+}
+
+- (void)displayProfessionalSettings:(NSNotification *)notification {
+    UINavigationController *professionalSettingsNC = [[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfessionalSettings"];
+    MRSLBaseViewController *professionalSettingsVC = (MRSLBaseViewController *)[[professionalSettingsNC viewControllers] firstObject];
+    if (notification.object) [professionalSettingsVC setupWithUserInfo:notification.object];
+    [self presentBaseViewController:professionalSettingsVC withContainingNavigationController:professionalSettingsNC];
 }
 
 - (void)displayUserProfile:(NSNotification *)notification {

@@ -12,6 +12,7 @@
 
 #import "MRSLAPIService+Registration.h"
 
+#import "MRSLCheckbox.h"
 #import "MRSLLightButton.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLValidationStatusView.h"
@@ -41,6 +42,7 @@ UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UIButton *addPhotoButton;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
+@property (weak, nonatomic) IBOutlet MRSLCheckbox *proCheckbox;
 
 @property (strong, nonatomic) MRSLSocialAuthentication *socialAuthentication;
 
@@ -85,6 +87,8 @@ UITextFieldDelegate>
             });
         });
     }
+
+    [self.proCheckbox.titleLabel setText:@"I am a professional chef, sommelier, mixologist, etc."];
 
     self.scrollViewHeight = [self.contentScrollView getHeight];
     [self.contentScrollView setContentSize:CGSizeMake([self.contentScrollView getWidth], ([_continueButton getHeight] + [_continueButton getY] + 20.f))];
@@ -186,6 +190,7 @@ UITextFieldDelegate>
     user.last_name = _lastNameField.text;
     user.username = _usernameField.text;
     user.email = _emailField.text;
+    user.professional = @(_proCheckbox.checkState);
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         UIImage *profileImageFull = [_originalProfileImage thumbnailImage:_originalProfileImage.size.width
@@ -197,6 +202,7 @@ UITextFieldDelegate>
         user.profilePhotoLarge = UIImageJPEGRepresentation(profileImageLarge, 1.f);
         user.profilePhotoThumb = UIImageJPEGRepresentation(profileImageThumb, 1.f);
 
+        __weak __typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             user.profilePhotoFull = UIImageJPEGRepresentation(profileImageFull, 1.f);
 
@@ -204,8 +210,17 @@ UITextFieldDelegate>
                                    withPassword:_userConnectedWithSocial ? nil : _passwordField.text
                               andAuthentication:_socialAuthentication
                                         success:^(id responseObject) {
-                                            [self performSegueWithIdentifier:@"seg_DisplayFinalizeSignUp"
-                                                                      sender:nil];
+                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+                                                                                                    object:nil];
+
+                                                if ([weakSelf.proCheckbox checkState]) {
+                                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayProfessionalSettingsNotification
+                                                                                                            object:nil];
+                                                    });
+                                                }
+                                            });
                                         } failure:^(NSError *error) {
                                             self.activityView.hidden = YES;
                                             [self.continueButton setEnabled:YES];
@@ -377,7 +392,7 @@ UITextFieldDelegate>
     } else {
         CGRect centeredFrame = textField.frame;
         centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-        
+
         [self.contentScrollView scrollRectToVisible:centeredFrame
                                            animated:YES];
         if ([textField isEqual:_usernameField]) {

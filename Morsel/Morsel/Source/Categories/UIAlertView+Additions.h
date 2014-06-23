@@ -34,4 +34,7 @@
 + (UIAlertView *)showAlertViewForErrorString:(NSString *)errorString
                                     delegate:(id /*<UIAlertViewDelegate>*/)delegate;
 
++ (UIAlertView *)showOKAlertViewWithTitle:(NSString *)title
+                                  message:(NSString *)message;
+
 @end

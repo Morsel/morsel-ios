@@ -17,7 +17,7 @@
 
 @interface MRSLSegmentedHeaderReusableView : UICollectionReusableView
 
-@property (nonatomic) BOOL shouldDisplayChefTabs;
+@property (nonatomic) BOOL shouldDisplayProfessionalTabs;
 
 @property (weak, nonatomic) id <MRSLSegmentedHeaderReusableViewDelegate> delegate;
 

@@ -59,15 +59,17 @@
                                                                                      object:nil];
 }
 
-+(NSSet *)keyPathsForValuesAffectingIndustryTypeEnum {
-    return [NSSet setWithObject:@"industryType"];
++ (void)updateCurrentUserToProfessional {
+    [_appDelegate.apiService updateCurrentUserToProfessional:YES
+                                                     success:nil
+                                                     failure:nil];
 }
 
 + (void)resetThirdPartySettings {
     [[Rollbar currentConfiguration] setPersonId:nil
                                        username:nil
                                           email:nil];
-    
+
     [[Mixpanel sharedInstance] identify:nil];
 }
 
@@ -78,21 +80,13 @@
     return ([currentUserID intValue] == self.userIDValue);
 }
 
-- (BOOL)isChef {
-    return (self.industryTypeEnum == MRSLIndustryTypeChef);
+- (BOOL)isProfessional {
+    return self.professionalValue;
 }
 
 - (BOOL)shouldTrack {
     // This still allows anonymous tracking to appear before a user signs in
     return !self.staffValue;
-}
-
-- (MRSLIndustryType)industryTypeEnum {
-    return (MRSLIndustryType)[self industryTypeValue];
-}
-
-- (void)setIndustryTypeEnum:(MRSLIndustryType)type {
-    [self setIndustryType:[NSNumber numberWithInt:type]];
 }
 
 - (void)setThirdPartySettings {
@@ -114,22 +108,6 @@
 
 - (NSString *)fullNameOrTwitterHandle {
     return (self.twitter_username) ? [NSString stringWithFormat:@"@%@", self.twitter_username] : self.fullName;
-}
-
-- (NSString *)industryTypeName {
-    switch (self.industryTypeEnum) {
-        case MRSLIndustryTypeChef:
-            return @"chef";
-            break;
-        case MRSLIndustryTypeMedia:
-            return @"media";
-            break;
-        case MRSLIndustryTypeDiner:
-            return @"diner";
-            break;
-        default:
-            break;
-    }
 }
 
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
@@ -182,16 +160,6 @@
             self.auto_follow = @([data[@"settings"][@"auto_follow"] boolValue]);
         }
     }
-    if (![data[@"industry"] isEqual:[NSNull null]]) {
-        NSString *industry = data[@"industry"];
-        if ([industry isEqualToString:@"diner"]) {
-            self.industryType = @(MRSLIndustryTypeDiner);
-        } else if ([industry isEqualToString:@"media"]) {
-            self.industryType = @(MRSLIndustryTypeMedia);
-        } else {
-            self.industryType = @(MRSLIndustryTypeChef);
-        }
-    }
     if (self.profilePhotoFull) self.profilePhotoFull = nil;
 }
 
@@ -209,6 +177,8 @@
     if (self.bio) [objectInfoJSON setObject:self.bio
                                      forKey:@"bio"];
 
+    if (self.professionalValue) [objectInfoJSON setObject:self.professional
+                                                   forKey:@"professional"];
     return objectInfoJSON;
 }
 

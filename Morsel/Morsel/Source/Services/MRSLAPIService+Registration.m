@@ -121,28 +121,6 @@
                            }];
 }
 
-- (void)updateUserIndustry:(MRSLUser *)user
-                   success:(MRSLAPISuccessBlock)successOrNil
-                   failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user": @{@"industry": NSNullIfNil(user.industryTypeName)}}
-                                                includingMRSLObjects:nil
-                                              requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"users/%i/updateindustry", user.userIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  if (successOrNil) successOrNil(responseObject);
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  if ([operation.response statusCode] == 200) {
-                                      if (successOrNil) successOrNil(nil);
-                                  } else {
-                                      [self reportFailure:failureOrNil
-                                             forOperation:operation
-                                                withError:error
-                                                 inMethod:NSStringFromSelector(_cmd)];
-                                  }
-                              }];
-}
-
 - (void)forgotPasswordWithEmail:(NSString *)emailAddress
                         success:(MRSLAPISuccessBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil {

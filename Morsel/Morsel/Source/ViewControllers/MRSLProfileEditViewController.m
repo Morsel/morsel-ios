@@ -64,7 +64,7 @@ MRSLProfileUserTagsListViewControllerDelegate>
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-    if ([[MRSLUser currentUser] isChef]) {
+    if ([[MRSLUser currentUser] isProfessional]) {
         self.editSections = @[@"Basics", @"Places", @"Social", @"Tags", @"Security"];
     } else {
         self.editSections = @[@"Basics", @"Social", @"Security"];
