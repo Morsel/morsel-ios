@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Item.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
@@ -173,6 +175,7 @@
                                                                                                   if (item.managedObjectContext) {
                                                                                                       item.isUploading = @NO;
                                                                                                       item.itemID = responseObject[@"data"][@"id"];
+                                                                                                      item.itemPhotoFull = nil;
                                                                                                       [item MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                                                                                       [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
                                                                                                   }

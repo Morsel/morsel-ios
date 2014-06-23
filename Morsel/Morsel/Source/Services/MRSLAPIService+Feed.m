@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Feed.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLMorsel.h"
 
 @implementation MRSLAPIService (Feed)

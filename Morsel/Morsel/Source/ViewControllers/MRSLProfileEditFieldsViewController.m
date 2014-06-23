@@ -48,13 +48,6 @@ UIAlertViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self.firstNameField setBorderWithColor:[UIColor morselLightContent]
-                                   andWidth:1.f];
-    [self.lastNameField setBorderWithColor:[UIColor morselLightContent]
-                                  andWidth:1.f];
-    [self.bioTextView setBorderWithColor:[UIColor morselLightContent]
-                                andWidth:1.f];
-
     self.scrollViewHeight = [_contentScrollView getHeight];
     [self.contentScrollView setContentSize:CGSizeMake([_contentScrollView getWidth], (CGRectGetMaxY(_bioTextView.frame) + 20.f))];
 
@@ -126,8 +119,7 @@ UIAlertViewDelegate>
                                      andWidth:2.f];
             fieldsFilled = NO;
         } else {
-            [requiredField setBorderWithColor:[UIColor morselLightContent]
-                                     andWidth:1.f];
+            [requiredField removeBorder];
         }
     }
 

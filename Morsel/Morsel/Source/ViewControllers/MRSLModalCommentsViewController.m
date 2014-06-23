@@ -185,9 +185,9 @@ NSFetchedResultsControllerDelegate>
     if (fetchError) {
         DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
     }
-    [self.commentsTableView performSelectorOnMainThread:@selector(reloadData)
-                                             withObject:nil
-                                          waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.commentsTableView reloadData];
+    });
 }
 
 #pragma mark - UITextViewDelegate Methods

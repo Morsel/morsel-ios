@@ -15,6 +15,7 @@
 #import "MRSLItem.h"
 
 @interface MRSLMorselEditItemTableViewCell ()
+<MRSLItemImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *itemThumbnail;
 
@@ -29,10 +30,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-
-    UITapGestureRecognizer *imageTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayImagePreview)];
-    [_itemThumbnail addGestureRecognizer:imageTapRecognizer];
-
     UITapGestureRecognizer *textTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayTextEdit)];
     [_itemDescription addGestureRecognizer:textTapRecognizer];
 }
@@ -49,6 +46,7 @@
         _itemDescription.textColor = [UIColor morselDarkContent];
     }
     _itemThumbnail.item = _item;
+    _itemThumbnail.delegate = self;
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
@@ -71,12 +69,6 @@
 }
 
 #pragma mark - Action Methods
-
-- (void)displayImagePreview {
-    if ([self.delegate respondsToSelector:@selector(morselEditItemCellDidSelectImagePreview:)]) {
-        [self.delegate morselEditItemCellDidSelectImagePreview:_item];
-    }
-}
 
 - (void)displayTextEdit {
     if ([self.delegate respondsToSelector:@selector(morselEditItemCellDidSelectEditText:)]) {
@@ -123,6 +115,14 @@
     self.itemDescription.text = nil;
 
     _itemDescription.textColor = [UIColor morselLightContent];
+}
+
+#pragma mark - MRSLItemImageViewDelegate
+
+- (void)itemImageViewDidSelectItem:(MRSLItem *)item {
+    if ([self.delegate respondsToSelector:@selector(morselEditItemCellDidSelectImagePreview:)]) {
+        [self.delegate morselEditItemCellDidSelectImagePreview:_item];
+    }
 }
 
 @end

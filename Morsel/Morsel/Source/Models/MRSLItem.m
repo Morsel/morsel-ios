@@ -31,7 +31,7 @@
 
 #pragma mark - Instance Methods
 
-- (NSURLRequest *)itemPictureURLRequestForImageSizeType:(MRSLItemImageSizeType)type {
+- (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
     if (!self.itemPhotoURL) return nil;
 
     BOOL isRetina = ([UIScreen mainScreen].scale == 2.f);
@@ -39,13 +39,13 @@
     NSString *typeSizeString = nil;
 
     switch (type) {
-        case MRSLItemImageSizeTypeLarge:
+        case MRSLImageSizeTypeLarge:
             typeSizeString = (isRetina) ? @"_640x640" : @"_320x320";
             break;
-        case MRSLItemImageSizeTypeThumbnail:
+        case MRSLImageSizeTypeSmall:
             typeSizeString = (isRetina) ? @"_100x100" : @"_50x50";
             break;
-        case MRSLItemImageSizeTypeFull:
+        case MRSLImageSizeTypeFull:
             typeSizeString = @"_640x640";
             break;
         default:
@@ -92,6 +92,18 @@
     return message;
 }
 
+- (NSData *)localImageLarge {
+    return self.itemPhotoCropped;
+}
+
+- (NSData *)localImageSmall {
+    return self.itemPhotoThumb;
+}
+
+- (NSString *)imageURL {
+    return self.itemPhotoURL;
+}
+
 - (void)willImport:(id)data {
     if (![data[@"nonce"] isEqual:[NSNull null]]) {
         MRSLItem *localItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.localUUID
@@ -130,6 +142,11 @@
         NSDictionary *photoDictionary = data[@"photos"];
         self.itemPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
                                                                                     withString:@"IMAGE_SIZE"];
+        if (self.itemPhotoURL && !self.photo_processingValue) {
+            self.itemPhotoCropped = nil;
+            self.itemPhotoThumb = nil;
+            [self.managedObjectContext MR_saveOnlySelfAndWait];
+        }
     }
     if (![data[@"liked_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"liked_at"];

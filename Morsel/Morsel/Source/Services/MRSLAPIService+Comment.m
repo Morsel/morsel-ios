@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Comment.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLComment.h"
 #import "MRSLItem.h"
 

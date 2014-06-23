@@ -65,6 +65,9 @@
 #pragma mark - Action Methods
 
 - (IBAction)done:(id)sender {
+    [self.doneBarButtonItem setEnabled:NO];
+    [self.titlePlaceholderLabel setHidden:YES];
+    [self.view endEditing:YES];
     [[MRSLEventManager sharedManager] track:@"Tapped Done"
                                  properties:@{@"view": @"Add Morsel Title"}];
     if (_isUserEditingTitle) {
@@ -81,6 +84,7 @@
         _morsel.draft = @YES;
         _morsel.title = self.morselTitleTextView.text;
 
+        __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService createMorsel:_morsel
                                           success:^(id responseObject) {
             MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
@@ -92,6 +96,8 @@
             [UIAlertView showAlertViewForErrorString:@"Unable to create Morsel! Please try again."
                                             delegate:nil];
             [_morsel MR_deleteEntity];
+            [weakSelf.doneBarButtonItem setEnabled:YES];
+            [weakSelf.titlePlaceholderLabel setHidden:NO];
         }];
     }
 }

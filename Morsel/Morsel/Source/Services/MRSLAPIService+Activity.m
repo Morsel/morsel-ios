@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Activity.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLActivity.h"
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"

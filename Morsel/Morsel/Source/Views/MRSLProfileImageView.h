@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MRSLImageView.h"
+
 @class MRSLUser;
 
-@interface MRSLProfileImageView : UIImageView
-
-@property (nonatomic) BOOL shouldBlur;
+@interface MRSLProfileImageView : MRSLImageView
 
 @property (weak, nonatomic) MRSLUser *user;
 

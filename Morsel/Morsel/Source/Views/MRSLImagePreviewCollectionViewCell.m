@@ -8,8 +8,6 @@
 
 #import "MRSLImagePreviewCollectionViewCell.h"
 
-#import <AFNetworking/AFNetworking.h>
-
 #import "MRSLItemImageView.h"
 
 #import "MRSLMediaItem.h"

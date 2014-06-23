@@ -1,10 +1,12 @@
 #import "_MRSLItem.h"
 
-@interface MRSLItem : _MRSLItem
+#import "MRSLImageRequestable.h"
+
+@interface MRSLItem : _MRSLItem <MRSLImageRequestable>
 
 + (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context;
 
-- (NSURLRequest *)itemPictureURLRequestForImageSizeType:(MRSLItemImageSizeType)type;
+- (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type;
 
 - (NSString *)socialMessage;
 

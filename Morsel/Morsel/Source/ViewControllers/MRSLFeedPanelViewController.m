@@ -57,10 +57,9 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
-    if (_morsel != morsel) {
-        _morsel = morsel;
-        [self displayContent];
-    }
+    DDLogDebug(@"Morsel for Collection View Set: %@", morsel.title);
+    _morsel = morsel;
+    [self displayContent];
 }
 
 #pragma mark - Notification Methods

@@ -8,6 +8,8 @@
 
 #import "MRSLProfileViewController.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Profile.h"
 #import "MRSLAPIService+Router.h"

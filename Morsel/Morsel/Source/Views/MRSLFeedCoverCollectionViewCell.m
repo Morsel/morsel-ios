@@ -54,10 +54,8 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
-    if (_morsel != morsel) {
-        _morsel = morsel;
-        [self populateContent];
-    }
+    _morsel = morsel;
+    [self populateContent];
 }
 
 #pragma mark - Action Methods
@@ -107,8 +105,8 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
             _placeCityStateLabel.text = [NSString stringWithFormat:@"%@, %@", _morsel.place.city, _morsel.place.state];
 
             CGSize textSize = [_placeNameLabel.text sizeWithFont:_placeNameLabel.font
-                                                constrainedToSize:CGSizeMake([_placeNameLabel getWidth], CGFLOAT_MAX)
-                                                    lineBreakMode:NSLineBreakByWordWrapping];
+                                               constrainedToSize:CGSizeMake([_placeNameLabel getWidth], CGFLOAT_MAX)
+                                                   lineBreakMode:NSLineBreakByWordWrapping];
 
             if (textSize.height > MRSLPlaceHeightLimit) {
                 [_placeNameLabel setHeight:MRSLPlaceHeightLimit];

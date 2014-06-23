@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Like.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"

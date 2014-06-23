@@ -104,6 +104,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];
+    [self resetCollectionViewWidth];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -364,12 +365,21 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(320.f, [UIDevice has35InchScreen] ? 416.f : 504.f);
+    return CGSizeMake((indexPath.row == [self.feedMorsels count] - 1) ? 321.f : 320.f, [UIDevice has35InchScreen] ? 416.f : 504.f);
 }
 
 #pragma mark - UIScrollViewDelegate
 
+/*
+ Note: The collection view for the feed is initially set with a width of 321 to force the next cell to display. Upon initial scrolling, the width is set to 320 to ensure the page size is calculated properly. This ensures that when the user dragging (or animation) ends, the cell will land on a multiple of 320 (as opposed to 321). The last cell displayed, however, has it's content size adjusted to 321 to avoid a unique case that causes a 1 pixel overflow on the left side.
+*/
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.feedCollectionView setWidth:320.f];
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.feedCollectionView setWidth:320.f];
     int currentPage = scrollView.contentOffset.x / scrollView.frame.size.width;
     if ((currentPage >= [_feedMorsels count] - 3 && !_loadingMore) || (currentPage == [_feedMorsels count] - 1)) {
         [self loadMore];
@@ -414,6 +424,22 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                                       @"morsels_viewed": NSNullIfNil(@([_viewedMorsels count]))}];
         }
     }
+    [self resetCollectionViewWidth];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) [self resetCollectionViewWidth];
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    [self resetCollectionViewWidth];
+}
+
+- (void)resetCollectionViewWidth {
+    [self.feedCollectionView setWidth:321.f];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.feedCollectionView setWidth:320.f];
+    });
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

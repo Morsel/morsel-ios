@@ -44,8 +44,6 @@ UITextViewDelegate>
     self.industries = @[@"Restaurant Professional", @"Media", @"Diner"];
     self.industryTypes = @[@(MRSLIndustryTypeChef), @(MRSLIndustryTypeMedia), @(MRSLIndustryTypeDiner)];
 
-    [self.bioTextView setBorderWithColor:[UIColor morselLightContent]
-                                andWidth:1.f];
     self.bioTextView.placeholder = @"Southern food fanatic, love bacon and a good bourbon.";
     self.bioTextView.placeholderColor = [UIColor morselLightContent];
 }

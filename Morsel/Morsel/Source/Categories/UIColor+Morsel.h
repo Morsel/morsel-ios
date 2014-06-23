@@ -16,5 +16,6 @@
 + (UIColor *)morselDarkContent;
 + (UIColor *)morselLightContent;
 + (UIColor *)morselLightOffColor;
++ (UIColor *)morselPlaceholderColor;
 
 @end
