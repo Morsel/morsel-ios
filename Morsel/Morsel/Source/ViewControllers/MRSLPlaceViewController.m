@@ -336,7 +336,15 @@ MRSLSegmentedHeaderReusableViewDelegate>
     placeDetailVC.place = _place;
     [self.navigationController pushViewController:placeDetailVC
                                          animated:YES];
-    
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
+    [self.collectionView removeFromSuperview];
+    self.collectionView = nil;
 }
 
 @end

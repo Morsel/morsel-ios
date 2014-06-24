@@ -216,4 +216,13 @@ UITableViewDelegate>
     }
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.menuTableView.dataSource = nil;
+    self.menuTableView.delegate = nil;
+    [self.menuTableView removeFromSuperview];
+    self.menuTableView = nil;
+}
+
 @end

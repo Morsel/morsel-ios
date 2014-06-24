@@ -144,4 +144,13 @@ UITextViewDelegate>
     [MRSLUser currentUser].industryTypeEnum = [[_industryTypes objectAtIndex:indexPath.row] integerValue];
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+    [self.tableView removeFromSuperview];
+    self.tableView = nil;
+}
+
 @end

@@ -528,13 +528,15 @@ MRSLCapturePreviewsViewControllerDelegate>
                 [[NSNotificationCenter defaultCenter] removeObserver:self
                                                                 name:AVCaptureDeviceSubjectAreaDidChangeNotification
                                                               object:[self.videoDeviceInput device]];
-
                 [[NSNotificationCenter defaultCenter] removeObserver:[self runtimeErrorHandlingObserver]];
-
-                [self removeObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized"
+                [[NSNotificationCenter defaultCenter] removeObserver:self.session];
+                [[NSNotificationCenter defaultCenter] removeObserver:self];
+                [self removeObserver:self
+                          forKeyPath:@"sessionRunningAndDeviceAuthorized"
                              context:SessionRunningAndDeviceAuthorizedContext];
 
-                [self removeObserver:self forKeyPath:@"stillImageOutput.capturingStillImage"
+                [self removeObserver:self
+                          forKeyPath:@"stillImageOutput.capturingStillImage"
                              context:CapturingStillImageContext];
             } @catch (NSException *exception) {
                 DDLogError(@"Unable to remove session observers because they do not exist.");
@@ -687,6 +689,7 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
     [self endCameraSession];
     [self.previewView setSession:nil];
     [self.previewView.layer removeFromSuperlayer];
+    self.runtimeErrorHandlingObserver = nil;
     self.videoDeviceInput = nil;
     self.stillImageOutput = nil;
     self.session = nil;

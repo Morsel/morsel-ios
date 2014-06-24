@@ -442,4 +442,13 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [self performSegueWithIdentifier:@"seg_KeywordList" sender:nil];
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.profileCollectionView.delegate = nil;
+    self.profileCollectionView.dataSource = nil;
+    [self.profileCollectionView removeFromSuperview];
+    self.profileCollectionView = nil;
+}
+
 @end

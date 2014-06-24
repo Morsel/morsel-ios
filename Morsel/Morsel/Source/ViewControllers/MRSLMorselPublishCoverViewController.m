@@ -106,4 +106,13 @@ UICollectionViewDelegate>
     self.pageControl.currentPage = page;
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.coverCollectionView.delegate = nil;
+    self.coverCollectionView.dataSource = nil;
+    [self.coverCollectionView removeFromSuperview];
+    self.coverCollectionView = nil;
+}
+
 @end

@@ -188,4 +188,13 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
                                                                                                                    @"url": [NSURL URLWithString:_place.reservations_url]}];
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
+    [self.collectionView removeFromSuperview];
+    self.collectionView = nil;
+}
+
 @end

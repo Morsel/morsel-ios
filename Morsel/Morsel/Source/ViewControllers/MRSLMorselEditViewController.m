@@ -450,4 +450,13 @@ MRSLMorselEditItemTableViewCellDelegate>
     }
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.morselMorselsTableView.dataSource = nil;
+    self.morselMorselsTableView.delegate = nil;
+    [self.morselMorselsTableView removeFromSuperview];
+    self.morselMorselsTableView = nil;
+}
+
 @end

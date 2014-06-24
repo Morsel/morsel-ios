@@ -66,4 +66,13 @@ UITableViewDelegate>
                                          animated:YES];
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.likersTableView.dataSource = nil;
+    self.likersTableView.delegate = nil;
+    [self.likersTableView removeFromSuperview];
+    self.likersTableView = nil;
+}
+
 @end

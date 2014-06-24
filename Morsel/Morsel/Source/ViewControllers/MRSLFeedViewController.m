@@ -98,9 +98,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     [super viewWillAppear:animated];
     MRSLUser *currentUser = [MRSLUser currentUser];
-    if (!currentUser || _feedFetchedResultsController) return;
-
+    if (!currentUser) return;
     [self resumeTimer];
+    if (_feedFetchedResultsController) return;
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];
@@ -109,7 +109,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
     [self suspendTimer];
 }
 
@@ -476,8 +475,16 @@ MRSLFeedPanelCollectionViewCellDelegate>
 #pragma mark - Dealloc
 
 - (void)dealloc {
-    [self suspendTimer];
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
+        [viewController willMoveToParentViewController:nil];
+        [viewController.view removeFromSuperview];
+        [viewController removeFromParentViewController];
+    }];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.feedCollectionView.delegate = nil;
+    self.feedCollectionView.dataSource = nil;
+    [self.feedCollectionView removeFromSuperview];
+    self.feedCollectionView = nil;
 }
 
 @end

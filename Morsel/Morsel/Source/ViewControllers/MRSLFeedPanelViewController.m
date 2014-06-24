@@ -57,7 +57,6 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
-    DDLogDebug(@"Morsel for Collection View Set: %@", morsel.title);
     _morsel = morsel;
     [self displayContent];
 }
@@ -320,6 +319,10 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
+    [self.collectionView removeFromSuperview];
+    self.collectionView = nil;
 }
 
 @end

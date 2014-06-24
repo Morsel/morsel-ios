@@ -80,6 +80,11 @@ UITextFieldDelegate>
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self suspendTimer];
+}
+
 #pragma mark - Private Methods
 
 - (void)updateLocationOfUser {
@@ -298,7 +303,10 @@ UITextFieldDelegate>
 #pragma mark - Dealloc
 
 - (void)dealloc {
-    [self suspendTimer];
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+    [self.tableView removeFromSuperview];
+    self.tableView = nil;
 }
 
 @end

@@ -12,7 +12,7 @@
 
 @interface MRSLMorselCollectionViewCell : UICollectionViewCell
 
-@property (strong, nonatomic) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UIView *morselPipeView;

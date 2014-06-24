@@ -79,6 +79,11 @@ MRSLSegmentedButtonViewDelegate>
     [self refreshContent];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self suspendTimer];
+}
+
 #pragma mark - Private Methods
 
 - (void)setupFetchRequest {
@@ -408,7 +413,10 @@ MRSLSegmentedButtonViewDelegate>
 #pragma mark - Dealloc
 
 - (void)dealloc {
-    [self suspendTimer];
+    self.tableView.dataSource = nil;
+    self.tableView.delegate = nil;
+    [self.tableView removeFromSuperview];
+    self.tableView = nil;
 }
 
 @end

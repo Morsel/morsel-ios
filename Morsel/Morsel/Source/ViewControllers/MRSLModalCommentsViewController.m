@@ -207,6 +207,10 @@ NSFetchedResultsControllerDelegate>
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.commentsTableView.dataSource = nil;
+    self.commentsTableView.delegate = nil;
+    [self.commentsTableView removeFromSuperview];
+    self.commentsTableView = nil;
 }
 
 @end

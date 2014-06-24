@@ -51,7 +51,7 @@
 
 - (void)setItemImage:(UIImage *)image {
     if (self.imageProcessed) return;
-    if (self.shouldBlur) {
+    if (self.shouldBlur && image) {
         GPUImageGaussianBlurFilter *blurFilter = [[GPUImageGaussianBlurFilter alloc] init];
         blurFilter.blurPasses = 5.f;
         dispatch_async(dispatch_get_main_queue(), ^{

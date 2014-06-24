@@ -176,4 +176,13 @@ UICollectionViewDelegate>
     [self updateControls];
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.previewMediaCollectionView.delegate = nil;
+    self.previewMediaCollectionView.dataSource = nil;
+    [self.previewMediaCollectionView removeFromSuperview];
+    self.previewMediaCollectionView = nil;
+}
+
 @end
