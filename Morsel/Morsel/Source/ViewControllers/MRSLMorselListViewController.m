@@ -188,6 +188,10 @@ NSFetchedResultsControllerDelegate>
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.morselCollectionView.delegate = nil;
+    self.morselCollectionView.dataSource = nil;
+    [self.morselCollectionView removeFromSuperview];
+    self.morselCollectionView = nil;
 }
 
 @end

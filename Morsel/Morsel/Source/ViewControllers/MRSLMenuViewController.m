@@ -25,6 +25,7 @@ UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *menuTableView;
 
 @property (strong, nonatomic) NSArray *menuOptions;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 @end
 
@@ -103,6 +104,11 @@ UITableViewDelegate>
 - (IBAction)displayProfile {
     if ([self.delegate respondsToSelector:@selector(menuViewControllerDidSelectMenuOption:)]) {
         [self.delegate menuViewControllerDidSelectMenuOption:MRSLMenuProfileKey];
+        if (self.selectedIndexPath) {
+            [self.menuTableView deselectRowAtIndexPath:_selectedIndexPath
+                                              animated:NO];
+            self.selectedIndexPath = nil;
+        }
     }
 }
 
@@ -203,10 +209,20 @@ UITableViewDelegate>
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
     NSString *menuOptionKey = [self menuOptionAtIndexPath:indexPath][@"key"];
     if ([self.delegate respondsToSelector:@selector(menuViewControllerDidSelectMenuOption:)]) {
         [self.delegate menuViewControllerDidSelectMenuOption:menuOptionKey];
     }
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.menuTableView.dataSource = nil;
+    self.menuTableView.delegate = nil;
+    [self.menuTableView removeFromSuperview];
+    self.menuTableView = nil;
 }
 
 @end

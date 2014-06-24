@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Search.h"
 
+#import "MRSLAPIClient.h"
+
 @implementation MRSLAPIService (Search)
 
 - (void)searchWithQuery:(NSString *)query

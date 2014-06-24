@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MRSLImageView.h"
+
 @protocol MRSLItemImageViewDelegate <NSObject>
 
 @optional
@@ -15,14 +17,10 @@
 
 @end
 
-@interface MRSLItemImageView : UIImageView
-
-@property (nonatomic) BOOL grayScale;
+@interface MRSLItemImageView : MRSLImageView
 
 @property (weak, nonatomic) id <MRSLItemImageViewDelegate> delegate;
 
 @property (weak, nonatomic) MRSLItem *item;
-
-- (void)displayEmptyMorselState;
 
 @end

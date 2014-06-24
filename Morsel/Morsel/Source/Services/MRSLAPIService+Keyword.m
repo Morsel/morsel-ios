@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Keyword.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLKeyword.h"
 
 @implementation MRSLAPIService (Keyword)

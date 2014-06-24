@@ -8,79 +8,33 @@
 
 #import "MRSLProfileImageView.h"
 
-#import <GPUImage/GPUImageGaussianBlurFilter.h>
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "UIImage+Color.h"
 
 #import "MRSLUser.h"
-
-@interface MRSLProfileImageView ()
-
-@property (nonatomic) BOOL imageProcessed;
-
-@property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
-
-@end
 
 @implementation MRSLProfileImageView
 
 - (void)awakeFromNib {
     [super awakeFromNib];
 
-    if (!_shouldBlur) {
+    if (!self.shouldBlur) {
         [self addCornersWithRadius:[self getWidth] / 2];
         self.layer.borderColor = [UIColor whiteColor].CGColor;
         self.layer.borderWidth = 2.f;
-    }
-
-    if (!self.image) [self setImageToPlaceholderOrLocal];
-
-    if (!_tapRecognizer && self.userInteractionEnabled) {
-        self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayUserProfile)];
-        [self addGestureRecognizer:_tapRecognizer];
     }
 }
 
 #pragma mark - Instance Methods
 
 - (void)setUser:(MRSLUser *)user {
-    if (_imageProcessed) return;
-    if (!user) _user = user;
-
-    [self reset];
-
-    if (user) {
-        if (user.profilePhotoURL) {
-            NSURLRequest *profileImageURLRequest = [user userProfilePictureURLRequestForImageSizeType:([self getWidth] > MRSLUserProfileImageThumbDimensionSize) ? MRSLProfileImageSizeTypeMedium : MRSLProfileImageSizeTypeSmall];
-            if (!profileImageURLRequest)
-                return;
-
-            __weak __typeof(self)weakSelf = self;
-            [self setImageWithURL:profileImageURLRequest.URL
-                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (error) {
-                    [weakSelf setImageToPlaceholderOrLocal];
-                } else {
-                    if (weakSelf.shouldBlur && !weakSelf.imageProcessed) {
-                        weakSelf.imageProcessed = YES;
-                        GPUImageGaussianBlurFilter *blurFilter = [[GPUImageGaussianBlurFilter alloc] init];
-                        blurFilter.blurPasses = 30.f;
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            weakSelf.image = [blurFilter imageByFilteringImage:image];
-                        });
-                    }
-                }
-            }];
-        } else {
-            [self setImageToPlaceholderOrLocal];
-        }
-    }
+    _user = user;
+    [self setImageObject:_user];
 }
 
 - (void)addAndRenderImage:(UIImage *)image
                  complete:(MRSLImageProcessingBlock)completeOrNil {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        UIImage *scaledImage = [image thumbnailImage:[self getWidth]
-                                interpolationQuality:kCGInterpolationHigh];
+        UIImage *scaledImage = [image thumbnailImage:[self getWidth] interpolationQuality:kCGInterpolationHigh];
         if (scaledImage) {
             dispatch_async(dispatch_get_main_queue(), ^ {
                 self.image = scaledImage;
@@ -92,39 +46,17 @@
     });
 }
 
-#pragma mark - Private Methods
+- (UIImage *)placeholderImage {
+    return ([self imageSizeType] == MRSLImageSizeTypeSmall) ? [UIImage imageNamed:@"graphic-placeholder-profile"] : [UIImage imageWithColor:[UIColor whiteColor]];
+}
 
-- (void)displayUserProfile {
+#pragma mark - Action Methods
+
+- (void)imageViewTapped:(UITapGestureRecognizer *)tapRecognizer {
     if (_user) {
         NSDictionary *parameters = @{@"user_id": NSNullIfNil(_user.userID)};
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayUserProfileNotification
                                                             object:parameters];
-    }
-}
-
-- (void)reset {
-    self.image = nil;
-}
-
-- (void)setImageToPlaceholderOrLocal {
-    if (_shouldBlur) return;
-    if (self.user.profilePhotoLarge) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIImage *localImage = [UIImage imageWithData:([self getWidth] > MRSLUserProfileImageThumbDimensionSize) ? self.user.profilePhotoLarge : self.user.profilePhotoThumb];
-            self.image = localImage;
-        });
-    } else {
-        self.image = [UIImage imageNamed:@"graphic-placeholder-profile"];
-    }
-}
-
-#pragma mark - Dealloc Methods
-
-- (void)dealloc {
-    [self reset];
-    if (self.tapRecognizer) {
-        [self removeGestureRecognizer:_tapRecognizer];
-        self.tapRecognizer = nil;
     }
 }
 

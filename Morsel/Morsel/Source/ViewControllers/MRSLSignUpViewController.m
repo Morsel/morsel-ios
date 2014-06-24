@@ -86,19 +86,6 @@ UITextFieldDelegate>
         });
     }
 
-    [self.profileImageView setBorderWithColor:[UIColor morselLightContent]
-                                     andWidth:1.f];
-    [self.usernameField setBorderWithColor:[UIColor morselLightContent]
-                                  andWidth:1.f];
-    [self.passwordField setBorderWithColor:[UIColor morselLightContent]
-                                  andWidth:1.f];
-    [self.emailField setBorderWithColor:[UIColor morselLightContent]
-                               andWidth:1.f];
-    [self.firstNameField setBorderWithColor:[UIColor morselLightContent]
-                                   andWidth:1.f];
-    [self.lastNameField setBorderWithColor:[UIColor morselLightContent]
-                                  andWidth:1.f];
-
     self.scrollViewHeight = [self.contentScrollView getHeight];
     [self.contentScrollView setContentSize:CGSizeMake([self.contentScrollView getWidth], ([_continueButton getHeight] + [_continueButton getY] + 20.f))];
 

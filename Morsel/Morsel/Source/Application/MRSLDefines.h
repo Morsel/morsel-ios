@@ -47,15 +47,10 @@ typedef NS_ENUM (NSUInteger, MRSLScrollDirection) {
     MRSLScrollDirectionDown
 };
 
-typedef NS_ENUM(NSUInteger, MRSLProfileImageSizeType) {
-    MRSLProfileImageSizeTypeSmall,
-    MRSLProfileImageSizeTypeMedium
-};
-
-typedef NS_ENUM(NSUInteger, MRSLItemImageSizeType) {
-    MRSLItemImageSizeTypeLarge,
-    MRSLItemImageSizeTypeThumbnail,
-    MRSLItemImageSizeTypeFull
+typedef NS_ENUM(NSUInteger, MRSLImageSizeType) {
+    MRSLImageSizeTypeLarge,
+    MRSLImageSizeTypeSmall,
+    MRSLImageSizeTypeFull
 };
 
 typedef NS_ENUM(NSUInteger, MRSLIndustryType) {
@@ -205,7 +200,6 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #pragma mark - Services
 
-#import "MRSLAPIClient.h"
 #import "MRSLAPIService.h"
 
 #pragma mark - Events

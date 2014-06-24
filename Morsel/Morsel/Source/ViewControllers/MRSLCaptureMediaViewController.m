@@ -29,8 +29,6 @@ MRSLCapturePreviewsViewControllerDelegate>
 
 @property (nonatomic) int processingImageCount;
 
-@property (weak, nonatomic) IBOutlet MRSLCameraPreviewView *previewView;
-
 @property (weak, nonatomic) IBOutlet UIButton *cameraRollButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *captureImageButton;
@@ -44,6 +42,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 @property (nonatomic, readonly, getter = isSessionRunningAndDeviceAuthorized) BOOL sessionRunningAndDeviceAuthorized;
 @property (nonatomic) id runtimeErrorHandlingObserver;
 
+@property (weak, nonatomic) MRSLCameraPreviewView *previewView;
 @property (weak, nonatomic) MRSLCapturePreviewsViewController *capturePreviewsViewController;
 
 // Asset and Image Management
@@ -105,6 +104,11 @@ MRSLCapturePreviewsViewControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    MRSLCameraPreviewView *previewView = [[MRSLCameraPreviewView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view addSubview:previewView];
+    [self.view sendSubviewToBack:previewView];
+    self.previewView = previewView;
+
     self.assetsLibrary = [[ALAssetsLibrary alloc] init];
     self.capturedMediaItems = [NSMutableArray array];
     self.preferredFlashCaptureMode = AVCaptureFlashModeOff;
@@ -134,14 +138,12 @@ MRSLCapturePreviewsViewControllerDelegate>
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
     [[UIApplication sharedApplication] setStatusBarHidden:NO
                                             withAnimation:UIStatusBarAnimationSlide];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-
     [self endCameraSession];
 }
 
@@ -526,13 +528,15 @@ MRSLCapturePreviewsViewControllerDelegate>
                 [[NSNotificationCenter defaultCenter] removeObserver:self
                                                                 name:AVCaptureDeviceSubjectAreaDidChangeNotification
                                                               object:[self.videoDeviceInput device]];
-
                 [[NSNotificationCenter defaultCenter] removeObserver:[self runtimeErrorHandlingObserver]];
-
-                [self removeObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized"
+                [[NSNotificationCenter defaultCenter] removeObserver:self.session];
+                [[NSNotificationCenter defaultCenter] removeObserver:self];
+                [self removeObserver:self
+                          forKeyPath:@"sessionRunningAndDeviceAuthorized"
                              context:SessionRunningAndDeviceAuthorizedContext];
 
-                [self removeObserver:self forKeyPath:@"stillImageOutput.capturingStillImage"
+                [self removeObserver:self
+                          forKeyPath:@"stillImageOutput.capturingStillImage"
                              context:CapturingStillImageContext];
             } @catch (NSException *exception) {
                 DDLogError(@"Unable to remove session observers because they do not exist.");
@@ -675,6 +679,23 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
+        [viewController willMoveToParentViewController:nil];
+        [viewController.view removeFromSuperview];
+        [viewController removeFromParentViewController];
+        viewController = nil;
+    }];
+    [self.capturedMediaItems removeAllObjects];
+    [self endCameraSession];
+    [self.previewView setSession:nil];
+    [self.previewView.layer removeFromSuperlayer];
+    self.runtimeErrorHandlingObserver = nil;
+    self.videoDeviceInput = nil;
+    self.stillImageOutput = nil;
+    self.session = nil;
+    self.previewView = nil;
+    self.assetsLibrary = nil;
+    self.capturedMediaItems = nil;
 }
 
 @end

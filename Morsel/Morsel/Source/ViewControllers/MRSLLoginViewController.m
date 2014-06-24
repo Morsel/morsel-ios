@@ -36,11 +36,6 @@
         self.emailTextField.text = _socialUser.email;
     }
 
-    [self.emailTextField setBorderWithColor:[UIColor morselLightContent]
-                                   andWidth:1.f];
-    [self.passwordTextField setBorderWithColor:[UIColor morselLightContent]
-                                      andWidth:1.f];
-
     self.scrollViewHeight = [self.loginScrollView getHeight];
     [self.loginScrollView setContentSize:CGSizeMake([self.loginScrollView getWidth], ([_signInButton getHeight] + [_signInButton getY] + 20.f))];
 

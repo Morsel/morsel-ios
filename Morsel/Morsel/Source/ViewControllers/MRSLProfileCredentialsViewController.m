@@ -28,18 +28,6 @@
 
 #pragma mark - Instance Methods
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self.currentPasswordField setBorderWithColor:[UIColor morselLightContent]
-                                         andWidth:1.f];
-    [self.passwordNewField setBorderWithColor:[UIColor morselLightContent]
-                                     andWidth:1.f];
-    [self.confirmNewPasswordField setBorderWithColor:[UIColor morselLightContent]
-                                            andWidth:1.f];
-    [self.emailField setBorderWithColor:[UIColor morselLightContent]
-                               andWidth:1.f];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.emailField.text = _user.email;

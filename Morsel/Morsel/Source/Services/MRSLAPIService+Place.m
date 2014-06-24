@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Place.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLFoursquarePlace.h"
 
 #import "MRSLPlace.h"

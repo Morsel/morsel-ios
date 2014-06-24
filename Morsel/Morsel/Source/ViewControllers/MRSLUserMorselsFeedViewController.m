@@ -244,6 +244,10 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.feedCollectionView.delegate = nil;
+    self.feedCollectionView.dataSource = nil;
+    [self.feedCollectionView removeFromSuperview];
+    self.feedCollectionView = nil;
 }
 
 @end

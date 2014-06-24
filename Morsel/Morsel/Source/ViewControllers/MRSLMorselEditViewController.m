@@ -91,13 +91,8 @@ MRSLMorselEditItemTableViewCellDelegate>
     }
 
     self.morselTitleLabel.text = ([_morsel.title length] == 0) ? @"Tap to add title" : _morsel.title;
+
     [self displayMorselStatus];
-
-    if (!_morselID || self.itemsFetchedResultsController) {
-        [self.morselMorselsTableView reloadData];
-        return;
-    }
-
     [self setupMorselsFetchRequest];
     [self populateContent];
 }
@@ -129,18 +124,15 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)populateContent {
     NSError *fetchError = nil;
-
     [_itemsFetchedResultsController performFetch:&fetchError];
-
     if (_itemsFetchedResultsController) {
         [self.items removeAllObjects];
         [self.items addObjectsFromArray:[_itemsFetchedResultsController fetchedObjects]];
     }
-
-    [self.morselMorselsTableView performSelectorOnMainThread:@selector(reloadData)
-                                                  withObject:nil
-                                               waitUntilDone:NO];
-
+    dispatch_async(dispatch_get_main_queue(), ^{
+        DDLogDebug(@"Reload Morsel Edit Table View");
+        [self.morselMorselsTableView reloadData];
+    });
     [self displayMorselStatus];
 }
 
@@ -360,45 +352,44 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSMutableArray *)capturedMedia {
     self.shouldPresentMediaCapture = NO;
     self.morsel = [self getOrLoadMorselIfExists];
-    NSArray *mediaToImport = [capturedMedia copy];
     __weak __typeof(self) weakSelf = self;
     DDLogDebug(@"Received %lu Media Items. Should now create Morsels for each!", (unsigned long)[capturedMedia count]);
-    [mediaToImport enumerateObjectsUsingBlock:^(MRSLMediaItem *mediaItem, NSUInteger idx, BOOL *stop) {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf) {
-            NSUInteger itemIndex = (idx + 1);
-            if ([strongSelf.items count] > 0) {
-                MRSLItem *lastMorsel = [strongSelf.items lastObject];
-                itemIndex = (lastMorsel.sort_orderValue + (idx + 1));
-            }
-            DDLogDebug(@"Item INDEX: %lu", (unsigned long)itemIndex);
-
-            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                               withValue:strongSelf.morsel.morselID
-                                                               inContext:localContext];
-                MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
-                item.sort_order = @(itemIndex);
-                item.itemPhotoFull = UIImageJPEGRepresentation(mediaItem.mediaFullImage, 1.f);
-                item.itemPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, .8f);
-                item.itemPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
-                item.isUploading = @YES;
-                item.morsel = morsel;
-                [morsel addItemsObject:item];
-                [_appDelegate.apiService createItem:item
-                                            success:^(id responseObject) {
-                                                if ([responseObject isKindOfClass:[MRSLItem class]]) {
-                                                    MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
-                                                    [strongSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
-                                                    [strongSelf displayMorselStatus];
-                                                    [_appDelegate.apiService updateItemImage:itemToUploadWithImage
-                                                                                     success:nil
-                                                                                     failure:nil];
-                                                }
-                                            } failure:nil];
-            }];
+    int idx = 0;
+    for (MRSLMediaItem *mediaItem in capturedMedia) {
+        NSUInteger itemIndex = (idx + 1);
+        if ([self.items count] > 0) {
+            MRSLItem *lastMorsel = [self.items lastObject];
+            itemIndex = (lastMorsel.sort_orderValue + (idx + 1));
         }
-    }];
+        DDLogDebug(@"Item INDEX: %lu", (unsigned long)itemIndex);
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                           withValue:self.morsel.morselID
+                                                           inContext:localContext];
+            MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
+            item.sort_order = @(itemIndex);
+            item.itemPhotoFull = UIImageJPEGRepresentation(mediaItem.mediaFullImage, 1.f);
+            item.itemPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, .8f);
+            item.itemPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
+            item.isUploading = @YES;
+            item.morsel = morsel;
+            [morsel addItemsObject:item];
+            [_appDelegate.apiService createItem:item
+                                        success:^(id responseObject) {
+                                            if ([responseObject isKindOfClass:[MRSLItem class]]) {
+                                                MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
+                                                [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
+                                                [weakSelf displayMorselStatus];
+                                                [_appDelegate.apiService updateItemImage:itemToUploadWithImage
+                                                                                 success:nil
+                                                                                 failure:nil];
+                                            }
+                                        } failure:nil];
+        }];
+        idx++;
+    }
+    [capturedMedia removeAllObjects];
+    capturedMedia = nil;
 }
 
 - (void)captureMediaViewControllerDidCancel {
@@ -457,6 +448,15 @@ MRSLMorselEditItemTableViewCellDelegate>
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
     }
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.morselMorselsTableView.dataSource = nil;
+    self.morselMorselsTableView.delegate = nil;
+    [self.morselMorselsTableView removeFromSuperview];
+    self.morselMorselsTableView = nil;
 }
 
 @end

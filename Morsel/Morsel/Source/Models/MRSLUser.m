@@ -1,6 +1,5 @@
 #import "MRSLUser.h"
 
-#import <AFNetworking/AFNetworking.h>
 #import "MRSLAPIService+Profile.h"
 
 @interface MRSLUser ()
@@ -133,7 +132,7 @@
     }
 }
 
-- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(MRSLProfileImageSizeType)type {
+- (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
     if (!self.profilePhotoURL) return nil;
 
     BOOL isRetina = ([UIScreen mainScreen].scale == 2.f);
@@ -141,10 +140,10 @@
     NSString *typeSizeString = nil;
 
     switch (type) {
-        case MRSLProfileImageSizeTypeSmall:
+        case MRSLImageSizeTypeSmall:
             typeSizeString = (isRetina) ? @"_80x80" : @"_40x40";
             break;
-        case MRSLProfileImageSizeTypeMedium:
+        case MRSLImageSizeTypeLarge:
             typeSizeString = (isRetina) ? @"_144x144" : @"_72x72";
             break;
         default:
@@ -156,6 +155,18 @@
     NSString *adjustedURLForType = [self.profilePhotoURL stringByReplacingOccurrencesOfString:@"IMAGE_SIZE"
                                                                                    withString:typeSizeString];
     return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
+}
+
+- (NSData *)localImageLarge {
+    return self.profilePhotoLarge;
+}
+
+- (NSData *)localImageSmall {
+    return self.profilePhotoThumb;
+}
+
+- (NSString *)imageURL {
+    return self.profilePhotoURL;
 }
 
 #pragma mark - MagicalRecord

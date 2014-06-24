@@ -11,13 +11,13 @@
 #import "MRSLAPIService+Place.h"
 #import "MRSLAPIService+Router.h"
 
-#import "MRSLSocialService.h"
-
+#import "MRSLAPIClient.h"
 #import "MRSLFollowButton.h"
 #import "MRSLPanelSegmentedCollectionViewDataSource.h"
 #import "MRSLPlaceDetailViewController.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLSegmentedHeaderReusableView.h"
+#import "MRSLSocialService.h"
 #import "MRSLUserMorselsFeedViewController.h"
 
 #import "MRSLMorselPreviewCollectionViewCell.h"
@@ -336,7 +336,15 @@ MRSLSegmentedHeaderReusableViewDelegate>
     placeDetailVC.place = _place;
     [self.navigationController pushViewController:placeDetailVC
                                          animated:YES];
-    
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
+    [self.collectionView removeFromSuperview];
+    self.collectionView = nil;
 }
 
 @end

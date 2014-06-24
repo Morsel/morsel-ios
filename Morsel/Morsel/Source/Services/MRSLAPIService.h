@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <AFNetworking/AFNetworking.h>
+
 #import "JSONResponseSerializerWithData.h"
 
 @class MRSLComment, MRSLItem, MRSLKeyword, MRSLMorsel, MRSLPlace, MRSLTag, MRSLUser;

@@ -15,12 +15,14 @@
     if (self)
     {
         self.font = [UIFont robotoLightFontOfSize:self.font.pointSize];
+        self.textColor = [UIColor morselDarkContent];
+        self.backgroundColor = [UIColor morselLightOffColor];
     }
     return self;
 }
 
 - (void)drawPlaceholderInRect:(CGRect)rect {
-    [[UIColor morselLightContent] setFill];
+    [[UIColor morselPlaceholderColor] setFill];
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
         // Pushing down placeholder to align with textfield user added text. This only works with 14 point font.
         rect.origin.y += 6.f;

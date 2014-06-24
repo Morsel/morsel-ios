@@ -173,4 +173,13 @@ UITableViewDelegate>
     [self populateContent];
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.placeTableView.dataSource = nil;
+    self.placeTableView.delegate = nil;
+    [self.placeTableView removeFromSuperview];
+    self.placeTableView = nil;
+}
+
 @end

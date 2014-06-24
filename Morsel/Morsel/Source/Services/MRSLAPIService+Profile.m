@@ -8,6 +8,8 @@
 
 #import "MRSLAPIService+Profile.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLUser.h"
 
 @implementation MRSLAPIService (Profile)

@@ -237,6 +237,10 @@ MRSLProfileUserTagsListViewControllerDelegate>
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
+    [self.collectionView removeFromSuperview];
+    self.collectionView = nil;
 }
 
 @end

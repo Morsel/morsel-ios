@@ -185,9 +185,9 @@ NSFetchedResultsControllerDelegate>
     if (fetchError) {
         DDLogDebug(@"Refresh Fetch Failed! %@", fetchError.userInfo);
     }
-    [self.commentsTableView performSelectorOnMainThread:@selector(reloadData)
-                                             withObject:nil
-                                          waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.commentsTableView reloadData];
+    });
 }
 
 #pragma mark - UITextViewDelegate Methods
@@ -207,6 +207,10 @@ NSFetchedResultsControllerDelegate>
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.commentsTableView.dataSource = nil;
+    self.commentsTableView.delegate = nil;
+    [self.commentsTableView removeFromSuperview];
+    self.commentsTableView = nil;
 }
 
 @end

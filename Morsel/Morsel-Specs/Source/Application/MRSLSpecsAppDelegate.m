@@ -12,6 +12,7 @@
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 
+#import "MRSLAPIClient.h"
 #import "MRSLComment.h"
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"

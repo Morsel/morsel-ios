@@ -46,11 +46,17 @@
                            alpha:1.f];
 }
 
-//  243, 241, 239
 + (UIColor *)morselLightOffColor {
     return [UIColor colorWithRed:243.f / 255.f
                            green:241.f / 255.f
                             blue:239.f / 255.f
+                           alpha:1.f];
+}
+
++ (UIColor *)morselPlaceholderColor {
+    return [UIColor colorWithRed:170.f / 255.f
+                           green:170.f / 255.f
+                            blue:170.f / 255.f
                            alpha:1.f];
 }
 

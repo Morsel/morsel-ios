@@ -49,4 +49,13 @@
     }
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [self.subviews enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop) {
+        [subview removeFromSuperview];
+        subview = nil;
+    }];
+}
+
 @end

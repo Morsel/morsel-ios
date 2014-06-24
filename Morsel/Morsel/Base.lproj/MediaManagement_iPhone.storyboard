@@ -13,15 +13,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="yzI-6H-pOW" customClass="MRSLCameraPreviewView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="OHP-n7-ldU" appends="YES" id="E5K-Wk-sMv"/>
-                                </connections>
-                            </view>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="lS7-8F-FBt">
                                 <rect key="frame" x="0.0" y="78" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -129,6 +120,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="Capture Media">
                             <bool key="isElement" value="YES"/>
                         </accessibility>
@@ -142,7 +134,6 @@
                         <outlet property="cancelMorselButton" destination="gkA-vf-fEe" id="OuP-Em-rRI"/>
                         <outlet property="captureImageButton" destination="Cea-jw-x1g" id="nEh-Du-DqW"/>
                         <outlet property="finishButton" destination="bVZ-qJ-xq1" id="RFr-0V-U65"/>
-                        <outlet property="previewView" destination="yzI-6H-pOW" id="Hfg-RO-113"/>
                         <outlet property="toggleCameraButton" destination="Nyr-1V-WqM" id="O8T-S0-eBn"/>
                         <outlet property="toggleFlashButton" destination="klL-hy-HNo" id="hJt-l6-EkG"/>
                     </connections>

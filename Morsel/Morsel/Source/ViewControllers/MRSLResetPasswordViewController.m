@@ -21,14 +21,6 @@
 
 @implementation MRSLResetPasswordViewController
 
-#pragma mark - Instance Methods
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self.usernameEmailField setBorderWithColor:[UIColor morselLightContent]
-                                       andWidth:1.f];
-}
-
 #pragma mark - Action Methods
 
 - (IBAction)resetPassword {

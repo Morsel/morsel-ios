@@ -105,4 +105,13 @@ MRSLImagePreviewViewControllerDelegate>
     }
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.previewCollectionView.delegate = nil;
+    self.previewCollectionView.dataSource = nil;
+    [self.previewCollectionView removeFromSuperview];
+    self.previewCollectionView = nil;
+}
+
 @end

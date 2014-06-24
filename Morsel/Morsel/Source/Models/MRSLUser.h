@@ -1,6 +1,8 @@
 #import "_MRSLUser.h"
 
-@interface MRSLUser : _MRSLUser
+#import "MRSLImageRequestable.h"
+
+@interface MRSLUser : _MRSLUser <MRSLImageRequestable>
 
 + (MRSLUser *)currentUser;
 + (NSString *)apiTokenForCurrentUser;
@@ -16,7 +18,7 @@
 - (NSString *)displayName;
 - (NSString *)fullNameOrTwitterHandle;
 - (NSString *)industryTypeName;
-- (NSURLRequest *)userProfilePictureURLRequestForImageSizeType:(MRSLProfileImageSizeType)type;
+- (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type;
 
 - (MRSLIndustryType)industryTypeEnum;
 - (void)setIndustryTypeEnum:(MRSLIndustryType)type;

@@ -8,6 +8,8 @@
 
 #import "MRSLProfileViewController.h"
 
+#import "MRSLAPIClient.h"
+
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Profile.h"
 #import "MRSLAPIService+Router.h"
@@ -438,6 +440,15 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)profileUserTagsListViewControllerDidSelectType:(NSString *)type {
     self.keywordType = type;
     [self performSegueWithIdentifier:@"seg_KeywordList" sender:nil];
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    self.profileCollectionView.delegate = nil;
+    self.profileCollectionView.dataSource = nil;
+    [self.profileCollectionView removeFromSuperview];
+    self.profileCollectionView = nil;
 }
 
 @end

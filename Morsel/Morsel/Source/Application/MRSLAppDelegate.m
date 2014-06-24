@@ -16,6 +16,7 @@
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <FacebookSDK/FacebookSDK.h>
 
+#import "MRSLAPIClient.h"
 #import "MRSLSocialServiceFacebook.h"
 #import "MRSLSocialServiceInstagram.h"
 #import "MRSLSocialServiceTwitter.h"

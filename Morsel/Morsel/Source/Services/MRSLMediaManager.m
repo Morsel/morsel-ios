@@ -38,6 +38,9 @@
     self = [super init];
     if (self) {
         self.webImageManager = [[SDWebImageManager alloc] init];
+        [self.webImageManager.imageDownloader setMaxConcurrentDownloads:5];
+        SDWebImageManager *sharedManager = [SDWebImageManager sharedManager];
+        [sharedManager.imageDownloader setMaxConcurrentDownloads:5];
     }
     return self;
 }
@@ -60,18 +63,18 @@
         coverMorsel = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
                                                 withValue:morsel.primary_item_id] ?: [morsel.itemsArray lastObject];
         [self queueRequestForMorsel:coverMorsel
-                           withType:MRSLItemImageSizeTypeLarge
+                           withType:MRSLImageSizeTypeLarge
                        highPriority:YES];
     }
 
     [morsel.itemsArray enumerateObjectsUsingBlock:^(MRSLItem *item, NSUInteger idx, BOOL *stop) {
         if (![item isEqual:coverMorsel]) {
             [self queueRequestForMorsel:item
-                               withType:MRSLItemImageSizeTypeLarge
+                               withType:MRSLImageSizeTypeLarge
                            highPriority:NO];
             if (itemCount < 4) {
                 [self queueRequestForMorsel:item
-                                   withType:MRSLItemImageSizeTypeThumbnail
+                                   withType:MRSLImageSizeTypeSmall
                                highPriority:YES];
             }
             itemCount++;
@@ -80,9 +83,9 @@
 }
 
 - (void)queueRequestForMorsel:(MRSLItem *)item
-                     withType:(MRSLItemImageSizeType)itemImageSizeType
+                     withType:(MRSLImageSizeType)imageSizeType
                  highPriority:(BOOL)isHighPriority {
-    NSURLRequest *itemRequest = [item itemPictureURLRequestForImageSizeType:itemImageSizeType];
+    NSURLRequest *itemRequest = [item imageURLRequestForImageSizeType:imageSizeType];
     [_webImageManager downloadWithURL:itemRequest.URL
                               options:(isHighPriority) ? SDWebImageHighPriority : SDWebImageLowPriority
                              progress:nil
