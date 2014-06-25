@@ -14,6 +14,8 @@
 #import <ALAssetsLibrary-CustomPhotoAlbum/ALAssetsLibrary+CustomPhotoAlbum.h>
 #import <ELCImagePickerController/ELCImagePickerController.h>
 
+#import "UIDevice+Additions.h"
+
 #import "MRSLCameraPreviewView.h"
 #import "MRSLCapturePreviewsViewController.h"
 #import "MRSLMediaItem.h"
@@ -104,7 +106,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    MRSLCameraPreviewView *previewView = [[MRSLCameraPreviewView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.view.frame.size.width, self.view.frame.size.height)];
+    MRSLCameraPreviewView *previewView = [[MRSLCameraPreviewView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.view.frame.size.width, 568.f)];
     [self.view addSubview:previewView];
     [self.view sendSubviewToBack:previewView];
     self.previewView = previewView;
@@ -403,14 +405,14 @@ MRSLCapturePreviewsViewControllerDelegate>
     DDLogDebug(@"Source Process Image Dimensions: (w:%f, h:%f)", fullSizeImage.size.width, fullSizeImage.size.height);
     BOOL imageIsLandscape = [MRSLUtil imageIsLandscape:fullSizeImage];
     CGFloat cameraDimensionScale = [MRSLUtil cameraDimensionScaleFromImage:fullSizeImage];
-    CGFloat cropStartingY = yCameraImagePreviewOffset * cameraDimensionScale;
+    CGFloat cropStartingY = [UIDevice has35InchScreen] ? 0.f : yCameraImagePreviewOffset * cameraDimensionScale;
     CGFloat minimumImageDimension = (imageIsLandscape) ? fullSizeImage.size.height : fullSizeImage.size.width;
     CGFloat maximumImageDimension = (imageIsLandscape) ? fullSizeImage.size.width : fullSizeImage.size.height;
     CGFloat xCenterAdjustment = (maximumImageDimension - minimumImageDimension) / 2.f;
 
     __weak __typeof(self) weakSelf = self;
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         if (weakSelf) {
             CGRect cropRect = CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension);
 
@@ -423,7 +425,7 @@ MRSLCapturePreviewsViewControllerDelegate>
             mediaItem.mediaFullImage = croppedFullSizeImage;
             mediaItem.mediaThumbImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageThumbDimensionSize
                                                         interpolationQuality:kCGInterpolationHigh];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 mediaItem.mediaCroppedImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageLargeDimensionSize
                                                               interpolationQuality:kCGInterpolationHigh];
                 weakSelf.processingImageCount--;
