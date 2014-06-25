@@ -166,6 +166,7 @@ UITextFieldDelegate>
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row >= [_foursquarePlaces count]) return;
     self.selectedIndexPath = indexPath;
     self.selectedFoursquarePlace = [_foursquarePlaces objectAtIndex:indexPath.row];
     [self.view endEditing:YES];

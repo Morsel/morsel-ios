@@ -20,7 +20,6 @@
 }
 
 - (void)setupNavigationItems {
-    [self reset];
     if ([self.navigationController.viewControllers count] > 1) {
         UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
                                                                        style:UIBarButtonItemStyleBordered
