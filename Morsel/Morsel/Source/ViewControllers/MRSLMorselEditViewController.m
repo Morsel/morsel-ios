@@ -130,7 +130,6 @@ MRSLMorselEditItemTableViewCellDelegate>
         [self.items addObjectsFromArray:[_itemsFetchedResultsController fetchedObjects]];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        DDLogDebug(@"Reload Morsel Edit Table View");
         [self.morselMorselsTableView reloadData];
     });
     [self displayMorselStatus];

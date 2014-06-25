@@ -114,10 +114,18 @@
     return topMostVC;
 }
 
+- (void)reset {
+    if (self.navigationItem) {
+        [self.navigationItem setLeftBarButtonItem:nil];
+        [self.navigationItem setRightBarButtonItem:nil];
+    }
+}
+
 #pragma mark - Dealloc
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self reset];
 }
 
 @end

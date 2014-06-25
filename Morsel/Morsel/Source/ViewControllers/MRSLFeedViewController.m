@@ -73,10 +73,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [self toggleNewMorselsButton:NO
                         animated:NO];
 
-    UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-identity-nav"]];
-    [titleView setY:-4.f];
-    [self.navigationController.navigationBar.topItem setTitleView:titleView];
-
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayPublishedMorsel:)
                                                  name:MRSLUserDidPublishMorselNotification
@@ -97,6 +93,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
     [super viewWillAppear:animated];
+    [self showMorselTitleView:YES];
     MRSLUser *currentUser = [MRSLUser currentUser];
     if (!currentUser) return;
     [self resumeTimer];
@@ -110,6 +107,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self suspendTimer];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self showMorselTitleView:NO];
 }
 
 #pragma mark - Notification Methods
@@ -197,6 +199,16 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (void)showMorselTitleView:(BOOL)shouldShow {
+    if (shouldShow) {
+        UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-identity-nav"]];
+        [titleView setY:-4.f];
+        [self.navigationController.navigationBar.topItem setTitleView:titleView];
+    } else {
+        [self.navigationController.navigationBar.topItem setTitleView:nil];
+    }
+}
 
 - (void)setupFetchRequest {
     self.feedFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"publishedDate"

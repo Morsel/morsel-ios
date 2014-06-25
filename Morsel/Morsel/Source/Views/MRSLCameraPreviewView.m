@@ -21,7 +21,11 @@
 }
 
 - (void)setSession:(AVCaptureSession *)session {
-    [(AVCaptureVideoPreviewLayer *)[self layer] setSession:session];
+    AVCaptureVideoPreviewLayer *previewLayer = (AVCaptureVideoPreviewLayer *)[self layer];
+    [previewLayer setSession:session];
+    previewLayer.videoGravity = AVLayerVideoGravityResize;
+    previewLayer.bounds = self.bounds;
+    previewLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
 }
 
 @end

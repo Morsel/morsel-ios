@@ -251,10 +251,11 @@ MRSLMenuViewControllerDelegate>
 - (void)removeChildNavigationControllers {
     [self.childViewControllers enumerateObjectsUsingBlock:^(UINavigationController *navController, NSUInteger idx, BOOL *stop) {
         if ([navController isKindOfClass:[UINavigationController class]]) {
-            [navController setViewControllers:nil];
             [navController willMoveToParentViewController:nil];
             [navController.view removeFromSuperview];
             [navController removeFromParentViewController];
+            if ([[navController viewControllers] count] > 0) [[[navController viewControllers] firstObject] viewDidDisappear:NO];
+            [navController setViewControllers:nil];
         }
     }];
 }

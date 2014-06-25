@@ -109,8 +109,11 @@ MRSLSegmentedButtonViewDelegate>
     [_fetchedResultsController performFetch:&fetchError];
     self.users = [_fetchedResultsController fetchedObjects];
 
+    __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
+        if (weakSelf) {
+            [weakSelf.tableView reloadData];
+        }
     });
 
     self.nullStateView.hidden = ([_users count] > 0);
