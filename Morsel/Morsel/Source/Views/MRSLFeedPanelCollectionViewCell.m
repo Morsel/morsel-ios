@@ -52,10 +52,13 @@
 #pragma mark - Dealloc
 
 - (void)dealloc {
-    [self.subviews enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop) {
-        [subview removeFromSuperview];
-        subview = nil;
-    }];
+    if (self.feedPanelViewController) {
+        [self.feedPanelViewController willMoveToParentViewController:nil];
+        [self.feedPanelViewController.view removeFromSuperview];
+        [self.feedPanelViewController removeFromParentViewController];
+        self.feedPanelViewController.delegate = nil;
+        self.feedPanelViewController = nil;
+    }
 }
 
 @end

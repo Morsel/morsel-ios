@@ -20,6 +20,7 @@
 }
 
 - (void)setupNavigationItems {
+    [self reset];
     if ([self.navigationController.viewControllers count] > 1) {
         UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
                                                                        style:UIBarButtonItemStyleBordered
@@ -114,10 +115,18 @@
     return topMostVC;
 }
 
+- (void)reset {
+    if (self.navigationItem) {
+        [self.navigationItem setLeftBarButtonItem:nil];
+        [self.navigationItem setRightBarButtonItem:nil];
+    }
+}
+
 #pragma mark - Dealloc
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self reset];
 }
 
 @end
