@@ -107,8 +107,7 @@ MRSLCapturePreviewsViewControllerDelegate>
     [super viewDidLoad];
 
     MRSLCameraPreviewView *previewView = [[MRSLCameraPreviewView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.view.frame.size.width, 568.f)];
-    [self.view addSubview:previewView];
-    [self.view sendSubviewToBack:previewView];
+    [self.view insertSubview:previewView atIndex:0];
     self.previewView = previewView;
 
     self.assetsLibrary = [[ALAssetsLibrary alloc] init];
@@ -543,8 +542,8 @@ MRSLCapturePreviewsViewControllerDelegate>
             } @catch (NSException *exception) {
                 DDLogError(@"Unable to remove session observers because they do not exist.");
             }
-
         });
+        self.sessionQueue = nil;
     }
 }
 
@@ -689,8 +688,11 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
     }];
     [self.capturedMediaItems removeAllObjects];
     [self endCameraSession];
+
     [self.previewView setSession:nil];
     [self.previewView.layer removeFromSuperlayer];
+    [self.previewView removeFromSuperview];
+
     self.runtimeErrorHandlingObserver = nil;
     self.videoDeviceInput = nil;
     self.stillImageOutput = nil;
