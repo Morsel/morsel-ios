@@ -19,7 +19,6 @@
 #import "MRSLPanelSegmentedCollectionViewDataSource.h"
 #import "MRSLPlaceViewController.h"
 #import "MRSLProfileImageView.h"
-#import "MRSLProfileEditViewController.h"
 #import "MRSLProfileUserTagsListViewController.h"
 #import "MRSLUserMorselsFeedViewController.h"
 #import "MRSLUserFollowListViewController.h"
@@ -304,7 +303,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_ContainerCell"
                                                                  forIndexPath:indexPath];
                 if ([[cell.contentView.subviews firstObject] tag] != MRSLStatsTagViewTag) {
-                    MRSLProfileUserTagsListViewController *statsTagVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileStatsTagsViewController"];
+                    MRSLProfileUserTagsListViewController *statsTagVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileUserTagsListViewController"];
                     statsTagVC.delegate = self;
                     statsTagVC.user = _user;
                     statsTagVC.view.tag = MRSLStatsTagViewTag;
