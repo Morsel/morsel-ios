@@ -249,6 +249,12 @@ MRSLFeedPanelCollectionViewCellDelegate>
 #pragma mark - Dealloc
 
 - (void)dealloc {
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
+        [viewController willMoveToParentViewController:nil];
+        [viewController.view removeFromSuperview];
+        [viewController removeFromParentViewController];
+        viewController = nil;
+    }];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.feedCollectionView.delegate = nil;
     self.feedCollectionView.dataSource = nil;
