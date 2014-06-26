@@ -78,6 +78,12 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [self populateContent];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    _feedFetchedResultsController.delegate = nil;
+    _feedFetchedResultsController = nil;
+    [super viewWillDisappear:animated];
+}
+
 #pragma mark - Notification Methods
 
 - (void)hideControls {

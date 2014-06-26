@@ -31,6 +31,7 @@
     if (!_feedPanelViewController.parentViewController) {
         [self.owningViewController addChildViewController:_feedPanelViewController];
         [self addSubview:_feedPanelViewController.view];
+        [_feedPanelViewController didMoveToParentViewController:self.owningViewController];
     }
     _feedPanelViewController.morsel = morsel;
 }

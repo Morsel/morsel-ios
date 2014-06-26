@@ -105,6 +105,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    _feedFetchedResultsController.delegate = nil;
+    _feedFetchedResultsController = nil;
     [super viewWillDisappear:animated];
     [self suspendTimer];
 }

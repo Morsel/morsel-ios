@@ -72,6 +72,12 @@ NSFetchedResultsControllerDelegate>
     [self refreshContent];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    _morselsFetchedResultsController.delegate = nil;
+    _morselsFetchedResultsController = nil;
+    [super viewWillDisappear:animated];
+}
+
 #pragma mark - Private Methods
 
 - (void)setupFetchRequest {
