@@ -206,6 +206,8 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - Destroy Methods
 
 - (void)dealloc {
+    _fetchedResultsController.delegate = nil;
+    _fetchedResultsController = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.commentsTableView.dataSource = nil;
     self.commentsTableView.delegate = nil;

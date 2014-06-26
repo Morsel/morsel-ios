@@ -60,7 +60,7 @@
                                    success:^(id responseObject) {
                                        if (weakSelf.instagramSwitch.isOn) [weakSelf sendToInstagram];
                                    } failure:^(NSError *error) {
-                                       _publishButton.enabled = YES;
+                                       weakSelf.publishButton.enabled = YES;
                                        [UIAlertView showAlertViewForErrorString:@"Unable to publish morsel, please try again!"
                                                                        delegate:nil];
                                    }
@@ -86,22 +86,22 @@
                             MRSLSocialUser *socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
                             [_appDelegate.apiService createUserAuthentication:socialUser.authentication
                                                                       success:^(id responseObject) {
-                                                                          [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                                                          [weakSelf setOnSwitch:weakSelf.facebookSwitch
                                                                                       forNetwork:@"facebook"
                                                                                     shouldTurnOn:YES];
                                                                       } failure:^(NSError *error) {
-                                                                          [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                                                          [weakSelf setOnSwitch:weakSelf.facebookSwitch
                                                                                       forNetwork:@"facebook"
                                                                                     shouldTurnOn:NO];
                                                                       }];
                         } else {
-                            [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                            [weakSelf setOnSwitch:weakSelf.facebookSwitch
                                         forNetwork:@"facebook"
                                       shouldTurnOn:NO];
                         }
                     }];
                 } else {
-                    [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                    [weakSelf setOnSwitch:weakSelf.facebookSwitch
                                 forNetwork:@"facebook"
                               shouldTurnOn:NO];
                 }
@@ -116,11 +116,11 @@
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://app"]]) {
-        [self toggleSwitch:_instagramSwitch
-                forNetwork:@"instagram"
-              shouldTurnOn:YES];
+        [self setOnSwitch:_instagramSwitch
+               forNetwork:@"instagram"
+             shouldTurnOn:_instagramSwitch.isOn];
     } else {
-        [self toggleSwitch:_instagramSwitch
+        [self setOnSwitch:_instagramSwitch
                 forNetwork:@"instagram"
               shouldTurnOn:NO];
         [UIAlertView showAlertViewWithTitle:@"Instagram not found"
@@ -148,22 +148,22 @@
                     MRSLSocialUser *socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
                     [_appDelegate.apiService createUserAuthentication:socialUser.authentication
                                                               success:^(id responseObject) {
-                                                                  [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                                                                  [weakSelf setOnSwitch:weakSelf.twitterSwitch
                                                                               forNetwork:@"twitter"
                                                                             shouldTurnOn:YES];
                                                               } failure:^(NSError *error) {
-                                                                  [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                                                                  [weakSelf setOnSwitch:weakSelf.twitterSwitch
                                                                               forNetwork:@"twitter"
                                                                             shouldTurnOn:NO];
                                                               }];
                 } else {
-                    [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                    [weakSelf setOnSwitch:weakSelf.twitterSwitch
                                 forNetwork:@"twitter"
                               shouldTurnOn:NO];
                 }
             }];
         } failure:^(NSError *error) {
-            [weakSelf toggleSwitch:weakSelf.twitterSwitch
+            [weakSelf setOnSwitch:weakSelf.twitterSwitch
                         forNetwork:@"twitter"
                       shouldTurnOn:NO];
         }];
@@ -194,7 +194,7 @@
     }
 }
 
-- (void)toggleSwitch:(UISwitch *)socialSwitch
+- (void)setOnSwitch:(UISwitch *)socialSwitch
           forNetwork:(NSString *)network
         shouldTurnOn:(BOOL)shouldTurnOn {
     if (shouldTurnOn) {
