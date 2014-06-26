@@ -1,24 +1,24 @@
 //
-//  MRSLAddKeywordTableViewCell.m
+//  MRSLToggleKeywordTableViewCell.m
 //  Morsel
 //
 //  Created by Javier Otero on 5/1/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLAddKeywordTableViewCell.h"
+#import "MRSLToggleKeywordTableViewCell.h"
 
 #import "MRSLKeyword.h"
 #import "MRSLUser.h"
 
-@interface MRSLAddKeywordTableViewCell ()
+@interface MRSLToggleKeywordTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *keywordCheckmarkView;
 @property (weak, nonatomic) IBOutlet UILabel *keywordNameLabel;
 
 @end
 
-@implementation MRSLAddKeywordTableViewCell
+@implementation MRSLToggleKeywordTableViewCell
 
 - (void)awakeFromNib {
     if (_keyword) [self displayContent];

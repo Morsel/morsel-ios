@@ -54,7 +54,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
-    self.shareButton.hidden = (![[MRSLUser currentUser] isChef]);
 }
 
 - (void)setItem:(MRSLItem *)item {

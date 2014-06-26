@@ -53,12 +53,6 @@ typedef NS_ENUM(NSUInteger, MRSLImageSizeType) {
     MRSLImageSizeTypeFull
 };
 
-typedef NS_ENUM(NSUInteger, MRSLIndustryType) {
-    MRSLIndustryTypeChef,
-    MRSLIndustryTypeMedia,
-    MRSLIndustryTypeDiner
-};
-
 typedef NS_ENUM(NSUInteger, MRSLSocialAlertViewType) {
     MRSLSocialAlertViewTypeFacebook = 1,
     MRSLSocialAlertViewTypeTwitter

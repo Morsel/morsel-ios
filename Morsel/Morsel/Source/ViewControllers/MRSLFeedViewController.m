@@ -61,7 +61,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.shouldDisplayAdd = YES;
     self.feedCollectionView.accessibilityLabel = @"Feed";
     [self.feedCollectionView setScrollsToTop:NO];
 

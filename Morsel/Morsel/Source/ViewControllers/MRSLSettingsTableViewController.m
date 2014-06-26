@@ -13,7 +13,15 @@
 #import "MRSLUser.h"
 #import "MRSLUtil.h"
 
+NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
+    MRSLSettingsTableViewSectionSetupProfessionalAccount,
+    MRSLSettingsTableViewSectionProfessionalSettings,
+    MRSLSettingsTableViewSectionUserSettings,
+    MRSLSettingsTableViewSectionSupport
+};
+
 @interface MRSLSettingsTableViewController ()
+<UIAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UILabel *appVersionLabel;
 
@@ -35,6 +43,19 @@
     if ([segue.destinationViewController respondsToSelector:@selector(setUser:)]) {
         [segue.destinationViewController setUser:(id)[MRSLUser currentUser]]; // Casting to id to get rid of "incompatible pointer types" warning
     }
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"seg_SetupProfessionalAccount"]) {
+        [UIAlertView showAlertViewWithTitle:@"Professional Account"
+                                    message:@"Professional accounts allow chefs, sommeliers, and other restaurant professionals to connect with their restaurants and give more insight into who they are. Setup your professional account now?"
+                                   delegate:self
+                          cancelButtonTitle:@"Cancel"
+                          otherButtonTitles:@"Continue", nil];
+        return NO;
+    }
+
+    return YES;
 }
 
 - (IBAction)displayContactMorsel {
@@ -61,11 +82,33 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //  Hide the first section if the User is not a chef since they have no Places or Tags to manage
-    if (section == 0 && ![[MRSLUser currentUser] isChef]) {
-        return 0;
+    if (section == MRSLSettingsTableViewSectionSetupProfessionalAccount) {
+        return [[MRSLUser currentUser] isProfessional] ? 0 : 1;
+    } else if (section == MRSLSettingsTableViewSectionProfessionalSettings) {
+        return [[MRSLUser currentUser] isProfessional] ? 1 : 0;
+    } else {
+        return [super tableView:tableView numberOfRowsInSection:section];
     }
-    return [super tableView:tableView numberOfRowsInSection:section];
+}
+
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        //  Update the current_user to a pro account
+        [MRSLUser updateCurrentUserToProfessional];
+
+        //  Push Pro Settings
+        [self performSegueWithIdentifier:@"seg_ProfessionalSettings"
+                                  sender:nil];
+    }
+
+    //  Since the only alertView that self is a delegate for is the one shown
+    //  for the 'Setup Professional Account' cell, we can safely assume that
+    //  that's the row we want to deselect.
+    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:MRSLSettingsTableViewSectionSetupProfessionalAccount]
+                                  animated:YES];
 }
 
 @end

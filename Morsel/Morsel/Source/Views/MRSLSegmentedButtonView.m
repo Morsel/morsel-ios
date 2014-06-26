@@ -34,19 +34,24 @@
 }
 
 //  TODO: Make a delegate for this: - (void)segmentButtonView:()segementButtonView hideButtonsInIndexSet:()
-- (void)setShouldDisplayChefTabs:(BOOL)shouldDisplayChefTabs {
+- (void)setShouldDisplayProfessionalTabs:(BOOL)shouldDisplayProfessionalTabs {
     if (!_defaultSet) {
         self.defaultSet = YES;
-        _shouldDisplayChefTabs = shouldDisplayChefTabs;
-        if (_shouldDisplayChefTabs) {
-            [self selectedButton:[_buttons firstObject]];
-        } else {
-            UIButton *activityButton = [_buttons lastObject];
-            [self selectedButton:activityButton];
-            [activityButton setX:0.f];
-            [activityButton setWidth:[self getWidth]];
-            [self bringSubviewToFront:activityButton];
+        _shouldDisplayProfessionalTabs = shouldDisplayProfessionalTabs;
+        if (!_shouldDisplayProfessionalTabs) {
+            CGFloat halfWidth = [self getWidth] * 0.5f;
+
+            UIButton *morselsButton = [_buttons firstObject];
+            [morselsButton setX:0.f];
+            [morselsButton setWidth:halfWidth];
+            [self bringSubviewToFront:morselsButton];
+
+            UIButton *likesButton = [_buttons lastObject];
+            [likesButton setX:halfWidth];
+            [likesButton setWidth:halfWidth];
+            [self bringSubviewToFront:likesButton];
         }
+        [self selectedButton:[_buttons firstObject]];
     }
 }
 

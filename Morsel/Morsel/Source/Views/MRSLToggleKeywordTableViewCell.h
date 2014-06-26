@@ -1,5 +1,5 @@
 //
-//  MRSLAddKeywordTableViewCell.h
+//  MRSLToggleKeywordTableViewCell.h
 //  Morsel
 //
 //  Created by Javier Otero on 5/1/14.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLAddKeywordTableViewCell : UITableViewCell
+@interface MRSLToggleKeywordTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) MRSLKeyword *keyword;
 

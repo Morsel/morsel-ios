@@ -50,7 +50,6 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
     [self.morselTitleLabel addStandardShadow];
-    self.shareButton.hidden = (![[MRSLUser currentUser] isChef]);
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {

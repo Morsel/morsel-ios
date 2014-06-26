@@ -31,6 +31,7 @@ extern NSString *const MRSLModalWillDismissNotification;
 extern NSString *const MRSLAppShouldDisplayMorselAddNotification;
 extern NSString *const MRSLAppShouldDisplayMenuBarNotification;
 extern NSString *const MRSLAppShouldDisplayBaseViewControllerNotification;
+extern NSString *const MRSLAppShouldDisplayProfessionalSettingsNotification;
 extern NSString *const MRSLAppShouldDisplayUserProfileNotification;
 extern NSString *const MRSLAppShouldDisplayWebBrowserNotification;
 extern NSString *const MRSLAppShouldDisplayEmailComposerNotification;

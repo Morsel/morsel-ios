@@ -17,6 +17,14 @@ typedef UITableViewCell *(^MRSLCellConfigureBlock)(id item, UITableView *tableVi
               didSelectItem:(id)item;
 - (void)tableViewDataSource:(UITableView *)tableView
    didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableViewDataSource:(UITableView *)tableView
+              didSelectItem:(id)item
+                atIndexPath:(NSIndexPath *)indexPath;
+
+- (void)tableViewDataSource:(UITableView *)tableView
+            didDeselectItem:(id)item
+                atIndexPath:(NSIndexPath *)indexPath;
+
 - (void)tableViewDataSourceDidScroll:(UITableView *)tableView
                           withOffset:(CGFloat)offset;
 - (NSInteger)tableViewDataSourceNumberOfItemsInSection:(NSInteger)section;

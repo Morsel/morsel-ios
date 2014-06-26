@@ -16,10 +16,10 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.followed_user_count = @"followed_user_count",
 	.follower_count = @"follower_count",
 	.following = @"following",
-	.industryType = @"industryType",
 	.last_name = @"last_name",
 	.liked_item_count = @"liked_item_count",
 	.morsel_count = @"morsel_count",
+	.professional = @"professional",
 	.profilePhotoFull = @"profilePhotoFull",
 	.profilePhotoLarge = @"profilePhotoLarge",
 	.profilePhotoThumb = @"profilePhotoThumb",
@@ -94,11 +94,6 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"industryTypeValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"industryType"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
 	if ([key isEqualToString:@"liked_item_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"liked_item_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -106,6 +101,11 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	}
 	if ([key isEqualToString:@"morsel_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"morsel_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"professionalValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"professional"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -305,32 +305,6 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
-@dynamic industryType;
-
-
-
-- (int16_t)industryTypeValue {
-	NSNumber *result = [self industryType];
-	return [result shortValue];
-}
-
-- (void)setIndustryTypeValue:(int16_t)value_ {
-	[self setIndustryType:[NSNumber numberWithShort:value_]];
-}
-
-- (int16_t)primitiveIndustryTypeValue {
-	NSNumber *result = [self primitiveIndustryType];
-	return [result shortValue];
-}
-
-- (void)setPrimitiveIndustryTypeValue:(int16_t)value_ {
-	[self setPrimitiveIndustryType:[NSNumber numberWithShort:value_]];
-}
-
-
-
-
-
 @dynamic last_name;
 
 
@@ -384,6 +358,32 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 - (void)setPrimitiveMorsel_countValue:(int32_t)value_ {
 	[self setPrimitiveMorsel_count:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic professional;
+
+
+
+- (BOOL)professionalValue {
+	NSNumber *result = [self professional];
+	return [result boolValue];
+}
+
+- (void)setProfessionalValue:(BOOL)value_ {
+	[self setProfessional:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveProfessionalValue {
+	NSNumber *result = [self primitiveProfessional];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveProfessionalValue:(BOOL)value_ {
+	[self setPrimitiveProfessional:[NSNumber numberWithBool:value_]];
 }
 
 

@@ -17,7 +17,7 @@
 
 @interface MRSLSegmentedButtonView : UIView
 
-@property (nonatomic) BOOL shouldDisplayChefTabs;
+@property (nonatomic) BOOL shouldDisplayProfessionalTabs;
 
 @property (weak, nonatomic) IBOutlet id <MRSLSegmentedButtonViewDelegate> delegate;
 

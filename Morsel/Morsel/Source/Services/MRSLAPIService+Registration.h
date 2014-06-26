@@ -30,10 +30,6 @@
               success:(MRSLAPISuccessBlock)successOrNil
               failure:(MRSLFailureBlock)failureOrNil;
 
-- (void)updateUserIndustry:(MRSLUser *)user
-                   success:(MRSLAPISuccessBlock)successOrNil
-                   failure:(MRSLFailureBlock)failureOrNil;
-
 - (void)forgotPasswordWithEmail:(NSString *)emailAddress
                         success:(MRSLAPISuccessBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil;

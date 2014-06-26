@@ -11,7 +11,7 @@
 #import "MRSLAPIService+Keyword.h"
 #import "MRSLAPIService+Tag.h"
 
-#import "MRSLAddKeywordTableViewCell.h"
+#import "MRSLToggleKeywordTableViewCell.h"
 
 #import "MRSLKeyword.h"
 #import "MRSLUser.h"
@@ -137,9 +137,9 @@ NSFetchedResultsControllerDelegate>
     return [_keywords count];
 }
 
-- (MRSLAddKeywordTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (MRSLToggleKeywordTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLKeyword *keyword = [_keywords objectAtIndex:indexPath.row];
-    MRSLAddKeywordTableViewCell *keywordCell = [self.tableView dequeueReusableCellWithIdentifier:@"ruid_AddKeywordCell"];
+    MRSLToggleKeywordTableViewCell *keywordCell = [self.tableView dequeueReusableCellWithIdentifier:@"ruid_AddKeywordCell"];
     keywordCell.keyword = keyword;
     keywordCell.pipeView.hidden = (indexPath.row == [_keywords count] - 1);
     if ([keyword taggedByCurrentUser]) [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];

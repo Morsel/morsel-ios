@@ -30,4 +30,8 @@
                  success:(MRSLAPISuccessBlock)successOrNil
                  failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)updateCurrentUserToProfessional:(BOOL)professional
+                                success:(MRSLAPISuccessBlock)successOrNil
+                                failure:(MRSLFailureBlock)failureOrNil;
+
 @end

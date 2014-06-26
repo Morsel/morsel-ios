@@ -17,10 +17,10 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *followed_user_count;
 	__unsafe_unretained NSString *follower_count;
 	__unsafe_unretained NSString *following;
-	__unsafe_unretained NSString *industryType;
 	__unsafe_unretained NSString *last_name;
 	__unsafe_unretained NSString *liked_item_count;
 	__unsafe_unretained NSString *morsel_count;
+	__unsafe_unretained NSString *professional;
 	__unsafe_unretained NSString *profilePhotoFull;
 	__unsafe_unretained NSString *profilePhotoLarge;
 	__unsafe_unretained NSString *profilePhotoThumb;
@@ -230,20 +230,6 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* industryType;
-
-
-
-@property int16_t industryTypeValue;
-- (int16_t)industryTypeValue;
-- (void)setIndustryTypeValue:(int16_t)value_;
-
-//- (BOOL)validateIndustryType:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSString* last_name;
 
 
@@ -277,6 +263,20 @@ extern const struct MRSLUserFetchedProperties {
 - (void)setMorsel_countValue:(int32_t)value_;
 
 //- (BOOL)validateMorsel_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* professional;
+
+
+
+@property BOOL professionalValue;
+- (BOOL)professionalValue;
+- (void)setProfessionalValue:(BOOL)value_;
+
+//- (BOOL)validateProfessional:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -549,15 +549,6 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
-- (NSNumber*)primitiveIndustryType;
-- (void)setPrimitiveIndustryType:(NSNumber*)value;
-
-- (int16_t)primitiveIndustryTypeValue;
-- (void)setPrimitiveIndustryTypeValue:(int16_t)value_;
-
-
-
-
 - (NSString*)primitiveLast_name;
 - (void)setPrimitiveLast_name:(NSString*)value;
 
@@ -578,6 +569,15 @@ extern const struct MRSLUserFetchedProperties {
 
 - (int32_t)primitiveMorsel_countValue;
 - (void)setPrimitiveMorsel_countValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitiveProfessional;
+- (void)setPrimitiveProfessional:(NSNumber*)value;
+
+- (BOOL)primitiveProfessionalValue;
+- (void)setPrimitiveProfessionalValue:(BOOL)value_;
 
 
 

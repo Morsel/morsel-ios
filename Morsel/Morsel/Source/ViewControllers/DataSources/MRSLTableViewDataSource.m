@@ -40,6 +40,15 @@
     if ([self.delegate respondsToSelector:@selector(tableViewDataSource:didSelectItemAtIndexPath:)]) {
         [self.delegate tableViewDataSource:tableView didSelectItemAtIndexPath:indexPath];
     }
+    if ([self.delegate respondsToSelector:@selector(tableViewDataSource:didSelectItem:atIndexPath:)]) {
+        [self.delegate tableViewDataSource:tableView didSelectItem:[self objectAtIndexPath:indexPath] atIndexPath:indexPath];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(tableViewDataSource:didDeselectItem:atIndexPath:)]) {
+        [self.delegate tableViewDataSource:tableView didDeselectItem:[self objectAtIndexPath:indexPath] atIndexPath:indexPath];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

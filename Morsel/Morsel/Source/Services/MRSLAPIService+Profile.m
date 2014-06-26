@@ -133,4 +133,27 @@
                               }];
 }
 
+- (void)updateCurrentUserToProfessional:(BOOL)professional
+                                success:(MRSLAPISuccessBlock)successOrNil
+                                failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user": @{@"professional": @(professional)}}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"users/%i", currentUser.userIDValue]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  if (currentUser.managedObjectContext) {
+                                      [currentUser MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                      [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+                                  }
+                                  if (successOrNil) successOrNil(responseObject);
+                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                  [self reportFailure:failureOrNil
+                                         forOperation:operation
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
 @end

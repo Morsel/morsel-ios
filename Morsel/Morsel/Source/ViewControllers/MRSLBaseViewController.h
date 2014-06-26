@@ -10,8 +10,6 @@
 
 @interface MRSLBaseViewController : UIViewController
 
-@property (nonatomic) BOOL shouldDisplayAdd;
-
 - (void)setupNavigationItems;
 
 - (IBAction)dismiss;

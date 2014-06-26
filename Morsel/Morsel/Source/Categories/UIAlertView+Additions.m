@@ -82,4 +82,13 @@
                                            delegate:delegate];
 }
 
++ (UIAlertView *)showOKAlertViewWithTitle:(NSString *)title
+                                  message:(NSString *)message {
+    return [UIAlertView showAlertViewWithTitle:title
+                                       message:message
+                                      delegate:nil
+                             cancelButtonTitle:@"OK"
+                             otherButtonTitles:nil];
+}
+
 @end

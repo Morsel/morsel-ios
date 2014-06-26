@@ -37,11 +37,11 @@ UITableViewDelegate>
     [super viewDidLoad];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(presentFeed)
+                                             selector:@selector(presentFeed:)
                                                  name:MRSLUserDidPublishMorselNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(presentFeed)
+                                             selector:@selector(presentFeed:)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -131,7 +131,7 @@ UITableViewDelegate>
     self.userNameLabel.text = @"";
 }
 
-- (void)presentFeed {
+- (void)presentFeed:(NSNotification *)notification {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self selectRowWithKey:MRSLMenuFeedKey];
     });
