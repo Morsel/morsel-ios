@@ -65,9 +65,7 @@
 
 - (IBAction)dismiss {
     [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:^{
-                                                          if (self.navigationController) [self.navigationController setViewControllers:nil];
-                                                      }];
+                                                      completion:nil];
 }
 
 - (IBAction)displayMenuBar {
