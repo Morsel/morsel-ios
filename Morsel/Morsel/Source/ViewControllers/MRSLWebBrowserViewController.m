@@ -133,6 +133,8 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [_webView setDelegate:nil];
+    [_webView stopLoading];
 }
 
 @end

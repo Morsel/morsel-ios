@@ -109,6 +109,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)displayMorselStatus {
     NSDate *lastUpdated = [_morsel latestUpdatedDate];
     self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last saved at %@", (lastUpdated) ? [_statusDateFormatter stringFromDate:lastUpdated] : [_statusDateFormatter stringFromDate:[NSDate date]]];
+    // Disable next button if there are no items
+    [self.nextButton setEnabled:([_items count] > 0)];
 }
 
 - (void)setupMorselsFetchRequest {
