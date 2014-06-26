@@ -67,8 +67,18 @@
             NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
             NSIndexPath *lastCellIndexPath = [NSIndexPath indexPathForItem:MAX(0, (numberOfItemsInSection - 1)) inSection:section];
 
-            UICollectionViewLayoutAttributes *firstCellAttrs = [self layoutAttributesForItemAtIndexPath:firstCellIndexPath];
-            UICollectionViewLayoutAttributes *lastCellAttrs = [self layoutAttributesForItemAtIndexPath:lastCellIndexPath];
+            UICollectionViewLayoutAttributes *firstCellAttrs = nil;
+            UICollectionViewLayoutAttributes *lastCellAttrs = nil;
+
+            if (numberOfItemsInSection > 0) {
+                firstCellAttrs = [self layoutAttributesForItemAtIndexPath:firstCellIndexPath];
+                lastCellAttrs = [self layoutAttributesForItemAtIndexPath:lastCellIndexPath];
+            } else {
+                firstCellAttrs = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                                                        atIndexPath:firstCellIndexPath];
+                lastCellAttrs = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+                                                                       atIndexPath:lastCellIndexPath];
+            }
 
 			if (self.scrollDirection == UICollectionViewScrollDirectionVertical) {
 				CGFloat headerHeight = CGRectGetHeight(layoutAttributes.frame);

@@ -79,6 +79,12 @@ MRSLMorselEditItemTableViewCellDelegate>
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    _itemsFetchedResultsController.delegate = nil;
+    _itemsFetchedResultsController = nil;
+    [super viewWillDisappear:animated];
+}
+
 - (void)displayMorsel {
     [self getOrLoadMorselIfExists];
 

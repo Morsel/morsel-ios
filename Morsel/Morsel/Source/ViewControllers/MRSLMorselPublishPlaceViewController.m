@@ -31,6 +31,7 @@ UITableViewDelegate>
 @property (strong, nonatomic) NSArray *places;
 @property (strong, nonatomic) NSMutableArray *placeIDs;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (nonatomic) NSInteger selectedPlaceRow;
 
 @end
 
@@ -50,6 +51,7 @@ UITableViewDelegate>
 
     [self.placeTableView addSubview:_refreshControl];
     self.placeTableView.alwaysBounceVertical = YES;
+    self.selectedPlaceRow = -1;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -79,9 +81,8 @@ UITableViewDelegate>
 #pragma mark - Private Methods
 
 - (void)updateMorsel {
-    if ([_places count] > 0) {
-        NSIndexPath *selectedIndexPath = [_placeTableView indexPathForSelectedRow];
-        MRSLPlace *place = [_places objectAtIndex:selectedIndexPath.row];
+    if ([_places count] > 0 && _selectedPlaceRow >= 0) {
+        MRSLPlace *place = [_places objectAtIndex:_selectedPlaceRow];
         self.morsel.place = place;
     }
 }
@@ -169,6 +170,12 @@ UITableViewDelegate>
         MRSLPlacesAddViewController *placesAddVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"];
         [self.navigationController pushViewController:placesAddVC
                                              animated:YES];
+    } else if(_selectedPlaceRow == indexPath.row) {
+        _selectedPlaceRow = -1;
+        [tableView deselectRowAtIndexPath:indexPath
+                                 animated:YES];
+    } else {
+        _selectedPlaceRow = indexPath.row;
     }
 }
 
