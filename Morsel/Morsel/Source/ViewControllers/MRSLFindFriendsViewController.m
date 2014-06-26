@@ -80,6 +80,8 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    _fetchedResultsController.delegate = nil;
+    _fetchedResultsController = nil;
     [super viewWillDisappear:animated];
     [self suspendTimer];
 }

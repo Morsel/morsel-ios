@@ -107,6 +107,13 @@ NSFetchedResultsControllerDelegate>
     [self refreshContent];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    _fetchedResultsController.delegate = nil;
+    _fetchedResultsController = nil;
+    [super viewWillDisappear:animated];
+}
+
+
 #pragma mark - Private Methods
 
 - (void)setLoading:(BOOL)loading {

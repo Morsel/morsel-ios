@@ -543,7 +543,6 @@ MRSLCapturePreviewsViewControllerDelegate>
                 DDLogError(@"Unable to remove session observers because they do not exist.");
             }
         });
-        self.sessionQueue = nil;
     }
 }
 
@@ -691,7 +690,6 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 
     [self.previewView setSession:nil];
     [self.previewView.layer removeFromSuperlayer];
-    [self.previewView removeFromSuperview];
 
     self.runtimeErrorHandlingObserver = nil;
     self.videoDeviceInput = nil;
