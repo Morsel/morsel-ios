@@ -90,8 +90,8 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    _fetchedResultsController.delegate = nil;
-    _fetchedResultsController = nil;
+    _morselsFetchedResultsController.delegate = nil;
+    _morselsFetchedResultsController = nil;
     [super viewWillDisappear:animated];
 }
 
