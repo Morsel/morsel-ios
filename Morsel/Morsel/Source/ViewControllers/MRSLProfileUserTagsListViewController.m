@@ -211,7 +211,7 @@ UIActionSheetDelegate>
            viewForSupplementaryElementOfKind:(NSString *)kind
                                  atIndexPath:(NSIndexPath *)indexPath {
     MRSLReusableView *reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                        withReuseIdentifier:@"ruid_TagsHeader"
+                                                                        withReuseIdentifier:@"ruid_KeywordTypeCell"
                                                                                forIndexPath:indexPath];
 
     if (indexPath.section > 0) {
