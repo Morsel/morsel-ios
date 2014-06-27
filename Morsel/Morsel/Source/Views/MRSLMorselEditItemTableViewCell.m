@@ -84,8 +84,8 @@
                                         success:^(id responseObject) {
                                             if ([responseObject isKindOfClass:[MRSLItem class]]) {
                                                 [_appDelegate.apiService updateItemImage:_item
-                                                                                     success:nil
-                                                                                     failure:nil];
+                                                                                 success:nil
+                                                                                 failure:nil];
                                             }
                                         } failure:nil];
     } else {
