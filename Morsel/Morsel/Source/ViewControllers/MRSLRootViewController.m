@@ -112,6 +112,7 @@ MRSLMenuViewControllerDelegate>
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
                                                                                     action:@selector(userPanning:)];
     panRecognizer.delegate = self;
+    panRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:panRecognizer];
 }
 
