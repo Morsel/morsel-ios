@@ -57,8 +57,10 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
-    _morsel = morsel;
-    [self displayContent];
+    if (_morsel != morsel) {
+        _morsel = morsel;
+        [self displayContent];
+    }
 }
 
 #pragma mark - Notification Methods
@@ -72,7 +74,8 @@ MRSLFeedShareCollectionViewCellDelegate>
     [updatedObjects enumerateObjectsUsingBlock:^(NSManagedObject *managedObject, BOOL *stop) {
         if ([managedObject isKindOfClass:[MRSLMorsel class]]) {
             MRSLMorsel *morsel = (MRSLMorsel *)managedObject;
-            if (morsel.morselIDValue == weakSelf.morsel.morselIDValue) {
+            if (morsel.morselIDValue == weakSelf.morsel.morselIDValue &&
+                [weakSelf.morsel.items count] != [morsel.items count]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf displayContent];
                 });

@@ -48,8 +48,17 @@
 #pragma mark - Action Methods
 
 - (IBAction)dismiss {
+    __weak __typeof(self) weakSelf = self;
     [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:nil];
+                                                      completion:^{
+                                                          /*
+                                                           This is essential due to UINavigationController instances originating from UIStoryboard
+                                                           not properly releasing contained view controllers.
+                                                           */
+                                                          if (weakSelf.navigationController) {
+                                                              [weakSelf.navigationController setViewControllers:nil];
+                                                          }
+                                                      }];
 }
 
 - (IBAction)displayMenuBar {

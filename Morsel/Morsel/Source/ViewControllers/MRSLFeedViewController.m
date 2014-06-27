@@ -96,17 +96,19 @@ MRSLFeedPanelCollectionViewCellDelegate>
     MRSLUser *currentUser = [MRSLUser currentUser];
     if (!currentUser) return;
     [self resumeTimer];
-    if (_feedFetchedResultsController) return;
-    [self setupFetchRequest];
-    [self populateContent];
-    [self refreshContent];
-    [self resetCollectionViewWidth];
+    if (_feedFetchedResultsController) {
+        self.feedFetchedResultsController.delegate = self;
+    } else {
+        [self setupFetchRequest];
+        [self populateContent];
+        [self refreshContent];
+        [self resetCollectionViewWidth];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    _feedFetchedResultsController.delegate = nil;
-    _feedFetchedResultsController = nil;
     [super viewWillDisappear:animated];
+    self.feedFetchedResultsController.delegate = nil;
     [self suspendTimer];
 }
 
@@ -494,6 +496,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
         [viewController removeFromParentViewController];
     }];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.feedFetchedResultsController = nil;
     self.feedCollectionView.delegate = nil;
     self.feedCollectionView.dataSource = nil;
     [self.feedCollectionView removeFromSuperview];
