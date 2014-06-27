@@ -65,7 +65,7 @@ UITextFieldDelegate>
         if (!_shouldOmitEmail) self.emailField.text = _socialUser.email;
         self.passwordField.hidden = YES;
 
-        dispatch_queue_t queue = dispatch_queue_create("com.eatmorsel.social-image-processing",NULL);
+        dispatch_queue_t queue = dispatch_queue_create("com.eatmorsel.social-image-processing", NULL);
         dispatch_queue_t main = dispatch_get_main_queue();
 
         self.addPhotoButton.enabled = NO;

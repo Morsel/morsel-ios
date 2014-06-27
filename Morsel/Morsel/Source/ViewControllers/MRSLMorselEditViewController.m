@@ -369,30 +369,64 @@ MRSLMorselEditItemTableViewCellDelegate>
             itemIndex = (lastMorsel.sort_orderValue + (idx + 1));
         }
         DDLogDebug(@"Item INDEX: %lu", (unsigned long)itemIndex);
-        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-            MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                           withValue:self.morsel.morselID
-                                                           inContext:localContext];
-            MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
-            item.sort_order = @(itemIndex);
-            item.itemPhotoFull = UIImageJPEGRepresentation(mediaItem.mediaFullImage, 1.f);
-            item.itemPhotoCropped = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, .8f);
-            item.itemPhotoThumb = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
-            item.isUploading = @YES;
-            item.morsel = morsel;
-            [morsel addItemsObject:item];
-            [_appDelegate.apiService createItem:item
-                                        success:^(id responseObject) {
-                                            if ([responseObject isKindOfClass:[MRSLItem class]]) {
-                                                MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
-                                                [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
-                                                [weakSelf displayMorselStatus];
-                                                [_appDelegate.apiService updateItemImage:itemToUploadWithImage
-                                                                                 success:nil
-                                                                                 failure:nil];
-                                            }
-                                        } failure:nil];
-        }];
+
+        __block NSData *fullImageData = nil;
+        __block NSData *croppedImageData = nil;
+        __block NSData *thumbImageData = nil;
+
+        dispatch_queue_t queue = dispatch_queue_create("com.eatmorsel.morsel-add-image-processing", NULL);
+        dispatch_queue_t main = dispatch_get_main_queue();
+
+        dispatch_async(queue, ^{
+            fullImageData = UIImageJPEGRepresentation(mediaItem.mediaFullImage, 1.f);
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
+                dispatch_async(queue, ^{
+                    croppedImageData = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, .8f);
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
+                        dispatch_async(queue, ^{
+                            thumbImageData = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
+                                dispatch_async(main, ^{
+                                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                                        MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                                                       withValue:self.morsel.morselID
+                                                                                       inContext:localContext];
+                                        MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
+                                        item.sort_order = @(itemIndex);
+                                        item.itemPhotoFull = fullImageData;
+                                        item.itemPhotoCropped = croppedImageData;
+                                        item.itemPhotoThumb = thumbImageData;
+                                        item.isUploading = @YES;
+                                        item.morsel = morsel;
+                                        [morsel addItemsObject:item];
+                                        [_appDelegate.apiService createItem:item
+                                                                    success:^(id responseObject) {
+                                                                        if ([responseObject isKindOfClass:[MRSLItem class]]) {
+                                                                            MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
+                                                                            [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
+                                                                            [weakSelf displayMorselStatus];
+                                                                            [_appDelegate.apiService updateItemImage:itemToUploadWithImage
+                                                                                                             success:^(id responseObject) {
+                                                                                                                 fullImageData = nil;
+                                                                                                                 croppedImageData = nil;
+                                                                                                                 thumbImageData = nil;
+                                                                                                             } failure:^(NSError *error) {
+                                                                                                                 fullImageData = nil;
+                                                                                                                 croppedImageData = nil;
+                                                                                                                 thumbImageData = nil;
+                                                                                                             }];
+                                                                        }
+                                                                    } failure:nil];
+                                    }];
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+
+
         idx++;
     }
     [capturedMedia removeAllObjects];

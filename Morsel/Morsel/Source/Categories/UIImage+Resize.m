@@ -29,9 +29,6 @@
 - (UIImage *)croppedImage:(CGRect)bounds
                    scaled:(CGSize)scaleSizeOrSizeZero {
     DDLogDebug(@"Cropping Image to Bounds: CGRect(x: %f, y: %f, w: %f, h: %f)", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
-
-    UIImage *finalImage = nil;
-
     CGAffineTransform rectTransform;
 
     switch (self.imageOrientation) {
@@ -56,24 +53,8 @@
                                                 scale:self.scale
                                           orientation:self.imageOrientation];
     CGImageRelease(imageRef);
-
-    if (!CGSizeEqualToSize(scaleSizeOrSizeZero, CGSizeZero)) {
-        CGRect scaledImgRect = CGRectMake(0, 0, (scaleSizeOrSizeZero.width * 2), (scaleSizeOrSizeZero.height * 2));
-
-        UIGraphicsBeginImageContextWithOptions(scaledImgRect.size, NO, 1.f);
-
-        [croppedImage drawInRect:scaledImgRect];
-
-        finalImage = UIGraphicsGetImageFromCurrentImageContext();
-
-        UIGraphicsEndImageContext();
-    } else {
-        finalImage = croppedImage;
-    }
-
-    DDLogDebug(@"Final Cropped Image Dimensions: (w:%f, h:%f)", finalImage.size.width, finalImage.size.height);
-
-    return finalImage;
+    DDLogDebug(@"Final Cropped Image Dimensions: (w:%f, h:%f)", croppedImage.size.width, croppedImage.size.height);
+    return croppedImage;
 }
 
 // Returns a copy of this image that is squared to the thumbnail size.

@@ -187,6 +187,7 @@ UITableViewDelegate>
                                                                     andFontSize:12.f];
     boldLabel.text = [[self.menuOptions objectAtIndex:section][@"name"] uppercaseString];
     boldLabel.textColor = [UIColor morselRed];
+    boldLabel.backgroundColor = [UIColor clearColor];
 
     UIView *menuOptionHeader = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 24.f)];
     [menuOptionHeader setBackgroundColor:[UIColor colorWithWhite:1.f
