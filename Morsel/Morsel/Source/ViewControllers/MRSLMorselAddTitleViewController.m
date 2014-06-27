@@ -25,8 +25,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *titlePlaceholderLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButtonItem;
 
-@property (weak, nonatomic) MRSLMorsel *morsel;
-
 @end
 
 @implementation MRSLMorselAddTitleViewController
@@ -34,10 +32,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self getOrLoadMorselIfExists];
-
-    if (_morsel) {
-        self.morselTitleTextView.text = self.morsel.title;
+    if (_morselID) {
+        MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
+        self.morselTitleTextView.text = morsel.title;
         [self textViewDidChange:_morselTitleTextView];
         self.title = @"Edit Morsel title";
     } else {
@@ -57,9 +54,9 @@
 #pragma mark - Getter Methods
 
 - (MRSLMorsel *)getOrLoadMorselIfExists {
-    if (_morselID) self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                     withValue:_morselID];
-    return _morsel;
+    if (_morselID) return [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                    withValue:_morselID];
+    return nil;
 }
 
 #pragma mark - Action Methods
@@ -71,12 +68,17 @@
     [[MRSLEventManager sharedManager] track:@"Tapped Done"
                                  properties:@{@"view": @"Add Morsel Title"}];
     if (_isUserEditingTitle) {
-        self.morsel = [self getOrLoadMorselIfExists];
-        if (![self.morsel.title isEqualToString:self.morselTitleTextView.text]) {
-            self.morsel.title = self.morselTitleTextView.text;
-            [_appDelegate.apiService updateMorsel:_morsel
-                                              success:nil
-                                              failure:nil];
+        MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
+        if (morsel) {
+            if (![morsel.title isEqualToString:self.morselTitleTextView.text]) {
+                morsel.title = self.morselTitleTextView.text;
+                    [_appDelegate.apiService updateMorsel:morsel
+                                                  success:nil
+                                                  failure:nil];
+            }
+        } else {
+            [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel! Please try again."
+                                            delegate:nil];
         }
         [self.navigationController popViewControllerAnimated:YES];
     } else {
@@ -90,12 +92,12 @@
                                           MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
                                           editMorselVC.shouldPresentMediaCapture = YES;
                                           editMorselVC.morselID = morsel.morselID;
-                                          [self.navigationController pushViewController:editMorselVC
-                                                                               animated:YES];
+                                          [weakSelf.navigationController pushViewController:editMorselVC
+                                                                                   animated:YES];
                                       } failure:^(NSError *error) {
                                           [UIAlertView showAlertViewForErrorString:@"Unable to create Morsel! Please try again."
                                                                           delegate:nil];
-                                          [_morsel MR_deleteEntity];
+                                          [morsel MR_deleteEntity];
                                           [weakSelf.doneBarButtonItem setEnabled:YES];
                                           [weakSelf.titlePlaceholderLabel setHidden:NO];
                                       }];
