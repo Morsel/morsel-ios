@@ -80,25 +80,25 @@
         }
         [self.navigationController popViewControllerAnimated:YES];
     } else {
-        self.morsel = [MRSLMorsel MR_createEntity];
-        _morsel.draft = @YES;
-        _morsel.title = self.morselTitleTextView.text;
+        MRSLMorsel *morsel = [MRSLMorsel MR_createEntity];
+        morsel.draft = @YES;
+        morsel.title = self.morselTitleTextView.text;
 
         __weak __typeof(self) weakSelf = self;
-        [_appDelegate.apiService createMorsel:_morsel
-                                          success:^(id responseObject) {
-            MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
-            editMorselVC.shouldPresentMediaCapture = YES;
-            editMorselVC.morselID = _morsel.morselID;
-            [self.navigationController pushViewController:editMorselVC
-                                                 animated:YES];
-        } failure:^(NSError *error) {
-            [UIAlertView showAlertViewForErrorString:@"Unable to create Morsel! Please try again."
-                                            delegate:nil];
-            [_morsel MR_deleteEntity];
-            [weakSelf.doneBarButtonItem setEnabled:YES];
-            [weakSelf.titlePlaceholderLabel setHidden:NO];
-        }];
+        [_appDelegate.apiService createMorsel:morsel
+                                      success:^(id responseObject) {
+                                          MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
+                                          editMorselVC.shouldPresentMediaCapture = YES;
+                                          editMorselVC.morselID = morsel.morselID;
+                                          [self.navigationController pushViewController:editMorselVC
+                                                                               animated:YES];
+                                      } failure:^(NSError *error) {
+                                          [UIAlertView showAlertViewForErrorString:@"Unable to create Morsel! Please try again."
+                                                                          delegate:nil];
+                                          [_morsel MR_deleteEntity];
+                                          [weakSelf.doneBarButtonItem setEnabled:YES];
+                                          [weakSelf.titlePlaceholderLabel setHidden:NO];
+                                      }];
     }
 }
 
