@@ -411,31 +411,49 @@ MRSLCapturePreviewsViewControllerDelegate>
 
     __weak __typeof(self) weakSelf = self;
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_queue_t queue = dispatch_queue_create("com.eatmorsel.capture-image-processing", NULL);
+    dispatch_queue_t main = dispatch_get_main_queue();
+
+    dispatch_async(queue, ^{
         if (weakSelf) {
             CGRect cropRect = CGRectMake((imageIsLandscape) ? xCenterAdjustment : 0.f, (imageIsLandscape) ? 0.f : cropStartingY, minimumImageDimension, minimumImageDimension);
-
             if (fullSizeImage.size.width == fullSizeImage.size.height) {
-                // Square
+                // Since the image is square, don't adjust the crop rect to account for interface overlap
                 cropRect = CGRectMake(0.f, 0.f, minimumImageDimension, minimumImageDimension);
             }
-            UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:cropRect
-                                                                 scaled:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)];
-            mediaItem.mediaFullImage = croppedFullSizeImage;
-            mediaItem.mediaThumbImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageThumbDimensionSize
-                                                        interpolationQuality:kCGInterpolationHigh];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                mediaItem.mediaCroppedImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageLargeDimensionSize
-                                                              interpolationQuality:kCGInterpolationHigh];
-                weakSelf.processingImageCount--;
-                [weakSelf updateFinishButtonAvailability];
-            });
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (weakSelf) {
-                    [weakSelf.capturedMediaItems addObject:mediaItem];
-                    [weakSelf.capturePreviewsViewController addPreviewMediaItem:mediaItem];
-                    weakSelf.approvalImageView.image = mediaItem.mediaCroppedImage;
-                }
+            dispatch_async(queue, ^{
+                UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:cropRect
+                                                                     ignoresOrientation:NO];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
+                    dispatch_async(queue, ^{
+                        [croppedFullSizeImage resizedImage:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)
+                                      interpolationQuality:kCGInterpolationMedium];
+                        dispatch_async(queue, ^{
+                            mediaItem.mediaFullImage = croppedFullSizeImage;
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
+                                dispatch_async(queue, ^{
+                                    mediaItem.mediaThumbImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageThumbDimensionSize
+                                                                                interpolationQuality:kCGInterpolationHigh];
+                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
+                                        dispatch_async(queue, ^{
+                                            mediaItem.mediaCroppedImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageLargeDimensionSize
+                                                                                          interpolationQuality:kCGInterpolationHigh];
+                                            weakSelf.processingImageCount--;
+                                            [weakSelf updateFinishButtonAvailability];
+                                        });
+                                    });
+                                    dispatch_async(main, ^{
+                                        if (weakSelf) {
+                                            [weakSelf.capturedMediaItems addObject:mediaItem];
+                                            [weakSelf.capturePreviewsViewController addPreviewMediaItem:mediaItem];
+                                            weakSelf.approvalImageView.image = mediaItem.mediaCroppedImage;
+                                        }
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
             });
         }
     });

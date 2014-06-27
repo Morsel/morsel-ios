@@ -11,69 +11,38 @@
 
 #pragma mark - Instance Methods
 
-// Returns a copy of this image that is cropped to the given bounds.
-// The bounds will be adjusted using CGRectIntegral.
-// This method ignores the image's imageOrientation setting.
-
-- (UIImage *)croppedImage:(CGRect)bounds {
-    CGImageRef imageRef = CGImageCreateWithImageInRect([self CGImage], bounds);
-    UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
-    CGImageRelease(imageRef);
-    return croppedImage;
-}
-
 // Returns a copy of this image that is cropped to the given bounds and scales it to desired dimensions.
-// Accounts for imageOrientation
-// If no size is provided, scale is skipped
+// Accounts for imageOrientation but it can be ignored
 
 - (UIImage *)croppedImage:(CGRect)bounds
-                   scaled:(CGSize)scaleSizeOrSizeZero {
-    DDLogDebug(@"Cropping Image to Bounds: CGRect(x: %f, y: %f, w: %f, h: %f)", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+       ignoresOrientation:(BOOL)shouldIgnoreOrientation {
+    DDLogVerbose(@"Cropping Image to Bounds: CGRect(x: %f, y: %f, w: %f, h: %f)", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+    CGAffineTransform rectTransform = CGAffineTransformIdentity;
 
-    UIImage *finalImage = nil;
-
-    CGAffineTransform rectTransform;
-
-    switch (self.imageOrientation) {
-        case UIImageOrientationLeft:
-            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(M_PI_2), 0, -self.size.height);
-            break;
-        case UIImageOrientationRight:
-            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI_2), -self.size.width, 0);
-            break;
-        case UIImageOrientationDown:
-            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI), -self.size.width, -self.size.height);
-            break;
-        default:
-            rectTransform = CGAffineTransformIdentity;
-            break;
-    };
-
-    rectTransform = CGAffineTransformScale(rectTransform, self.scale, self.scale);
+    if (!shouldIgnoreOrientation) {
+        switch (self.imageOrientation) {
+            case UIImageOrientationLeft:
+                rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(M_PI_2), 0, -self.size.height);
+                break;
+            case UIImageOrientationRight:
+                rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI_2), -self.size.width, 0);
+                break;
+            case UIImageOrientationDown:
+                rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI), -self.size.width, -self.size.height);
+                break;
+            default:
+                rectTransform = CGAffineTransformIdentity;
+                break;
+        };
+        rectTransform = CGAffineTransformScale(rectTransform, self.scale, self.scale);
+    }
 
     CGImageRef imageRef = CGImageCreateWithImageInRect(self.CGImage, CGRectApplyAffineTransform(bounds, rectTransform));
     UIImage *croppedImage = [UIImage imageWithCGImage:imageRef
                                                 scale:self.scale
                                           orientation:self.imageOrientation];
     CGImageRelease(imageRef);
-
-    if (!CGSizeEqualToSize(scaleSizeOrSizeZero, CGSizeZero)) {
-        CGRect scaledImgRect = CGRectMake(0, 0, (scaleSizeOrSizeZero.width * 2), (scaleSizeOrSizeZero.height * 2));
-
-        UIGraphicsBeginImageContextWithOptions(scaledImgRect.size, NO, 1.f);
-
-        [croppedImage drawInRect:scaledImgRect];
-
-        finalImage = UIGraphicsGetImageFromCurrentImageContext();
-
-        UIGraphicsEndImageContext();
-    } else {
-        finalImage = croppedImage;
-    }
-
-    DDLogDebug(@"Final Cropped Image Dimensions: (w:%f, h:%f)", finalImage.size.width, finalImage.size.height);
-
-    return finalImage;
+    return croppedImage;
 }
 
 // Returns a copy of this image that is squared to the thumbnail size.
@@ -91,7 +60,8 @@
                                  round((resizedImage.size.height - thumbnailSize) / 2),
                                  thumbnailSize,
                                  thumbnailSize);
-    UIImage *croppedImage = [resizedImage croppedImage:cropRect];
+    UIImage *croppedImage = [resizedImage croppedImage:cropRect
+                                    ignoresOrientation:YES];
 
     return croppedImage;
 }
