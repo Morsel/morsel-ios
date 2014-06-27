@@ -60,6 +60,12 @@ NSFetchedResultsControllerDelegate>
                                  failure:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    _fetchedResultsController.delegate = nil;
+    _fetchedResultsController = nil;
+    [super viewWillDisappear:animated];
+}
+
 - (void)setItem:(MRSLItem *)item {
     if (_item != item) {
         _item = item;
@@ -206,8 +212,6 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - Destroy Methods
 
 - (void)dealloc {
-    _fetchedResultsController.delegate = nil;
-    _fetchedResultsController = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.commentsTableView.dataSource = nil;
     self.commentsTableView.delegate = nil;
