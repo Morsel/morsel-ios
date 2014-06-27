@@ -204,15 +204,19 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                orSinceID:nil
                                 andCount:@(12)
                                  success:^(NSArray *responseArray) {
-                                     [weakSelf.refreshControl endRefreshing];
-                                     weakSelf.objectIDs = [responseArray mutableCopy];
-                                     [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                               forKey:[weakSelf objectIDsKey]];
-                                     [weakSelf updateDataSourcePredicate];
-                                     weakSelf.refreshing = NO;
+                                     if (weakSelf) {
+                                         [weakSelf.refreshControl endRefreshing];
+                                         weakSelf.objectIDs = [responseArray mutableCopy];
+                                         [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                                                   forKey:[weakSelf objectIDsKey]];
+                                         [weakSelf updateDataSourcePredicate];
+                                         weakSelf.refreshing = NO;
+                                     }
                                  } failure:^(NSError *error) {
-                                     [weakSelf.refreshControl endRefreshing];
-                                     weakSelf.refreshing = NO;
+                                     if (weakSelf) {
+                                         [weakSelf.refreshControl endRefreshing];
+                                         weakSelf.refreshing = NO;
+                                     }
                                  }];
 }
 
