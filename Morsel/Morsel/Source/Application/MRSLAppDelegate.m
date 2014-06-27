@@ -73,16 +73,17 @@
     if ([url.absoluteString rangeOfString:fbID].location != NSNotFound) {
         DDLogDebug(@"Facebook Callback URL: %@", url);
         [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-    } else if ([url.absoluteString rangeOfString:@"tw-morsel"].location != NSNotFound) {
+    } else if ([url.absoluteString rangeOfString:TWITTER_CALLBACK].location != NSNotFound) {
         DDLogDebug(@"Twitter Callback URL: %@", url);
         NSNotification *notification = [NSNotification notificationWithName:kAFApplicationLaunchedWithURLNotification
                                                                      object:nil
                                                                    userInfo:[NSDictionary dictionaryWithObject:url
                                                                                                         forKey:kAFApplicationLaunchOptionsURLKey]];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
-    } else if ([url.absoluteString rangeOfString:@"insta-morsel"].location != NSNotFound) {
+    } else if ([url.absoluteString rangeOfString:INSTAGRAM_CALLBACK].location != NSNotFound) {
         DDLogDebug(@"Instagram Callback URL: %@", url);
-        NSString *authCode = [url.absoluteString stringByReplacingOccurrencesOfString:@"insta-morsel://success?code=" withString:@""];
+        NSString *replacingCallbackString = [NSString stringWithFormat:@"%@?code=", INSTAGRAM_CALLBACK];
+        NSString *authCode = [url.absoluteString stringByReplacingOccurrencesOfString:replacingCallbackString withString:@""];
         [[MRSLSocialServiceInstagram sharedService] completeAuthenticationWithCode:authCode];
     }
     return [self handleRouteForURL:url
