@@ -113,7 +113,6 @@
                                                 withError:nil];
         }
     } else {
-        [self cancelCurrentImageLoad];
         self.image = [self placeholderImage];
     }
 }
@@ -141,32 +140,16 @@
     });
 }
 
-- (void)setLowResolutionURL:(NSURL *)lowResolutionURL
-          highResolutionURL:(NSURL *)highResolutionURL {
-    __weak __typeof(self)weakSelf = self;
-
-    [self setImageWithURL:lowResolutionURL
-         placeholderImage:nil
-                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                    if (![weakSelf shouldBlur]) {  // No point in blurring a higer res photo
-                        [weakSelf setImageWithURL:highResolutionURL
-                                 placeholderImage:image
-                                        completed:nil
-                             showActivityIndicator:YES];
-                    }
-                } showActivityIndicator:YES];
-}
-
 - (void)imageViewTapped:(UITapGestureRecognizer *)tapRecognizer {
-    // Should be overridden to either call delegate methods or other handling
+    NSAssert(NO, @"Should be overridden to either call delegate methods or other handling");
 }
 
 - (UIImage *)imageForCacheKey:(NSString *)cacheKey {
     return [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:cacheKey];
 }
 
-// Should be overriden. Default is f0f because it's noticeable
 - (UIImage *)placeholderImage {
+    NSAssert(NO, @"Should be overriden. Default is f0f because it's noticeable.");
     return [UIImage imageWithColor:[UIColor magentaColor]];
 }
 

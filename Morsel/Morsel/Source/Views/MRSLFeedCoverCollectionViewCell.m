@@ -152,6 +152,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 #pragma mark - Dealloc
 
 - (void)dealloc {
+    self.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
