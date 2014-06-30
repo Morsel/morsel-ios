@@ -8,6 +8,16 @@
 
 #import "MRSLBaseTableViewCell.h"
 
+@interface MRSLBaseTableViewCell ()
+
+- (UIColor *)defaultBackgroundColor;
+- (UIColor *)defaultHighlightedBackgroundColor;
+- (UIColor *)defaultSelectedBackgroundColor;
+
+@property (nonatomic) BOOL togglable;
+
+@end
+
 @implementation MRSLBaseTableViewCell
 
 - (UITableViewCellSelectionStyle)selectionStyle {
@@ -17,13 +27,28 @@
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
 
-    [self setBackgroundColor:(highlighted) ? [UIColor morselUserInterface] : [UIColor whiteColor]];
+    [self setBackgroundColor:(highlighted) ? [self defaultHighlightedBackgroundColor] : (self.togglable && self.selected ? [self defaultSelectedBackgroundColor] : [self defaultBackgroundColor])];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    [self setBackgroundColor:(selected) ? [UIColor morselUserInterface] : [UIColor whiteColor]];
+    [self setBackgroundColor:(selected) ? [self defaultSelectedBackgroundColor] : [self defaultBackgroundColor]];
+}
+
+
+#pragma mark - Private Methods
+
+- (UIColor *)defaultBackgroundColor {
+    return [UIColor whiteColor];
+}
+
+- (UIColor *)defaultHighlightedBackgroundColor {
+    return [self defaultSelectedBackgroundColor];
+}
+
+- (UIColor *)defaultSelectedBackgroundColor {
+    return [UIColor morselUserInterface];
 }
 
 @end

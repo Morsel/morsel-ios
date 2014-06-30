@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseTableViewCell.h"
 
 @class MRSLBadgeLabelView;
 
-@interface MRSLMenuOptionTableViewCell : UITableViewCell
+@interface MRSLMenuOptionTableViewCell : MRSLBaseTableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *optionNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;

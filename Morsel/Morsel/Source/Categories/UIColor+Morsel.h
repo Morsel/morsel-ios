@@ -10,7 +10,29 @@
 
 @interface UIColor (Morsel)
 
+#pragma mark - Morsel Style Guide
+
++ (UIColor *)morselPrimary;
++ (UIColor *)morselSecondary;
++ (UIColor *)morselTertiary;
++ (UIColor *)morselBackground;
++ (UIColor *)morselBackgroundDark;
++ (UIColor *)morselLight;
++ (UIColor *)morselMedium;
++ (UIColor *)morselDark;
++ (UIColor *)morselLightOff;
++ (UIColor *)morselPrimaryLight;
++ (UIColor *)morselPrimaryDark;
++ (UIColor *)morselPrimaryBright;
++ (UIColor *)morselSecondaryBright;
++ (UIColor *)morselLightest;
++ (UIColor *)morselOffWhite;
+
+
+#pragma mark - Misc
+
 + (UIColor *)morselRed;
++ (UIColor *)morselPrimaryLight; 
 + (UIColor *)morselGreen;
 + (UIColor *)morselUserInterface;
 + (UIColor *)morselDarkContent;
