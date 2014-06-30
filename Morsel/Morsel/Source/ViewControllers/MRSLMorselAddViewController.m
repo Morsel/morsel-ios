@@ -11,7 +11,6 @@
 #import "MRSLAPIService+Morsel.h"
 
 #import "MRSLMorselCollectionViewCell.h"
-#import "MRSLStatusHeaderCollectionReusableView.h"
 #import "MRSLMorselAddTitleViewController.h"
 #import "MRSLMorselEditViewController.h"
 #import "MRSLMorselListViewController.h"
@@ -23,8 +22,7 @@
 @interface MRSLMorselAddViewController ()
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
-NSFetchedResultsControllerDelegate,
-MRSLStatusHeaderCollectionReusableViewDelegate>
+NSFetchedResultsControllerDelegate>
 
 @property (nonatomic) BOOL refreshing;
 @property (nonatomic) BOOL loadingMore;
@@ -63,6 +61,15 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
 
     [self.morselCollectionView addSubview:_refreshControl];
     self.morselCollectionView.alwaysBounceVertical = YES;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselCreated)
+                                                 name:MRSLUserDidCreateMorselNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselDeleted:)
+                                                 name:MRSLUserDidDeleteMorselNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -82,17 +89,22 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
         self.selectedIndexPath = nil;
     }
 
-    if (![MRSLUser currentUser]) return;
-
-    [self setupFetchRequest];
-    [self populateContent];
-    [self refreshContent];
+    if (_morselsFetchedResultsController) return;
+    [self reloadContent];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     _morselsFetchedResultsController.delegate = nil;
     _morselsFetchedResultsController = nil;
     [super viewWillDisappear:animated];
+}
+
+#pragma mark - Private Methods
+
+- (void)reloadContent {
+    [self setupFetchRequest];
+    [self populateContent];
+    [self refreshContent];
 }
 
 - (void)setupFetchRequest {
@@ -178,6 +190,26 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
                                        }];
 }
 
+#pragma mark - Notification Methods
+
+- (void)morselCreated {
+    [self reloadContent];
+}
+
+- (void)morselDeleted:(NSNotification *)notification {
+    NSNumber *deletedMorselID = notification.object;
+    NSNumber *confirmedMorselID = nil;
+    for (NSNumber *morselID in self.morselIDs) {
+        if ([deletedMorselID intValue] == [morselID intValue]) {
+            confirmedMorselID = morselID;
+            break;
+        }
+    }
+    [self.morselIDs removeObject:confirmedMorselID];
+    [self setupFetchRequest];
+    [self populateContent];
+}
+
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
@@ -241,18 +273,6 @@ MRSLStatusHeaderCollectionReusableViewDelegate>
     if (maximumOffset - currentOffset <= 10.f) {
         [self loadMore];
     }
-}
-
-#pragma mark - MRSLStatusHeaderCollectionReusableViewDelegate Methods
-
-- (void)statusHeaderDidSelectViewAllForType:(MRSLMorselStatusType)statusType {
-    [[MRSLEventManager sharedManager] track:@"Tapped View All"
-                                 properties:@{@"view": @"Morsel Add"}];
-    MRSLMorselListViewController *morselListViewController = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselListViewController"];
-    morselListViewController.morselStatusType = statusType;
-    morselListViewController.shouldPresentMediaCapture = YES;
-    [self.navigationController pushViewController:morselListViewController
-                                         animated:YES];
 }
 
 #pragma mark - Dealloc

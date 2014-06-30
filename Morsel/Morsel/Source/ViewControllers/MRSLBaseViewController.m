@@ -48,15 +48,15 @@
 #pragma mark - Action Methods
 
 - (IBAction)dismiss {
-    __weak __typeof(self) weakSelf = self;
+    UINavigationController *containingNavigationController = self.navigationController;
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:^{
                                                           /*
                                                            This is essential due to UINavigationController instances originating from UIStoryboard
                                                            not properly releasing contained view controllers.
                                                            */
-                                                          if (weakSelf.navigationController) {
-                                                              [weakSelf.navigationController setViewControllers:nil];
+                                                          if (containingNavigationController) {
+                                                              [containingNavigationController setViewControllers:nil];
                                                           }
                                                       }];
 }

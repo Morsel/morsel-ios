@@ -86,7 +86,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 - (void)displayMorsel {
-    [self getOrLoadMorselIfExists];
+    self.morsel = [self getOrLoadMorselIfExists];
 
     if (_morsel.draftValue) {
         self.nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next"
@@ -104,7 +104,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 - (void)updateMorselStatus {
-    if ([self getOrLoadMorselIfExists]) {
+    self.morsel = [self getOrLoadMorselIfExists];
+    if (_morsel) {
         [_appDelegate.apiService getMorsel:_morsel
                                   orWithID:nil
                                    success:nil
@@ -154,10 +155,13 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - Getter Methods
 
 - (MRSLMorsel *)getOrLoadMorselIfExists {
-    if (self.morsel) [self.morsel.managedObjectContext MR_saveOnlySelfAndWait];
-    if (_morselID) self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                           withValue:_morselID];
-    return _morsel;
+    MRSLMorsel *morsel = nil;
+    if (_morselID) {
+        morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                           withValue:_morselID];
+        [morsel.managedObjectContext MR_saveOnlySelfAndWait];
+    }
+    return morsel;
 }
 
 #pragma mark - Segue Methods
@@ -268,7 +272,8 @@ MRSLMorselEditItemTableViewCellDelegate>
             [_appDelegate.apiService deleteItem:deletedItem
                                         success:^(BOOL success) {
                                             if (weakSelf) {
-                                                [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
+                                                weakSelf.morsel = [weakSelf getOrLoadMorselIfExists];
+                                                weakSelf.morsel.lastUpdatedDate = [NSDate date];
                                                 [weakSelf displayMorselStatus];
                                             }
                                         } failure:nil];
@@ -307,8 +312,8 @@ MRSLMorselEditItemTableViewCellDelegate>
                               andMorsel:nil
                                 success:^(id responseObject) {
                                     if (weakSelf) {
-                                        [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
-                                        [weakSelf displayMorselStatus];
+                                        weakSelf.morsel = [weakSelf getOrLoadMorselIfExists];
+                                        weakSelf.morsel.lastUpdatedDate = [NSDate date];
                                     }
                                 } failure:nil];
 }
@@ -389,34 +394,40 @@ MRSLMorselEditItemTableViewCellDelegate>
                                 dispatch_async(main, ^{
                                     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                         MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                       withValue:self.morsel.morselID
+                                                                                       withValue:weakSelf.morselID
                                                                                        inContext:localContext];
-                                        MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
-                                        item.sort_order = @(itemIndex);
-                                        item.itemPhotoFull = fullImageData;
-                                        item.itemPhotoCropped = croppedImageData;
-                                        item.itemPhotoThumb = thumbImageData;
-                                        item.isUploading = @YES;
-                                        item.morsel = morsel;
-                                        [morsel addItemsObject:item];
-                                        [_appDelegate.apiService createItem:item
-                                                                    success:^(id responseObject) {
-                                                                        if ([responseObject isKindOfClass:[MRSLItem class]]) {
-                                                                            MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
-                                                                            [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
-                                                                            [weakSelf displayMorselStatus];
-                                                                            [_appDelegate.apiService updateItemImage:itemToUploadWithImage
-                                                                                                             success:^(id responseObject) {
-                                                                                                                 fullImageData = nil;
-                                                                                                                 croppedImageData = nil;
-                                                                                                                 thumbImageData = nil;
-                                                                                                             } failure:^(NSError *error) {
-                                                                                                                 fullImageData = nil;
-                                                                                                                 croppedImageData = nil;
-                                                                                                                 thumbImageData = nil;
-                                                                                                             }];
-                                                                        }
-                                                                    } failure:nil];
+                                        if (morsel) {
+                                            MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
+                                            item.sort_order = @(itemIndex);
+                                            item.itemPhotoFull = fullImageData;
+                                            item.itemPhotoCropped = croppedImageData;
+                                            item.itemPhotoThumb = thumbImageData;
+                                            item.isUploading = @YES;
+                                            item.morsel = morsel;
+                                            [morsel addItemsObject:item];
+                                            [_appDelegate.apiService createItem:item
+                                                                        success:^(id responseObject) {
+                                                                            if ([responseObject isKindOfClass:[MRSLItem class]]) {
+                                                                                MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
+                                                                                [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
+                                                                                [weakSelf displayMorselStatus];
+                                                                                [_appDelegate.apiService updateItemImage:itemToUploadWithImage
+                                                                                                                 success:^(id responseObject) {
+                                                                                                                     fullImageData = nil;
+                                                                                                                     croppedImageData = nil;
+                                                                                                                     thumbImageData = nil;
+                                                                                                                 } failure:^(NSError *error) {
+                                                                                                                     fullImageData = nil;
+                                                                                                                     croppedImageData = nil;
+                                                                                                                     thumbImageData = nil;
+                                                                                                                 }];
+                                                                            }
+                                                                        } failure:nil];
+                                        } else {
+                                            DDLogError(@"Morsel item add failure. Cannot add item to nil Morsel with ID: %@", weakSelf.morselID);
+                                            [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"There was a problem adding your item%@ to this Morsel. Please try again.", ([capturedMedia count] > 1) ? @"s" : @""]
+                                                                            delegate:nil];
+                                        }
                                     }];
                                 });
                             });
@@ -480,8 +491,6 @@ MRSLMorselEditItemTableViewCellDelegate>
         [_appDelegate.apiService deleteMorsel:_morsel
                                       success:nil
                                       failure:nil];
-        [_morsel MR_deleteEntity];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
         if (self.presentingViewController) {
             [self.presentingViewController dismissViewControllerAnimated:YES
                                                               completion:nil];

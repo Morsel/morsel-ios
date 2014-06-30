@@ -29,9 +29,12 @@
                             parameters:parameters
                                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                    DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-
                                    [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
-
+                                   [morsel.managedObjectContext MR_saveOnlySelfAndWait];
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateMorselNotification
+                                                                                           object:morsel.morselID];
+                                   });
                                    if (successOrNil) successOrNil(responseObject);
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                    [self reportFailure:failureOrNil
@@ -48,19 +51,16 @@
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
     int morselID = morsel.morselIDValue;
+
+    [morsel MR_deleteEntity];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteMorselNotification
+                                                        object:@(morselID)];
+
     [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"morsels/%i", morselID]
                               parameters:parameters
                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                      DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                     if (morsel) {
-                                         [morsel MR_deleteEntity];
-                                         [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
-                                     }
-                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteMorselNotification
-                                                                                             object:@(morselID)];
-                                     });
-
                                      if (successOrNil) successOrNil(responseObject);
                                  } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                      [self reportFailure:failureOrNil

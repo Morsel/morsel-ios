@@ -20,6 +20,7 @@ NSString *const MRSLUserDidUpdateUserNotification = @"MRSLUserDidUpdateUserNotif
 NSString *const MRSLUserDidUpdateItemNotification = @"MRSLUserDidUpdateItemNotification";
 NSString *const MRSLUserDidUpdateMorselNotification = @"MRSLUserDidUpdateMorselNotification";
 NSString *const MRSLUserDidPublishMorselNotification = @"MRSLUserDidPublishMorselNotification";
+NSString *const MRSLUserDidCreateMorselNotification = @"MRSLUserDidCreateMorselNotification";
 NSString *const MRSLUserDidDeleteMorselNotification = @"MRSLUserDidDeleteMorselNotification";
 
 NSString *const MRSLItemUploadDidCompleteNotification = @"MRSLItemUploadDidCompleteNotification";
