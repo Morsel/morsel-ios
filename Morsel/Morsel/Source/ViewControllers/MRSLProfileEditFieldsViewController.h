@@ -10,6 +10,7 @@
 
 @interface MRSLProfileEditFieldsViewController : MRSLBaseViewController
 
+@property (weak, nonatomic) MRSLUser *user;
 @property (weak, nonatomic) UIView *containingView;
 
 - (void)updateProfileWithCompletion:(MRSLSuccessBlock)didUpdateOrNil

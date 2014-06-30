@@ -18,6 +18,7 @@
 #import "MRSLFollowButton.h"
 #import "MRSLPanelSegmentedCollectionViewDataSource.h"
 #import "MRSLPlaceViewController.h"
+#import "MRSLProfileEditFieldsViewController.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLProfileUserTagsListViewController.h"
 #import "MRSLUserMorselsFeedViewController.h"
@@ -139,6 +140,16 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [self.profileCollectionView setDelegate:_segmentedPanelCollectionViewDataSource];
 
     [self.segmentedPanelCollectionViewDataSource setDelegate:self];
+
+    if ([self.user isCurrentUser]) {
+        //  Hide the follow button and show a 'Edit' button instead
+        [self.followButton setHidden:YES];
+
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Edit"
+                                                                                    style:UIBarButtonItemStyleBordered
+                                                                                   target:self
+                                                                                   action:@selector(displayEditProfile)]];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -147,14 +158,10 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [super viewWillAppear:animated];
 
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
+
+    [self populateUserInformation];
 }
 
-- (void)setUser:(MRSLUser *)user {
-    if (_user != user) {
-        _user = user;
-        [self populateUserInformation];
-    }
-}
 
 #pragma mark - Action Methods
 
@@ -164,6 +171,13 @@ MRSLSegmentedHeaderReusableViewDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (void)displayEditProfile {
+    MRSLProfileEditFieldsViewController *profileEditFieldsViewController = [[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileEditFieldsViewController"];
+    profileEditFieldsViewController.user = self.user;
+    [self.navigationController pushViewController:profileEditFieldsViewController
+                                         animated:YES];
+}
 
 - (void)refreshProfile {
     __weak __typeof(self)weakSelf = self;
