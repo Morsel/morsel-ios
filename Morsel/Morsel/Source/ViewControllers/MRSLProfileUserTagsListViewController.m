@@ -30,9 +30,9 @@ UIActionSheetDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *tagIDs;
-@property (strong, nonatomic) NSMutableDictionary *tagsDictionary;
 @property (strong, nonatomic) NSMutableArray *specialtyTags;
 @property (strong, nonatomic) NSMutableArray *cuisineTags;
+@property (strong, nonatomic) NSArray *tagTypes;
 
 @end
 
@@ -45,7 +45,7 @@ UIActionSheetDelegate>
 
     self.specialtyTags = [NSMutableArray array];
     self.cuisineTags = [NSMutableArray array];
-    self.tagsDictionary = [NSMutableDictionary dictionary];
+    self.tagTypes = @[ [MRSLKeywordCuisinesType capitalizedString], [MRSLKeywordSpecialtiesType capitalizedString] ];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,24 +88,19 @@ UIActionSheetDelegate>
 
     [self.specialtyTags removeAllObjects];
     [self.cuisineTags removeAllObjects];
-    [self.tagsDictionary removeAllObjects];
 
     [self.specialtyTags addObjectsFromArray:[[_fetchedResultsController fetchedObjects] filteredArrayUsingPredicate:specialtyPredicate]];
     [self.cuisineTags addObjectsFromArray:[[_fetchedResultsController fetchedObjects] filteredArrayUsingPredicate:cuisinePredicate]];
 
-    [self.tagsDictionary setObject:([_specialtyTags count] > 0) ? _specialtyTags : [NSArray array]
-                            forKey:[MRSLKeywordSpecialtiesType capitalizedString]];
-    [self.tagsDictionary setObject:([_cuisineTags count] > 0) ? _cuisineTags : [NSArray array]
-                            forKey:[MRSLKeywordCuisinesType capitalizedString]];
-
     [self.collectionView reloadData];
 }
 
-- (NSMutableArray *)arrayForIndexPath:(NSIndexPath *)indexPath {
-    if ([_tagsDictionary count] == 0) return [NSMutableArray array];
-    NSString *keyForIndex = [[_tagsDictionary allKeys] objectAtIndex:indexPath.section];
-    NSMutableArray *tagsArray = ([keyForIndex isEqualToString:[MRSLKeywordSpecialtiesType capitalizedString]] ? _specialtyTags : _cuisineTags);
-    return tagsArray;
+- (NSMutableArray *)arrayForSection:(NSInteger)section {
+    return (section == 0) ? _cuisineTags : _specialtyTags;
+}
+
+- (BOOL)isEmptySection:(NSInteger)section {
+    return [[self arrayForSection:section] count] == 0;
 }
 
 - (void)refreshContent {
@@ -152,10 +147,8 @@ UIActionSheetDelegate>
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([_tagsDictionary count] == 0) return 1;
-
-    NSString *keyForIndex = [[_tagsDictionary allKeys] objectAtIndex:section];
-    return [[_tagsDictionary objectForKey:keyForIndex] count];
+    //  Return the array count + 1 for the section header, otherwise return 2 for the section header and an 'Empty' state cell
+    return MAX([[self arrayForSection:section] count] + 1, 2);
 }
 
 - (MRSLTagBaseCell *)collectionView:(UICollectionView *)collectionView
@@ -165,16 +158,16 @@ UIActionSheetDelegate>
 
     if (indexPath.row == 0) {
         reuseIdentifier = @"ruid_KeywordTypeCell";
-        cellName = [NSString stringWithFormat:@"%@:", [[_tagsDictionary allKeys] objectAtIndex:indexPath.section]];
-    } else if (indexPath.row == [[self arrayForIndexPath:indexPath] count] + 1) {
+        cellName = [NSString stringWithFormat:@"%@:", _tagTypes[indexPath.section]];
+    } else if (indexPath.row == [[self arrayForSection:indexPath.section] count] + 1) {
         reuseIdentifier = @"ruid_SupplementaryCell";
         if (_allowsEdit) {
             cellName = @"Edit";
         } else {
-            cellName = ([[self arrayForIndexPath:indexPath] count] == 0 ) ? @"None" : @"View All";
+            cellName = [self isEmptySection:indexPath.section] ? @"None added" : @"View All";
         }
     } else {
-        MRSLTag *tag = [[self arrayForIndexPath:indexPath] objectAtIndex:indexPath.row - 1];
+        MRSLTag *tag = [[self arrayForSection:indexPath.section] objectAtIndex:indexPath.row - 1];
         reuseIdentifier = @"ruid_KeywordCell";
         cellName = tag.keyword.name;
     }
@@ -182,7 +175,7 @@ UIActionSheetDelegate>
                                                                                forIndexPath:indexPath];
     baseCell.nameLabel.text = cellName;
 
-    if (indexPath.row != [[self arrayForIndexPath:indexPath] count]) {
+    if (indexPath.row != [[self arrayForSection:indexPath.section] count]) {
         [baseCell setBorderWithDirections:MRSLBorderSouth
                           borderWidth:1.0f
                        andBorderColor:[UIColor morselLightOffColor]];
@@ -194,14 +187,14 @@ UIActionSheetDelegate>
 #pragma mark - UICollectionViewDelegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0 || indexPath.row == [[self arrayForIndexPath:indexPath] count] + 1) {
+    if (indexPath.row == 0 || indexPath.row == [[self arrayForSection:indexPath.section] count] + 1) {
         if (!_allowsEdit) return;
         if ([self.delegate respondsToSelector:@selector(profileUserTagsListViewControllerDidSelectType:)]) {
-            [self.delegate profileUserTagsListViewControllerDidSelectType:[[[_tagsDictionary allKeys] objectAtIndex:indexPath.section] lowercaseString]];
+            [self.delegate profileUserTagsListViewControllerDidSelectType:[_tagTypes[indexPath.section] lowercaseString]];
         }
     } else {
         if ([self.delegate respondsToSelector:@selector(profileUserTagsListViewControllerDidSelectTag:)]) {
-            MRSLTag *tag = [[self arrayForIndexPath:indexPath] objectAtIndex:indexPath.row - 1];
+            MRSLTag *tag = [[self arrayForSection:indexPath.section] objectAtIndex:indexPath.row - 1];
             [self.delegate profileUserTagsListViewControllerDidSelectTag:tag];
         }
     }
