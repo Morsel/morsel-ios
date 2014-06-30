@@ -253,6 +253,7 @@ MRSLMenuViewControllerDelegate>
         [[UIApplication sharedApplication] setStatusBarHidden:YES
                                                 withAnimation:UIStatusBarAnimationSlide];
     }
+    [self dismissViewControllerAnimated:NO completion:nil];
     [self displaySignUpAnimated:YES];
     [self removeChildNavigationControllers];
     [_appDelegate resetDataStore];

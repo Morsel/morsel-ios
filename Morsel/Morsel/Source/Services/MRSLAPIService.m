@@ -23,6 +23,8 @@
 @interface MRSLAPIService ()
 <UIAlertViewDelegate>
 
+@property (nonatomic) BOOL loggingOut;
+
 @end
 
 @implementation MRSLAPIService
@@ -134,28 +136,33 @@
          forOperation:(AFHTTPRequestOperation *)operation
             withError:(NSError *)error
              inMethod:(NSString *)methodName {
-    if (operation.response.statusCode == 401) {
-        [UIAlertView showAlertViewWithTitle:@"Session Expired"
-                                    message:@"Your session has expired and you will now be logged out."
-                                   delegate:self
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil];
-    }
-    MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+    if (!self.loggingOut) {
+        if (operation.response.statusCode == 401 && [[operation.responseObject[@"errors"][@"api"] firstObject] isEqualToString:@"unauthorized"]) {
+            [UIAlertView showAlertViewWithTitle:@"Session Expired"
+                                        message:@"Your session has expired. Please log in again to continue."
+                                       delegate:self
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+            self.loggingOut = YES;
+        } else {
+            MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
 
-    if (!serviceErrorInfo) {
-        DDLogError(@"Request error in method (%@) with userInfo: %@", methodName, error.userInfo);
-    } else {
-        DDLogError(@"Request error in method (%@) with serviceInfo: %@", methodName, [serviceErrorInfo errorInfo]);
+            if (!serviceErrorInfo) {
+                DDLogError(@"Request error in method (%@) with userInfo: %@", methodName, error.userInfo);
+            } else {
+                DDLogError(@"Request error in method (%@) with serviceInfo: %@", methodName, [serviceErrorInfo errorInfo]);
+            }
+            
+            if (failureOrNil) failureOrNil(error);
+        }
     }
-    
-    if (failureOrNil) failureOrNil(error);
 }
 
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"]) {
+        self.loggingOut = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
                                                             object:nil];
     }
