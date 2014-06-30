@@ -56,6 +56,15 @@ NSFetchedResultsControllerDelegate>
 
     [self.morselCollectionView addSubview:_refreshControl];
     self.morselCollectionView.alwaysBounceVertical = YES;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselCreated)
+                                                 name:MRSLUserDidCreateMorselNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselDeleted:)
+                                                 name:MRSLUserDidDeleteMorselNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -67,9 +76,8 @@ NSFetchedResultsControllerDelegate>
         self.selectedIndexPath = nil;
     }
 
-    [self setupFetchRequest];
-    [self populateContent];
-    [self refreshContent];
+    if (_morselsFetchedResultsController) return;
+    [self reloadContent];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -79,6 +87,12 @@ NSFetchedResultsControllerDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (void)reloadContent {
+    [self setupFetchRequest];
+    [self populateContent];
+    [self refreshContent];
+}
 
 - (void)setupFetchRequest {
     self.morselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
@@ -148,6 +162,26 @@ NSFetchedResultsControllerDelegate>
                                        } failure:^(NSError *error) {
                                            if (weakSelf) weakSelf.loadingMore = NO;
                                        }];
+}
+
+#pragma mark - Notification Methods
+
+- (void)morselCreated {
+    [self reloadContent];
+}
+
+- (void)morselDeleted:(NSNotification *)notification {
+    NSNumber *deletedMorselID = notification.object;
+    NSNumber *confirmedMorselID = nil;
+    for (NSNumber *morselID in self.morselIDs) {
+        if ([deletedMorselID intValue] == [morselID intValue]) {
+            confirmedMorselID = morselID;
+            break;
+        }
+    }
+    [self.morselIDs removeObject:confirmedMorselID];
+    [self setupFetchRequest];
+    [self populateContent];
 }
 
 #pragma mark - UICollectionViewDataSource Methods
