@@ -32,7 +32,6 @@
 #pragma mark - Misc
 
 + (UIColor *)morselRed;
-+ (UIColor *)morselPrimaryLight; 
 + (UIColor *)morselGreen;
 + (UIColor *)morselUserInterface;
 + (UIColor *)morselDarkContent;
