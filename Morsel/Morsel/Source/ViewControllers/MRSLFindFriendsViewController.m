@@ -55,7 +55,7 @@ MRSLSegmentedButtonViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.userIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%li_findfriend_userIDs", (long)_friendSection]] ?: [NSMutableArray array];
+    self.userIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[self objectIDsKey]] ?: [NSMutableArray array];
 
     self.users = [NSMutableArray array];
 
@@ -135,7 +135,7 @@ MRSLSegmentedButtonViewDelegate>
                                                           [weakSelf.refreshControl endRefreshing];
                                                           weakSelf.userIDs = [responseArray mutableCopy];
                                                           [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                                    forKey:[NSString stringWithFormat:@"%li_findfriend_userIDs", (long)_friendSection]];
+                                                                                                    forKey:[self objectIDsKey]];
                                                           [weakSelf setupFetchRequest];
                                                           [weakSelf populateContent];
                                                           weakSelf.refreshing = NO;
@@ -152,7 +152,7 @@ MRSLSegmentedButtonViewDelegate>
                                              [weakSelf.refreshControl endRefreshing];
                                              weakSelf.userIDs = [responseArray mutableCopy];
                                              [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                       forKey:[NSString stringWithFormat:@"%li_findfriend_userIDs", (long)_friendSection]];
+                                                                                       forKey:[self objectIDsKey]];
                                              [weakSelf setupFetchRequest];
                                              [weakSelf populateContent];
                                              weakSelf.refreshing = NO;
@@ -183,7 +183,7 @@ MRSLSegmentedButtonViewDelegate>
                                                               if ([responseArray count] > 0) {
                                                                   [weakSelf.userIDs addObjectsFromArray:responseArray];
                                                                   [[NSUserDefaults standardUserDefaults] setObject:weakSelf.userIDs
-                                                                                                            forKey:[NSString stringWithFormat:@"%li_findfriend_userIDs", (long)_friendSection]];
+                                                                                                            forKey:[self objectIDsKey]];
                                                                   [weakSelf setupFetchRequest];
                                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                                       [weakSelf populateContent];
@@ -206,7 +206,7 @@ MRSLSegmentedButtonViewDelegate>
                                                  if ([responseArray count] > 0) {
                                                      [weakSelf.userIDs addObjectsFromArray:responseArray];
                                                      [[NSUserDefaults standardUserDefaults] setObject:weakSelf.userIDs
-                                                                                               forKey:[NSString stringWithFormat:@"%li_findfriend_userIDs", (long)_friendSection]];
+                                                                                               forKey:[self objectIDsKey]];
                                                      [weakSelf setupFetchRequest];
                                                      dispatch_async(dispatch_get_main_queue(), ^{
                                                          [weakSelf populateContent];
@@ -258,6 +258,14 @@ MRSLSegmentedButtonViewDelegate>
     }];
 }
 
+- (BOOL)shouldShowSuggestedPeople {
+    return _friendSection == 0 && [_searchBar.text length] < 3;
+}
+
+- (NSString *)objectIDsKey {
+    return [NSString stringWithFormat:@"%li_findfriend_%@_userIDs", (long)_friendSection, ([self shouldShowSuggestedPeople] ? @"suggested" : @"all")];
+}
+
 #pragma mark - MRSLSegmentedButtonViewDelegate
 
 - (void)segmentedButtonViewDidSelectIndex:(NSInteger)index {
@@ -266,7 +274,7 @@ MRSLSegmentedButtonViewDelegate>
     self.searchBar.text = @"";
     [self.searchBar resignFirstResponder];
 
-    self.userIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%li_findfriend_userIDs", (long)_friendSection]] ?: [NSMutableArray array];
+    self.userIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[self objectIDsKey]] ?: [NSMutableArray array];
     [self setupFetchRequest];
     [self populateContent];
 
@@ -334,7 +342,7 @@ MRSLSegmentedButtonViewDelegate>
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (_friendSection == 0) {
-        if ([_searchBar.text length] < 3) {
+        if ([self shouldShowSuggestedPeople]) {
             return @"Suggested People";
         } else {
             return @"Search Results";
