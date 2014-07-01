@@ -23,7 +23,6 @@ NSString *const MRSLUserDidPublishMorselNotification = @"MRSLUserDidPublishMorse
 NSString *const MRSLUserDidCreateMorselNotification = @"MRSLUserDidCreateMorselNotification";
 NSString *const MRSLUserDidDeleteMorselNotification = @"MRSLUserDidDeleteMorselNotification";
 
-NSString *const MRSLItemUploadDidCompleteNotification = @"MRSLItemUploadDidCompleteNotification";
 NSString *const MRSLItemUploadDidFailNotification = @"MRSLItemUploadDidFailNotification";
 
 NSString *const MRSLModalWillDisplayNotification = @"MRSLModalWillDisplayNotification";

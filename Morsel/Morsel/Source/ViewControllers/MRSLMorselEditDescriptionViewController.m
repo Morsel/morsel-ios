@@ -52,8 +52,6 @@ UITextViewDelegate>
 - (MRSLItem *)getOrLoadMorselIfExists {
     if (_itemID) self.item = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
                                                      withValue:_itemID];
-    if (_itemLocalUUID) self.item = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.localUUID
-                                                            withValue:_itemLocalUUID];
     return _item;
 }
 
@@ -73,6 +71,7 @@ UITextViewDelegate>
 
 - (IBAction)done:(id)sender {
     self.item = [self getOrLoadMorselIfExists];
+    if (!self.item.itemID) return;
     [[MRSLEventManager sharedManager] track:@"Tapped Done"
                                  properties:@{@"view": @"Your Morsel",
                                               @"char_count": @([_itemDescriptionTextView.text length]),
@@ -80,9 +79,9 @@ UITextViewDelegate>
     if (![_item.itemDescription isEqualToString:self.itemDescriptionTextView.text]) {
         _item.itemDescription = self.itemDescriptionTextView.text;
         [_appDelegate.apiService updateItem:_item
-                                      andMorsel:nil
-                                        success:nil
-                                        failure:nil];
+                                  andMorsel:nil
+                                    success:nil
+                                    failure:nil];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

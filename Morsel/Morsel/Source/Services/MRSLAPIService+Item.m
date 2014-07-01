@@ -44,10 +44,6 @@
                                    }
                                    if (localItem && localItem.managedObjectContext) {
                                        [localItem MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           [[NSNotificationCenter defaultCenter] postNotificationName:MRSLItemUploadDidCompleteNotification
-                                                                                               object:localItem];
-                                       });
                                        [localItem.managedObjectContext MR_saveOnlySelfAndWait];
                                        if (successOrNil) successOrNil(localItem);
                                    }
@@ -99,7 +95,6 @@
                                   }
                                   if (itemToGet) {
                                       [itemToGet MR_importValuesForKeysWithObject:responseObject[@"data"]];
-
                                       if (successOrNil) successOrNil(itemToGet);
                                   }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -117,7 +112,6 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[item]
                                               requiresAuthentication:YES];
-
     if (morselOrNil) {
         [parameters addEntriesFromDictionary:@{@"new_morsel_id": NSNullIfNil(morselOrNil.morselID),
                                                @"morsel_id": NSNullIfNil(item.morsel.morselID)}];
@@ -131,7 +125,6 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-
                                   if (morselOrNil) {
                                       [item.morsel removeItemsObject:item];
                                       [morselOrNil addItemsObject:item];
