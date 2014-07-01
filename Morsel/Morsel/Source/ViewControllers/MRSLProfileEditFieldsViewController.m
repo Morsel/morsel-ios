@@ -24,8 +24,6 @@ UITextFieldDelegate,
 UITextViewDelegate,
 UIAlertViewDelegate>
 
-@property (weak, nonatomic) MRSLUser *user;
-
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameField;
