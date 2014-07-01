@@ -72,8 +72,11 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self displayMorsel];
+}
 
-    if (_shouldPresentMediaCapture) {
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (_shouldPresentMediaCapture && !_wasNewMorsel) {
         self.wasNewMorsel = YES;
         [self presentMediaCapture];
     }

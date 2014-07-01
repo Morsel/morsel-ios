@@ -39,6 +39,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *toggleCameraButton;
 @property (weak, nonatomic) IBOutlet UIImageView *approvalImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *cameraRollImageView;
+@property (weak, nonatomic) IBOutlet UIView *topPanelView;
 
 @property (nonatomic, getter = isDeviceAuthorized) BOOL deviceAuthorized;
 @property (nonatomic, readonly, getter = isSessionRunningAndDeviceAuthorized) BOOL sessionRunningAndDeviceAuthorized;
@@ -105,6 +106,8 @@ MRSLCapturePreviewsViewControllerDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    if ([UIDevice has35InchScreen]) self.topPanelView.hidden = YES;
 
     MRSLCameraPreviewView *previewView = [[MRSLCameraPreviewView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.view.frame.size.width, 568.f)];
     [self.view insertSubview:previewView atIndex:0];
@@ -308,11 +311,13 @@ MRSLCapturePreviewsViewControllerDelegate>
     [[MRSLEventManager sharedManager] track:@"Tapped Cancel"
                                  properties:@{@"view": @"Media Capture",
                                               @"picture_count": @([_capturedMediaItems count])}];
-    if ([self.delegate respondsToSelector:@selector(captureMediaViewControllerDidCancel)]) {
-        [self.delegate captureMediaViewControllerDidCancel];
-    }
+    id captureDelegate = self.delegate;
     [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:nil];
+                                                      completion:^{
+                                                          if ([captureDelegate respondsToSelector:@selector(captureMediaViewControllerDidCancel)]) {
+                                                              [captureDelegate captureMediaViewControllerDidCancel];
+                                                          }
+                                                      }];
 }
 
 - (IBAction)completeMediaCapture:(id)sender {
