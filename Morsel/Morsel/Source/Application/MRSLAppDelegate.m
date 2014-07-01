@@ -26,6 +26,12 @@
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
+@interface MRSLAppDelegate ()
+
+@property (nonatomic) __block UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+
+@end
+
 @implementation MRSLAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -63,6 +69,14 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Handle the user leaving the app while the Facebook login dialog is being shown
     [FBAppCall handleDidBecomeActive];
+    [application endBackgroundTask:_backgroundTaskIdentifier];
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    self.backgroundTaskIdentifier = [application beginBackgroundTaskWithExpirationHandler:^(void) {
+        [application endBackgroundTask:_backgroundTaskIdentifier];
+        [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
+    }];
 }
 
 - (BOOL)application:(UIApplication *)application

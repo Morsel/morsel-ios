@@ -176,11 +176,7 @@ MRSLMorselEditItemTableViewCellDelegate>
     }
     if ([segue.identifier isEqualToString:@"seg_EditItemText"]) {
         MRSLMorselEditDescriptionViewController *itemEditTextVC = [segue destinationViewController];
-        if (_item.itemID) {
-            itemEditTextVC.itemID = _item.itemID;
-        } else {
-            itemEditTextVC.itemLocalUUID = _item.localUUID;
-        }
+        itemEditTextVC.itemID = _item.itemID;
     } else if ([segue.identifier isEqualToString:@"seg_EditMorselTitle"]) {
         MRSLMorselAddTitleViewController *morselAddTitleVC = [segue destinationViewController];
         morselAddTitleVC.isUserEditingTitle = YES;
@@ -455,6 +451,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)morselEditItemCellDidSelectEditText:(MRSLItem *)item {
     self.item = item;
+    if (!self.item.itemID) return;
     [[MRSLEventManager sharedManager] track:@"Tapped Add Description"
                                  properties:@{@"view": @"Your Morsel",
                                               @"item_count": @([_items count]),

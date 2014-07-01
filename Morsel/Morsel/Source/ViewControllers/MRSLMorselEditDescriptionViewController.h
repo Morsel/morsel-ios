@@ -10,7 +10,6 @@
 
 @interface MRSLMorselEditDescriptionViewController : MRSLBaseViewController
 
-@property (strong, nonatomic) NSString *itemLocalUUID;
 @property (strong, nonatomic) NSNumber *itemID;
 
 @end

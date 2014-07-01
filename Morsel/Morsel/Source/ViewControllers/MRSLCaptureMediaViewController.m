@@ -405,7 +405,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 
 - (void)processMediaItem:(MRSLMediaItem *)mediaItem {
     self.processingImageCount++;
-    UIImage *fullSizeImage = mediaItem.mediaFullImage;
+    __block UIImage *fullSizeImage = mediaItem.mediaFullImage;
     DDLogDebug(@"Source Process Image Dimensions: (w:%f, h:%f)", fullSizeImage.size.width, fullSizeImage.size.height);
     BOOL imageIsLandscape = [MRSLUtil imageIsLandscape:fullSizeImage];
     CGFloat cameraDimensionScale = [MRSLUtil cameraDimensionScaleFromImage:fullSizeImage];
@@ -413,6 +413,8 @@ MRSLCapturePreviewsViewControllerDelegate>
     CGFloat minimumImageDimension = (imageIsLandscape) ? fullSizeImage.size.height : fullSizeImage.size.width;
     CGFloat maximumImageDimension = (imageIsLandscape) ? fullSizeImage.size.width : fullSizeImage.size.height;
     CGFloat xCenterAdjustment = (maximumImageDimension - minimumImageDimension) / 2.f;
+
+    [self updateFinishButtonAvailability];
 
     __weak __typeof(self) weakSelf = self;
 
@@ -429,6 +431,7 @@ MRSLCapturePreviewsViewControllerDelegate>
             dispatch_async(queue, ^{
                 UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:cropRect
                                                                      ignoresOrientation:NO];
+                fullSizeImage = nil;
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
                     dispatch_async(queue, ^{
                         [croppedFullSizeImage resizedImage:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)
