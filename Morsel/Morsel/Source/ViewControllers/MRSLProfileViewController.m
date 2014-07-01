@@ -160,6 +160,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
     [self populateUserInformation];
+    [self refreshContent];
 }
 
 
