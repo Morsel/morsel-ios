@@ -39,6 +39,7 @@
     NSArray *arrayToSave = [(NSMutableArray *)self subarrayWithRange:NSMakeRange(0, fmin(3, [(NSMutableArray *)self count]))];
     [[NSUserDefaults standardUserDefaults] setObject:arrayToSave
                                               forKey:[NSString stringWithFormat:@"main_feedIDs"]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

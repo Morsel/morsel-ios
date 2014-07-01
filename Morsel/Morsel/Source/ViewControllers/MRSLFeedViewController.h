@@ -10,4 +10,6 @@
 
 @interface MRSLFeedViewController : MRSLBaseViewController
 
+@property (strong, nonatomic) NSNumber *recentlyPublishedMorselID;
+
 @end

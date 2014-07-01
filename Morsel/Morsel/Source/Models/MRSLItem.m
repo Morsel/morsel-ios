@@ -142,11 +142,6 @@
         NSDictionary *photoDictionary = data[@"photos"];
         self.itemPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
                                                                                     withString:@"IMAGE_SIZE"];
-        if (self.itemPhotoURL && !self.photo_processingValue) {
-            self.itemPhotoCropped = nil;
-            self.itemPhotoThumb = nil;
-            [self.managedObjectContext MR_saveOnlySelfAndWait];
-        }
     }
     if (![data[@"liked_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"liked_at"];

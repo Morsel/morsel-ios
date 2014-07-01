@@ -121,6 +121,9 @@
                                    if (successOrNil) successOrNil(responseObject);
                                    if (!willOpenInInstagram) {
                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                           [[NSUserDefaults standardUserDefaults] setInteger:[morsel.morselID integerValue]
+                                                                                      forKey:@"recentlyPublishedMorselID"];
+                                           [[NSUserDefaults standardUserDefaults] synchronize];
                                            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidPublishMorselNotification
                                                                                                object:morsel];
                                        });
