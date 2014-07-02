@@ -284,7 +284,7 @@
         NSLog(@"Session opened");
         // Show the user the logged-in UI
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
-        if (_socialAuthentication && ![_socialAuthentication isValid]) {
+        if (_socialAuthentication && ![_socialAuthentication isValid] && [MRSLUser currentUser]) {
             __weak __typeof(self) weakSelf = self;
             [self getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
                 __block MRSLSocialAuthentication *facebookAuthentication = [[MRSLSocialAuthentication alloc] init];
