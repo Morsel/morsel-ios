@@ -57,6 +57,7 @@ UITableViewDelegate>
                                                  name:MRSLServiceDidLogOutUserNotification
                                                object:nil];
     [self setupMenuOptions];
+    [self.menuTableView setScrollsToTop:NO];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.menuTableView reloadData];
     });
