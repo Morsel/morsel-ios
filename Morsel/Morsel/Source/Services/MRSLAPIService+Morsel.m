@@ -51,9 +51,11 @@
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
     int morselID = morsel.morselIDValue;
-
-    [morsel MR_deleteEntity];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    NSManagedObjectContext *morselContext = morsel.managedObjectContext;
+    NSPredicate *morselPredicate = [NSPredicate predicateWithFormat:@"morselID == %i", morselID];
+    [MRSLMorsel MR_deleteAllMatchingPredicate:morselPredicate
+                                    inContext:morselContext];
+    [morselContext MR_saveToPersistentStoreAndWait];
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteMorselNotification
                                                         object:@(morselID)];
 
@@ -143,7 +145,7 @@
           failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:NO];
+                                              requiresAuthentication:YES];
 
     int morselObjectID = (morsel) ? morsel.morselIDValue : [morselID intValue];
     if (!morsel && !morselID) {
