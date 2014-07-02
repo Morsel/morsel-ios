@@ -81,25 +81,9 @@
         [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if (weakSelf) {
                 if (!error && [session isOpen]) {
-                    [[MRSLSocialServiceFacebook sharedService] getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
-                        if (!error) {
-                            MRSLSocialUser *socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
-                            [_appDelegate.apiService createUserAuthentication:socialUser.authentication
-                                                                      success:^(id responseObject) {
-                                                                          [weakSelf setOnSwitch:weakSelf.facebookSwitch
-                                                                                      forNetwork:@"facebook"
-                                                                                    shouldTurnOn:YES];
-                                                                      } failure:^(NSError *error) {
-                                                                          [weakSelf setOnSwitch:weakSelf.facebookSwitch
-                                                                                      forNetwork:@"facebook"
-                                                                                    shouldTurnOn:NO];
-                                                                      }];
-                        } else {
-                            [weakSelf setOnSwitch:weakSelf.facebookSwitch
-                                        forNetwork:@"facebook"
-                                      shouldTurnOn:NO];
-                        }
-                    }];
+                    [weakSelf setOnSwitch:weakSelf.facebookSwitch
+                               forNetwork:@"facebook"
+                             shouldTurnOn:YES];
                 } else {
                     [weakSelf setOnSwitch:weakSelf.facebookSwitch
                                 forNetwork:@"facebook"
@@ -143,25 +127,15 @@
         weakSelf.twitterSwitch.enabled = YES;
     } failure:^(NSError *error) {
         [[MRSLSocialServiceTwitter sharedService] authenticateWithTwitterWithSuccess:^(BOOL success) {
-            [[MRSLSocialServiceTwitter sharedService] getTwitterUserInformation:^(NSDictionary *userInfo, NSError *error) {
-                if (!error) {
-                    MRSLSocialUser *socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
-                    [_appDelegate.apiService createUserAuthentication:socialUser.authentication
-                                                              success:^(id responseObject) {
-                                                                  [weakSelf setOnSwitch:weakSelf.twitterSwitch
-                                                                              forNetwork:@"twitter"
-                                                                            shouldTurnOn:YES];
-                                                              } failure:^(NSError *error) {
-                                                                  [weakSelf setOnSwitch:weakSelf.twitterSwitch
-                                                                              forNetwork:@"twitter"
-                                                                            shouldTurnOn:NO];
-                                                              }];
-                } else {
-                    [weakSelf setOnSwitch:weakSelf.twitterSwitch
-                                forNetwork:@"twitter"
-                              shouldTurnOn:NO];
-                }
-            }];
+            if (success) {
+                [weakSelf setOnSwitch:weakSelf.twitterSwitch
+                           forNetwork:@"twitter"
+                         shouldTurnOn:YES];
+            } else {
+                [weakSelf setOnSwitch:weakSelf.twitterSwitch
+                           forNetwork:@"twitter"
+                         shouldTurnOn:NO];
+            }
         } failure:^(NSError *error) {
             [weakSelf setOnSwitch:weakSelf.twitterSwitch
                         forNetwork:@"twitter"
@@ -173,25 +147,26 @@
 #pragma mark - Private Methods
 
 - (void)sendToInstagram {
-    NSData *photoCroppedData = [[_morsel coverItem] itemPhotoCropped];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSData *photoCroppedData = [[_morsel coverItem] itemPhotoCropped];
 
-    if (photoCroppedData) {
-        NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
-        if ([photoCroppedData writeToFile:photoFilePath atomically:YES]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
-                _documentInteractionController.UTI = @"com.instagram.exclusivegram";
-                _documentInteractionController.delegate = self;
-                _documentInteractionController.annotation = @{ @"InstagramCaption" : (self.morsel.title ? [NSString stringWithFormat:@"\"%@\" on @eatmorsel", self.morsel.title] : @"Posted on @eatmorsel") };
+        if (photoCroppedData) {
+            NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
+            if ([photoCroppedData writeToFile:photoFilePath
+                                   atomically:YES]) {
+                self.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
+                self.documentInteractionController.UTI = @"com.instagram.exclusivegram";
+                self.documentInteractionController.delegate = self;
+                self.documentInteractionController.annotation = @{ @"InstagramCaption" : (self.morsel.title ? [NSString stringWithFormat:@"\"%@\" on @eatmorsel", self.morsel.title] : @"Posted on @eatmorsel") };
                 [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
                                                                    inView:self.view
                                                                  animated:YES];
-                
-            });
-        } else {
-            [UIAlertView showAlertViewForErrorString:@"Unable to set Instagram photo. Please try again." delegate:nil];
+            } else {
+                [UIAlertView showAlertViewForErrorString:@"Unable to set Instagram photo. Please try again."
+                                                delegate:nil];
+            }
         }
-    }
+    });
 }
 
 - (void)setOnSwitch:(UISwitch *)socialSwitch
@@ -204,9 +179,11 @@
                                                   @"creator_id": NSNullIfNil(self.morsel.creator.userID),
                                                   @"social_type": network}];
     }
-    [socialSwitch setEnabled:YES];
-    [socialSwitch setOn:shouldTurnOn
-               animated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [socialSwitch setEnabled:YES];
+        [socialSwitch setOn:shouldTurnOn
+                   animated:YES];
+    });
 }
 
 
@@ -214,10 +191,10 @@
 
 - (void)documentInteractionController:(UIDocumentInteractionController *)controller
         willBeginSendingToApplication:(NSString *)application {
-    [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:nil];
-
     dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSUserDefaults standardUserDefaults] setInteger:[self.morsel.morselID integerValue]
+                                                   forKey:@"recentlyPublishedMorselID"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidPublishMorselNotification
                                                             object:_morsel];
     });
@@ -226,6 +203,15 @@
 - (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    if (self.documentInteractionController) {
+        self.documentInteractionController.delegate = nil;
+        self.documentInteractionController = nil;
+    }
 }
 
 @end
