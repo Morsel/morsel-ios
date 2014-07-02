@@ -21,23 +21,17 @@
 
 #import "MRSLUser.h"
 
-static const CGFloat kOffscreenSwipeThreshold = 40.f;
-static const CGFloat kDirectionPanThreshold = 4.f;
+static const CGFloat kOffscreenSwipeThreshold = 10.f;
+static const CGFloat MRSLMenuViewWidth = 270.f;
 
 @interface MRSLRootViewController ()
 <MFMailComposeViewControllerDelegate,
 UIGestureRecognizerDelegate,
 MRSLMenuViewControllerDelegate>
 
-@property (nonatomic) BOOL isMenuOpen;
-@property (nonatomic) BOOL hasRespondedToPan;
+@property (nonatomic, getter = isMenuOpen) BOOL menuOpen;
 @property (nonatomic) BOOL shouldCheckForUser;
-@property (nonatomic) BOOL shouldRespondToPan;
 @property (nonatomic) BOOL keyboardOpen;
-
-@property (nonatomic) CGFloat panMovementX;
-@property (nonatomic) CGFloat panMovementY;
-@property (nonatomic) CGPoint previousPanPoint;
 
 @property (nonatomic) UIStatusBarStyle currentStatusBarStyle;
 
@@ -45,6 +39,8 @@ MRSLMenuViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *rootContainerView;
 
 @property (weak, nonatomic) MRSLMenuViewController *menuViewController;
+
+@property (nonatomic) CGPoint currentTouchPoint;
 
 @end
 
@@ -112,7 +108,6 @@ MRSLMenuViewControllerDelegate>
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
                                                                                     action:@selector(userPanning:)];
     panRecognizer.delegate = self;
-    panRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:panRecognizer];
 }
 
@@ -283,15 +278,16 @@ MRSLMenuViewControllerDelegate>
 
 - (void)toggleMenu {
     if (_keyboardOpen) [self.view endEditing:YES];
-    self.isMenuOpen = ([self.rootContainerView getX] > 0.f);
+    self.menuOpen = ([self.rootContainerView getX] > 0.f);
     [UIView animateWithDuration:.2f
                           delay:0.f
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         [_rootContainerView setX:(_isMenuOpen) ? 0.f : 270.f];
+                         [self.rootContainerView setTransform:CGAffineTransformMakeTranslation((self.isMenuOpen ? 0.f : MRSLMenuViewWidth), 0.0f)];
                      } completion:nil];
-    [self.rootContainerView setUserInteractionEnabled:_isMenuOpen];
-    self.isMenuOpen = !_isMenuOpen;
+    [self.rootContainerView setUserInteractionEnabled:self.isMenuOpen];
+    [self enableScrollViewsInView:self.rootContainerView shouldEnable:self.isMenuOpen];
+    self.menuOpen = !self.isMenuOpen;
 }
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
@@ -305,10 +301,52 @@ MRSLMenuViewControllerDelegate>
     [viewControllerNC didMoveToParentViewController:self];
 }
 
+- (void)enableScrollViewsInView:(UIView *)view shouldEnable:(BOOL)shouldEnable {
+    if ([view respondsToSelector:@selector(setScrollEnabled:)]) {
+        [(id)view setScrollEnabled:shouldEnable];
+    }
+
+    [[view subviews] enumerateObjectsUsingBlock:^(id subview, NSUInteger idx, BOOL *stop) {
+        [self enableScrollViewsInView:subview shouldEnable:shouldEnable];
+    }];
+}
+
+- (void)handlePanGestureBeganWithRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer {
+    [self.rootContainerView setUserInteractionEnabled:NO];
+    [self enableScrollViewsInView:self.rootContainerView shouldEnable:NO];
+}
+
+- (void)handlePanGestureChangedWithRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer {
+    self.currentTouchPoint = [panGestureRecognizer locationInView:self.view];
+    CGFloat panX = _currentTouchPoint.x;
+
+    [self.rootContainerView setTransform:CGAffineTransformMakeTranslation((panX > 0 && panX <= MRSLMenuViewWidth) ? panX : ((panX <= 0) ? 0 : MRSLMenuViewWidth), 0.0f)];
+}
+
+- (void)handlePanGestureEndedWithRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer {
+    CGFloat velocityX = [panGestureRecognizer velocityInView:self.view].x;
+    BOOL shouldOpen = ([self.rootContainerView getX] / [self.view getWidth] > 0.5f) || velocityX > 800.f;
+    if (velocityX < -800.f) shouldOpen = NO;
+
+    self.menuOpen = shouldOpen;
+
+    [UIView animateWithDuration:MIN([self.view getWidth] / velocityX, .2f)
+                          delay:0.f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         [self.rootContainerView setTransform:CGAffineTransformMakeTranslation((shouldOpen ? MRSLMenuViewWidth : 0.f), 0.0f)];
+                     } completion:^(BOOL finished) {
+                         _currentTouchPoint = CGPointZero;
+                         [self.rootContainerView setUserInteractionEnabled:!shouldOpen];
+                         [self enableScrollViewsInView:self.rootContainerView shouldEnable:!shouldOpen];
+                     }];
+}
+
+
 #pragma mark - MRSLMenuViewControllerDelegate
 
 - (void)menuViewControllerDidSelectMenuOption:(NSString *)menuOption {
-    if (_isMenuOpen) [self toggleMenu];
+    if (self.isMenuOpen) [self toggleMenu];
     SWITCH(menuOption) {
         CASE(MRSLMenuAddKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
@@ -409,53 +447,19 @@ MRSLMenuViewControllerDelegate>
 #pragma mark - UIGestureRecognizerDelegate
 
 - (void)userPanning:(UIPanGestureRecognizer *)panRecognizer {
-    if (panRecognizer.state == UIGestureRecognizerStateFailed) return;
-    if (panRecognizer.state == UIGestureRecognizerStateBegan) {
-        self.previousPanPoint = [panRecognizer locationInView:self.view];
-    }
-    if (panRecognizer.state == UIGestureRecognizerStateChanged) {
-        CGPoint currentPanPoint = [panRecognizer locationInView:self.view];
-        CGFloat panX = currentPanPoint.x;
-        if (!_hasRespondedToPan) {
-            _panMovementX += _previousPanPoint.x - currentPanPoint.x;
-            _panMovementY += _previousPanPoint.y - currentPanPoint.y;
-            if (abs(_panMovementX) > kDirectionPanThreshold) {
-                _hasRespondedToPan = YES;
-                if (_previousPanPoint.x < kOffscreenSwipeThreshold || _isMenuOpen) {
-                    self.shouldRespondToPan = YES;
-                    [self.rootContainerView setUserInteractionEnabled:NO];
-                } else {
-                    self.shouldRespondToPan = NO;
-                    [self.rootContainerView setUserInteractionEnabled:YES];
-                }
-            } else if (abs(_panMovementY) > kDirectionPanThreshold) {
-                _hasRespondedToPan = YES;
-            }
-        }
-        if (!_shouldRespondToPan) return;
-        [self.rootContainerView setX:(panX > 0 && panX <= 270.f) ? panX : ((panX <= 0) ? 0 : 270.f)];
-    }
-    if ((panRecognizer.state == UIGestureRecognizerStateEnded ||
-         panRecognizer.state == UIGestureRecognizerStateCancelled)) {
-        if (_shouldRespondToPan) {
-            CGFloat percentOpen = [self.rootContainerView getX] / [self.view getWidth];
-            CGFloat velocityX = [panRecognizer velocityInView:self.view].x;
-            NSTimeInterval duration = [self.view getWidth] / velocityX;
-            BOOL shouldOpen = (percentOpen > .5f || velocityX > 800.f);
-            if (velocityX < -800.f) shouldOpen = NO;
-            self.isMenuOpen = shouldOpen;
-            [UIView animateWithDuration:MIN(duration, .2f)
-                                  delay:0.f
-                                options:UIViewAnimationOptionCurveEaseOut
-                             animations:^{
-                                 [self.rootContainerView setX:shouldOpen ? 270.f : 0.f];
-                             } completion:nil];
-            [self.rootContainerView setUserInteractionEnabled:!shouldOpen];
-        }
-        self.panMovementX = 0.f;
-        self.panMovementY = 0.f;
-        self.shouldRespondToPan = NO;
-        self.hasRespondedToPan = NO;
+    switch (panRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
+            [self handlePanGestureBeganWithRecognizer:panRecognizer];
+            break;
+        case UIGestureRecognizerStateChanged:
+            [self handlePanGestureChangedWithRecognizer:panRecognizer];
+            break;
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+        default:
+            [self handlePanGestureEndedWithRecognizer:panRecognizer];
+            break;
     }
 }
 
@@ -468,7 +472,12 @@ MRSLMenuViewControllerDelegate>
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    return YES;
+    //  Ignore the gesture when the menu is open since the User is most likely interacting w/ the Menu items
+    if (self.isMenuOpen && [touch locationInView:self.view].x < MRSLMenuViewWidth) {
+        return NO;
+    } else {
+        return [touch locationInView:self.rootContainerView].x < kOffscreenSwipeThreshold || self.isMenuOpen;
+    }
 }
 
 #pragma mark - Dealloc
