@@ -21,7 +21,9 @@
 #pragma mark - Authentication and User Information Methods
 
 - (void)checkForValidFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler;
+- (void)checkForPublishPermissions:(MRSLSocialSuccessBlock)canPublish;
 - (void)openFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler;
+- (void)requestPublishPermissionsWithCompletion:(FBSessionRequestPermissionResultHandler)completionOrNil;
 - (void)restoreFacebookSessionWithAuthentication:(MRSLSocialAuthentication *)authentication;
 
 - (void)getFacebookUserInformation:(MRSLSocialUserInfoBlock)facebookUserInfo;
