@@ -38,17 +38,13 @@
 
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
-    [objectInfoJSON setObject:(self.title) ? self.title : [NSNull null]
-                       forKey:@"title"];
-    if (self.draft) [objectInfoJSON setObject:(self.draftValue) ? @"true" : @"false"
-                                       forKey:@"draft"];
+    objectInfoJSON[@"title"] = NSNullIfNil(self.title);
+    if (self.draft) objectInfoJSON[@"draft"] = (self.draftValue) ? @"true" : @"false";
+    if (self.place) objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
+
     MRSLItem *coverItem = [self coverItem];
-    if (coverItem)[objectInfoJSON setObject:NSNullIfNil(coverItem.itemID)
-                       forKey:@"primary_item_id"];
-
-    if (self.place) [objectInfoJSON setObject:NSNullIfNil(self.place.placeID)
-                                       forKey:@"place_id"];
-
+    if (coverItem) objectInfoJSON[@"primary_item_id"] = NSNullIfNil(coverItem.itemID);
+    
     return objectInfoJSON;
 }
 

@@ -169,16 +169,10 @@
 
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
-
-    if (self.first_name) [objectInfoJSON setObject:self.first_name
-                                            forKey:@"first_name"];
-    if (self.last_name) [objectInfoJSON setObject:self.last_name
-                                           forKey:@"last_name"];
-    if (self.bio) [objectInfoJSON setObject:self.bio
-                                     forKey:@"bio"];
-
-    if (self.professionalValue) [objectInfoJSON setObject:self.professional
-                                                   forKey:@"professional"];
+    if (self.first_name) objectInfoJSON[@"first_name"] = self.first_name;
+    if (self.last_name) objectInfoJSON[@"last_name"] = self.last_name;
+    if (self.bio) objectInfoJSON[@"bio"] = self.bio;
+    if (self.professionalValue) objectInfoJSON[@"professional"] = self.professional;
     return objectInfoJSON;
 }
 

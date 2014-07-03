@@ -41,8 +41,7 @@
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
 
-    if (self.commentDescription) [objectInfoJSON setObject:self.commentDescription
-                                                    forKey:@"description"];
+    if (self.commentDescription) objectInfoJSON[@"description"] = self.commentDescription;
 
     return objectInfoJSON;
 }

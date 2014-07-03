@@ -160,7 +160,7 @@
                 success:(MRSLAPISuccessBlock)successOrNil
                 failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[item]
+                                                includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     int itemID = item.itemIDValue;
     __block MRSLItem *itemToUpdate = item;
