@@ -169,6 +169,7 @@ static const int MRSLStatsTagViewTag = 9991;
 #if (defined(MORSEL_BETA) || defined(RELEASE))
 
 #define FACEBOOK_APP_ID @"1402286360015732"
+#define FACEBOOK_PUBLISH_AUDIENCE FBSessionDefaultAudienceFriends
 
 #define TWITTER_CONSUMER_KEY @"ETEvZdAoQ4pzi1boCxdZoA"
 #define TWITTER_CONSUMER_SECRET @"0CBD7gMuymBSBCqpy8G7uuLwyD7peyeUetAQZhUqu0"
@@ -181,6 +182,7 @@ static const int MRSLStatsTagViewTag = 9991;
 #else
 
 #define FACEBOOK_APP_ID @"1406459019603393"
+#define FACEBOOK_PUBLISH_AUDIENCE FBSessionDefaultAudienceOnlyMe
 
 #define TWITTER_CONSUMER_KEY @"OWJtM9wGQSSdMctOI0gHkQ"
 #define TWITTER_CONSUMER_SECRET @"21EsTV2n8QjBUGZPfYx5JPKnxjicxboV0IHflBZB6w"

@@ -73,40 +73,41 @@
     [[MRSLEventManager sharedManager] track:@"Tapped Toggle Facebook"
                                  properties:@{@"view": @"Publish",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-
+    __weak __typeof(self) weakSelf = self;
+    _facebookSwitch.enabled = NO;
     if (![FBSession.activeSession isOpen]) {
-        _facebookSwitch.enabled = NO;
-
-        __weak __typeof(self) weakSelf = self;
         [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if (weakSelf) {
                 if (!error && [session isOpen]) {
-                    [weakSelf setOnSwitch:weakSelf.facebookSwitch
-                               forNetwork:@"facebook"
-                             shouldTurnOn:YES];
+                    // This must be dispatched after, otherwise it will trigger before the app has resumed.
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [weakSelf checkForFacebookPublishPermissions];
+                    });
                 } else {
                     [weakSelf setOnSwitch:weakSelf.facebookSwitch
-                                forNetwork:@"facebook"
-                              shouldTurnOn:NO];
+                               forNetwork:@"facebook"
+                             shouldTurnOn:NO];
                 }
             }
         }];
+    } else {
+        [self checkForFacebookPublishPermissions];
     }
 }
 
-- (IBAction)toggleInstagram:(UISwitch *)switchControler {
+- (IBAction)toggleInstagram:(UISwitch *)switchControl {
     [[MRSLEventManager sharedManager] track:@"Tapped Toggle Instagram"
                                  properties:@{@"view": @"Publish",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-    
+
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://app"]]) {
         [self setOnSwitch:_instagramSwitch
                forNetwork:@"instagram"
              shouldTurnOn:_instagramSwitch.isOn];
     } else {
         [self setOnSwitch:_instagramSwitch
-                forNetwork:@"instagram"
-              shouldTurnOn:NO];
+               forNetwork:@"instagram"
+             shouldTurnOn:NO];
         [UIAlertView showAlertViewWithTitle:@"Instagram not found"
                                     message:@"Please install Instagram to share your morsel there"
                                    delegate:nil
@@ -119,7 +120,7 @@
     [[MRSLEventManager sharedManager] track:@"Tapped Toggle Twitter"
                                  properties:@{@"view": @"Publish",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-    
+
     _twitterSwitch.enabled = NO;
 
     __weak __typeof(self) weakSelf = self;
@@ -138,13 +139,41 @@
             }
         } failure:^(NSError *error) {
             [weakSelf setOnSwitch:weakSelf.twitterSwitch
-                        forNetwork:@"twitter"
-                      shouldTurnOn:NO];
+                       forNetwork:@"twitter"
+                     shouldTurnOn:NO];
         }];
     }];
 }
 
 #pragma mark - Private Methods
+
+- (void)checkForFacebookPublishPermissions {
+    __weak __typeof(self) weakSelf = self;
+    [[MRSLSocialServiceFacebook sharedService] checkForPublishPermissions:^(BOOL canPublish) {
+        if (weakSelf) {
+            if (!canPublish) {
+                [[MRSLSocialServiceFacebook sharedService] requestPublishPermissionsWithCompletion:^(FBSession *session, NSError *error) {
+                    if ([FBSession.activeSession.permissions
+                         indexOfObject:@"publish_actions"] != NSNotFound) {
+                        [weakSelf setOnSwitch:weakSelf.facebookSwitch
+                                   forNetwork:@"facebook"
+                                 shouldTurnOn:YES];
+                    } else {
+                        [weakSelf setOnSwitch:weakSelf.facebookSwitch
+                                   forNetwork:@"facebook"
+                                 shouldTurnOn:NO];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [UIAlertView showOKAlertViewWithTitle:@"Publish Permission Required"
+                                                          message:@"Morsel has not been granted authorization to post to Facebook on your behalf."];
+                        });
+                    }
+                }];
+            } else {
+                weakSelf.facebookSwitch.enabled = YES;
+            }
+        }
+    }];
+}
 
 - (void)sendToInstagram {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -170,8 +199,8 @@
 }
 
 - (void)setOnSwitch:(UISwitch *)socialSwitch
-          forNetwork:(NSString *)network
-        shouldTurnOn:(BOOL)shouldTurnOn {
+         forNetwork:(NSString *)network
+       shouldTurnOn:(BOOL)shouldTurnOn {
     if (shouldTurnOn) {
         [[MRSLEventManager sharedManager] track:@"Tapped Share Own Morsel"
                                      properties:@{@"view": @"Publish",

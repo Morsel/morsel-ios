@@ -82,7 +82,7 @@
             }
         }];
     } else {
-        [[MRSLSocialServiceFacebook sharedService] reset];
+        [FBSession.activeSession closeAndClearTokenInformation];
         _facebookUsernameLabel.text = @"";
         _facebookSwitch.on = NO;
     }
