@@ -177,17 +177,13 @@
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
 
-    [objectInfoJSON setObject:(self.itemDescription) ? self.itemDescription : [NSNull null]
-                       forKey:@"description"];
+    if (self.itemDescription) objectInfoJSON[@"description"] = self.itemDescription;
 
-    if (self.localUUID) [objectInfoJSON setObject:self.localUUID
-                                           forKey:@"nonce"];
+    if (self.localUUID) objectInfoJSON[@"nonce"] = self.localUUID;
 
     if (self.morsel) {
-        if (self.morsel.morselID) [objectInfoJSON setObject:self.morsel.morselID
-                                                     forKey:@"morsel_id"];
-        if (self.sort_order) [objectInfoJSON setObject:self.sort_order
-                                                forKey:@"sort_order"];
+        if (self.morsel.morselID) objectInfoJSON[@"morsel_id"] = self.morsel.morselID;
+        if (self.sort_order) objectInfoJSON[@"sort_order"] = self.sort_order;
     }
 
     return objectInfoJSON;
