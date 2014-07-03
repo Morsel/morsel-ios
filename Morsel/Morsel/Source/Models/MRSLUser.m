@@ -53,7 +53,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                               forKey:@"userID"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [user.managedObjectContext MR_saveToPersistentStoreAndWait];
 
     if (shouldMorselNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                                                      object:nil];
