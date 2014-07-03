@@ -20,8 +20,6 @@
 
 @interface MRSLSocialServiceFacebook ()
 
-@property (strong, nonatomic) MRSLSocialSuccessBlock facebookSuccessBlock;
-@property (strong, nonatomic) MRSLSocialFailureBlock facebookFailureBlock;
 @property (copy, nonatomic) FBSessionStateHandler sessionStateHandlerBlock;
 
 @property (strong, nonatomic) NSArray *facebookAccounts;
@@ -45,19 +43,49 @@
 #pragma mark - Authentication and User Information Methods
 
 - (void)checkForValidFacebookSessionWithSessionStateHandler:(FBSessionStateHandler)handler {
-    self.sessionStateHandlerBlock = handler;
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        self.sessionStateHandlerBlock = handler;
+        __block BOOL didConfirmValid = NO;
+        __weak __typeof(self) weakSelf = self;
         // If there's one, just open the session silently, without showing the user the login UI
         [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
-                                           allowLoginUI:NO
-                                      completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
-                                          // Handler for session state changes
-                                          // This method will be called EACH time the session state changes,
-                                          // also for intermediate states and NOT just when the session open
-                                          [self sessionStateChanged:session
-                                                              state:state
-                                                              error:error];
-                                      }];
+                                              allowLoginUI:NO
+                                         completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                                             // Handler for session state changes
+                                             // This method will be called EACH time the session state changes,
+                                             // also for intermediate states and NOT just when the session open
+                                             [self sessionStateChanged:session
+                                                                 state:status
+                                                                 error:error];
+                                             if (!didConfirmValid) {
+                                                 [weakSelf checkForPublishPermissions:nil];
+                                                 didConfirmValid = YES;
+                                             }
+                                         }];
+    }
+}
+
+- (void)checkForPublishPermissions:(MRSLSocialSuccessBlock)canPublishOrNil {
+    if ([[FBSession activeSession] isOpen]) {
+        if ([FBSession.activeSession.permissions
+             indexOfObject:@"publish_actions"] != NSNotFound) {
+            if (canPublishOrNil) canPublishOrNil(YES);
+        } else {
+            // Call permissions just to be extra sure, since it could possibly not be restored.
+            [FBRequestConnection startWithGraphPath:@"/me/permissions"
+                                  completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                      if (!error){
+                                          NSDictionary *permissions= [(NSArray *)[result data] objectAtIndex:0];
+                                          if ([permissions objectForKey:@"publish_actions"]){
+                                              if (canPublishOrNil) canPublishOrNil(YES);
+                                          } else {
+                                              if (canPublishOrNil) canPublishOrNil(NO);
+                                          }
+                                      }
+                                  }];
+        }
+    } else {
+        if (canPublishOrNil) canPublishOrNil(NO);
     }
 }
 
@@ -67,61 +95,53 @@
     // Open a session showing the user the login UI
     // You must ALWAYS ask for public_profile permissions when opening a session
     [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
-                                       allowLoginUI:YES
-                                  completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
-                                      // Call sessionStateChanged:state:error method to handle session state changes
-                                      [self sessionStateChanged:session
-                                                          state:state
-                                                          error:error];
-                                  }];
+                                          allowLoginUI:YES
+                                     completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                                         // Handler for session state changes
+                                         [self sessionStateChanged:session
+                                                             state:status
+                                                             error:error];
+                                     }];
+}
+
+- (void)requestPublishPermissionsWithCompletion:(FBSessionRequestPermissionResultHandler)completionOrNil {
+    [FBSession.activeSession requestNewPublishPermissions:[NSArray arrayWithObject:@"publish_actions"]
+                                          defaultAudience:FBSessionDefaultAudienceFriends
+                                        completionHandler:^(FBSession *session, NSError *error) {
+                                            if (completionOrNil) completionOrNil(session, error);
+                                        }];
 }
 
 - (void)restoreFacebookSessionWithAuthentication:(MRSLSocialAuthentication *)authentication {
     self.socialAuthentication = authentication;
-    if ([[FBSession activeSession] isOpen]) {
-        if ([[FBSession activeSession].accessTokenData.accessToken isEqualToString:authentication.token]) {
-            __weak __typeof(self) weakSelf = self;
-            [self getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
-                [weakSelf updateOrDeleteAuthentication:authentication
-                                           fromSession:[FBSession activeSession]
-                                                 error:error];
-            }];
-        }
-    } else {
+    if (![[FBSession activeSession] isOpen]) {
+        NSArray *permissions = @[@"public_profile", @"email", @"user_friends"];
+        FBSession *restoredSession = [[FBSession alloc] initWithPermissions:permissions];
         FBAccessTokenData *accessTokenData = [FBAccessTokenData createTokenFromString:authentication.token
-                                                                          permissions:@[@"public_profile", @"email", @"user_friends"]
+                                                                          permissions:permissions
                                                                        expirationDate:nil
                                                                             loginType:FBSessionLoginTypeNone
                                                                           refreshDate:nil];
         @try {
             __weak __typeof(self) weakSelf = self;
-            [[FBSession activeSession] openFromAccessTokenData:accessTokenData
-                                             completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-                                                 [weakSelf updateOrDeleteAuthentication:authentication
-                                                                            fromSession:session
-                                                                                  error:error];
-                                             }];
+            __block BOOL didConfirmValid = NO;
+            [restoredSession openFromAccessTokenData:accessTokenData
+                                   completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                                       // Handler for session state changes
+                                       [weakSelf sessionStateChanged:session
+                                                               state:status
+                                                               error:error];
+                                       if (!didConfirmValid) {
+                                           [weakSelf checkForPublishPermissions:nil];
+                                           didConfirmValid = YES;
+                                       }
+                                   }];
+            [FBSession setActiveSession:restoredSession];
         } @catch (NSException *exception) {
-            DDLogError(@"Exception thrown while attempting to restore Facebook session with authentication: %@", exception);
-        }
-    }
-}
-
-- (void)updateOrDeleteAuthentication:(MRSLSocialAuthentication *)authentication
-                         fromSession:(FBSession *)session
-                               error:(NSError *)error {
-    if (error && ![session isOpen]) {
-        DDLogError(@"Error restoring Facebook session with authentication: %@", error);
-        [self reset];
-        [_appDelegate.apiService deleteUserAuthentication:authentication
-                                                  success:nil
-                                                  failure:nil];
-    } else {
-        if (![authentication.token isEqualToString:session.accessTokenData.accessToken]) {
-            authentication.token = session.accessTokenData.accessToken;
-            [_appDelegate.apiService updateUserAuthentication:authentication
-                                                      success:nil
-                                                      failure:nil];
+            DDLogError(@"Attempting to restore Facebook session with authentication threw exception: %@", exception);
+            // This is likely due to permissions not matching the local Facebook sessions.
+            // In that case, removing from API to ensure when session is re-authorized, it does not collide with Facebook uid.
+            [self clearSocialAuthentication];
         }
     }
 }
@@ -155,7 +175,7 @@
                                                                      forKey:@"uid"];
                                                         [userInfo setObject:@"facebook"
                                                                      forKey:@"provider"];
-                                                        facebookUserInfo(userInfo, userError);
+                                                        if (facebookUserInfo) facebookUserInfo(userInfo, userError);
                                                     }];
                           }];
 }
@@ -281,7 +301,7 @@
                       error:(NSError *)error {
     // If the session was opened successfully
     if (!error && state == FBSessionStateOpen) {
-        NSLog(@"Session opened");
+        DDLogDebug(@"Facebook session opened");
         // Show the user the logged-in UI
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
         if (_socialAuthentication && ![_socialAuthentication isValid] && [MRSLUser currentUser]) {
@@ -299,46 +319,42 @@
             }];
         }
         return;
+    } else if (state == FBSessionStateOpenTokenExtended) {
+        DDLogDebug(@"Facebook session permissions extended");
+        if ([_socialAuthentication isValid]) {
+            if (![_socialAuthentication.token isEqualToString:session.accessTokenData.accessToken]) {
+                _socialAuthentication.token = session.accessTokenData.accessToken;
+                [_appDelegate.apiService updateUserAuthentication:_socialAuthentication
+                                                          success:nil
+                                                          failure:nil];
+            }
+        }
     }
     if (state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed){
         // If the session is closed
-        NSLog(@"Session closed");
-        // Show the user the logged-out UI
+        DDLogDebug(@"Facebook session closed");
+        [self clearSocialAuthentication];
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
-        if ([_socialAuthentication isValid]) {
-            [self reset];
-            [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
-                                                      success:nil
-                                                      failure:nil];
-        }
     }
 
-    // Handle errors
-    if (error){
-        NSLog(@"Error");
-        NSString *alertText;
-        NSString *alertTitle;
+    if (error) {
+        DDLogError(@"Facebook session error: %@", [error localizedDescription]);
+        NSString *alertTitle = @"Facebook Session Error";
         // If the error requires people using an app to make an action outside of the app in order to recover
         if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
-            alertTitle = @"Something went wrong";
-            alertText = [FBErrorUtility userMessageForError:error];
             [UIAlertView showAlertViewWithTitle:alertTitle
-                                        message:alertText
+                                        message:[FBErrorUtility userMessageForError:error]
                                        delegate:nil
                               cancelButtonTitle:@"OK"
                               otherButtonTitles:nil];
         } else {
-
             // If the user cancelled login, do nothing
             if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
-                NSLog(@"User cancelled login");
-
+                DDLogDebug(@"User cancelled facebook login");
                 // Handle session closures that happen outside of the app
-            } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession){
-                alertTitle = @"Session Error";
-                alertText = @"Your current session is no longer valid. Please log in again.";
+            } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession) {
                 [UIAlertView showAlertViewWithTitle:alertTitle
-                                            message:alertText
+                                            message:@"Your session is no longer valid. Please connect to Facebook again in Settings."
                                            delegate:nil
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
@@ -346,43 +362,39 @@
                 // Here we will handle all other errors with a generic error message.
                 // We recommend you check our Handling Errors guide for more information
                 // https://developers.facebook.com/docs/ios/errors/
+                [self clearSocialAuthentication];
             } else {
                 //Get more error information from the error
                 NSDictionary *errorInformation = [[[error.userInfo objectForKey:@"com.facebook.sdk:ParsedJSONResponseKey"] objectForKey:@"body"] objectForKey:@"error"];
-
                 // Show the user an error message
-                alertTitle = @"Something went wrong";
-                alertText = [NSString stringWithFormat:@"Please retry. \n\n If the problem persists contact us and mention this error code: %@", [errorInformation objectForKey:@"message"]];
                 [UIAlertView showAlertViewWithTitle:alertTitle
-                                            message:alertText
+                                            message:[NSString stringWithFormat:@"Please retry. \n\n If the problem persists contact us and mention this error code: %@", [errorInformation objectForKey:@"message"]]
                                            delegate:nil
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
             }
         }
-        // Clear this token
         [FBSession.activeSession closeAndClearTokenInformation];
-        if (_socialAuthentication) {
-            [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
-                                                      success:nil
-                                                      failure:nil];
-            self.socialAuthentication = nil;
-        }
-
-        // Report Error (should log user out of FB)
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
+    }
+}
+
+- (void)clearSocialAuthentication {
+    if ([_socialAuthentication isValid]) {
+        DDLogDebug(@"Facebook clearing social authentication from backend");
+        [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
+                                                  success:nil
+                                                  failure:nil];
     }
 }
 
 - (void)reset {
     if (FBSession.activeSession.state == FBSessionStateOpen
         || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
-
         // Close the session and remove the access token from the cache
         // The session state handler (in the app delegate) will be called automatically
+        self.socialAuthentication = nil;
         [FBSession.activeSession closeAndClearTokenInformation];
-
-        // If the session state is not any of the two "open" states when the button is clicked
     }
 }
 
