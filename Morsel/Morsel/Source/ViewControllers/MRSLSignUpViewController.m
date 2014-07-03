@@ -280,6 +280,13 @@ UITextFieldDelegate>
                      completion:nil];
 }
 
+- (void)beginSignUpAndResign {
+    [self.view endEditing:YES];
+    [self signUp];
+    [self.contentScrollView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)
+                                       animated:YES];
+}
+
 #pragma mark - UIImagePickerControllerDelegate Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -380,12 +387,13 @@ UITextFieldDelegate>
         } else if ([textField isEqual:_usernameField]) {
             [_emailField becomeFirstResponder];
         } else if ([textField isEqual:_emailField]) {
-            [_passwordField becomeFirstResponder];
+            if (_userConnectedWithSocial) {
+                [self beginSignUpAndResign];
+            } else {
+                [_passwordField becomeFirstResponder];
+            }
         } else if ([textField isEqual:_passwordField]) {
-            [textField resignFirstResponder];
-            [self signUp];
-            [self.contentScrollView scrollRectToVisible:CGRectMake(0.f, 0.f, 5.f, 5.f)
-                                               animated:YES];
+            [self beginSignUpAndResign];
         }
 
         return NO;

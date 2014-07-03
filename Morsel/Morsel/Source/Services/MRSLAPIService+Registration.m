@@ -25,8 +25,7 @@
            success:(MRSLAPISuccessBlock)userSuccessOrNil
            failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user": @{@"username": NSNullIfNil(user.username),
-                                                                                  @"email": NSNullIfNil(user.email),
-                                                                                  @"password": NSNullIfNil(password)}}
+                                                                                  @"email": NSNullIfNil(user.email)}}
                                                 includingMRSLObjects:@[user]
                                               requiresAuthentication:NO];
     if (authentication) {
@@ -36,6 +35,8 @@
                                                                         @"secret": NSNullIfNil(authentication.secret),
                                                                         @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}};
         [parameters addEntriesFromDictionary:authenticationParameters];
+    } else {
+        parameters[@"user"][@"password"] = NSNullIfNil(password);
     }
 
     [[MRSLAPIClient sharedClient] POST:@"users"

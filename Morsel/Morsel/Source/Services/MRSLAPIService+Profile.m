@@ -64,7 +64,7 @@
                                                                                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
                                                                                                   if (user.managedObjectContext) {
                                                                                                       [user MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                                                                                      [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+                                                                                                      [user.managedObjectContext MR_saveToPersistentStoreAndWait];
                                                                                                   }
                                                                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                                                                       [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidUpdateUserNotification
