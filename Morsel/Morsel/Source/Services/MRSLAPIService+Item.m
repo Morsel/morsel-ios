@@ -44,8 +44,10 @@
                                    }
                                    if (localItem && localItem.managedObjectContext) {
                                        [localItem MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                       [localItem.managedObjectContext MR_saveOnlySelfAndWait];
+                                       [localItem.managedObjectContext MR_saveToPersistentStoreAndWait];
                                        if (successOrNil) successOrNil(localItem);
+                                   } else {
+                                       if (failureOrNil) failureOrNil(nil);
                                    }
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                    if (!item || !item.managedObjectContext) {
@@ -79,7 +81,7 @@
         failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:NO];
+                                              requiresAuthentication:YES];
 
     int itemID = item.itemIDValue;
     __block MRSLItem *itemToGet = item;
@@ -96,6 +98,8 @@
                                   if (itemToGet) {
                                       [itemToGet MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                       if (successOrNil) successOrNil(itemToGet);
+                                  } else {
+                                      if (failureOrNil) failureOrNil(nil);
                                   }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
@@ -121,19 +125,29 @@
                                                             object:item];
     });
 
-    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"items/%i", item.itemIDValue]
+    int itemID = item.itemIDValue;
+    __block MRSLItem *itemToUpdate = item;
+
+    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"items/%i", itemID]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                  if (!itemToUpdate || !itemToUpdate.managedObjectContext) {
+                                      itemToUpdate = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                             withValue:@(itemID)];
+                                  }
+                                  [itemToUpdate MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                   if (morselOrNil) {
                                       [item.morsel removeItemsObject:item];
                                       [morselOrNil addItemsObject:item];
                                       item.morsel = morselOrNil;
                                   }
-
-                                  [item MR_importValuesForKeysWithObject:responseObject[@"data"]];
-
-                                  if (successOrNil) successOrNil(responseObject);
+                                  if (itemToUpdate) {
+                                      [itemToUpdate.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                      if (successOrNil) successOrNil(responseObject);
+                                  } else {
+                                      if (failureOrNil) failureOrNil(nil);
+                                  }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation
@@ -148,6 +162,9 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[item]
                                               requiresAuthentication:YES];
+    int itemID = item.itemIDValue;
+    __block MRSLItem *itemToUpdate = item;
+
     AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
     NSString *urlString = [[NSURL URLWithString:[NSString stringWithFormat:@"items/%i", item.itemIDValue] relativeToURL:[[MRSLAPIClient sharedClient] baseURL]] absoluteString];
     NSMutableURLRequest *request = [requestSerializer multipartFormRequestWithMethod:@"PUT"
@@ -165,14 +182,20 @@
     AFHTTPRequestOperation *operation = [[MRSLAPIClient sharedClient] HTTPRequestOperationWithRequest:request
                                                                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                                                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                                                                                  if (item.managedObjectContext) {
-                                                                                                      item.isUploading = @NO;
-                                                                                                      item.itemID = responseObject[@"data"][@"id"];
-                                                                                                      item.itemPhotoFull = nil;
-                                                                                                      [item MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                                                                                      [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+                                                                                                  if (!itemToUpdate || !itemToUpdate.managedObjectContext) {
+                                                                                                      itemToUpdate = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                                                                                             withValue:@(itemID)];
                                                                                                   }
-                                                                                                  if (successOrNil) successOrNil(responseObject);
+                                                                                                  if (itemToUpdate) {
+                                                                                                      itemToUpdate.isUploading = @NO;
+                                                                                                      itemToUpdate.itemID = responseObject[@"data"][@"id"];
+                                                                                                      itemToUpdate.itemPhotoFull = nil;
+                                                                                                      [item MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                                                                      [itemToUpdate.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                                                                      if (successOrNil) successOrNil(responseObject);
+                                                                                                  } else {
+                                                                                                      if (failureOrNil) failureOrNil(nil);
+                                                                                                  }
                                                                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                                                                   if (item.managedObjectContext) {
                                                                                                       item.isUploading = @NO;
@@ -194,9 +217,11 @@
                                               requiresAuthentication:YES];
 
     int itemID = item.itemIDValue;
-
-    [item MR_deleteEntity];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+    NSManagedObjectContext *itemContext = item.managedObjectContext;
+    NSPredicate *itemPredicate = [NSPredicate predicateWithFormat:@"itemID == %i", itemID];
+    [MRSLItem MR_deleteAllMatchingPredicate:itemPredicate
+                                  inContext:itemContext];
+    [itemContext MR_saveToPersistentStoreAndWait];
 
     [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"items/%i", itemID]
                               parameters:parameters
