@@ -26,7 +26,6 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 <MRSLItemImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;

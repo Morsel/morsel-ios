@@ -66,7 +66,14 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="Vqb-IS-2MS"/>
+                    <navigationItem key="navigationItem" id="Vqb-IS-2MS">
+                        <barButtonItem key="rightBarButtonItem" title="Share" id="pjw-eD-hO6">
+                            <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="displayMorselShare" destination="nQ7-fm-uMk" id="Zcp-HB-wv9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicatorView" destination="5o3-FI-1hg" id="tkv-tX-CFv"/>
                         <outlet property="feedCollectionView" destination="6sS-zQ-hj1" id="K2F-Fk-cav"/>
