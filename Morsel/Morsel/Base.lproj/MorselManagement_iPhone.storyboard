@@ -437,7 +437,7 @@
                             </collectionView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xPP-2b-9VQ" customClass="MRSLRobotoSlabBoldLabel">
                                 <rect key="frame" x="30" y="0.0" width="260" height="320"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="32"/>
                                 <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -899,7 +899,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="9lu-zA-0DL"/>
+        <segue reference="TAl-5k-iUg"/>
         <segue reference="eSW-V4-W7m"/>
     </inferredMetricsTieBreakers>
 </document>
