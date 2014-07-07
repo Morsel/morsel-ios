@@ -54,7 +54,8 @@
 #pragma mark - Action Methods
 
 - (IBAction)dismiss {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.presentingViewController dismissViewControllerAnimated:YES
+                                                      completion:nil];
 }
 
 - (IBAction)displayMenuBar {
