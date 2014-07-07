@@ -426,6 +426,7 @@
                                         <size key="customSize" width="320" height="320"/>
                                         <connections>
                                             <outlet property="previewImageView" destination="wKU-Wd-noq" id="xbs-2p-mnu"/>
+                                            <segue destination="Wym-zL-icT" kind="push" identifier="seg_PublishShareMorsel" id="TAl-5k-iUg"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -536,7 +537,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JWU-89-UCF" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="52" y="0.0" width="215" height="60"/>
+                                                    <rect key="frame" x="52" y="-10" width="215" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="You haven't added any places to your profile yet! ">
@@ -591,7 +592,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H5u-9B-UwB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2178" y="1656"/>
+            <point key="canvasLocation" x="2192" y="845"/>
         </scene>
         <!--Morsel Publish Share View Controller - Share-->
         <scene sceneID="5Nl-ac-03G">
@@ -898,6 +899,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="9lu-zA-0DL"/>
         <segue reference="eSW-V4-W7m"/>
     </inferredMetricsTieBreakers>
 </document>
