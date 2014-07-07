@@ -72,14 +72,16 @@ MRSLFeedShareCollectionViewCellDelegate>
 
     __weak __typeof(self) weakSelf = self;
     [updatedObjects enumerateObjectsUsingBlock:^(NSManagedObject *managedObject, BOOL *stop) {
-        if ([managedObject isKindOfClass:[MRSLMorsel class]]) {
-            MRSLMorsel *morsel = (MRSLMorsel *)managedObject;
-            if (morsel.morselIDValue == weakSelf.morsel.morselIDValue &&
-                [weakSelf.morsel.items count] != [morsel.items count]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf displayContent];
-                });
-                *stop = YES;
+        if (weakSelf) {
+            if ([managedObject isKindOfClass:[MRSLMorsel class]]) {
+                MRSLMorsel *morsel = (MRSLMorsel *)managedObject;
+                if (morsel.morselIDValue == weakSelf.morsel.morselIDValue &&
+                    [weakSelf.morsel.items count] != [morsel.items count]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf displayContent];
+                    });
+                    *stop = YES;
+                }
             }
         }
     }];

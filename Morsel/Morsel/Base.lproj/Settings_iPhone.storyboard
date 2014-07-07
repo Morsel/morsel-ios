@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="khW-jS-ehj" customClass="MRSLRobotoLightLabel">
-                            <rect key="frame" x="0.0" y="64" width="320" height="40"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="39"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <string key="text">Don't feel like filling this out now?
 Access it later from Settings.</string>
@@ -23,7 +23,7 @@ Access it later from Settings.</string>
                             <nil key="highlightedColor"/>
                         </label>
                         <label key="tableFooterView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tell us where you work and what cuisines and specialities you have to reach more followers!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wab-rZ-gL4" customClass="MRSLRobotoLightLabel">
-                            <rect key="frame" x="0.0" y="258" width="320" height="62"/>
+                            <rect key="frame" x="0.0" y="189" width="320" height="59"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="14"/>
                             <color key="textColor" red="0.57647061349999995" green="0.64313727620000005" blue="0.56862747670000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -33,7 +33,7 @@ Access it later from Settings.</string>
                             <tableViewSection id="jbQ-3S-l6m">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Z2B-4D-RX4" style="IBUITableViewCellStyleDefault" id="5A8-hS-1OW" userLabel="Manage Places Cell">
-                                        <rect key="frame" x="0.0" y="104" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="35" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5A8-hS-1OW" id="oVp-9M-7Mh">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -57,7 +57,7 @@ Access it later from Settings.</string>
                             <tableViewSection headerTitle="Tags" id="R53-Db-9dO">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="bg4-Fh-L7X" style="IBUITableViewCellStyleDefault" id="emI-af-gqh" userLabel="Manage Tags Cell">
-                                        <rect key="frame" x="0.0" y="170" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="101" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="emI-af-gqh" id="kee-mB-gTS">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -77,7 +77,7 @@ Access it later from Settings.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="rCc-97-N72" style="IBUITableViewCellStyleDefault" id="anD-oy-QFk" userLabel="Manage Tags Cell">
-                                        <rect key="frame" x="0.0" y="214" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="145" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="anD-oy-QFk" id="MIS-aP-VaW">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -113,7 +113,8 @@ Access it later from Settings.</string>
         <!--Navigation Controller - Professional Settings-->
         <scene sceneID="PFB-EF-uE8">
             <objects>
-                <navigationController storyboardIdentifier="sb_ProfessionalSettings" title="Professional Settings" definesPresentationContext="YES" id="CBe-az-RjT" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_ProfessionalSettings" autoresizesArchivedViewToFullSize="NO" title="Professional Settings" automaticallyAdjustsScrollViewInsets="NO" definesPresentationContext="YES" id="CBe-az-RjT" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sRg-GT-fAZ">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -128,7 +129,7 @@ Access it later from Settings.</string>
         <!--Settings View Controller - Settings-->
         <scene sceneID="pA5-hW-pbp">
             <objects>
-                <viewController storyboardIdentifier="sb_MRSLSettingsViewController" id="0SB-Yf-zYM" customClass="MRSLSettingsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLSettingsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="0SB-Yf-zYM" customClass="MRSLSettingsViewController" sceneMemberID="viewController">
                     <containerView key="view" contentMode="scaleToFill" id="WuL-PC-Bhz">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -137,6 +138,7 @@ Access it later from Settings.</string>
                             <segue destination="y9P-bI-A3Z" kind="embed" id="hMc-If-ivQ"/>
                         </connections>
                     </containerView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Settings" id="hPh-yK-7TB">
                         <barButtonItem key="rightBarButtonItem" title="Log Out" id="Snq-8f-iBt">
@@ -154,13 +156,13 @@ Access it later from Settings.</string>
         <!--Settings Table View Controller-->
         <scene sceneID="QN0-P9-fKs">
             <objects>
-                <tableViewController storyboardIdentifier="sb_MRSLSettingsTableViewController" id="y9P-bI-A3Z" customClass="MRSLSettingsTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="sb_MRSLSettingsTableViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="y9P-bI-A3Z" customClass="MRSLSettingsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="XMr-2R-zew">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <label key="tableFooterView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zG2-TV-gac" customClass="MRSLRobotoLightLabel">
-                            <rect key="frame" x="0.0" y="418" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="374" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.57647061349999995" green="0.64313727620000005" blue="0.56862747670000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -170,7 +172,7 @@ Access it later from Settings.</string>
                             <tableViewSection id="Unt-kR-RxD">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7r4-Vv-cXy" style="IBUITableViewCellStyleDefault" id="NsP-bS-Nco" userLabel="Professional Settings Cell">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NsP-bS-Nco" id="8LP-Ge-2k1">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -194,7 +196,7 @@ Access it later from Settings.</string>
                             <tableViewSection id="SZo-mx-NIN">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="LJG-Mh-CFU" style="IBUITableViewCellStyleDefault" id="OuB-BG-NpE" userLabel="Professional Settings Cell">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OuB-BG-NpE" id="a4x-gZ-SYP">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -218,7 +220,7 @@ Access it later from Settings.</string>
                             <tableViewSection id="H59-ba-Jzx">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="aBs-f8-WE1" style="IBUITableViewCellStyleDefault" id="PnP-3q-Uz0" userLabel="Edit Profile Cell">
-                                        <rect key="frame" x="0.0" y="132" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="88" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PnP-3q-Uz0" id="E7H-9c-EnM">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -238,7 +240,7 @@ Access it later from Settings.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="SoO-ZC-cr4" style="IBUITableViewCellStyleDefault" id="jaH-5Y-Eqq" userLabel="Social Connections Cell">
-                                        <rect key="frame" x="0.0" y="176" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="132" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jaH-5Y-Eqq" id="bG2-G1-hT8">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -258,7 +260,7 @@ Access it later from Settings.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="puJ-UQ-bdw" style="IBUITableViewCellStyleDefault" id="SX1-Oi-pTb" userLabel="Account Settings Cell">
-                                        <rect key="frame" x="0.0" y="220" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="176" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SX1-Oi-pTb" id="P1W-7G-CXh">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -282,7 +284,7 @@ Access it later from Settings.</string>
                             <tableViewSection headerTitle="Support" id="kt7-bm-5r2">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="VSO-PB-wKR" style="IBUITableViewCellStyleDefault" id="UDW-tJ-d2g">
-                                        <rect key="frame" x="0.0" y="286" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UDW-tJ-d2g" id="6H4-zF-EMZ">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -303,7 +305,7 @@ Access it later from Settings.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="a85-Bz-QhX" style="IBUITableViewCellStyleDefault" id="4Oi-hI-nva">
-                                        <rect key="frame" x="0.0" y="330" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="286" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4Oi-hI-nva" id="9Pc-gH-YyV">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -324,7 +326,7 @@ Access it later from Settings.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="GCY-Xa-Wwe" style="IBUITableViewCellStyleDefault" id="VdP-LQ-ssA">
-                                        <rect key="frame" x="0.0" y="374" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="330" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VdP-LQ-ssA" id="ksp-7A-oYG">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -352,7 +354,8 @@ Access it later from Settings.</string>
                             <outlet property="delegate" destination="y9P-bI-A3Z" id="qj3-yz-rLO"/>
                         </connections>
                     </tableView>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <size key="freeformSize" width="320" height="200"/>
                     <connections>
                         <outlet property="appVersionLabel" destination="zG2-TV-gac" id="ake-t6-TQ6"/>
@@ -380,7 +383,8 @@ Access it later from Settings.</string>
         <!--Navigation Controller - Settings-->
         <scene sceneID="SQW-ef-3TI">
             <objects>
-                <navigationController storyboardIdentifier="sb_Settings" title="Settings" definesPresentationContext="YES" id="jtb-qR-yHr" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Settings" autoresizesArchivedViewToFullSize="NO" title="Settings" automaticallyAdjustsScrollViewInsets="NO" definesPresentationContext="YES" id="jtb-qR-yHr" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8eh-PB-to6">
                         <rect key="frame" x="0.0" y="-44" width="0.0" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -399,7 +403,7 @@ Access it later from Settings.</string>
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLProfileEditFieldsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="qw9-yF-Jf9" customClass="MRSLProfileEditFieldsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ilg-z2-SGW">
-                        <rect key="frame" x="0.0" y="44" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ILj-2y-ZPS">
@@ -445,7 +449,7 @@ Access it later from Settings.</string>
                                         <rect key="frame" x="20" y="205" width="280" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                                         <connections>
@@ -584,7 +588,7 @@ Access it later from Settings.</string>
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLProfileCredentialsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="tcF-OD-auu" customClass="MRSLProfileCredentialsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MTF-ug-RLb">
-                        <rect key="frame" x="0.0" y="44" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password" minimumFontSize="17" id="1Mg-gV-QPh" customClass="MRSLTextField">
@@ -670,7 +674,7 @@ Access it later from Settings.</string>
             <objects>
                 <tableViewController storyboardIdentifier="sb_MRSLSocialConnectionsTableViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="QZP-QV-mgC" customClass="MRSLSocialConnectionsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="40" sectionHeaderHeight="22" sectionFooterHeight="22" id="nZO-oD-R6r">
-                        <rect key="frame" x="0.0" y="44" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <label key="tableFooterView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xdy-Fx-MdS" customClass="MRSLRobotoLightLabel">

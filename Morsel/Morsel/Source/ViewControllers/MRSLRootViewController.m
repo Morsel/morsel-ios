@@ -248,7 +248,8 @@ MRSLMenuViewControllerDelegate>
         [[UIApplication sharedApplication] setStatusBarHidden:YES
                                                 withAnimation:UIStatusBarAnimationSlide];
     }
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:NO
+                             completion:nil];
     [self displaySignUpAnimated:YES];
     [self removeChildNavigationControllers];
     [_appDelegate resetDataStore];
@@ -372,8 +373,17 @@ MRSLMenuViewControllerDelegate>
             [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
                                                           andStoryboardPrefix:@"Feed"];
             if (self.presentedViewController) {
+                id presentedViewController = self.presentedViewController;
                 [self dismissViewControllerAnimated:YES
-                                         completion:nil];
+                                         completion:^{
+                                             /*
+                                              This is essential due to UINavigationController instances originating from UIStoryboard
+                                              not properly releasing contained view controllers.
+                                              */
+                                             if ([presentedViewController isKindOfClass:[UINavigationController class]]) {
+                                                 [(UINavigationController *)presentedViewController setViewControllers:nil];
+                                             }
+                                         }];
             }
             break;
         }
@@ -441,7 +451,8 @@ MRSLMenuViewControllerDelegate>
             DDLogInfo(@"Mail not sent.");
             break;
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 #pragma mark - UIGestureRecognizerDelegate

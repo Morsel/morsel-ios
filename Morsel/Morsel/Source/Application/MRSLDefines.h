@@ -103,6 +103,7 @@ static const CGFloat MRSLUserProfileImageThumbDimensionSize = 40.f;
 static const CGFloat MRSLItemImageFullDimensionSize = 640.f;
 static const CGFloat MRSLItemImageLargeDimensionSize = 320.f;
 static const CGFloat MRSLItemImageThumbDimensionSize = 50.f;
+static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 static const int MRSLMaximumMorselsToDisplayInMorselAdd = 5;
 static const int MRSLMaximumMorselsToDisplayInMorselPreview = 12;
 static const int MRSLStatsTagViewTag = 9991;

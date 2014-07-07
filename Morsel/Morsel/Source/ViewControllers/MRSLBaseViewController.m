@@ -94,6 +94,20 @@
 
 #pragma mark - Utility Methods
 
+- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+    UINavigationController *containingNavigationController = self.navigationController;
+    [super dismissViewControllerAnimated:flag completion:^{
+        /*
+         This is essential due to UINavigationController instances originating from UIStoryboard
+         not properly releasing contained view controllers.
+         */
+        if (containingNavigationController) {
+            [containingNavigationController setViewControllers:nil];
+        }
+        if (completion) completion();
+    }];
+}
+
 - (UIViewController *)topPresentingViewController {
     UIViewController *topMostVC = (self.navigationController) ? self.navigationController : self;
     UIViewController *potentialTopMostVC = topMostVC;

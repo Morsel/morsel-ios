@@ -13,6 +13,7 @@
 #import "MRSLImagePreviewCollectionViewCell.h"
 #import "MRSLItemImageView.h"
 #import "MRSLMorselPublishPlaceViewController.h"
+#import "MRSLMorselPublishShareViewController.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -60,7 +61,13 @@ UICollectionViewDelegate>
     [_appDelegate.apiService updateMorsel:_morsel
                                   success:nil
                                   failure:nil];
-    [self performSegueWithIdentifier:@"seg_SelectPlace"
+    /*
+     These are declared as variables due to an issue with StoryboardLint throwing
+     An error if they were incorporated in the ternary operator
+     */
+    NSString *placeSegue = @"seg_SelectPlace";
+    NSString *publishSegue = @"seg_PublishShareMorsel";
+    [self performSegueWithIdentifier:([[MRSLUser currentUser] isProfessional]) ? placeSegue : publishSegue
                               sender:nil];
 }
 
@@ -78,6 +85,9 @@ UICollectionViewDelegate>
     if ([segue.identifier isEqualToString:@"seg_SelectPlace"]) {
         MRSLMorselPublishPlaceViewController *publishPlaceVC = [segue destinationViewController];
         publishPlaceVC.morsel = _morsel;
+    } else if ([segue.identifier isEqualToString:@"seg_PublishShareMorsel"]) {
+        MRSLMorselPublishShareViewController *publishShareVC = [segue destinationViewController];
+        publishShareVC.morsel = _morsel;
     }
 }
 

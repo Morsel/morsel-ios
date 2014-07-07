@@ -217,6 +217,16 @@ NSFetchedResultsControllerDelegate>
     [self populateContent];
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat currentOffset = scrollView.contentOffset.y;
+    CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    if (maximumOffset - currentOffset <= 10.f) {
+        [self loadMore];
+    }
+}
+
 #pragma mark - Dealloc
 
 - (void)dealloc {

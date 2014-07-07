@@ -47,6 +47,8 @@ UIAlertViewDelegate>
     [super viewDidLoad];
 
     self.scrollViewHeight = [_contentScrollView getHeight];
+    self.bioTextView.backgroundColor = [UIColor morselLightOffColor];
+    self.bioTextView.placeholder = @"Tell us about yourself";
     [self.contentScrollView setContentSize:CGSizeMake([_contentScrollView getWidth], (CGRectGetMaxY(_bioTextView.frame) + 20.f))];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
