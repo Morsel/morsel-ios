@@ -25,44 +25,54 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselCell" id="rN6-Hx-Pab" customClass="MRSLMorselCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselCell" id="cbk-YY-zgU" customClass="MRSLMorselCollectionViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="AFl-LD-inX" customClass="MRSLItemImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="mnz-x2-GFt" customClass="MRSLItemImageView">
                                                     <rect key="frame" x="20" y="5" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ukr-2X-iVS" customClass="MRSLRobotoSlabBoldLabel">
+                                                <view contentMode="scaleToFill" id="cEJ-T8-jQu">
+                                                    <rect key="frame" x="20" y="59" width="300" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Op-eK-0JJ" customClass="MRSLRobotoSlabBoldLabel">
                                                     <rect key="frame" x="80" y="14" width="180" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wOS-m3-Eaf" customClass="MRSLRobotoSlabRegularLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Drc-9N-eRq" customClass="MRSLRobotoSlabRegularLabel">
                                                     <rect key="frame" x="80" y="36" width="50" height="10"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.71372549019999998" green="0.71372549019999998" blue="0.71372549019999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" id="02G-TT-Iq3">
+                                                <view contentMode="scaleToFill" id="agv-8q-A3N">
                                                     <rect key="frame" x="0.0" y="59" width="320" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-arrow-accessory-red" id="U0d-7e-lbi">
+                                                    <rect key="frame" x="284" y="22" width="16" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <outlet property="morselCountLabel" destination="wOS-m3-Eaf" id="rFK-vg-jLY"/>
-                                            <outlet property="morselPipeView" destination="02G-TT-Iq3" id="4bu-0k-ySF"/>
-                                            <outlet property="morselThumbnailView" destination="AFl-LD-inX" id="saa-0y-uUQ"/>
-                                            <outlet property="morselTitleLabel" destination="Ukr-2X-iVS" id="45D-fb-nDv"/>
+                                            <outlet property="arrowImageView" destination="U0d-7e-lbi" id="Qq8-4c-hWZ"/>
+                                            <outlet property="morselCountLabel" destination="Drc-9N-eRq" id="wRc-uY-H0o"/>
+                                            <outlet property="morselPipeView" destination="agv-8q-A3N" id="TYo-rA-yFs"/>
+                                            <outlet property="morselThumbnailView" destination="mnz-x2-GFt" id="mD5-ek-e0s"/>
+                                            <outlet property="morselTitleLabel" destination="9Op-eK-0JJ" id="wzn-9U-2xs"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -732,6 +742,11 @@
                                                     <rect key="frame" x="20" y="5" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" id="odS-GN-g6d">
+                                                    <rect key="frame" x="20" y="59" width="300" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ec4-F6-17l" customClass="MRSLRobotoSlabBoldLabel">
                                                     <rect key="frame" x="80" y="14" width="180" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -751,10 +766,15 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-arrow-accessory-red" id="Q0C-Gu-eJt">
+                                                    <rect key="frame" x="284" y="22" width="16" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="arrowImageView" destination="Q0C-Gu-eJt" id="2Mo-Wt-CKJ"/>
                                             <outlet property="morselCountLabel" destination="pOh-yO-KSi" id="gVc-h8-pCf"/>
                                             <outlet property="morselPipeView" destination="2p3-X8-KSD" id="OUi-kt-QXh"/>
                                             <outlet property="morselThumbnailView" destination="ui4-R2-PwM" id="daM-GV-zIG"/>
@@ -887,6 +907,7 @@
     <resources>
         <image name="button-retry" width="50" height="50"/>
         <image name="icon-add-white" width="30" height="30"/>
+        <image name="icon-arrow-accessory-red" width="16" height="16"/>
         <image name="icon-circle-check-gray" width="30" height="30"/>
         <image name="icon-edit-red" width="24" height="24"/>
         <image name="icon-place" width="30" height="30"/>
