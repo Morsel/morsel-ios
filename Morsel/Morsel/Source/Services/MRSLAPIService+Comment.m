@@ -18,28 +18,41 @@
 #pragma mark - Comment Services
 
 - (void)getComments:(MRSLItem *)item
+          withMaxID:(NSNumber *)maxOrNil
+          orSinceID:(NSNumber *)sinceOrNil
+           andCount:(NSNumber *)countOrNil
             success:(MRSLAPIArrayBlock)successOrNil
             failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-
+    if (maxOrNil && sinceOrNil) {
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
+    } else if (maxOrNil && !sinceOrNil) {
+        parameters[@"max_id"] = maxOrNil;
+    } else if (!maxOrNil && sinceOrNil) {
+        parameters[@"since_id"] = sinceOrNil;
+    }
+    if (countOrNil) parameters[@"count"] = countOrNil;
     [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i/comments", item.itemIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-
                                   if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+                                      __block NSMutableArray *commentIDs = [NSMutableArray array];
                                       NSArray *commentsArray = responseObject[@"data"];
-                                      DDLogDebug(@"%lu comments available for Morsel!", (unsigned long)[commentsArray count]);
-
-                                      [commentsArray enumerateObjectsUsingBlock:^(NSDictionary *commentDictionary, NSUInteger idx, BOOL *stop) {
-                                          MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
-                                                                                            withValue:commentDictionary[@"id"]];
-                                          if (!comment) comment = [MRSLComment MR_createEntity];
-                                          [comment MR_importValuesForKeysWithObject:commentDictionary];
+                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                                          [commentsArray enumerateObjectsUsingBlock:^(NSDictionary *commentDictionary, NSUInteger idx, BOOL *stop) {
+                                              MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
+                                                                                                withValue:commentDictionary[@"id"]
+                                                                                                inContext:localContext];
+                                              if (!comment) comment = [MRSLComment MR_createInContext:localContext];
+                                              [comment MR_importValuesForKeysWithObject:commentDictionary];
+                                              [commentIDs addObject:commentDictionary[@"id"]];
+                                          }];
+                                      } completion:^(BOOL success, NSError *error) {
+                                          if (successOrNil) successOrNil(commentIDs);
                                       }];
-                                      if (successOrNil) successOrNil(commentsArray);
                                   }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
@@ -66,7 +79,8 @@
                                    if (!comment) comment = [MRSLComment MR_createEntity];
                                    [comment MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                    item.comment_count = @(item.comment_countValue + 1);
-                                   if (successOrNil) successOrNil(responseObject);
+                                   [comment.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                   if (successOrNil) successOrNil(comment);
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                    [self reportFailure:failureOrNil
                                           forOperation:operation
