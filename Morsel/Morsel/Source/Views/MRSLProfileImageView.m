@@ -47,7 +47,7 @@
 }
 
 - (UIImage *)placeholderImage {
-    return ([self imageSizeType] == MRSLImageSizeTypeSmall) ? [UIImage imageNamed:@"graphic-placeholder-profile"] : [UIImage imageWithColor:[UIColor whiteColor]];
+    return ([self getWidth] <= MRSLProfileThumbDimensionThreshold) ? [UIImage imageNamed:@"graphic-placeholder-profile"] : [UIImage imageWithColor:[UIColor whiteColor]];
 }
 
 #pragma mark - Action Methods
