@@ -21,18 +21,13 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *itemDescription;
 @property (weak, nonatomic) IBOutlet UIView *failureView;
+@property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
 
 @end
 
 @implementation MRSLMorselEditItemTableViewCell
 
 #pragma mark - Instance Methods
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    UITapGestureRecognizer *textTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(displayTextEdit)];
-    [_itemDescription addGestureRecognizer:textTapRecognizer];
-}
 
 - (void)setItem:(MRSLItem *)item {
     if (_item != item) [self reset];
@@ -70,12 +65,6 @@
 
 #pragma mark - Action Methods
 
-- (void)displayTextEdit {
-    if ([self.delegate respondsToSelector:@selector(morselEditItemCellDidSelectEditText:)]) {
-        [self.delegate morselEditItemCellDidSelectEditText:_item];
-    }
-}
-
 - (IBAction)retryUpload {
     self.item.didFailUpload = @NO;
     self.item.isUploading = @YES;
@@ -108,6 +97,10 @@
 
     if (_item.itemDescription.length == 0 && !selected) {
         _itemDescription.textColor = [UIColor morselLightContent];
+    }
+
+    if (self.arrowImageView) {
+        self.arrowImageView.image = [UIImage imageNamed:(selected) ? @"icon-arrow-accessory-white" : @"icon-arrow-accessory-red"];
     }
 }
 

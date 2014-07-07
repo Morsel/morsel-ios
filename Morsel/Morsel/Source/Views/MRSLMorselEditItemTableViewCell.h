@@ -14,7 +14,6 @@
 
 @optional
 - (void)morselEditItemCellDidSelectImagePreview:(MRSLItem *)item;
-- (void)morselEditItemCellDidSelectEditText:(MRSLItem *)item;
 - (void)morselEditItemCellDidTransitionToDeleteState:(BOOL)deleteStateActive;
 
 @end

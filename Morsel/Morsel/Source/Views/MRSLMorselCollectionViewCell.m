@@ -17,6 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *morselThumbnailView;
 @property (weak, nonatomic) IBOutlet UILabel *morselCountLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
 
 @end
 
@@ -57,7 +58,9 @@
     self.backgroundColor = selected ? [UIColor morselRed] : [UIColor whiteColor];
     self.morselTitleLabel.textColor = selected ? [UIColor whiteColor] : [UIColor morselDarkContent];
     self.morselCountLabel.textColor = selected ? [UIColor whiteColor] : [UIColor morselLightContent];
-
+    if (self.arrowImageView) {
+        self.arrowImageView.image = [UIImage imageNamed:(selected) ? @"icon-arrow-accessory-white" : @"icon-arrow-accessory-red"];
+    }
     if (_morselThumbnailView.image) {
         self.morselThumbnailView.layer.borderColor = [UIColor whiteColor].CGColor;
         self.morselThumbnailView.layer.borderWidth = selected ? 2.f : 0.f;

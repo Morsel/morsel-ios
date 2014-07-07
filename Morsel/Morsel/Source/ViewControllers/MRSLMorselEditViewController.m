@@ -243,10 +243,6 @@ MRSLMorselEditItemTableViewCellDelegate>
     return (indexPath.row + 1 != [_items count] + 1 && [_items count] > 1);
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (indexPath.row + 1 == [_items count] + 1);
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return ([_items count] + ((_shouldShowAddCell) ? 1 : 0));
 }
@@ -348,6 +344,16 @@ MRSLMorselEditItemTableViewCellDelegate>
                                      properties:@{@"view": @"Your Morsel",
                                                   @"item_count": @([_items count])}];
         [self presentMediaCapture];
+    } else {
+        self.item = [_items objectAtIndex:indexPath.row];
+        if (!self.item.itemID) return;
+        [[MRSLEventManager sharedManager] track:@"Tapped Add Description"
+                                     properties:@{@"view": @"Your Morsel",
+                                                  @"item_count": @([_items count]),
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                                  @"item_id": NSNullIfNil(_item.itemID)}];
+        [self performSegueWithIdentifier:@"seg_EditItemText"
+                                  sender:nil];
     }
 }
 
@@ -448,18 +454,6 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 #pragma mark - MRSLMorselEditMorselCollectionViewCellDelegate
-
-- (void)morselEditItemCellDidSelectEditText:(MRSLItem *)item {
-    self.item = item;
-    if (!self.item.itemID) return;
-    [[MRSLEventManager sharedManager] track:@"Tapped Add Description"
-                                 properties:@{@"view": @"Your Morsel",
-                                              @"item_count": @([_items count]),
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                              @"item_id": NSNullIfNil(item.itemID)}];
-    [self performSegueWithIdentifier:@"seg_EditItemText"
-                              sender:nil];
-}
 
 - (void)morselEditItemCellDidSelectImagePreview:(MRSLItem *)item {
     [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
