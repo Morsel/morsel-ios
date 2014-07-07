@@ -32,6 +32,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 @property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *placeCityStateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *featuredImageView;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *morselCoverImageView;
@@ -83,6 +84,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
     dispatch_async(dispatch_get_main_queue(), ^{
         _morselCoverImageView.item = [_morsel coverItem];
 
+        self.featuredImageView.hidden = !_morsel.feedItemFeaturedValue;
         self.morselTitleLabel.text = _morsel.title;
         self.profileImageView.user = _morsel.creator;
         self.timeAgoLabel.text = [_morsel.publishedDate timeAgoMinimized];

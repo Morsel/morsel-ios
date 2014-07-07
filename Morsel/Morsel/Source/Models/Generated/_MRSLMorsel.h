@@ -8,6 +8,7 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *draft;
 	__unsafe_unretained NSString *facebook_mrsl;
+	__unsafe_unretained NSString *feedItemFeatured;
 	__unsafe_unretained NSString *feedItemID;
 	__unsafe_unretained NSString *lastUpdatedDate;
 	__unsafe_unretained NSString *morselID;
@@ -33,6 +34,7 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLPlace;
+
 
 
 
@@ -91,6 +93,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validateFacebook_mrsl:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* feedItemFeatured;
+
+
+
+@property BOOL feedItemFeaturedValue;
+- (BOOL)feedItemFeaturedValue;
+- (void)setFeedItemFeaturedValue:(BOOL)value_;
+
+//- (BOOL)validateFeedItemFeatured:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -279,6 +295,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSString*)primitiveFacebook_mrsl;
 - (void)setPrimitiveFacebook_mrsl:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveFeedItemFeatured;
+- (void)setPrimitiveFeedItemFeatured:(NSNumber*)value;
+
+- (BOOL)primitiveFeedItemFeaturedValue;
+- (void)setPrimitiveFeedItemFeaturedValue:(BOOL)value_;
 
 
 

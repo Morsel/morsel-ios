@@ -7,6 +7,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.creationDate = @"creationDate",
 	.draft = @"draft",
 	.facebook_mrsl = @"facebook_mrsl",
+	.feedItemFeatured = @"feedItemFeatured",
 	.feedItemID = @"feedItemID",
 	.lastUpdatedDate = @"lastUpdatedDate",
 	.morselID = @"morselID",
@@ -57,6 +58,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	
 	if ([key isEqualToString:@"draftValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"draft"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"feedItemFeaturedValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"feedItemFeatured"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -127,6 +133,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic facebook_mrsl;
 
+
+
+
+
+
+@dynamic feedItemFeatured;
+
+
+
+- (BOOL)feedItemFeaturedValue {
+	NSNumber *result = [self feedItemFeatured];
+	return [result boolValue];
+}
+
+- (void)setFeedItemFeaturedValue:(BOOL)value_ {
+	[self setFeedItemFeatured:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveFeedItemFeaturedValue {
+	NSNumber *result = [self primitiveFeedItemFeatured];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveFeedItemFeaturedValue:(BOOL)value_ {
+	[self setPrimitiveFeedItemFeatured:[NSNumber numberWithBool:value_]];
+}
 
 
 

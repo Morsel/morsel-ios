@@ -450,7 +450,7 @@
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0Z6-qS-Vop">
-                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                            <rect key="frame" x="260" y="0.0" width="60" height="60"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <accessibility key="accessibilityConfiguration" label="Edit"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -459,18 +459,6 @@
                                                             </state>
                                                             <connections>
                                                                 <action selector="editMorsel" destination="CdJ-7I-0rO" eventType="touchUpInside" id="CxC-uO-Afj"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YA9-IQ-ZGc">
-                                                            <rect key="frame" x="260" y="0.0" width="60" height="60"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                            <accessibility key="accessibilityConfiguration" label="Share"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <state key="normal" image="icon-share-light">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="displayShare" destination="CdJ-7I-0rO" eventType="touchUpInside" id="Z0s-bk-hKI"/>
                                                             </connections>
                                                         </button>
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" id="3Ny-3d-HWN">
@@ -551,6 +539,10 @@
                                                                 <action selector="displayProfile" destination="RLK-sr-0Vu" eventType="touchUpInside" id="jHX-eT-DFm"/>
                                                             </connections>
                                                         </button>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-featured" id="Udj-sn-M2K">
+                                                            <rect key="frame" x="0.0" y="0.0" width="91" height="96"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
@@ -559,13 +551,13 @@
                                         </view>
                                         <connections>
                                             <outlet property="editButton" destination="0Z6-qS-Vop" id="dgK-Dx-BHE"/>
+                                            <outlet property="featuredImageView" destination="Udj-sn-M2K" id="rYp-of-X54"/>
                                             <outlet property="moreItemImageView" destination="0hp-cR-wfY" id="9c2-CR-juf"/>
                                             <outlet property="morselCoverImageView" destination="mwH-gO-QpV" id="EM9-Am-Z6a"/>
                                             <outlet property="morselTitleLabel" destination="OI1-yX-HLC" id="g5r-e5-y0P"/>
                                             <outlet property="placeCityStateLabel" destination="OkJ-0l-ahm" id="Fi1-dx-BTa"/>
                                             <outlet property="placeNameLabel" destination="O1k-FO-6SI" id="WFb-lC-O8D"/>
                                             <outlet property="profileImageView" destination="ED5-Fu-yTT" id="ZZs-NV-plK"/>
-                                            <outlet property="shareButton" destination="YA9-IQ-ZGc" id="oVu-j9-3Fm"/>
                                             <outlet property="timeAgoLabel" destination="dD2-3O-yZb" id="Gl8-G1-9XI"/>
                                             <outlet property="userNameLabel" destination="K0C-Dq-kd8" id="Hjd-1h-uXr"/>
                                         </connections>
@@ -674,7 +666,7 @@
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                         </view>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="r8w-GZ-6ER">
-                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                            <rect key="frame" x="260" y="0.0" width="60" height="60"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <accessibility key="accessibilityConfiguration" label="Edit"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -683,17 +675,6 @@
                                                             </state>
                                                             <connections>
                                                                 <action selector="editMorsel" destination="CdJ-7I-0rO" eventType="touchUpInside" id="azI-D9-CGY"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mJy-Hd-gf6">
-                                                            <rect key="frame" x="260" y="0.0" width="60" height="60"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <state key="normal" image="icon-share-light">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="displayShare" destination="CdJ-7I-0rO" eventType="touchUpInside" id="2hy-rS-5Cn"/>
                                                             </connections>
                                                         </button>
                                                         <view contentMode="scaleToFill" id="rNx-VR-FSJ">
@@ -737,7 +718,6 @@
                                             <outlet property="likeButton" destination="IT0-2u-AAW" id="zDZ-nv-L25"/>
                                             <outlet property="likeCountButton" destination="EdH-OK-Aiw" id="3MS-Ou-JlY"/>
                                             <outlet property="profileImageView" destination="HEo-R7-0pL" id="Zqz-iU-18r"/>
-                                            <outlet property="shareButton" destination="mJy-Hd-gf6" id="MaT-PB-gVu"/>
                                             <outlet property="userNameLabel" destination="iyA-XY-NOk" id="TGN-ks-JPY"/>
                                             <outlet property="viewMoreButton" destination="LBz-5V-8XV" id="ULY-j5-ysn"/>
                                         </connections>
@@ -968,6 +948,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="graphic-featured" width="91" height="96"/>
         <image name="graphic-more" width="70" height="70"/>
         <image name="icon-arrow-left-feed" width="15" height="25"/>
         <image name="icon-arrow-right-feed" width="15" height="25"/>
@@ -978,7 +959,6 @@
         <image name="icon-edit" width="24" height="24"/>
         <image name="icon-like-off" width="21" height="20"/>
         <image name="icon-mail" width="22" height="22"/>
-        <image name="icon-share-light" width="30" height="30"/>
         <image name="icon-social-facebook-mark" width="22" height="22"/>
         <image name="icon-social-facebook-on" width="40" height="40"/>
         <image name="icon-social-twitter-mark" width="22" height="22"/>
