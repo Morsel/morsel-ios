@@ -26,7 +26,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIButton *likeCountButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
 @property (weak, nonatomic) IBOutlet UILabel *itemDescriptionLabel;
@@ -131,7 +130,6 @@
                      animations:^{
                          [_itemDescriptionLabel setAlpha:shouldDisplay];
                          [_viewMoreButton setAlpha:shouldDisplay];
-                         [_shareButton setAlpha:shouldDisplay];
                          [_editButton setAlpha:shouldDisplay];
                      }];
 }

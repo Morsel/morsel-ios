@@ -195,7 +195,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)displayMorselShare {
+- (IBAction)displayMorselShare {
     NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
     if (indexPath) {
         MRSLFeedPanelCollectionViewCell *visibleFeedPanel = (MRSLFeedPanelCollectionViewCell *)[self.feedCollectionView cellForItemAtIndexPath:indexPath];
@@ -215,6 +215,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                                 animated:YES];
     }
 }
+
 
 #pragma mark - Private Methods
 

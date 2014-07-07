@@ -51,6 +51,7 @@
                                                       if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
                                                       [morsel MR_importValuesForKeysWithObject:morselDictionary];
                                                       morsel.feedItemID = feedItemDictionary[@"id"];
+                                                      morsel.feedItemFeatured = @([feedItemDictionary[@"featured"] boolValue]);
                                                       [feedItemIDs addObject:morselDictionary[@"id"]];
                                                   }
                                               }
