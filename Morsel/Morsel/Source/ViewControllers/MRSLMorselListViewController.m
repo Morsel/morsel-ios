@@ -10,7 +10,7 @@
 
 #import "MRSLAPIService+Morsel.h"
 
-#import "MRSLMorselCollectionViewCell.h"
+#import "MRSLMorselTableViewCell.h"
 #import "MRSLMorselEditViewController.h"
 
 #import "MRSLItem.h"
@@ -18,19 +18,19 @@
 #import "MRSLUser.h"
 
 @interface MRSLMorselListViewController ()
-<UICollectionViewDataSource,
-UICollectionViewDelegate,
+<UITableViewDataSource,
+UITableViewDelegate,
 NSFetchedResultsControllerDelegate>
 
 @property (nonatomic) BOOL refreshing;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 
-@property (weak, nonatomic) IBOutlet UICollectionView *morselCollectionView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSFetchedResultsController *morselsFetchedResultsController;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
-@property (strong, nonatomic) NSArray *userMorsels;
+@property (strong, nonatomic) NSMutableArray *morsels;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSMutableArray *morselIDs;
 
@@ -46,7 +46,7 @@ NSFetchedResultsControllerDelegate>
 
     self.title = (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Drafts" : @"Published";
 
-    self.userMorsels = [NSArray array];
+    self.morsels = [NSMutableArray array];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     _refreshControl.tintColor = [UIColor morselLightContent];
@@ -54,8 +54,8 @@ NSFetchedResultsControllerDelegate>
                         action:@selector(refreshContent)
               forControlEvents:UIControlEventValueChanged];
 
-    [self.morselCollectionView addSubview:_refreshControl];
-    self.morselCollectionView.alwaysBounceVertical = YES;
+    [self.tableView addSubview:_refreshControl];
+    self.tableView.alwaysBounceVertical = YES;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(morselCreated)
@@ -71,7 +71,7 @@ NSFetchedResultsControllerDelegate>
     [super viewWillAppear:animated];
 
     if (_selectedIndexPath) {
-        [self.morselCollectionView deselectItemAtIndexPath:_selectedIndexPath
+        [self.tableView deselectRowAtIndexPath:_selectedIndexPath
                                                   animated:YES];
         self.selectedIndexPath = nil;
     }
@@ -106,8 +106,8 @@ NSFetchedResultsControllerDelegate>
 - (void)populateContent {
     NSError *fetchError = nil;
     [_morselsFetchedResultsController performFetch:&fetchError];
-    self.userMorsels = [_morselsFetchedResultsController fetchedObjects];
-    [self.morselCollectionView reloadData];
+    self.morsels = [[_morselsFetchedResultsController fetchedObjects] mutableCopy];
+    [self.tableView reloadData];
 }
 
 - (void)refreshContent {
@@ -184,27 +184,49 @@ NSFetchedResultsControllerDelegate>
     [self populateContent];
 }
 
-#pragma mark - UICollectionViewDataSource Methods
+#pragma mark - UITableViewDataSource Methods
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_userMorsels count];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [_morsels count];
 }
 
-- (MRSLMorselCollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                          cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_userMorsels objectAtIndex:indexPath.row];
-    MRSLMorselCollectionViewCell *morselCell = [self.morselCollectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselCell"
-                                                                                                    forIndexPath:indexPath];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
+    MRSLMorselTableViewCell *morselCell = [self.tableView dequeueReusableCellWithIdentifier:@"ruid_MorselCell"];
     morselCell.morsel = morsel;
-    morselCell.morselPipeView.hidden = (indexPath.row == [_userMorsels count] - 1);
+    morselCell.morselPipeView.hidden = (indexPath.row == [_morsels count] - 1);
     return morselCell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        MRSLMorsel *deletedMorsel = [_morsels objectAtIndex:indexPath.row];
+        [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
+                                     properties:@{@"view": @"Drafts",
+                                                  @"item_count": @([_morsels count]),
+                                                  @"morsel_id": NSNullIfNil(deletedMorsel.morselID)}];
+        [_morsels removeObject:deletedMorsel];
+        [tableView deleteRowsAtIndexPaths:@[indexPath]
+                                       withRowAnimation:UITableViewRowAnimationFade];
+        double delayInSeconds = .4f;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [_appDelegate.apiService deleteMorsel:deletedMorsel
+                                        success:nil
+                                          failure:nil];
+        });
+    }
 }
 
 #pragma mark - UICollectionViewDelegate Methods
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
-    MRSLMorsel *morsel = [_userMorsels objectAtIndex:indexPath.row];
+    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
     [[MRSLEventManager sharedManager] track:@"Tapped Morsel"
                                  properties:@{@"view": [NSString stringWithFormat:@"%@", (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Drafts" : @"Published"],
                                               @"morsel_id": NSNullIfNil(morsel.morselID),
@@ -228,10 +250,10 @@ NSFetchedResultsControllerDelegate>
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    self.morselCollectionView.delegate = nil;
-    self.morselCollectionView.dataSource = nil;
-    [self.morselCollectionView removeFromSuperview];
-    self.morselCollectionView = nil;
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    [self.tableView removeFromSuperview];
+    self.tableView = nil;
 }
 
 @end
