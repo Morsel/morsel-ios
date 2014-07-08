@@ -97,6 +97,7 @@
 		0660669D18522E7900E780FC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0660669C18522E7900E780FC /* main.m */; };
 		066066A418522E7900E780FC /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 066066A218522E7900E780FC /* Main_iPhone.storyboard */; };
 		066066AC18522E7900E780FC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 066066AB18522E7900E780FC /* Images.xcassets */; };
+		0667C4AD196CA18E007A1E0C /* MRSLMorselTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0667C4AC196CA18E007A1E0C /* MRSLMorselTableViewCell.m */; };
 		0669C5131871FD370093132F /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0669C5121871FD370093132F /* UIImage+Resize.m */; };
 		066E8C25191AAC7200991165 /* MRSLAPIService+Like.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB60191A99A90044AF3E /* MRSLAPIService+Like.m */; };
 		066E8C26191AAC7200991165 /* MRSLAPIService+Follow.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB5D191A93FA0044AF3E /* MRSLAPIService+Follow.m */; };
@@ -514,6 +515,8 @@
 		0660669E18522E7900E780FC /* Morsel-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Morsel-Prefix.pch"; sourceTree = "<group>"; };
 		066066A318522E7900E780FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		066066AB18522E7900E780FC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
+		0667C4AB196CA18E007A1E0C /* MRSLMorselTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLMorselTableViewCell.h; path = Source/Views/MRSLMorselTableViewCell.h; sourceTree = "<group>"; };
+		0667C4AC196CA18E007A1E0C /* MRSLMorselTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMorselTableViewCell.m; path = Source/Views/MRSLMorselTableViewCell.m; sourceTree = "<group>"; };
 		0669C5111871FD370093132F /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		0669C5121871FD370093132F /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		066E8C30191AD81200991165 /* MRSLLandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLLandingViewController.h; sourceTree = "<group>"; };
@@ -1231,12 +1234,14 @@
 		0645179C18CAB36D00D11DB4 /* Morsel */ = {
 			isa = PBXGroup;
 			children = (
-				062AB98F18C56DC800742955 /* MRSLStatusHeaderCollectionReusableView.h */,
-				062AB99018C56DC800742955 /* MRSLStatusHeaderCollectionReusableView.m */,
 				06A049631896D82500BD1C5B /* MRSLMorselCollectionViewCell.h */,
 				06A049641896D82500BD1C5B /* MRSLMorselCollectionViewCell.m */,
 				0676B48D1898514D001D7483 /* MRSLMorselEditItemTableViewCell.h */,
 				0676B48E1898514D001D7483 /* MRSLMorselEditItemTableViewCell.m */,
+				0667C4AB196CA18E007A1E0C /* MRSLMorselTableViewCell.h */,
+				0667C4AC196CA18E007A1E0C /* MRSLMorselTableViewCell.m */,
+				062AB98F18C56DC800742955 /* MRSLStatusHeaderCollectionReusableView.h */,
+				062AB99018C56DC800742955 /* MRSLStatusHeaderCollectionReusableView.m */,
 			);
 			name = Morsel;
 			sourceTree = "<group>";
@@ -2432,6 +2437,7 @@
 				0686029C1891A7B7000CD576 /* UIFont+Morsel.m in Sources */,
 				06584C5818C7CB6A00D9035A /* MRSLMediaItem.m in Sources */,
 				066F5ADF185BCB5000468210 /* MRSLProfileViewController.m in Sources */,
+				0667C4AD196CA18E007A1E0C /* MRSLMorselTableViewCell.m in Sources */,
 				06F1848718E0BF7B00DBA468 /* MRSLFeedPanelViewController.m in Sources */,
 				0691702A18F47DF800971662 /* MRSLMediaManager.m in Sources */,
 				0634091C191C0C0300C67FB8 /* MRSLResetPasswordViewController.m in Sources */,
