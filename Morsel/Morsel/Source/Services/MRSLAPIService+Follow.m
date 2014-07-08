@@ -78,7 +78,7 @@
                                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                        MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
                                        if ([operation.response statusCode] == 200 ||
-                                           [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"place: already followed"]) {
+                                           [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"follower_id: has already been taken"]) {
                                            if (followBlockOrNil) followBlockOrNil(YES);
                                        } else {
                                            [self reportFailure:failureOrNil

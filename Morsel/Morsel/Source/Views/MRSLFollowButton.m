@@ -22,17 +22,13 @@
 }
 
 - (void)setUser:(MRSLUser *)user {
-    if (_user != user) {
-        _user = user;
-        [self setFollowState];
-    }
+    _user = user;
+    [self setFollowState];
 }
 
 - (void)setPlace:(MRSLPlace *)place {
-    if (_place != place) {
-        _place = place;
-        [self setFollowState];
-    }
+    _place = place;
+    [self setFollowState];
 }
 
 - (void)setFollowState {
