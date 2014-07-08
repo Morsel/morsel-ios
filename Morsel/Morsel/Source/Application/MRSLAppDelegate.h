@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class MRSLAPIService;
+@class MRSLS3Service;
 
 @interface MRSLAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) MRSLAPIService *apiService;
+@property (strong, nonatomic) MRSLS3Service *s3Service;
 @property (strong, nonatomic) NSDateFormatter *defaultDateFormatter;
 @property (strong, nonatomic) UIWindow *window;
 

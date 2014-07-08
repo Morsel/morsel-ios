@@ -12,6 +12,7 @@
 
 #import "MRSLAPIService+Item.h"
 #import "MRSLAPIService+Morsel.h"
+#import "MRSLS3Service.h"
 
 #import "MRSLCaptureMediaViewController.h"
 #import "MRSLImagePreviewViewController.h"
@@ -416,16 +417,46 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                                                 MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
                                                                                 [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
                                                                                 [weakSelf displayMorselStatus];
-                                                                                [_appDelegate.apiService updateItemImage:itemToUploadWithImage
-                                                                                                                 success:^(id responseObject) {
-                                                                                                                     fullImageData = nil;
-                                                                                                                     croppedImageData = nil;
-                                                                                                                     thumbImageData = nil;
-                                                                                                                 } failure:^(NSError *error) {
-                                                                                                                     fullImageData = nil;
-                                                                                                                     croppedImageData = nil;
-                                                                                                                     thumbImageData = nil;
-                                                                                                                 }];
+                                                                                //  If presignedUpload returned, use it, otherwise fallback to old upload method
+                                                                                if (itemToUploadWithImage.presignedUpload) {
+                                                                                    [_appDelegate.s3Service uploadImageData:itemToUploadWithImage.itemPhotoFull
+                                                                                                         forPresignedUpload:itemToUploadWithImage.presignedUpload
+                                                                                                                    success:^(NSDictionary *responseDictionary) {
+                                                                                                                        [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
+                                                                                                                                                        forItem:itemToUploadWithImage
+                                                                                                                                                        success:nil
+                                                                                                                                                        failure:nil];
+                                                                                                                        fullImageData = nil;
+                                                                                                                        croppedImageData = nil;
+                                                                                                                        thumbImageData = nil;
+                                                                                                                    } failure:^(NSError *error) {
+                                                                                                                        //  S3 upload failed, fallback to API upload
+                                                                                                                        [_appDelegate.apiService updateItemImage:itemToUploadWithImage
+                                                                                                                                                         success:^(id responseObject) {
+                                                                                                                                                             fullImageData = nil;
+                                                                                                                                                             croppedImageData = nil;
+                                                                                                                                                             thumbImageData = nil;
+                                                                                                                                                         } failure:^(NSError *error) {
+                                                                                                                                                             fullImageData = nil;
+                                                                                                                                                             croppedImageData = nil;
+                                                                                                                                                             thumbImageData = nil;
+                                                                                                                                                         }];
+                                                                                                                        fullImageData = nil;
+                                                                                                                        croppedImageData = nil;
+                                                                                                                        thumbImageData = nil;
+                                                                                                                    }];
+                                                                                } else {
+                                                                                    [_appDelegate.apiService updateItemImage:itemToUploadWithImage
+                                                                                                                     success:^(id responseObject) {
+                                                                                                                         fullImageData = nil;
+                                                                                                                         croppedImageData = nil;
+                                                                                                                         thumbImageData = nil;
+                                                                                                                     } failure:^(NSError *error) {
+                                                                                                                         fullImageData = nil;
+                                                                                                                         croppedImageData = nil;
+                                                                                                                         thumbImageData = nil;
+                                                                                                                     }];
+                                                                                }
                                                                             }
                                                                         } failure:nil];
                                         } else {
