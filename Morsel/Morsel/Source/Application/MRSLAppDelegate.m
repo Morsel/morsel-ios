@@ -16,6 +16,8 @@
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <FacebookSDK/FacebookSDK.h>
 
+#import "MRSLAPIService+Authentication.h"
+
 #import "MRSLAPIClient.h"
 #import "MRSLS3Client.h"
 #import "MRSLS3Service.h"
@@ -64,6 +66,11 @@
     [self setupMorselEnvironment];
 
     [self setupRouteHandler];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshUserInformation)
+                                                 name:MRSLServiceDidLogInUserNotification
+                                               object:nil];
 
     return YES;
 }
@@ -122,6 +129,16 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = viewController;
     [self.window makeKeyAndVisible];
+}
+
+- (void)refreshUserInformation {
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    if (!currentUser) return;
+    [MRSLUser refreshCurrentUserWithSuccess:^(id responseObject) {
+        [self.apiService getUserAuthenticationsWithSuccess:nil
+                                                   failure:nil];
+    } failure:nil];
+    [currentUser setThirdPartySettings];
 }
 
 #pragma mark - Data Methods
