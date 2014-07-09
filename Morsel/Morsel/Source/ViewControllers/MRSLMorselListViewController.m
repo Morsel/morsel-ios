@@ -222,7 +222,7 @@ NSFetchedResultsControllerDelegate>
     }
 }
 
-#pragma mark - UICollectionViewDelegate Methods
+#pragma mark - UITableViewDelegate Methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
@@ -237,6 +237,16 @@ NSFetchedResultsControllerDelegate>
 
     [self.navigationController pushViewController:editMorselVC
                                          animated:YES];
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat currentOffset = scrollView.contentOffset.y;
+    CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    if (maximumOffset - currentOffset <= 10.f) {
+        [self loadMore];
+    }
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
