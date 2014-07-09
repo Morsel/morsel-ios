@@ -137,11 +137,13 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #define MORSEL_API_BASE_URL @"https://api.eatmorsel.com"
 #define MORSEL_BASE_URL @"http://www.eatmorsel.com"
+#define S3_BASE_URL @"https://morsel.s3.amazonaws.com/"
 
 #else
 
 #define MORSEL_API_BASE_URL @"http://api-staging.eatmorsel.com"
 #define MORSEL_BASE_URL @"http://staging.eatmorsel.com"
+#define S3_BASE_URL @"https://morsel-staging.s3.amazonaws.com/"
 
 #endif
 

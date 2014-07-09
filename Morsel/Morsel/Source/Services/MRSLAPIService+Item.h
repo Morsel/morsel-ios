@@ -29,6 +29,11 @@
                 success:(MRSLAPISuccessBlock)successOrNil
                 failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)updatePhotoKey:(NSString *)photoKey
+               forItem:(MRSLItem *)item
+               success:(MRSLAPISuccessBlock)successOrNil
+               failure:(MRSLFailureBlock)failureOrNil;
+
 - (void)deleteItem:(MRSLItem *)item
            success:(MRSLSuccessBlock)successOrNil
            failure:(MRSLFailureBlock)failureOrNil;

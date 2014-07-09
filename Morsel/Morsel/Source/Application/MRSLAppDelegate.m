@@ -17,6 +17,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 #import "MRSLAPIClient.h"
+#import "MRSLS3Client.h"
+#import "MRSLS3Service.h"
 #import "MRSLSocialServiceFacebook.h"
 #import "MRSLSocialServiceInstagram.h"
 #import "MRSLSocialServiceTwitter.h"
@@ -76,6 +78,7 @@
     self.backgroundTaskIdentifier = [application beginBackgroundTaskWithExpirationHandler:^(void) {
         [application endBackgroundTask:_backgroundTaskIdentifier];
         [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
+        [[MRSLS3Client sharedClient].operationQueue cancelAllOperations];
     }];
 }
 
@@ -111,6 +114,7 @@
     [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
     self.apiService = [[MRSLAPIService alloc] init];
+    self.s3Service = [[MRSLS3Service alloc] init];
 
     [self setupDatabase];
 
@@ -167,6 +171,7 @@
 - (void)resetDataStore {
     [[Mixpanel sharedInstance] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
+    [[MRSLS3Client sharedClient].operationQueue cancelAllOperations];
 
     [self resetSocialConnections];
     [self resetThirdPartySettings];
