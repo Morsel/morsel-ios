@@ -105,6 +105,7 @@ UITableViewDelegate>
     });
     if ([_places count] == 1) {
         NSUInteger indexOfPlace = (_morsel.place) ? [_places indexOfObject:_morsel.place] : 0;
+        self.selectedPlaceRow = 0;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.placeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfPlace inSection:0]
                                              animated:NO
