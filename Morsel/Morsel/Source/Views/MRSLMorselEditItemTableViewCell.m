@@ -9,6 +9,7 @@
 #import "MRSLMorselEditItemTableViewCell.h"
 
 #import "MRSLAPIService+Item.h"
+#import "MRSLS3Service.h"
 
 #import "MRSLItemImageView.h"
 
@@ -68,19 +69,54 @@
 - (IBAction)retryUpload {
     self.item.didFailUpload = @NO;
     self.item.isUploading = @YES;
+    __weak __typeof(self) weakSelf = self;
     if (!_item.itemID) {
         [_appDelegate.apiService createItem:_item
                                         success:^(id responseObject) {
                                             if ([responseObject isKindOfClass:[MRSLItem class]]) {
-                                                [_appDelegate.apiService updateItemImage:_item
-                                                                                 success:nil
-                                                                                 failure:nil];
+                                                //  If presignedUpload returned, use it, otherwise fallback to old upload method
+                                                if (weakSelf.item.presignedUpload) {
+                                                    [_appDelegate.s3Service uploadImageData:_item.itemPhotoFull
+                                                                         forPresignedUpload:_item.presignedUpload
+                                                                                    success:^(NSDictionary *responseDictionary) {
+                                                                                        [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
+                                                                                                                        forItem:weakSelf.item
+                                                                                                                        success:nil
+                                                                                                                        failure:nil];
+                                                                                    } failure:^(NSError *error) {
+                                                                                        //  S3 upload failed, fallback to API upload
+                                                                                        [_appDelegate.apiService updateItemImage:weakSelf.item
+                                                                                                                         success:nil
+                                                                                                                         failure:nil];
+                                                                                    }];
+                                                } else {
+                                                    [_appDelegate.apiService updateItemImage:weakSelf.item
+                                                                                     success:nil
+                                                                                     failure:nil];
+                                                }
                                             }
                                         } failure:nil];
     } else {
-        [_appDelegate.apiService updateItemImage:_item
+        //  If presignedUpload returned, use it, otherwise fallback to old upload method
+        if (_item.presignedUpload) {
+            [_appDelegate.s3Service uploadImageData:_item.itemPhotoFull
+                                 forPresignedUpload:_item.presignedUpload
+                                            success:^(NSDictionary *responseDictionary) {
+                                                [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
+                                                                                forItem:weakSelf.item
+                                                                                success:nil
+                                                                                failure:nil];
+                                            } failure:^(NSError *error) {
+                                                //  S3 upload failed, fallback to API upload
+                                                [_appDelegate.apiService updateItemImage:weakSelf.item
+                                                                                 success:nil
+                                                                                 failure:nil];
+                                            }];
+        } else {
+            [_appDelegate.apiService updateItemImage:_item
                                              success:nil
                                              failure:nil];
+        }
     }
 }
 

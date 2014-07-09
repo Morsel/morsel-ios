@@ -31,6 +31,8 @@
 
     NSString *itemLocalUUID = [item.localUUID copy];
 
+    parameters[@"prepare_presigned_upload"] = @"true";
+
     __block MRSLItem *localItem = item;
 
     [[MRSLAPIClient sharedClient] POST:@"items"
@@ -207,6 +209,42 @@
                                                                                                              inMethod:NSStringFromSelector(_cmd)];
                                                                                               }];
     [[MRSLAPIClient sharedClient].operationQueue addOperation:operation];
+}
+
+- (void)updatePhotoKey:(NSString *)photoKey
+               forItem:(MRSLItem *)item
+               success:(MRSLAPISuccessBlock)successOrNil
+               failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+
+    parameters[@"item"] = @{ @"photo_key": photoKey };
+
+    int itemID = item.itemIDValue;
+    __block MRSLItem *itemToUpdate = item;
+
+    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"items/%i", itemID]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                  if (!itemToUpdate || !itemToUpdate.managedObjectContext) {
+                                      itemToUpdate = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                             withValue:@(itemID)];
+                                  }
+                                  [itemToUpdate MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                  if (itemToUpdate) {
+                                      [itemToUpdate.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                      if (successOrNil) successOrNil(responseObject);
+                                  } else {
+                                      if (failureOrNil) failureOrNil(nil);
+                                  }
+                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                  [self reportFailure:failureOrNil
+                                         forOperation:operation
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
 }
 
 - (void)deleteItem:(MRSLItem *)item

@@ -158,20 +158,20 @@
                                  HTTPMethod:@"GET"
                           completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                               DDLogVerbose(@"Facebook Picture Response: %@", result);
-                              [userInfo setObject:result[@"data"][@"url"]
+                              [userInfo setObject:NSNullIfNil(result[@"data"][@"url"])
                                            forKey:@"pictureURL"];
                               [FBRequestConnection startWithGraphPath:@"/me"
                                                            parameters:nil
                                                            HTTPMethod:@"GET"
                                                     completionHandler:^(FBRequestConnection *connection, id result, NSError *userError) {
                                                         DDLogVerbose(@"Facebook User Information Response: %@", result);
-                                                        [userInfo setObject:result[@"first_name"]
+                                                        [userInfo setObject:result[@"first_name"] ?: @""
                                                                      forKey:@"first_name"];
-                                                        [userInfo setObject:result[@"last_name"]
+                                                        [userInfo setObject:result[@"last_name"] ?: @""
                                                                      forKey:@"last_name"];
-                                                        [userInfo setObject:result[@"email"]
+                                                        [userInfo setObject:result[@"email"] ?: @""
                                                                      forKey:@"email"];
-                                                        [userInfo setObject:result[@"id"]
+                                                        [userInfo setObject:NSNullIfNil(result[@"id"])
                                                                      forKey:@"uid"];
                                                         [userInfo setObject:@"facebook"
                                                                      forKey:@"provider"];

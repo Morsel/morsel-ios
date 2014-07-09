@@ -16,7 +16,11 @@
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <FacebookSDK/FacebookSDK.h>
 
+#import "MRSLAPIService+Authentication.h"
+
 #import "MRSLAPIClient.h"
+#import "MRSLS3Client.h"
+#import "MRSLS3Service.h"
 #import "MRSLSocialServiceFacebook.h"
 #import "MRSLSocialServiceInstagram.h"
 #import "MRSLSocialServiceTwitter.h"
@@ -63,6 +67,11 @@
 
     [self setupRouteHandler];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshUserInformation)
+                                                 name:MRSLServiceDidLogInUserNotification
+                                               object:nil];
+
     return YES;
 }
 
@@ -76,6 +85,7 @@
     self.backgroundTaskIdentifier = [application beginBackgroundTaskWithExpirationHandler:^(void) {
         [application endBackgroundTask:_backgroundTaskIdentifier];
         [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
+        [[MRSLS3Client sharedClient].operationQueue cancelAllOperations];
     }];
 }
 
@@ -111,6 +121,7 @@
     [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [_defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
     self.apiService = [[MRSLAPIService alloc] init];
+    self.s3Service = [[MRSLS3Service alloc] init];
 
     [self setupDatabase];
 
@@ -118,6 +129,16 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = viewController;
     [self.window makeKeyAndVisible];
+}
+
+- (void)refreshUserInformation {
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    if (!currentUser) return;
+    [MRSLUser refreshCurrentUserWithSuccess:^(id responseObject) {
+        [self.apiService getUserAuthenticationsWithSuccess:nil
+                                                   failure:nil];
+    } failure:nil];
+    [currentUser setThirdPartySettings];
 }
 
 #pragma mark - Data Methods
@@ -167,6 +188,7 @@
 - (void)resetDataStore {
     [[Mixpanel sharedInstance] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
+    [[MRSLS3Client sharedClient].operationQueue cancelAllOperations];
 
     [self resetSocialConnections];
     [self resetThirdPartySettings];

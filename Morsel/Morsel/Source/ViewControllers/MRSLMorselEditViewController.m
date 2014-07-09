@@ -12,6 +12,7 @@
 
 #import "MRSLAPIService+Item.h"
 #import "MRSLAPIService+Morsel.h"
+#import "MRSLS3Service.h"
 
 #import "MRSLCaptureMediaViewController.h"
 #import "MRSLImagePreviewViewController.h"
@@ -27,7 +28,6 @@
 
 @interface MRSLMorselEditViewController ()
 <NSFetchedResultsControllerDelegate,
-UIActionSheetDelegate,
 UIAlertViewDelegate,
 UITableViewDataSource,
 UITableViewDelegate,
@@ -189,13 +189,19 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 #pragma mark - Action Methods
 
-- (IBAction)displayMorselSettings:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:@"Cancel"
-                                               destructiveButtonTitle:@"Delete Morsel"
-                                                    otherButtonTitles:nil];
-    [actionSheet showInView:self.view];
+- (IBAction)deleteMorsel {
+    [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
+                                 properties:@{@"view": @"Your Morsel",
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    [_appDelegate.apiService deleteMorsel:_morsel
+                                  success:nil
+                                  failure:nil];
+    if (self.presentingViewController) {
+        [self.presentingViewController dismissViewControllerAnimated:YES
+                                                          completion:nil];
+    } else {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (IBAction)toggleEditing {
@@ -250,7 +256,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         MRSLItem *deletedItem = [_items objectAtIndex:indexPath.row];
-        [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
+        [[MRSLEventManager sharedManager] track:@"Tapped Delete Item"
                                      properties:@{@"view": @"Your Morsel",
                                                   @"item_count": @([_items count]),
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
@@ -416,16 +422,46 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                                                 MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
                                                                                 [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
                                                                                 [weakSelf displayMorselStatus];
-                                                                                [_appDelegate.apiService updateItemImage:itemToUploadWithImage
-                                                                                                                 success:^(id responseObject) {
-                                                                                                                     fullImageData = nil;
-                                                                                                                     croppedImageData = nil;
-                                                                                                                     thumbImageData = nil;
-                                                                                                                 } failure:^(NSError *error) {
-                                                                                                                     fullImageData = nil;
-                                                                                                                     croppedImageData = nil;
-                                                                                                                     thumbImageData = nil;
-                                                                                                                 }];
+                                                                                //  If presignedUpload returned, use it, otherwise fallback to old upload method
+                                                                                if (itemToUploadWithImage.presignedUpload) {
+                                                                                    [_appDelegate.s3Service uploadImageData:itemToUploadWithImage.itemPhotoFull
+                                                                                                         forPresignedUpload:itemToUploadWithImage.presignedUpload
+                                                                                                                    success:^(NSDictionary *responseDictionary) {
+                                                                                                                        [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
+                                                                                                                                                        forItem:itemToUploadWithImage
+                                                                                                                                                        success:nil
+                                                                                                                                                        failure:nil];
+                                                                                                                        fullImageData = nil;
+                                                                                                                        croppedImageData = nil;
+                                                                                                                        thumbImageData = nil;
+                                                                                                                    } failure:^(NSError *error) {
+                                                                                                                        //  S3 upload failed, fallback to API upload
+                                                                                                                        [_appDelegate.apiService updateItemImage:itemToUploadWithImage
+                                                                                                                                                         success:^(id responseObject) {
+                                                                                                                                                             fullImageData = nil;
+                                                                                                                                                             croppedImageData = nil;
+                                                                                                                                                             thumbImageData = nil;
+                                                                                                                                                         } failure:^(NSError *error) {
+                                                                                                                                                             fullImageData = nil;
+                                                                                                                                                             croppedImageData = nil;
+                                                                                                                                                             thumbImageData = nil;
+                                                                                                                                                         }];
+                                                                                                                        fullImageData = nil;
+                                                                                                                        croppedImageData = nil;
+                                                                                                                        thumbImageData = nil;
+                                                                                                                    }];
+                                                                                } else {
+                                                                                    [_appDelegate.apiService updateItemImage:itemToUploadWithImage
+                                                                                                                     success:^(id responseObject) {
+                                                                                                                         fullImageData = nil;
+                                                                                                                         croppedImageData = nil;
+                                                                                                                         thumbImageData = nil;
+                                                                                                                     } failure:^(NSError *error) {
+                                                                                                                         fullImageData = nil;
+                                                                                                                         croppedImageData = nil;
+                                                                                                                         thumbImageData = nil;
+                                                                                                                     }];
+                                                                                }
                                                                             }
                                                                         } failure:nil];
                                         } else {
@@ -473,25 +509,6 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)morselEditItemCellDidTransitionToDeleteState:(BOOL)deleteStateActive {
     _editItemsButton.hidden = deleteStateActive;
-}
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
-                                     properties:@{@"view": @"Your Morsel",
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-        [_appDelegate.apiService deleteMorsel:_morsel
-                                      success:nil
-                                      failure:nil];
-        if (self.presentingViewController) {
-            [self.presentingViewController dismissViewControllerAnimated:YES
-                                                              completion:nil];
-        } else {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }
-    }
 }
 
 #pragma mark - Dealloc

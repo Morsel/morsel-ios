@@ -30,6 +30,7 @@ const struct MRSLItemRelationships MRSLItemRelationships = {
 	.activitiesAsSubject = @"activitiesAsSubject",
 	.comments = @"comments",
 	.morsel = @"morsel",
+	.presignedUpload = @"presignedUpload",
 };
 
 const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
@@ -475,6 +476,10 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 	
 
 @dynamic morsel;
+
+	
+
+@dynamic presignedUpload;
 
 	
 

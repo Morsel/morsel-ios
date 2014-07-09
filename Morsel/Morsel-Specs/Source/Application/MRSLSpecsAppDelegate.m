@@ -13,6 +13,7 @@
 #import <CocoaLumberjack/DDTTYLogger.h>
 
 #import "MRSLAPIClient.h"
+#import "MRSLS3Client.h"
 #import "MRSLComment.h"
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -72,6 +73,7 @@
 - (void)resetDataStore {
     [[Mixpanel sharedInstance] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
+    [[MRSLS3Client sharedClient].operationQueue cancelAllOperations];
 
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
                                                        forName:[[NSBundle mainBundle] bundleIdentifier]];

@@ -31,6 +31,7 @@ extern const struct MRSLItemRelationships {
 	__unsafe_unretained NSString *activitiesAsSubject;
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *morsel;
+	__unsafe_unretained NSString *presignedUpload;
 } MRSLItemRelationships;
 
 extern const struct MRSLItemFetchedProperties {
@@ -39,6 +40,7 @@ extern const struct MRSLItemFetchedProperties {
 @class MRSLActivity;
 @class MRSLComment;
 @class MRSLMorsel;
+@class MRSLPresignedUpload;
 
 
 
@@ -335,6 +337,13 @@ extern const struct MRSLItemFetchedProperties {
 
 
 
+@property (nonatomic, strong) MRSLPresignedUpload *presignedUpload;
+
+//- (BOOL)validatePresignedUpload:(id*)value_ error:(NSError**)error_;
+
+
+
+
 
 @end
 
@@ -518,6 +527,11 @@ extern const struct MRSLItemFetchedProperties {
 
 - (MRSLMorsel*)primitiveMorsel;
 - (void)setPrimitiveMorsel:(MRSLMorsel*)value;
+
+
+
+- (MRSLPresignedUpload*)primitivePresignedUpload;
+- (void)setPrimitivePresignedUpload:(MRSLPresignedUpload*)value;
 
 
 @end
