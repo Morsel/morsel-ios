@@ -115,10 +115,7 @@ MRSLMenuViewControllerDelegate>
     [super viewDidAppear:animated];
     if (_shouldCheckForUser) {
         self.shouldCheckForUser = NO;
-
-        MRSLUser *currentUser = [MRSLUser currentUser];
-
-        if (!currentUser) {
+        if (![MRSLUser currentUser]) {
             [[UIApplication sharedApplication] setStatusBarHidden:YES];
             double delayInSeconds = 0.f;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -126,13 +123,6 @@ MRSLMenuViewControllerDelegate>
                 [self displaySignUpAnimated:NO];
             });
         } else {
-            [currentUser setThirdPartySettings];
-
-            [_appDelegate.apiService getUserProfile:currentUser
-                                            success:^(id responseObject) {
-                                                [_appDelegate.apiService getUserAuthenticationsWithSuccess:nil
-                                                                                                   failure:nil];
-                                            } failure:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                                 object:nil];
         }

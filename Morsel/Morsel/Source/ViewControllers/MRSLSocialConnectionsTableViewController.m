@@ -178,9 +178,11 @@
 
 - (void)toggleSwitch:(UISwitch *)socialSwitch
         shouldEnable:(BOOL)shouldEnable {
-    [socialSwitch setEnabled:YES];
-    [socialSwitch setOn:shouldEnable
-               animated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [socialSwitch setEnabled:YES];
+        [socialSwitch setOn:shouldEnable
+                   animated:YES];
+    });
 }
 
 @end
