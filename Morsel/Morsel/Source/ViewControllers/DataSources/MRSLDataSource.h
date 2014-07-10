@@ -20,4 +20,6 @@
 
 - (void)updateObjects:(id)newObjects;
 
+- (BOOL)isEmpty;
+
 @end

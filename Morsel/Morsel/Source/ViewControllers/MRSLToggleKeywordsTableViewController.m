@@ -18,16 +18,14 @@
 
 @interface MRSLBaseTableViewController ()
 
+@property (strong, nonatomic) MRSLTableViewDataSource *dataSource;
 @property (strong, nonatomic) NSString *objectIDsKey;
 @property (strong, nonatomic) NSArray *objectIDs;
 
 @end
 
 @interface MRSLToggleKeywordsTableViewController ()
-<MRSLTableViewDataSourceDelegate,
-NSFetchedResultsControllerDelegate>
-
-@property (strong, nonatomic) MRSLTableViewDataSource *dataSource;
+<NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -62,9 +60,6 @@ NSFetchedResultsControllerDelegate>
                                                         if ([keyword taggedByCurrentUser]) [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
                                                         return cell;
                                                     }];
-    [self.tableView setDataSource:_dataSource];
-    [self.tableView setDelegate:_dataSource];
-    [_dataSource setDelegate:self];
 
     [self setTitle:_keywordType];
 }
