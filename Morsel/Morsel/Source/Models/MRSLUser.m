@@ -28,6 +28,18 @@
     return ([MRSLUser currentUser].userIDValue == creatorID);
 }
 
++ (void)incrementCurrentUserDraftCount {
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    currentUser.draft_count = @(MAX(currentUser.draft_countValue + 1, 0));
+    [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
+}
+
++ (void)decrementCurrentUserDraftCount {
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    currentUser.draft_count = @(MAX(currentUser.draft_countValue - 1, 0));
+    [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
+}
+
 + (void)refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil failure:(MRSLFailureBlock)failureOrNil {
     [_appDelegate.apiService getUserProfile:[MRSLUser currentUser]
                                     success:userSuccessOrNil

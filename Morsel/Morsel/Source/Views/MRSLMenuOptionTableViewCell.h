@@ -12,6 +12,7 @@
 
 @interface MRSLMenuOptionTableViewCell : MRSLBaseTableViewCell
 
+@property (nonatomic) NSInteger badgeCount;
 @property (weak, nonatomic) IBOutlet UILabel *optionNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UIView *pipeView;

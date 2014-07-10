@@ -51,6 +51,12 @@
     self.pipeView.backgroundColor = (highlighted) ? [UIColor clearColor] : self.pipeOriginalColor;
 }
 
+- (void)setBadgeCount:(NSInteger)badgeCount {
+    _badgeCount = badgeCount;
+    self.badgeLabelView.count = badgeCount;
+    self.badgeLabelView.hidden = (badgeCount == 0);
+}
+
 - (void)reset {
     self.pipeView.backgroundColor = self.pipeOriginalColor;
 }
