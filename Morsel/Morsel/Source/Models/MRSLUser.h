@@ -20,6 +20,8 @@
 - (NSString *)fullNameOrTwitterHandle;
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type;
 
++ (void)incrementCurrentUserDraftCount;
++ (void)decrementCurrentUserDraftCount;
 - (void)setThirdPartySettings;
 
 @end

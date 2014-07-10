@@ -31,6 +31,7 @@
                                    DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
                                    [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                    [morsel.managedObjectContext MR_saveOnlySelfAndWait];
+                                   [MRSLUser incrementCurrentUserDraftCount];
                                    dispatch_async(dispatch_get_main_queue(), ^{
                                        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateMorselNotification
                                                                                            object:morsel.morselID];
@@ -63,6 +64,7 @@
                               parameters:parameters
                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                      DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                     [MRSLUser decrementCurrentUserDraftCount];
                                      if (successOrNil) successOrNil(responseObject);
                                  } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                      [self reportFailure:failureOrNil

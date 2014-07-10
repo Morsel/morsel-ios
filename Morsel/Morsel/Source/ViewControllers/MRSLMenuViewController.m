@@ -9,6 +9,7 @@
 #import "MRSLMenuViewController.h"
 
 #import "MRSLBadgeLabelView.h"
+#import "MRSLMenuItem.h"
 #import "MRSLMenuOptionTableViewCell.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLRobotoBoldLabel.h"
@@ -49,13 +50,14 @@ UITableViewDelegate>
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayUserInformation)
-                                                 name:MRSLUserDidUpdateUserNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(clearUserInformation)
                                                  name:MRSLServiceDidLogOutUserNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateContent:)
+                                                 name:NSManagedObjectContextObjectsDidChangeNotification
+                                               object:nil];
+
     [self setupMenuOptions];
     [self.menuTableView setScrollsToTop:NO];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -66,46 +68,41 @@ UITableViewDelegate>
 #pragma mark - Private Methods
 
 - (void)setupMenuOptions {
-    self.menuOptions = @[@{@"name": @"Create",
-                           @"options": @[
-                                   @{@"name": @"Create New Morsel!",
-                                     @"key": MRSLMenuAddKey,
-                                     @"icon": @"icon-menu-morseladd",
-                                     @"showsBadge": @NO},
-                                   @{@"name": @"Drafts",
-                                     @"key": MRSLMenuDraftsKey,
-                                     @"icon": @"icon-menu-morseldrafts",
-                                     @"showsBadge": @YES}]},
-                         @{@"name": @"Feeds / Activity",
-                           @"options": @[
-                                   @{@"name": @"Morsel Feed",
-                                     @"key": MRSLMenuFeedKey,
-                                     @"icon": @"icon-menu-feed",
-                                     @"showsBadge": @NO},
-                                   @{@"name": @"Notifications",
-                                     @"key": MRSLMenuNotificationsKey,
-                                     @"icon": @"icon-menu-notifications",
-                                     @"showsBadge": @YES}]},
+    MRSLMenuItem *itemNewMorsel = [[MRSLMenuItem alloc] initWithName:@"Create New Morsel!"
+                                                                 key:MRSLMenuAddKey
+                                                                icon:@"icon-menu-morseladd"];
+    MRSLMenuItem *itemDrafts = [[MRSLMenuItem alloc] initWithName:@"Drafts"
+                                                              key:MRSLMenuDraftsKey
+                                                             icon:@"icon-menu-morseldrafts"];
+    MRSLMenuItem *itemFeed = [[MRSLMenuItem alloc] initWithName:@"Morsel Feed"
+                                                            key:MRSLMenuFeedKey
+                                                           icon:@"icon-menu-feed"];
+    MRSLMenuItem *itemNotifications = [[MRSLMenuItem alloc] initWithName:@"Notifications"
+                                                                     key:MRSLMenuNotificationsKey
+                                                                    icon:@"icon-menu-notifications"];
+    /*
+     MRSLMenuItem *itemRestaurants = [[MRSLMenuItem alloc] initWithName:@"Restaurants"
+     key:MRSLMenuPlacesKey
+     icon:@"icon-menu-places"];
+     */
+    MRSLMenuItem *itemPeople = [[MRSLMenuItem alloc] initWithName:@"People"
+                                                              key:MRSLMenuPeopleKey
+                                                             icon:@"icon-menu-people"];
+    MRSLMenuItem *itemFindFriends = [[MRSLMenuItem alloc] initWithName:@"Find Friends"
+                                                                   key:MRSLMenuFindKey
+                                                                  icon:@"icon-menu-find"];
+    MRSLMenuItem *itemSettings = [[MRSLMenuItem alloc] initWithName:@"Settings"
+                                                                key:MRSLMenuSettingsKey
+                                                               icon:@"icon-menu-settings"];
+
+    self.menuOptions = @[@{@"name": @"Feeds / Activity",
+                           @"options": @[itemFeed, itemNotifications]},
+                         @{@"name": @"Create",
+                           @"options": @[itemNewMorsel, itemDrafts]},
                          @{@"name": @"Following",
-                           @"options": @[
-//                                   @{@"name": @"Restaurants",
-//                                     @"key": MRSLMenuPlacesKey,
-//                                     @"icon": @"icon-menu-places",
-//                                     @"showsBadge": @NO},
-                                   @{@"name": @"People",
-                                     @"key": MRSLMenuPeopleKey,
-                                     @"icon": @"icon-menu-people",
-                                     @"showsBadge": @NO},
-                                   @{@"name": @"Find Friends",
-                                     @"key": MRSLMenuFindKey,
-                                     @"icon": @"icon-menu-find",
-                                     @"showsBadge": @NO}]},
+                           @"options": @[itemPeople, itemFindFriends]},
                          @{@"name": @"Other",
-                           @"options": @[
-                                   @{@"name": @"Settings",
-                                     @"key": MRSLMenuSettingsKey,
-                                     @"icon": @"icon-menu-settings",
-                                     @"showsBadge": @NO}]}];
+                           @"options": @[itemSettings]}];
 }
 
 #pragma mark - Action Methods
@@ -129,10 +126,31 @@ UITableViewDelegate>
 
 #pragma mark - Notification Methods
 
+- (void)updateContent:(NSNotification *)notification {
+    NSDictionary *userInfoDictionary = [notification userInfo];
+    NSSet *updatedObjects = [userInfoDictionary objectForKey:NSUpdatedObjectsKey];
+    __weak __typeof(self) weakSelf = self;
+    [updatedObjects enumerateObjectsUsingBlock:^(NSManagedObject *managedObject, BOOL *stop) {
+        if ([managedObject isKindOfClass:[MRSLUser class]]) {
+            MRSLUser *user = (MRSLUser *)managedObject;
+            if ([user isCurrentUser]) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [weakSelf displayUserInformation];
+                });
+            }
+        }
+    }];
+}
+
 - (void)displayUserInformation {
     MRSLUser *currentUser = [MRSLUser currentUser];
     self.profileImageView.user = currentUser;
     self.userNameLabel.text = [currentUser fullName];
+    NSIndexPath *draftIndexPath = [self indexPathForKey:MRSLMenuDraftsKey];
+    MRSLMenuItem *draftItem = [self menuItemAtIndexPath:draftIndexPath];
+    draftItem.badgeCount = currentUser.draft_countValue;
+    [self.menuTableView reloadRowsAtIndexPaths:@[draftIndexPath]
+                              withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)clearUserInformation {
@@ -152,16 +170,16 @@ UITableViewDelegate>
     return [self.menuOptions objectAtIndex:section][@"options"];
 }
 
-- (NSDictionary *)menuOptionAtIndexPath:(NSIndexPath *)indexPath {
+- (MRSLMenuItem *)menuItemAtIndexPath:(NSIndexPath *)indexPath {
     return [[self arrayForSection:indexPath.section] objectAtIndex:indexPath.row];
 }
 
 - (NSIndexPath *)indexPathForKey:(NSString *)searchKey {
     NSIndexPath *keyIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     for (NSDictionary *menuOptionDictionary in self.menuOptions) {
-        for (NSDictionary *menuOption in menuOptionDictionary[@"options"]) {
-            if ([searchKey isEqualToString:menuOption[@"key"]]) {
-                keyIndexPath = [NSIndexPath indexPathForRow:[menuOptionDictionary[@"options"] indexOfObject:menuOption] inSection:[self.menuOptions indexOfObject:menuOptionDictionary]];
+        for (MRSLMenuItem *menuItem in menuOptionDictionary[@"options"]) {
+            if ([searchKey isEqualToString:menuItem.key]) {
+                keyIndexPath = [NSIndexPath indexPathForRow:[menuOptionDictionary[@"options"] indexOfObject:menuItem] inSection:[self.menuOptions indexOfObject:menuOptionDictionary]];
                 break;
             }
         }
@@ -206,12 +224,12 @@ UITableViewDelegate>
 }
 
 - (MRSLMenuOptionTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *menuOption = [self menuOptionAtIndexPath:indexPath];
+    MRSLMenuItem *menuItem = [self menuItemAtIndexPath:indexPath];
     MRSLMenuOptionTableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_MenuOptionCell"];
     [tableViewCell reset];
-    tableViewCell.optionNameLabel.text = menuOption[@"name"];
-    tableViewCell.iconImageView.image = [UIImage imageNamed:menuOption[@"icon"]];
-    tableViewCell.badgeLabelView.hidden = YES;
+    tableViewCell.optionNameLabel.text = menuItem.name;
+    tableViewCell.iconImageView.image = [UIImage imageNamed:menuItem.iconImageName];
+    tableViewCell.badgeCount = menuItem.badgeCount;
     tableViewCell.pipeView.hidden = ([[self arrayForSection:indexPath.section] count] - 1 == indexPath.row);
     return tableViewCell;
 }
@@ -220,7 +238,7 @@ UITableViewDelegate>
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
-    NSString *menuOptionKey = [self menuOptionAtIndexPath:indexPath][@"key"];
+    NSString *menuOptionKey = [self menuItemAtIndexPath:indexPath].key;
     if ([self.delegate respondsToSelector:@selector(menuViewControllerDidSelectMenuOption:)]) {
         [self.delegate menuViewControllerDidSelectMenuOption:menuOptionKey];
     }

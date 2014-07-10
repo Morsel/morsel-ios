@@ -16,6 +16,11 @@
 
 @implementation MRSLBadgeLabelView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self addCornersWithRadius:[self getWidth] / 2];
+}
+
 - (void)setCount:(int)count {
     _count = count;
     self.countLabel.text = [NSString stringWithFormat:@"%i", _count];
