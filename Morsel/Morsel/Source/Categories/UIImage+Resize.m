@@ -132,13 +132,28 @@
     CGRect transposedRect = CGRectMake(0, 0, newRect.size.height, newRect.size.width);
     CGImageRef imageRef = self.CGImage;
 
-    unsigned long bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
-    unsigned long bytesPerRow = CGImageGetBytesPerRow(imageRef);
-    unsigned bitmapInformation = CGImageGetBitmapInfo(imageRef);
-
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
     CGColorSpaceRef colorSpaceInfo = CGImageGetColorSpace(imageRef);
 
-    CGContextRef bitmap = CGBitmapContextCreate(NULL, newRect.size.width, newRect.size.height, bitsPerComponent, bytesPerRow, colorSpaceInfo, bitmapInformation);
+    unsigned long bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
+    unsigned long bytesPerRow = CGImageGetBytesPerRow(imageRef);
+    unsigned long adjustedBytesPerRow = bitsPerComponent * newRect.size.width;
+
+    if (bytesPerRow != adjustedBytesPerRow || bytesPerRow < adjustedBytesPerRow) {
+        bytesPerRow = adjustedBytesPerRow;
+    }
+
+    if (bitmapInfo == kCGImageAlphaNone) {
+        bitmapInfo = (CGBitmapInfo) kCGImageAlphaNoneSkipLast;
+    }
+
+    CGContextRef bitmap = CGBitmapContextCreate(NULL,
+                                                newRect.size.width,
+                                                newRect.size.height,
+                                                bitsPerComponent,
+                                                bytesPerRow,
+                                                colorSpaceInfo,
+                                                bitmapInfo);
 
     // Rotate and/or flip the image if required by its orientation
     CGContextConcatCTM(bitmap, transform);
