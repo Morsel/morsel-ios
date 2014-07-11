@@ -429,13 +429,13 @@ MRSLCapturePreviewsViewControllerDelegate>
                 cropRect = CGRectMake(0.f, 0.f, minimumImageDimension, minimumImageDimension);
             }
             dispatch_async(queue, ^{
-                UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:cropRect
-                                                                     ignoresOrientation:NO];
+                __block UIImage *croppedFullSizeImage = [fullSizeImage croppedImage:cropRect
+                                                                 ignoresOrientation:NO];
                 fullSizeImage = nil;
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
                     dispatch_async(queue, ^{
-                        [croppedFullSizeImage resizedImage:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)
-                                      interpolationQuality:kCGInterpolationMedium];
+                        croppedFullSizeImage = [croppedFullSizeImage resizedImage:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)
+                                                             interpolationQuality:kCGInterpolationHigh];
                         dispatch_async(queue, ^{
                             mediaItem.mediaFullImage = croppedFullSizeImage;
                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{

@@ -16,6 +16,7 @@
 
 #import "MRSLCaptureMediaViewController.h"
 #import "MRSLImagePreviewViewController.h"
+#import "MRSLToolbarView.h"
 #import "MRSLMorselAddTitleViewController.h"
 #import "MRSLMorselEditItemTableViewCell.h"
 #import "MRSLMorselEditDescriptionViewController.h"
@@ -28,13 +29,13 @@
 
 @interface MRSLMorselEditViewController ()
 <NSFetchedResultsControllerDelegate,
-UIAlertViewDelegate,
+UIActionSheetDelegate,
 UITableViewDataSource,
 UITableViewDelegate,
 CaptureMediaViewControllerDelegate,
+MRSLToolbarViewDelegate,
 MRSLMorselEditItemTableViewCellDelegate>
 
-@property (nonatomic) BOOL shouldShowAddCell;
 @property (nonatomic) BOOL wasNewMorsel;
 
 @property (weak, nonatomic) IBOutlet UIButton *morselTitleButton;
@@ -43,10 +44,12 @@ MRSLMorselEditItemTableViewCellDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
 @property (weak, nonatomic) IBOutlet UITableView *morselMorselsTableView;
 
-@property (strong, nonatomic) UIBarButtonItem *nextButton;
+@property (strong, nonatomic) UIBarButtonItem *rightBarButton;
 @property (strong, nonatomic) NSDateFormatter *statusDateFormatter;
 @property (strong, nonatomic) NSFetchedResultsController *itemsFetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *items;
+
+@property (weak, nonatomic) IBOutlet MRSLToolbarView *toolbarView;
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
 @property (weak, nonatomic) MRSLItem *item;
@@ -60,7 +63,6 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.shouldShowAddCell = YES;
     self.items = [NSMutableArray array];
     self.statusDateFormatter = [[NSDateFormatter alloc] init];
     [_statusDateFormatter setDateFormat:@"MMM dd, h:mm a"];
@@ -91,13 +93,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)displayMorsel {
     self.morsel = [self getOrLoadMorselIfExists];
 
-    if (_morsel.draftValue) {
-        self.nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next"
-                                                           style:UIBarButtonItemStyleBordered
-                                                          target:self
-                                                          action:@selector(displayPublishMorsel)];
-        [self.navigationItem setRightBarButtonItem:_nextButton];
-    }
+    [self showNextButton];
 
     self.morselTitleLabel.text = ([_morsel.title length] == 0) ? @"Tap to add title" : _morsel.title;
 
@@ -119,8 +115,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)displayMorselStatus {
     NSDate *lastUpdated = [_morsel latestUpdatedDate];
     self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last saved at %@", (lastUpdated) ? [_statusDateFormatter stringFromDate:lastUpdated] : [_statusDateFormatter stringFromDate:[NSDate date]]];
-    // Disable next button if there are no items
-    [self.nextButton setEnabled:([_items count] > 0)];
+    [self determineControlState];
 }
 
 - (void)setupMorselsFetchRequest {
@@ -155,6 +150,48 @@ MRSLMorselEditItemTableViewCellDelegate>
                      completion:nil];
 }
 
+- (void)showNextButton {
+    [self.navigationItem setRightBarButtonItem:nil];
+    if (_morsel.draftValue) {
+        self.rightBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Next"
+                                                           style:UIBarButtonItemStyleBordered
+                                                          target:self
+                                                          action:@selector(displayPublishMorsel)];
+        [self.navigationItem setRightBarButtonItem:_rightBarButton];
+    }
+}
+
+- (void)showDoneButton {
+    [self.navigationItem setRightBarButtonItem:nil];
+    self.rightBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                           style:UIBarButtonItemStyleBordered
+                                                          target:self
+                                                          action:@selector(toggleEditing)];
+    [self.navigationItem setRightBarButtonItem:_rightBarButton];
+}
+
+- (void)determineControlState {
+    BOOL shouldEnableControls = ([_items count] > 0);
+    BOOL isTableViewEditing = [_morselMorselsTableView isEditing];
+
+    if (isTableViewEditing && !shouldEnableControls) {
+        isTableViewEditing = NO;
+        [_morselMorselsTableView setEditing:NO
+                                   animated:NO];
+    }
+    [self.toolbarView.rightButton setTitle:(isTableViewEditing) ? @"Delete morsel" : @"New item"
+                                  forState:UIControlStateNormal];
+    if (isTableViewEditing) {
+        [self showDoneButton];
+    } else {
+        [self showNextButton];
+    }
+
+    // Disable next button if there are no items
+    [self.rightBarButton setEnabled:shouldEnableControls];
+    [self.toolbarView.leftButton setEnabled:shouldEnableControls];
+}
+
 #pragma mark - Getter Methods
 
 - (MRSLMorsel *)getOrLoadMorselIfExists {
@@ -172,7 +209,6 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if (_morselMorselsTableView.isEditing) {
         [_morselMorselsTableView setEditing:NO animated:NO];
-        self.shouldShowAddCell = YES;
     }
     if ([segue.identifier isEqualToString:@"seg_EditItemText"]) {
         MRSLMorselEditDescriptionViewController *itemEditTextVC = [segue destinationViewController];
@@ -189,36 +225,13 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 #pragma mark - Action Methods
 
-- (IBAction)deleteMorsel {
-    [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
-                                 properties:@{@"view": @"Your Morsel",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-    [_appDelegate.apiService deleteMorsel:_morsel
-                                  success:nil
-                                  failure:nil];
-    if (self.presentingViewController) {
-        [self.presentingViewController dismissViewControllerAnimated:YES
-                                                          completion:nil];
-    } else {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-}
-
 - (IBAction)toggleEditing {
     [[MRSLEventManager sharedManager] track:@"Tapped Edit"
                                  properties:@{@"view": @"Your Morsel",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     [_morselMorselsTableView setEditing:!_morselMorselsTableView.editing
                                animated:YES];
-    self.shouldShowAddCell = !_morselMorselsTableView.editing;
-    NSIndexPath *addCellIndexPath = [NSIndexPath indexPathForRow:[_items count]
-                                                       inSection:0];
-    if (addCellIndexPath.row == [_items count]) {
-        if (_shouldShowAddCell) [_morselMorselsTableView insertRowsAtIndexPaths:@[addCellIndexPath]
-                                                               withRowAnimation:UITableViewRowAnimationFade];
-        else [_morselMorselsTableView deleteRowsAtIndexPaths:@[addCellIndexPath]
-                                            withRowAnimation:UITableViewRowAnimationFade];
-    }
+    [self determineControlState];
 }
 
 - (void)goBack {
@@ -242,15 +255,15 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - UITableViewDataSource Methods
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (indexPath.row + 1 != [_items count] + 1);
+    return YES;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (indexPath.row + 1 != [_items count] + 1 && [_items count] > 1);
+    return ([_items count] > 1);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return ([_items count] + ((_shouldShowAddCell) ? 1 : 0));
+    return [_items count];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -327,11 +340,6 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row + 1 > [_items count]) {
-        UITableViewCell *addCell = [self.morselMorselsTableView dequeueReusableCellWithIdentifier:@"ruid_ItemAddCell"
-                                                                                     forIndexPath:indexPath];
-        return addCell;
-    }
     MRSLItem *item = [_items objectAtIndex:indexPath.row];
 
     MRSLMorselEditItemTableViewCell *morselMorselCell = [self.morselMorselsTableView dequeueReusableCellWithIdentifier:@"ruid_MorselItemCell"
@@ -344,23 +352,15 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - UITableViewDelegate Methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    if (![selectedCell isKindOfClass:[MRSLMorselEditItemTableViewCell class]]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Add New"
-                                     properties:@{@"view": @"Your Morsel",
-                                                  @"item_count": @([_items count])}];
-        [self presentMediaCapture];
-    } else {
-        self.item = [_items objectAtIndex:indexPath.row];
-        if (!self.item.itemID) return;
-        [[MRSLEventManager sharedManager] track:@"Tapped Add Description"
-                                     properties:@{@"view": @"Your Morsel",
-                                                  @"item_count": @([_items count]),
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(_item.itemID)}];
-        [self performSegueWithIdentifier:@"seg_EditItemText"
-                                  sender:nil];
-    }
+    self.item = [_items objectAtIndex:indexPath.row];
+    if (!self.item.itemID) return;
+    [[MRSLEventManager sharedManager] track:@"Tapped Add Description"
+                                 properties:@{@"view": @"Your Morsel",
+                                              @"item_count": @([_items count]),
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                              @"item_id": NSNullIfNil(_item.itemID)}];
+    [self performSegueWithIdentifier:@"seg_EditItemText"
+                              sender:nil];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
@@ -508,7 +508,47 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 - (void)morselEditItemCellDidTransitionToDeleteState:(BOOL)deleteStateActive {
-    _editItemsButton.hidden = deleteStateActive;
+    self.toolbarView.leftButton.enabled = !deleteStateActive;
+}
+
+#pragma mark - MRSLToolbarViewDelegate
+
+- (void)toolbarDidSelectLeftButton:(UIButton *)leftButton {
+    [self toggleEditing];
+}
+
+- (void)toolbarDidSelectRightButton:(UIButton *)rightButton {
+    if ([_morselMorselsTableView isEditing]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"Cancel"
+                                                   destructiveButtonTitle:@"Delete Morsel"
+                                                        otherButtonTitles:nil];
+        [actionSheet showInView:self.view];
+    } else {
+        [self presentMediaCapture];
+    }
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
+                                     properties:@{@"view": @"Your Morsel",
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+        [_appDelegate.apiService deleteMorsel:_morsel
+                                      success:nil
+                                      failure:nil];
+        [_morsel MR_deleteEntity];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+        if (self.presentingViewController) {
+            [self.presentingViewController dismissViewControllerAnimated:YES
+                                                              completion:nil];
+        } else {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
 }
 
 #pragma mark - Dealloc
