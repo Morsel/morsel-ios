@@ -12,6 +12,16 @@
 
 #pragma mark - Instance Methods
 
+- (void)addCenteredSubview:(UIView *)subviewToAddAndCenter withOffset:(CGPoint)offset {
+    [self addSubview:subviewToAddAndCenter];
+    [subviewToAddAndCenter setCenter:CGPointMake(self.center.x + offset.x, self.center.y + offset.y)];
+}
+
+- (void)addCenteredSubview:(UIView *)subviewToAddAndCenter {
+    [self addCenteredSubview:subviewToAddAndCenter
+                  withOffset:CGPointZero];
+}
+
 #pragma mark - Effect Methods
 
 - (void)setBorderWithColor:(UIColor *)color

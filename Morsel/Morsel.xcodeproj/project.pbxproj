@@ -292,8 +292,16 @@
 		4040D4AD18E62DF9008A39E5 /* MRSLFactory+Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4AC18E62DF9008A39E5 /* MRSLFactory+Activity.m */; };
 		4040D4B018E62F35008A39E5 /* MRSLFactory+Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4AF18E62F35008A39E5 /* MRSLFactory+Item.m */; };
 		405A36AA18EC9D16006F1D98 /* MRSLNotificationsRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A36A918EC9D16006F1D98 /* MRSLNotificationsRootViewController.m */; };
-		405A36AD18EC9D40006F1D98 /* MRSLNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A36AC18EC9D40006F1D98 /* MRSLNotificationsViewController.m */; };
 		405A36B018ECAE35006F1D98 /* MRSLCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A36AF18ECAE35006F1D98 /* MRSLCollectionViewDataSource.m */; };
+		4062A4F1196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4F0196EED8E00394EFA /* UIActivityIndicatorView+Additions.m */; };
+		4062A4F2196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4F0196EED8E00394EFA /* UIActivityIndicatorView+Additions.m */; };
+		4062A4F3196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4F0196EED8E00394EFA /* UIActivityIndicatorView+Additions.m */; };
+		4062A4F6196EF2F100394EFA /* MRSLIconStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4F5196EF2F100394EFA /* MRSLIconStateView.m */; };
+		4062A4F7196EF2F100394EFA /* MRSLIconStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4F5196EF2F100394EFA /* MRSLIconStateView.m */; };
+		4062A4F8196EF2F100394EFA /* MRSLIconStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4F5196EF2F100394EFA /* MRSLIconStateView.m */; };
+		4062A4FB196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4FA196F233000394EFA /* MRSLNotificationsTableViewController.m */; };
+		4062A4FC196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4FA196F233000394EFA /* MRSLNotificationsTableViewController.m */; };
+		4062A4FD196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4FA196F233000394EFA /* MRSLNotificationsTableViewController.m */; };
 		40677323196BA27C0055BEAE /* _MRSLPresignedUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 40677322196BA27C0055BEAE /* _MRSLPresignedUpload.m */; };
 		40677324196BA27C0055BEAE /* _MRSLPresignedUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 40677322196BA27C0055BEAE /* _MRSLPresignedUpload.m */; };
 		40677325196BA27C0055BEAE /* _MRSLPresignedUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 40677322196BA27C0055BEAE /* _MRSLPresignedUpload.m */; };
@@ -359,6 +367,12 @@
 		40A4E11C194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */; };
 		40A4E11D194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */; };
 		40A4E11E194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */; };
+		40A83E4C196E0A7F00DED0A1 /* MRSLStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A83E4B196E0A7F00DED0A1 /* MRSLStateView.m */; };
+		40A83E4D196E0A7F00DED0A1 /* MRSLStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A83E4B196E0A7F00DED0A1 /* MRSLStateView.m */; };
+		40A83E4E196E0A7F00DED0A1 /* MRSLStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A83E4B196E0A7F00DED0A1 /* MRSLStateView.m */; };
+		40A83E51196E0B6F00DED0A1 /* MRSLLoadingStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A83E50196E0B6F00DED0A1 /* MRSLLoadingStateView.m */; };
+		40A83E52196E0B6F00DED0A1 /* MRSLLoadingStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A83E50196E0B6F00DED0A1 /* MRSLLoadingStateView.m */; };
+		40A83E53196E0B6F00DED0A1 /* MRSLLoadingStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A83E50196E0B6F00DED0A1 /* MRSLLoadingStateView.m */; };
 		40C7E0A21953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7E0A11953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m */; };
 		40C7E0A31953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7E0A11953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m */; };
 		40C7E0A41953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7E0A11953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m */; };
@@ -801,10 +815,14 @@
 		4040D4AF18E62F35008A39E5 /* MRSLFactory+Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLFactory+Item.m"; sourceTree = "<group>"; };
 		405A36A818EC9D16006F1D98 /* MRSLNotificationsRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLNotificationsRootViewController.h; sourceTree = "<group>"; };
 		405A36A918EC9D16006F1D98 /* MRSLNotificationsRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLNotificationsRootViewController.m; sourceTree = "<group>"; };
-		405A36AB18EC9D40006F1D98 /* MRSLNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLNotificationsViewController.h; sourceTree = "<group>"; };
-		405A36AC18EC9D40006F1D98 /* MRSLNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLNotificationsViewController.m; sourceTree = "<group>"; };
 		405A36AE18ECAE35006F1D98 /* MRSLCollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCollectionViewDataSource.h; sourceTree = "<group>"; };
 		405A36AF18ECAE35006F1D98 /* MRSLCollectionViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCollectionViewDataSource.m; sourceTree = "<group>"; };
+		4062A4EF196EED8E00394EFA /* UIActivityIndicatorView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+Additions.h"; sourceTree = "<group>"; };
+		4062A4F0196EED8E00394EFA /* UIActivityIndicatorView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActivityIndicatorView+Additions.m"; sourceTree = "<group>"; };
+		4062A4F4196EF2F100394EFA /* MRSLIconStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLIconStateView.h; path = Source/Views/MRSLIconStateView.h; sourceTree = "<group>"; };
+		4062A4F5196EF2F100394EFA /* MRSLIconStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLIconStateView.m; path = Source/Views/MRSLIconStateView.m; sourceTree = "<group>"; };
+		4062A4F9196F233000394EFA /* MRSLNotificationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLNotificationsTableViewController.h; sourceTree = "<group>"; };
+		4062A4FA196F233000394EFA /* MRSLNotificationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLNotificationsTableViewController.m; sourceTree = "<group>"; };
 		40677321196BA27C0055BEAE /* _MRSLPresignedUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MRSLPresignedUpload.h; path = Source/Models/Generated/_MRSLPresignedUpload.h; sourceTree = "<group>"; };
 		40677322196BA27C0055BEAE /* _MRSLPresignedUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MRSLPresignedUpload.m; path = Source/Models/Generated/_MRSLPresignedUpload.m; sourceTree = "<group>"; };
 		40677326196BA2900055BEAE /* MRSLPresignedUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLPresignedUpload.h; path = Source/Models/MRSLPresignedUpload.h; sourceTree = "<group>"; };
@@ -849,6 +867,10 @@
 		40874445194167EA000B491F /* MRSLReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLReusableView.m; path = Source/Views/MRSLReusableView.m; sourceTree = "<group>"; };
 		40A4E11A194026F200251AA5 /* MRSLSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSettingsTableViewController.h; sourceTree = "<group>"; };
 		40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSettingsTableViewController.m; sourceTree = "<group>"; };
+		40A83E4A196E0A7F00DED0A1 /* MRSLStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLStateView.h; path = Source/Views/MRSLStateView.h; sourceTree = "<group>"; };
+		40A83E4B196E0A7F00DED0A1 /* MRSLStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLStateView.m; path = Source/Views/MRSLStateView.m; sourceTree = "<group>"; };
+		40A83E4F196E0B6F00DED0A1 /* MRSLLoadingStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLLoadingStateView.h; path = Source/Views/MRSLLoadingStateView.h; sourceTree = "<group>"; };
+		40A83E50196E0B6F00DED0A1 /* MRSLLoadingStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLLoadingStateView.m; path = Source/Views/MRSLLoadingStateView.m; sourceTree = "<group>"; };
 		40C7E0A01953E5DE0067BCB1 /* MRSLMyActivityTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMyActivityTableViewController.h; sourceTree = "<group>"; };
 		40C7E0A11953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMyActivityTableViewController.m; sourceTree = "<group>"; };
 		40D702A818E9F225001CCC42 /* MRSLFactory+User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLFactory+User.h"; sourceTree = "<group>"; };
@@ -1033,6 +1055,7 @@
 				0609B83D1894B4EF005A11A4 /* AV Capture */,
 				06F446141952225A00BE3014 /* Menu */,
 				0661F7EA19703E7600248E6A /* Toolbar */,
+				40A83E49196E0A2E00DED0A1 /* States */,
 				06340921191C5A1B00C67FB8 /* Validation */,
 			);
 			name = Views;
@@ -1282,12 +1305,12 @@
 				405A36A918EC9D16006F1D98 /* MRSLNotificationsRootViewController.m */,
 				40348F28195365FC00BDDC15 /* MRSLFollowableActivityTableViewController.h */,
 				40348F29195365FC00BDDC15 /* MRSLFollowableActivityTableViewController.m */,
-				405A36AB18EC9D40006F1D98 /* MRSLNotificationsViewController.h */,
-				405A36AC18EC9D40006F1D98 /* MRSLNotificationsViewController.m */,
 				40348F371953AC1500BDDC15 /* MRSLBaseActivitiesTableViewController.h */,
 				40348F381953AC1500BDDC15 /* MRSLBaseActivitiesTableViewController.m */,
 				40C7E0A01953E5DE0067BCB1 /* MRSLMyActivityTableViewController.h */,
 				40C7E0A11953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m */,
+				4062A4F9196F233000394EFA /* MRSLNotificationsTableViewController.h */,
+				4062A4FA196F233000394EFA /* MRSLNotificationsTableViewController.m */,
 			);
 			name = Activity;
 			sourceTree = "<group>";
@@ -1443,6 +1466,8 @@
 				40F637D5193E987A003AD040 /* NSMutableString+Additions.m */,
 				408744351940DAB2000B491F /* NSString+Additions.h */,
 				408744361940DAB2000B491F /* NSString+Additions.m */,
+				4062A4EF196EED8E00394EFA /* UIActivityIndicatorView+Additions.h */,
+				4062A4F0196EED8E00394EFA /* UIActivityIndicatorView+Additions.m */,
 				4005ED8218A19965005B8484 /* UIAlertView+Additions.h */,
 				4005ED8318A19965005B8484 /* UIAlertView+Additions.m */,
 				0686029D1891A8D3000CD576 /* UIColor+Morsel.h */,
@@ -2090,6 +2115,19 @@
 			name = Settings;
 			sourceTree = "<group>";
 		};
+		40A83E49196E0A2E00DED0A1 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				40A83E4A196E0A7F00DED0A1 /* MRSLStateView.h */,
+				40A83E4B196E0A7F00DED0A1 /* MRSLStateView.m */,
+				4062A4F4196EF2F100394EFA /* MRSLIconStateView.h */,
+				4062A4F5196EF2F100394EFA /* MRSLIconStateView.m */,
+				40A83E4F196E0B6F00DED0A1 /* MRSLLoadingStateView.h */,
+				40A83E50196E0B6F00DED0A1 /* MRSLLoadingStateView.m */,
+			);
+			name = States;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2457,10 +2495,12 @@
 				400350A118EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */,
 				069CCD6E1901A49800D1B770 /* MRSLMorselPublishShareViewController.m in Sources */,
 				061F935719102DAB00608C0B /* MRSLUserTagListViewController.m in Sources */,
+				4062A4FB196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */,
 				407FDF5B194807E4005FEEBF /* RollbarFileReader.m in Sources */,
 				403E9E2518EDCC20003CDE3B /* MRSLNotification.m in Sources */,
 				061F934A1910091400608C0B /* MRSLTagStatsNameCell.m in Sources */,
 				068B04D7195A000F004B302F /* MRSLImageView.m in Sources */,
+				40A83E4C196E0A7F00DED0A1 /* MRSLStateView.m in Sources */,
 				068602B318920D31000CD576 /* MRSLRobotoSlabRegularLabel.m in Sources */,
 				062064151919629D00D8DCF9 /* MRSLSocialServiceTwitter.m in Sources */,
 				0669C5131871FD370093132F /* UIImage+Resize.m in Sources */,
@@ -2488,6 +2528,7 @@
 				0637B67919377B5300358F25 /* MRSLPlacesAddViewController.m in Sources */,
 				407FDF5E194807E4005FEEBF /* RollbarLogger.m in Sources */,
 				06256C6E196DC07000E32630 /* MRSLMenuItem.m in Sources */,
+				4062A4F6196EF2F100394EFA /* MRSLIconStateView.m in Sources */,
 				06E7B9E718B2C66A00833427 /* MRSLEventManager.m in Sources */,
 				068602A51891AE26000CD576 /* UIView+Additions.m in Sources */,
 				0637B66F19368B9C00358F25 /* MRSLContainerCollectionViewCell.m in Sources */,
@@ -2523,6 +2564,7 @@
 				40348F25195363F900BDDC15 /* MRSLActivityTableViewCell.m in Sources */,
 				06DAFB61191A99A90044AF3E /* MRSLAPIService+Like.m in Sources */,
 				061F935A191037D700608C0B /* MRSLTagListTableViewCell.m in Sources */,
+				4062A4F1196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */,
 				06584C5418C7C37300D9035A /* MRSLCapturePreviewsViewController.m in Sources */,
 				068B04DC195A083C004B302F /* UIImage+Color.m in Sources */,
 				060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */,
@@ -2537,7 +2579,6 @@
 				4040D49C18E627ED008A39E5 /* _MRSLActivity.m in Sources */,
 				40348F3419536CC000BDDC15 /* MRSLDataSource.m in Sources */,
 				0637B6721936963A00358F25 /* MRSLCollectionViewArraySectionsDataSource.m in Sources */,
-				405A36AD18EC9D40006F1D98 /* MRSLNotificationsViewController.m in Sources */,
 				06A049651896D82500BD1C5B /* MRSLMorselCollectionViewCell.m in Sources */,
 				068602A21891AD2C000CD576 /* MRSLLightButton.m in Sources */,
 				06B8781A193CCEC700160707 /* MRSLPlaceDetailBaseCollectionViewCell.m in Sources */,
@@ -2587,6 +2628,7 @@
 				06F1847B18E0B68C00DBA468 /* MRSLFeedPanelCollectionViewCell.m in Sources */,
 				407FDF61194807E4005FEEBF /* RollbarNotifier.m in Sources */,
 				407FDF64194807E4005FEEBF /* RollbarReachability.m in Sources */,
+				40A83E51196E0B6F00DED0A1 /* MRSLLoadingStateView.m in Sources */,
 				06C38C4118EA5D370072CF8E /* MRSLModalLikersViewController.m in Sources */,
 				06FE510E19118E4D003A6D7D /* MRSLTag.m in Sources */,
 				065904DA1937DE1900414E06 /* MRSLAPIService+Place.m in Sources */,
@@ -2616,6 +2658,7 @@
 				403B5BFE195A1040001F33D2 /* MRSLToggleKeywordsTableViewController.m in Sources */,
 				066E8C2E191AAC7200991165 /* MRSLSocialServiceFacebook.m in Sources */,
 				066E8C2F191AAC7200991165 /* MRSLSocialServiceTwitter.m in Sources */,
+				4062A4F2196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */,
 				40677334196BAAFD0055BEAE /* MRSLS3Client.m in Sources */,
 				06DAFB65191AA20E0044AF3E /* MRSLAPIService+Tag.m in Sources */,
 				408744421940F376000B491F /* UIViewController+Base.m in Sources */,
@@ -2623,6 +2666,7 @@
 				06DAFB67191AA20E0044AF3E /* MRSLAPIService+Registration.m in Sources */,
 				06ECF68418BFE39A00577F9C /* Crash_Spec.m in Sources */,
 				068E277818BBFBB50020CA84 /* MRSLComment.m in Sources */,
+				40A83E4D196E0A7F00DED0A1 /* MRSLStateView.m in Sources */,
 				06ECF68618BFE3C800577F9C /* SocialService_Spec.m in Sources */,
 				4040D49918E6249E008A39E5 /* MRSLActivity_Spec.m in Sources */,
 				4067732F196BA3400055BEAE /* MRSLS3Service.m in Sources */,
@@ -2637,6 +2681,7 @@
 				4003509418EB578C00C97DDC /* MRSLCollectionViewArrayDataSource.m in Sources */,
 				40348F26195363F900BDDC15 /* MRSLActivityTableViewCell.m in Sources */,
 				4040D4A218E62809008A39E5 /* MRSLActivity.m in Sources */,
+				4062A4FC196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */,
 				4003509E18EB928800C97DDC /* MRSLCustomURLScheme_Spec.m in Sources */,
 				068E278C18BBFBB50020CA84 /* _MRSLUser.m in Sources */,
 				069AE51A18B80FDF002F63D5 /* MRSLCaptureMediaViewController.m in Sources */,
@@ -2649,11 +2694,13 @@
 				40677324196BA27C0055BEAE /* _MRSLPresignedUpload.m in Sources */,
 				403E9E2618EDCC20003CDE3B /* MRSLNotification.m in Sources */,
 				4069CB2D189B127E001790F3 /* MRSLSocialService.m in Sources */,
+				4062A4F7196EF2F100394EFA /* MRSLIconStateView.m in Sources */,
 				403E9E2118EDCC09003CDE3B /* _MRSLNotification.m in Sources */,
 				407FDF56194807E4005FEEBF /* Rollbar.m in Sources */,
 				4069CB27189B127E001790F3 /* JSONResponseSerializerWithData.m in Sources */,
 				407FDF65194807E4005FEEBF /* RollbarReachability.m in Sources */,
 				400350A218EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */,
+				40A83E52196E0B6F00DED0A1 /* MRSLLoadingStateView.m in Sources */,
 				40D702AA18E9F225001CCC42 /* MRSLFactory+User.m in Sources */,
 				40A4E11D194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */,
 				40DC743019549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */,
@@ -2689,6 +2736,7 @@
 				40677330196BA3400055BEAE /* MRSLS3Service.m in Sources */,
 				40348F3619536CC000BDDC15 /* MRSLDataSource.m in Sources */,
 				4003509518EB578C00C97DDC /* MRSLCollectionViewArrayDataSource.m in Sources */,
+				4062A4F8196EF2F100394EFA /* MRSLIconStateView.m in Sources */,
 				40348F2C195365FC00BDDC15 /* MRSLFollowableActivityTableViewController.m in Sources */,
 				400350A318EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */,
 				403B5BF51959F882001F33D2 /* MRSLCheckbox.m in Sources */,
@@ -2701,6 +2749,7 @@
 				4087443E1940F273000B491F /* MRSLBaseTableViewController.m in Sources */,
 				40C7E0A41953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m in Sources */,
 				40DC743119549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */,
+				40A83E4E196E0A7F00DED0A1 /* MRSLStateView.m in Sources */,
 				40348F3B1953AC1500BDDC15 /* MRSLBaseActivitiesTableViewController.m in Sources */,
 				407FDF63194807E4005FEEBF /* RollbarNotifier.m in Sources */,
 				407FDF60194807E4005FEEBF /* RollbarLogger.m in Sources */,
@@ -2711,12 +2760,15 @@
 				408504AB193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */,
 				065E523918C147220040C391 /* KIFUITestActor+Additions.m in Sources */,
 				4040D49E18E627ED008A39E5 /* _MRSLActivity.m in Sources */,
+				40A83E53196E0B6F00DED0A1 /* MRSLLoadingStateView.m in Sources */,
 				40677325196BA27C0055BEAE /* _MRSLPresignedUpload.m in Sources */,
 				407FDF69194807E4005FEEBF /* RollbarThread.m in Sources */,
 				407FDF5D194807E4005FEEBF /* RollbarFileReader.m in Sources */,
+				4062A4F3196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */,
 				40677335196BAAFD0055BEAE /* MRSLS3Client.m in Sources */,
 				065E523D18C147280040C391 /* LoginFlow_Integration.m in Sources */,
 				40F637D8193E987A003AD040 /* NSMutableString+Additions.m in Sources */,
+				4062A4FD196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */,
 				407FDF57194807E4005FEEBF /* Rollbar.m in Sources */,
 				4005ED8618A19965005B8484 /* UIAlertView+Additions.m in Sources */,
 				407FDF66194807E4005FEEBF /* RollbarReachability.m in Sources */,

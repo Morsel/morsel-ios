@@ -8,6 +8,7 @@
 
 #import "MRSLNotificationsRootViewController.h"
 
+#import "MRSLNotificationsTableViewController.h"
 #import "MRSLFollowableActivityTableViewController.h"
 #import "MRSLMyActivityTableViewController.h"
 
@@ -23,9 +24,9 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
 @interface MRSLNotificationsRootViewController ()
 <MRSLSegmentedButtonViewDelegate>
 
-@property (strong, nonatomic) UIViewController *notificationsViewController;
-@property (strong, nonatomic) UITableViewController *followableActivityTableViewController;
-@property (strong, nonatomic) UITableViewController *myActivityTableViewController;
+@property (strong, nonatomic) MRSLNotificationsTableViewController *notificationsViewController;
+@property (strong, nonatomic) MRSLFollowableActivityTableViewController *followableActivityTableViewController;
+@property (strong, nonatomic) MRSLMyActivityTableViewController *myActivityTableViewController;
 @property (strong, nonatomic) UIViewController *currentViewController;
 @property (nonatomic) enum MRSLNotificationsRootViewControllerSegments selectedSegment;
 
@@ -73,7 +74,7 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
 
 - (UIViewController *)viewControllerForSegmentIndex:(NSInteger)index {
     if (index == MRSLNotificationsRootViewControllerSegmentNotifications)
-        return [self notificationsViewController];
+        return [self notificationsTableViewController];
     else if (index == MRSLNotificationsRootViewControllerSegmentFollowing)
         return [self followableActivityTableViewController];
     else if (index == MRSLNotificationsRootViewControllerSegmentMyActivity)
@@ -82,21 +83,21 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
         return nil;
 }
 
-- (UIViewController *)notificationsViewController {
+- (MRSLNotificationsTableViewController *)notificationsTableViewController {
     if (_notificationsViewController) return _notificationsViewController;
-    _notificationsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"sb_MRSLNotificationsViewController"];
+    _notificationsViewController = [[MRSLNotificationsTableViewController alloc] init];
 
     return _notificationsViewController;
 }
 
-- (UITableViewController *)followableActivityTableViewController {
+- (MRSLFollowableActivityTableViewController *)followableActivityTableViewController {
     if (_followableActivityTableViewController) return _followableActivityTableViewController;
     _followableActivityTableViewController = [[MRSLFollowableActivityTableViewController alloc] init];
 
     return _followableActivityTableViewController;
 }
 
-- (UITableViewController *)myActivityTableViewController {
+- (MRSLMyActivityTableViewController *)myActivityTableViewController {
     if (_myActivityTableViewController) return _myActivityTableViewController;
     _myActivityTableViewController = [[MRSLMyActivityTableViewController alloc] init];
 
