@@ -12,8 +12,4 @@
 
 @property (nonatomic) BOOL shouldPresentMediaCapture;
 
-@property (nonatomic) MRSLMorselStatusType morselStatusType;
-
-@property (weak, nonatomic) MRSLUser *user;
-
 @end
