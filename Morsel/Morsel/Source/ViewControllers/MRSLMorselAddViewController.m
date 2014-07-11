@@ -48,8 +48,7 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.user = [MRSLUser currentUser];
-    self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_draft_morselIDs", _user.username]] ?: [NSMutableArray array];
+    self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:@"currentuser_draft_morselIDs"] ?: [NSMutableArray array];
 
     self.draftMorsels = [NSMutableArray array];
 
@@ -108,7 +107,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)setupFetchRequest {
-    self.morselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+    self.morselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"lastUpdatedDate"
                                                                  ascending:NO
                                                              withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs]
                                                                    groupBy:nil
@@ -148,7 +147,7 @@ NSFetchedResultsControllerDelegate>
                                            [weakSelf.refreshControl endRefreshing];
                                            weakSelf.morselIDs = [responseArray mutableCopy];
                                            [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                     forKey:[NSString stringWithFormat:@"%@_draft_morselIDs", _user.username]];
+                                                                                     forKey:@"currentuser_draft_morselIDs"];
                                            [weakSelf setupFetchRequest];
                                            [weakSelf populateContent];
                                            weakSelf.refreshing = NO;
@@ -159,7 +158,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)loadMore {
-    if (_loadingMore || !_user || _loadedAll || _refreshing) return;
+    if (_loadingMore || _loadedAll || _refreshing) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more user morsels");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
@@ -177,7 +176,7 @@ NSFetchedResultsControllerDelegate>
                                                if ([responseArray count] > 0) {
                                                    [weakSelf.morselIDs addObjectsFromArray:responseArray];
                                                    [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
-                                                                                             forKey:[NSString stringWithFormat:@"%@_draft_morselIDs", _user.username]];
+                                                                                             forKey:@"currentuser_draft_morselIDs"];
                                                    [weakSelf setupFetchRequest];
                                                    dispatch_async(dispatch_get_main_queue(), ^{
                                                        [weakSelf populateContent];

@@ -41,10 +41,9 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.user = [MRSLUser currentUser];
-    self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]] ?: [NSMutableArray array];
+    self.morselIDs =  [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:@"currentuser_draft_morselIDs"] ?: [NSMutableArray array];
 
-    self.title = (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Drafts" : @"Published";
+    self.title = @"Drafts";
 
     self.morsels = [NSMutableArray array];
 
@@ -95,7 +94,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)setupFetchRequest {
-    self.morselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+    self.morselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"lastUpdatedDate"
                                                                  ascending:NO
                                                              withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs]
                                                                    groupBy:nil
@@ -114,16 +113,16 @@ NSFetchedResultsControllerDelegate>
     self.loadedAll = NO;
     self.refreshing = YES;
     __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getMorselsForUser:_user
+    [_appDelegate.apiService getMorselsForUser:nil
                                      withMaxID:nil
                                      orSinceID:nil
-                                      andCount:@(12)
-                                    onlyDrafts:(_morselStatusType == MRSLMorselStatusTypeDrafts)
+                                      andCount:nil
+                                    onlyDrafts:YES
                                        success:^(NSArray *responseArray) {
                                            [weakSelf.refreshControl endRefreshing];
                                            weakSelf.morselIDs = [responseArray mutableCopy];
                                            [[NSUserDefaults standardUserDefaults] setObject:responseArray
-                                                                                     forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
+                                                                                     forKey:@"currentuser_draft_morselIDs"];
                                            [weakSelf setupFetchRequest];
                                            [weakSelf populateContent];
                                            weakSelf.refreshing = NO;
@@ -134,16 +133,17 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)loadMore {
-    if (_loadingMore || !_user || _loadedAll || _refreshing) return;
+    if (_loadingMore || _loadedAll || _refreshing) return;
     self.loadingMore = YES;
+    DDLogDebug(@"Loading more user morsels");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                        withValue:[_morselIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
-    [_appDelegate.apiService getMorselsForUser:_user
+    [_appDelegate.apiService getMorselsForUser:nil
                                      withMaxID:@([lastMorsel morselIDValue] - 1)
                                      orSinceID:nil
                                       andCount:@(12)
-                                    onlyDrafts:(_morselStatusType == MRSLMorselStatusTypeDrafts)
+                                    onlyDrafts:YES
                                        success:^(NSArray *responseArray) {
                                            if ([responseArray count] == 0) weakSelf.loadedAll = YES;
                                            DDLogDebug(@"%lu user morsels added", (unsigned long)[responseArray count]);
@@ -151,7 +151,7 @@ NSFetchedResultsControllerDelegate>
                                                if ([responseArray count] > 0) {
                                                    [weakSelf.morselIDs addObjectsFromArray:responseArray];
                                                    [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
-                                                                                             forKey:[NSString stringWithFormat:@"%@_%@_morselIDs", _user.username, (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"draft" : @"publish"]];
+                                                                                             forKey:@"currentuser_draft_morselIDs"];
                                                    [weakSelf setupFetchRequest];
                                                    dispatch_async(dispatch_get_main_queue(), ^{
                                                        [weakSelf populateContent];
@@ -228,7 +228,7 @@ NSFetchedResultsControllerDelegate>
     self.selectedIndexPath = indexPath;
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
     [[MRSLEventManager sharedManager] track:@"Tapped Morsel"
-                                 properties:@{@"view": [NSString stringWithFormat:@"%@", (_morselStatusType == MRSLMorselStatusTypeDrafts) ? @"Drafts" : @"Published"],
+                                 properties:@{@"view": @"Drafts",
                                               @"morsel_id": NSNullIfNil(morsel.morselID),
                                               @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
     MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
