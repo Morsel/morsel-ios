@@ -18,6 +18,9 @@ typedef NS_OPTIONS(NSUInteger, MRSLBorderDirection) {
 
 @interface UIView (Additions)
 
+- (void)addCenteredSubview:(UIView *)subviewToAddAndCenter withOffset:(CGPoint)offset;
+- (void)addCenteredSubview:(UIView *)subviewToAddAndCenter;
+
 - (void)setBorderWithColor:(UIColor *)color
                   andWidth:(CGFloat)width;
 

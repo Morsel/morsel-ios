@@ -217,6 +217,7 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #pragma mark - Categories
 
+#import "UIActivityIndicatorView+Additions.h"
 #import "UIAlertView+Additions.h"
 #import "UIColor+Morsel.h"
 #import "UIDevice+Additions.h"
