@@ -66,7 +66,8 @@
                                         @"device": (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"ipad" : @"iphone",
                                         @"version": [NSString stringWithFormat:@"%@%@", [MRSLUtil appMajorMinorPatchString], releaseAppendedIdentifier],
                                         @"model": NSNullIfNil([MRSLUtil deviceModel]),
-                                        @"os": NSNullIfNil([MRSLUtil deviceVersion])
+                                        @"os": NSNullIfNil([MRSLUtil deviceVersion]),
+                                        @"build": NSNullIfNil(ROLLBAR_ENVIRONMENT)
                                         };
 
     return parametersDictionary;
