@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLToolbarView.h"
+#import "MRSLToolbar.h"
 
-@interface MRSLToolbarView ()
+@interface MRSLToolbar ()
 
 @end
 
-@implementation MRSLToolbarView
+@implementation MRSLToolbar
 
 #pragma mark - Action Methods
 

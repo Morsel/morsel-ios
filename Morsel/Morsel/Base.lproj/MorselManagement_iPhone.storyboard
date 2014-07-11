@@ -252,18 +252,6 @@
                                     <segue destination="xiT-us-aqg" kind="push" identifier="seg_EditMorselTitle" id="BGd-gz-lyc"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rJi-B4-wvr">
-                                <rect key="frame" x="260" y="0.0" width="60" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" label="Edit"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" image="icon-edit-red">
-                                    <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="toggleEditing" destination="QmE-5e-DXK" eventType="touchUpInside" id="uGH-D8-j7X"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="WDj-WI-oTC">
                                 <rect key="frame" x="0.0" y="60" width="320" height="400"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -333,34 +321,6 @@
                                             <outlet property="itemThumbnail" destination="815-bt-VyA" id="IBV-Oe-gGm"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_ItemAddCell" id="p9i-HX-2v9">
-                                        <rect key="frame" x="0.0" y="82" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p9i-HX-2v9" id="zZV-Eq-rjF">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" id="4BF-Qs-7fp">
-                                                    <rect key="frame" x="20" y="5" width="50" height="50"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-add-white" id="fh7-XE-zKN">
-                                                            <rect key="frame" x="10" y="10" width="30" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                        </imageView>
-                                                    </subviews>
-                                                    <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add New" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="deI-bl-V64" customClass="MRSLRobotoSlabRegularLabel">
-                                                    <rect key="frame" x="78" y="17" width="180" height="26"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
-                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="QmE-5e-DXK" id="1dW-TS-hnO"/>
@@ -374,7 +334,7 @@
                                 <color key="textColor" red="0.31764706970000001" green="0.7254902124" blue="0.23529411850000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" id="aia-yn-ZCi" customClass="MRSLToolbarView">
+                            <view contentMode="scaleToFill" id="aia-yn-ZCi" customClass="MRSLToolbar">
                                 <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
@@ -437,7 +397,6 @@
                     <navigationItem key="navigationItem" title="Your Morsel" id="sil-H5-pNn"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="editItemsButton" destination="rJi-B4-wvr" id="xXa-eE-RZr"/>
                         <outlet property="lastUpdatedLabel" destination="In7-2o-cvL" id="JWt-tA-YFI"/>
                         <outlet property="morselMorselsTableView" destination="WDj-WI-oTC" id="Ljx-vf-RDa"/>
                         <outlet property="morselTitleButton" destination="pMX-jI-LJb" id="oeV-jb-VBc"/>
@@ -972,10 +931,8 @@
     </scenes>
     <resources>
         <image name="button-retry" width="50" height="50"/>
-        <image name="icon-add-white" width="30" height="30"/>
         <image name="icon-arrow-accessory-red" width="16" height="16"/>
         <image name="icon-circle-check-gray" width="30" height="30"/>
-        <image name="icon-edit-red" width="24" height="24"/>
         <image name="icon-place" width="30" height="30"/>
     </resources>
     <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>

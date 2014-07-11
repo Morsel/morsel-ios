@@ -16,7 +16,7 @@
 
 @end
 
-@interface MRSLToolbarView : UIView
+@interface MRSLToolbar : UIView
 
 @property (weak, nonatomic) IBOutlet UIButton *leftButton;
 @property (weak, nonatomic) IBOutlet UIButton *rightButton;

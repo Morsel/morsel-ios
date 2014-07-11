@@ -16,7 +16,7 @@
 
 #import "MRSLCaptureMediaViewController.h"
 #import "MRSLImagePreviewViewController.h"
-#import "MRSLToolbarView.h"
+#import "MRSLToolbar.h"
 #import "MRSLMorselAddTitleViewController.h"
 #import "MRSLMorselEditItemTableViewCell.h"
 #import "MRSLMorselEditDescriptionViewController.h"
@@ -36,10 +36,10 @@ CaptureMediaViewControllerDelegate,
 MRSLToolbarViewDelegate,
 MRSLMorselEditItemTableViewCellDelegate>
 
+@property (nonatomic) BOOL isEditing;
 @property (nonatomic) BOOL wasNewMorsel;
 
 @property (weak, nonatomic) IBOutlet UIButton *morselTitleButton;
-@property (weak, nonatomic) IBOutlet UIButton *editItemsButton;
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
 @property (weak, nonatomic) IBOutlet UITableView *morselMorselsTableView;
@@ -49,7 +49,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 @property (strong, nonatomic) NSFetchedResultsController *itemsFetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *items;
 
-@property (weak, nonatomic) IBOutlet MRSLToolbarView *toolbarView;
+@property (weak, nonatomic) IBOutlet MRSLToolbar *toolbarView;
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
 @property (weak, nonatomic) MRSLItem *item;
@@ -62,6 +62,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.isEditing = NO;
 
     self.items = [NSMutableArray array];
     self.statusDateFormatter = [[NSDateFormatter alloc] init];
@@ -115,6 +117,12 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)displayMorselStatus {
     NSDate *lastUpdated = [_morsel latestUpdatedDate];
     self.lastUpdatedLabel.text = [NSString stringWithFormat:@"Last saved at %@", (lastUpdated) ? [_statusDateFormatter stringFromDate:lastUpdated] : [_statusDateFormatter stringFromDate:[NSDate date]]];
+    if ([_items count] == 0) {
+        self.toolbarView.leftButton.enabled = YES;
+        self.isEditing = NO;
+        [self.morselMorselsTableView setEditing:NO
+                                       animated:NO];
+    }
     [self determineControlState];
 }
 
@@ -151,45 +159,40 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 - (void)showNextButton {
-    [self.navigationItem setRightBarButtonItem:nil];
     if (_morsel.draftValue) {
-        self.rightBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Next"
-                                                           style:UIBarButtonItemStyleBordered
-                                                          target:self
-                                                          action:@selector(displayPublishMorsel)];
-        [self.navigationItem setRightBarButtonItem:_rightBarButton];
+        if (![self.rightBarButton.title isEqualToString:@"Next"]) {
+            [self.navigationItem setRightBarButtonItem:nil];
+            self.rightBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Next"
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(displayPublishMorsel)];
+            [self.navigationItem setRightBarButtonItem:_rightBarButton];
+        }
     }
 }
 
 - (void)showDoneButton {
-    [self.navigationItem setRightBarButtonItem:nil];
-    self.rightBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
-                                                           style:UIBarButtonItemStyleBordered
-                                                          target:self
-                                                          action:@selector(toggleEditing)];
-    [self.navigationItem setRightBarButtonItem:_rightBarButton];
+    if (![self.rightBarButton.title isEqualToString:@"Done"]) {
+        [self.navigationItem setRightBarButtonItem:nil];
+        self.rightBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                               style:UIBarButtonItemStyleBordered
+                                                              target:self
+                                                              action:@selector(toggleEditing)];
+        [self.navigationItem setRightBarButtonItem:_rightBarButton];
+    }
 }
 
 - (void)determineControlState {
-    BOOL shouldEnableControls = ([_items count] > 0);
-    BOOL isTableViewEditing = [_morselMorselsTableView isEditing];
-
-    if (isTableViewEditing && !shouldEnableControls) {
-        isTableViewEditing = NO;
-        [_morselMorselsTableView setEditing:NO
-                                   animated:NO];
-    }
-    [self.toolbarView.rightButton setTitle:(isTableViewEditing) ? @"Delete morsel" : @"New item"
+    [self.toolbarView.rightButton setTitle:(_isEditing) ? @"Delete morsel" : @"New item"
                                   forState:UIControlStateNormal];
-    if (isTableViewEditing) {
+    if (_isEditing) {
         [self showDoneButton];
+        [self.rightBarButton setEnabled:YES];
     } else {
         [self showNextButton];
+        // Disable next button if there are no items
+        [self.rightBarButton setEnabled:([_items count] > 0)];
     }
-
-    // Disable next button if there are no items
-    [self.rightBarButton setEnabled:shouldEnableControls];
-    [self.toolbarView.leftButton setEnabled:shouldEnableControls];
 }
 
 #pragma mark - Getter Methods
@@ -209,6 +212,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if (_morselMorselsTableView.isEditing) {
         [_morselMorselsTableView setEditing:NO animated:NO];
+        self.isEditing = NO;
     }
     if ([segue.identifier isEqualToString:@"seg_EditItemText"]) {
         MRSLMorselEditDescriptionViewController *itemEditTextVC = [segue destinationViewController];
@@ -229,7 +233,8 @@ MRSLMorselEditItemTableViewCellDelegate>
     [[MRSLEventManager sharedManager] track:@"Tapped Edit"
                                  properties:@{@"view": @"Your Morsel",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-    [_morselMorselsTableView setEditing:!_morselMorselsTableView.editing
+    self.isEditing = !_isEditing;
+    [_morselMorselsTableView setEditing:_isEditing
                                animated:YES];
     [self determineControlState];
 }
@@ -518,7 +523,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 - (void)toolbarDidSelectRightButton:(UIButton *)rightButton {
-    if ([_morselMorselsTableView isEditing]) {
+    if (_isEditing) {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                                  delegate:self
                                                         cancelButtonTitle:@"Cancel"
@@ -548,6 +553,10 @@ MRSLMorselEditItemTableViewCellDelegate>
         } else {
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
+    } else {
+        [[MRSLEventManager sharedManager] track:@"Tapped Cancel Delete Morsel"
+                                     properties:@{@"view": @"Your Morsel",
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     }
 }
 
