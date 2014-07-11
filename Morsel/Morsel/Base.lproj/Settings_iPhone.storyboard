@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jtb-qR-yHr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jtb-qR-yHr">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="khW-jS-ehj" customClass="MRSLRobotoLightLabel">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="39"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="39"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <string key="text">Don't feel like filling this out now?
 Access it later from Settings.</string>
@@ -23,7 +23,7 @@ Access it later from Settings.</string>
                             <nil key="highlightedColor"/>
                         </label>
                         <label key="tableFooterView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tell us where you work and what cuisines and specialities you have to reach more followers!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wab-rZ-gL4" customClass="MRSLRobotoLightLabel">
-                            <rect key="frame" x="0.0" y="189" width="320" height="59"/>
+                            <rect key="frame" x="0.0" y="257" width="320" height="59"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="14"/>
                             <color key="textColor" red="0.57647061349999995" green="0.64313727620000005" blue="0.56862747670000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -33,7 +33,7 @@ Access it later from Settings.</string>
                             <tableViewSection id="jbQ-3S-l6m">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Z2B-4D-RX4" style="IBUITableViewCellStyleDefault" id="5A8-hS-1OW" userLabel="Manage Places Cell">
-                                        <rect key="frame" x="0.0" y="35" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="103" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5A8-hS-1OW" id="oVp-9M-7Mh">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -57,7 +57,7 @@ Access it later from Settings.</string>
                             <tableViewSection headerTitle="Tags" id="R53-Db-9dO">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="bg4-Fh-L7X" style="IBUITableViewCellStyleDefault" id="emI-af-gqh" userLabel="Manage Tags Cell">
-                                        <rect key="frame" x="0.0" y="101" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="169" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="emI-af-gqh" id="kee-mB-gTS">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -77,7 +77,7 @@ Access it later from Settings.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="rCc-97-N72" style="IBUITableViewCellStyleDefault" id="anD-oy-QFk" userLabel="Manage Tags Cell">
-                                        <rect key="frame" x="0.0" y="145" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="213" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="anD-oy-QFk" id="MIS-aP-VaW">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -515,7 +515,7 @@ Access it later from Settings.</string>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="cnn-Lf-XVS">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Yez-Qz-gV7">
@@ -562,18 +562,40 @@ Access it later from Settings.</string>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view contentMode="scaleToFill" id="inC-DO-tf6">
+                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="h6l-Nc-v6u" customClass="MRSLLightButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="New place">
+                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.59109933039999996" green="0.2456843273" blue="0.17475133740000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.59299266579999999" green="0.24647127260000001" blue="0.17531107900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addPlace:" destination="ZhL-PA-ZjH" eventType="touchUpInside" id="HxF-Gp-qS2"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Manage Places" id="tiO-CK-YxZ">
-                        <barButtonItem key="rightBarButtonItem" title="Add" id="yVb-Do-o5F">
-                            <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="addPlace:" destination="ZhL-PA-ZjH" id="YFx-1w-LOg"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Manage Places" id="tiO-CK-YxZ"/>
                     <size key="freeformSize" width="320" height="214"/>
                     <connections>
                         <outlet property="collectionView" destination="cnn-Lf-XVS" id="yTj-8M-qjW"/>
