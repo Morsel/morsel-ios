@@ -21,9 +21,9 @@
     [self addCornersWithRadius:[self getWidth] / 2];
 }
 
-- (void)setCount:(int)count {
+- (void)setCount:(NSInteger)count {
     _count = count;
-    self.countLabel.text = [NSString stringWithFormat:@"%i", _count];
+    self.countLabel.text = [NSString stringWithFormat:@"%li", (long)_count];
 }
 
 @end

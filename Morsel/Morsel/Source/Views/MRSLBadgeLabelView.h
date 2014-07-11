@@ -10,6 +10,6 @@
 
 @interface MRSLBadgeLabelView : UIView
 
-@property (nonatomic) int count;
+@property (nonatomic) NSInteger count;
 
 @end
