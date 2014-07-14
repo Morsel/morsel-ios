@@ -86,6 +86,14 @@
                                          animated:YES];
 }
 
+- (IBAction)contactMorsel {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayEmailComposerNotification
+                                                        object:@{
+                                                                 @"title": @"Contact Morsel",
+                                                                 @"subject": @"Morsel iOS App Remove Place Support",
+                                                                 @"body": [NSString stringWithFormat:@"<br /><br />--<br />%@", [MRSLUtil supportDiagnostics]]}];
+}
+
 #pragma mark - Private Methods
 
 - (void)updateDataSourcePredicate {
