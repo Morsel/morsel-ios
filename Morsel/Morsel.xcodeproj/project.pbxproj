@@ -373,6 +373,21 @@
 		40854F96197482560015DFBB /* MRSLCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40854F95197482560015DFBB /* MRSLCollectionView.m */; };
 		40854F97197482560015DFBB /* MRSLCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40854F95197482560015DFBB /* MRSLCollectionView.m */; };
 		40854F98197482560015DFBB /* MRSLCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40854F95197482560015DFBB /* MRSLCollectionView.m */; };
+		4085E30F1970963200A3FC73 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30A1970963200A3FC73 /* CHANGELOG */; };
+		4085E3101970963200A3FC73 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30A1970963200A3FC73 /* CHANGELOG */; };
+		4085E3111970963200A3FC73 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30A1970963200A3FC73 /* CHANGELOG */; };
+		4085E3121970963200A3FC73 /* DBChooser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30B1970963200A3FC73 /* DBChooser.bundle */; };
+		4085E3131970963200A3FC73 /* DBChooser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30B1970963200A3FC73 /* DBChooser.bundle */; };
+		4085E3141970963200A3FC73 /* DBChooser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30B1970963200A3FC73 /* DBChooser.bundle */; };
+		4085E3151970963200A3FC73 /* DBChooser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4085E30C1970963200A3FC73 /* DBChooser.framework */; };
+		4085E3161970963200A3FC73 /* DBChooser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4085E30C1970963200A3FC73 /* DBChooser.framework */; };
+		4085E3171970963200A3FC73 /* DBChooser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4085E30C1970963200A3FC73 /* DBChooser.framework */; };
+		4085E3181970963300A3FC73 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30D1970963200A3FC73 /* LICENSE */; };
+		4085E3191970963300A3FC73 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30D1970963200A3FC73 /* LICENSE */; };
+		4085E31A1970963300A3FC73 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30D1970963200A3FC73 /* LICENSE */; };
+		4085E31B1970963300A3FC73 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30E1970963200A3FC73 /* README */; };
+		4085E31C1970963300A3FC73 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30E1970963200A3FC73 /* README */; };
+		4085E31D1970963300A3FC73 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30E1970963200A3FC73 /* README */; };
 		408744371940DAB2000B491F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744361940DAB2000B491F /* NSString+Additions.m */; };
 		408744381940DAB2000B491F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744361940DAB2000B491F /* NSString+Additions.m */; };
 		408744391940DAB2000B491F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744361940DAB2000B491F /* NSString+Additions.m */; };
@@ -892,6 +907,11 @@
 		40854F9019747EFA0015DFBB /* UICollectionView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+Additions.m"; sourceTree = "<group>"; };
 		40854F94197482560015DFBB /* MRSLCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLCollectionView.h; path = Source/Views/MRSLCollectionView.h; sourceTree = "<group>"; };
 		40854F95197482560015DFBB /* MRSLCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLCollectionView.m; path = Source/Views/MRSLCollectionView.m; sourceTree = "<group>"; };
+		4085E30A1970963200A3FC73 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
+		4085E30B1970963200A3FC73 /* DBChooser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DBChooser.bundle; sourceTree = "<group>"; };
+		4085E30C1970963200A3FC73 /* DBChooser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DBChooser.framework; sourceTree = "<group>"; };
+		4085E30D1970963200A3FC73 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		4085E30E1970963200A3FC73 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		408744351940DAB2000B491F /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		408744361940DAB2000B491F /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		4087443A1940F273000B491F /* MRSLBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseTableViewController.h; sourceTree = "<group>"; };
@@ -926,6 +946,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4085E3151970963200A3FC73 /* DBChooser.framework in Frameworks */,
 				06B8781C193CD7E900160707 /* MapKit.framework in Frameworks */,
 				407FDF6D194807E4005FEEBF /* CrashReporter.framework in Frameworks */,
 				83193CDB90584AB6BE66EE88 /* libPods.a in Frameworks */,
@@ -938,6 +959,7 @@
 			files = (
 				057749E490424AA8A501241D /* libPods-Morsel-Specs.a in Frameworks */,
 				407FDF6E194807E4005FEEBF /* CrashReporter.framework in Frameworks */,
+				4085E3161970963200A3FC73 /* DBChooser.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -947,6 +969,7 @@
 			files = (
 				F74BE655C47B487989CEC74D /* libPods-Morsel-Integration.a in Frameworks */,
 				407FDF6F194807E5005FEEBF /* CrashReporter.framework in Frameworks */,
+				4085E3171970963200A3FC73 /* DBChooser.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2105,6 +2128,7 @@
 		407FDEE51948052E005FEEBF /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4085E3091970963200A3FC73 /* dropbox-ios-dropins-sdk-1.2.1 */,
 				407FDF41194807E4005FEEBF /* Rollbar */,
 			);
 			name = Vendor;
@@ -2162,6 +2186,18 @@
 				403B5BFC195A1040001F33D2 /* MRSLToggleKeywordsTableViewController.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		4085E3091970963200A3FC73 /* dropbox-ios-dropins-sdk-1.2.1 */ = {
+			isa = PBXGroup;
+			children = (
+				4085E30A1970963200A3FC73 /* CHANGELOG */,
+				4085E30B1970963200A3FC73 /* DBChooser.bundle */,
+				4085E30C1970963200A3FC73 /* DBChooser.framework */,
+				4085E30D1970963200A3FC73 /* LICENSE */,
+				4085E30E1970963200A3FC73 /* README */,
+			);
+			path = "dropbox-ios-dropins-sdk-1.2.1";
 			sourceTree = "<group>";
 		};
 		40A83E49196E0A2E00DED0A1 /* States */ = {
@@ -2297,14 +2333,18 @@
 				063F857418FF8B53000B136B /* Roboto-Light.ttf in Resources */,
 				063BB6FE18983D3F0029DAF0 /* MediaManagement_iPhone.storyboard in Resources */,
 				066066A418522E7900E780FC /* Main_iPhone.storyboard in Resources */,
+				4085E30F1970963200A3FC73 /* CHANGELOG in Resources */,
 				062AB98818C534B600742955 /* MorselManagement_iPhone.storyboard in Resources */,
 				061531C218E220530025F07E /* RobotoSlab-Bold.ttf in Resources */,
 				40348F1F1953632500BDDC15 /* MRSLActivityTableViewCell.xib in Resources */,
 				063F857518FF8B53000B136B /* Roboto-Regular.ttf in Resources */,
+				4085E3121970963200A3FC73 /* DBChooser.bundle in Resources */,
 				063F857618FF8B53000B136B /* RobotoSlab-Regular.ttf in Resources */,
+				4085E3181970963300A3FC73 /* LICENSE in Resources */,
 				063BB6FB18983D170029DAF0 /* Login_iPhone.storyboard in Resources */,
 				06C4CD08192A6FD3004CD3B7 /* Social_iPhone.storyboard in Resources */,
 				408504A3193FEE48003AE38B /* Settings_iPhone.storyboard in Resources */,
+				4085E31B1970963300A3FC73 /* README in Resources */,
 				064566F418C50BDD00C9CCBF /* Activity_iPhone.storyboard in Resources */,
 				06ECF68C18BFEEB500577F9C /* Specs_iPhone.storyboard in Resources */,
 			);
@@ -2314,14 +2354,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4085E31C1970963300A3FC73 /* README in Resources */,
 				06F567CE18BBB1270067FCD4 /* mrsl-item-authenticated.json in Resources */,
 				0698CABA1852432D007AF442 /* InfoPlist.strings in Resources */,
 				06F567CD18BBB1270067FCD4 /* mrsl-comment.json in Resources */,
 				40D702AC18E9F72A001CCC42 /* mrsl-users-activities.json in Resources */,
 				06F567D318BBB1270067FCD4 /* mrsl-user-with-auth-token.json in Resources */,
+				4085E3191970963300A3FC73 /* LICENSE in Resources */,
+				4085E3101970963200A3FC73 /* CHANGELOG in Resources */,
 				06F567D718BBB18C0067FCD4 /* mrsl-morsel.json in Resources */,
 				40348F201953632500BDDC15 /* MRSLActivityTableViewCell.xib in Resources */,
 				408504A4193FEE48003AE38B /* Settings_iPhone.storyboard in Resources */,
+				4085E3131970963200A3FC73 /* DBChooser.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2329,9 +2373,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4085E31A1970963300A3FC73 /* LICENSE in Resources */,
 				0698CAD018524359007AF442 /* InfoPlist.strings in Resources */,
+				4085E3111970963200A3FC73 /* CHANGELOG in Resources */,
 				40348F211953632500BDDC15 /* MRSLActivityTableViewCell.xib in Resources */,
 				408504A5193FEE48003AE38B /* Settings_iPhone.storyboard in Resources */,
+				4085E3141970963200A3FC73 /* DBChooser.bundle in Resources */,
+				4085E31D1970963300A3FC73 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

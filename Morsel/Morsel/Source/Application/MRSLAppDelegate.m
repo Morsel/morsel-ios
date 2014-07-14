@@ -14,6 +14,7 @@
 #import <AFOAuth1Client/AFOAuth1Client.h>
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
+#import <DBChooser/DBChooser.h>
 #import <FacebookSDK/FacebookSDK.h>
 
 #import "MRSLAPIService+Authentication.h"
@@ -93,25 +94,31 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    NSString *fbID = [NSString stringWithFormat:@"fb%@://", FACEBOOK_APP_ID];
-    if ([url.absoluteString rangeOfString:fbID].location != NSNotFound) {
-        DDLogDebug(@"Facebook Callback URL: %@", url);
-        [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-    } else if ([url.absoluteString rangeOfString:TWITTER_CALLBACK].location != NSNotFound) {
-        DDLogDebug(@"Twitter Callback URL: %@", url);
-        NSNotification *notification = [NSNotification notificationWithName:kAFApplicationLaunchedWithURLNotification
-                                                                     object:nil
-                                                                   userInfo:[NSDictionary dictionaryWithObject:url
-                                                                                                        forKey:kAFApplicationLaunchOptionsURLKey]];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    } else if ([url.absoluteString rangeOfString:INSTAGRAM_CALLBACK].location != NSNotFound) {
-        DDLogDebug(@"Instagram Callback URL: %@", url);
-        NSString *replacingCallbackString = [NSString stringWithFormat:@"%@?code=", INSTAGRAM_CALLBACK];
-        NSString *authCode = [url.absoluteString stringByReplacingOccurrencesOfString:replacingCallbackString withString:@""];
-        [[MRSLSocialServiceInstagram sharedService] completeAuthenticationWithCode:authCode];
+    if ([[DBChooser defaultChooser] handleOpenURL:url]) {
+        // This was a Chooser response and handleOpenURL automatically ran the
+        // completion block
+        return YES;
+    } else {
+        NSString *fbID = [NSString stringWithFormat:@"fb%@://", FACEBOOK_APP_ID];
+        if ([url.absoluteString rangeOfString:fbID].location != NSNotFound) {
+            DDLogDebug(@"Facebook Callback URL: %@", url);
+            [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+        } else if ([url.absoluteString rangeOfString:TWITTER_CALLBACK].location != NSNotFound) {
+            DDLogDebug(@"Twitter Callback URL: %@", url);
+            NSNotification *notification = [NSNotification notificationWithName:kAFApplicationLaunchedWithURLNotification
+                                                                         object:nil
+                                                                       userInfo:[NSDictionary dictionaryWithObject:url
+                                                                                                            forKey:kAFApplicationLaunchOptionsURLKey]];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } else if ([url.absoluteString rangeOfString:INSTAGRAM_CALLBACK].location != NSNotFound) {
+            DDLogDebug(@"Instagram Callback URL: %@", url);
+            NSString *replacingCallbackString = [NSString stringWithFormat:@"%@?code=", INSTAGRAM_CALLBACK];
+            NSString *authCode = [url.absoluteString stringByReplacingOccurrencesOfString:replacingCallbackString withString:@""];
+            [[MRSLSocialServiceInstagram sharedService] completeAuthenticationWithCode:authCode];
+        }
+        return [self handleRouteForURL:url
+                     sourceApplication:sourceApplication];
     }
-    return [self handleRouteForURL:url
-                 sourceApplication:sourceApplication];
 }
 
 #pragma mark - Instance Methods
