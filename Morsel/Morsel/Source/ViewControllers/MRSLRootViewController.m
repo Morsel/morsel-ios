@@ -189,18 +189,23 @@ MRSLMenuViewControllerDelegate>
 }
 
 - (void)displayEmailComposer:(NSNotification *)notification {
-    MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
-    [mailComposeViewController setMailComposeDelegate:self];
-    [mailComposeViewController setToRecipients:@[ MORSEL_SUPPORT_EMAIL ]];
-    if (notification.object) {
-        [mailComposeViewController setTitle:notification.object[@"title"] ?: @""];
-        [mailComposeViewController setSubject:notification.object[@"subject"] ?: @""];
-        [mailComposeViewController setMessageBody:notification.object[@"body"] ?: @"" isHTML:YES];
-    }
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+        [mailComposeViewController setMailComposeDelegate:self];
+        [mailComposeViewController setToRecipients:@[ MORSEL_SUPPORT_EMAIL ]];
+        if (notification.object) {
+            [mailComposeViewController setTitle:notification.object[@"title"] ?: @""];
+            [mailComposeViewController setSubject:notification.object[@"subject"] ?: @""];
+            [mailComposeViewController setMessageBody:notification.object[@"body"] ?: @"" isHTML:YES];
+        }
 
-    [self presentViewController:mailComposeViewController
-                       animated:YES
-                     completion:nil];
+        [self presentViewController:mailComposeViewController
+                           animated:YES
+                         completion:nil];
+    } else {
+        [UIAlertView showOKAlertViewWithTitle:@"No Email Configured"
+                                      message:[NSString stringWithFormat:@"Your device has no email accounts configured. Please set one up or send an email to %@ with your preferred client.", MORSEL_SUPPORT_EMAIL]];
+    }
 }
 
 - (void)callPhoneNumber:(NSNotification *)notification {

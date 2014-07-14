@@ -132,6 +132,7 @@
                                                                                                object:morsel];
                                        });
                                    }
+                                   [MRSLUser decrementCurrentUserDraftCount];
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                    if (morsel) morsel.draft = @(!morsel.draftValue);
                                    [self reportFailure:failureOrNil

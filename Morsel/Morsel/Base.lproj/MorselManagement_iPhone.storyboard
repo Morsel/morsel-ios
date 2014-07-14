@@ -445,7 +445,6 @@
                                         <size key="customSize" width="320" height="320"/>
                                         <connections>
                                             <outlet property="previewImageView" destination="wKU-Wd-noq" id="xbs-2p-mnu"/>
-                                            <segue destination="Wym-zL-icT" kind="push" identifier="seg_PublishShareMorsel" id="TAl-5k-iUg"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -491,6 +490,7 @@
                         <outlet property="morselTitleLabel" destination="xPP-2b-9VQ" id="q80-Us-bpX"/>
                         <outlet property="pageControl" destination="sbg-07-dcL" id="4GP-bX-xsO"/>
                         <segue destination="Skl-OL-Y5W" kind="push" identifier="seg_SelectPlace" id="lB3-8C-rvx"/>
+                        <segue destination="Wym-zL-icT" kind="push" identifier="seg_PublishShareMorsel" id="T93-X5-sK9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SJv-ij-o0x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -942,7 +942,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="9lu-zA-0DL"/>
         <segue reference="BGd-gz-lyc"/>
+        <segue reference="T93-X5-sK9"/>
     </inferredMetricsTieBreakers>
 </document>
