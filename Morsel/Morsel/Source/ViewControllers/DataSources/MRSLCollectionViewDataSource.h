@@ -40,4 +40,6 @@ UICollectionViewDelegate>
 
 - (NSUInteger)count;
 
+- (BOOL)isEmpty;
+
 @end

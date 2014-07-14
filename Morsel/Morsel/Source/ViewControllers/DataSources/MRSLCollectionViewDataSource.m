@@ -40,6 +40,10 @@
     return [self.objects count];
 }
 
+- (BOOL)isEmpty {
+    return [self count] == 0;
+}
+
 #pragma mark - UICollectionViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {

@@ -12,7 +12,7 @@
 
 - (NSInteger)numberOfRowsInAllSections {
     NSUInteger rowCount = 0;
-    for(NSInteger i = 0; i < [self numberOfSections]; i++)
+    for (NSInteger i = 0; i < [self numberOfSections]; i++)
         rowCount += [self numberOfRowsInSection:i];
     return rowCount;
 }

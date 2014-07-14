@@ -60,7 +60,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return (section == 0) ? 1 : ([self.objects count] ?: 1);
+    return (section == 0) ? 1 : ([self.objects count] ?: 0);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView

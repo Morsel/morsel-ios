@@ -56,8 +56,8 @@ static CGFloat kPadding = 10.0f;
 - (void)setTitle:(NSString *)title {
     [self.titleLabel setText:title];
     CGSize fittedTextSize = [title sizeWithFont:_titleLabel.font
-                 constrainedToSize:CGSizeMake(CGFLOAT_MAX, [_titleLabel getHeight])
-                     lineBreakMode:NSLineBreakByWordWrapping];
+                              constrainedToSize:CGSizeMake(CGFLOAT_MAX, [_titleLabel getHeight])
+                                  lineBreakMode:NSLineBreakByWordWrapping];
 
     [_titleLabel setWidth:ceilf(fittedTextSize.width)];
     [self fitContainerToTitleWidth];
@@ -80,7 +80,7 @@ static CGFloat kPadding = 10.0f;
 
 - (void)fitContainerToTitleWidth {
     [_containerView setWidth:kPadding + [_accessoryView getWidth] + kPadding + [_titleLabel getWidth] + kPadding];
-    [_containerView setCenter:CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))];
+    [_containerView setCenter:CGPointMake(CGRectGetWidth(self.frame) * 0.5f, CGRectGetHeight(self.frame) * 0.5f)];
 }
 
 - (BOOL)hasAccessorySubview {

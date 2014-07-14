@@ -23,6 +23,6 @@
 - (void)updateFetchRequestWithManagedObjectClass:(Class)objectClass
                                    withPredicate:(NSPredicate *)predicateOrNil;
 
-- (void)updateDataSortType:(MRSLDataSortType)sortType;
+- (void)setDataSortType:(MRSLDataSortType)sortType ascending:(BOOL)ascending;
 
 @end

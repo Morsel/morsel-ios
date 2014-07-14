@@ -25,6 +25,7 @@
 #import "MRSLUserFollowListViewController.h"
 #import "MRSLUserTagListViewController.h"
 
+#import "MRSLCollectionView.h"
 #import "MRSLContainerCollectionViewCell.h"
 #import "MRSLUserLikedItemCollectionViewCell.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
@@ -45,7 +46,7 @@ MRSLProfilePanelCollectionViewCellDelegate,
 MRSLProfileUserTagsListViewControllerDelegate,
 MRSLSegmentedHeaderReusableViewDelegate>
 
-@property (nonatomic) BOOL refreshing;
+@property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 @property (nonatomic) BOOL shouldShowFollowers;
@@ -53,7 +54,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 @property (nonatomic) MRSLDataSourceType dataSourceTabType;
 
 @property (weak, nonatomic) IBOutlet MRSLFollowButton *followButton;
-@property (weak, nonatomic) IBOutlet UICollectionView *profileCollectionView;
+@property (weak, nonatomic) IBOutlet MRSLCollectionView *profileCollectionView;
 
 @property (strong, nonatomic) NSMutableArray *objectIDs;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -136,8 +137,10 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                                               return UIEdgeInsetsZero;
                                                                                                                           }
                                                                                                                       }];
+
     [self.profileCollectionView setDataSource:_segmentedPanelCollectionViewDataSource];
     [self.profileCollectionView setDelegate:_segmentedPanelCollectionViewDataSource];
+    [self.profileCollectionView setEmptyStateTitle:@"No morsels added"];
 
     [self.segmentedPanelCollectionViewDataSource setDelegate:self];
 
@@ -164,6 +167,12 @@ MRSLSegmentedHeaderReusableViewDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+
+    [self.profileCollectionView toggleLoading:loading];
+}
 
 - (void)displayEditProfile {
     MRSLProfileEditFieldsViewController *profileEditFieldsViewController = [[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileEditFieldsViewController"];
@@ -203,7 +212,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)refreshContent {
     [self refreshProfile];
     self.loadedAll = NO;
-    self.refreshing = YES;
+    self.loading = YES;
     __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService getUserData:_user
                        forDataSourceType:_dataSourceTabType
@@ -217,18 +226,18 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                          [[NSUserDefaults standardUserDefaults] setObject:responseArray
                                                                                    forKey:[weakSelf objectIDsKey]];
                                          [weakSelf updateDataSourcePredicate];
-                                         weakSelf.refreshing = NO;
+                                         weakSelf.loading = NO;
                                      }
                                  } failure:^(NSError *error) {
                                      if (weakSelf) {
                                          [weakSelf.refreshControl endRefreshing];
-                                         weakSelf.refreshing = NO;
+                                         weakSelf.loading = NO;
                                      }
                                  }];
 }
 
 - (void)loadMore {
-    if (_loadingMore || !_user || _loadedAll || _refreshing) return;
+    if (_loadingMore || !_user || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getUserData:_user
@@ -418,16 +427,35 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)segmentedHeaderDidSelectIndex:(NSInteger)index {
     if (_dataSourceTabType != index) {
         self.dataSourceTabType = index;
-        if (_dataSourceTabType == MRSLDataSourceTypePlace) {
-            self.segmentedPanelCollectionViewDataSource.ascending = YES;
-            self.segmentedPanelCollectionViewDataSource.sortType = MRSLDataSortTypeName;
-        } else if (_dataSourceTabType == MRSLDataSourceTypeActivityItem) {
-            self.segmentedPanelCollectionViewDataSource.ascending = NO;
-            self.segmentedPanelCollectionViewDataSource.sortType = MRSLDataSortTypeLikedDate;
-        } else {
-            self.segmentedPanelCollectionViewDataSource.ascending = NO;
-            self.segmentedPanelCollectionViewDataSource.sortType = MRSLDataSortTypeCreationDate;
+
+        switch (index) {
+            case MRSLDataSourceTypeActivityItem:
+                [self.profileCollectionView setEmptyStateTitle:@"No activity yet"];
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeLikedDate
+                                                                   ascending:NO];
+                break;
+            case MRSLDataSourceTypeMorsel:
+                [self.profileCollectionView setEmptyStateTitle:@"No morsels added"];
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeCreationDate
+                                                                   ascending:NO];
+                break;
+            case MRSLDataSourceTypePlace:
+                [self.profileCollectionView setEmptyStateTitle:@"No places added"];
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeName
+                                                                   ascending:YES];
+                break;
+            case MRSLDataSourceTypeTag:
+                [self.profileCollectionView setEmptyStateTitle:@"No tags added"];
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeName
+                                                                   ascending:YES];
+                break;
+            default:
+                [self.profileCollectionView setEmptyStateTitle:@"No results"];
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeNone
+                                                                   ascending:NO];
+                break;
         }
+
         [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
         [self loadObjectIDs];
         [self updateDataSourcePredicate];
