@@ -27,11 +27,10 @@ static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
 UITableViewDelegate,
 NSFetchedResultsControllerDelegate>
 
+@property (nonatomic) BOOL previousCommentsAvailable;
 @property (nonatomic) BOOL refreshing;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
-
-@property (nonatomic) NSInteger commentCount;
 
 @property (weak, nonatomic) IBOutlet UITableView *commentsTableView;
 @property (weak, nonatomic) IBOutlet UIView *commentInputView;
@@ -106,6 +105,7 @@ NSFetchedResultsControllerDelegate>
     NSError *fetchError = nil;
     [_fetchedResultsController performFetch:&fetchError];
     self.comments = [_fetchedResultsController fetchedObjects];
+    self.previousCommentsAvailable = (_item.comment_countValue != [_comments count]);
     [self.commentsTableView reloadData];
 }
 
@@ -116,7 +116,7 @@ NSFetchedResultsControllerDelegate>
     [_appDelegate.apiService getComments:_item
                                withMaxID:nil
                                orSinceID:nil
-                                andCount:nil
+                                andCount:@(10)
                                  success:^(NSArray *responseArray) {
                                      if (weakSelf) {
                                          [weakSelf.refreshControl endRefreshing];
@@ -145,7 +145,7 @@ NSFetchedResultsControllerDelegate>
     [_appDelegate.apiService getComments:_item
                                withMaxID:@([lastComment commentIDValue] - 1)
                                orSinceID:nil
-                                andCount:@(12)
+                                andCount:@(10)
                                  success:^(NSArray *responseArray) {
                                      if (weakSelf) {
                                          if ([responseArray count] == 0) {
@@ -231,13 +231,13 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
-    self.commentCount = [sectionInfo numberOfObjects];
-    return _commentCount;
+    int count = ([_comments count] + ((_previousCommentsAvailable) ? 1 : 0));
+    return count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
+    if (_previousCommentsAvailable && indexPath.row == 0) return 44;
+    MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
     CGSize bodySize = [comment.commentDescription sizeWithFont:[UIFont robotoLightFontOfSize:12.f]
                                              constrainedToSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
                                                  lineBreakMode:NSLineBreakByWordWrapping];
@@ -249,24 +249,34 @@ NSFetchedResultsControllerDelegate>
     return defaultCellSize;
 }
 
-- (MRSLCommentTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
-
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_previousCommentsAvailable && indexPath.row == 0) {
+        UITableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:(_loadingMore) ? @"ruid_PreviousLoading" :
+                                          @"ruid_PreviousCommentCell"];
+        return tableViewCell;
+    }
+    MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
     MRSLCommentTableViewCell *commentCell = [self.commentsTableView dequeueReusableCellWithIdentifier:@"ruid_CommentCell"];
     commentCell.comment = comment;
-    commentCell.pipeView.hidden = (indexPath.row == _commentCount - 1);
-
+    commentCell.pipeView.hidden = (indexPath.row == [_comments count] - 1);
     return commentCell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLComment *comment = [_fetchedResultsController objectAtIndexPath:indexPath];
-    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
-    profileVC.user = comment.creator;
-    [self.navigationController pushViewController:profileVC
-                                         animated:YES];
+    if (_previousCommentsAvailable && indexPath.row == 0) {
+        if (_loadingMore) return;
+        [self loadMore];
+        [tableView reloadRowsAtIndexPaths:@[indexPath]
+                         withRowAnimation:UITableViewRowAnimationNone];
+    } else {
+        MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
+        MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+        profileVC.user = comment.creator;
+        [self.navigationController pushViewController:profileVC
+                                             animated:YES];
+    }
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
@@ -274,16 +284,6 @@ NSFetchedResultsControllerDelegate>
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu comments.", (unsigned long)[[controller fetchedObjects] count]);
     [self populateContent];
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat currentOffset = scrollView.contentOffset.y;
-    CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
-    if (maximumOffset - currentOffset <= 10.f) {
-        [self loadMore];
-    }
 }
 
 #pragma mark - UITextViewDelegate Methods
