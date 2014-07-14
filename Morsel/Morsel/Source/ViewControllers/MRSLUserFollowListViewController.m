@@ -15,16 +15,18 @@
 
 #import "MRSLUser.h"
 
+#import "MRSLTableView.h"
+
 @interface MRSLUserFollowListViewController ()
 <UITableViewDataSource,
 UITableViewDelegate,
 NSFetchedResultsControllerDelegate>
 
-@property (nonatomic) BOOL refreshing;
+@property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet MRSLTableView *tableView;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
@@ -55,6 +57,8 @@ NSFetchedResultsControllerDelegate>
 
     [self.tableView addSubview:_refreshControl];
     self.tableView.alwaysBounceVertical = YES;
+
+    [self.tableView setEmptyStateTitle:_shouldDisplayFollowers ? @"No followers yet." : @"Not following anyone."];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -79,6 +83,12 @@ NSFetchedResultsControllerDelegate>
 
 #pragma mark - Private Methods
 
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+
+    [self.tableView toggleLoading:loading];
+}
+
 - (void)setupFetchRequest {
     self.fetchedResultsController = [MRSLUser MR_fetchAllSortedBy:@"last_name"
                                                        ascending:YES
@@ -97,7 +107,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)refreshContent {
     self.loadedAll = NO;
-    self.refreshing = YES;
+    self.loading = YES;
     __weak __typeof(self)weakSelf = self;
     if (_shouldDisplayFollowers) {
         [_appDelegate.apiService getUserFollowers:_user
@@ -111,10 +121,10 @@ NSFetchedResultsControllerDelegate>
                                                                                         forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
                                               [weakSelf setupFetchRequest];
                                               [weakSelf populateContent];
-                                              weakSelf.refreshing = NO;
+                                              weakSelf.loading = NO;
                                           } failure:^(NSError *error) {
                                               [weakSelf.refreshControl endRefreshing];
-                                              weakSelf.refreshing = NO;
+                                              weakSelf.loading = NO;
                                           }];
     } else {
         [_appDelegate.apiService getUserFollowables:_user
@@ -128,16 +138,16 @@ NSFetchedResultsControllerDelegate>
                                                                                           forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
                                                 [weakSelf setupFetchRequest];
                                                 [weakSelf populateContent];
-                                                weakSelf.refreshing = NO;
+                                                weakSelf.loading = NO;
                                             } failure:^(NSError *error) {
                                                 [weakSelf.refreshControl endRefreshing];
-                                                weakSelf.refreshing = NO;
+                                                weakSelf.loading = NO;
                                             }];
     }
 }
 
 - (void)loadMore {
-    if (_loadingMore || !_user || _loadedAll || _refreshing) return;
+    if (_loadingMore || !_user || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more user tags");
     MRSLUser *lastUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
@@ -178,10 +188,10 @@ NSFetchedResultsControllerDelegate>
                                                                                           forKey:[NSString stringWithFormat:@"%@_%@_tagIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
                                                 [weakSelf setupFetchRequest];
                                                 [weakSelf populateContent];
-                                                weakSelf.refreshing = NO;
+                                                weakSelf.loading = NO;
                                             } failure:^(NSError *error) {
                                                 [weakSelf.refreshControl endRefreshing];
-                                                weakSelf.refreshing = NO;
+                                                weakSelf.loading = NO;
                                             }];
     }
 }

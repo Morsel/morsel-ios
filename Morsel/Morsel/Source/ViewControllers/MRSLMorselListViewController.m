@@ -12,6 +12,7 @@
 
 #import "MRSLMorselTableViewCell.h"
 #import "MRSLMorselEditViewController.h"
+#import "MRSLTableView.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -22,11 +23,11 @@
 UITableViewDelegate,
 NSFetchedResultsControllerDelegate>
 
-@property (nonatomic) BOOL refreshing;
+@property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet MRSLTableView *tableView;
 
 @property (strong, nonatomic) NSFetchedResultsController *morselsFetchedResultsController;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
@@ -64,6 +65,8 @@ NSFetchedResultsControllerDelegate>
                                              selector:@selector(morselDeleted:)
                                                  name:MRSLUserDidDeleteMorselNotification
                                                object:nil];
+
+    [self.tableView setEmptyStateTitle:@"You don't have any drafts right now."];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -86,6 +89,12 @@ NSFetchedResultsControllerDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+
+    [self.tableView toggleLoading:loading];
+}
 
 - (void)reloadContent {
     [self setupFetchRequest];
@@ -111,7 +120,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)refreshContent {
     self.loadedAll = NO;
-    self.refreshing = YES;
+    self.loading = YES;
     __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService getMorselsForUser:nil
                                      withMaxID:nil
@@ -125,15 +134,15 @@ NSFetchedResultsControllerDelegate>
                                                                                      forKey:@"currentuser_draft_morselIDs"];
                                            [weakSelf setupFetchRequest];
                                            [weakSelf populateContent];
-                                           weakSelf.refreshing = NO;
+                                           weakSelf.loading = NO;
                                        } failure:^(NSError *error) {
                                            [weakSelf.refreshControl endRefreshing];
-                                           weakSelf.refreshing = NO;
+                                           weakSelf.loading = NO;
                                        }];
 }
 
 - (void)loadMore {
-    if (_loadingMore || _loadedAll || _refreshing) return;
+    if (_loadingMore || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more user morsels");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
