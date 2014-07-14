@@ -22,6 +22,8 @@
 #import "MRSLNotification.h"
 #import "MRSLUser.h"
 
+#import "UITableView+States.h"
+
 @interface MRSLBaseTableViewController ()
 <NSFetchedResultsControllerDelegate>
 
@@ -52,6 +54,8 @@
     [super viewDidLoad];
 
     [self registerCellsWithNames:@[ @"MRSLActivityTableViewCell" ]];
+
+    [self.tableView setEmptyStateTitle:@"No recent activity"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -128,10 +132,6 @@
                                     delegate:self
                                    inContext:[NSManagedObjectContext MR_defaultContext]];
 
-}
-
-- (NSString *)emptyStateTitle {
-    return @"No recent activity";
 }
 
 

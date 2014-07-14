@@ -9,7 +9,8 @@
 #import "MRSLBaseTableViewController.h"
 #import "MRSLTableViewDataSource.h"
 #import "MRSLIconStateView.h"
-#import "MRSLLoadingStateView.h"
+
+#import "UITableView+States.h"
 
 @interface MRSLBaseTableViewController ()
 <MRSLTableViewDataSourceDelegate,
@@ -21,15 +22,13 @@ NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) NSString *objectIDsKey;
 @property (strong, nonatomic) NSArray *objectIDs;
-@property (strong, nonatomic) MRSLLoadingStateView *loadingStateView;
-@property (strong, nonatomic) MRSLIconStateView *emptyStateView;
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL stopLoadingNextPage;
 
-@property (strong, nonatomic) UIActivityIndicatorView *activityIndicatorView;
+@property (strong, nonatomic) UIActivityIndicatorView *footerActivityIndicatorView;
 
 - (void)refreshContent;
 - (void)populateContent;
@@ -52,13 +51,13 @@ NSFetchedResultsControllerDelegate>
         [self.tableView addSubview:self.refreshControl];
 
         //  Bottom activity Indicator
-        self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [_activityIndicatorView setColor:[UIColor morselDarkContent]];
-        [_activityIndicatorView setHidesWhenStopped:YES];
+        self.footerActivityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [_footerActivityIndicatorView setColor:[UIColor morselDarkContent]];
+        [_footerActivityIndicatorView setHidesWhenStopped:YES];
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(.0f, .0f, [self.tableView getWidth], 60.f)];
-        [footerView addSubview:_activityIndicatorView];
-        [_activityIndicatorView setX:([footerView getWidth] * .5f) - ([_activityIndicatorView getWidth] * .5f)];
-        [_activityIndicatorView setY:([footerView getHeight] * .5f) - ([_activityIndicatorView getHeight] * .5f)];
+        [footerView addSubview:_footerActivityIndicatorView];
+        [_footerActivityIndicatorView setX:([footerView getWidth] * .5f) - ([_footerActivityIndicatorView getWidth] * .5f)];
+        [_footerActivityIndicatorView setY:([footerView getHeight] * .5f) - ([_footerActivityIndicatorView getHeight] * .5f)];
         [self.tableView setTableFooterView:footerView];
     }
     if (self.objectIDsKey) _objectIDs = [[NSUserDefaults standardUserDefaults] arrayForKey:self.objectIDsKey] ?: @[];
@@ -66,8 +65,6 @@ NSFetchedResultsControllerDelegate>
     self.tableView.alwaysBounceVertical = YES;
     [self.tableView setScrollsToTop:YES];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    self.loadingStateView = [MRSLLoadingStateView loadingStateView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -104,13 +101,11 @@ NSFetchedResultsControllerDelegate>
 - (void)setLoading:(BOOL)loading {
     _loading = loading;
 
-    [_activityIndicatorView MRSL_toggleAnimating:loading];
-
+    [self.tableView toggleLoading:loading];
     if (loading && [self.dataSource isEmpty]) {
-        [self toggleLoadingState:YES];
-        [_activityIndicatorView MRSL_toggleAnimating:NO];
+        [_footerActivityIndicatorView MRSL_toggleAnimating:NO];
     } else {
-        [self toggleLoadingState:NO];
+        [_footerActivityIndicatorView MRSL_toggleAnimating:loading];
     }
 }
 
@@ -186,45 +181,6 @@ NSFetchedResultsControllerDelegate>
 
     return _fetchedResultsController;
 }
-
-
-#pragma mark - States
-
-- (void)toggleLoadingState:(BOOL)shouldEnable {
-    if (shouldEnable) {
-        [self toggleEmptyState:NO];
-        [self.tableView addCenteredSubview:_loadingStateView withOffset:[_loadingStateView defaultOffset]];
-    } else {
-        [_loadingStateView removeFromSuperview];
-        [self toggleEmptyState:[self.dataSource isEmpty]];
-    }
-}
-
-- (void)toggleEmptyState:(BOOL)shouldEnable {
-    if (shouldEnable)
-        [self.tableView addCenteredSubview:self.emptyStateView withOffset:[_emptyStateView defaultOffset]];
-    else
-        [_emptyStateView removeFromSuperview];
-}
-
-- (MRSLIconStateView *)emptyStateView {
-    if (_emptyStateView) return _emptyStateView;
-
-    _emptyStateView = [MRSLIconStateView iconStateViewWithTitle:[self emptyStateTitle]
-                                                     imageNamed:nil];
-
-    return _emptyStateView;
-}
-
-- (NSString *)emptyStateTitle {
-    return @"Empty";
-}
-
-
-
-
-
-
 
 
 #pragma mark - Pagination

@@ -18,6 +18,7 @@
 #import "MRSLSegmentedButtonView.h"
 #import "MRSLUserFollowTableViewCell.h"
 #import "MRSLProfileViewController.h"
+#import "MRSLTableView.h"
 
 #import "MRSLUser.h"
 
@@ -27,14 +28,13 @@ UISearchBarDelegate,
 UITableViewDataSource,
 MRSLSegmentedButtonViewDelegate>
 
-@property (nonatomic) BOOL refreshing;
+@property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 
 @property (nonatomic) NSInteger friendSection;
 
-@property (weak, nonatomic) IBOutlet UIView *nullStateView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet MRSLTableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -67,6 +67,8 @@ MRSLSegmentedButtonViewDelegate>
 
     [self.tableView addSubview:_refreshControl];
     self.tableView.alwaysBounceVertical = YES;
+
+    [self.tableView setEmptyStateTitle:@"No people found."];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -87,6 +89,12 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+
+    [self.tableView toggleLoading:loading];
+}
 
 - (void)setupFetchRequest {
     NSPredicate *predicate = nil;
@@ -117,13 +125,11 @@ MRSLSegmentedButtonViewDelegate>
             [weakSelf.tableView reloadData];
         }
     });
-
-    self.nullStateView.hidden = ([_users count] > 0);
 }
 
 - (void)refreshContent {
     self.loadedAll = NO;
-    self.refreshing = YES;
+    self.loading = YES;
     __weak __typeof(self)weakSelf = self;
     if (_friendSection > 0) {
         [_appDelegate.apiService getSocialProviderConnections:_socialProvider
@@ -138,10 +144,10 @@ MRSLSegmentedButtonViewDelegate>
                                                                                                     forKey:[self objectIDsKey]];
                                                           [weakSelf setupFetchRequest];
                                                           [weakSelf populateContent];
-                                                          weakSelf.refreshing = NO;
+                                                          weakSelf.loading = NO;
                                                       } failure:^(NSError *error) {
                                                           [weakSelf.refreshControl endRefreshing];
-                                                          weakSelf.refreshing = NO;
+                                                          weakSelf.loading = NO;
                                                       }];
     } else {
         [_appDelegate.apiService searchWithQuery:_searchBar.text
@@ -155,16 +161,16 @@ MRSLSegmentedButtonViewDelegate>
                                                                                        forKey:[self objectIDsKey]];
                                              [weakSelf setupFetchRequest];
                                              [weakSelf populateContent];
-                                             weakSelf.refreshing = NO;
+                                             weakSelf.loading = NO;
                                          } failure:^(NSError *error) {
                                              [weakSelf.refreshControl endRefreshing];
-                                             weakSelf.refreshing = NO;
+                                             weakSelf.loading = NO;
                                          }];
     }
 }
 
 - (void)loadMore {
-    if (_loadingMore || _loadedAll || _refreshing) return;
+    if (_loadingMore || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more users");
     MRSLUser *lastUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
