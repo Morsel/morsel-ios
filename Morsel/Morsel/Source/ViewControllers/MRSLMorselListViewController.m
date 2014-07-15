@@ -242,7 +242,7 @@ NSFetchedResultsControllerDelegate>
                                               @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
     MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
     editMorselVC.morselID = morsel.morselID;
-    editMorselVC.shouldPresentMediaCapture = _shouldPresentMediaCapture;
+    editMorselVC.shouldPresentMediaCapture = NO;
 
     [self.navigationController pushViewController:editMorselVC
                                          animated:YES];

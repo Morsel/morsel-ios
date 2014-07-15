@@ -42,12 +42,15 @@
     }
 
     self.morselTitleTextView.placeholder = @"What are you working on?";
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self.morselTitleTextView becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
     [self.view endEditing:YES];
 }
 

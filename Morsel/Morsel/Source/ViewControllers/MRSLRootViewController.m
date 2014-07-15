@@ -12,9 +12,9 @@
 
 #import "MRSLAPIService+Authentication.h"
 #import "MRSLAPIService+Profile.h"
+#import "UINavigationController+Additions.h"
 
 #import "MRSLFeedViewController.h"
-#import "MRSLMorselAddViewController.h"
 #import "MRSLMenuViewController.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLWebBrowserViewController.h"
@@ -59,10 +59,6 @@ MRSLMenuViewControllerDelegate>
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeToNewStatusBarStyle:)
                                                  name:MRSLAppDidRequestNewPreferredStatusBarStyle
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayMorselAdd:)
-                                                 name:MRSLAppShouldDisplayMorselAddNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayBaseViewController:)
@@ -146,15 +142,6 @@ MRSLMenuViewControllerDelegate>
 - (void)changeToNewStatusBarStyle:(NSNotification *)notification {
     self.currentStatusBarStyle = [notification.object intValue];
     [self setNeedsStatusBarAppearanceUpdate];
-}
-
-- (void)displayMorselAdd:(NSNotification *)notification {
-    UINavigationController *morselAddNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselAdd"];
-    MRSLMorselAddViewController *morselAddVC = [[morselAddNC viewControllers] firstObject];
-    if (notification.object) morselAddVC.skipToAddTitle = [notification.object boolValue];
-    [self presentViewController:morselAddNC
-                       animated:YES
-                     completion:nil];
 }
 
 - (void)displayBaseViewController:(NSNotification *)notification {
@@ -470,7 +457,8 @@ MRSLMenuViewControllerDelegate>
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    return [[[self.childViewControllers lastObject] childViewControllers] count] == 1;
+    return ([[[self.childViewControllers lastObject] viewControllers] count] == 1 ||
+            [[self.childViewControllers lastObject] isDisplayingMorselAdd]);
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {

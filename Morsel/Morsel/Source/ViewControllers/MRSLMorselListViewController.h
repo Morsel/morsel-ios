@@ -10,6 +10,4 @@
 
 @interface MRSLMorselListViewController : MRSLBaseViewController
 
-@property (nonatomic) BOOL shouldPresentMediaCapture;
-
 @end

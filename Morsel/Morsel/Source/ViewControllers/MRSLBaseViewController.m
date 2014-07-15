@@ -8,6 +8,10 @@
 
 #import "MRSLBaseViewController.h"
 
+#import "UINavigationController+Additions.h"
+
+#import "MRSLMorselAddTitleViewController.h"
+
 #import "MRSLUser.h"
 
 @implementation MRSLBaseViewController
@@ -20,13 +24,14 @@
 }
 
 - (void)setupNavigationItems {
-    if ([self.navigationController.viewControllers count] > 1) {
+
+    if ([self.navigationController.viewControllers count] > 1 && ![self.navigationController isDisplayingMorselAdd]) {
         UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
                                                                        style:UIBarButtonItemStyleBordered
                                                                       target:self
                                                                       action:@selector(goBack)];
         [self.navigationItem setLeftBarButtonItem:backButton];
-    } else if ([self.navigationController.viewControllers count] == 1 && !self.presentingViewController) {
+    } else if (([self.navigationController.viewControllers count] == 1 && !self.presentingViewController) || [self.navigationController isDisplayingMorselAdd]) {
         if (!self.navigationController.navigationBarHidden) {
             UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-menubar-red"]
                                                                            style:UIBarButtonItemStyleBordered
@@ -67,8 +72,9 @@
 }
 
 - (IBAction)displayMorselAdd {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayMorselAddNotification
-                                                        object:nil];
+    MRSLMorselAddTitleViewController *morselAddTitleVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselAddTitleViewController"];
+    [self.navigationController pushViewController:morselAddTitleVC
+                                         animated:YES];
 }
 
 - (IBAction)displayMorselShare {
