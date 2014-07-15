@@ -28,7 +28,6 @@ NSString *const MRSLItemUploadDidFailNotification = @"MRSLItemUploadDidFailNotif
 NSString *const MRSLModalWillDisplayNotification = @"MRSLModalWillDisplayNotification";
 NSString *const MRSLModalWillDismissNotification = @"MRSLModalWillDismissNotification";
 
-NSString *const MRSLAppShouldDisplayMorselAddNotification = @"MRSLAppShouldDisplayMorselAddNotification";
 NSString *const MRSLAppShouldDisplayMenuBarNotification = @"MRSLAppShouldDisplayMenuBarNotification";
 NSString *const MRSLAppShouldDisplayBaseViewControllerNotification = @"MRSLAppShouldDisplayBaseViewControllerNotification";
 NSString *const MRSLAppShouldDisplayProfessionalSettingsNotification = @"MRSLAppShouldDisplayProfessionalSettingsNotification";
