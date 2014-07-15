@@ -123,6 +123,7 @@ MRSLSegmentedButtonViewDelegate>
     dispatch_async(dispatch_get_main_queue(), ^{
         if (weakSelf) {
             [weakSelf.tableView reloadData];
+            weakSelf.loading = NO;
         }
     });
 }
