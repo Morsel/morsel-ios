@@ -47,7 +47,7 @@
 }
 
 + (void)createOrUpdateUserFromResponseObject:(id)userDictionary
-                      shouldMorselNotification:(BOOL)shouldMorselNotifications {
+                    shouldMorselNotification:(BOOL)shouldMorselNotifications {
     NSNumber *userID = @([userDictionary[@"id"] intValue]);
 
     MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
@@ -68,7 +68,7 @@
     [user.managedObjectContext MR_saveToPersistentStoreAndWait];
 
     if (shouldMorselNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
-                                                                                     object:nil];
+                                                                                       object:nil];
 }
 
 + (void)updateCurrentUserToProfessional {
@@ -83,6 +83,7 @@
                                           email:nil];
 
     [[Mixpanel sharedInstance] identify:nil];
+    [[Mixpanel sharedInstance].people set:@{}];
 }
 
 #pragma mark - Instance Methods
@@ -106,8 +107,13 @@
     [[Rollbar currentConfiguration] setPersonId:idString
                                        username:self.username
                                           email:nil];
-
     [[Mixpanel sharedInstance] identify:idString];
+    [[Mixpanel sharedInstance].people set:@{@"first_name": NSNullIfNil(self.first_name),
+                                            @"last_name": NSNullIfNil(self.last_name),
+                                            @"created_at": NSNullIfNil(self.creationDate),
+                                            @"username": NSNullIfNil(self.username)}];
+    [[Mixpanel sharedInstance].people increment:@"open_count"
+                                             by:@(1)];
 }
 
 - (NSString *)fullName {
