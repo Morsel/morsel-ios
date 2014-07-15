@@ -58,7 +58,7 @@ UITextViewDelegate>
 #pragma mark - Action Methods
 
 - (void)goBack {
-    if (![_item.itemDescription isEqualToString:self.itemDescriptionTextView.text]) {
+    if (![_item.itemDescription ?: @"" isEqualToString:self.itemDescriptionTextView.text]) {
         [UIAlertView showAlertViewWithTitle:@"Discard Changes?"
                                     message:@"If you go back, you'll lose all your changes. Are you sure you want to do this?"
                                    delegate:self
