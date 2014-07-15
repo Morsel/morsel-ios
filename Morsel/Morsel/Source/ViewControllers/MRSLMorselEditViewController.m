@@ -192,6 +192,7 @@ MRSLMorselEditItemTableViewCellDelegate>
         [self showNextButton];
         // Disable next button if there are no items
         [self.rightBarButton setEnabled:([_items count] > 0)];
+        self.toolbarView.leftButton.enabled = YES;
     }
 }
 
