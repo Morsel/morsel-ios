@@ -14,7 +14,6 @@
 
 - (IBAction)dismiss;
 - (IBAction)displayMenuBar;
-- (IBAction)displayMorselAdd;
 - (IBAction)goBack;
 
 - (void)changeStatusBarStyle:(UIStatusBarStyle)style;

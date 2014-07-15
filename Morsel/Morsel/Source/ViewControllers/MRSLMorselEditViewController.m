@@ -378,7 +378,6 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - CaptureMediaViewControllerDelegate
 
 - (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSMutableArray *)capturedMedia {
-    self.shouldPresentMediaCapture = NO;
     self.morsel = [self getOrLoadMorselIfExists];
     __weak __typeof(self) weakSelf = self;
     DDLogDebug(@"Received %lu Media Items. Should now create Morsels for each!", (unsigned long)[capturedMedia count]);
@@ -488,10 +487,6 @@ MRSLMorselEditItemTableViewCellDelegate>
     }
     [capturedMedia removeAllObjects];
     capturedMedia = nil;
-}
-
-- (void)captureMediaViewControllerDidCancel {
-    if (_shouldPresentMediaCapture) [self goBack];
 }
 
 #pragma mark - MRSLMorselEditMorselCollectionViewCellDelegate

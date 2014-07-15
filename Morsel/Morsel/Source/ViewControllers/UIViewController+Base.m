@@ -63,11 +63,6 @@
                                                         object:nil];
 }
 
-- (IBAction)displayMorselAdd {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayMorselAddNotification
-                                                        object:nil];
-}
-
 - (IBAction)goBack {
     [self.navigationController popViewControllerAnimated:YES];
 }

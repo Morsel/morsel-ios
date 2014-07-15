@@ -48,7 +48,6 @@
 		06225C89192BB73D000721C1 /* MRSLSegmentedButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06225C88192BB73D000721C1 /* MRSLSegmentedButtonView.m */; };
 		06256C6E196DC07000E32630 /* MRSLMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 06256C6D196DC07000E32630 /* MRSLMenuItem.m */; };
 		0629D76119415D61005B5711 /* NSDate+TimeAgoMinimized.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629D76019415D61005B5711 /* NSDate+TimeAgoMinimized.m */; };
-		062AB98518C533EA00742955 /* MRSLMorselAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB98418C533EA00742955 /* MRSLMorselAddViewController.m */; };
 		062AB98818C534B600742955 /* MorselManagement_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 062AB98618C534B600742955 /* MorselManagement_iPhone.storyboard */; };
 		062AB98B18C53DE800742955 /* MRSLAppDelegate+SetupAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB98A18C53DE800742955 /* MRSLAppDelegate+SetupAppearance.m */; };
 		062AB98E18C541E400742955 /* UIDevice+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB98D18C541E400742955 /* UIDevice+Additions.m */; };
@@ -207,6 +206,7 @@
 		06DF5E2A193636C7002B1AA6 /* MRSLAPIService+Router.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF5E29193636C7002B1AA6 /* MRSLAPIService+Router.m */; };
 		06E7B9E718B2C66A00833427 /* MRSLEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E7B9E618B2C66A00833427 /* MRSLEventManager.m */; };
 		06E89F8F1885ED3B00DA3A90 /* MRSLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E89F8E1885ED3B00DA3A90 /* MRSLUtil.m */; };
+		06ECF61E1975AF4F005AAB63 /* UINavigationController+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF61D1975AF4F005AAB63 /* UINavigationController+Additions.m */; };
 		06ECF67A18BFE36500577F9C /* MRSLSpecsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF67918BFE36500577F9C /* MRSLSpecsAppDelegate.m */; };
 		06ECF68018BFE38400577F9C /* ModelObjectImporting_Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF67C18BFE38400577F9C /* ModelObjectImporting_Spec.m */; };
 		06ECF68418BFE39A00577F9C /* Crash_Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF68318BFE39A00577F9C /* Crash_Spec.m */; };
@@ -478,8 +478,6 @@
 		06256C6D196DC07000E32630 /* MRSLMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMenuItem.m; path = Source/Models/MRSLMenuItem.m; sourceTree = "<group>"; };
 		0629D75F19415D61005B5711 /* NSDate+TimeAgoMinimized.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgoMinimized.h"; sourceTree = "<group>"; };
 		0629D76019415D61005B5711 /* NSDate+TimeAgoMinimized.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgoMinimized.m"; sourceTree = "<group>"; };
-		062AB98318C533EA00742955 /* MRSLMorselAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselAddViewController.h; sourceTree = "<group>"; };
-		062AB98418C533EA00742955 /* MRSLMorselAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselAddViewController.m; sourceTree = "<group>"; };
 		062AB98718C534B600742955 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MorselManagement_iPhone.storyboard; sourceTree = "<group>"; };
 		062AB98918C53DE800742955 /* MRSLAppDelegate+SetupAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLAppDelegate+SetupAppearance.h"; sourceTree = "<group>"; };
 		062AB98A18C53DE800742955 /* MRSLAppDelegate+SetupAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLAppDelegate+SetupAppearance.m"; sourceTree = "<group>"; };
@@ -748,6 +746,8 @@
 		06E7B9E618B2C66A00833427 /* MRSLEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLEventManager.m; path = Source/Analytics/MRSLEventManager.m; sourceTree = "<group>"; };
 		06E89F8D1885ED3B00DA3A90 /* MRSLUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLUtil.h; sourceTree = "<group>"; };
 		06E89F8E1885ED3B00DA3A90 /* MRSLUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLUtil.m; sourceTree = "<group>"; };
+		06ECF61C1975AF4F005AAB63 /* UINavigationController+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Additions.h"; sourceTree = "<group>"; };
+		06ECF61D1975AF4F005AAB63 /* UINavigationController+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Additions.m"; sourceTree = "<group>"; };
 		06ECF67818BFE36500577F9C /* MRSLSpecsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSpecsAppDelegate.h; path = Source/Application/MRSLSpecsAppDelegate.h; sourceTree = "<group>"; };
 		06ECF67918BFE36500577F9C /* MRSLSpecsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSpecsAppDelegate.m; path = Source/Application/MRSLSpecsAppDelegate.m; sourceTree = "<group>"; };
 		06ECF67C18BFE38400577F9C /* ModelObjectImporting_Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelObjectImporting_Spec.m; path = Source/Models/ModelObjectImporting_Spec.m; sourceTree = "<group>"; };
@@ -1118,8 +1118,6 @@
 			children = (
 				062AB99518C5970400742955 /* MRSLMorselAddTitleViewController.h */,
 				062AB99618C5970400742955 /* MRSLMorselAddTitleViewController.m */,
-				062AB98318C533EA00742955 /* MRSLMorselAddViewController.h */,
-				062AB98418C533EA00742955 /* MRSLMorselAddViewController.m */,
 				06D52EB018C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.h */,
 				06D52EB118C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m */,
 				062AB99818C655DF00742955 /* MRSLMorselEditViewController.h */,
@@ -1533,6 +1531,8 @@
 				068602A41891AE26000CD576 /* UIView+Additions.m */,
 				40854F8519747A350015DFBB /* UIView+States.h */,
 				40854F8619747A350015DFBB /* UIView+States.m */,
+				06ECF61C1975AF4F005AAB63 /* UINavigationController+Additions.h */,
+				06ECF61D1975AF4F005AAB63 /* UINavigationController+Additions.m */,
 			);
 			name = Categories;
 			path = Morsel/Source/Categories;
@@ -2668,7 +2668,6 @@
 				4069CB2A189B127E001790F3 /* MRSLAPIService.m in Sources */,
 				0676B49218996241001D7483 /* MRSLBoldButton.m in Sources */,
 				06F1848118E0B6D200DBA468 /* MRSLFeedPageCollectionViewCell.m in Sources */,
-				062AB98518C533EA00742955 /* MRSLMorselAddViewController.m in Sources */,
 				06DF5E2A193636C7002B1AA6 /* MRSLAPIService+Router.m in Sources */,
 				0698CA9C18524100007AF442 /* _MRSLUser.m in Sources */,
 				0609B8401894B52E005A11A4 /* MRSLCameraPreviewView.m in Sources */,
@@ -2682,6 +2681,7 @@
 				0609B8371894A9E6005A11A4 /* MRSLCaptureMediaViewController.m in Sources */,
 				06F1847B18E0B68C00DBA468 /* MRSLFeedPanelCollectionViewCell.m in Sources */,
 				407FDF61194807E4005FEEBF /* RollbarNotifier.m in Sources */,
+				06ECF61E1975AF4F005AAB63 /* UINavigationController+Additions.m in Sources */,
 				40854F96197482560015DFBB /* MRSLCollectionView.m in Sources */,
 				407FDF64194807E4005FEEBF /* RollbarReachability.m in Sources */,
 				40A83E51196E0B6F00DED0A1 /* MRSLLoadingStateView.m in Sources */,

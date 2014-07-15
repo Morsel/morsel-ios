@@ -231,7 +231,7 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    int count = ([_comments count] + ((_previousCommentsAvailable) ? 1 : 0));
+    NSInteger count = ([_comments count] + ((_previousCommentsAvailable) ? 1 : 0));
     return count;
 }
 
