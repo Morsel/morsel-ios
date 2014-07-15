@@ -70,18 +70,19 @@
             UICollectionViewLayoutAttributes *firstCellAttrs = nil;
             UICollectionViewLayoutAttributes *lastCellAttrs = nil;
 
-            if (numberOfItemsInSection > 0) {
+            BOOL hasItemsInSection = numberOfItemsInSection > 0;
+            if (hasItemsInSection) {
                 firstCellAttrs = [self layoutAttributesForItemAtIndexPath:firstCellIndexPath];
                 lastCellAttrs = [self layoutAttributesForItemAtIndexPath:lastCellIndexPath];
             } else {
                 firstCellAttrs = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                                                                        atIndexPath:firstCellIndexPath];
+                                                                      atIndexPath:firstCellIndexPath];
                 lastCellAttrs = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter
-                                                                       atIndexPath:lastCellIndexPath];
+                                                                     atIndexPath:lastCellIndexPath];
             }
 
 			if (self.scrollDirection == UICollectionViewScrollDirectionVertical) {
-				CGFloat headerHeight = CGRectGetHeight(layoutAttributes.frame);
+				CGFloat headerHeight = hasItemsInSection ? CGRectGetHeight(layoutAttributes.frame) : 0.0f;
 				CGPoint origin = layoutAttributes.frame.origin;
 				origin.y = MIN(MAX(contentOffset.y, (CGRectGetMinY(firstCellAttrs.frame) - headerHeight)),
 							   (CGRectGetMaxY(lastCellAttrs.frame) - headerHeight));
@@ -99,7 +100,7 @@
 			}
         }
     }
-
+    
     return attributes;
 }
 

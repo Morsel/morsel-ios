@@ -20,6 +20,7 @@
 #import "MRSLSocialService.h"
 #import "MRSLUserMorselsFeedViewController.h"
 
+#import "MRSLCollectionView.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
 #import "MRSLPlaceUserCollectionViewCell.h"
 #import "MRSLPlacePanelCollectionViewCell.h"
@@ -33,13 +34,13 @@
 MRSLPlacePanelCollectionViewCellDelegate,
 MRSLSegmentedHeaderReusableViewDelegate>
 
-@property (nonatomic) BOOL refreshing;
+@property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 
 @property (nonatomic) MRSLDataSourceType dataSourceTabType;
 
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet MRSLCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet MRSLFollowButton *followButton;
 
 @property (strong, nonatomic) NSMutableArray *objectIDs;
@@ -110,6 +111,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                                       }];
     [self.collectionView setDataSource:_segmentedPanelCollectionViewDataSource];
     [self.collectionView setDelegate:_segmentedPanelCollectionViewDataSource];
+    [self.collectionView setEmptyStateTitle:@"No morsels added"];
 
     [self.segmentedPanelCollectionViewDataSource setDelegate:self];
 
@@ -132,6 +134,12 @@ MRSLSegmentedHeaderReusableViewDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+
+    [self.collectionView toggleLoading:loading];
+}
 
 - (void)refreshPlace {
     __weak __typeof(self)weakSelf = self;
@@ -161,7 +169,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)refreshContent {
     [self refreshPlace];
     self.loadedAll = NO;
-    self.refreshing = YES;
+    self.loading = YES;
     __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService getPlaceData:_place
                         forDataSourceType:_dataSourceTabType
@@ -174,15 +182,15 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                       [[NSUserDefaults standardUserDefaults] setObject:responseArray
                                                                                 forKey:[NSString stringWithFormat:@"place_%@_%@IDs", weakSelf.place.placeID, [MRSLUtil stringForDataSourceType:weakSelf.dataSourceTabType]]];
                                       [weakSelf updateDataSourcePredicate];
-                                      weakSelf.refreshing = NO;
+                                      weakSelf.loading = NO;
                                   } failure:^(NSError *error) {
                                       [weakSelf.refreshControl endRefreshing];
-                                      weakSelf.refreshing = NO;
+                                      weakSelf.loading = NO;
                                   }];
 }
 
 - (void)loadMore {
-    if (_loadingMore || !_place || _loadedAll || _refreshing) return;
+    if (_loadingMore || !_place || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getPlaceData:_place
@@ -321,7 +329,25 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)segmentedHeaderDidSelectIndex:(NSInteger)index {
     if (_dataSourceTabType != index) {
         self.dataSourceTabType = index;
-        self.segmentedPanelCollectionViewDataSource.sortType = (_dataSourceTabType == MRSLDataSourceTypePlace) ? MRSLDataSortTypeName : MRSLDataSortTypeCreationDate;
+
+        switch (index) {
+            case MRSLDataSourceTypeMorsel:
+                [self.collectionView setEmptyStateTitle:@"No morsels added"];
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeCreationDate
+                                                                   ascending:NO];
+                break;
+            case MRSLDataSourceTypePlace:
+                [self.collectionView setEmptyStateTitle:@"No places added"];
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeName
+                                                                   ascending:YES];
+                break;
+            default:
+                [self.collectionView setEmptyStateTitle:@"No results"];
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeNone
+                                                                   ascending:NO];
+                break;
+        }
+
         [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
         [self loadObjectIDs];
         [self updateDataSourcePredicate];

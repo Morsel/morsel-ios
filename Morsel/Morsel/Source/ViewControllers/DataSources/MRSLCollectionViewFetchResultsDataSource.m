@@ -84,10 +84,9 @@
     [self.collectionView reloadData];
 }
 
-- (void)updateDataSortType:(MRSLDataSortType)sortType {
+- (void)setDataSortType:(MRSLDataSortType)sortType ascending:(BOOL)ascending {
     self.sortType = sortType;
-    [self setupFetchRequest];
-    [self populateContent];
+    self.ascending = ascending;
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate

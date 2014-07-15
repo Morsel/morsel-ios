@@ -16,6 +16,7 @@
 
 #import "MRSLCaptureMediaViewController.h"
 #import "MRSLImagePreviewViewController.h"
+#import "MRSLTableView.h"
 #import "MRSLToolbar.h"
 #import "MRSLMorselAddTitleViewController.h"
 #import "MRSLMorselEditItemTableViewCell.h"
@@ -36,13 +37,15 @@ CaptureMediaViewControllerDelegate,
 MRSLToolbarViewDelegate,
 MRSLMorselEditItemTableViewCellDelegate>
 
+@property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL isEditing;
 @property (nonatomic) BOOL wasNewMorsel;
+@property (nonatomic, getter = isCapturing) BOOL capturing;
 
 @property (weak, nonatomic) IBOutlet UIButton *morselTitleButton;
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastUpdatedLabel;
-@property (weak, nonatomic) IBOutlet UITableView *morselMorselsTableView;
+@property (weak, nonatomic) IBOutlet MRSLTableView *morselItemsTableView;
 
 @property (strong, nonatomic) UIBarButtonItem *rightBarButton;
 @property (strong, nonatomic) NSDateFormatter *statusDateFormatter;
@@ -69,12 +72,18 @@ MRSLMorselEditItemTableViewCellDelegate>
     self.statusDateFormatter = [[NSDateFormatter alloc] init];
     [_statusDateFormatter setDateFormat:@"MMM dd, h:mm a"];
 
+    //  Reusing `capturing` here to prevent code in - displayMorsel from enabling the empty state before loading
+    self.capturing = YES;
     [self displayMorsel];
+    self.capturing = NO;
     [self updateMorselStatus];
+
+    [self.morselItemsTableView setEmptyStateTitle:@"This morsel has no items. Add one below."];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.loading = YES;
     [self displayMorsel];
 }
 
@@ -90,6 +99,14 @@ MRSLMorselEditItemTableViewCellDelegate>
     _itemsFetchedResultsController.delegate = nil;
     _itemsFetchedResultsController = nil;
     [super viewWillDisappear:animated];
+}
+
+- (void)setLoading:(BOOL)loading {
+    if ([self isCapturing] && !loading) return;
+
+    _loading = loading;
+
+    [self.morselItemsTableView toggleLoading:loading];
 }
 
 - (void)displayMorsel {
@@ -120,7 +137,7 @@ MRSLMorselEditItemTableViewCellDelegate>
     if ([_items count] == 0) {
         self.toolbarView.leftButton.enabled = YES;
         self.isEditing = NO;
-        [self.morselMorselsTableView setEditing:NO
+        [self.morselItemsTableView setEditing:NO
                                        animated:NO];
     }
     [self determineControlState];
@@ -145,12 +162,14 @@ MRSLMorselEditItemTableViewCellDelegate>
         [self.items addObjectsFromArray:[_itemsFetchedResultsController fetchedObjects]];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.morselMorselsTableView reloadData];
+        [self.morselItemsTableView reloadData];
+        self.loading = NO;
     });
     [self displayMorselStatus];
 }
 
 - (void)presentMediaCapture {
+    self.capturing = YES;
     MRSLCaptureMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLCaptureMediaViewController"];
     captureMediaVC.delegate = self;
     [self presentViewController:captureMediaVC
@@ -211,8 +230,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if (_morselMorselsTableView.isEditing) {
-        [_morselMorselsTableView setEditing:NO animated:NO];
+    if (_morselItemsTableView.isEditing) {
+        [_morselItemsTableView setEditing:NO animated:NO];
         self.isEditing = NO;
     }
     if ([segue.identifier isEqualToString:@"seg_EditItemText"]) {
@@ -235,7 +254,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                  properties:@{@"view": @"Your Morsel",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     self.isEditing = !_isEditing;
-    [_morselMorselsTableView setEditing:_isEditing
+    [_morselItemsTableView setEditing:_isEditing
                                animated:YES];
     [self determineControlState];
 }
@@ -281,7 +300,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(deletedItem.itemID)}];
         [_items removeObject:deletedItem];
-        [_morselMorselsTableView deleteRowsAtIndexPaths:@[indexPath]
+        [_morselItemsTableView deleteRowsAtIndexPaths:@[indexPath]
                                        withRowAnimation:UITableViewRowAnimationFade];
 
         __weak __typeof(self) weakSelf = self;
@@ -348,7 +367,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLItem *item = [_items objectAtIndex:indexPath.row];
 
-    MRSLMorselEditItemTableViewCell *morselMorselCell = [self.morselMorselsTableView dequeueReusableCellWithIdentifier:@"ruid_MorselItemCell"
+    MRSLMorselEditItemTableViewCell *morselMorselCell = [self.morselItemsTableView dequeueReusableCellWithIdentifier:@"ruid_MorselItemCell"
                                                                                                           forIndexPath:indexPath];
     morselMorselCell.item = item;
     morselMorselCell.delegate = self;
@@ -380,6 +399,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSMutableArray *)capturedMedia {
     self.morsel = [self getOrLoadMorselIfExists];
+    self.loading = [capturedMedia count] > 0;
     __weak __typeof(self) weakSelf = self;
     DDLogDebug(@"Received %lu Media Items. Should now create Morsels for each!", (unsigned long)[capturedMedia count]);
     int idx = 0;
@@ -408,6 +428,8 @@ MRSLMorselEditItemTableViewCellDelegate>
                             thumbImageData = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
                                 dispatch_async(main, ^{
+                                    weakSelf.capturing = NO;
+
                                     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                         MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                                                        withValue:weakSelf.morselID
@@ -559,10 +581,10 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - Dealloc
 
 - (void)dealloc {
-    self.morselMorselsTableView.dataSource = nil;
-    self.morselMorselsTableView.delegate = nil;
-    [self.morselMorselsTableView removeFromSuperview];
-    self.morselMorselsTableView = nil;
+    self.morselItemsTableView.dataSource = nil;
+    self.morselItemsTableView.delegate = nil;
+    [self.morselItemsTableView removeFromSuperview];
+    self.morselItemsTableView = nil;
 }
 
 @end
