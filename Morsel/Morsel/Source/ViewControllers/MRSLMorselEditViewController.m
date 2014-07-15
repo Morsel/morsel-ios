@@ -512,6 +512,11 @@ MRSLMorselEditItemTableViewCellDelegate>
     capturedMedia = nil;
 }
 
+- (void)captureMediaViewControllerDidCancel {
+    self.capturing = NO;
+    self.loading = NO;
+}
+
 #pragma mark - MRSLMorselEditMorselCollectionViewCellDelegate
 
 - (void)morselEditItemCellDidSelectImagePreview:(MRSLItem *)item {
