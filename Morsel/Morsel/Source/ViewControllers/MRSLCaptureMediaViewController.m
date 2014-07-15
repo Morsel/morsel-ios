@@ -10,9 +10,11 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <DBChooser/DBChooser.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <ALAssetsLibrary-CustomPhotoAlbum/ALAssetsLibrary+CustomPhotoAlbum.h>
 #import <ELCImagePickerController/ELCImagePickerController.h>
+#import <SDWebImage/SDWebImageDownloader.h>
 
 #import "UIDevice+Additions.h"
 
@@ -37,6 +39,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *finishButton;
 @property (weak, nonatomic) IBOutlet UIButton *toggleFlashButton;
 @property (weak, nonatomic) IBOutlet UIButton *toggleCameraButton;
+@property (weak, nonatomic) IBOutlet UIButton *importDropboxButton;
 @property (weak, nonatomic) IBOutlet UIImageView *approvalImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *cameraRollImageView;
 @property (weak, nonatomic) IBOutlet UIView *topPanelView;
@@ -138,6 +141,9 @@ MRSLCapturePreviewsViewControllerDelegate>
     if ([self isDeviceAuthorized]) {
         [self displayLatestCameraRollImage];
     }
+
+    // Hide importDropboxButton if Dropbox is not installed or the installed version of Dropbox is not supported
+    [self.importDropboxButton setHidden:![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"dbapi-3://1/chooser"]]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -167,6 +173,35 @@ MRSLCapturePreviewsViewControllerDelegate>
 }
 
 #pragma mark - Action Methods
+
+- (IBAction)importFromDropbox:(id)sender {
+    [[DBChooser defaultChooser] openChooserForLinkType:DBChooserLinkTypeDirect
+                                    fromViewController:self completion:^(NSArray *results) {
+         if ([results count]) {
+             // Process results from Chooser
+             [results enumerateObjectsUsingBlock:^(DBChooserResult *result, NSUInteger idx, BOOL *stop) {
+                 [SDWebImageDownloader.sharedDownloader downloadImageWithURL:result.link
+                                                                     options:0
+                                                                    progress:nil
+                                                                   completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                                                       if (image && finished) {
+                                                                           MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
+                                                                           mediaItem.mediaFullImage = image;
+                                                                           [self processMediaItem:mediaItem];
+                                                                       } else if (error) {
+                                                                           [UIAlertView showAlertViewWithTitle:@"Error"
+                                                                                                       message:@"Unable to download photo from Dropbox! Please try again."
+                                                                                                      delegate:nil
+                                                                                             cancelButtonTitle:@"OK"
+                                                                                             otherButtonTitles:nil];
+                                                                       }
+                                                                   }];
+             }];
+         } else {
+             // User canceled the action
+         }
+     }];
+}
 
 - (IBAction)toggleFlashMode {
     switch (_preferredFlashCaptureMode) {

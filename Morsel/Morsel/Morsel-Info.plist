@@ -35,6 +35,16 @@
 				<string>item</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Dropbox Chooser</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>db-idlz880gzvcodma</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>201407141657</string>
