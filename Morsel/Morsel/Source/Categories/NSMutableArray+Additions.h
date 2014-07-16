@@ -1,5 +1,5 @@
 //
-//  NSMutableArray+Feed.h
+//  NSMutableArray+Additions.h
 //  Morsel
 //
 //  Created by Javier Otero on 3/26/14.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSMutableArray (Feed)
+@interface NSMutableArray (Additions)
 
 + (NSMutableArray *)feedIDArray;
 + (void)resetFeedIDArray;

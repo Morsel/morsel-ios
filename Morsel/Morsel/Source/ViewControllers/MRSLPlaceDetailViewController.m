@@ -129,6 +129,12 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
     CGSize cellSize = CGSizeMake(320.f, 44.f);
     if ([sectionName isEqualToString:@"Details"]) {
         cellSize.height = 180.f;
+    } else if ([sectionName isEqualToString:@"Hours"]) {
+        MRSLPlaceInfo *placeInfo = [_hoursInfo objectAtIndex:indexPath.row];
+        CGSize placeInfoSecondarySize = [placeInfo.secondaryInfo sizeWithFont:[UIFont robotoLightFontOfSize:14.f]
+                                       constrainedToSize:CGSizeMake(156.f, CGFLOAT_MAX)
+                                           lineBreakMode:NSLineBreakByWordWrapping];
+        cellSize = CGSizeMake(320.f, (placeInfoSecondarySize.height <= 44.f) ? 44.f : placeInfoSecondarySize.height);
     }
     return cellSize;
 }
