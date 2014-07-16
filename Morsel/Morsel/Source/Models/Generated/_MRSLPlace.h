@@ -17,6 +17,7 @@ extern const struct MRSLPlaceAttributes {
 	__unsafe_unretained NSString *follower_count;
 	__unsafe_unretained NSString *following;
 	__unsafe_unretained NSString *formatted_phone;
+	__unsafe_unretained NSString *foursquare_timeframes;
 	__unsafe_unretained NSString *lat;
 	__unsafe_unretained NSString *lon;
 	__unsafe_unretained NSString *menu_mobile_url;
@@ -60,6 +61,7 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
+@class NSObject;
 
 
 
@@ -215,6 +217,16 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 //- (BOOL)validateFormatted_phone:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) id foursquare_timeframes;
+
+
+
+//- (BOOL)validateFoursquare_timeframes:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -524,6 +536,12 @@ extern const struct MRSLPlaceFetchedProperties {
 
 - (NSString*)primitiveFormatted_phone;
 - (void)setPrimitiveFormatted_phone:(NSString*)value;
+
+
+
+
+- (id)primitiveFoursquare_timeframes;
+- (void)setPrimitiveFoursquare_timeframes:(id)value;
 
 
 

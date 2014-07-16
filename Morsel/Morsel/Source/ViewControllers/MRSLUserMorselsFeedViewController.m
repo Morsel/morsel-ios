@@ -11,7 +11,7 @@
 #import <SDWebImage/SDWebImageManager.h>
 
 #import "MRSLAPIService+Morsel.h"
-#import "NSMutableArray+Feed.h"
+#import "NSMutableArray+Additions.h"
 
 #import "MRSLFeedPanelCollectionViewCell.h"
 #import "MRSLMediaManager.h"

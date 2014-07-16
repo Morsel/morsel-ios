@@ -1,12 +1,17 @@
 #import "MRSLPlace.h"
 
 #import "MRSLPlaceInfo.h"
+#import "MRSLPlaceTimeframe.h"
 
 @interface MRSLPlace ()
+
+@property (weak, nonatomic) NSArray *timeframes;
 
 @end
 
 @implementation MRSLPlace
+
+@synthesize timeframes = _timeframes;
 
 #pragma mark - Instance Methods
 
@@ -32,7 +37,13 @@
 }
 
 - (NSArray *)hourInfo {
-    NSMutableArray *info = [NSMutableArray array];
+    __block NSMutableArray *info = [NSMutableArray array];
+    if ([[self placeTimeFrames] count] > 0) {
+        [self.timeframes enumerateObjectsUsingBlock:^(MRSLPlaceTimeframe *timeframe, NSUInteger idx, BOOL *stop) {
+            [info addObject:[[MRSLPlaceInfo alloc] initWithPrimaryInfo:timeframe.days
+                                                      andSecondaryInfo:[timeframe.hours componentsJoinedByString:@"\n"]]];
+        }];
+    }
     return info;
 }
 
@@ -64,6 +75,23 @@
     if (self.parking_details) [info addObject:[[MRSLPlaceInfo alloc] initWithPrimaryInfo:@"Parking Details:"
                                                                         andSecondaryInfo:self.parking_details]];
     return info;
+}
+
+- (NSArray *)placeTimeFrames {
+    if (self.timeframes) return self.timeframes;
+    __block NSMutableArray *timeFrames = [NSMutableArray array];
+    [self.foursquare_timeframes enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+        NSMutableArray *timeslots = [NSMutableArray array];
+        for (NSDictionary *timeslot in obj[@"open"]) {
+            [timeslots addObject:timeslot[@"renderedTime"]];
+        }
+        MRSLPlaceTimeframe *placeTimeframe = [[MRSLPlaceTimeframe alloc] init];
+        placeTimeframe.days = obj[@"days"];
+        placeTimeframe.hours = timeslots;
+        [timeFrames addObject:placeTimeframe];
+    }];
+    self.timeframes = timeFrames;
+    return self.timeframes;
 }
 
 #pragma mark - Magical Record Methods

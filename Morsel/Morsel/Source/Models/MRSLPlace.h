@@ -8,5 +8,6 @@
 - (NSArray *)hourInfo;
 - (NSArray *)diningInfo;
 - (NSArray *)directionsInfo;
+- (NSArray *)placeTimeFrames;
 
 @end

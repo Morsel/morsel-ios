@@ -25,7 +25,7 @@
 #import "MRSLSocialServiceFacebook.h"
 #import "MRSLSocialServiceInstagram.h"
 #import "MRSLSocialServiceTwitter.h"
-#import "NSMutableArray+Feed.h"
+#import "NSMutableArray+Additions.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"

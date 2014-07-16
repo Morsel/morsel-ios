@@ -16,6 +16,7 @@ const struct MRSLPlaceAttributes MRSLPlaceAttributes = {
 	.follower_count = @"follower_count",
 	.following = @"following",
 	.formatted_phone = @"formatted_phone",
+	.foursquare_timeframes = @"foursquare_timeframes",
 	.lat = @"lat",
 	.lon = @"lon",
 	.menu_mobile_url = @"menu_mobile_url",
@@ -223,6 +224,13 @@ const struct MRSLPlaceFetchedProperties MRSLPlaceFetchedProperties = {
 
 
 @dynamic formatted_phone;
+
+
+
+
+
+
+@dynamic foursquare_timeframes;
 
 
 

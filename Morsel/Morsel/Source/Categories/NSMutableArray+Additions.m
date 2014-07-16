@@ -1,16 +1,18 @@
 //
-//  NSMutableArray+Feed.m
+//  NSMutableArray+Additions.m
 //  Morsel
 //
 //  Created by Javier Otero on 3/26/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "NSMutableArray+Feed.h"
+#import "NSMutableArray+Additions.h"
 
 #import "MRSLMorsel.h"
 
-@implementation NSMutableArray (Feed)
+@implementation NSMutableArray (Additions)
+
+#pragma mark - Feed
 
 + (NSMutableArray *)feedIDArray {
     NSMutableArray *array = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"main_feedIDs"]] ?: [NSMutableArray array];
@@ -41,5 +43,6 @@
                                               forKey:[NSString stringWithFormat:@"main_feedIDs"]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 
 @end
