@@ -58,6 +58,8 @@ MRSLMenuViewControllerDelegate>
     self.menuViewController = [self.childViewControllers lastObject];
     self.menuViewController.delegate = self;
 
+    self.shouldAllowMenuToOpen = YES;
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(disableMenuOpen)
                                                  name:MRSLModalWillDisplayNotification
