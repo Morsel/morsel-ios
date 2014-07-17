@@ -30,7 +30,7 @@
     self.layer.borderWidth = width;
 }
 
-- (CAShapeLayer *)setBorderWithDirections:(MRSLBorderDirection)borderDirections borderWidth:(CGFloat)borderWidth andBorderColor:(UIColor *)borderColor {
+- (CAShapeLayer *)addBorderWithDirections:(MRSLBorderDirection)borderDirections borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor {
     CAShapeLayer *borderLayer = [CAShapeLayer layer];
     [self.layer addSublayer:borderLayer];
 
@@ -69,12 +69,15 @@
     return borderLayer;
 }
 
-- (void)addStandardCorners {
-    self.layer.cornerRadius = 5.f;
-    self.layer.masksToBounds = YES;
-    self.layer.opaque = YES;
-    self.layer.needsDisplayOnBoundsChange = NO;
-    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+- (CAShapeLayer *)addBorderWithDirections:(MRSLBorderDirection)borderDirections borderColor:(UIColor *)borderColor {
+    return [self addBorderWithDirections:borderDirections
+                             borderWidth:MRSLBorderDefaultWidth
+                             borderColor:borderColor];
+}
+
+- (CAShapeLayer *)addDefaultBorderForDirections:(MRSLBorderDirection)borderDirections {
+    return [self addBorderWithDirections:borderDirections
+                             borderColor:[UIColor morselLight]];
 }
 
 - (void)addCornersWithRadius:(CGFloat)radius {
@@ -101,7 +104,7 @@
 - (void)addStandardShadowWithColor:(UIColor *)shadowColor; {
     self.layer.shadowColor = shadowColor.CGColor;
     self.layer.shadowOpacity = .9f;
-    self.layer.shadowRadius = 4.f;
+    self.layer.shadowRadius = 2.f;
     self.layer.shadowOffset = CGSizeMake(.0f, .0f);
     self.layer.masksToBounds = NO;
     self.layer.needsDisplayOnBoundsChange = NO;

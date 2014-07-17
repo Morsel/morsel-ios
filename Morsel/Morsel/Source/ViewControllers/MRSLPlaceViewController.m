@@ -60,8 +60,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 
     [self loadObjectIDs];
 
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    _refreshControl.tintColor = [UIColor morselLightContent];
+    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
     [_refreshControl addTarget:self
                         action:@selector(refreshContent)
               forControlEvents:UIControlEventValueChanged];
@@ -236,9 +235,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
         [(MRSLPlacePanelCollectionViewCell *)cell setDelegate:self];
     } else {
         if (count > 0) {
-            [cell setBorderWithDirections:MRSLBorderSouth
-                              borderWidth:0.f
-                           andBorderColor:[UIColor whiteColor]];
+            [cell addBorderWithDirections:MRSLBorderSouth
+                              borderColor:[UIColor morselLightOff]];
             if ([item isKindOfClass:[MRSLMorsel class]]) {
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselPreviewCell"
                                                                  forIndexPath:indexPath];
@@ -248,9 +246,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                  forIndexPath:indexPath];
                 [(MRSLPlaceUserCollectionViewCell *)cell setUser:item];
                 if (indexPath.row != count) {
-                    [cell setBorderWithDirections:MRSLBorderSouth
-                                      borderWidth:1.0f
-                                   andBorderColor:[UIColor morselLightOffColor]];
+                    [cell addBorderWithDirections:MRSLBorderSouth
+                                      borderColor:[UIColor morselLightOff]];
                 }
             }
         }

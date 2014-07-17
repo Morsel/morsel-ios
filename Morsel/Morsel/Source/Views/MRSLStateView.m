@@ -8,16 +8,19 @@
 
 #import "MRSLStateView.h"
 #import "MRSLRobotoLightLabel.h"
+#import "MRSLColoredBackgroundLightButton.h"
 
-static CGFloat kContainerWidth = 280.0f;
+static CGFloat kContainerWidth = 320.0f;
 static CGFloat kContainerHeight = 48.0f;
 static CGFloat kPadding = 10.0f;
+static CGFloat kButtonHeight = 50.0f;
 
 @interface MRSLStateView ()
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) MRSLRobotoLightLabel *titleLabel;
 @property (nonatomic, strong) UIView *accessoryView;
+@property (nonatomic, strong) MRSLColoredBackgroundLightButton *button;
 
 @end
 
@@ -43,14 +46,32 @@ static CGFloat kPadding = 10.0f;
 
         self.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(kPadding, kPadding, CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f), CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f))];
         self.titleLabel = [[MRSLRobotoLightLabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_accessoryView.frame) + kPadding, kPadding, CGRectGetWidth(_containerView.frame) - (CGRectGetMaxX(_accessoryView.frame) + (kPadding * 2.0f)), CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f))];
+
         [_containerView addSubview:_titleLabel];
         [_containerView addSubview:_accessoryView];
 
         [self addSubview:_containerView];
 
-        [_containerView setCenter:CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))];
+        [_containerView setCenter:CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - kContainerHeight)];
     }
     return self;
+}
+
+- (MRSLColoredBackgroundLightButton *)button {
+    if (!_button) {
+        _button = [[MRSLColoredBackgroundLightButton alloc] initWithFrame:CGRectMake(kPadding, 0.0f, kContainerWidth, kButtonHeight)];
+        [_button addTarget:self
+                    action:@selector(buttonPressed:)
+          forControlEvents:UIControlEventTouchUpInside];
+        [_containerView addSubview:_button];
+        [_containerView setHeight:kContainerHeight + kPadding + kButtonHeight];
+        [_button setY:CGRectGetMaxY(_titleLabel.frame) + kPadding];
+
+        [_button setBackgroundColor:[UIColor morselPrimary]];
+        [_button.titleLabel setFont:[UIFont robotoLightFontOfSize:14.0f]];
+    }
+
+    return _button;
 }
 
 - (void)setTitle:(NSString *)title {
@@ -60,7 +81,21 @@ static CGFloat kPadding = 10.0f;
                                   lineBreakMode:NSLineBreakByWordWrapping];
 
     [_titleLabel setWidth:ceilf(fittedTextSize.width)];
-    [self fitContainerToTitleWidth];
+    [_titleLabel setCenter:CGPointMake(CGRectGetWidth(_containerView.frame) * 0.5f, _titleLabel.center.y)];
+}
+
+- (void)setButtonTitle:(NSString *)title {
+    if (title ) {
+        [self.button setHidden:NO];
+        [self.button setTitle:title
+                     forState:UIControlStateNormal];
+        [self.button sizeToFit];
+        [self.button setHeight:kButtonHeight];
+        [self.button setWidth:[self.button getWidth] + (kPadding * 4.0f)];
+        [self.button setCenter:CGPointMake(CGRectGetWidth(_containerView.frame) * 0.5f, self.button.center.y)];
+    } else {
+        [self.button setHidden:YES];
+    }
 }
 
 - (void)setAccessorySubview:(UIView *)accessorySubview {
@@ -70,17 +105,15 @@ static CGFloat kPadding = 10.0f;
 }
 
 - (CGPoint)defaultOffset {
-    //  MT: Offsetting X if the accessoryView doesn't have a subview and
-    //  Y up by the container's height to not make it look perfectly centered
-    return [self hasAccessorySubview] ? CGPointMake(0.0f, -CGRectGetHeight(_containerView.frame)) : CGPointMake(-CGRectGetWidth(_accessoryView.frame), -CGRectGetHeight(_containerView.frame));
+    return CGPointZero;
 }
 
 
 #pragma mark - Private Methods
 
-- (void)fitContainerToTitleWidth {
-    [_containerView setWidth:kPadding + [_accessoryView getWidth] + kPadding + [_titleLabel getWidth] + kPadding];
-    [_containerView setCenter:CGPointMake(CGRectGetWidth(self.frame) * 0.5f, CGRectGetHeight(self.frame) * 0.5f)];
+- (void)buttonPressed:(UIButton *)sender {
+    if ([self.delegate respondsToSelector:@selector(stateView:didSelectButton:)])
+        [self.delegate stateView:self didSelectButton:sender];
 }
 
 - (BOOL)hasAccessorySubview {

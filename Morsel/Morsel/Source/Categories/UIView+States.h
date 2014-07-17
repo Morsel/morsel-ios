@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MRSLStateViewDelegate;
+
 @interface UIView (States)
 
 - (void)setEmptyStateTitle:(NSString *)emptyStateTitle;
+- (void)setEmptyStateButtonTitle:(NSString *)title;
+- (void)setEmptyStateDelegate:(id<MRSLStateViewDelegate>)delegate;
 - (void)toggleLoading:(BOOL)shouldEnable;
 
 @end

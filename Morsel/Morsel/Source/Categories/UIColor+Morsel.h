@@ -29,6 +29,11 @@
 + (UIColor *)morselOffWhite;
 
 
+#pragma mark - Defined Colors
+
++ (UIColor *)morselDefaultBackgroundColor;
+
+
 #pragma mark - Misc
 
 + (UIColor *)morselRed;

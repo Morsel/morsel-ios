@@ -77,7 +77,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="V0x-fl-B4F" customClass="MRSLTableView">
                                 <rect key="frame" x="0.0" y="62" width="320" height="442"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Find people on Morsel" showsCancelButton="YES" id="4yV-6W-3mq">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -201,7 +201,7 @@
         <!--Navigation Controller-->
         <scene sceneID="JWU-QV-7Nn">
             <objects>
-                <navigationController storyboardIdentifier="sb_SocialCompose" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="pzu-S3-QLc" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_SocialCompose" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="pzu-S3-QLc" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="dMD-bF-eoy">
@@ -221,7 +221,7 @@
         <!--Navigation Controller-->
         <scene sceneID="zba-Cv-Cmx">
             <objects>
-                <navigationController storyboardIdentifier="sb_FindFriends" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Hng-NZ-pHv" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_FindFriends" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Hng-NZ-pHv" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="SSj-OY-g9t">

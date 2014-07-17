@@ -30,7 +30,13 @@
         [button addTarget:self
                    action:@selector(selectedButton:)
          forControlEvents:UIControlEventTouchUpInside];
+
+        if (idx > 0) {
+            [button addDefaultBorderForDirections:MRSLBorderWest];
+        }
     }];
+
+    [self addDefaultBorderForDirections:MRSLBorderSouth];
 }
 
 //  TODO: Make a delegate for this: - (void)segmentButtonView:()segementButtonView hideButtonsInIndexSet:()

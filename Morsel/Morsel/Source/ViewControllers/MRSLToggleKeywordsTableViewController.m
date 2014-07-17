@@ -43,8 +43,7 @@
 
     [super viewDidLoad];
 
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.tintColor = [UIColor morselLightContent];
+    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
     [self.refreshControl addTarget:self
                             action:@selector(refreshContent)
                   forControlEvents:UIControlEventValueChanged];

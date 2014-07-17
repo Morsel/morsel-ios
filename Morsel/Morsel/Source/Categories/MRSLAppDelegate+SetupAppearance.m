@@ -54,6 +54,8 @@
                                                                }
                                                     forState:UIControlStateDisabled];
     }
+
+    [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor morselDefaultBackgroundColor]];
 }
 
 @end

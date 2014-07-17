@@ -176,9 +176,8 @@ UIActionSheetDelegate>
     baseCell.nameLabel.text = cellName;
 
     if (indexPath.row != [[self arrayForSection:indexPath.section] count]) {
-        [baseCell setBorderWithDirections:MRSLBorderSouth
-                          borderWidth:1.0f
-                       andBorderColor:[UIColor morselLightOffColor]];
+        [baseCell addBorderWithDirections:MRSLBorderSouth
+                              borderColor:[UIColor morselLightOffColor]];
     }
 
     return baseCell;

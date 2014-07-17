@@ -46,6 +46,14 @@ static char const *const CurrentStateViewKey = "CurrentStateViewKey";
     [self.emptyStateView setTitle:emptyStateTitle];
 }
 
+- (void)setEmptyStateButtonTitle:(NSString *)title {
+    [self.emptyStateView setButtonTitle:title];
+}
+
+- (void)setEmptyStateDelegate:(id<MRSLStateViewDelegate>)delegate {
+    [self.emptyStateView setDelegate:delegate];
+}
+
 - (MRSLIconStateView *)emptyStateView {
     if (!objc_getAssociatedObject(self, EmptyStateViewKey)) [self setEmptyStateView:[MRSLIconStateView iconStateViewWithTitle:@"No results."
                                                                                                                    imageNamed:nil]];
@@ -72,12 +80,11 @@ static char const *const CurrentStateViewKey = "CurrentStateViewKey";
 }
 
 - (void)toggleLoading:(BOOL)shouldEnable {
-    BOOL shouldShowEmptyState = [self shouldShowEmptyState];
-    if (shouldEnable && shouldShowEmptyState) {
+    if (shouldEnable) {
         [self setCurrentStateView:self.loadingStateView];
     } else {
         [self setCurrentStateView:nil];
-        [self toggleEmpty:shouldShowEmptyState];
+        [self toggleEmpty:[self shouldShowEmptyState]];
     }
 }
 

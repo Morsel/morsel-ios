@@ -9,4 +9,10 @@
 #import "MRSLCollectionView.h"
 
 @implementation MRSLCollectionView
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self setBackgroundColor:[UIColor clearColor]];
+}
+
 @end

@@ -42,8 +42,7 @@ NSFetchedResultsControllerDelegate>
 
     if (self.dataSource) {
         //  Pull to refresh
-        self.refreshControl = [[UIRefreshControl alloc] init];
-        self.refreshControl.tintColor = [UIColor morselLightContent];
+        self.refreshControl = [UIRefreshControl MRSL_refreshControl];
         [self.refreshControl addTarget:self
                                 action:@selector(refreshContent)
                       forControlEvents:UIControlEventValueChanged];
@@ -71,6 +70,7 @@ NSFetchedResultsControllerDelegate>
     [super viewWillAppear:animated];
     
     [self setupNavigationItems];
+    [self.view setBackgroundColor:[UIColor morselDefaultBackgroundColor]];
 
     if (_selectedIndexPath) {
         [self.tableView deselectRowAtIndexPath:_selectedIndexPath animated:YES];

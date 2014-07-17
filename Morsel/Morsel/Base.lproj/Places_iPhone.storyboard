@@ -13,8 +13,8 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="REc-z7-wH5">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="444"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="REc-z7-wH5" customClass="MRSLTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" showsCancelButton="YES" id="drS-eW-8wf">
@@ -436,8 +436,8 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="CFS-et-d7V">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="444"/>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="CFS-et-d7V" customClass="MRSLCollectionView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="61c-vX-nSp">
@@ -633,7 +633,7 @@
         <!--Navigation Controller-->
         <scene sceneID="APF-y6-YWl">
             <objects>
-                <navigationController storyboardIdentifier="sb_Place" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="WcM-JU-AWy" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Place" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="WcM-JU-AWy" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="R0c-xh-oKi">
@@ -653,7 +653,7 @@
         <!--Navigation Controller-->
         <scene sceneID="6c6-ez-jgG">
             <objects>
-                <navigationController storyboardIdentifier="sb_AddPlace" automaticallyAdjustsScrollViewInsets="NO" id="dne-yt-IaV" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_AddPlace" automaticallyAdjustsScrollViewInsets="NO" id="dne-yt-IaV" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="FFP-h0-r3C">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

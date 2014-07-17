@@ -10,4 +10,10 @@
 #import "MRSLTableView.h"
 
 @implementation MRSLTableView
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self setBackgroundColor:[UIColor clearColor]];
+}
+
 @end

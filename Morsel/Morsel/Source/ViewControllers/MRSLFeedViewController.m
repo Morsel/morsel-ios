@@ -13,6 +13,7 @@
 #import "MRSLAPIService+Feed.h"
 #import "NSMutableArray+Additions.h"
 
+#import "MRSLCollectionView.h"
 #import "MRSLFeedPanelCollectionViewCell.h"
 #import "MRSLMediaManager.h"
 #import "MRSLProfileViewController.h"
@@ -30,7 +31,7 @@ UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
 MRSLFeedPanelCollectionViewCellDelegate>
 
-@property (nonatomic) BOOL refreshing;
+@property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 @property (nonatomic) BOOL theNewMorselsAvailable;
@@ -41,8 +42,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 @property (nonatomic) MRSLScrollDirection scrollDirection;
 
 @property (weak, nonatomic) IBOutlet UIButton *theNewMorselsButton;
-@property (weak, nonatomic) IBOutlet UICollectionView *feedCollectionView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (weak, nonatomic) IBOutlet MRSLCollectionView *feedCollectionView;
 
 @property (strong, nonatomic) NSFetchedResultsController *feedFetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *feedMorsels;
@@ -89,6 +89,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeTimer)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+
+    //  Don't want the default empty string to show up in between states
+    [self.feedCollectionView setEmptyStateTitle:@""];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -186,6 +189,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                      atIndex:0];
     [self setupFetchRequest];
     [self populateContent];
+    self.loading = NO;
     [_feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionNone
                                         animated:NO];
@@ -219,6 +223,13 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 #pragma mark - Private Methods
 
+- (void)setLoading:(BOOL)loading {
+
+    _loading = loading;
+
+    [self.feedCollectionView toggleLoading:loading];
+}
+
 - (void)showMorselTitleView:(BOOL)shouldShow {
     if (shouldShow) {
         UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-identity-nav"]];
@@ -248,39 +259,37 @@ MRSLFeedPanelCollectionViewCellDelegate>
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.feedCollectionView reloadData];
+        if ([_feedMorsels count] > 0) self.loading = NO;
     });
 }
 
 #pragma mark - Section Methods
 
 - (void)refreshContent {
-    self.refreshing = YES;
-    if ([_morselIDs count] == 0) [self.activityIndicatorView startAnimating];
+    self.loading = YES;
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getFeedWithMaxID:nil
                                     orSinceID:nil
                                      andCount:@(4)
                                       success:^(NSArray *responseArray) {
-                                          [weakSelf.activityIndicatorView stopAnimating];
                                           if ([responseArray count] > 0) {
                                               weakSelf.morselIDs = [responseArray mutableCopy];
                                               [weakSelf.morselIDs saveFeedIDArray];
                                               [weakSelf setupFetchRequest];
                                               [weakSelf populateContent];
-                                              weakSelf.refreshing = NO;
                                           }
+                                          weakSelf.loading = NO;
                                       } failure:^(NSError *error) {
-                                          [weakSelf.activityIndicatorView stopAnimating];
                                           [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
                                                                        properties:@{@"view": @"main_feed",
                                                                                     @"message" : NSNullIfNil(error.description),
                                                                                     @"action" : @"refresh"}];
-                                          weakSelf.refreshing = NO;
+                                          weakSelf.loading = NO;
                                       }];
 }
 
 - (void)loadNew {
-    if ([_morselIDs count] == 0 || _refreshing) return;
+    if ([_morselIDs count] == 0 || [self isLoading]) return;
     DDLogDebug(@"Loading new feed items");
     NSNumber *firstValidID = [_morselIDs firstObjectWithValidFeedItemID];
     if (!firstValidID) return;
@@ -313,6 +322,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
                                               [weakSelf setupFetchRequest];
                                               [weakSelf populateContent];
+                                              weakSelf.loading = NO;
                                               dispatch_async(dispatch_get_main_queue(), ^{
                                                   [weakSelf toggleNewMorselsButton:YES
                                                                           animated:YES];
@@ -339,7 +349,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)loadMore {
-    if (_loadingMore || _loadedAll || _refreshing) return;
+    if (_loadingMore || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more feed items");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
@@ -358,6 +368,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [weakSelf setupFetchRequest];
                                                       [weakSelf populateContent];
+                                                      weakSelf.loading = NO;
                                                   });
                                               }
                                           }
