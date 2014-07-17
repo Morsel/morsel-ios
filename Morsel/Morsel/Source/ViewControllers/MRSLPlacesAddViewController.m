@@ -170,8 +170,8 @@ UITextFieldDelegate>
     self.selectedIndexPath = indexPath;
     self.selectedFoursquarePlace = [_foursquarePlaces objectAtIndex:indexPath.row];
     [self.view endEditing:YES];
-    [UIAlertView showAlertViewWithTitle:@"Add Your Title"
-                                message:[NSString stringWithFormat:@"Great! Before we can add %@ to your profile, we'll need your title:", self.selectedFoursquarePlace.name]
+    [UIAlertView showAlertViewWithTitle:@"Professional Title"
+                                message:[NSString stringWithFormat:@"What's your title here, ex. Sous chef, Mixologist, ..."]
                                delegate:self style:UIAlertViewStylePlainTextInput
                       cancelButtonTitle:@"Cancel"
                       otherButtonTitles:@"Done"];
