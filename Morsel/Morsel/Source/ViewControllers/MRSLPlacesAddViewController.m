@@ -150,7 +150,7 @@ UITextFieldDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_locationDisabled || _shouldDisplayStatus) {
         NSString *ruid = @"ruid_LocationDisabledCell";
-        if (_statusType == MRSLStatusTypeNone) ruid = @"ruid_InstructionCell";
+        if (_statusType == MRSLStatusTypeNone && !_locationDisabled) ruid = @"ruid_InstructionCell";
         if (_statusType == MRSLStatusTypeNoResults) ruid = @"ruid_NoResultsCell";
         if (_statusType == MRSLStatusTypeLoading) ruid = @"ruid_LoadingCell";
         if (_statusType == MRSLStatusTypeMoreCharactersRequired) ruid = @"ruid_MoreCharactersCell";
@@ -170,8 +170,8 @@ UITextFieldDelegate>
     self.selectedIndexPath = indexPath;
     self.selectedFoursquarePlace = [_foursquarePlaces objectAtIndex:indexPath.row];
     [self.view endEditing:YES];
-    [UIAlertView showAlertViewWithTitle:@"Add Your Title"
-                                message:[NSString stringWithFormat:@"Great! Before we can add %@ to your profile, we'll need your title:", self.selectedFoursquarePlace.name]
+    [UIAlertView showAlertViewWithTitle:@"Professional Title"
+                                message:[NSString stringWithFormat:@"What's your title here, ex. Sous chef, Mixologist, ..."]
                                delegate:self style:UIAlertViewStylePlainTextInput
                       cancelButtonTitle:@"Cancel"
                       otherButtonTitles:@"Done"];
