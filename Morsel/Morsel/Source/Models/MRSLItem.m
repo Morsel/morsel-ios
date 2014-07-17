@@ -13,6 +13,10 @@
 
 #pragma mark - Class Methods
 
++ (NSString *)API_identifier {
+    return MRSLItemAttributes.itemID;
+}
+
 + (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context {
     MRSLItem *item = [MRSLItem MR_createInContext:context];
 

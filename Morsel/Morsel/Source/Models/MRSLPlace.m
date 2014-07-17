@@ -13,6 +13,12 @@
 
 @synthesize timeframes = _timeframes;
 
+#pragma mark - Class Methods
+
++ (NSString *)API_identifier {
+    return MRSLPlaceAttributes.placeID;
+}
+
 #pragma mark - Instance Methods
 
 - (NSString *)fullAddress {

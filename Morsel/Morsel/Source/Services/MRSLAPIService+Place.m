@@ -117,23 +117,10 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                                      __block NSMutableArray *placeIDs = [NSMutableArray array];
-                                      NSArray *userPlacesArray = responseObject[@"data"];
-
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          [userPlacesArray enumerateObjectsUsingBlock:^(NSDictionary *placeDictionary, NSUInteger idx, BOOL *stop) {
-                                              MRSLPlace *place = [MRSLPlace MR_findFirstByAttribute:MRSLPlaceAttributes.placeID
-                                                                                          withValue:placeDictionary[@"id"]
-                                                                                          inContext:localContext];
-                                              if (!place) place = [MRSLPlace MR_createInContext:localContext];
-                                              [place MR_importValuesForKeysWithObject:placeDictionary];
-                                              [placeIDs addObject:placeDictionary[@"id"]];
-                                          }];
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (successOrNil) successOrNil(placeIDs);
-                                      }];
-                                  }
+                                  [self importManagedObjectClass:[MRSLPlace class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation
@@ -162,8 +149,10 @@
     [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"places/%i/users", place.placeIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importUsersWithDictionary:responseObject
-                                                          success:successOrNil];
+                                  [self importManagedObjectClass:[MRSLUser class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

@@ -24,14 +24,16 @@
 
 #pragma mark - Importing Helpers
 
-- (void)importTagsWithDictionary:(NSDictionary *)responseDictionary
-                         success:(MRSLAPIArrayBlock)successOrNil;
+- (void)importManagedObjectClass:(Class)objectClass
+                  withDictionary:(NSDictionary *)responseDictionary
+                         success:(MRSLAPIArrayBlock)successOrNil
+                         failure:(MRSLFailureBlock)failureOrNil;
 
-- (void)importKeywordsWithDictionary:(NSDictionary *)responseDictionary
-                             success:(MRSLAPIArrayBlock)successOrNil;
+- (void)importFeedObjectsWithDictionary:(NSDictionary *)responseDictionary
+                                success:(MRSLAPIArrayBlock)successOrNil;
 
-- (void)importUsersWithDictionary:(NSDictionary *)responseDictionary
-                          success:(MRSLAPIArrayBlock)successOrNil;
+- (void)importLikeablesWithDictionary:(NSDictionary *)responseDictionary
+                              success:(MRSLAPIArrayBlock)successOrNil;
 
 #pragma mark - Errors
 

@@ -120,7 +120,7 @@
 		0676B48F1898514D001D7483 /* MRSLMorselEditItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B48E1898514D001D7483 /* MRSLMorselEditItemTableViewCell.m */; };
 		0676B49218996241001D7483 /* MRSLBoldButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B49118996241001D7483 /* MRSLBoldButton.m */; };
 		0676B4A0189985E1001D7483 /* MRSLRobotoRegularLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B49F189985E1001D7483 /* MRSLRobotoRegularLabel.m */; };
-		0680411318A42AF5000B7E71 /* NSManagedObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 0680411218A42AF5000B7E71 /* NSManagedObject+JSON.m */; };
+		0680411318A42AF5000B7E71 /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0680411218A42AF5000B7E71 /* NSManagedObject+Additions.m */; };
 		06845049192F9DB100B38870 /* MRSLProfilePanelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06845048192F9DB100B38870 /* MRSLProfilePanelCollectionViewCell.m */; };
 		0684504C192F9F6A00B38870 /* MRSLSegmentedHeaderReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0684504B192F9F6A00B38870 /* MRSLSegmentedHeaderReusableView.m */; };
 		06845050192FC30A00B38870 /* MRSLStickyHeaderCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0684504F192FC30A00B38870 /* MRSLStickyHeaderCollectionViewLayout.m */; };
@@ -604,8 +604,8 @@
 		0676B49118996241001D7483 /* MRSLBoldButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLBoldButton.m; path = Source/Views/MRSLBoldButton.m; sourceTree = "<group>"; };
 		0676B49E189985E1001D7483 /* MRSLRobotoRegularLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLRobotoRegularLabel.h; path = Source/Views/MRSLRobotoRegularLabel.h; sourceTree = "<group>"; };
 		0676B49F189985E1001D7483 /* MRSLRobotoRegularLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLRobotoRegularLabel.m; path = Source/Views/MRSLRobotoRegularLabel.m; sourceTree = "<group>"; };
-		0680411118A42AF5000B7E71 /* NSManagedObject+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+JSON.h"; sourceTree = "<group>"; };
-		0680411218A42AF5000B7E71 /* NSManagedObject+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+JSON.m"; sourceTree = "<group>"; };
+		0680411118A42AF5000B7E71 /* NSManagedObject+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+Additions.h"; sourceTree = "<group>"; };
+		0680411218A42AF5000B7E71 /* NSManagedObject+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Additions.m"; sourceTree = "<group>"; };
 		06845047192F9DB100B38870 /* MRSLProfilePanelCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLProfilePanelCollectionViewCell.h; path = Source/Views/MRSLProfilePanelCollectionViewCell.h; sourceTree = "<group>"; };
 		06845048192F9DB100B38870 /* MRSLProfilePanelCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLProfilePanelCollectionViewCell.m; path = Source/Views/MRSLProfilePanelCollectionViewCell.m; sourceTree = "<group>"; };
 		0684504A192F9F6A00B38870 /* MRSLSegmentedHeaderReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSegmentedHeaderReusableView.h; path = Source/Views/MRSLSegmentedHeaderReusableView.h; sourceTree = "<group>"; };
@@ -1523,8 +1523,8 @@
 				062AB98A18C53DE800742955 /* MRSLAppDelegate+SetupAppearance.m */,
 				0629D75F19415D61005B5711 /* NSDate+TimeAgoMinimized.h */,
 				0629D76019415D61005B5711 /* NSDate+TimeAgoMinimized.m */,
-				0680411118A42AF5000B7E71 /* NSManagedObject+JSON.h */,
-				0680411218A42AF5000B7E71 /* NSManagedObject+JSON.m */,
+				0680411118A42AF5000B7E71 /* NSManagedObject+Additions.h */,
+				0680411218A42AF5000B7E71 /* NSManagedObject+Additions.m */,
 				061DF44218E36CDE00D1CA80 /* NSMutableArray+Additions.h */,
 				061DF44318E36CDE00D1CA80 /* NSMutableArray+Additions.m */,
 				40F637D4193E987A003AD040 /* NSMutableString+Additions.h */,
@@ -2542,7 +2542,7 @@
 				403B5BFD195A1040001F33D2 /* MRSLToggleKeywordsTableViewController.m in Sources */,
 				0660669D18522E7900E780FC /* main.m in Sources */,
 				405A36B018ECAE35006F1D98 /* MRSLCollectionViewDataSource.m in Sources */,
-				0680411318A42AF5000B7E71 /* NSManagedObject+JSON.m in Sources */,
+				0680411318A42AF5000B7E71 /* NSManagedObject+Additions.m in Sources */,
 				062DF21718845B7E00C199D8 /* MRSLLoginViewController.m in Sources */,
 				061F934D1910094400608C0B /* MRSLTagStatsTypeCell.m in Sources */,
 				0693C25418F6C0DD0026D6B3 /* MRSLItem.m in Sources */,

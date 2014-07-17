@@ -46,8 +46,10 @@
     [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"%@/%i/users", keywordType, keyword.keywordIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importUsersWithDictionary:responseObject
-                                                          success:successOrNil];
+                                  [self importManagedObjectClass:[MRSLUser class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation
@@ -84,8 +86,10 @@
     [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/%@", user.userIDValue, keywordType]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importTagsWithDictionary:responseObject
-                                                         success:successOrNil];
+                                  [self importManagedObjectClass:[MRSLTag class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

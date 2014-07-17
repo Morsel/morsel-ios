@@ -39,8 +39,10 @@
     [[MRSLAPIClient sharedClient] GET:tagType
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importKeywordsWithDictionary:responseObject
-                                                             success:successOrNil];
+                                  [self importManagedObjectClass:[MRSLKeyword class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

@@ -16,6 +16,8 @@
 #import "MRSLSocialServiceInstagram.h"
 #import "MRSLSocialServiceTwitter.h"
 
+#import "MRSLUser.h"
+
 @implementation MRSLAPIService (Authentication)
 
 #pragma mark - Authorization Services
@@ -126,8 +128,10 @@
     [[MRSLAPIClient sharedClient] GET:@"authentications/connections"
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importUsersWithDictionary:responseObject
-                                                          success:successOrNil];
+                                  [self importManagedObjectClass:[MRSLUser class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

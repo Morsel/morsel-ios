@@ -106,6 +106,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)refreshContent {
+    if (_loading) return;
     self.loadedAll = NO;
     self.loading = YES;
     __weak __typeof(self)weakSelf = self;

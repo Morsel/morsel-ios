@@ -11,6 +11,12 @@
 
 @implementation MRSLMorsel
 
+#pragma mark - Class Methods
+
++ (NSString *)API_identifier {
+    return MRSLMorselAttributes.morselID;
+}
+
 #pragma mark - Instance Methods
 
 - (NSDate *)latestUpdatedDate {

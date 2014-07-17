@@ -27,6 +27,8 @@
 @interface MRSLToggleKeywordsTableViewController ()
 <NSFetchedResultsControllerDelegate>
 
+@property (nonatomic) BOOL loading;
+
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
@@ -89,58 +91,46 @@
 }
 
 - (void)refreshContent {
+    if (_loading) return;
+    self.loading = YES;
     __weak __typeof(self)weakSelf = self;
     if ([_keywordType isEqualToString:@"Cuisines"]) {
         [_appDelegate.apiService getUserCuisines:[MRSLUser currentUser]
                                          success:^(NSArray *responseArray) {
-                                             if ([weakSelf.objectIDs count] == 0) {
-                                                 [_appDelegate.apiService getCuisinesWithSuccess:^(NSArray *objectIDs) {
-                                                     if ([objectIDs count] > 0) {
-                                                         //  If no data has been loaded or the first new objectID doesn't already exist
-                                                         if ([weakSelf.dataSource count] == 0 || ![[objectIDs firstObject] isEqualToNumber:[weakSelf.objectIDs firstObject]]) {
-                                                             [weakSelf prependObjectIDs:[objectIDs copy]];
-                                                             [weakSelf setupFetchRequest];
-                                                             [weakSelf populateContent];
-                                                         }
-                                                     }
-                                                     [weakSelf.refreshControl endRefreshing];
-
+                                             [_appDelegate.apiService getCuisinesWithSuccess:^(NSArray *objectIDs) {
+                                                 if ([objectIDs count] > 0) {
+                                                     weakSelf.objectIDs = objectIDs;
                                                      [weakSelf setupFetchRequest];
                                                      [weakSelf populateContent];
-                                                 } failure:^(NSError *error) {
-                                                     [weakSelf.refreshControl endRefreshing];
-                                                 }];
-                                             } else {
+                                                 }
                                                  [weakSelf.refreshControl endRefreshing];
-                                             }
+                                                 weakSelf.loading = NO;
+                                             } failure:^(NSError *error) {
+                                                 [weakSelf.refreshControl endRefreshing];
+                                                 weakSelf.loading = NO;
+                                             }];
                                          } failure:^(NSError *error) {
                                              [weakSelf.refreshControl endRefreshing];
+                                             weakSelf.loading = NO;
                                          }];
     } else if ([_keywordType isEqualToString:@"Specialties"]) {
         [_appDelegate.apiService getUserSpecialties:[MRSLUser currentUser]
                                             success:^(NSArray *responseArray) {
-                                                if ([weakSelf.objectIDs count] == 0) {
                                                     [_appDelegate.apiService getSpecialtiesWithSuccess:^(NSArray *objectIDs) {
                                                         if ([objectIDs count] > 0) {
-                                                            //  If no data has been loaded or the first new objectID doesn't already exist
-                                                            if ([weakSelf.dataSource count] == 0 || ![[objectIDs firstObject] isEqualToNumber:[weakSelf.objectIDs firstObject]]) {
-                                                                [weakSelf prependObjectIDs:[objectIDs copy]];
-                                                                [weakSelf setupFetchRequest];
-                                                                [weakSelf populateContent];
-                                                            }
+                                                            weakSelf.objectIDs = objectIDs;
+                                                            [weakSelf setupFetchRequest];
+                                                            [weakSelf populateContent];
                                                         }
                                                         [weakSelf.refreshControl endRefreshing];
-
-                                                        [weakSelf setupFetchRequest];
-                                                        [weakSelf populateContent];
+                                                        weakSelf.loading = NO;
                                                     } failure:^(NSError *error) {
                                                         [weakSelf.refreshControl endRefreshing];
+                                                        weakSelf.loading = NO;
                                                     }];
-                                                } else {
-                                                    [weakSelf.refreshControl endRefreshing];
-                                                }
                                             } failure:^(NSError *error) {
                                                 [weakSelf.refreshControl endRefreshing];
+                                                weakSelf.loading = NO;
                                             }];
     } else {
         DDLogError(@"Unsupported keyword type: %@", _keywordType);
@@ -180,7 +170,7 @@
 }
 
 - (void)tableViewDataSource:(UITableView *)tableView
-              didDeselectItem:(id)item
+            didDeselectItem:(id)item
                 atIndexPath:(NSIndexPath *)indexPath {
     MRSLKeyword *keyword = item;
 

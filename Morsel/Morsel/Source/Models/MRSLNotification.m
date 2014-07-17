@@ -3,6 +3,14 @@
 
 @implementation MRSLNotification
 
+#pragma mark - Class Methods
+
++ (NSString *)API_identifier {
+    return MRSLNotificationAttributes.notificationID;
+}
+
+#pragma mark - Instance Methods
+
 - (void)didImport:(id)data {
     if ([data[@"payload_type"] isEqualToString:@"Activity"]) [self importActivity:data[@"payload"]];
     

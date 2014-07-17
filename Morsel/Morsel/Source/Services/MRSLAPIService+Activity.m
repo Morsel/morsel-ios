@@ -42,23 +42,10 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                                      __block NSMutableArray *activityIDs = [NSMutableArray array];
-                                      NSArray *activityArray = responseObject[@"data"];
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          [activityArray enumerateObjectsUsingBlock:^(NSDictionary *activityDictionary, NSUInteger idx, BOOL *stop) {
-                                              MRSLActivity *activity = [MRSLActivity MR_findFirstByAttribute:MRSLActivityAttributes.activityID
-                                                                                                   withValue:activityDictionary[@"id"]
-                                                                                                   inContext:localContext];
-                                              if (!activity) activity = [MRSLActivity MR_createInContext:localContext];
-                                              [activity MR_importValuesForKeysWithObject:activityDictionary];
-                                              [localContext MR_saveOnlySelfAndWait];
-                                              [activityIDs addObject:activityDictionary[@"id"]];
-                                          }];
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (successOrNil) successOrNil(activityIDs);
-                                      }];
-                                  }
+                                  [self importManagedObjectClass:[MRSLActivity class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation
@@ -89,23 +76,10 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                                      __block NSMutableArray *activityIDs = [NSMutableArray array];
-                                      NSArray *activityArray = responseObject[@"data"];
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          [activityArray enumerateObjectsUsingBlock:^(NSDictionary *activityDictionary, NSUInteger idx, BOOL *stop) {
-                                              MRSLActivity *activity = [MRSLActivity MR_findFirstByAttribute:MRSLActivityAttributes.activityID
-                                                                                                   withValue:activityDictionary[@"id"]
-                                                                                                   inContext:localContext];
-                                              if (!activity) activity = [MRSLActivity MR_createInContext:localContext];
-                                              [activity MR_importValuesForKeysWithObject:activityDictionary];
-                                              [localContext MR_saveOnlySelfAndWait];
-                                              [activityIDs addObject:activityDictionary[@"id"]];
-                                          }];
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (successOrNil) successOrNil(activityIDs);
-                                      }];
-                                  }
+                                  [self importManagedObjectClass:[MRSLActivity class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation
@@ -137,23 +111,10 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                                      __block NSMutableArray *notificationIDs = [NSMutableArray array];
-                                      NSArray *notificationArray = responseObject[@"data"];
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          [notificationArray enumerateObjectsUsingBlock:^(NSDictionary *notificationDictionary, NSUInteger idx, BOOL *stop) {
-                                              MRSLNotification *notification = [MRSLNotification MR_findFirstByAttribute:MRSLNotificationAttributes.notificationID
-                                                                                                               withValue:notificationDictionary[@"id"]
-                                                                                                               inContext:localContext];
-                                              if (!notification) notification = [MRSLNotification MR_createInContext:localContext];
-                                              [notification MR_importValuesForKeysWithObject:notificationDictionary];
-                                              [localContext MR_saveOnlySelfAndWait];
-                                              [notificationIDs addObject:notificationDictionary[@"id"]];
-                                          }];
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (successOrNil) successOrNil(notificationIDs);
-                                      }];
-                                  }
+                                  [self importManagedObjectClass:[MRSLNotification class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation
