@@ -76,6 +76,14 @@ MRSLFeedPanelCollectionViewCellDelegate>
                         animated:NO];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disableFeedScroll)
+                                                 name:MRSLModalWillDisplayNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(enableFeedScroll)
+                                                 name:MRSLModalWillDismissNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(addPublishedMorsel:)
                                                  name:MRSLUserDidPublishMorselNotification
                                                object:nil];
@@ -124,6 +132,14 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 #pragma mark - Notification Methods
+
+- (void)disableFeedScroll {
+    self.feedCollectionView.scrollEnabled = NO;
+}
+
+- (void)enableFeedScroll {
+    self.feedCollectionView.scrollEnabled = YES;
+}
 
 - (void)suspendTimer {
     if (_timer) {
