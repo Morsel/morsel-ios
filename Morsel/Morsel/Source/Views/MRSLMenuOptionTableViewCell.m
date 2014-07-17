@@ -76,4 +76,8 @@
     return [UIColor morselRed];
 }
 
+- (UIColor *)defaultSelectedBackgroundColor {
+    return [UIColor morselLightOff];
+}
+
 @end
