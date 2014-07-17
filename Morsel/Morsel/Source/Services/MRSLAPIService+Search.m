@@ -10,6 +10,8 @@
 
 #import "MRSLAPIClient.h"
 
+#import "MRSLUser.h"
+
 @implementation MRSLAPIService (Search)
 
 - (void)searchWithQuery:(NSString *)query
@@ -39,8 +41,10 @@
     [[MRSLAPIClient sharedClient] GET:@"users/search"
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importUsersWithDictionary:responseObject
-                                                          success:successOrNil];
+                                  [self importManagedObjectClass:[MRSLUser class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

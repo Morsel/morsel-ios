@@ -9,6 +9,14 @@
 
 @implementation MRSLKeyword
 
+#pragma mark - Class Methods
+
++ (NSString *)API_identifier {
+    return MRSLKeywordAttributes.keywordID;
+}
+
+#pragma mark - Instance Methods
+
 - (BOOL)isCuisineType {
     return [[self.type lowercaseString] isEqualToString:@"cuisine"];
 }

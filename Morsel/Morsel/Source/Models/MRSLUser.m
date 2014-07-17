@@ -10,6 +10,10 @@
 
 #pragma mark - Class Methods
 
++ (NSString *)API_identifier {
+    return MRSLUserAttributes.userID;
+}
+
 + (MRSLUser *)currentUser {
     NSNumber *currentUserID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
     MRSLUser *currentUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID

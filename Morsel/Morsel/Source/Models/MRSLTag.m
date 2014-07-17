@@ -8,6 +8,14 @@
 
 @implementation MRSLTag
 
+#pragma mark - Class Methods
+
++ (NSString *)API_identifier {
+    return MRSLTagAttributes.tagID;
+}
+
+#pragma mark - Instance Methods
+
 - (void)didImport:(id)data {
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];

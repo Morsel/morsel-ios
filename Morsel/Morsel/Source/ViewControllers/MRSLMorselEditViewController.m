@@ -138,7 +138,7 @@ MRSLMorselEditItemTableViewCellDelegate>
         self.toolbarView.leftButton.enabled = YES;
         self.isEditing = NO;
         [self.morselItemsTableView setEditing:NO
-                                       animated:NO];
+                                     animated:NO];
     }
     [self determineControlState];
 }
@@ -255,7 +255,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     self.isEditing = !_isEditing;
     [_morselItemsTableView setEditing:_isEditing
-                               animated:YES];
+                             animated:YES];
     [self determineControlState];
 }
 
@@ -301,7 +301,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                   @"item_id": NSNullIfNil(deletedItem.itemID)}];
         [_items removeObject:deletedItem];
         [_morselItemsTableView deleteRowsAtIndexPaths:@[indexPath]
-                                       withRowAnimation:UITableViewRowAnimationFade];
+                                     withRowAnimation:UITableViewRowAnimationFade];
 
         __weak __typeof(self) weakSelf = self;
 
@@ -368,7 +368,7 @@ MRSLMorselEditItemTableViewCellDelegate>
     MRSLItem *item = [_items objectAtIndex:indexPath.row];
 
     MRSLMorselEditItemTableViewCell *morselMorselCell = [self.morselItemsTableView dequeueReusableCellWithIdentifier:@"ruid_MorselItemCell"
-                                                                                                          forIndexPath:indexPath];
+                                                                                                        forIndexPath:indexPath];
     morselMorselCell.item = item;
     morselMorselCell.delegate = self;
     return morselMorselCell;
@@ -430,7 +430,9 @@ MRSLMorselEditItemTableViewCellDelegate>
                                 dispatch_async(main, ^{
                                     weakSelf.capturing = NO;
 
+                                    __block NSManagedObjectContext *workContext = nil;
                                     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                                        workContext = localContext;
                                         MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                                                        withValue:weakSelf.morselID
                                                                                        inContext:localContext];
@@ -496,7 +498,10 @@ MRSLMorselEditItemTableViewCellDelegate>
                                             [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"There was a problem adding your item%@ to this Morsel. Please try again.", ([capturedMedia count] > 1) ? @"s" : @""]
                                                                             delegate:nil];
                                         }
-                                    }];
+                                    }
+                                                      completion:^(BOOL success, NSError *error) {
+                                                          [workContext reset];
+                                                      }];
                                 });
                             });
                         });

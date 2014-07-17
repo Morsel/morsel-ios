@@ -38,22 +38,10 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                                      __block NSMutableArray *commentIDs = [NSMutableArray array];
-                                      NSArray *commentsArray = responseObject[@"data"];
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          [commentsArray enumerateObjectsUsingBlock:^(NSDictionary *commentDictionary, NSUInteger idx, BOOL *stop) {
-                                              MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
-                                                                                                withValue:commentDictionary[@"id"]
-                                                                                                inContext:localContext];
-                                              if (!comment) comment = [MRSLComment MR_createInContext:localContext];
-                                              [comment MR_importValuesForKeysWithObject:commentDictionary];
-                                              [commentIDs addObject:commentDictionary[@"id"]];
-                                          }];
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (successOrNil) successOrNil(commentIDs);
-                                      }];
-                                  }
+                                  [self importManagedObjectClass:[MRSLComment class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

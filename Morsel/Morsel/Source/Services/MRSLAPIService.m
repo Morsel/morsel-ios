@@ -8,8 +8,6 @@
 
 #import "MRSLAPIService.h"
 
-#import "NSManagedObject+JSON.h"
-
 #import "MRSLActivity.h"
 #import "MRSLComment.h"
 #import "MRSLItem.h"
@@ -75,58 +73,87 @@
 
 #pragma mark - Importing Helpers
 
-- (void)importTagsWithDictionary:(NSDictionary *)responseDictionary
-                             success:(MRSLAPIArrayBlock)successOrNil {
-    __block NSMutableArray *tagIDs = [NSMutableArray array];
-    NSArray *tagArray = responseDictionary[@"data"];
+- (void)importManagedObjectClass:(Class)objectClass
+                  withDictionary:(NSDictionary *)responseDictionary
+                         success:(MRSLAPIArrayBlock)successOrNil
+                         failure:(MRSLFailureBlock)failureOrNil {
+    __block NSMutableArray *objectIDs = [NSMutableArray array];
+    NSArray *objectArray = responseDictionary[@"data"];
+    __block NSManagedObjectContext *workContext = nil;
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        [tagArray enumerateObjectsUsingBlock:^(NSDictionary *tagDictionary, NSUInteger idx, BOOL *stop) {
-            MRSLTag *tag = [MRSLTag MR_findFirstByAttribute:MRSLTagAttributes.tagID
-                                                              withValue:tagDictionary[@"id"]
-                                                              inContext:localContext];
-            if (!tag) tag = [MRSLTag MR_createInContext:localContext];
-            [tag MR_importValuesForKeysWithObject:tagDictionary];
-            [tagIDs addObject:tagDictionary[@"id"]];
+        workContext = localContext;
+        [objectArray enumerateObjectsUsingBlock:^(NSDictionary *objectDictionary, NSUInteger idx, BOOL *stop) {
+            NSManagedObject *managedObject = [objectClass MR_findFirstByAttribute:[objectClass API_identifier]
+                                                                        withValue:objectDictionary[@"id"]
+                                                                        inContext:localContext];
+            if (!managedObject) managedObject = [objectClass MR_createInContext:localContext];
+            [managedObject MR_importValuesForKeysWithObject:objectDictionary];
+            [objectIDs addObject:objectDictionary[@"id"]];
         }];
     } completion:^(BOOL success, NSError *error) {
-        if (successOrNil) successOrNil(tagIDs);
+        if (!error || [objectIDs count] > 0) {
+            if (successOrNil) successOrNil(objectIDs);
+        } else {
+            if (failureOrNil) failureOrNil(error);
+        }
+        [workContext reset];
     }];
 }
 
-- (void)importKeywordsWithDictionary:(NSDictionary *)responseDictionary
-                             success:(MRSLAPIArrayBlock)successOrNil {
-    __block NSMutableArray *keywordIDs = [NSMutableArray array];
-    NSArray *keywordArray = responseDictionary[@"data"];
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        [keywordArray enumerateObjectsUsingBlock:^(NSDictionary *keywordDictionary, NSUInteger idx, BOOL *stop) {
-            MRSLKeyword *keyword = [MRSLKeyword MR_findFirstByAttribute:MRSLKeywordAttributes.keywordID
-                                                              withValue:keywordDictionary[@"id"]
-                                                              inContext:localContext];
-            if (!keyword) keyword = [MRSLKeyword MR_createInContext:localContext];
-            [keyword MR_importValuesForKeysWithObject:keywordDictionary];
-            [keywordIDs addObject:keywordDictionary[@"id"]];
-        }];
-    } completion:^(BOOL success, NSError *error) {
-        if (successOrNil) successOrNil(keywordIDs);
-    }];
-}
-
-- (void)importUsersWithDictionary:(NSDictionary *)responseDictionary
-                          success:(MRSLAPIArrayBlock)successOrNil {
+- (void)importFeedObjectsWithDictionary:(NSDictionary *)responseDictionary
+                                success:(MRSLAPIArrayBlock)successOrNil {
     if ([responseDictionary[@"data"] isKindOfClass:[NSArray class]]) {
-        __block NSMutableArray *userIDs = [NSMutableArray array];
-        NSArray *userArray = responseDictionary[@"data"];
+        __block NSMutableArray *feedItemIDs = [NSMutableArray array];
+        NSArray *feedItemsArray = responseDictionary[@"data"];
+        __block NSManagedObjectContext *workContext = nil;
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-            [userArray enumerateObjectsUsingBlock:^(NSDictionary *userDictionary, NSUInteger idx, BOOL *stop) {
-                MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                                                                 withValue:userDictionary[@"id"]
-                                                                                 inContext:localContext];
-                if (!user) user = [MRSLUser MR_createInContext:localContext];
-                [user MR_importValuesForKeysWithObject:userDictionary];
-                [userIDs addObject:userDictionary[@"id"]];
+            workContext = localContext;
+            [feedItemsArray enumerateObjectsUsingBlock:^(NSDictionary *feedItemDictionary, NSUInteger idx, BOOL *stop) {
+                if ([[feedItemDictionary[@"subject_type"] lowercaseString] isEqualToString:@"morsel"]) {
+                    if (![feedItemDictionary[@"subject"] isEqual:[NSNull null]]) {
+                        NSDictionary *morselDictionary = feedItemDictionary[@"subject"];
+                        MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                                       withValue:morselDictionary[@"id"]
+                                                                       inContext:localContext];
+                        if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
+                        [morsel MR_importValuesForKeysWithObject:morselDictionary];
+                        morsel.feedItemID = feedItemDictionary[@"id"];
+                        morsel.feedItemFeatured = @([feedItemDictionary[@"featured"] boolValue]);
+                        if ([morsel.items count] > 0) [feedItemIDs addObject:morselDictionary[@"id"]];
+                    }
+                }
             }];
         } completion:^(BOOL success, NSError *error) {
-            if (successOrNil) successOrNil(userIDs);
+            if (successOrNil) successOrNil(feedItemIDs);
+            [workContext reset];
+        }];
+    }
+}
+
+- (void)importLikeablesWithDictionary:(NSDictionary *)responseDictionary
+                              success:(MRSLAPIArrayBlock)successOrNil {
+    if ([responseDictionary[@"data"] isKindOfClass:[NSArray class]]) {
+        __block NSMutableArray *itemIDs = [NSMutableArray array];
+        NSArray *likeablesArray = responseDictionary[@"data"];
+        __block NSManagedObjectContext *workContext = nil;
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            workContext = localContext;
+            [likeablesArray enumerateObjectsUsingBlock:^(NSDictionary *itemDictionary, NSUInteger idx, BOOL *stop) {
+                MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                               withValue:itemDictionary[@"morsel"][@"id"]
+                                                               inContext:localContext];
+                if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
+                [morsel MR_importValuesForKeysWithObject:itemDictionary[@"morsel"]];
+                MRSLItem *item = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                         withValue:itemDictionary[@"id"]
+                                                         inContext:localContext];
+                if (!item) item = [MRSLItem MR_createInContext:localContext];
+                [item MR_importValuesForKeysWithObject:itemDictionary];
+                [itemIDs addObject:itemDictionary[@"id"]];
+            }];
+        } completion:^(BOOL success, NSError *error) {
+            if (successOrNil) successOrNil(itemIDs);
+            [workContext reset];
         }];
     }
 }
@@ -153,7 +180,7 @@
             } else {
                 DDLogError(@"Request error in method (%@) with serviceInfo: %@", methodName, [serviceErrorInfo errorInfo]);
             }
-            
+
             if (failureOrNil) failureOrNil(error);
         }
     }

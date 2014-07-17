@@ -211,23 +211,10 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                                      __block NSMutableArray *morselIDs = [NSMutableArray array];
-                                      NSArray *userMorselsArray = responseObject[@"data"];
-
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          [userMorselsArray enumerateObjectsUsingBlock:^(NSDictionary *morselDictionary, NSUInteger idx, BOOL *stop) {
-                                              MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                             withValue:morselDictionary[@"id"]
-                                                                                             inContext:localContext];
-                                              if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
-                                              [morsel MR_importValuesForKeysWithObject:morselDictionary];
-                                              [morselIDs addObject:morselDictionary[@"id"]];
-                                          }];
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (successOrNil) successOrNil(morselIDs);
-                                      }];
-                                  }
+                                  [self importManagedObjectClass:[MRSLMorsel class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation
@@ -258,23 +245,10 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                                      __block NSMutableArray *morselIDs = [NSMutableArray array];
-                                      NSArray *userMorselsArray = responseObject[@"data"];
-
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          [userMorselsArray enumerateObjectsUsingBlock:^(NSDictionary *morselDictionary, NSUInteger idx, BOOL *stop) {
-                                              MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                             withValue:morselDictionary[@"id"]
-                                                                                             inContext:localContext];
-                                              if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
-                                              [morsel MR_importValuesForKeysWithObject:morselDictionary];
-                                              [morselIDs addObject:morselDictionary[@"id"]];
-                                          }];
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (successOrNil) successOrNil(morselIDs);
-                                      }];
-                                  }
+                                  [self importManagedObjectClass:[MRSLMorsel class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

@@ -37,29 +37,8 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                                      __block NSMutableArray *feedItemIDs = [NSMutableArray array];
-                                      NSArray *feedItemsArray = responseObject[@"data"];
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          [feedItemsArray enumerateObjectsUsingBlock:^(NSDictionary *feedItemDictionary, NSUInteger idx, BOOL *stop) {
-                                              if ([[feedItemDictionary[@"subject_type"] lowercaseString] isEqualToString:@"morsel"]) {
-                                                  if (![feedItemDictionary[@"subject"] isEqual:[NSNull null]]) {
-                                                      NSDictionary *morselDictionary = feedItemDictionary[@"subject"];
-                                                      MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                                     withValue:morselDictionary[@"id"]
-                                                                                                     inContext:localContext];
-                                                      if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
-                                                      [morsel MR_importValuesForKeysWithObject:morselDictionary];
-                                                      morsel.feedItemID = feedItemDictionary[@"id"];
-                                                      morsel.feedItemFeatured = @([feedItemDictionary[@"featured"] boolValue]);
-                                                      if ([morsel.items count] > 0) [feedItemIDs addObject:morselDictionary[@"id"]];
-                                                  }
-                                              }
-                                          }];
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (successOrNil) successOrNil(feedItemIDs);
-                                      }];
-                                  }
+                                  [self importFeedObjectsWithDictionary:responseObject
+                                                                success:successOrNil];
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

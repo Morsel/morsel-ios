@@ -7,6 +7,14 @@
 
 @implementation MRSLActivity
 
+#pragma mark - Class Methods
+
++ (NSString *)API_identifier {
+    return MRSLActivityAttributes.activityID;
+}
+
+#pragma mark - Instance Methods
+
 - (NSString *)message {
     //  Creator action subject
     return [NSString stringWithFormat:@"%@ %@ %@", [self creatorDisplayName], [self actionDisplayName], [self subjectDisplayName] ?: @""];

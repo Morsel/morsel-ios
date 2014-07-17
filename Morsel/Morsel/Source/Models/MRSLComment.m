@@ -9,6 +9,14 @@
 
 @implementation MRSLComment
 
+#pragma mark - Class Methods
+
++ (NSString *)API_identifier {
+    return MRSLCommentAttributes.commentID;
+}
+
+#pragma mark - Instance Methods
+
 - (BOOL)deleteableByUser:(MRSLUser *)user {
     // Only the comment creator OR the Item's creator can delete a Comment
     if (user == self.creator) return YES;

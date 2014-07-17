@@ -127,8 +127,10 @@
     [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/followers", user.userIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importUsersWithDictionary:responseObject
-                                                          success:successOrNil];
+                                  [self importManagedObjectClass:[MRSLUser class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation
@@ -157,8 +159,10 @@
     [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/followables", user.userIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importUsersWithDictionary:responseObject
-                                                          success:successOrNil];
+                                  [self importManagedObjectClass:[MRSLUser class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

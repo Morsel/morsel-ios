@@ -40,27 +40,8 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                                      __block NSMutableArray *itemIDs = [NSMutableArray array];
-                                      NSArray *likeablesArray = responseObject[@"data"];
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          [likeablesArray enumerateObjectsUsingBlock:^(NSDictionary *itemDictionary, NSUInteger idx, BOOL *stop) {
-                                              MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                             withValue:itemDictionary[@"morsel"][@"id"]
-                                                                                             inContext:localContext];
-                                              if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
-                                              [morsel MR_importValuesForKeysWithObject:itemDictionary[@"morsel"]];
-                                              MRSLItem *item = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
-                                                                                       withValue:itemDictionary[@"id"]
-                                                                                       inContext:localContext];
-                                              if (!item) item = [MRSLItem MR_createInContext:localContext];
-                                              [item MR_importValuesForKeysWithObject:itemDictionary];
-                                              [itemIDs addObject:itemDictionary[@"id"]];
-                                          }];
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (successOrNil) successOrNil(itemIDs);
-                                      }];
-                                  }
+                                  [self importLikeablesWithDictionary:responseObject
+                                                              success:successOrNil];
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil
                                          forOperation:operation

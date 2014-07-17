@@ -1,5 +1,5 @@
 //
-//  NSManagedObject+JSON.h
+//  NSManagedObject+Additions.h
 //  Morsel
 //
 //  Created by Javier Otero on 2/6/14.
@@ -8,7 +8,9 @@
 
 #import <CoreData/CoreData.h>
 
-@interface NSManagedObject (JSON)
+@interface NSManagedObject (Additions)
+
++ (NSString *)API_identifier;
 
 - (NSString *)jsonKeyName;
 

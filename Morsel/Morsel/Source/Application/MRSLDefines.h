@@ -214,6 +214,7 @@ static const int MRSLStatsTagViewTag = 9991;
 #pragma mark - Data
 
 #import "CoreData+MagicalRecord.h"
+#import "NSManagedObject+Additions.h"
 
 #pragma mark - Categories
 

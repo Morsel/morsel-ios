@@ -258,7 +258,9 @@ UITextFieldDelegate>
                                                       userTitle:alertTextField.text
                                                         success:^(id responseObject) {
                                                             weakSelf.selectedFoursquarePlace = nil;
+                                                            __block NSManagedObjectContext *workContext = nil;
                                                             [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                                                                workContext = localContext;
                                                                 MRSLPlace *place = [MRSLPlace MR_findFirstByAttribute:MRSLPlaceAttributes.placeID
                                                                                                             withValue:responseObject[@"data"][@"id"]
                                                                                                             inContext:localContext];
@@ -266,6 +268,7 @@ UITextFieldDelegate>
                                                                 [place MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                                             } completion:^(BOOL success, NSError *error) {
                                                                 [weakSelf goBack];
+                                                                [workContext reset];
                                                             }];
                                                         } failure:^(NSError *error) {
                                                             weakSelf.selectedFoursquarePlace = nil;
