@@ -173,6 +173,10 @@
         self.profilePhotoURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
                                                                                      withString:@"IMAGE_SIZE"];
     }
+    if (![data[@"followed_at"] isEqual:[NSNull null]]) {
+        NSString *dateString = data[@"followed_at"];
+        self.dateFollowed = [_appDelegate.defaultDateFormatter dateFromString:dateString];
+    }
     if (![data[@"settings"] isEqual:[NSNull null]]) {
         if (![data[@"settings"][@"auto_follow"] isEqual:[NSNull null]]) {
             self.auto_follow = @([data[@"settings"][@"auto_follow"] boolValue]);
