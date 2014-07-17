@@ -228,7 +228,7 @@ UIAlertViewDelegate>
     if ([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         return NO;
-    } else if (textLength > 255) {
+    } else if (textLength > 160) {
         return NO;
     }
     return YES;
