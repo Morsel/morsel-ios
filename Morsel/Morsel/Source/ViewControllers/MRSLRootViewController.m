@@ -30,6 +30,7 @@ UIGestureRecognizerDelegate,
 MRSLMenuViewControllerDelegate>
 
 @property (nonatomic, getter = isMenuOpen) BOOL menuOpen;
+@property (nonatomic) BOOL shouldAllowMenuToOpen;
 @property (nonatomic) BOOL shouldCheckForUser;
 @property (nonatomic) BOOL keyboardOpen;
 
@@ -57,7 +58,16 @@ MRSLMenuViewControllerDelegate>
     self.menuViewController = [self.childViewControllers lastObject];
     self.menuViewController.delegate = self;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeToNewStatusBarStyle:)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disableMenuOpen)
+                                                 name:MRSLModalWillDisplayNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(enableMenuOpen)
+                                                 name:MRSLModalWillDismissNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeToNewStatusBarStyle:)
                                                  name:MRSLAppDidRequestNewPreferredStatusBarStyle
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -130,6 +140,14 @@ MRSLMenuViewControllerDelegate>
 }
 
 #pragma mark - Notification Methods
+
+- (void)disableMenuOpen {
+    self.shouldAllowMenuToOpen = NO;
+}
+
+- (void)enableMenuOpen {
+    self.shouldAllowMenuToOpen = YES;
+}
 
 - (void)keyboardWillShow {
     self.keyboardOpen = YES;
@@ -260,6 +278,7 @@ MRSLMenuViewControllerDelegate>
 }
 
 - (void)toggleMenu {
+    if (!_shouldAllowMenuToOpen) return;
     if (_keyboardOpen) [self.view endEditing:YES];
     self.menuOpen = ([self.rootContainerView getX] > 0.f);
     [UIView animateWithDuration:.2f
@@ -467,7 +486,7 @@ MRSLMenuViewControllerDelegate>
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     //  Ignore the gesture when the menu is open since the User is most likely interacting w/ the Menu items
-    if (self.isMenuOpen && [touch locationInView:self.view].x < MRSLMenuViewWidth) {
+    if ((self.isMenuOpen && [touch locationInView:self.view].x < MRSLMenuViewWidth) || !_shouldAllowMenuToOpen) {
         return NO;
     } else {
         return [touch locationInView:self.rootContainerView].x < kOffscreenSwipeThreshold || self.isMenuOpen;
