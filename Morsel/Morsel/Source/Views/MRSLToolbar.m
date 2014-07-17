@@ -14,6 +14,11 @@
 
 @implementation MRSLToolbar
 
+- (void)awakeFromNib {
+    [self addDefaultBorderForDirections:MRSLBorderNorth];
+
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)leftButtonSelected {

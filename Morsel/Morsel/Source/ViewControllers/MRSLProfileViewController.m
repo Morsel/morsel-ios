@@ -25,6 +25,7 @@
 #import "MRSLUserFollowListViewController.h"
 #import "MRSLUserTagListViewController.h"
 
+#import "MRSLStateView.h"
 #import "MRSLCollectionView.h"
 #import "MRSLContainerCollectionViewCell.h"
 #import "MRSLUserLikedItemCollectionViewCell.h"
@@ -44,7 +45,8 @@
 MRSLCollectionViewDataSourceDelegate,
 MRSLProfilePanelCollectionViewCellDelegate,
 MRSLProfileUserTagsListViewControllerDelegate,
-MRSLSegmentedHeaderReusableViewDelegate>
+MRSLSegmentedHeaderReusableViewDelegate,
+MRSLStateViewDelegate>
 
 @property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL loadingMore;
@@ -86,8 +88,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 
     [self loadObjectIDs];
 
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    _refreshControl.tintColor = [UIColor morselLightContent];
+    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
     [_refreshControl addTarget:self
                         action:@selector(refreshContent)
               forControlEvents:UIControlEventValueChanged];
@@ -141,6 +142,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [self.profileCollectionView setDataSource:_segmentedPanelCollectionViewDataSource];
     [self.profileCollectionView setDelegate:_segmentedPanelCollectionViewDataSource];
     [self.profileCollectionView setEmptyStateTitle:@"No morsels added"];
+    [self.profileCollectionView setEmptyStateDelegate:self];
 
     [self.segmentedPanelCollectionViewDataSource setDelegate:self];
 
@@ -152,6 +154,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                     style:UIBarButtonItemStyleBordered
                                                                                    target:self
                                                                                    action:@selector(displayEditProfile)]];
+        [self.profileCollectionView setEmptyStateButtonTitle:@"Add a morsel"];
     }
 }
 
@@ -167,6 +170,10 @@ MRSLSegmentedHeaderReusableViewDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (BOOL)isCurrentUserProfile {
+    return [self.user isCurrentUser];
+}
 
 - (void)setLoading:(BOOL)loading {
     _loading = loading;
@@ -291,9 +298,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
         [(MRSLProfilePanelCollectionViewCell *)cell setDelegate:self];
     } else {
         if (count > 0) {
-            [cell setBorderWithDirections:MRSLBorderSouth
-                              borderWidth:0.f
-                           andBorderColor:[UIColor whiteColor]];
+            [cell addBorderWithDirections:MRSLBorderSouth
+                              borderColor:[UIColor whiteColor]];
             if ([item isKindOfClass:[MRSLMorsel class]]) {
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselPreviewCell"
                                                                  forIndexPath:indexPath];
@@ -304,18 +310,16 @@ MRSLSegmentedHeaderReusableViewDelegate>
                 [(MRSLUserLikedItemCollectionViewCell *)cell setItem:item
                                                              andUser:_user];
                 if (indexPath.row != count) {
-                    [cell setBorderWithDirections:MRSLBorderSouth
-                                      borderWidth:1.0f
-                                   andBorderColor:[UIColor morselLightOffColor]];
+                    [cell addBorderWithDirections:MRSLBorderSouth
+                                      borderColor:[UIColor morselLightOffColor]];
                 }
             } else if ([item isKindOfClass:[MRSLPlace class]]) {
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PlaceCell"
                                                                  forIndexPath:indexPath];
                 [(MRSLPlaceCollectionViewCell *)cell setPlace:item];
                 if (indexPath.row != count) {
-                    [cell setBorderWithDirections:MRSLBorderSouth
-                                      borderWidth:1.0f
-                                   andBorderColor:[UIColor morselLightOffColor]];
+                    [cell addBorderWithDirections:MRSLBorderSouth
+                                      borderColor:[UIColor morselLightOffColor]];
                 }
             }
         } else {
@@ -431,26 +435,31 @@ MRSLSegmentedHeaderReusableViewDelegate>
         switch (index) {
             case MRSLDataSourceTypeActivityItem:
                 [self.profileCollectionView setEmptyStateTitle:@"No activity yet"];
+                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:nil];
                 [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeLikedDate
                                                                    ascending:NO];
                 break;
             case MRSLDataSourceTypeMorsel:
                 [self.profileCollectionView setEmptyStateTitle:@"No morsels added"];
+                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:@"Add a morsel"];
                 [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeCreationDate
                                                                    ascending:NO];
                 break;
             case MRSLDataSourceTypePlace:
                 [self.profileCollectionView setEmptyStateTitle:@"No places added"];
+                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:@"Add a place"];
                 [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeName
                                                                    ascending:YES];
                 break;
             case MRSLDataSourceTypeTag:
                 [self.profileCollectionView setEmptyStateTitle:@"No tags added"];
+                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:@"Manage tags"];
                 [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeName
                                                                    ascending:YES];
                 break;
             default:
                 [self.profileCollectionView setEmptyStateTitle:@"No results"];
+                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:nil];
                 [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeNone
                                                                    ascending:NO];
                 break;
@@ -477,9 +486,23 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [self performSegueWithIdentifier:@"seg_KeywordList" sender:nil];
 }
 
+
+#pragma mark - MRSLStateViewDelegate
+
+- (void)stateView:(MRSLStateView *)stateView didSelectButton:(UIButton *)button {
+    if ([button.titleLabel.text isEqualToString:@"Add a morsel"]) {
+        [self displayMorselAdd];
+    } else if ([button.titleLabel.text isEqualToString:@"Add a place"]) {
+        [self displayAddPlace:button];
+    } else if ([button.titleLabel.text isEqualToString:@"Manage tags"]) {
+        [self displayProfessionalSettings];
+    }
+}
+
 #pragma mark - Dealloc
 
 - (void)dealloc {
+    [self.profileCollectionView setEmptyStateDelegate:nil];
     self.profileCollectionView.delegate = nil;
     self.profileCollectionView.dataSource = nil;
     [self.profileCollectionView removeFromSuperview];

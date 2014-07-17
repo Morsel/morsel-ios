@@ -76,6 +76,13 @@
 }
 
 
+#pragma mark - Defined Colors
+
++ (UIColor *)morselDefaultBackgroundColor {
+    return [UIColor morselOffWhite];
+}
+
+
 #pragma mark - Misc
 
 + (UIColor *)morselRed {

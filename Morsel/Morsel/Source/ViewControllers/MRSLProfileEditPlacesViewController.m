@@ -49,8 +49,7 @@
     [self.collectionView setDataSource:_dataSource];
     [self.collectionView setDelegate:_dataSource];
 
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    _refreshControl.tintColor = [UIColor morselLightContent];
+    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
     [_refreshControl addTarget:self
                         action:@selector(refreshContent)
               forControlEvents:UIControlEventValueChanged];
@@ -79,11 +78,6 @@
     } failure:^(NSError *error) {
         [weakSelf.refreshControl endRefreshing];
     }];
-}
-
-- (IBAction)addPlace:(id)sender {
-    [self.navigationController pushViewController:[[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"]
-                                         animated:YES];
 }
 
 - (IBAction)contactMorsel {

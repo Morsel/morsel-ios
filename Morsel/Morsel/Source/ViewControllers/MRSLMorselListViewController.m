@@ -48,8 +48,7 @@ NSFetchedResultsControllerDelegate>
 
     self.morsels = [NSMutableArray array];
 
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    _refreshControl.tintColor = [UIColor morselLightContent];
+    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
     [_refreshControl addTarget:self
                         action:@selector(refreshContent)
               forControlEvents:UIControlEventValueChanged];
@@ -66,7 +65,7 @@ NSFetchedResultsControllerDelegate>
                                                  name:MRSLUserDidDeleteMorselNotification
                                                object:nil];
 
-    [self.tableView setEmptyStateTitle:@"You don't have any drafts right now."];
+    [self.tableView setEmptyStateTitle:@"None yet. Create a new morsel below."];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

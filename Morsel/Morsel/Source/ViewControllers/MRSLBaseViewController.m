@@ -20,6 +20,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.view setBackgroundColor:[UIColor morselDefaultBackgroundColor]];
     [self setupNavigationItems];
 }
 
@@ -77,8 +78,18 @@
                                          animated:YES];
 }
 
+- (IBAction)displayAddPlace:(id)sender {
+    [self.navigationController pushViewController:[[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"]
+                                         animated:YES];
+}
+
 - (IBAction)displayMorselShare {
     // Should be overridden
+}
+
+- (IBAction)displayProfessionalSettings {
+    [self.navigationController pushViewController:[[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfessionalSettingsTableViewController"]
+                                         animated:YES];
 }
 
 - (IBAction)goBack {

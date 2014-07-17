@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="hhS-Tr-n28">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="hhS-Tr-n28">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -13,7 +13,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="6sS-zQ-hj1">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="6sS-zQ-hj1" customClass="MRSLCollectionView">
                                 <rect key="frame" x="0.0" y="0.0" width="321" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -39,10 +39,6 @@
                                     <outlet property="delegate" destination="nQ7-fm-uMk" id="Zd4-DE-fpG"/>
                                 </connections>
                             </collectionView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="5o3-FI-1hg">
-                                <rect key="frame" x="150" y="242" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uCX-Y6-H81" customClass="MRSLLightButton">
                                 <rect key="frame" x="24" y="237" width="123" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -75,7 +71,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="activityIndicatorView" destination="5o3-FI-1hg" id="tkv-tX-CFv"/>
                         <outlet property="feedCollectionView" destination="6sS-zQ-hj1" id="K2F-Fk-cav"/>
                         <outlet property="theNewMorselsButton" destination="uCX-Y6-H81" id="kud-BI-kUe"/>
                     </connections>
@@ -340,7 +335,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wyp-8d-VK5" customClass="GCPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6.9999995559953261" width="250" height="36"/>
+                                        <rect key="frame" x="11" y="6.9999998708565929" width="250" height="36"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -464,7 +459,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="7wz-mg-5ut">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="7wz-mg-5ut" customClass="MRSLCollectionView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -931,7 +926,7 @@
         <!--Navigation Controller - Home-->
         <scene sceneID="PDw-fc-RSM">
             <objects>
-                <navigationController storyboardIdentifier="sb_Feed" autoresizesArchivedViewToFullSize="NO" title="Home" automaticallyAdjustsScrollViewInsets="NO" id="hhS-Tr-n28" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Feed" autoresizesArchivedViewToFullSize="NO" title="Home" automaticallyAdjustsScrollViewInsets="NO" id="hhS-Tr-n28" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="e48-Fj-r2S">
@@ -952,7 +947,7 @@
         <!--Navigation Controller-->
         <scene sceneID="UWh-kD-Oiz">
             <objects>
-                <navigationController storyboardIdentifier="sb_Comments" automaticallyAdjustsScrollViewInsets="NO" id="ogX-Gu-oKv" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Comments" automaticallyAdjustsScrollViewInsets="NO" id="ogX-Gu-oKv" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="a2K-xQ-537">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -971,7 +966,7 @@
         <!--Navigation Controller-->
         <scene sceneID="1XR-rt-sqQ">
             <objects>
-                <navigationController storyboardIdentifier="sb_Likes" automaticallyAdjustsScrollViewInsets="NO" id="dRU-77-8BD" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Likes" automaticallyAdjustsScrollViewInsets="NO" id="dRU-77-8BD" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="UxS-NN-D9i">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

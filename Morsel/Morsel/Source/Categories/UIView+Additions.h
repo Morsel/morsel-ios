@@ -14,6 +14,9 @@ typedef NS_OPTIONS(NSUInteger, MRSLBorderDirection) {
     MRSLBorderWest  = 1 << 3
 };
 
+static const CGFloat MRSLBorderDefaultWidth = 0.5f;
+
+
 #import <UIKit/UIKit.h>
 
 @interface UIView (Additions)
@@ -27,9 +30,11 @@ typedef NS_OPTIONS(NSUInteger, MRSLBorderDirection) {
 /**
  Creates borders at the specified directions
  */
-- (CAShapeLayer *)setBorderWithDirections:(MRSLBorderDirection)borderDirections borderWidth:(CGFloat)borderWidth andBorderColor:(UIColor *)borderColor;
+- (CAShapeLayer *)addBorderWithDirections:(MRSLBorderDirection)borderDirections borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
+- (CAShapeLayer *)addBorderWithDirections:(MRSLBorderDirection)borderDirections borderColor:(UIColor *)borderColor;
 
-- (void)addStandardCorners;
+- (CAShapeLayer *)addDefaultBorderForDirections:(MRSLBorderDirection)borderDirections;
+
 - (void)addCornersWithRadius:(CGFloat)radius;
 - (void)addStandardShadow;
 - (void)addStandardShadowWithColor:(UIColor *)shadowColor;

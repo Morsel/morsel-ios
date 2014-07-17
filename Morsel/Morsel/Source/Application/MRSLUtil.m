@@ -27,7 +27,8 @@
     //  Return right away if empty
     if ([emailAddress length] == 0) return @[@"is required"];
 
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+    //  MT: Since new TLDs can be longer than 6 characters, removed max 6 char limit. Just check TLDs is min 2 char.
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}";
     if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex] evaluateWithObject:emailAddress]) return @[@"is invalid"];
     
     return nil;

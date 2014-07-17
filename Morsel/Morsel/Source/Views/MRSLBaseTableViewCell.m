@@ -40,7 +40,7 @@
 #pragma mark - Private Methods
 
 - (UIColor *)defaultBackgroundColor {
-    return [UIColor whiteColor];
+    return [UIColor morselBackground];
 }
 
 - (UIColor *)defaultHighlightedBackgroundColor {
@@ -48,7 +48,7 @@
 }
 
 - (UIColor *)defaultSelectedBackgroundColor {
-    return [UIColor morselUserInterface];
+    return [UIColor morselLight];
 }
 
 @end
