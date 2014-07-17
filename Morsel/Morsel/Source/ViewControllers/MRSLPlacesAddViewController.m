@@ -150,7 +150,7 @@ UITextFieldDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_locationDisabled || _shouldDisplayStatus) {
         NSString *ruid = @"ruid_LocationDisabledCell";
-        if (_statusType == MRSLStatusTypeNone) ruid = @"ruid_InstructionCell";
+        if (_statusType == MRSLStatusTypeNone && !_locationDisabled) ruid = @"ruid_InstructionCell";
         if (_statusType == MRSLStatusTypeNoResults) ruid = @"ruid_NoResultsCell";
         if (_statusType == MRSLStatusTypeLoading) ruid = @"ruid_LoadingCell";
         if (_statusType == MRSLStatusTypeMoreCharactersRequired) ruid = @"ruid_MoreCharactersCell";
