@@ -21,4 +21,6 @@
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
 
+@property (nonatomic, getter = isHomeFeedItem) BOOL homeFeedItem;
+
 @end

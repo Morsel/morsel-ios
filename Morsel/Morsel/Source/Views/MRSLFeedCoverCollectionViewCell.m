@@ -83,7 +83,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
     dispatch_async(dispatch_get_main_queue(), ^{
         _morselCoverImageView.item = [_morsel coverItem];
 
-        self.featuredImageView.hidden = !_morsel.feedItemFeaturedValue;
+        self.featuredImageView.hidden = ![self isHomeFeedItem] && !_morsel.feedItemFeaturedValue;
         self.morselTitleLabel.text = _morsel.title;
         self.profileImageView.user = _morsel.creator;
         self.timeAgoLabel.text = [_morsel.publishedDate timeAgoMinimized];
