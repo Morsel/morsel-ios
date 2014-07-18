@@ -60,6 +60,11 @@
     return item;
 }
 
+- (BOOL)hasCreatorInfo {
+    //  Can tell if a User object has been fetched if a username exists.
+    return self.creator && self.creator.username;
+}
+
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
