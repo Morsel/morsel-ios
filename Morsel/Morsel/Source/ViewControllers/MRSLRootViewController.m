@@ -160,8 +160,8 @@ MRSLMenuViewControllerDelegate>
 }
 
 - (void)changeToNewStatusBarStyle:(NSNotification *)notification {
-    self.currentStatusBarStyle = [notification.object intValue];
-    [self setNeedsStatusBarAppearanceUpdate];
+    //self.currentStatusBarStyle = [notification.object intValue];
+    //[self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)displayBaseViewController:(NSNotification *)notification {

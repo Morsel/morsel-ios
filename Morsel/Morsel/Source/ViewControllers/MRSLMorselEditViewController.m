@@ -268,13 +268,32 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 - (void)displayPublishMorsel {
-    [[MRSLEventManager sharedManager] track:@"Tapped Next"
-                                 properties:@{@"view": @"Your Morsel",
-                                              @"item_count": @([_items count]),
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                              @"morsel_draft":(_morsel.draftValue) ? @"true" : @"false"}];
-    [self performSegueWithIdentifier:@"seg_PublishMorsel"
-                              sender:nil];
+    self.morsel = [self getOrLoadMorselIfExists];
+    if (_morsel) {
+        if ([[_morsel items] count] == 0) {
+            [UIAlertView showOKAlertViewWithTitle:@"No items"
+                                          message:@"Please add at least one item to this Morsel to continue."];
+            return;
+        }
+        for (MRSLItem *item in _morsel.itemsArray) {
+            if (item.didFailUploadValue) {
+                [UIAlertView showOKAlertViewWithTitle:@"Item Upload Failed"
+                                              message:@"An item failed to upload. Please try again before continuing."];
+                return;
+            } else if (item.isUploadingValue) {
+                [UIAlertView showOKAlertViewWithTitle:@"Currently Uploading"
+                                              message:@"Please wait for all items to finish uploading before continuing."];
+                return;
+            }
+        }
+        [[MRSLEventManager sharedManager] track:@"Tapped Next"
+                                     properties:@{@"view": @"Your Morsel",
+                                                  @"item_count": @([_items count]),
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
+                                                  @"morsel_draft":(_morsel.draftValue) ? @"true" : @"false"}];
+        [self performSegueWithIdentifier:@"seg_PublishMorsel"
+                                  sender:nil];
+    }
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -567,19 +586,22 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
-                                     properties:@{@"view": @"Your Morsel",
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-        [_appDelegate.apiService deleteMorsel:_morsel
-                                      success:nil
-                                      failure:nil];
-        [_morsel MR_deleteEntity];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
-        if (self.presentingViewController) {
-            [self.presentingViewController dismissViewControllerAnimated:YES
-                                                              completion:nil];
-        } else {
-            [self.navigationController popToRootViewControllerAnimated:YES];
+        self.morsel = [self getOrLoadMorselIfExists];
+        if (_morsel) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
+                                         properties:@{@"view": @"Your Morsel",
+                                                      @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+            [_appDelegate.apiService deleteMorsel:_morsel
+                                          success:nil
+                                          failure:nil];
+            [_morsel MR_deleteEntity];
+            [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+            if (self.presentingViewController) {
+                [self.presentingViewController dismissViewControllerAnimated:YES
+                                                                  completion:nil];
+            } else {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
         }
     } else {
         [[MRSLEventManager sharedManager] track:@"Tapped Cancel Delete Morsel"
