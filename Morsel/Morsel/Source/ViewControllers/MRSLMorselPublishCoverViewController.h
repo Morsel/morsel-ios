@@ -10,6 +10,6 @@
 
 @interface MRSLMorselPublishCoverViewController : MRSLBaseViewController
 
-@property (strong, nonatomic) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end

@@ -37,22 +37,6 @@
 #pragma mark - Action Methods
 
 - (IBAction)publishMorsel:(id)sender {
-    if ([[_morsel items] count] == 0) {
-        [UIAlertView showAlertViewForErrorString:@"Sorry, it looks like this Morsel has no items!"
-                                        delegate:nil];
-        return;
-    }
-    for (MRSLItem *item in _morsel.itemsArray) {
-        if (item.didFailUploadValue) {
-            [UIAlertView showAlertViewForErrorString:@"Sorry, it looks like an item failed to upload, return to the previous screen to try again!"
-                                            delegate:nil];
-            return;
-        } else if (item.isUploadingValue) {
-            [UIAlertView showAlertViewForErrorString:@"Sorry, not all items are finished uploading. Please try again in a moment!"
-                                            delegate:nil];
-            return;
-        }
-    }
     _publishButton.enabled = NO;
     _morsel.draft = @NO;
     __weak __typeof(self) weakSelf = self;
