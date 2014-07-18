@@ -112,8 +112,7 @@
                             andCount:(NSNumber *)countOrNil
                              success:(MRSLAPIArrayBlock)successOrNil
                              failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"provider" : NSNullIfNil(provider),
-                                                                       @"uids" : NSNullIfNil(uids)}
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"provider" : NSNullIfNil(provider)}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (maxOrNil && sinceOrNil) {
@@ -125,19 +124,28 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] GET:@"authentications/connections"
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importManagedObjectClass:[MRSLUser class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    NSData *uidData = [uids dataUsingEncoding:NSUTF8StringEncoding];
+    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+    NSString *urlString = [[NSURL URLWithString:@"authentications/connections"
+                                  relativeToURL:[[MRSLAPIClient sharedClient] baseURL]] absoluteString];
+    NSMutableURLRequest *request = [requestSerializer multipartFormRequestWithMethod:@"POST"
+                                                                           URLString:urlString
+                                                                          parameters:parameters
+                                                           constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                                               [formData appendPartWithFormData:uidData name:@"uids"];
+                                                           }];
+    AFHTTPRequestOperation *operation = [[MRSLAPIClient sharedClient] HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self importManagedObjectClass:[MRSLUser class]
+                        withDictionary:responseObject
+                               success:successOrNil
+                               failure:failureOrNil];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self reportFailure:failureOrNil
+               forOperation:operation
+                  withError:error
+                   inMethod:NSStringFromSelector(_cmd)];
+    }];
+    [[MRSLAPIClient sharedClient].operationQueue addOperation:operation];
 }
 
 - (void)updateUserAuthentication:(MRSLSocialAuthentication *)authentication
