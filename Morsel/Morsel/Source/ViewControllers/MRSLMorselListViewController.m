@@ -114,7 +114,9 @@ NSFetchedResultsControllerDelegate>
     NSError *fetchError = nil;
     [_morselsFetchedResultsController performFetch:&fetchError];
     self.morsels = [[_morselsFetchedResultsController fetchedObjects] mutableCopy];
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 - (void)refreshContent {
