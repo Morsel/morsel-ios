@@ -46,6 +46,8 @@ UIAlertViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (!_user) self.user = [MRSLUser currentUser];
+
     self.scrollViewHeight = [_contentScrollView getHeight];
     self.bioTextView.backgroundColor = [UIColor morselLightOffColor];
     self.bioTextView.placeholder = @"Tell us about yourself";
@@ -60,13 +62,8 @@ UIAlertViewDelegate>
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     _photoChanged = NO;
     [self populateContent];
-
     [[self.navigationItem rightBarButtonItem] setEnabled:[self isDirty]];
 }
 

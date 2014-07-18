@@ -112,7 +112,7 @@
 #pragma mark - Utility Methods
 
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
-    UINavigationController *containingNavigationController = self.navigationController;
+    UINavigationController *containingNavigationController = (self.presentedViewController) ? self.presentedViewController.navigationController : self.navigationController;
     [super dismissViewControllerAnimated:flag completion:^{
         /*
          This is essential due to UINavigationController instances originating from UIStoryboard
