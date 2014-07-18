@@ -33,14 +33,11 @@
 		061B4EAA195CC4DD00BC4C76 /* MRSLProfileEditPlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061B4EA5195CC4DD00BC4C76 /* MRSLProfileEditPlacesViewController.m */; };
 		061B4EAB195CC4DD00BC4C76 /* MRSLSocialConnectionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061B4EA7195CC4DD00BC4C76 /* MRSLSocialConnectionsTableViewController.m */; };
 		061DF44418E36CDE00D1CA80 /* NSMutableArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 061DF44318E36CDE00D1CA80 /* NSMutableArray+Additions.m */; };
-		061F9344190F67BB00608C0B /* MRSLProfileUserTagsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F9343190F67BB00608C0B /* MRSLProfileUserTagsListViewController.m */; };
 		061F934A1910091400608C0B /* MRSLTagStatsNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F93491910091400608C0B /* MRSLTagStatsNameCell.m */; };
 		061F934D1910094400608C0B /* MRSLTagStatsTypeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F934C1910094400608C0B /* MRSLTagStatsTypeCell.m */; };
 		061F93501910096E00608C0B /* MRSLTagStatsSupplmentaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F934F1910096E00608C0B /* MRSLTagStatsSupplmentaryCell.m */; };
 		061F93531910174300608C0B /* MRSLTagBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F93521910174300608C0B /* MRSLTagBaseCell.m */; };
-		061F935719102DAB00608C0B /* MRSLUserTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F935619102DAB00608C0B /* MRSLUserTagListViewController.m */; };
 		061F935A191037D700608C0B /* MRSLTagListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F9359191037D700608C0B /* MRSLTagListTableViewCell.m */; };
-		061F935D191052FB00608C0B /* MRSLUserTagEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F935C191052FB00608C0B /* MRSLUserTagEditViewController.m */; };
 		061F936019105C7A00608C0B /* MRSLKeywordUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F935F19105C7A00608C0B /* MRSLKeywordUsersViewController.m */; };
 		062064121919629200D8DCF9 /* MRSLSocialServiceFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 062064111919629200D8DCF9 /* MRSLSocialServiceFacebook.m */; };
 		062064151919629D00D8DCF9 /* MRSLSocialServiceTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 062064141919629D00D8DCF9 /* MRSLSocialServiceTwitter.m */; };
@@ -470,8 +467,6 @@
 		061B4EA7195CC4DD00BC4C76 /* MRSLSocialConnectionsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSocialConnectionsTableViewController.m; sourceTree = "<group>"; };
 		061DF44218E36CDE00D1CA80 /* NSMutableArray+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Additions.h"; sourceTree = "<group>"; };
 		061DF44318E36CDE00D1CA80 /* NSMutableArray+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Additions.m"; sourceTree = "<group>"; };
-		061F9342190F67BB00608C0B /* MRSLProfileUserTagsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLProfileUserTagsListViewController.h; sourceTree = "<group>"; };
-		061F9343190F67BB00608C0B /* MRSLProfileUserTagsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLProfileUserTagsListViewController.m; sourceTree = "<group>"; };
 		061F93481910091400608C0B /* MRSLTagStatsNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLTagStatsNameCell.h; path = Source/Views/MRSLTagStatsNameCell.h; sourceTree = "<group>"; };
 		061F93491910091400608C0B /* MRSLTagStatsNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLTagStatsNameCell.m; path = Source/Views/MRSLTagStatsNameCell.m; sourceTree = "<group>"; };
 		061F934B1910094400608C0B /* MRSLTagStatsTypeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLTagStatsTypeCell.h; path = Source/Views/MRSLTagStatsTypeCell.h; sourceTree = "<group>"; };
@@ -480,12 +475,8 @@
 		061F934F1910096E00608C0B /* MRSLTagStatsSupplmentaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLTagStatsSupplmentaryCell.m; path = Source/Views/MRSLTagStatsSupplmentaryCell.m; sourceTree = "<group>"; };
 		061F93511910174300608C0B /* MRSLTagBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLTagBaseCell.h; path = Source/Views/MRSLTagBaseCell.h; sourceTree = "<group>"; };
 		061F93521910174300608C0B /* MRSLTagBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLTagBaseCell.m; path = Source/Views/MRSLTagBaseCell.m; sourceTree = "<group>"; };
-		061F935519102DAB00608C0B /* MRSLUserTagListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLUserTagListViewController.h; sourceTree = "<group>"; };
-		061F935619102DAB00608C0B /* MRSLUserTagListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLUserTagListViewController.m; sourceTree = "<group>"; };
 		061F9358191037D700608C0B /* MRSLTagListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLTagListTableViewCell.h; path = Source/Views/MRSLTagListTableViewCell.h; sourceTree = "<group>"; };
 		061F9359191037D700608C0B /* MRSLTagListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLTagListTableViewCell.m; path = Source/Views/MRSLTagListTableViewCell.m; sourceTree = "<group>"; };
-		061F935B191052FB00608C0B /* MRSLUserTagEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLUserTagEditViewController.h; sourceTree = "<group>"; };
-		061F935C191052FB00608C0B /* MRSLUserTagEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLUserTagEditViewController.m; sourceTree = "<group>"; };
 		061F935E19105C7A00608C0B /* MRSLKeywordUsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLKeywordUsersViewController.h; sourceTree = "<group>"; };
 		061F935F19105C7A00608C0B /* MRSLKeywordUsersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLKeywordUsersViewController.m; sourceTree = "<group>"; };
 		062064101919629200D8DCF9 /* MRSLSocialServiceFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSocialServiceFacebook.h; sourceTree = "<group>"; };
@@ -1141,10 +1132,8 @@
 			children = (
 				061F935E19105C7A00608C0B /* MRSLKeywordUsersViewController.h */,
 				061F935F19105C7A00608C0B /* MRSLKeywordUsersViewController.m */,
-				061F935B191052FB00608C0B /* MRSLUserTagEditViewController.h */,
-				061F935C191052FB00608C0B /* MRSLUserTagEditViewController.m */,
-				061F935519102DAB00608C0B /* MRSLUserTagListViewController.h */,
-				061F935619102DAB00608C0B /* MRSLUserTagListViewController.m */,
+				403B5BFB195A1040001F33D2 /* MRSLToggleKeywordsTableViewController.h */,
+				403B5BFC195A1040001F33D2 /* MRSLToggleKeywordsTableViewController.m */,
 			);
 			name = Tags;
 			sourceTree = "<group>";
@@ -1662,8 +1651,6 @@
 				061B4EA3195CC4DD00BC4C76 /* MRSLProfileEditFieldsViewController.m */,
 				061B4EA4195CC4DD00BC4C76 /* MRSLProfileEditPlacesViewController.h */,
 				061B4EA5195CC4DD00BC4C76 /* MRSLProfileEditPlacesViewController.m */,
-				061F9342190F67BB00608C0B /* MRSLProfileUserTagsListViewController.h */,
-				061F9343190F67BB00608C0B /* MRSLProfileUserTagsListViewController.m */,
 				066F5ADD185BCB5000468210 /* MRSLProfileViewController.h */,
 				066F5ADE185BCB5000468210 /* MRSLProfileViewController.m */,
 				061B4EA6195CC4DD00BC4C76 /* MRSLSocialConnectionsTableViewController.h */,
@@ -2201,8 +2188,6 @@
 				40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */,
 				408504A7193FF0F5003AE38B /* MRSLSettingsViewController.h */,
 				408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */,
-				403B5BFB195A1040001F33D2 /* MRSLToggleKeywordsTableViewController.h */,
-				403B5BFC195A1040001F33D2 /* MRSLToggleKeywordsTableViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2550,7 +2535,6 @@
 				06B87814193CBB7500160707 /* MRSLPlaceDetailInfoCollectionViewCell.m in Sources */,
 				40DC742F19549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */,
 				06B87808193CB01F00160707 /* MRSLPlacePanelCollectionViewCell.m in Sources */,
-				061F935D191052FB00608C0B /* MRSLUserTagEditViewController.m in Sources */,
 				0692743A1935094A00F59621 /* MRSLPanelSegmentedCollectionViewDataSource.m in Sources */,
 				0645179F18CAB44D00D11DB4 /* MRSLMorselPublishCoverViewController.m in Sources */,
 				403B5BFD195A1040001F33D2 /* MRSLToggleKeywordsTableViewController.m in Sources */,
@@ -2613,7 +2597,6 @@
 				0693C25718F6C7320026D6B3 /* MRSLMorsel.m in Sources */,
 				400350A118EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */,
 				069CCD6E1901A49800D1B770 /* MRSLMorselPublishShareViewController.m in Sources */,
-				061F935719102DAB00608C0B /* MRSLUserTagListViewController.m in Sources */,
 				4062A4FB196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */,
 				407FDF5B194807E4005FEEBF /* RollbarFileReader.m in Sources */,
 				403E9E2518EDCC20003CDE3B /* MRSLNotification.m in Sources */,
@@ -2636,7 +2619,6 @@
 				06DAFB46191A914C0044AF3E /* MRSLAPIService+Authentication.m in Sources */,
 				062D7D651942AA950079F999 /* MRSLColoredBackgroundToggleButton.m in Sources */,
 				06DAFB5B191A93D20044AF3E /* MRSLAPIService+Tag.m in Sources */,
-				061F9344190F67BB00608C0B /* MRSLProfileUserTagsListViewController.m in Sources */,
 				40854F8219745BA30015DFBB /* UITableView+Additions.m in Sources */,
 				06E89F8F1885ED3B00DA3A90 /* MRSLUtil.m in Sources */,
 				066F5AD7185BCA4D00468210 /* MRSLComment.m in Sources */,

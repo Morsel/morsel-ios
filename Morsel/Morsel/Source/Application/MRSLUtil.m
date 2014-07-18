@@ -131,6 +131,9 @@
         case MRSLDataSortTypeLikedDate:
             return @"likedDate";
             break;
+        case MRSLDataSortTypeTagKeywordType:
+            return @"keyword.type,keyword.name";
+            break;
         case MRSLDataSortTypeNone:
         default:
             return nil;

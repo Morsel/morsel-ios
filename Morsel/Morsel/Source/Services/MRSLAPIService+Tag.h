@@ -28,6 +28,10 @@
                    success:(MRSLAPIArrayBlock)successOrNil
                    failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)getUserTags:(MRSLUser *)user
+            success:(MRSLAPIArrayBlock)successOrNil
+            failure:(MRSLFailureBlock)failureOrNil;
+
 - (void)createTagForKeyword:(MRSLKeyword *)keyword
                     success:(MRSLAPISuccessBlock)successOrNil
                     failure:(MRSLFailureBlock)failureOrNil;

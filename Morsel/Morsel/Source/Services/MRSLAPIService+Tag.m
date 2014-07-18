@@ -98,6 +98,26 @@
                               }];
 }
 
+- (void)getUserTags:(MRSLUser *)user
+            success:(MRSLAPIArrayBlock)successOrNil
+            failure:(MRSLFailureBlock)failureOrNil {
+    __block NSMutableArray *objectIDs = [NSMutableArray array];
+    __weak __typeof(self) weakSelf = self;
+    [self getUserCuisines:user
+                  success:^(NSArray *cuisineResponse) {
+                      [objectIDs addObjectsFromArray:cuisineResponse];
+                      [weakSelf getUserSpecialties:user
+                                           success:^(NSArray *specialtyResponse) {
+                                               [objectIDs addObjectsFromArray:specialtyResponse];
+                                               if (successOrNil) successOrNil(objectIDs);
+                                           } failure:^(NSError *error) {
+                                               if (failureOrNil) failureOrNil(error);
+                                           }];
+                  } failure:^(NSError *error) {
+                      if (failureOrNil) failureOrNil(error);
+                  }];
+}
+
 - (void)createTagForKeyword:(MRSLKeyword *)keyword
                     success:(MRSLAPISuccessBlock)successOrNil
                     failure:(MRSLFailureBlock)failureOrNil {

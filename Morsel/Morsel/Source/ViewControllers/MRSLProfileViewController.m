@@ -20,10 +20,8 @@
 #import "MRSLPlaceViewController.h"
 #import "MRSLProfileEditFieldsViewController.h"
 #import "MRSLProfileImageView.h"
-#import "MRSLProfileUserTagsListViewController.h"
 #import "MRSLUserMorselsFeedViewController.h"
 #import "MRSLUserFollowListViewController.h"
-#import "MRSLUserTagListViewController.h"
 
 #import "MRSLStateView.h"
 #import "MRSLCollectionView.h"
@@ -33,10 +31,12 @@
 #import "MRSLPlaceCollectionViewCell.h"
 #import "MRSLProfilePanelCollectionViewCell.h"
 #import "MRSLSegmentedHeaderReusableView.h"
+#import "MRSLTagStatsNameCell.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLPlace.h"
+#import "MRSLKeyword.h"
 #import "MRSLTag.h"
 #import "MRSLUser.h"
 
@@ -44,7 +44,6 @@
 <UIScrollViewDelegate,
 MRSLCollectionViewDataSourceDelegate,
 MRSLProfilePanelCollectionViewCellDelegate,
-MRSLProfileUserTagsListViewControllerDelegate,
 MRSLSegmentedHeaderReusableViewDelegate,
 MRSLStateViewDelegate>
 
@@ -321,19 +320,14 @@ MRSLStateViewDelegate>
                     [cell addBorderWithDirections:MRSLBorderSouth
                                       borderColor:[UIColor morselLightOffColor]];
                 }
-            }
-        } else {
-            if (_dataSourceTabType == MRSLDataSourceTypeTag) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_ContainerCell"
+            } else if ([item isKindOfClass:[MRSLTag class]]) {
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_KeywordCell"
                                                                  forIndexPath:indexPath];
-                if ([[cell.contentView.subviews firstObject] tag] != MRSLStatsTagViewTag) {
-                    MRSLProfileUserTagsListViewController *statsTagVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileUserTagsListViewController"];
-                    statsTagVC.delegate = self;
-                    statsTagVC.user = _user;
-                    statsTagVC.view.tag = MRSLStatsTagViewTag;
-                    [statsTagVC.view setHeight:500.f];
-                    [self addChildViewController:statsTagVC];
-                    [cell.contentView addSubview:statsTagVC.view];
+                [[(MRSLTagStatsNameCell *)cell nameLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] name]];
+                [[(MRSLTagStatsNameCell *)cell tagTypeLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] isCuisineType] ? @"Cuisines" : @"Specialties"];
+                if (indexPath.row != count) {
+                    [cell addBorderWithDirections:MRSLBorderSouth
+                                      borderColor:[UIColor morselLightOffColor]];
                 }
             }
         }
@@ -353,6 +347,14 @@ MRSLStateViewDelegate>
             id object = [_segmentedPanelCollectionViewDataSource objectAtIndexPath:indexPath];
             if ([object isKindOfClass:[MRSLMorsel class]]) {
                 return CGSizeMake(106.f, 106.f);
+            } else if ([object isKindOfClass:[MRSLTag class]]) {
+                BOOL shouldDisplayTypeHeader = (indexPath.row == 0);
+                if (indexPath.row > 0) {
+                    MRSLTag *currentTag = object;
+                    MRSLTag *previousTag = [self.segmentedPanelCollectionViewDataSource objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section]];
+                    shouldDisplayTypeHeader = ![previousTag.keyword.type isEqualToString:currentTag.keyword.type];
+                }
+                return CGSizeMake(320.f, (shouldDisplayTypeHeader) ? 80.f : 40.f);
             } else {
                 return CGSizeMake(320.f, 80.f);
             }
@@ -363,11 +365,7 @@ MRSLStateViewDelegate>
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"seg_KeywordList"]) {
-        MRSLUserTagListViewController *userKeywordListVC = [segue destinationViewController];
-        userKeywordListVC.user = _user;
-        userKeywordListVC.keywordType = _keywordType;
-    } else if ([segue.identifier isEqualToString:@"seg_FollowList"]) {
+    if ([segue.identifier isEqualToString:@"seg_FollowList"]) {
         MRSLUserFollowListViewController *userFollowListVC = [segue destinationViewController];
         userFollowListVC.user = _user;
         userFollowListVC.shouldDisplayFollowers = _shouldShowFollowers;
@@ -402,6 +400,11 @@ MRSLStateViewDelegate>
         MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceViewController"];
         placeVC.place = item;
         [self.navigationController pushViewController:placeVC
+                                             animated:YES];
+    } else if ([item isKindOfClass:[MRSLTag class]]) {
+        MRSLKeywordUsersViewController *keywordUsersVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLKeywordUsersViewController"];
+        keywordUsersVC.keyword = [(MRSLTag *)item keyword];
+        [self.navigationController pushViewController:keywordUsersVC
                                              animated:YES];
     }
 }
@@ -454,7 +457,7 @@ MRSLStateViewDelegate>
             case MRSLDataSourceTypeTag:
                 [self.profileCollectionView setEmptyStateTitle:@"No tags added"];
                 if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:@"Manage tags"];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeName
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeTagKeywordType
                                                                    ascending:YES];
                 break;
             default:
@@ -471,21 +474,6 @@ MRSLStateViewDelegate>
         [self refreshContent];
     }
 }
-
-#pragma mark - MRSLProfileUserTagsListViewControllerDelegate
-
-- (void)profileUserTagsListViewControllerDidSelectTag:(MRSLTag *)tag {
-    MRSLKeywordUsersViewController *keywordUsersVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLKeywordUsersViewController"];
-    keywordUsersVC.keyword = tag.keyword;
-    [self.navigationController pushViewController:keywordUsersVC
-                                         animated:YES];
-}
-
-- (void)profileUserTagsListViewControllerDidSelectType:(NSString *)type {
-    self.keywordType = type;
-    [self performSegueWithIdentifier:@"seg_KeywordList" sender:nil];
-}
-
 
 #pragma mark - MRSLStateViewDelegate
 
