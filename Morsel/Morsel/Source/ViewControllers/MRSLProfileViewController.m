@@ -386,7 +386,7 @@ MRSLStateViewDelegate>
                                              animated:YES];
     } else if ([item isKindOfClass:[MRSLItem class]]) {
         MRSLItem *morselItem = item;
-        if (morselItem.morsel) {
+        if (morselItem.morsel && [morselItem.morsel hasCreatorInfo]) {
             [self displayUserFeedWithMorsel:morselItem.morsel];
         } else if (morselItem.morsel_id) {
             __weak __typeof(self) weakSelf = self;

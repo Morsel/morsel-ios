@@ -5,5 +5,6 @@
 - (NSDate *)latestUpdatedDate;
 - (NSArray *)itemsArray;
 - (MRSLItem *)coverItem;
+- (BOOL)hasCreatorInfo;
 
 @end
