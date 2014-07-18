@@ -11,6 +11,7 @@
 #import "MRSLAPIService+Like.h"
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Place.h"
+#import "MRSLAPIService+Tag.h"
 
 @implementation MRSLAPIService (Router)
 
@@ -46,6 +47,11 @@
                                              andCount:countOrNil
                                               success:successOrNil
                                               failure:failureOrNil];
+            break;
+        case MRSLDataSourceTypeTag:
+            [_appDelegate.apiService getUserTags:user
+                                         success:successOrNil
+                                         failure:failureOrNil];
             break;
         default:
             if (failureOrNil) failureOrNil(nil);

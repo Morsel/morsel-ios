@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mgU-9x-CbA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mgU-9x-CbA">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -233,6 +233,42 @@
                                             <outlet property="placeNameLabel" destination="fJF-2g-kbu" id="VSV-Te-kJ1"/>
                                         </connections>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_KeywordCell" id="CWi-xk-baE" customClass="MRSLTagStatsNameCell">
+                                        <rect key="frame" x="0.0" y="505" width="320" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" id="trs-I5-n2j">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <color key="backgroundColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keyword" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nyx-nU-wkJ" customClass="MRSLRobotoLightLabel">
+                                                    <rect key="frame" x="40" y="40" width="260" height="40"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                                    <color key="textColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="E0R-0X-uen" customClass="MRSLRobotoSlabBoldLabel">
+                                                    <rect key="frame" x="20" y="0.0" width="300" height="40"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="18"/>
+                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <size key="customSize" width="320" height="80"/>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="nyx-nU-wkJ" id="Luf-8S-DNE"/>
+                                            <outlet property="tagTypeLabel" destination="E0R-0X-uen" id="rgB-ba-d7f"/>
+                                        </connections>
+                                    </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_HeaderCell" id="Tfj-fk-nYN" customClass="MRSLSegmentedHeaderReusableView">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -332,7 +368,6 @@
                         <outlet property="followButton" destination="D9H-eS-9AV" id="t7C-NC-wWG"/>
                         <outlet property="profileCollectionView" destination="nOm-Tm-KKG" id="RBq-7I-Q43"/>
                         <segue destination="cTM-Ai-v5D" kind="push" identifier="seg_FollowList" id="Mat-q5-4Vl"/>
-                        <segue destination="enk-m9-DXw" kind="push" identifier="seg_KeywordList" id="mWo-bq-nAm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DG6-lV-ROE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -409,169 +444,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TyD-W3-D2u" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1840" y="1596"/>
-        </scene>
-        <!--Profile User Tags List View Controller-->
-        <scene sceneID="1SS-Nt-8bG">
-            <objects>
-                <viewController storyboardIdentifier="sb_MRSLProfileUserTagsListViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="waq-iT-bDR" customClass="MRSLProfileUserTagsListViewController" sceneMemberID="viewController">
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="3z2-P3-iNt">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="OJ8-6g-Y5V">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="guP-tA-5gQ">
-                                    <size key="itemSize" width="320" height="40"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_KeywordTypeCell" id="eRr-BL-GgB" customClass="MRSLTagStatsTypeCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1RA-Ku-3jq" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="20" y="0.0" width="300" height="40"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="18"/>
-                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <color key="backgroundColor" red="0.91372549530000002" green="0.92941176889999999" blue="0.94117647410000005" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <outlet property="nameLabel" destination="1RA-Ku-3jq" id="1oc-L6-Y7r"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_KeywordCell" id="lVm-LP-mdZ" customClass="MRSLTagStatsNameCell">
-                                        <rect key="frame" x="0.0" y="42" width="320" height="40"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keyword" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JQJ-rs-Ew9" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="40" y="0.0" width="260" height="40"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
-                                                    <color key="textColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <connections>
-                                            <outlet property="nameLabel" destination="JQJ-rs-Ew9" id="D6V-bt-Z8u"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_SupplementaryCell" id="5Ee-en-TeF" customClass="MRSLTagStatsSupplmentaryCell">
-                                        <rect key="frame" x="0.0" y="84" width="320" height="40"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Supplement" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nII-h4-sik" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="40" y="0.0" width="260" height="40"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
-                                                    <color key="textColor" white="0.64979208669354838" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <connections>
-                                            <outlet property="nameLabel" destination="nII-h4-sik" id="XWe-X0-vA3"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="waq-iT-bDR" id="4zi-f2-PKS"/>
-                                    <outlet property="delegate" destination="waq-iT-bDR" id="OK5-cN-ICz"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <toolbarItems/>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="214"/>
-                    <connections>
-                        <outlet property="collectionView" destination="OJ8-6g-Y5V" id="UsZ-EZ-Llc"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zj9-jS-bV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1297" y="-288"/>
-        </scene>
-        <!--User Tag List View Controller - Keywords-->
-        <scene sceneID="87N-bJ-slL">
-            <objects>
-                <viewController storyboardIdentifier="sb_MRSLUserTagListViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="enk-m9-DXw" customClass="MRSLUserTagListViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="bMs-sS-5bR">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="Tjh-FH-FiC" customClass="MRSLTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ruid_TagListCell" id="5mM-4S-HVS" customClass="MRSLTagListTableViewCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5mM-4S-HVS" id="73Q-N8-51f">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keyword" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ans-sh-QEq" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="20" y="15" width="242" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
-                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" id="Wga-5V-W8k">
-                                                    <rect key="frame" x="20" y="59" width="270" height="1"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                    <color key="backgroundColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="nameLabel" destination="Ans-sh-QEq" id="xUP-7U-mHI"/>
-                                            <outlet property="pipeView" destination="Wga-5V-W8k" id="XCQ-5d-faJ"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="enk-m9-DXw" id="Hdu-fy-f93"/>
-                                    <outlet property="delegate" destination="enk-m9-DXw" id="dYY-2G-1Mt"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Keywords" id="tDD-3e-nTj"/>
-                    <connections>
-                        <outlet property="tableView" destination="Tjh-FH-FiC" id="Je1-uo-bK1"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kTd-Yz-XG7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1840" y="96"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="A0T-6o-kWN">
@@ -664,69 +536,6 @@
             </objects>
             <point key="canvasLocation" x="1840" y="836"/>
         </scene>
-        <!--User Tag Edit View Controller - Edit Keywords-->
-        <scene sceneID="ZtI-2R-SgE">
-            <objects>
-                <viewController storyboardIdentifier="sb_MRSLUserTagEditViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="ZtS-82-fcv" customClass="MRSLUserTagEditViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="99r-wy-v17">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsMultipleSelection="YES" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="s7K-rw-CnZ" customClass="MRSLTableView">
-                                <rect key="frame" x="-1" y="1" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ruid_AddKeywordCell" id="KjA-p8-xGW" customClass="MRSLToggleKeywordTableViewCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KjA-p8-xGW" id="jXS-db-LVR">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keyword" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wgx-oN-mXD" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="20" y="15" width="242" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
-                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-circle-check-green" id="fmp-54-Fuz">
-                                                    <rect key="frame" x="270" y="15" width="30" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
-                                                <view contentMode="scaleToFill" id="cY5-Jb-ICC">
-                                                    <rect key="frame" x="20" y="60" width="270" height="1"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                    <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="keywordCheckmarkView" destination="fmp-54-Fuz" id="s9b-xb-sdk"/>
-                                            <outlet property="keywordNameLabel" destination="Wgx-oN-mXD" id="7Ii-zg-P8d"/>
-                                            <outlet property="pipeView" destination="cY5-Jb-ICC" id="3cG-mV-pyQ"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="ZtS-82-fcv" id="Kng-hN-uk8"/>
-                                    <outlet property="delegate" destination="ZtS-82-fcv" id="ew5-eK-EAx"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Edit Keywords" id="Vw8-qJ-fac"/>
-                    <connections>
-                        <outlet property="tableView" destination="s7K-rw-CnZ" id="tWU-GX-Kpw"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PjB-Yz-vfC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1840" y="-642"/>
-        </scene>
         <!--Keyword Users View Controller - Followers-->
         <scene sceneID="2cp-Er-GNy">
             <objects>
@@ -798,7 +607,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ubg-DQ-VVe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2282" y="96"/>
+            <point key="canvasLocation" x="1840" y="96"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MAm-BU-cdH">
@@ -822,7 +631,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon-circle-check-green" width="30" height="30"/>
         <image name="icon-place" width="30" height="30"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>

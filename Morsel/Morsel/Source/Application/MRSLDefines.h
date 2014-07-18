@@ -69,6 +69,7 @@ typedef NS_ENUM(NSUInteger, MRSLDataSortType) {
     MRSLDataSortTypeLastName,
     MRSLDataSortTypeSortOrder,
     MRSLDataSortTypeLikedDate,
+    MRSLDataSortTypeTagKeywordType,
     MRSLDataSortTypeNone
 };
 
