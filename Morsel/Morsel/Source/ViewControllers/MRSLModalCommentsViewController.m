@@ -14,6 +14,7 @@
 
 #import "MRSLCommentTableViewCell.h"
 #import "MRSLProfileViewController.h"
+#import "MRSLTableView.h"
 
 #import "MRSLComment.h"
 #import "MRSLItem.h"
@@ -28,11 +29,11 @@ UITableViewDelegate,
 NSFetchedResultsControllerDelegate>
 
 @property (nonatomic) BOOL previousCommentsAvailable;
-@property (nonatomic) BOOL refreshing;
+@property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 
-@property (weak, nonatomic) IBOutlet UITableView *commentsTableView;
+@property (weak, nonatomic) IBOutlet MRSLTableView *commentsTableView;
 @property (weak, nonatomic) IBOutlet UIView *commentInputView;
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *commentInputTextView;
 
@@ -68,6 +69,7 @@ NSFetchedResultsControllerDelegate>
 
     [self.commentsTableView addSubview:_refreshControl];
     self.commentsTableView.alwaysBounceVertical = YES;
+    [self.commentsTableView setEmptyStateTitle:@"No comments yet. Add one below."];
 
     self.commentInputTextView.placeholder = @"Write a comment...";
     self.commentInputTextView.placeholderColor = [UIColor morselLightContent];
@@ -91,6 +93,12 @@ NSFetchedResultsControllerDelegate>
 
 #pragma mark - Private Methods
 
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+
+    [self.commentsTableView toggleLoading:loading];
+}
+
 - (void)setupFetchRequest {
     self.fetchedResultsController = [MRSLComment MR_fetchAllSortedBy:@"creationDate"
                                                            ascending:YES
@@ -110,7 +118,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)refreshContent {
     self.loadedAll = NO;
-    self.refreshing = YES;
+    self.loading = YES;
     __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService getComments:_item
                                withMaxID:nil
@@ -124,18 +132,18 @@ NSFetchedResultsControllerDelegate>
                                                                                    forKey:[NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue]];
                                          [weakSelf setupFetchRequest];
                                          [weakSelf populateContent];
-                                         weakSelf.refreshing = NO;
+                                         weakSelf.loading = NO;
                                      }
                                  } failure:^(NSError *error) {
                                      if (weakSelf) {
                                          [weakSelf.refreshControl endRefreshing];
-                                         weakSelf.refreshing = NO;
+                                         weakSelf.loading = NO;
                                      }
                                  }];
 }
 
 - (void)loadMore {
-    if (_loadingMore || !_item || _loadedAll || _refreshing) return;
+    if (_loadingMore || !_item || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more item comments");
     MRSLComment *lastComment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
