@@ -37,10 +37,6 @@
 - (void)setUser:(MRSLUser *)user {
     _user = user;
 
-    CGSize bioSize = [_user.bio sizeWithFont:self.bioLabel.font constrainedToSize:CGSizeMake(self.bioLabel.frame.size.width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-
-    [self.bioLabel setHeight:bioSize.height];
-
     self.nameLabel.text = [_user fullName];
     self.bioLabel.text = _user.bio;
     self.profileImageView.user = nil;
