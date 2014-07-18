@@ -210,6 +210,7 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                                                                      forIndexPath:indexPath];
         morselCoverCell.morsel = _morsel;
         morselCoverCell.delegate = self;
+        morselCoverCell.homeFeedItem = [[self parentViewController] isKindOfClass:NSClassFromString(@"MRSLFeedViewController")];
         cell = morselCoverCell;
     } else if (indexPath.row == [_morsel.items count] + 1) {
         MRSLFeedShareCollectionViewCell *shareCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedShareCell"
