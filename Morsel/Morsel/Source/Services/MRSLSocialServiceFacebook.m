@@ -205,7 +205,7 @@
 }
 
 - (NSString *)friendUIDString {
-    return [NSString stringWithFormat:@"'%@'", [_friendUIDs componentsJoinedByString:@"','"]];
+    return [NSString stringWithFormat:@"%@", [_friendUIDs componentsJoinedByString:@","]];
 }
 
 - (NSString *)facebookUsername {
