@@ -3,6 +3,7 @@
 @interface MRSLActivity : _MRSLActivity
 
 - (BOOL)hasItemSubject;
+- (BOOL)hasPlaceSubject;
 - (BOOL)hasUserSubject;
 
 - (BOOL)isCommentAction;

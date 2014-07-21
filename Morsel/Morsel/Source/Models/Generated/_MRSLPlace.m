@@ -38,6 +38,7 @@ const struct MRSLPlaceAttributes MRSLPlaceAttributes = {
 };
 
 const struct MRSLPlaceRelationships MRSLPlaceRelationships = {
+	.activitiesAsSubject = @"activitiesAsSubject",
 	.morsels = @"morsels",
 	.users = @"users",
 };
@@ -438,6 +439,19 @@ const struct MRSLPlaceFetchedProperties MRSLPlaceFetchedProperties = {
 
 
 
+
+@dynamic activitiesAsSubject;
+
+	
+- (NSMutableSet*)activitiesAsSubjectSet {
+	[self willAccessValueForKey:@"activitiesAsSubject"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"activitiesAsSubject"];
+  
+	[self didAccessValueForKey:@"activitiesAsSubject"];
+	return result;
+}
+	
 
 @dynamic morsels;
 

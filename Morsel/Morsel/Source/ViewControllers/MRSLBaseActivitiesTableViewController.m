@@ -12,6 +12,7 @@
 #import "MRSLAPIService+Morsel.h"
 
 #import "MRSLActivityTableViewCell.h"
+#import "MRSLPlaceViewController.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLTableViewDataSource.h"
 #import "MRSLUserMorselsFeedViewController.h"
@@ -91,6 +92,13 @@
                                          animated:YES];
 }
 
+- (void)displayPlace:(MRSLPlace *)place {
+    MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceViewController"];;
+    placeVC.place = place;
+    [self.navigationController pushViewController:placeVC
+                                         animated:YES];
+}
+
 - (void)displayUser:(MRSLUser *)user {
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
     profileVC.user = user;
@@ -116,9 +124,13 @@
 }
 
 - (void)showReceiverForActivity:(MRSLActivity *)activity {
-    MRSLUser *userSubject = activity.userSubject;
-
-    [self displayUser:userSubject];
+    if ([activity hasPlaceSubject]) {
+        MRSLPlace *placeSubject = activity.placeSubject;
+        [self displayPlace:placeSubject];
+    } else if ([activity hasUserSubject]) {
+        MRSLUser *userSubject = activity.userSubject;
+        [self displayUser:userSubject];
+    }
 }
 
 
