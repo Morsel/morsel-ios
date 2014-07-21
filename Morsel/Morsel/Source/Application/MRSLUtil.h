@@ -19,6 +19,8 @@
 + (BOOL)imageIsLandscape:(UIImage *)image;
 + (CGFloat)cameraDimensionScaleFromImage:(UIImage *)image;
 
++ (BOOL)dropboxAvailable;
+
 + (Class)classForDataSourceType:(MRSLDataSourceType)dataSourceTabType;
 + (NSString *)stringForDataSortType:(MRSLDataSortType)dataSortType;
 + (NSString *)stringForDataSourceType:(MRSLDataSourceType)dataSourceTabType;

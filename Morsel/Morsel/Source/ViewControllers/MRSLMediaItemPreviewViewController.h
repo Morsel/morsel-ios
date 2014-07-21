@@ -17,7 +17,7 @@
 
 @end
 
-@interface MRSLImagePreviewViewController : UIViewController
+@interface MRSLMediaItemPreviewViewController : MRSLBaseViewController
 
 @property (weak, nonatomic) id <MRSLImagePreviewViewControllerDelegate> delegate;
 

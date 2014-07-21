@@ -22,7 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		057749E490424AA8A501241D /* libPods-Morsel-Specs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F25ECEABED4243EAB69138D9 /* libPods-Morsel-Specs.a */; };
-		0609B8371894A9E6005A11A4 /* MRSLCaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* MRSLCaptureMediaViewController.m */; };
+		0609B8371894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.m */; };
 		0609B8401894B52E005A11A4 /* MRSLCameraPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B83F1894B52E005A11A4 /* MRSLCameraPreviewView.m */; };
 		060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */; };
 		061142A118F2766A00FA38BC /* MRSLModalShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061142A018F2766A00FA38BC /* MRSLModalShareViewController.m */; };
@@ -44,6 +44,8 @@
 		06225C86192BB618000721C1 /* MRSLFindFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06225C85192BB618000721C1 /* MRSLFindFriendsViewController.m */; };
 		06225C89192BB73D000721C1 /* MRSLSegmentedButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06225C88192BB73D000721C1 /* MRSLSegmentedButtonView.m */; };
 		06256C6E196DC07000E32630 /* MRSLMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 06256C6D196DC07000E32630 /* MRSLMenuItem.m */; };
+		0626C9C0197DA25100B47B58 /* MRSLCaptureMultipleMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626C9BF197DA25100B47B58 /* MRSLCaptureMultipleMediaViewController.m */; };
+		0626C9C3197DA26000B47B58 /* MRSLCaptureSingleMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626C9C2197DA26000B47B58 /* MRSLCaptureSingleMediaViewController.m */; };
 		0629D76119415D61005B5711 /* NSDate+TimeAgoMinimized.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629D76019415D61005B5711 /* NSDate+TimeAgoMinimized.m */; };
 		062AB98818C534B600742955 /* MorselManagement_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 062AB98618C534B600742955 /* MorselManagement_iPhone.storyboard */; };
 		062AB98B18C53DE800742955 /* MRSLAppDelegate+SetupAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB98A18C53DE800742955 /* MRSLAppDelegate+SetupAppearance.m */; };
@@ -52,7 +54,7 @@
 		062AB99418C5885F00742955 /* MRSLMorselListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB99318C5885F00742955 /* MRSLMorselListViewController.m */; };
 		062AB99718C5970400742955 /* MRSLMorselAddTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB99618C5970400742955 /* MRSLMorselAddTitleViewController.m */; };
 		062AB99A18C655DF00742955 /* MRSLMorselEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB99918C655DF00742955 /* MRSLMorselEditViewController.m */; };
-		062AB9A218C681C900742955 /* MRSLImagePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB9A118C681C900742955 /* MRSLImagePreviewViewController.m */; };
+		062AB9A218C681C900742955 /* MRSLMediaItemPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB9A118C681C900742955 /* MRSLMediaItemPreviewViewController.m */; };
 		062D7D651942AA950079F999 /* MRSLColoredBackgroundToggleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D7D641942AA950079F999 /* MRSLColoredBackgroundToggleButton.m */; };
 		062DF21718845B7E00C199D8 /* MRSLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062DF21618845B7D00C199D8 /* MRSLLoginViewController.m */; };
 		063250CA1860E1DD00ADDF23 /* MRSLRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063250C91860E1DD00ADDF23 /* MRSLRootViewController.m */; };
@@ -81,7 +83,7 @@
 		064566F418C50BDD00C9CCBF /* Activity_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064566F218C50BDD00C9CCBF /* Activity_iPhone.storyboard */; };
 		064A0F5818A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */; };
 		0657357E19240C58000D2761 /* MRSLSocialAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 0657357D19240C58000D2761 /* MRSLSocialAuthentication.m */; };
-		06584C5418C7C37300D9035A /* MRSLCapturePreviewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06584C5318C7C37300D9035A /* MRSLCapturePreviewsViewController.m */; };
+		06584C5418C7C37300D9035A /* MRSLMediaItemThumbnailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06584C5318C7C37300D9035A /* MRSLMediaItemThumbnailViewController.m */; };
 		06584C5818C7CB6A00D9035A /* MRSLMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 06584C5718C7CB6A00D9035A /* MRSLMediaItem.m */; };
 		06584C5B18C7CE8F00D9035A /* MRSLMediaItemPreviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06584C5A18C7CE8F00D9035A /* MRSLMediaItemPreviewCollectionViewCell.m */; };
 		065904D41937DD8700414E06 /* MRSLPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 065904D31937DD8700414E06 /* MRSLPlace.m */; };
@@ -153,7 +155,7 @@
 		0698CA9C18524100007AF442 /* _MRSLUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0698CA9B18524100007AF442 /* _MRSLUser.m */; };
 		0698CABA1852432D007AF442 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0698CAB81852432D007AF442 /* InfoPlist.strings */; };
 		0698CAD018524359007AF442 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0698CACE18524359007AF442 /* InfoPlist.strings */; };
-		069AE51A18B80FDF002F63D5 /* MRSLCaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* MRSLCaptureMediaViewController.m */; };
+		069AE51A18B80FDF002F63D5 /* MRSLBaseCaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.m */; };
 		069B4332192CF11500C76991 /* MRSLSocialServiceInstagram.m in Sources */ = {isa = PBXBuildFile; fileRef = 069B4331192CF11500C76991 /* MRSLSocialServiceInstagram.m */; };
 		069CCD6E1901A49800D1B770 /* MRSLMorselPublishShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 069CCD6D1901A49800D1B770 /* MRSLMorselPublishShareViewController.m */; };
 		069CF77719423985004D769A /* MRSLRegularButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 069CF77619423985004D769A /* MRSLRegularButton.m */; };
@@ -446,8 +448,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0609B8351894A9E6005A11A4 /* MRSLCaptureMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCaptureMediaViewController.h; sourceTree = "<group>"; };
-		0609B8361894A9E6005A11A4 /* MRSLCaptureMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCaptureMediaViewController.m; sourceTree = "<group>"; };
+		0609B8351894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseCaptureMediaViewController.h; sourceTree = "<group>"; };
+		0609B8361894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLBaseCaptureMediaViewController.m; sourceTree = "<group>"; };
 		0609B83E1894B52E005A11A4 /* MRSLCameraPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLCameraPreviewView.h; path = Source/Views/MRSLCameraPreviewView.h; sourceTree = "<group>"; };
 		0609B83F1894B52E005A11A4 /* MRSLCameraPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLCameraPreviewView.m; path = Source/Views/MRSLCameraPreviewView.m; sourceTree = "<group>"; };
 		060FEC4718DCC75E00085ED1 /* MRSLBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseViewController.h; sourceTree = "<group>"; };
@@ -489,6 +491,10 @@
 		06225C88192BB73D000721C1 /* MRSLSegmentedButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSegmentedButtonView.m; path = Source/Views/MRSLSegmentedButtonView.m; sourceTree = "<group>"; };
 		06256C6C196DC07000E32630 /* MRSLMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLMenuItem.h; path = Source/Models/MRSLMenuItem.h; sourceTree = "<group>"; };
 		06256C6D196DC07000E32630 /* MRSLMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMenuItem.m; path = Source/Models/MRSLMenuItem.m; sourceTree = "<group>"; };
+		0626C9BE197DA25100B47B58 /* MRSLCaptureMultipleMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCaptureMultipleMediaViewController.h; sourceTree = "<group>"; };
+		0626C9BF197DA25100B47B58 /* MRSLCaptureMultipleMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCaptureMultipleMediaViewController.m; sourceTree = "<group>"; };
+		0626C9C1197DA26000B47B58 /* MRSLCaptureSingleMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCaptureSingleMediaViewController.h; sourceTree = "<group>"; };
+		0626C9C2197DA26000B47B58 /* MRSLCaptureSingleMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCaptureSingleMediaViewController.m; sourceTree = "<group>"; };
 		0629D75F19415D61005B5711 /* NSDate+TimeAgoMinimized.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgoMinimized.h"; sourceTree = "<group>"; };
 		0629D76019415D61005B5711 /* NSDate+TimeAgoMinimized.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgoMinimized.m"; sourceTree = "<group>"; };
 		062AB98718C534B600742955 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MorselManagement_iPhone.storyboard; sourceTree = "<group>"; };
@@ -504,8 +510,8 @@
 		062AB99618C5970400742955 /* MRSLMorselAddTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselAddTitleViewController.m; sourceTree = "<group>"; };
 		062AB99818C655DF00742955 /* MRSLMorselEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselEditViewController.h; sourceTree = "<group>"; };
 		062AB99918C655DF00742955 /* MRSLMorselEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselEditViewController.m; sourceTree = "<group>"; };
-		062AB9A018C681C900742955 /* MRSLImagePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLImagePreviewViewController.h; sourceTree = "<group>"; };
-		062AB9A118C681C900742955 /* MRSLImagePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLImagePreviewViewController.m; sourceTree = "<group>"; };
+		062AB9A018C681C900742955 /* MRSLMediaItemPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMediaItemPreviewViewController.h; sourceTree = "<group>"; };
+		062AB9A118C681C900742955 /* MRSLMediaItemPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMediaItemPreviewViewController.m; sourceTree = "<group>"; };
 		062D7D631942AA950079F999 /* MRSLColoredBackgroundToggleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLColoredBackgroundToggleButton.h; path = Source/Views/MRSLColoredBackgroundToggleButton.h; sourceTree = "<group>"; };
 		062D7D641942AA950079F999 /* MRSLColoredBackgroundToggleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLColoredBackgroundToggleButton.m; path = Source/Views/MRSLColoredBackgroundToggleButton.m; sourceTree = "<group>"; };
 		062DF21518845B7D00C199D8 /* MRSLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLLoginViewController.h; sourceTree = "<group>"; };
@@ -554,8 +560,8 @@
 		064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLServiceErrorInfo.m; sourceTree = "<group>"; };
 		0657357C19240C58000D2761 /* MRSLSocialAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSocialAuthentication.h; path = Source/Models/MRSLSocialAuthentication.h; sourceTree = "<group>"; };
 		0657357D19240C58000D2761 /* MRSLSocialAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSocialAuthentication.m; path = Source/Models/MRSLSocialAuthentication.m; sourceTree = "<group>"; };
-		06584C5218C7C37300D9035A /* MRSLCapturePreviewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCapturePreviewsViewController.h; sourceTree = "<group>"; };
-		06584C5318C7C37300D9035A /* MRSLCapturePreviewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCapturePreviewsViewController.m; sourceTree = "<group>"; };
+		06584C5218C7C37300D9035A /* MRSLMediaItemThumbnailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMediaItemThumbnailViewController.h; sourceTree = "<group>"; };
+		06584C5318C7C37300D9035A /* MRSLMediaItemThumbnailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMediaItemThumbnailViewController.m; sourceTree = "<group>"; };
 		06584C5618C7CB6A00D9035A /* MRSLMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLMediaItem.h; path = Source/Models/MRSLMediaItem.h; sourceTree = "<group>"; };
 		06584C5718C7CB6A00D9035A /* MRSLMediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMediaItem.m; path = Source/Models/MRSLMediaItem.m; sourceTree = "<group>"; };
 		06584C5918C7CE8F00D9035A /* MRSLMediaItemPreviewCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLMediaItemPreviewCollectionViewCell.h; path = Source/Views/MRSLMediaItemPreviewCollectionViewCell.h; sourceTree = "<group>"; };
@@ -983,12 +989,16 @@
 		0609B8381894A9ED005A11A4 /* Media */ = {
 			isa = PBXGroup;
 			children = (
-				0609B8351894A9E6005A11A4 /* MRSLCaptureMediaViewController.h */,
-				0609B8361894A9E6005A11A4 /* MRSLCaptureMediaViewController.m */,
-				06584C5218C7C37300D9035A /* MRSLCapturePreviewsViewController.h */,
-				06584C5318C7C37300D9035A /* MRSLCapturePreviewsViewController.m */,
-				062AB9A018C681C900742955 /* MRSLImagePreviewViewController.h */,
-				062AB9A118C681C900742955 /* MRSLImagePreviewViewController.m */,
+				0609B8351894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.h */,
+				0609B8361894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.m */,
+				0626C9BE197DA25100B47B58 /* MRSLCaptureMultipleMediaViewController.h */,
+				0626C9BF197DA25100B47B58 /* MRSLCaptureMultipleMediaViewController.m */,
+				0626C9C1197DA26000B47B58 /* MRSLCaptureSingleMediaViewController.h */,
+				0626C9C2197DA26000B47B58 /* MRSLCaptureSingleMediaViewController.m */,
+				062AB9A018C681C900742955 /* MRSLMediaItemPreviewViewController.h */,
+				062AB9A118C681C900742955 /* MRSLMediaItemPreviewViewController.m */,
+				06584C5218C7C37300D9035A /* MRSLMediaItemThumbnailViewController.h */,
+				06584C5318C7C37300D9035A /* MRSLMediaItemThumbnailViewController.m */,
 			);
 			name = Media;
 			sourceTree = "<group>";
@@ -1550,6 +1560,8 @@
 				068B04DB195A083C004B302F /* UIImage+Color.m */,
 				0669C5111871FD370093132F /* UIImage+Resize.h */,
 				0669C5121871FD370093132F /* UIImage+Resize.m */,
+				06ECF61C1975AF4F005AAB63 /* UINavigationController+Additions.h */,
+				06ECF61D1975AF4F005AAB63 /* UINavigationController+Additions.m */,
 				4090554A1976F19900026DCC /* UIRefreshControl+Additions.h */,
 				4090554B1976F19900026DCC /* UIRefreshControl+Additions.m */,
 				068602A61891B43E000CD576 /* UIStoryboard+Morsel.h */,
@@ -1562,8 +1574,6 @@
 				068602A41891AE26000CD576 /* UIView+Additions.m */,
 				40854F8519747A350015DFBB /* UIView+States.h */,
 				40854F8619747A350015DFBB /* UIView+States.m */,
-				06ECF61C1975AF4F005AAB63 /* UINavigationController+Additions.h */,
-				06ECF61D1975AF4F005AAB63 /* UINavigationController+Additions.m */,
 			);
 			name = Categories;
 			path = Morsel/Source/Categories;
@@ -2571,6 +2581,7 @@
 				065904D71937DD9400414E06 /* _MRSLPlace.m in Sources */,
 				40677328196BA2900055BEAE /* MRSLPresignedUpload.m in Sources */,
 				06F1847E18E0B6BB00DBA468 /* MRSLFeedCoverCollectionViewCell.m in Sources */,
+				0626C9C0197DA25100B47B58 /* MRSLCaptureMultipleMediaViewController.m in Sources */,
 				0698CA99185240F2007AF442 /* MRSLUser.m in Sources */,
 				06DAFB52191A920F0044AF3E /* MRSLAPIService+Feed.m in Sources */,
 				06F2F4F31892F78A00977DEB /* MRSLColoredBackgroundLightButton.m in Sources */,
@@ -2671,7 +2682,7 @@
 				06DAFB61191A99A90044AF3E /* MRSLAPIService+Like.m in Sources */,
 				061F935A191037D700608C0B /* MRSLTagListTableViewCell.m in Sources */,
 				4062A4F1196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */,
-				06584C5418C7C37300D9035A /* MRSLCapturePreviewsViewController.m in Sources */,
+				06584C5418C7C37300D9035A /* MRSLMediaItemThumbnailViewController.m in Sources */,
 				068B04DC195A083C004B302F /* UIImage+Color.m in Sources */,
 				060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */,
 				408744371940DAB2000B491F /* NSString+Additions.m in Sources */,
@@ -2680,7 +2691,7 @@
 				061F936019105C7A00608C0B /* MRSLKeywordUsersViewController.m in Sources */,
 				066E8C32191AD81200991165 /* MRSLLandingViewController.m in Sources */,
 				4069CB26189B127E001790F3 /* JSONResponseSerializerWithData.m in Sources */,
-				062AB9A218C681C900742955 /* MRSLImagePreviewViewController.m in Sources */,
+				062AB9A218C681C900742955 /* MRSLMediaItemPreviewViewController.m in Sources */,
 				06B87817193CC49B00160707 /* MRSLPlaceInfo.m in Sources */,
 				4040D49C18E627ED008A39E5 /* _MRSLActivity.m in Sources */,
 				40348F3419536CC000BDDC15 /* MRSLDataSource.m in Sources */,
@@ -2706,6 +2717,7 @@
 				403E9E2018EDCC09003CDE3B /* _MRSLNotification.m in Sources */,
 				06B877E1193BD24600160707 /* MRSLPlaceCollectionViewCell.m in Sources */,
 				407FDF55194807E4005FEEBF /* Rollbar.m in Sources */,
+				0626C9C3197DA26000B47B58 /* MRSLCaptureSingleMediaViewController.m in Sources */,
 				062AB98E18C541E400742955 /* UIDevice+Additions.m in Sources */,
 				0698CA9518523BBE007AF442 /* MRSLFeedViewController.m in Sources */,
 				06B87802193C633B00160707 /* MRSLFoursquarePlaceTableViewCell.m in Sources */,
@@ -2730,7 +2742,7 @@
 				06B8780B193CBB0C00160707 /* MRSLPlaceDetailPanelCollectionViewCell.m in Sources */,
 				069CF77719423985004D769A /* MRSLRegularButton.m in Sources */,
 				06FE511119118E57003A6D7D /* _MRSLTag.m in Sources */,
-				0609B8371894A9E6005A11A4 /* MRSLCaptureMediaViewController.m in Sources */,
+				0609B8371894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.m in Sources */,
 				06F1847B18E0B68C00DBA468 /* MRSLFeedPanelCollectionViewCell.m in Sources */,
 				407FDF61194807E4005FEEBF /* RollbarNotifier.m in Sources */,
 				06ECF61E1975AF4F005AAB63 /* UINavigationController+Additions.m in Sources */,
@@ -2797,7 +2809,7 @@
 				4062A4FC196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */,
 				4003509E18EB928800C97DDC /* MRSLCustomURLScheme_Spec.m in Sources */,
 				068E278C18BBFBB50020CA84 /* _MRSLUser.m in Sources */,
-				069AE51A18B80FDF002F63D5 /* MRSLCaptureMediaViewController.m in Sources */,
+				069AE51A18B80FDF002F63D5 /* MRSLBaseCaptureMediaViewController.m in Sources */,
 				400350A418EBA79A00C97DDC /* MRSLProfileViewController.m in Sources */,
 				403B5BF41959F882001F33D2 /* MRSLCheckbox.m in Sources */,
 				403B5BF9195A041D001F33D2 /* MRSLProfessionalSettingsTableViewController.m in Sources */,

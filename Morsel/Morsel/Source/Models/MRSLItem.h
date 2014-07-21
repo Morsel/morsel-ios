@@ -12,4 +12,6 @@
 
 - (NSString *)displayName;
 
+- (void)API_updateImage;
+
 @end

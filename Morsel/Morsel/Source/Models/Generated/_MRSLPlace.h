@@ -61,7 +61,7 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
-@class NSObject;
+@class NSArray;
 
 
 
@@ -222,7 +222,7 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
-@property (nonatomic, strong) id foursquare_timeframes;
+@property (nonatomic, strong) NSArray* foursquare_timeframes;
 
 
 
@@ -540,8 +540,8 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
-- (id)primitiveFoursquare_timeframes;
-- (void)setPrimitiveFoursquare_timeframes:(id)value;
+- (NSArray*)primitiveFoursquare_timeframes;
+- (void)setPrimitiveFoursquare_timeframes:(NSArray*)value;
 
 
 

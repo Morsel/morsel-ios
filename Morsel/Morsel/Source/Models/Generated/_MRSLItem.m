@@ -11,7 +11,6 @@ const struct MRSLItemAttributes MRSLItemAttributes = {
 	.isUploading = @"isUploading",
 	.itemDescription = @"itemDescription",
 	.itemID = @"itemID",
-	.itemPhotoCropped = @"itemPhotoCropped",
 	.itemPhotoFull = @"itemPhotoFull",
 	.itemPhotoThumb = @"itemPhotoThumb",
 	.itemPhotoURL = @"itemPhotoURL",
@@ -258,13 +257,6 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 - (void)setPrimitiveItemIDValue:(int32_t)value_ {
 	[self setPrimitiveItemID:[NSNumber numberWithInt:value_]];
 }
-
-
-
-
-
-@dynamic itemPhotoCropped;
-
 
 
 

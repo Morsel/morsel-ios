@@ -8,6 +8,8 @@
 
 #import "MRSLImagePreviewCollectionViewCell.h"
 
+#import <GCPlaceholderTextView/GCPlaceholderTextView.h>
+
 #import "MRSLItemImageView.h"
 
 #import "MRSLMediaItem.h"
@@ -16,29 +18,33 @@
 @interface MRSLImagePreviewCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *previewImageView;
+@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *descriptionField;
+@property (weak, nonatomic) IBOutlet UIButton *descriptionButton;
 
 @end
 
 @implementation MRSLImagePreviewCollectionViewCell
 
-- (void)setMediaPreviewItem:(id)mediaPreviewItem {
-    if (_mediaPreviewItem != mediaPreviewItem) {
-        _mediaPreviewItem = mediaPreviewItem;
-
-        [self reset];
-
-        if ([mediaPreviewItem isKindOfClass:[MRSLItem class]]) {
-            MRSLItem *item = (MRSLItem *)mediaPreviewItem;
-            _previewImageView.item = item;
-        } else if ([mediaPreviewItem isKindOfClass:[MRSLMediaItem class]]) {
-            MRSLMediaItem *mediaItem = (MRSLMediaItem *)mediaPreviewItem;
-            self.previewImageView.image = mediaItem.mediaCroppedImage;
-        }
-    }
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.descriptionField.placeholder = @"Tap to add text";
+    self.descriptionField.placeholderColor = [UIColor morselLightContent];
 }
 
-- (void)reset {
-    self.previewImageView.item = nil;
+- (void)setMediaPreviewItem:(id)mediaPreviewItem {
+    _mediaPreviewItem = mediaPreviewItem;
+    if ([mediaPreviewItem isKindOfClass:[MRSLItem class]]) {
+        self.descriptionButton.hidden = NO;
+        self.descriptionField.hidden = NO;
+        MRSLItem *item = (MRSLItem *)mediaPreviewItem;
+        self.previewImageView.item = item;
+        self.descriptionField.text = item.itemDescription;
+    } else if ([mediaPreviewItem isKindOfClass:[MRSLMediaItem class]]) {
+        self.descriptionButton.hidden = YES;
+        self.descriptionField.hidden = YES;
+        MRSLMediaItem *mediaItem = (MRSLMediaItem *)mediaPreviewItem;
+        self.previewImageView.image = mediaItem.mediaFullImage;
+    }
 }
 
 @end

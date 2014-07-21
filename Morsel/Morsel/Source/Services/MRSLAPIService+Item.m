@@ -191,17 +191,20 @@
                                                                                                   if (itemToUpdate) {
                                                                                                       itemToUpdate.isUploading = @NO;
                                                                                                       itemToUpdate.itemID = responseObject[@"data"][@"id"];
-                                                                                                      itemToUpdate.itemPhotoFull = nil;
-                                                                                                      [item MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                                                                      [itemToUpdate MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                                                                                       [itemToUpdate.managedObjectContext MR_saveToPersistentStoreAndWait];
                                                                                                       if (successOrNil) successOrNil(responseObject);
                                                                                                   } else {
                                                                                                       if (failureOrNil) failureOrNil(nil);
                                                                                                   }
                                                                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                                                                  if (item.managedObjectContext) {
-                                                                                                      item.isUploading = @NO;
-                                                                                                      item.didFailUpload = @YES;
+                                                                                                  if (!itemToUpdate || !itemToUpdate.managedObjectContext) {
+                                                                                                      itemToUpdate = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                                                                                             withValue:@(itemID)];
+                                                                                                  }
+                                                                                                  if (itemToUpdate.managedObjectContext) {
+                                                                                                      itemToUpdate.isUploading = @NO;
+                                                                                                      itemToUpdate.didFailUpload = @YES;
                                                                                                   }
                                                                                                   [self reportFailure:failureOrNil
                                                                                                          forOperation:operation

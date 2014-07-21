@@ -10,18 +10,18 @@
 
 @class MRSLMediaItem;
 
-@protocol MRSLCapturePreviewsViewControllerDelegate <NSObject>
+@protocol MRSLMediaItemThumbnailViewControllerDelegate <NSObject>
 
 @optional
-- (void)capturePreviewsDidDeleteMediaItem:(MRSLMediaItem *)mediaItem;
+- (void)mediaItemThumbnailDidDeleteMediaItem:(MRSLMediaItem *)mediaItem;
 
 @end
 
 @class MRSLMediaItem;
 
-@interface MRSLCapturePreviewsViewController : UIViewController
+@interface MRSLMediaItemThumbnailViewController : UIViewController
 
-@property (weak, nonatomic) id <MRSLCapturePreviewsViewControllerDelegate> delegate;
+@property (weak, nonatomic) id <MRSLMediaItemThumbnailViewControllerDelegate> delegate;
 
 - (NSUInteger)thumbImageCount;
 

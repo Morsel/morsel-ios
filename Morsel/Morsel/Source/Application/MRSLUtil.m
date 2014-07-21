@@ -91,6 +91,10 @@
     return dimensionScale;
 }
 
++ (BOOL)dropboxAvailable {
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"dbapi-3://1/chooser"]];
+}
+
 + (Class)classForDataSourceType:(MRSLDataSourceType)dataSourceTabType {
     switch (dataSourceTabType) {
         case MRSLDataSourceTypeMorsel:
