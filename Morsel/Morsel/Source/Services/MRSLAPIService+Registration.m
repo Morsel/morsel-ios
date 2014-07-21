@@ -53,7 +53,7 @@
                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
                  [MRSLUser createOrUpdateUserFromResponseObject:responseObject[@"data"]
-                                       shouldMorselNotification:NO];
+                                                   existingUser:NO];
 
                  if (userSuccessOrNil) userSuccessOrNil(responseObject[@"data"]);
              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
@@ -90,7 +90,7 @@
                                success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                    DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
                                    [MRSLUser createOrUpdateUserFromResponseObject:responseObject[@"data"]
-                                                         shouldMorselNotification:YES];
+                                                                     existingUser:YES];
                                    if (successOrNil) successOrNil(responseObject[@"data"]);
                                } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                    [self reportFailure:failureOrNil
