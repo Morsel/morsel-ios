@@ -81,7 +81,8 @@ static char const *const CurrentStateViewKey = "CurrentStateViewKey";
 
 - (void)toggleLoading:(BOOL)shouldEnable {
     if (shouldEnable) {
-        [self setCurrentStateView:self.loadingStateView];
+        //  Only show the loading state if the view is not empty
+        [self setCurrentStateView:[self shouldShowEmptyState] ? self.loadingStateView : nil];
     } else {
         [self setCurrentStateView:nil];
         [self toggleEmpty:[self shouldShowEmptyState]];

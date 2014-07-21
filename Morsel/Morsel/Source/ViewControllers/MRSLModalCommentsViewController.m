@@ -192,6 +192,7 @@ NSFetchedResultsControllerDelegate>
                                                                [weakSelf.commentIDs addObject:[(MRSLComment *)responseObject commentID]];
                                                                [weakSelf setupFetchRequest];
                                                                [weakSelf populateContent];
+                                                               [weakSelf setLoading:NO];
                                                                if (weakSelf.commentsTableView.contentSize.height > [weakSelf.commentsTableView getHeight]) {
                                                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                                                        CGPoint bottomOffset = CGPointMake(0, weakSelf.commentsTableView.contentSize.height - weakSelf.commentsTableView.bounds.size.height);
