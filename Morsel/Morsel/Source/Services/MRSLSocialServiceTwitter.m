@@ -80,7 +80,6 @@
                     __strong typeof(weakSelf) strongSelf = weakSelf;
                     [strongSelf showActionSheetWithAccountsForTwitter];
                 } else {
-                    if (failureOrNil) failureOrNil(nil);
                     [self authorizeUsingOAuth];
                 }
             }];
