@@ -347,10 +347,8 @@
 #pragma mark - UIActionSheetDelegate Methods
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == [self.twitterAccounts count]) {
-        if (self.twitterFailureBlock) self.twitterFailureBlock(nil);
-        return;
-    }
+    if (buttonIndex == actionSheet.cancelButtonIndex) return;
+
     __weak __typeof(self) weakSelf = self;
     ACAccount *selectedAccount = self.twitterAccounts[buttonIndex];
     [self performReverseAuthForTwitterAccount:selectedAccount
