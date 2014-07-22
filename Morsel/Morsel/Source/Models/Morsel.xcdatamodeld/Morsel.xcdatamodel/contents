@@ -356,6 +356,11 @@
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="liked_item_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="morsel_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="passwordSet" optional="YES" attributeType="Boolean" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="password_set"/>
+            </userInfo>
+        </attribute>
         <attribute name="professional" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="profilePhotoFull" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="profilePhotoLarge" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
@@ -407,6 +412,6 @@
         <element name="MRSLPlace" positionX="628" positionY="240" width="128" height="553"/>
         <element name="MRSLPresignedUpload" positionX="-36" positionY="18" width="128" height="163"/>
         <element name="MRSLTag" positionX="196" positionY="-45" width="128" height="118"/>
-        <element name="MRSLUser" positionX="376" positionY="18" width="128" height="510"/>
+        <element name="MRSLUser" positionX="376" positionY="18" width="128" height="525"/>
     </elements>
 </model>

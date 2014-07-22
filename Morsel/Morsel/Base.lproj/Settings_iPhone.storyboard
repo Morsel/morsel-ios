@@ -275,7 +275,7 @@ Access it later from Settings.</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="tcF-OD-auu" kind="push" id="Jhe-XK-6QL"/>
+                                            <segue destination="tcF-OD-auu" kind="push" identifier="seg_AccountSettings" id="Jhe-XK-6QL"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
