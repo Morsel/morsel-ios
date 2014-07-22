@@ -19,6 +19,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.last_name = @"last_name",
 	.liked_item_count = @"liked_item_count",
 	.morsel_count = @"morsel_count",
+	.passwordSet = @"passwordSet",
 	.professional = @"professional",
 	.profilePhotoFull = @"profilePhotoFull",
 	.profilePhotoLarge = @"profilePhotoLarge",
@@ -101,6 +102,11 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	}
 	if ([key isEqualToString:@"morsel_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"morsel_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"passwordSetValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"passwordSet"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -358,6 +364,32 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 - (void)setPrimitiveMorsel_countValue:(int32_t)value_ {
 	[self setPrimitiveMorsel_count:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic passwordSet;
+
+
+
+- (BOOL)passwordSetValue {
+	NSNumber *result = [self passwordSet];
+	return [result boolValue];
+}
+
+- (void)setPasswordSetValue:(BOOL)value_ {
+	[self setPasswordSet:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitivePasswordSetValue {
+	NSNumber *result = [self primitivePasswordSet];
+	return [result boolValue];
+}
+
+- (void)setPrimitivePasswordSetValue:(BOOL)value_ {
+	[self setPrimitivePasswordSet:[NSNumber numberWithBool:value_]];
 }
 
 

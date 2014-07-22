@@ -8,6 +8,8 @@
 
 #import "MRSLSettingsTableViewController.h"
 
+#import "MRSLAPIService+Registration.h"
+
 #import <MessageUI/MFMailComposeViewController.h>
 
 #import "MRSLUser.h"
@@ -53,6 +55,15 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
                           cancelButtonTitle:@"Cancel"
                           otherButtonTitles:@"Continue", nil];
         return NO;
+    } else if ([identifier isEqualToString:@"seg_AccountSettings"] && ![[MRSLUser currentUser] passwordSetValue]) {
+        MRSLUser *currentUser = [MRSLUser currentUser];
+        // Password not set, show alertview and return NO
+        [UIAlertView showAlertViewWithTitle:@"Account Settings"
+                                    message:[NSString stringWithFormat:@"In order to make secure changes to your account a password is required. Since you never set a password, we'll send an email to %@ to set one.", currentUser.email]
+                                   delegate:self
+                          cancelButtonTitle:@"Cancel"
+                          otherButtonTitles:@"Send Email", nil];
+        return NO;
     }
 
     return YES;
@@ -95,20 +106,31 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
+    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:MRSLSettingsTableViewSectionUserSettings]
+                                  animated:YES];
+    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:MRSLSettingsTableViewSectionSetupProfessionalAccount]
+                                  animated:YES];
+
+    if (buttonIndex == [alertView cancelButtonIndex]) return;
+
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Send Email"]) {
+        [_appDelegate.apiService forgotPasswordWithEmail:[MRSLUser currentUser].email
+                                                 success:^(id responseObject) {
+                                                     [UIAlertView showOKAlertViewWithTitle:@"Email Sent!"
+                                                                                   message:@"Check your inbox for a link to reset your password"];
+                                                 } failure:^(NSError *error) {
+                                                     [UIAlertView showAlertViewForErrorString:@"Please try again"
+                                                                                     delegate:nil];
+                                                 }];
+    } else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Continue"]) {
         //  Update the current_user to a pro account
         [MRSLUser updateCurrentUserToProfessional];
 
         //  Push Pro Settings
         [self performSegueWithIdentifier:@"seg_ProfessionalSettings"
                                   sender:nil];
-    }
 
-    //  Since the only alertView that self is a delegate for is the one shown
-    //  for the 'Setup Professional Account' cell, we can safely assume that
-    //  that's the row we want to deselect.
-    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:MRSLSettingsTableViewSectionSetupProfessionalAccount]
-                                  animated:YES];
+    }
 }
 
 @end

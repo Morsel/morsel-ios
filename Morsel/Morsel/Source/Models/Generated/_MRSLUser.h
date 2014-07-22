@@ -20,6 +20,7 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *last_name;
 	__unsafe_unretained NSString *liked_item_count;
 	__unsafe_unretained NSString *morsel_count;
+	__unsafe_unretained NSString *passwordSet;
 	__unsafe_unretained NSString *professional;
 	__unsafe_unretained NSString *profilePhotoFull;
 	__unsafe_unretained NSString *profilePhotoLarge;
@@ -50,6 +51,7 @@ extern const struct MRSLUserFetchedProperties {
 @class MRSLMorsel;
 @class MRSLPlace;
 @class MRSLTag;
+
 
 
 
@@ -263,6 +265,20 @@ extern const struct MRSLUserFetchedProperties {
 - (void)setMorsel_countValue:(int32_t)value_;
 
 //- (BOOL)validateMorsel_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* passwordSet;
+
+
+
+@property BOOL passwordSetValue;
+- (BOOL)passwordSetValue;
+- (void)setPasswordSetValue:(BOOL)value_;
+
+//- (BOOL)validatePasswordSet:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -569,6 +585,15 @@ extern const struct MRSLUserFetchedProperties {
 
 - (int32_t)primitiveMorsel_countValue;
 - (void)setPrimitiveMorsel_countValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitivePasswordSet;
+- (void)setPrimitivePasswordSet:(NSNumber*)value;
+
+- (BOOL)primitivePasswordSetValue;
+- (void)setPrimitivePasswordSetValue:(BOOL)value_;
 
 
 

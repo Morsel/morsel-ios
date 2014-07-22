@@ -80,6 +80,9 @@
     // Handle the user leaving the app while the Facebook login dialog is being shown
     [FBAppCall handleDidBecomeActive];
     [application endBackgroundTask:_backgroundTaskIdentifier];
+
+    [MRSLUser refreshCurrentUserWithSuccess:nil
+                                    failure:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

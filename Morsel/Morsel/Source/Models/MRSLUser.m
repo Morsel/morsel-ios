@@ -45,7 +45,10 @@
 }
 
 + (void)refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil failure:(MRSLFailureBlock)failureOrNil {
-    [_appDelegate.apiService getUserProfile:[MRSLUser currentUser]
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    if (!currentUser) return;
+
+    [_appDelegate.apiService getUserProfile:currentUser
                                     success:userSuccessOrNil
                                     failure:failureOrNil];
 }
