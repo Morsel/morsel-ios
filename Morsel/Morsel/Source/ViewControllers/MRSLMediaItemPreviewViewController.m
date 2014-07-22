@@ -244,10 +244,10 @@ CaptureMediaViewControllerDelegate>
     __weak __typeof(self) weakSelf = self;
     [mediaItem processMediaToDataWithSuccess:^(NSData *fullImageData, NSData *thumbImageData) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            item.itemPhotoFull = fullImageData;;
-            item.itemPhotoThumb = thumbImageData;;
-            item.itemPhotoURL = nil;;
-            [item API_updateImage];;;;
+            item.itemPhotoFull = fullImageData;
+            item.itemPhotoThumb = thumbImageData;
+            item.itemPhotoURL = nil;
+            [item API_updateImage];
             [item.managedObjectContext MR_saveToPersistentStoreAndWait];
             [weakSelf.previewMediaCollectionView reloadData];
         });

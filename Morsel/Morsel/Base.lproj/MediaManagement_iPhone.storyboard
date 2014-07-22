@@ -256,7 +256,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="Pb1-d8-jE3" customClass="GCPlaceholderTextView">
-                                                    <rect key="frame" x="20" y="340" width="280" height="100"/>
+                                                    <rect key="frame" x="10" y="335" width="300" height="115"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -264,7 +264,7 @@
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                                                 </textView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="geS-eH-53v">
-                                                    <rect key="frame" x="20" y="340" width="280" height="100"/>
+                                                    <rect key="frame" x="10" y="335" width="300" height="115"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -289,7 +289,7 @@
                                 </connections>
                             </collectionView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="mmb-kL-U3H">
-                                <rect key="frame" x="141" y="312" width="39" height="37"/>
+                                <rect key="frame" x="141" y="310" width="39" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <color key="pageIndicatorTintColor" red="0.88627451658248901" green="0.86666667461395264" blue="0.84313726425170898" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -438,12 +438,6 @@
         <!--Capture Single Media View Controller-->
         <scene sceneID="kAQ-V0-ADk">
             <objects>
-                <tapGestureRecognizer id="AEM-Vc-Jdf">
-                    <connections>
-                        <action selector="focusAndExposeTap:" destination="5gm-eT-6PC" id="8fc-sv-xWK"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="v9j-1r-ftP" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sb_MRSLCaptureSingleMediaViewController" id="5gm-eT-6PC" customClass="MRSLCaptureSingleMediaViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="he7-nc-dMH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -617,6 +611,12 @@
                         <outlet property="topPanelView" destination="z2c-el-rsV" id="1Wb-KT-qRR"/>
                     </connections>
                 </viewController>
+                <tapGestureRecognizer id="AEM-Vc-Jdf">
+                    <connections>
+                        <action selector="focusAndExposeTap:" destination="5gm-eT-6PC" id="8fc-sv-xWK"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v9j-1r-ftP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-719" y="-74"/>
         </scene>
