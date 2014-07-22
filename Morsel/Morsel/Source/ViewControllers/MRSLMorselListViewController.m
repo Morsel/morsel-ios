@@ -116,7 +116,7 @@ NSFetchedResultsControllerDelegate>
     self.morsels = [[_morselsFetchedResultsController fetchedObjects] mutableCopy];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
-        self.loading = NO;
+        if ([self.tableView numberOfRowsInAllSections] > 0) self.loading = NO;
     });
 }
 
