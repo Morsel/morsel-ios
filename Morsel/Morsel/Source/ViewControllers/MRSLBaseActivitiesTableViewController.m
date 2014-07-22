@@ -93,7 +93,7 @@
 }
 
 - (void)displayPlace:(MRSLPlace *)place {
-    MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceViewController"];;
+    MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceViewController"];
     placeVC.place = place;
     [self.navigationController pushViewController:placeVC
                                          animated:YES];
