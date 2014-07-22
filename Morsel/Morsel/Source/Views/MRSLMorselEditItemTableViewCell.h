@@ -6,19 +6,18 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseTableViewCell.h"
 
 @class MRSLItem;
 
 @protocol MRSLMorselEditItemTableViewCellDelegate <NSObject>
 
 @optional
-- (void)morselEditItemCellDidSelectImagePreview:(MRSLItem *)item;
 - (void)morselEditItemCellDidTransitionToDeleteState:(BOOL)deleteStateActive;
 
 @end
 
-@interface MRSLMorselEditItemTableViewCell : UITableViewCell
+@interface MRSLMorselEditItemTableViewCell : MRSLBaseTableViewCell
 
 @property (weak, nonatomic) id <MRSLMorselEditItemTableViewCellDelegate> delegate;
 

@@ -9,12 +9,12 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Kiwi/Kiwi.h>
 
-#import "MRSLCaptureMediaViewController.h"
+#import "MRSLCaptureMultipleMediaViewController.h"
 
 #import "MRSLItem.h"
 #import "MRSLUser.h"
 
-@interface MRSLCaptureMediaViewController (Private)
+@interface MRSLBaseCaptureMediaViewController (Private)
 
 @property (nonatomic) AVCaptureSession *session;
 
@@ -63,7 +63,7 @@ describe(@"AlertView", ^{
 */
 
 describe(@"CaptureMediaViewController", ^{
-    MRSLCaptureMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLCaptureMediaViewController"];
+    MRSLCaptureMultipleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLCaptureMultipleMediaViewController"];
     context(@"attempts to end camera session in quick succession", ^{
             [captureMediaVC endCameraSession];
             [captureMediaVC endCameraSession];

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLCaptureMediaViewController.h"
+#import "MRSLBaseCaptureMediaViewController.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -18,42 +18,25 @@
 
 #import "UIDevice+Additions.h"
 
-#import "MRSLCameraPreviewView.h"
-#import "MRSLCapturePreviewsViewController.h"
-#import "MRSLMediaItem.h"
-
 static void *CapturingStillImageContext = &CapturingStillImageContext;
 static void *SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDeviceAuthorizedContext;
 
-@interface MRSLCaptureMediaViewController ()
+@interface MRSLBaseCaptureMediaViewController ()
 <UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
-ELCImagePickerControllerDelegate,
-MRSLCapturePreviewsViewControllerDelegate>
+ELCImagePickerControllerDelegate>
 
 @property (nonatomic) int processingImageCount;
 
-@property (weak, nonatomic) IBOutlet UIButton *cameraRollButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelMorselButton;
-@property (weak, nonatomic) IBOutlet UIButton *captureImageButton;
-@property (weak, nonatomic) IBOutlet UIButton *finishButton;
-@property (weak, nonatomic) IBOutlet UIButton *toggleFlashButton;
-@property (weak, nonatomic) IBOutlet UIButton *toggleCameraButton;
-@property (weak, nonatomic) IBOutlet UIButton *importDropboxButton;
-@property (weak, nonatomic) IBOutlet UIImageView *approvalImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *cameraRollImageView;
 @property (weak, nonatomic) IBOutlet UIView *topPanelView;
 
 @property (nonatomic, getter = isDeviceAuthorized) BOOL deviceAuthorized;
 @property (nonatomic, readonly, getter = isSessionRunningAndDeviceAuthorized) BOOL sessionRunningAndDeviceAuthorized;
 @property (nonatomic) id runtimeErrorHandlingObserver;
 
-@property (weak, nonatomic) MRSLCameraPreviewView *previewView;
-@property (weak, nonatomic) MRSLCapturePreviewsViewController *capturePreviewsViewController;
-
 // Asset and Image Management
 @property (strong, nonatomic) ALAssetsLibrary *assetsLibrary;
-@property (strong, nonatomic) NSMutableArray *capturedMediaItems;
 
 // Session and AV Management
 @property (nonatomic) dispatch_queue_t sessionQueue;
@@ -64,7 +47,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 
 @end
 
-@implementation MRSLCaptureMediaViewController
+@implementation MRSLBaseCaptureMediaViewController
 
 #pragma mark - Class Methods
 
@@ -120,14 +103,6 @@ MRSLCapturePreviewsViewControllerDelegate>
     self.capturedMediaItems = [NSMutableArray array];
     self.preferredFlashCaptureMode = AVCaptureFlashModeOff;
 
-    if ([self.childViewControllers count] > 0) {
-        UIViewController *firstChildVC = [self.childViewControllers firstObject];
-        if ([firstChildVC isKindOfClass:[MRSLCapturePreviewsViewController class]]) {
-            self.capturePreviewsViewController = (MRSLCapturePreviewsViewController *)firstChildVC;
-            _capturePreviewsViewController.delegate = self;
-        }
-    }
-
     [self createSession];
 }
 
@@ -143,7 +118,7 @@ MRSLCapturePreviewsViewControllerDelegate>
     }
 
     // Hide importDropboxButton if Dropbox is not installed or the installed version of Dropbox is not supported
-    [self.importDropboxButton setHidden:![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"dbapi-3://1/chooser"]]];
+    [self.importDropboxButton setHidden:![MRSLUtil dropboxAvailable]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -159,7 +134,6 @@ MRSLCapturePreviewsViewControllerDelegate>
 
 - (void)updateFinishButtonAvailability {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.finishButton setImage:[UIImage imageNamed:([_capturedMediaItems count] > 0) ? @"icon-circle-check-green" : @"icon-circle-check"] forState:UIControlStateNormal];
         self.finishButton.enabled = ([_capturedMediaItems count] > 0 && _processingImageCount == 0);
     });
 }
@@ -220,7 +194,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 
     [self setFlashImageForMode:_preferredFlashCaptureMode];
 
-    [MRSLCaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
+    [MRSLBaseCaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
                                        forDevice:[self.videoDeviceInput device]];
 }
 
@@ -295,7 +269,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 				break;
 		}
 
-		AVCaptureDevice *videoDevice = [MRSLCaptureMediaViewController deviceWithMediaType:AVMediaTypeVideo
+		AVCaptureDevice *videoDevice = [MRSLBaseCaptureMediaViewController deviceWithMediaType:AVMediaTypeVideo
                                                                         preferringPosition:preferredPosition];
 
 		AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice
@@ -311,13 +285,13 @@ MRSLCapturePreviewsViewControllerDelegate>
                                                           object:currentVideoDevice];
 			if (preferredPosition == AVCaptureDevicePositionFront) {
                 self.toggleFlashButton.enabled = NO;
-                [MRSLCaptureMediaViewController setFlashMode:AVCaptureFlashModeOff
+                [MRSLBaseCaptureMediaViewController setFlashMode:AVCaptureFlashModeOff
                                                    forDevice:videoDevice];
 
                 [self setFlashImageForMode:AVCaptureFlashModeOff];
             } else {
                 self.toggleFlashButton.enabled = YES;
-                [MRSLCaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
+                [MRSLBaseCaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
                                                    forDevice:videoDevice];
                 [self setFlashImageForMode:_preferredFlashCaptureMode];
             }
@@ -395,7 +369,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 		[[self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer  *)self.previewView.layer connection] videoOrientation]];
 
 		// Flash set to Auto for Still Capture
-		[MRSLCaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
+		[MRSLBaseCaptureMediaViewController setFlashMode:_preferredFlashCaptureMode
                                            forDevice:[self.videoDeviceInput device]];
 
 		// Capture a still image.
@@ -440,6 +414,7 @@ MRSLCapturePreviewsViewControllerDelegate>
 
 - (void)processMediaItem:(MRSLMediaItem *)mediaItem {
     self.processingImageCount++;
+    self.captureImageButton.enabled = NO;
     __block UIImage *fullSizeImage = mediaItem.mediaFullImage;
     DDLogDebug(@"Source Process Image Dimensions: (w:%f, h:%f)", fullSizeImage.size.width, fullSizeImage.size.height);
     BOOL imageIsLandscape = [MRSLUtil imageIsLandscape:fullSizeImage];
@@ -477,19 +452,12 @@ MRSLCapturePreviewsViewControllerDelegate>
                                 dispatch_async(queue, ^{
                                     mediaItem.mediaThumbImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageThumbDimensionSize
                                                                                 interpolationQuality:kCGInterpolationHigh];
-                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
-                                        dispatch_async(queue, ^{
-                                            mediaItem.mediaCroppedImage = [croppedFullSizeImage thumbnailImage:MRSLItemImageLargeDimensionSize
-                                                                                          interpolationQuality:kCGInterpolationHigh];
-                                            weakSelf.processingImageCount--;
-                                            [weakSelf updateFinishButtonAvailability];
-                                        });
-                                    });
                                     dispatch_async(main, ^{
                                         if (weakSelf) {
-                                            [weakSelf.capturedMediaItems addObject:mediaItem];
-                                            [weakSelf.capturePreviewsViewController addPreviewMediaItem:mediaItem];
-                                            weakSelf.approvalImageView.image = mediaItem.mediaCroppedImage;
+                                            [weakSelf handleProcessedMediaItem:mediaItem];
+                                            weakSelf.captureImageButton.enabled = YES;
+                                            weakSelf.processingImageCount--;
+                                            [weakSelf updateFinishButtonAvailability];
                                         }
                                     });
                                 });
@@ -500,6 +468,10 @@ MRSLCapturePreviewsViewControllerDelegate>
             });
         }
     });
+}
+
+- (void)handleProcessedMediaItem:(MRSLMediaItem *)mediaItem {
+    NSAssert(NO, @"Must override method handleProcessedMediaItem: in subclass");
 }
 
 - (void)createSession {
@@ -520,7 +492,7 @@ MRSLCapturePreviewsViewControllerDelegate>
     dispatch_async(sessionQueue, ^{
         NSError *error = nil;
 
-        AVCaptureDevice *videoDevice = [MRSLCaptureMediaViewController deviceWithMediaType:AVMediaTypeVideo
+        AVCaptureDevice *videoDevice = [MRSLBaseCaptureMediaViewController deviceWithMediaType:AVMediaTypeVideo
                                                                         preferringPosition:AVCaptureDevicePositionBack];
         AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice
                                                                                        error:&error];
@@ -570,7 +542,7 @@ MRSLCapturePreviewsViewControllerDelegate>
                                                    object:self.session
                                                    queue:nil
                                                    usingBlock:^(NSNotification *note) {
-                                                       MRSLCaptureMediaViewController *strongSelf = weakSelf;
+                                                       MRSLBaseCaptureMediaViewController *strongSelf = weakSelf;
 
                                                        dispatch_async(strongSelf.sessionQueue, ^{
                                                            // Manually restarting the session since it must have been stopped due to an error.
@@ -672,10 +644,6 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
             [self.previewView.layer setOpacity:1.f];
         }];
     });
-    _captureImageButton.enabled = NO;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _captureImageButton.enabled = YES;
-    });
 }
 
 - (void)checkDeviceAuthorizationStatus {
@@ -727,13 +695,6 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 - (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES
                              completion:nil];
-}
-
-#pragma mark - MRSLCapturePreviewsViewControllerDelegate
-
-- (void)capturePreviewsDidDeleteMediaItem:(MRSLMediaItem *)mediaItem {
-    [self.capturedMediaItems removeObject:mediaItem];
-    [self updateFinishButtonAvailability];
 }
 
 #pragma mark - Dealloc

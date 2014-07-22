@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLCapturePreviewsViewController.h"
+#import "MRSLMediaItemThumbnailViewController.h"
 
 #import "MRSLMediaItem.h"
 #import "MRSLMediaItemPreviewCollectionViewCell.h"
-#import "MRSLImagePreviewViewController.h"
+#import "MRSLMediaItemPreviewViewController.h"
 
-@interface MRSLCapturePreviewsViewController ()
+@interface MRSLMediaItemThumbnailViewController ()
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
 MRSLImagePreviewViewControllerDelegate>
@@ -25,7 +25,7 @@ MRSLImagePreviewViewControllerDelegate>
 
 @end
 
-@implementation MRSLCapturePreviewsViewController
+@implementation MRSLMediaItemThumbnailViewController
 
 #pragma mark - Instance Methods
 
@@ -63,7 +63,7 @@ MRSLImagePreviewViewControllerDelegate>
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"seg_DisplayImagePreview"]) {
-        MRSLImagePreviewViewController *previewMediaVC = [segue destinationViewController];
+        MRSLMediaItemPreviewViewController *previewMediaVC = [[[segue destinationViewController] viewControllers] firstObject];
         previewMediaVC.delegate = self;
         [previewMediaVC setPreviewMedia:_previewMediaItemThumbs
                        andStartingIndex:_selectedIndex];
@@ -100,8 +100,8 @@ MRSLImagePreviewViewControllerDelegate>
 #pragma mark - MRSLImagePreviewViewControllerDelegate
 
 - (void)imagePreviewDidDeleteMediaItem:(MRSLMediaItem *)mediaItem {
-    if ([self.delegate respondsToSelector:@selector(capturePreviewsDidDeleteMediaItem:)]) {
-        [self.delegate capturePreviewsDidDeleteMediaItem:mediaItem];
+    if ([self.delegate respondsToSelector:@selector(mediaItemThumbnailDidDeleteMediaItem:)]) {
+        [self.delegate mediaItemThumbnailDidDeleteMediaItem:mediaItem];
     }
 }
 

@@ -12,15 +12,13 @@
 
 #import "MRSLAPIService+Item.h"
 #import "MRSLAPIService+Morsel.h"
-#import "MRSLS3Service.h"
 
-#import "MRSLCaptureMediaViewController.h"
-#import "MRSLImagePreviewViewController.h"
+#import "MRSLCaptureMultipleMediaViewController.h"
+#import "MRSLMediaItemPreviewViewController.h"
 #import "MRSLTableView.h"
 #import "MRSLToolbar.h"
 #import "MRSLMorselAddTitleViewController.h"
 #import "MRSLMorselEditItemTableViewCell.h"
-#import "MRSLMorselEditDescriptionViewController.h"
 #import "MRSLMorselPublishCoverViewController.h"
 
 #import "MRSLMediaItem.h"
@@ -30,7 +28,7 @@
 
 @interface MRSLMorselEditViewController ()
 <NSFetchedResultsControllerDelegate,
-UIActionSheetDelegate,
+UIAlertViewDelegate,
 UITableViewDataSource,
 UITableViewDelegate,
 CaptureMediaViewControllerDelegate,
@@ -101,6 +99,8 @@ MRSLMorselEditItemTableViewCellDelegate>
     [super viewWillDisappear:animated];
 }
 
+#pragma mark - Private Methods
+
 - (void)setLoading:(BOOL)loading {
     if ([self isCapturing] && !loading) return;
 
@@ -117,7 +117,7 @@ MRSLMorselEditItemTableViewCellDelegate>
     self.morselTitleLabel.text = ([_morsel.title length] == 0) ? @"Tap to add title" : _morsel.title;
 
     [self displayMorselStatus];
-    [self setupMorselsFetchRequest];
+    [self setupFetchRequest];
     [self populateContent];
 }
 
@@ -143,12 +143,10 @@ MRSLMorselEditItemTableViewCellDelegate>
     [self determineControlState];
 }
 
-- (void)setupMorselsFetchRequest {
-    NSPredicate *morselMorselsPredicate = [NSPredicate predicateWithFormat:@"(morsel.morselID == %i)", [_morselID intValue]];
-
+- (void)setupFetchRequest {
     self.itemsFetchedResultsController = [MRSLItem MR_fetchAllSortedBy:@"sort_order"
                                                              ascending:YES
-                                                         withPredicate:morselMorselsPredicate
+                                                         withPredicate:[NSPredicate predicateWithFormat:@"(morsel.morselID == %i)", [_morselID intValue]]
                                                                groupBy:nil
                                                               delegate:self
                                                              inContext:[NSManagedObjectContext MR_defaultContext]];
@@ -157,10 +155,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)populateContent {
     NSError *fetchError = nil;
     [_itemsFetchedResultsController performFetch:&fetchError];
-    if (_itemsFetchedResultsController) {
-        [self.items removeAllObjects];
-        [self.items addObjectsFromArray:[_itemsFetchedResultsController fetchedObjects]];
-    }
+    self.items = [[_itemsFetchedResultsController fetchedObjects] mutableCopy];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.morselItemsTableView reloadData];
         self.loading = NO;
@@ -170,7 +165,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)presentMediaCapture {
     self.capturing = YES;
-    MRSLCaptureMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLCaptureMediaViewController"];
+    MRSLCaptureMultipleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLCaptureMultipleMediaViewController"];
     captureMediaVC.delegate = self;
     [self presentViewController:captureMediaVC
                        animated:YES
@@ -234,10 +229,7 @@ MRSLMorselEditItemTableViewCellDelegate>
         [_morselItemsTableView setEditing:NO animated:NO];
         self.isEditing = NO;
     }
-    if ([segue.identifier isEqualToString:@"seg_EditItemText"]) {
-        MRSLMorselEditDescriptionViewController *itemEditTextVC = [segue destinationViewController];
-        itemEditTextVC.itemID = _item.itemID;
-    } else if ([segue.identifier isEqualToString:@"seg_EditMorselTitle"]) {
+    if ([segue.identifier isEqualToString:@"seg_EditMorselTitle"]) {
         MRSLMorselAddTitleViewController *morselAddTitleVC = [segue destinationViewController];
         morselAddTitleVC.isUserEditingTitle = YES;
         morselAddTitleVC.morselID = _morsel.morselID;
@@ -398,25 +390,29 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.item = [_items objectAtIndex:indexPath.row];
     if (!self.item.itemID) return;
-    [[MRSLEventManager sharedManager] track:@"Tapped Add Description"
+    [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
                                  properties:@{@"view": @"Your Morsel",
                                               @"item_count": @([_items count]),
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(_item.itemID)}];
-    [self performSegueWithIdentifier:@"seg_EditItemText"
-                              sender:nil];
+    NSUInteger index = [_items indexOfObject:_item];
+    MRSLMediaItemPreviewViewController *imagePreviewVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLImagePreviewViewController"];
+    [imagePreviewVC setPreviewMedia:_items andStartingIndex:index];
+
+    [self.navigationController pushViewController:imagePreviewVC
+                                         animated:YES];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Feed detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+    DDLogDebug(@"NSFetchedResultsController detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
     [self populateContent];
 }
 
 #pragma mark - CaptureMediaViewControllerDelegate
 
-- (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSMutableArray *)capturedMedia {
+- (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSArray *)capturedMedia {
     self.morsel = [self getOrLoadMorselIfExists];
     self.loading = [capturedMedia count] > 0;
     __weak __typeof(self) weakSelf = self;
@@ -430,109 +426,43 @@ MRSLMorselEditItemTableViewCellDelegate>
         }
         DDLogDebug(@"Item INDEX: %lu", (unsigned long)itemIndex);
 
-        __block NSData *fullImageData = nil;
-        __block NSData *croppedImageData = nil;
-        __block NSData *thumbImageData = nil;
-
-        dispatch_queue_t queue = dispatch_queue_create("com.eatmorsel.morsel-add-image-processing", NULL);
-        dispatch_queue_t main = dispatch_get_main_queue();
-
-        dispatch_async(queue, ^{
-            fullImageData = UIImageJPEGRepresentation(mediaItem.mediaFullImage, 1.f);
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
-                dispatch_async(queue, ^{
-                    croppedImageData = UIImageJPEGRepresentation(mediaItem.mediaCroppedImage, .8f);
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
-                        dispatch_async(queue, ^{
-                            thumbImageData = UIImageJPEGRepresentation(mediaItem.mediaThumbImage, .8f);
-                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), main, ^{
-                                dispatch_async(main, ^{
-                                    weakSelf.capturing = NO;
-
-                                    __block NSManagedObjectContext *workContext = nil;
-                                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                        workContext = localContext;
-                                        MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                       withValue:weakSelf.morselID
-                                                                                       inContext:localContext];
-                                        if (morsel) {
-                                            MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
-                                            item.sort_order = @(itemIndex);
-                                            item.itemPhotoFull = fullImageData;
-                                            item.itemPhotoCropped = croppedImageData;
-                                            item.itemPhotoThumb = thumbImageData;
-                                            item.isUploading = @YES;
-                                            item.morsel = morsel;
-                                            [morsel addItemsObject:item];
-                                            [_appDelegate.apiService createItem:item
-                                                                        success:^(id responseObject) {
-                                                                            if ([responseObject isKindOfClass:[MRSLItem class]]) {
-                                                                                MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
-                                                                                [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
-                                                                                [weakSelf displayMorselStatus];
-                                                                                //  If presignedUpload returned, use it, otherwise fallback to old upload method
-                                                                                if (itemToUploadWithImage.presignedUpload) {
-                                                                                    [_appDelegate.s3Service uploadImageData:itemToUploadWithImage.itemPhotoFull
-                                                                                                         forPresignedUpload:itemToUploadWithImage.presignedUpload
-                                                                                                                    success:^(NSDictionary *responseDictionary) {
-                                                                                                                        [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
-                                                                                                                                                        forItem:itemToUploadWithImage
-                                                                                                                                                        success:nil
-                                                                                                                                                        failure:nil];
-                                                                                                                        fullImageData = nil;
-                                                                                                                        croppedImageData = nil;
-                                                                                                                        thumbImageData = nil;
-                                                                                                                    } failure:^(NSError *error) {
-                                                                                                                        //  S3 upload failed, fallback to API upload
-                                                                                                                        [_appDelegate.apiService updateItemImage:itemToUploadWithImage
-                                                                                                                                                         success:^(id responseObject) {
-                                                                                                                                                             fullImageData = nil;
-                                                                                                                                                             croppedImageData = nil;
-                                                                                                                                                             thumbImageData = nil;
-                                                                                                                                                         } failure:^(NSError *error) {
-                                                                                                                                                             fullImageData = nil;
-                                                                                                                                                             croppedImageData = nil;
-                                                                                                                                                             thumbImageData = nil;
-                                                                                                                                                         }];
-                                                                                                                        fullImageData = nil;
-                                                                                                                        croppedImageData = nil;
-                                                                                                                        thumbImageData = nil;
-                                                                                                                    }];
-                                                                                } else {
-                                                                                    [_appDelegate.apiService updateItemImage:itemToUploadWithImage
-                                                                                                                     success:^(id responseObject) {
-                                                                                                                         fullImageData = nil;
-                                                                                                                         croppedImageData = nil;
-                                                                                                                         thumbImageData = nil;
-                                                                                                                     } failure:^(NSError *error) {
-                                                                                                                         fullImageData = nil;
-                                                                                                                         croppedImageData = nil;
-                                                                                                                         thumbImageData = nil;
-                                                                                                                     }];
-                                                                                }
-                                                                            }
-                                                                        } failure:nil];
-                                        } else {
-                                            DDLogError(@"Morsel item add failure. Cannot add item to nil Morsel with ID: %@", weakSelf.morselID);
-                                            [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"There was a problem adding your item%@ to this Morsel. Please try again.", ([capturedMedia count] > 1) ? @"s" : @""]
-                                                                            delegate:nil];
-                                        }
-                                    }
-                                                      completion:^(BOOL success, NSError *error) {
-                                                          [workContext reset];
-                                                      }];
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-
+        [mediaItem processMediaToDataWithSuccess:^(NSData *fullImageData, NSData *thumbImageData) {
+            weakSelf.capturing = NO;
+            __block NSManagedObjectContext *workContext = nil;
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                workContext = localContext;
+                MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                               withValue:weakSelf.morselID
+                                                               inContext:localContext];
+                if (morsel) {
+                    MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
+                    item.sort_order = @(itemIndex);
+                    item.itemPhotoFull = fullImageData;
+                    item.itemPhotoThumb = thumbImageData;
+                    item.isUploading = @YES;
+                    item.morsel = morsel;
+                    [morsel addItemsObject:item];
+                    [_appDelegate.apiService createItem:item
+                                                success:^(id responseObject) {
+                                                    if ([responseObject isKindOfClass:[MRSLItem class]]) {
+                                                        MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
+                                                        [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
+                                                        [weakSelf displayMorselStatus];
+                                                        [itemToUploadWithImage API_updateImage];
+                                                    }
+                                                } failure:nil];
+                } else {
+                    DDLogError(@"Morsel item add failure. Cannot add item to nil Morsel with ID: %@", weakSelf.morselID);
+                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"There was a problem adding your item%@ to this Morsel. Please try again.", ([capturedMedia count] > 1) ? @"s" : @""]
+                                                    delegate:nil];
+                }
+            } completion:^(BOOL success, NSError *error) {
+                [workContext reset];
+            }];
+        }];
 
         idx++;
     }
-    [capturedMedia removeAllObjects];
     capturedMedia = nil;
 }
 
@@ -542,22 +472,6 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 #pragma mark - MRSLMorselEditMorselCollectionViewCellDelegate
-
-- (void)morselEditItemCellDidSelectImagePreview:(MRSLItem *)item {
-    [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
-                                 properties:@{@"view": @"Your Morsel",
-                                              @"item_count": @([_items count]),
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                              @"item_id": NSNullIfNil(item.itemID)}];
-    NSUInteger index = [_items indexOfObject:item];
-
-    MRSLImagePreviewViewController *imagePreviewVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLImagePreviewViewController"];
-    [imagePreviewVC setPreviewMedia:_items andStartingIndex:index];
-
-    [self presentViewController:imagePreviewVC
-                       animated:YES
-                     completion:nil];
-}
 
 - (void)morselEditItemCellDidTransitionToDeleteState:(BOOL)deleteStateActive {
     self.toolbarView.leftButton.enabled = !deleteStateActive;
@@ -571,21 +485,20 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)toolbarDidSelectRightButton:(UIButton *)rightButton {
     if (_isEditing) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                                 delegate:self
-                                                        cancelButtonTitle:@"Cancel"
-                                                   destructiveButtonTitle:@"Delete Morsel"
-                                                        otherButtonTitles:nil];
-        [actionSheet showInView:self.view];
+        [UIAlertView showAlertViewWithTitle:@"Delete Morsel"
+                                    message:@"This will delete your entire Morsel and all items associated with it. Are you sure you want to do this?"
+                                   delegate:self
+                          cancelButtonTitle:@"Cancel"
+                          otherButtonTitles:@"OK", nil];
     } else {
         [self presentMediaCapture];
     }
 }
 
-#pragma mark - UIActionSheetDelegate
+#pragma mark - UIAlertViewDelegate
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete Morsel"]) {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"]) {
         self.morsel = [self getOrLoadMorselIfExists];
         if (_morsel) {
             [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"

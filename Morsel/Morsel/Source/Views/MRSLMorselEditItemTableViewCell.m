@@ -36,24 +36,19 @@
     _item = item;
 
     self.failureView.hidden = !_item.didFailUploadValue;
-    _itemDescription.text = (_item.itemDescription.length > 0) ? _item.itemDescription : @"Tap to add text";
+    _itemDescription.text = (_item.itemDescription.length > 0) ? _item.itemDescription : @"Tap to edit item";
 
     if (_item.itemDescription.length > 0) {
         _itemDescription.textColor = [UIColor morselDarkContent];
     }
     _itemThumbnail.item = _item;
-    _itemThumbnail.delegate = self;
 }
 
-- (void)setHighlighted:(BOOL)highlighted {
-    [super setHighlighted:highlighted];
-
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [self displaySelectedState:highlighted];
 }
 
-- (void)setSelected:(BOOL)selected {
-    [super setSelected:selected];
-
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [self displaySelectedState:selected];
 }
 
@@ -144,14 +139,6 @@
     self.itemDescription.text = nil;
 
     _itemDescription.textColor = [UIColor morselLightContent];
-}
-
-#pragma mark - MRSLItemImageViewDelegate
-
-- (void)itemImageViewDidSelectItem:(MRSLItem *)item {
-    if ([self.delegate respondsToSelector:@selector(morselEditItemCellDidSelectImagePreview:)]) {
-        [self.delegate morselEditItemCellDidSelectImagePreview:_item];
-    }
 }
 
 @end

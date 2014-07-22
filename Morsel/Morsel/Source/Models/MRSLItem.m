@@ -1,5 +1,7 @@
 #import "MRSLItem.h"
 
+#import "MRSLS3Service.h"
+#import "MRSLAPIService+Item.h"
 
 #import "MRSLComment.h"
 #import "MRSLMorsel.h"
@@ -34,6 +36,31 @@
 }
 
 #pragma mark - Instance Methods
+
+- (void)API_updateImage {
+    self.isUploading = @YES;
+    self.didFailUpload = @NO;
+    //  If presignedUpload returned, use it, otherwise fallback to old upload method
+    if (self.presignedUpload) {
+        [_appDelegate.s3Service uploadImageData:self.itemPhotoFull
+                             forPresignedUpload:self.presignedUpload
+                                        success:^(NSDictionary *responseDictionary) {
+                                            [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
+                                                                            forItem:self
+                                                                            success:nil
+                                                                            failure:nil];
+                                        } failure:^(NSError *error) {
+                                            //  S3 upload failed, fallback to API upload
+                                            [_appDelegate.apiService updateItemImage:self
+                                                                             success:nil
+                                                                             failure:nil];
+                                        }];
+    } else {
+        [_appDelegate.apiService updateItemImage:self
+                                         success:nil
+                                         failure:nil];
+    }
+}
 
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
     if (!self.itemPhotoURL) return nil;
@@ -97,7 +124,7 @@
 }
 
 - (NSData *)localImageLarge {
-    return self.itemPhotoCropped;
+    return self.itemPhotoFull;
 }
 
 - (NSData *)localImageSmall {
@@ -120,7 +147,6 @@
             DDLogDebug(@"Duplicate local failed item found without server id. Removing before import of updated item.");
             if (localItem.itemPhotoFull) {
                 self.itemPhotoFull = [localItem.itemPhotoFull copy] ?: nil;
-                self.itemPhotoCropped = [localItem.itemPhotoCropped copy] ?: nil;
                 self.itemPhotoThumb = [localItem.itemPhotoThumb copy] ?: nil;
             }
             [localItem.morsel removeItemsObject:localItem];
@@ -142,7 +168,7 @@
             [self.morsel addItemsObject:self];
         }
     }
-    if (![data[@"photos"] isEqual:[NSNull null]]) {
+    if (![data[@"photos"] isEqual:[NSNull null]] && !self.photo_processingValue && !self.isUploadingValue) {
         NSDictionary *photoDictionary = data[@"photos"];
         self.itemPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
                                                                                     withString:@"IMAGE_SIZE"];

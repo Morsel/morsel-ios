@@ -161,7 +161,7 @@
 
 - (void)sendToInstagram {
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSData *photoCroppedData = [[_morsel coverItem] itemPhotoCropped];
+        NSData *photoCroppedData = [[_morsel coverItem] itemPhotoFull];
 
         if (photoCroppedData) {
             NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
