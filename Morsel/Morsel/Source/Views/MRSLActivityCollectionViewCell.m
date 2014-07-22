@@ -41,7 +41,10 @@
         [self.descriptionLabel sizeToFit];
         [self.descriptionLabel setWidth:160.f];
 
-        if ([activity hasUserSubject]) {
+        if ([activity hasPlaceSubject]) {
+            self.itemImageView.hidden = YES;
+            self.subjectProfileImageView.hidden = YES;
+        } else if ([activity hasUserSubject]) {
             self.itemImageView.hidden = YES;
             self.subjectProfileImageView.hidden = NO;
 

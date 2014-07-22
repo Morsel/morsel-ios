@@ -1,5 +1,6 @@
 #import "MRSLActivity.h"
 #import "MRSLItem.h"
+#import "MRSLPlace.h"
 #import "MRSLUser.h"
 
 @interface MRSLActivity ()
@@ -23,6 +24,8 @@
 - (void)didImport:(id)data {
     if ([data[@"subject_type"] isEqualToString:@"Item"])
         [self importItemSubject:data[@"subject"]];
+    else if ([data[@"subject_type"] isEqualToString:@"Place"])
+        [self importPlaceSubject:data[@"subject"]];
     else if ([data[@"subject_type"] isEqualToString:@"User"])
         [self importUserSubject:data[@"subject"]];
 
@@ -34,6 +37,10 @@
 
 - (BOOL)hasItemSubject {
     return [self.subjectType isEqualToString:@"Item"];
+}
+
+- (BOOL)hasPlaceSubject {
+    return [self.subjectType isEqualToString:@"Place"];
 }
 
 - (BOOL)hasUserSubject {
@@ -86,6 +93,18 @@
     }
 }
 
+- (void)importPlaceSubject:(NSDictionary *)subjectDictionary {
+    if (![subjectDictionary isEqual:[NSNull null]]) {
+        MRSLPlace *place = [MRSLPlace MR_findFirstByAttribute:MRSLPlaceAttributes.placeID
+                                                 withValue:subjectDictionary[@"id"]
+                                                 inContext:self.managedObjectContext];
+        if (!place) place = [MRSLPlace MR_createInContext:self.managedObjectContext];
+        [place MR_importValuesForKeysWithObject:subjectDictionary];
+        [self setPlaceSubject:place];
+        [place addActivitiesAsSubjectObject:self];
+    }
+}
+
 - (void)importUserSubject:(NSDictionary *)subjectDictionary {
     if (![subjectDictionary isEqual:[NSNull null]]) {
         MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
@@ -101,6 +120,8 @@
 - (NSString *)subjectDisplayName {
     if ([self hasItemSubject]) {
         return [self.itemSubject displayName];
+    } else if ([self hasPlaceSubject]) {
+        return self.placeSubject.name ?: @"some place";
     } else if ([self hasUserSubject]) {
         if (self.userSubject.userIDValue == [MRSLUser currentUser].userIDValue) {
             return @"you";
