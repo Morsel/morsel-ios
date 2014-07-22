@@ -8,7 +8,7 @@
 + (NSString *)apiTokenForCurrentUser;
 + (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID;
 + (void)refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil failure:(MRSLFailureBlock)failureOrNil;
-+ (void)createOrUpdateUserFromResponseObject:(id)responseObject shouldMorselNotification:(BOOL)shouldMorselNotifications;
++ (void)createOrUpdateUserFromResponseObject:(id)responseObject existingUser:(BOOL)existingUser;
 + (void)updateCurrentUserToProfessional;
 + (void)resetThirdPartySettings;
 

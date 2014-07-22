@@ -51,12 +51,18 @@
 }
 
 + (void)createOrUpdateUserFromResponseObject:(id)userDictionary
-                    shouldMorselNotification:(BOOL)shouldMorselNotifications {
+                                existingUser:(BOOL)existingUser {
     NSNumber *userID = @([userDictionary[@"id"] intValue]);
 
     MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                              withValue:userID
                                              inContext:[NSManagedObjectContext MR_defaultContext]];
+    if (!existingUser && !user) {
+        // New User, find existing local record matching `username` from signup flow to grab photos
+        user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.username
+                                       withValue:userDictionary[@"username"]
+                                       inContext:[NSManagedObjectContext MR_defaultContext]];
+    }
     if (!user) {
         DDLogDebug(@"User did not exist on device. Creating new.");
         user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
@@ -71,8 +77,8 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     [user.managedObjectContext MR_saveToPersistentStoreAndWait];
 
-    if (shouldMorselNotifications) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
-                                                                                       object:nil];
+    if (existingUser) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+                                                                          object:nil];
 }
 
 + (void)updateCurrentUserToProfessional {

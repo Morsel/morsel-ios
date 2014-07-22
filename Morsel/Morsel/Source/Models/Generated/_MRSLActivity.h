@@ -16,6 +16,7 @@ extern const struct MRSLActivityRelationships {
 	__unsafe_unretained NSString *creator;
 	__unsafe_unretained NSString *itemSubject;
 	__unsafe_unretained NSString *notification;
+	__unsafe_unretained NSString *placeSubject;
 	__unsafe_unretained NSString *userSubject;
 } MRSLActivityRelationships;
 
@@ -25,6 +26,7 @@ extern const struct MRSLActivityFetchedProperties {
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLNotification;
+@class MRSLPlace;
 @class MRSLUser;
 
 
@@ -125,6 +127,13 @@ extern const struct MRSLActivityFetchedProperties {
 
 
 
+@property (nonatomic, strong) MRSLPlace *placeSubject;
+
+//- (BOOL)validatePlaceSubject:(id*)value_ error:(NSError**)error_;
+
+
+
+
 @property (nonatomic, strong) MRSLUser *userSubject;
 
 //- (BOOL)validateUserSubject:(id*)value_ error:(NSError**)error_;
@@ -191,6 +200,11 @@ extern const struct MRSLActivityFetchedProperties {
 
 - (MRSLNotification*)primitiveNotification;
 - (void)setPrimitiveNotification:(MRSLNotification*)value;
+
+
+
+- (MRSLPlace*)primitivePlaceSubject;
+- (void)setPrimitivePlaceSubject:(MRSLPlace*)value;
 
 
 

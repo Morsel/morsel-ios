@@ -39,6 +39,7 @@ extern const struct MRSLPlaceAttributes {
 } MRSLPlaceAttributes;
 
 extern const struct MRSLPlaceRelationships {
+	__unsafe_unretained NSString *activitiesAsSubject;
 	__unsafe_unretained NSString *morsels;
 	__unsafe_unretained NSString *users;
 } MRSLPlaceRelationships;
@@ -46,6 +47,7 @@ extern const struct MRSLPlaceRelationships {
 extern const struct MRSLPlaceFetchedProperties {
 } MRSLPlaceFetchedProperties;
 
+@class MRSLActivity;
 @class MRSLMorsel;
 @class MRSLUser;
 
@@ -428,6 +430,13 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSSet *activitiesAsSubject;
+
+- (NSMutableSet*)activitiesAsSubjectSet;
+
+
+
+
 @property (nonatomic, strong) NSSet *morsels;
 
 - (NSMutableSet*)morselsSet;
@@ -446,6 +455,11 @@ extern const struct MRSLPlaceFetchedProperties {
 @end
 
 @interface _MRSLPlace (CoreDataGeneratedAccessors)
+
+- (void)addActivitiesAsSubject:(NSSet*)value_;
+- (void)removeActivitiesAsSubject:(NSSet*)value_;
+- (void)addActivitiesAsSubjectObject:(MRSLActivity*)value_;
+- (void)removeActivitiesAsSubjectObject:(MRSLActivity*)value_;
 
 - (void)addMorsels:(NSSet*)value_;
 - (void)removeMorsels:(NSSet*)value_;
@@ -664,6 +678,11 @@ extern const struct MRSLPlaceFetchedProperties {
 - (void)setPrimitiveWebsite_url:(NSString*)value;
 
 
+
+
+
+- (NSMutableSet*)primitiveActivitiesAsSubject;
+- (void)setPrimitiveActivitiesAsSubject:(NSMutableSet*)value;
 
 
 

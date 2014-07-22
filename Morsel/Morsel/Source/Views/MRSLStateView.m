@@ -46,6 +46,7 @@ static CGFloat kButtonHeight = 50.0f;
 
         self.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(kPadding, kPadding, CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f), CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f))];
         self.titleLabel = [[MRSLRobotoLightLabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_accessoryView.frame) + kPadding, kPadding, CGRectGetWidth(_containerView.frame) - (CGRectGetMaxX(_accessoryView.frame) + (kPadding * 2.0f)), CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f))];
+        [_titleLabel setBackgroundColor:[UIColor clearColor]];
 
         [_containerView addSubview:_titleLabel];
         [_containerView addSubview:_accessoryView];
