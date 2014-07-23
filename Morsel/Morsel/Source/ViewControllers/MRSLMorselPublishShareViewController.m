@@ -146,10 +146,8 @@
                         [weakSelf setOnSwitch:weakSelf.facebookSwitch
                                    forNetwork:@"facebook"
                                  shouldTurnOn:NO];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [UIAlertView showOKAlertViewWithTitle:@"Publish Permission Required"
-                                                          message:@"Morsel has not been granted authorization to post to Facebook on your behalf."];
-                        });
+                        [UIAlertView showOKAlertViewWithTitle:@"Publish Permission Required"
+                                                      message:@"Morsel has not been granted authorization to post to Facebook on your behalf."];
                     }
                 }];
             } else {
