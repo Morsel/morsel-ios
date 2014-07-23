@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *emailButton;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @property (strong, nonatomic) MRSLSocialUser *socialUser;
 
@@ -65,6 +66,7 @@
 #pragma mark - Action Methods
 
 - (IBAction)connectWithFacebook {
+    self.activityView.hidden = NO;
     if ([FBSession.activeSession isOpen]) {
         [self connectFacebookAccountUsingActiveSession];
     } else {
@@ -72,12 +74,15 @@
         [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             if ([session isOpen]) {
                 [weakSelf connectFacebookAccountUsingActiveSession];
+            } else {
+                weakSelf.activityView.hidden = YES;
             }
         }];
     }
 }
 
 - (IBAction)connectWithTwitter {
+    self.activityView.hidden = NO;
     if ([MRSLSocialServiceTwitter sharedService].oauth1Client.accessToken) {
         [self connectTwitterAccountUsingActiveSession];
     } else {
@@ -85,8 +90,11 @@
         [[MRSLSocialServiceTwitter sharedService] authenticateWithTwitterWithSuccess:^(BOOL success) {
             if (success) {
                 [weakSelf connectTwitterAccountUsingActiveSession];
+            } else {
+                weakSelf.activityView.hidden = YES;
             }
         } failure:^(NSError *error) {
+            weakSelf.activityView.hidden = YES;
             [UIAlertView showAlertViewForError:error
                                       delegate:nil];
         }];
@@ -111,12 +119,16 @@
                                                       [_appDelegate.apiService signInUserWithEmailOrUsername:nil
                                                                                                  andPassword:nil
                                                                                             orAuthentication:_socialUser.authentication
-                                                                                                     success:nil
-                                                                                                     failure:nil];
+                                                                                                     success:^(id responseObject) {
+                                                                                                         weakSelf.activityView.hidden = YES;
+                                                                                                     } failure:^(NSError *error) {
+                                                                                                         weakSelf.activityView.hidden = YES;
+                                                                                                     }];
                                                   } else {
                                                       // Facebook account not associated with any Morsel accounts. Check if email is.
                                                       [_appDelegate.apiService checkEmail:_socialUser.email
                                                                                    exists:^(BOOL exists, NSError *error) {
+                                                                                       weakSelf.activityView.hidden = YES;
                                                                                        if (exists) {
                                                                                            // If it does, present "connect to existing account" page. Pass Facebook user object
                                                                                            UIAlertView *alert = [UIAlertView showAlertViewWithTitle:@"Email Account Found"
@@ -148,9 +160,13 @@
                                                       [_appDelegate.apiService signInUserWithEmailOrUsername:nil
                                                                                                  andPassword:nil
                                                                                             orAuthentication:_socialUser.authentication
-                                                                                                     success:nil
-                                                                                                     failure:nil];
+                                                                                                     success:^(id responseObject) {
+                                                                                                         weakSelf.activityView.hidden = YES;
+                                                                                                     } failure:^(NSError *error) {
+                                                                                                         weakSelf.activityView.hidden = YES;
+                                                                                                     }];
                                                   } else {
+                                                      weakSelf.activityView.hidden = YES;
                                                       // If it doesn't, display sign up with prefilled Twitter user data
                                                       [weakSelf performSegueWithIdentifier:@"seg_DisplaySignUp"
                                                                                     sender:nil];

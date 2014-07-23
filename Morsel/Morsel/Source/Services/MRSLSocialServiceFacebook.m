@@ -49,41 +49,39 @@
         __weak __typeof(self) weakSelf = self;
         // If there's one, just open the session silently, without showing the user the login UI
         [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
-                                              allowLoginUI:NO
-                                         completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-                                             // Handler for session state changes
-                                             // This method will be called EACH time the session state changes,
-                                             // also for intermediate states and NOT just when the session open
-                                             [self sessionStateChanged:session
-                                                                 state:status
-                                                                 error:error];
-                                             if (!didConfirmValid) {
-                                                 [weakSelf checkForPublishPermissions:nil];
-                                                 didConfirmValid = YES;
-                                             }
-                                         }];
+                                           allowLoginUI:NO
+                                      completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                                          // Handler for session state changes
+                                          // This method will be called EACH time the session state changes,
+                                          // also for intermediate states and NOT just when the session open
+                                          [self sessionStateChanged:session
+                                                              state:status
+                                                              error:error];
+                                          if (!didConfirmValid) {
+                                              [weakSelf checkForPublishPermissions:nil];
+                                              didConfirmValid = YES;
+                                          }
+                                      }];
     }
 }
 
 - (void)checkForPublishPermissions:(MRSLSocialSuccessBlock)canPublishOrNil {
     if ([[FBSession activeSession] isOpen]) {
-        if ([FBSession.activeSession.permissions
-             indexOfObject:@"publish_actions"] != NSNotFound) {
-            if (canPublishOrNil) canPublishOrNil(YES);
-        } else {
-            // Call permissions just to be extra sure, since it could possibly not be restored.
-            [FBRequestConnection startWithGraphPath:@"/me/permissions"
-                                  completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                      if (!error){
-                                          NSDictionary *permissions= [(NSArray *)[result data] objectAtIndex:0];
-                                          if ([permissions objectForKey:@"publish_actions"]){
-                                              if (canPublishOrNil) canPublishOrNil(YES);
-                                          } else {
-                                              if (canPublishOrNil) canPublishOrNil(NO);
+        // Call permissions just to be extra sure, since it could possibly not be restored.
+        [FBRequestConnection startWithGraphPath:@"/me/permissions"
+                              completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                  if (!error){
+                                      __block BOOL canPublish = NO;
+                                      NSArray *permissionArray = result[@"data"];
+                                      [permissionArray enumerateObjectsUsingBlock:^(NSDictionary *permissionDictionary, NSUInteger idx, BOOL *stop) {
+                                          if ([permissionDictionary[@"permission"] isEqualToString:@"publish_actions"]) {
+                                              canPublish = YES;
+                                              *stop = YES;
                                           }
-                                      }
-                                  }];
-        }
+                                      }];
+                                      if (canPublishOrNil) canPublishOrNil(canPublish);
+                                  }
+                              }];
     } else {
         if (canPublishOrNil) canPublishOrNil(NO);
     }
@@ -95,13 +93,13 @@
     // Open a session showing the user the login UI
     // You must ALWAYS ask for public_profile permissions when opening a session
     [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]
-                                          allowLoginUI:YES
-                                     completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-                                         // Handler for session state changes
-                                         [self sessionStateChanged:session
-                                                             state:status
-                                                             error:error];
-                                     }];
+                                       allowLoginUI:YES
+                                  completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                                      // Handler for session state changes
+                                      [self sessionStateChanged:session
+                                                          state:status
+                                                          error:error];
+                                  }];
 }
 
 - (void)requestPublishPermissionsWithCompletion:(FBSessionRequestPermissionResultHandler)completionOrNil {
@@ -315,7 +313,14 @@
                                                           success:^(id responseObject) {
                                                               facebookAuthentication.authenticationID = responseObject[@"data"][@"id"];
                                                               weakSelf.socialAuthentication = facebookAuthentication;
-                                                          } failure:nil];
+                                                          } failure:^(NSError *error) {
+                                                              MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                              if ([[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"uid: already exists"]) {
+                                                                  [UIAlertView showOKAlertViewWithTitle:@"Facebook Account Taken"
+                                                                                                message:@"This Facebook account has already been associated with another Morsel account."];
+                                                                  [self reset];
+                                                              }
+                                                          }];
             }];
         }
         return;

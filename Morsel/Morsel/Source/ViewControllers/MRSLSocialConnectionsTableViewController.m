@@ -76,6 +76,9 @@
                     [weakSelf toggleSwitch:weakSelf.facebookSwitch
                               shouldEnable:YES];
                 } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        weakSelf.facebookUsernameLabel.text = @"Connect with Facebook ➡︎";
+                    });
                     [weakSelf toggleSwitch:weakSelf.facebookSwitch
                               shouldEnable:NO];
                 }
@@ -116,6 +119,9 @@
                           shouldEnable:NO];
             }
         } failure:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.twitterUsernameLabel.text = @"Connect with Twitter ➡︎";
+            });
             [weakSelf toggleSwitch:weakSelf.twitterSwitch
                       shouldEnable:NO];
         }];
@@ -150,6 +156,9 @@
                           shouldEnable:NO];
             }
         } failure:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.instagramUsernameLabel.text = @"Connect with Instagram ➡︎";
+            });
             [weakSelf toggleSwitch:weakSelf.instagramSwitch
                       shouldEnable:NO];
         }];
