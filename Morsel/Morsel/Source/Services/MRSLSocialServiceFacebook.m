@@ -313,7 +313,14 @@
                                                           success:^(id responseObject) {
                                                               facebookAuthentication.authenticationID = responseObject[@"data"][@"id"];
                                                               weakSelf.socialAuthentication = facebookAuthentication;
-                                                          } failure:nil];
+                                                          } failure:^(NSError *error) {
+                                                              MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                              if ([[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"uid: already exists"]) {
+                                                                  [UIAlertView showOKAlertViewWithTitle:@"Facebook Account Taken"
+                                                                                                message:@"This Facebook account has already been associated with another Morsel account."];
+                                                                  [self reset];
+                                                              }
+                                                          }];
             }];
         }
         return;

@@ -125,7 +125,15 @@
             if (shouldCreate && [MRSLUser currentUser]) {
                 [_appDelegate.apiService createUserAuthentication:authentication
                                                           success:nil
-                                                          failure:nil];
+                                                          failure:^(NSError *error) {
+                                                              MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                              if ([[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"uid: already exists"]) {
+                                                                  [UIAlertView showOKAlertViewWithTitle:@"Twitter Account Taken"
+                                                                                                message:@"This Twitter account has already been associated with another Morsel account."];
+                                                                  [self reset];
+                                                                  if (_twitterFailureBlock) _twitterFailureBlock(error);
+                                                              }
+                                                          }];
             }
             [AFOAuth1Token storeCredential:weakSelf.oauth1Client.accessToken
                             withIdentifier:MRSLTwitterCredentialsKey];
