@@ -119,7 +119,7 @@ NSFetchedResultsControllerDelegate>
     [self.dataSource updateObjects:[self.fetchedResultsController fetchedObjects]];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
-        self.loading = NO;
+        if ([self.dataSource count] > 0) self.loading = NO;
     });
     [self.refreshControl endRefreshing];
 }
