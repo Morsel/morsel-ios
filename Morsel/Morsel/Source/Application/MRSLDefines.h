@@ -227,6 +227,7 @@ static const int MRSLStatsTagViewTag = 9991;
 #import "UIDevice+Additions.h"
 #import "UIFont+Morsel.h"
 #import "UIImage+Resize.h"
+#import "UIImagePickerController+StatusBarHidden.h"
 #import "NSMutableString+Additions.h"
 #import "NSString+Additions.h"
 #import "UIRefreshControl+Additions.h"
