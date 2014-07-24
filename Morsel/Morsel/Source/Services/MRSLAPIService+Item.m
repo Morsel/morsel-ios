@@ -21,8 +21,9 @@
 - (void)createItem:(MRSLItem *)item
            success:(MRSLAPISuccessBlock)successOrNil
            failure:(MRSLFailureBlock)failureOrNil {
+    if (!item) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[NSNullIfNil(item)]
+                                                includingMRSLObjects:@[item]
                                               requiresAuthentication:YES];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidBeginCreateMorselNotification
@@ -81,6 +82,7 @@
 - (void)getItem:(MRSLItem *)item
         success:(MRSLAPISuccessBlock)successOrNil
         failure:(MRSLFailureBlock)failureOrNil {
+    if (!item) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -115,8 +117,9 @@
          andMorsel:(MRSLMorsel *)morselOrNil
            success:(MRSLAPISuccessBlock)successOrNil
            failure:(MRSLFailureBlock)failureOrNil {
+    if (!item) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[NSNullIfNil(item)]
+                                                includingMRSLObjects:@[item]
                                               requiresAuthentication:YES];
     if (morselOrNil) {
         [parameters addEntriesFromDictionary:@{@"new_morsel_id": NSNullIfNil(morselOrNil.morselID),
@@ -161,6 +164,7 @@
 - (void)updateItemImage:(MRSLItem *)item
                 success:(MRSLAPISuccessBlock)successOrNil
                 failure:(MRSLFailureBlock)failureOrNil {
+    if (!item) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -218,6 +222,7 @@
                forItem:(MRSLItem *)item
                success:(MRSLAPISuccessBlock)successOrNil
                failure:(MRSLFailureBlock)failureOrNil {
+    if (!item) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -253,6 +258,7 @@
 - (void)deleteItem:(MRSLItem *)item
            success:(MRSLSuccessBlock)successOrNil
            failure:(MRSLFailureBlock)failureOrNil {
+    if (!item) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];

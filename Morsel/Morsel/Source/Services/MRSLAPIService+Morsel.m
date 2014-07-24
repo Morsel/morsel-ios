@@ -21,8 +21,9 @@
 - (void)createMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[NSNullIfNil(morsel)]
+                                                includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
 
     [[MRSLAPIClient sharedClient] POST:@"morsels"
@@ -48,8 +49,9 @@
 - (void)deleteMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[NSNullIfNil(morsel)]
+                                                includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
     int morselID = morsel.morselIDValue;
     NSManagedObjectContext *morselContext = morsel.managedObjectContext;
@@ -77,8 +79,9 @@
 - (void)updateMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[NSNullIfNil(morsel)]
+                                                includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
 
     [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"morsels/%i", morsel.morselIDValue]
@@ -107,8 +110,9 @@
        sendToFacebook:(BOOL)sendToFacebook
         sendToTwitter:(BOOL)sendToTwitter
   willOpenInInstagram:(BOOL)willOpenInInstagram {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[NSNullIfNil(morsel)]
+                                                includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
 
     if (sendToFacebook) [parameters setObject:@"true"
@@ -146,6 +150,7 @@
          orWithID:(NSNumber *)morselID
           success:(MRSLAPISuccessBlock)successOrNil
           failure:(MRSLFailureBlock)failureOrNil {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
