@@ -43,7 +43,7 @@
            success:(MRSLAPISuccessBlock)successOrNil
            failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[user]
+                                                includingMRSLObjects:@[NSNullIfNil(user)]
                                               requiresAuthentication:YES];
     AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
     NSString *urlString = [[NSURL URLWithString:[NSString stringWithFormat:@"users/%i", user.userIDValue] relativeToURL:[[MRSLAPIClient sharedClient] baseURL]] absoluteString];

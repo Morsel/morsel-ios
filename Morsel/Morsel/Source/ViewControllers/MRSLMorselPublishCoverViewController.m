@@ -23,6 +23,8 @@
 <UICollectionViewDataSource,
 UICollectionViewDelegate>
 
+@property (nonatomic) int morselID;
+
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *coverCollectionView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
@@ -45,6 +47,7 @@ UICollectionViewDelegate>
     [super viewDidLayoutSubviews];
 
     if (self.morsel) {
+        self.morselID = self.morsel.morselIDValue;
         NSUInteger coverIndex = [[self.morsel itemsArray] indexOfObject:[self.morsel coverItem]];
         if (coverIndex != NSNotFound) {
             [self.coverCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:coverIndex inSection:0]
@@ -58,6 +61,8 @@ UICollectionViewDelegate>
 
 - (IBAction)next:(id)sender {
     [self updateMorsel];
+    if (!_morsel) self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                          withValue:@(_morselID)];
     [_appDelegate.apiService updateMorsel:_morsel
                                   success:nil
                                   failure:nil];

@@ -22,7 +22,7 @@
            success:(MRSLAPISuccessBlock)successOrNil
            failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[item]
+                                                includingMRSLObjects:@[NSNullIfNil(item)]
                                               requiresAuthentication:YES];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidBeginCreateMorselNotification
@@ -116,7 +116,7 @@
            success:(MRSLAPISuccessBlock)successOrNil
            failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[item]
+                                                includingMRSLObjects:@[NSNullIfNil(item)]
                                               requiresAuthentication:YES];
     if (morselOrNil) {
         [parameters addEntriesFromDictionary:@{@"new_morsel_id": NSNullIfNil(morselOrNil.morselID),

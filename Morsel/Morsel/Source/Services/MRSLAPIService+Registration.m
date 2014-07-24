@@ -26,7 +26,7 @@
            failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user": @{@"username": NSNullIfNil(user.username),
                                                                                   @"email": NSNullIfNil(user.email)}}
-                                                includingMRSLObjects:@[user]
+                                                includingMRSLObjects:@[NSNullIfNil(user)]
                                               requiresAuthentication:NO];
     if (authentication) {
         NSDictionary *authenticationParameters = @{@"authentication": @{@"provider": NSNullIfNil(authentication.provider),

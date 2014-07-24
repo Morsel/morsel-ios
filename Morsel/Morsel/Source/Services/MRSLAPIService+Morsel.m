@@ -22,7 +22,7 @@
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[morsel]
+                                                includingMRSLObjects:@[NSNullIfNil(morsel)]
                                               requiresAuthentication:YES];
 
     [[MRSLAPIClient sharedClient] POST:@"morsels"
@@ -49,7 +49,7 @@
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[morsel]
+                                                includingMRSLObjects:@[NSNullIfNil(morsel)]
                                               requiresAuthentication:YES];
     int morselID = morsel.morselIDValue;
     NSManagedObjectContext *morselContext = morsel.managedObjectContext;
@@ -78,7 +78,7 @@
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[morsel]
+                                                includingMRSLObjects:@[NSNullIfNil(morsel)]
                                               requiresAuthentication:YES];
 
     [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"morsels/%i", morsel.morselIDValue]
@@ -108,7 +108,7 @@
         sendToTwitter:(BOOL)sendToTwitter
   willOpenInInstagram:(BOOL)willOpenInInstagram {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[morsel]
+                                                includingMRSLObjects:@[NSNullIfNil(morsel)]
                                               requiresAuthentication:YES];
 
     if (sendToFacebook) [parameters setObject:@"true"
