@@ -11,9 +11,6 @@
 #import "MRSLUser.h"
 
 @interface MRSLEventManager ()
-
-@property (strong, nonatomic) MRSLUser *currentUser;
-
 @end
 
 @implementation MRSLEventManager
@@ -41,9 +38,6 @@
     //  Don't track events when running tests
     return;
 #else
-    if (!self.currentUser) self.currentUser = [MRSLUser currentUser];
-    // If there is a current user and they have a title that is empty/nil, do not allow tracking.
-    if (self.currentUser && ![self.currentUser shouldTrack]) return;
     [[Mixpanel sharedInstance] track:event
                           properties:properties];
 #endif

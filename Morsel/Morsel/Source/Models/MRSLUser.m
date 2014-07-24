@@ -110,11 +110,6 @@
     return self.professionalValue;
 }
 
-- (BOOL)shouldTrack {
-    // This still allows anonymous tracking to appear before a user signs in
-    return !self.staffValue;
-}
-
 - (void)setThirdPartySettings {
     NSString *idString = [NSString stringWithFormat:@"%i", self.userIDValue];
     [[Rollbar currentConfiguration] setPersonId:idString
@@ -124,7 +119,8 @@
     [[Mixpanel sharedInstance].people set:@{@"first_name": NSNullIfNil(self.first_name),
                                             @"last_name": NSNullIfNil(self.last_name),
                                             @"created_at": NSNullIfNil(self.creationDate),
-                                            @"username": NSNullIfNil(self.username)}];
+                                            @"username": NSNullIfNil(self.username),
+                                            @"is_staff": NSNullIfNil(self.staff)}];
     [[Mixpanel sharedInstance].people increment:@"open_count"
                                              by:@(1)];
 }

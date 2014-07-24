@@ -14,7 +14,6 @@
 
 - (BOOL)isCurrentUser;
 - (BOOL)isProfessional;
-- (BOOL)shouldTrack;
 - (NSString *)fullName;
 - (NSString *)displayName;
 - (NSString *)fullNameOrTwitterHandle;
