@@ -39,6 +39,7 @@ extern const struct MRSLUserRelationships {
 	__unsafe_unretained NSString *comments;
 	__unsafe_unretained NSString *morsels;
 	__unsafe_unretained NSString *places;
+	__unsafe_unretained NSString *presignedUpload;
 	__unsafe_unretained NSString *tags;
 } MRSLUserRelationships;
 
@@ -50,6 +51,7 @@ extern const struct MRSLUserFetchedProperties {
 @class MRSLComment;
 @class MRSLMorsel;
 @class MRSLPlace;
+@class MRSLPresignedUpload;
 @class MRSLTag;
 
 
@@ -431,6 +433,13 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) MRSLPresignedUpload *presignedUpload;
+
+//- (BOOL)validatePresignedUpload:(id*)value_ error:(NSError**)error_;
+
+
+
+
 @property (nonatomic, strong) NSSet *tags;
 
 - (NSMutableSet*)tagsSet;
@@ -690,6 +699,11 @@ extern const struct MRSLUserFetchedProperties {
 
 - (NSMutableSet*)primitivePlaces;
 - (void)setPrimitivePlaces:(NSMutableSet*)value;
+
+
+
+- (MRSLPresignedUpload*)primitivePresignedUpload;
+- (void)setPrimitivePresignedUpload:(MRSLPresignedUpload*)value;
 
 
 

@@ -1,6 +1,9 @@
 #import "MRSLUser.h"
 
+#import "MRSLS3Service.h"
 #import "MRSLAPIService+Profile.h"
+
+#import "MRSLPresignedUpload.h"
 
 @interface MRSLUser ()
 
@@ -53,7 +56,7 @@
                                     failure:failureOrNil];
 }
 
-+ (void)createOrUpdateUserFromResponseObject:(id)userDictionary
++ (MRSLUser *)createOrUpdateUserFromResponseObject:(id)userDictionary
                                 existingUser:(BOOL)existingUser {
     NSNumber *userID = @([userDictionary[@"id"] intValue]);
 
@@ -82,6 +85,8 @@
 
     if (existingUser) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                                           object:nil];
+
+    return user;
 }
 
 + (void)updateCurrentUserToProfessional {
@@ -127,6 +132,33 @@
                                             @"username": NSNullIfNil(self.username)}];
     [[Mixpanel sharedInstance].people increment:@"open_count"
                                              by:@(1)];
+}
+
+- (void)API_updateImage {
+    //  If presignedUpload returned, use it, otherwise fallback to old upload method
+    if (self.presignedUpload) {
+        [_appDelegate.s3Service uploadImageData:self.profilePhotoFull
+                             forPresignedUpload:self.presignedUpload
+                                        success:^(NSDictionary *responseDictionary) {
+                                            [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
+                                                                            forUser:self
+                                                                            success:^(id responseObject) {
+                                                                                [self.presignedUpload MR_deleteEntity];
+                                                                                [self.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                                            } failure:^(NSError *error) {
+                                                                                NSLog(@"asdf");
+                                                                            }];
+                                        } failure:^(NSError *error) {
+                                            //  S3 upload failed, fallback to API upload
+                                            [_appDelegate.apiService updateUserImage:self
+                                                                             success:nil
+                                                                             failure:nil];
+                                        }];
+    } else {
+        [_appDelegate.apiService updateUserImage:self
+                                         success:nil
+                                         failure:nil];
+    }
 }
 
 - (NSString *)fullName {
@@ -195,7 +227,6 @@
             self.auto_follow = @([data[@"settings"][@"auto_follow"] boolValue]);
         }
     }
-    if (self.profilePhotoFull) self.profilePhotoFull = nil;
 }
 
 - (NSString *)jsonKeyName {

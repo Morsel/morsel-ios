@@ -34,4 +34,13 @@
                                 success:(MRSLAPISuccessBlock)successOrNil
                                 failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)updateUserImage:(MRSLUser *)user
+                success:(MRSLAPISuccessBlock)successOrNil
+                failure:(MRSLFailureBlock)failureOrNil;
+
+- (void)updatePhotoKey:(NSString *)photoKey
+               forUser:(MRSLUser *)user
+               success:(MRSLAPISuccessBlock)successOrNil
+               failure:(MRSLFailureBlock)failureOrNil;
+
 @end

@@ -16,12 +16,14 @@ extern const struct MRSLPresignedUploadAttributes {
 
 extern const struct MRSLPresignedUploadRelationships {
 	__unsafe_unretained NSString *item;
+	__unsafe_unretained NSString *user;
 } MRSLPresignedUploadRelationships;
 
 extern const struct MRSLPresignedUploadFetchedProperties {
 } MRSLPresignedUploadFetchedProperties;
 
 @class MRSLItem;
+@class MRSLUser;
 
 
 
@@ -121,6 +123,13 @@ extern const struct MRSLPresignedUploadFetchedProperties {
 
 
 
+@property (nonatomic, strong) MRSLUser *user;
+
+//- (BOOL)validateUser:(id*)value_ error:(NSError**)error_;
+
+
+
+
 
 @end
 
@@ -176,6 +185,11 @@ extern const struct MRSLPresignedUploadFetchedProperties {
 
 - (MRSLItem*)primitiveItem;
 - (void)setPrimitiveItem:(MRSLItem*)value;
+
+
+
+- (MRSLUser*)primitiveUser;
+- (void)setPrimitiveUser:(MRSLUser*)value;
 
 
 @end

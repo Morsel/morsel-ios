@@ -8,7 +8,7 @@
 + (NSString *)apiTokenForCurrentUser;
 + (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID;
 + (void)refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil failure:(MRSLFailureBlock)failureOrNil;
-+ (void)createOrUpdateUserFromResponseObject:(id)responseObject existingUser:(BOOL)existingUser;
++ (MRSLUser *)createOrUpdateUserFromResponseObject:(id)responseObject existingUser:(BOOL)existingUser;
 + (void)updateCurrentUserToProfessional;
 + (void)resetThirdPartySettings;
 
@@ -23,5 +23,7 @@
 + (void)incrementCurrentUserDraftCount;
 + (void)decrementCurrentUserDraftCount;
 - (void)setThirdPartySettings;
+
+- (void)API_updateImage;
 
 @end

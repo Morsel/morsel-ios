@@ -15,6 +15,7 @@ const struct MRSLPresignedUploadAttributes MRSLPresignedUploadAttributes = {
 
 const struct MRSLPresignedUploadRelationships MRSLPresignedUploadRelationships = {
 	.item = @"item",
+	.user = @"user",
 };
 
 const struct MRSLPresignedUploadFetchedProperties MRSLPresignedUploadFetchedProperties = {
@@ -103,6 +104,10 @@ const struct MRSLPresignedUploadFetchedProperties MRSLPresignedUploadFetchedProp
 
 
 @dynamic item;
+
+	
+
+@dynamic user;
 
 	
 

@@ -5,6 +5,7 @@
 
 #import "MRSLComment.h"
 #import "MRSLMorsel.h"
+#import "MRSLPresignedUpload.h"
 #import "MRSLUser.h"
 
 @interface MRSLItem ()
@@ -47,8 +48,10 @@
                                         success:^(NSDictionary *responseDictionary) {
                                             [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
                                                                             forItem:self
-                                                                            success:nil
-                                                                            failure:nil];
+                                                                            success:^(id responseObject) {
+                                                                                [self.presignedUpload MR_deleteEntity];
+                                                                                [self.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                                            } failure:nil];
                                         } failure:^(NSError *error) {
                                             //  S3 upload failed, fallback to API upload
                                             [_appDelegate.apiService updateItemImage:self
