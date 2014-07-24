@@ -202,7 +202,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
+    MRSLMorsel *morsel = [_morsels objectAtIndex:MIN(indexPath.row, [_morsels count] - 1)];
     MRSLMorselTableViewCell *morselCell = [self.tableView dequeueReusableCellWithIdentifier:@"ruid_MorselCell"];
     morselCell.morsel = morsel;
     morselCell.morselPipeView.hidden = (indexPath.row == [_morsels count] - 1);

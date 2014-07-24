@@ -43,7 +43,7 @@
            success:(MRSLAPISuccessBlock)successOrNil
            failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[user]
+                                                includingMRSLObjects:@[NSNullIfNil(user)]
                                               requiresAuthentication:YES];
     if (user.profilePhotoFull) {
         parameters[@"prepare_presigned_upload"] = @"true";

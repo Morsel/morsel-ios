@@ -114,4 +114,17 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
     [self toggleViewController:[self viewControllerForSegmentIndex:index]];
 }
 
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *childViewController, NSUInteger idx, BOOL *stop) {
+        [childViewController willMoveToParentViewController:nil];
+        [childViewController removeFromParentViewController];
+        [childViewController.view removeFromSuperview];
+    }];
+    self.notificationsViewController = nil;
+    self.followableActivityTableViewController = nil;
+    self.myActivityTableViewController = nil;
+}
+
 @end

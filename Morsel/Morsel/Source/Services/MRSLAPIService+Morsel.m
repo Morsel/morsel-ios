@@ -21,6 +21,7 @@
 - (void)createMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
@@ -48,6 +49,7 @@
 - (void)deleteMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
@@ -77,6 +79,7 @@
 - (void)updateMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
@@ -107,6 +110,7 @@
        sendToFacebook:(BOOL)sendToFacebook
         sendToTwitter:(BOOL)sendToTwitter
   willOpenInInstagram:(BOOL)willOpenInInstagram {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[morsel]
                                               requiresAuthentication:YES];
@@ -146,6 +150,7 @@
          orWithID:(NSNumber *)morselID
           success:(MRSLAPISuccessBlock)successOrNil
           failure:(MRSLFailureBlock)failureOrNil {
+    if (!morsel) return;
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
