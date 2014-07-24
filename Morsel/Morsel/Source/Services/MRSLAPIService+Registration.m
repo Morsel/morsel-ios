@@ -39,29 +39,25 @@
         parameters[@"user"][@"password"] = NSNullIfNil(password);
     }
 
+    if (user.profilePhotoFull) {
+        parameters[@"prepare_presigned_upload"] = @"true";
+    }
+
     [[MRSLAPIClient sharedClient] POST:@"users"
                             parameters:parameters
-             constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                 if (user.profilePhotoFull) {
-                     DDLogDebug(@"Profile image included for user");
-                     [formData appendPartWithFileData:user.profilePhotoFull
-                                                 name:@"user[photo]"
-                                             fileName:@"photo.jpg"
-                                             mimeType:@"image/jpeg"];
-                 }
-             } success: ^(AFHTTPRequestOperation * operation, id responseObject) {
-                 DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                               success: ^(AFHTTPRequestOperation * operation, id responseObject) {
+                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
-                 [MRSLUser createOrUpdateUserFromResponseObject:responseObject[@"data"]
-                                                   existingUser:NO];
+                                   [MRSLUser createOrUpdateUserFromResponseObject:responseObject[@"data"]
+                                                                     existingUser:NO];
 
-                 if (userSuccessOrNil) userSuccessOrNil(responseObject[@"data"]);
-             } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                 [self reportFailure:failureOrNil
-                        forOperation:operation
-                           withError:error
-                            inMethod:NSStringFromSelector(_cmd)];
-             }];
+                                   if (userSuccessOrNil) userSuccessOrNil(responseObject[@"data"]);
+                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                   [self reportFailure:failureOrNil
+                                          forOperation:operation
+                                             withError:error
+                                              inMethod:NSStringFromSelector(_cmd)];
+                               }];
 }
 
 - (void)signInUserWithEmailOrUsername:(NSString *)emailOrUsername

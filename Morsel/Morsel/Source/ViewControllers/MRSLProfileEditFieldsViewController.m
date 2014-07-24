@@ -133,6 +133,12 @@ UIAlertViewDelegate>
         if ([self bioChanged]) _user.bio = _bioTextView.text;
         [_appDelegate.apiService updateUser:_user
                                     success:^(id responseObject) {
+                                        MRSLUser *updatedUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                                                                        withValue:responseObject[@"data"][@"id"]];
+                                        if (updatedUser.presignedUpload && updatedUser.profilePhotoFull) {
+                                            [updatedUser API_updateImage];
+                                        }
+
                                         if (didUpdateOrNil) didUpdateOrNil(YES);
                                     } failure:^(NSError *error) {
                                         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];

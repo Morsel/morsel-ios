@@ -210,6 +210,12 @@ UITextFieldDelegate>
                                    withPassword:_userConnectedWithSocial ? nil : _passwordField.text
                               andAuthentication:_socialAuthentication
                                         success:^(id responseObject) {
+                                            MRSLUser *newUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                                                                        withValue:responseObject[@"id"]];
+                                            if (newUser.presignedUpload && newUser.profilePhotoFull) {
+                                                [newUser API_updateImage];
+                                            }
+
                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                 [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                                                                     object:nil];

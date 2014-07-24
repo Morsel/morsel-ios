@@ -311,6 +311,7 @@
         </attribute>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="presignedUpload" inverseEntity="MRSLItem" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="presignedUpload" inverseEntity="MRSLUser" syncable="YES"/>
     </entity>
     <entity name="MRSLTag" representedClassName="MRSLTag" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -395,6 +396,11 @@
                 <entry key="relatedByAttribute" value="placeID"/>
             </userInfo>
         </relationship>
+        <relationship name="presignedUpload" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="MRSLPresignedUpload" inverseName="user" inverseEntity="MRSLPresignedUpload" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="presigned_upload"/>
+            </userInfo>
+        </relationship>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLTag" inverseName="user" inverseEntity="MRSLTag" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="tagID"/>
@@ -409,8 +415,8 @@
         <element name="MRSLMorsel" positionX="-153" positionY="458" width="128" height="313"/>
         <element name="MRSLNotification" positionX="9" positionY="405" width="128" height="135"/>
         <element name="MRSLPlace" positionX="628" positionY="240" width="128" height="553"/>
-        <element name="MRSLPresignedUpload" positionX="-36" positionY="18" width="128" height="163"/>
+        <element name="MRSLPresignedUpload" positionX="-36" positionY="18" width="128" height="180"/>
         <element name="MRSLTag" positionX="196" positionY="-45" width="128" height="118"/>
-        <element name="MRSLUser" positionX="376" positionY="18" width="128" height="525"/>
+        <element name="MRSLUser" positionX="376" positionY="18" width="128" height="28"/>
     </elements>
 </model>

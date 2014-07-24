@@ -38,6 +38,7 @@ const struct MRSLUserRelationships MRSLUserRelationships = {
 	.comments = @"comments",
 	.morsels = @"morsels",
 	.places = @"places",
+	.presignedUpload = @"presignedUpload",
 	.tags = @"tags",
 };
 
@@ -586,6 +587,10 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	[self didAccessValueForKey:@"places"];
 	return result;
 }
+	
+
+@dynamic presignedUpload;
+
 	
 
 @dynamic tags;
