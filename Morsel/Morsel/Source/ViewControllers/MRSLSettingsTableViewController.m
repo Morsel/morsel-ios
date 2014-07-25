@@ -92,6 +92,11 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
                                                                                                                    @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/privacy_text", MORSEL_BASE_URL]]}];
 }
 
+- (IBAction)displaySoftwareAcknowledgements:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Software Acknowledgements",
+                                                                                                                   @"url": [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"html"]]}];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == MRSLSettingsTableViewSectionSetupProfessionalAccount) {
         return [[MRSLUser currentUser] isProfessional] ? 0 : 1;
