@@ -80,10 +80,11 @@
 }
 
 - (void)getItem:(MRSLItem *)item
+     parameters:(NSDictionary *)additionalParametersOrNil
         success:(MRSLAPISuccessBlock)successOrNil
         failure:(MRSLFailureBlock)failureOrNil {
     if (!item) return;
-    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+    NSMutableDictionary *parameters = [self parametersWithDictionary:additionalParametersOrNil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 
@@ -111,6 +112,15 @@
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
+}
+
+- (void)getItem:(MRSLItem *)item
+        success:(MRSLAPISuccessBlock)successOrNil
+        failure:(MRSLFailureBlock)failureOrNil {
+    [self getItem:item
+       parameters:nil
+          success:successOrNil
+          failure:failureOrNil];
 }
 
 - (void)updateItem:(MRSLItem *)item
