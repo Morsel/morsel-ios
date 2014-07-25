@@ -61,7 +61,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 
 - (IBAction)displayProfile {
     if (!_morsel.creator) return;
-    UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
+    UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileKey];
     MRSLProfileViewController *profileVC = [[profileNC viewControllers] firstObject];
     profileVC.user = _morsel.creator;
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
@@ -70,7 +70,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 
 - (IBAction)displayPlace {
     if (!_morsel.place) return;
-    UINavigationController *placeNC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_Place"];
+    UINavigationController *placeNC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlaceKey];
     MRSLPlaceViewController *placeVC = [[placeNC viewControllers] firstObject];
     placeVC.place = _morsel.place;
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification

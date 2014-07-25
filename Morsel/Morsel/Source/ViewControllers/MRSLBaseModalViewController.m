@@ -10,6 +10,8 @@
 
 @interface MRSLBaseModalViewController ()
 
+@property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
+
 @end
 
 @implementation MRSLBaseModalViewController
@@ -19,9 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (!_disableFade) [self.view setAlpha:.0f];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                          action:@selector(dismiss:)];
-    [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -29,6 +28,11 @@
     if (![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
         [self.view setY:[self.view getY] - 22.f];
         [self.view setHeight:[self.view getHeight] + 22.f];
+    }
+    if (!_tapRecognizer) {
+        self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                     action:@selector(dismiss:)];
+        [self.view addGestureRecognizer:_tapRecognizer];
     }
     if (!_disableFade) {
         [UIView animateWithDuration:animated ? 0.f : .4f
@@ -38,6 +42,14 @@
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLModalWillDisplayNotification
                                                         object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (self.tapRecognizer) {
+        [self.view removeGestureRecognizer:_tapRecognizer];
+        self.tapRecognizer = nil;
+    }
 }
 
 #pragma mark - Action Methods

@@ -701,17 +701,15 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
-        [viewController willMoveToParentViewController:nil];
-        [viewController.view removeFromSuperview];
-        [viewController removeFromParentViewController];
-        viewController = nil;
-    }];
+    [self resetChildViewControllers];
     [self.capturedMediaItems removeAllObjects];
     [self endCameraSession];
 
     [self.previewView setSession:nil];
     [self.previewView.layer removeFromSuperlayer];
+    [self.previewView removeFromSuperview];
+
+    [self removeSubviews];
 
     self.runtimeErrorHandlingObserver = nil;
     self.videoDeviceInput = nil;

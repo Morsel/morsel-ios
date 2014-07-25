@@ -259,12 +259,12 @@ NSFetchedResultsControllerDelegate>
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_previousCommentsAvailable && indexPath.row == 0) {
-        UITableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:(_loadingMore) ? @"ruid_PreviousLoading" :
-                                          @"ruid_PreviousCommentCell"];
+        UITableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:(_loadingMore) ? MRSLStoryboardRUIDPreviousLoadingKey :
+                                          MRSLStoryboardRUIDPreviousCommentCellKey];
         return tableViewCell;
     }
     MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
-    MRSLCommentTableViewCell *commentCell = [self.commentsTableView dequeueReusableCellWithIdentifier:@"ruid_CommentCell"];
+    MRSLCommentTableViewCell *commentCell = [self.commentsTableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDCommentCellKey];
     commentCell.comment = comment;
     commentCell.pipeView.hidden = (indexPath.row == [_comments count] - 1);
     return commentCell;
@@ -280,7 +280,7 @@ NSFetchedResultsControllerDelegate>
                          withRowAnimation:UITableViewRowAnimationNone];
     } else {
         MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
-        MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+        MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
         profileVC.user = comment.creator;
         [self.navigationController pushViewController:profileVC
                                              animated:YES];
@@ -309,12 +309,15 @@ NSFetchedResultsControllerDelegate>
 
 #pragma mark - Destroy Methods
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)reset {
+    [super reset];
     self.commentsTableView.dataSource = nil;
     self.commentsTableView.delegate = nil;
     [self.commentsTableView removeFromSuperview];
     self.commentsTableView = nil;
+    self.commentInputTextView.delegate = nil;
+    self.commentInputTextView.placeholder = nil;
+    self.commentInputTextView.placeholderColor = nil;
 }
 
 @end

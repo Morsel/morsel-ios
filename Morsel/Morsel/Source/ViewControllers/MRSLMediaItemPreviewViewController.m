@@ -143,7 +143,7 @@ CaptureMediaViewControllerDelegate>
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"seg_EditItemText"]) {
+    if ([segue.identifier isEqualToString:MRSLStoryboardSegueEditItemTextKey]) {
         MRSLItem *item = [_previewMedia objectAtIndex:_currentIndex];
         MRSLMorselEditDescriptionViewController *itemEditTextVC = [segue destinationViewController];
         itemEditTextVC.itemID = item.itemID;
@@ -160,12 +160,12 @@ CaptureMediaViewControllerDelegate>
                                               @"item_count": @([_previewMedia count]),
                                               @"morsel_id": NSNullIfNil(item.morsel.morselID),
                                               @"item_id": NSNullIfNil(item.itemID)}];
-    [self performSegueWithIdentifier:@"seg_EditItemText"
+    [self performSegueWithIdentifier:MRSLStoryboardSegueEditItemTextKey
                               sender:nil];
 }
 
 - (IBAction)retakePhoto {
-    MRSLCaptureSingleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLCaptureSingleMediaViewController"];
+    MRSLCaptureSingleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCaptureSingleMediaViewControllerKey];
     captureMediaVC.delegate = self;
     [self presentViewController:captureMediaVC
                        animated:YES
@@ -199,7 +199,7 @@ CaptureMediaViewControllerDelegate>
 
 - (MRSLImagePreviewCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                                 cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLImagePreviewCollectionViewCell *previewImageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MediaPreviewCell"
+    MRSLImagePreviewCollectionViewCell *previewImageCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMediaPreviewCellKey
                                                                                                      forIndexPath:indexPath];
     previewImageCell.mediaPreviewItem = [_previewMedia objectAtIndex:indexPath.row];
     return previewImageCell;
@@ -259,7 +259,8 @@ CaptureMediaViewControllerDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.previewMediaCollectionView.delegate = nil;
     self.previewMediaCollectionView.dataSource = nil;
     [self.previewMediaCollectionView removeFromSuperview];

@@ -131,8 +131,8 @@
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)reset {
+    [super reset];
     [_webView setDelegate:nil];
     [_webView stopLoading];
 }

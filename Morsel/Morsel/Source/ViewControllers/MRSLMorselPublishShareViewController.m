@@ -218,7 +218,8 @@
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     if (self.documentInteractionController) {
         self.documentInteractionController.delegate = nil;
         self.documentInteractionController = nil;

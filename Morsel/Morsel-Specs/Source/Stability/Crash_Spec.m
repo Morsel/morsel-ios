@@ -63,7 +63,7 @@ describe(@"AlertView", ^{
 */
 
 describe(@"CaptureMediaViewController", ^{
-    MRSLCaptureMultipleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLCaptureMultipleMediaViewController"];
+    MRSLCaptureMultipleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCaptureMultipleMediaViewControllerKey];
     context(@"attempts to end camera session in quick succession", ^{
             [captureMediaVC endCameraSession];
             [captureMediaVC endCameraSession];

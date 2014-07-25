@@ -103,4 +103,14 @@
     return YES;
 }
 
+
+#pragma mark - Dealloc
+
+- (void)reset {
+    [super reset];
+    self.textView.delegate = nil;
+    self.textView.placeholder = nil;
+    self.textView.placeholderColor = nil;
+}
+
 @end

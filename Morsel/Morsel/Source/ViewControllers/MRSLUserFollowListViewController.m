@@ -210,7 +210,7 @@ NSFetchedResultsControllerDelegate>
 
 - (MRSLUserFollowTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLUser *user = [_users objectAtIndex:indexPath.row];
-    MRSLUserFollowTableViewCell *userCell = [self.tableView dequeueReusableCellWithIdentifier:@"ruid_UserFollowCell"];
+    MRSLUserFollowTableViewCell *userCell = [self.tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDUserFollowCellKey];
     userCell.user = user;
     userCell.pipeView.hidden = (indexPath.row == [_users count] - 1);
     return userCell;
@@ -220,7 +220,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLUser *user = [_users objectAtIndex:indexPath.row];
-    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
     profileVC.user = user;
     [self.navigationController pushViewController:profileVC
                                          animated:YES];
@@ -245,8 +245,8 @@ NSFetchedResultsControllerDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)reset {
+    [super reset];
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
     [self.tableView removeFromSuperview];

@@ -203,7 +203,7 @@ NSFetchedResultsControllerDelegate>
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_morsels objectAtIndex:MIN(indexPath.row, [_morsels count] - 1)];
-    MRSLMorselTableViewCell *morselCell = [self.tableView dequeueReusableCellWithIdentifier:@"ruid_MorselCell"];
+    MRSLMorselTableViewCell *morselCell = [self.tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselCellKey];
     morselCell.morsel = morsel;
     morselCell.morselPipeView.hidden = (indexPath.row == [_morsels count] - 1);
     return morselCell;
@@ -242,7 +242,7 @@ NSFetchedResultsControllerDelegate>
                                  properties:@{@"view": @"Drafts",
                                               @"morsel_id": NSNullIfNil(morsel.morselID),
                                               @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
-    MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
+    MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];
     editMorselVC.morselID = morsel.morselID;
     editMorselVC.shouldPresentMediaCapture = NO;
 
@@ -269,8 +269,8 @@ NSFetchedResultsControllerDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)reset {
+    [super reset];
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     [self.tableView removeFromSuperview];

@@ -123,7 +123,7 @@ MRSLFeedShareCollectionViewCellDelegate>
     [[MRSLEventManager sharedManager] track:@"Tapped View More Description"
                                  properties:@{@"view": @"main_feed",
                                               @"item_id": NSNullIfNil(visibleItem.itemID)}];
-    MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalDescriptionViewController"];
+    MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardModalDescriptionViewControllerKey];
     modalDescriptionVC.item = visibleItem;
     [self addChildViewController:modalDescriptionVC];
     [self.view addSubview:modalDescriptionVC.view];
@@ -136,7 +136,7 @@ MRSLFeedShareCollectionViewCellDelegate>
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(visibleItem.itemID),
                                               @"comment_count": NSNullIfNil(visibleItem.comment_count)}];
-    UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Comments"];
+    UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCommentsKey];
     MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
     modalCommentsVC.item = visibleItem;
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
@@ -158,7 +158,7 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(visibleItem.itemID),
                                                   @"like_count": NSNullIfNil(visibleItem.like_count)}];
-        UINavigationController *likesNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_Likes"];
+        UINavigationController *likesNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardLikesKey];
         MRSLModalLikersViewController *modalLikersVC = [[likesNC viewControllers] firstObject];
         modalLikersVC.item = visibleItem;
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
@@ -180,7 +180,7 @@ MRSLFeedShareCollectionViewCellDelegate>
                                      properties:@{@"view": @"main_feed",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(visibleItem.itemID)}];
-        MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLModalShareViewController"];
+        MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardModalShareViewControllerKey];
         modalShareVC.item = visibleItem;
         [self addChildViewController:modalShareVC];
         [self.view addSubview:modalShareVC.view];
@@ -189,7 +189,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 
 - (IBAction)editMorsel {
-    UINavigationController *morselEditNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MorselEdit"];
+    UINavigationController *morselEditNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditKey];
     MRSLMorselEditViewController *morselEditVC = [[morselEditNC viewControllers] firstObject];
     morselEditVC.morselID = _morsel.morselID;
     [self presentViewController:morselEditNC
@@ -200,26 +200,26 @@ MRSLFeedShareCollectionViewCellDelegate>
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_morsel.items count] + 2;
+    return !_morsel ? 0 : ([_morsel.items count] + 2);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = nil;
     if (indexPath.row == 0) {
-        MRSLFeedCoverCollectionViewCell *morselCoverCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedCoverCell"
+        MRSLFeedCoverCollectionViewCell *morselCoverCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDFeedCoverCellKey
                                                                                                      forIndexPath:indexPath];
         morselCoverCell.morsel = _morsel;
         morselCoverCell.delegate = self;
         morselCoverCell.homeFeedItem = [[self parentViewController] isKindOfClass:NSClassFromString(@"MRSLFeedViewController")];
         cell = morselCoverCell;
     } else if (indexPath.row == [_morsel.items count] + 1) {
-        MRSLFeedShareCollectionViewCell *shareCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedShareCell"
+        MRSLFeedShareCollectionViewCell *shareCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDFeedShareCellKey
                                                                                                forIndexPath:indexPath];
         shareCell.morsel = _morsel;
         shareCell.delegate = self;
         cell = shareCell;
     } else {
-        MRSLFeedPageCollectionViewCell *morselPageCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedPageCell"
+        MRSLFeedPageCollectionViewCell *morselPageCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDFeedPageCellKey
                                                                                                    forIndexPath:indexPath];
         morselPageCell.item = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
         cell = morselPageCell;
@@ -329,6 +329,7 @@ MRSLFeedShareCollectionViewCellDelegate>
     self.collectionView.dataSource = nil;
     [self.collectionView removeFromSuperview];
     self.collectionView = nil;
+    self.morsel = nil;
 }
 
 @end

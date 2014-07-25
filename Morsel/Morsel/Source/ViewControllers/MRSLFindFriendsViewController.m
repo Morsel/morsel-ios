@@ -340,7 +340,7 @@ MRSLSegmentedButtonViewDelegate>
 
 - (MRSLUserFollowTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLUser *user = [_users objectAtIndex:indexPath.row];
-    MRSLUserFollowTableViewCell *userFollowCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_UserFollowCell"];
+    MRSLUserFollowTableViewCell *userFollowCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDUserFollowCellKey];
     userFollowCell.user = user;
     userFollowCell.pipeView.hidden = (indexPath.row == [_users count] - 1);
     return userFollowCell;
@@ -362,7 +362,7 @@ MRSLSegmentedButtonViewDelegate>
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLUser *user = [_users objectAtIndex:indexPath.row];
-    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
     profileVC.user = user;
     [self.navigationController pushViewController:profileVC
                                          animated:YES];
@@ -431,7 +431,8 @@ MRSLSegmentedButtonViewDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
     [self.tableView removeFromSuperview];

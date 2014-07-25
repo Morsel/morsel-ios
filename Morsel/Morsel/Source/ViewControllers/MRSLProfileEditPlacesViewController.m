@@ -39,7 +39,7 @@
     self.dataSource = [[MRSLCollectionViewFetchResultsDataSource alloc] initWithManagedObjectClass:[MRSLPlace class]
                                                                                          predicate:[NSPredicate predicateWithFormat:@"placeID IN %@", _placeIDs]
                                                                                 configureCellBlock:^UICollectionViewCell *(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
-                                                                                    MRSLPlaceCollectionViewCell *placeCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PlaceCell"
+                                                                                    MRSLPlaceCollectionViewCell *placeCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPlaceCellKey
                                                                                                                                                                            forIndexPath:indexPath];
                                                                                         placeCell.place = item;
                                                                                         return placeCell;
@@ -109,7 +109,8 @@
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.collectionView.delegate = nil;
     self.collectionView.dataSource = nil;
     [self.collectionView removeFromSuperview];

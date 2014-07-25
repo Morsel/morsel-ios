@@ -22,7 +22,7 @@
 
 @property (weak, nonatomic) id <MRSLFeedPanelCollectionViewCellDelegate> delegate;
 
-@property (strong, nonatomic) MRSLFeedPanelViewController *feedPanelViewController;
+@property (weak, nonatomic) MRSLFeedPanelViewController *feedPanelViewController;
 
 - (void)setOwningViewController:(UIViewController *)owningViewController
                        withMorsel:(MRSLMorsel *)morsel;

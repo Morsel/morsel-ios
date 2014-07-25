@@ -41,6 +41,10 @@
         [self.webImageManager.imageDownloader setMaxConcurrentDownloads:5];
         SDWebImageManager *sharedManager = [SDWebImageManager sharedManager];
         [sharedManager.imageDownloader setMaxConcurrentDownloads:5];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(reset)
+                                                     name:UIApplicationDidReceiveMemoryWarningNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -93,6 +97,15 @@
                                 DDLogVerbose(@"Image preloaded");
                                 // Completion block must be set otherwise SDWebImageManager throws an exception
                             }];
+}
+
+- (void)reset {
+    [self.webImageManager.imageCache clearMemory];
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

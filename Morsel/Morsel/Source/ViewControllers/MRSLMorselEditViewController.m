@@ -165,7 +165,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)presentMediaCapture {
     self.capturing = YES;
-    MRSLCaptureMultipleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLCaptureMultipleMediaViewController"];
+    MRSLCaptureMultipleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCaptureMultipleMediaViewControllerKey];
     captureMediaVC.delegate = self;
     [self presentViewController:captureMediaVC
                        animated:YES
@@ -229,11 +229,11 @@ MRSLMorselEditItemTableViewCellDelegate>
         [_morselItemsTableView setEditing:NO animated:NO];
         self.isEditing = NO;
     }
-    if ([segue.identifier isEqualToString:@"seg_EditMorselTitle"]) {
+    if ([segue.identifier isEqualToString:MRSLStoryboardSegueEditMorselTitleKey]) {
         MRSLMorselAddTitleViewController *morselAddTitleVC = [segue destinationViewController];
         morselAddTitleVC.isUserEditingTitle = YES;
         morselAddTitleVC.morselID = _morsel.morselID;
-    } else if ([segue.identifier isEqualToString:@"seg_PublishMorsel"]) {
+    } else if ([segue.identifier isEqualToString:MRSLStoryboardSeguePublishMorselKey]) {
         MRSLMorselPublishCoverViewController *morselPublishVC = [segue destinationViewController];
         morselPublishVC.morsel = _morsel;
     }
@@ -283,7 +283,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                   @"item_count": @([_items count]),
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"morsel_draft":(_morsel.draftValue) ? @"true" : @"false"}];
-        [self performSegueWithIdentifier:@"seg_PublishMorsel"
+        [self performSegueWithIdentifier:MRSLStoryboardSeguePublishMorselKey
                                   sender:nil];
     }
 }
@@ -378,7 +378,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLItem *item = [_items objectAtIndex:indexPath.row];
 
-    MRSLMorselEditItemTableViewCell *morselMorselCell = [self.morselItemsTableView dequeueReusableCellWithIdentifier:@"ruid_MorselItemCell"
+    MRSLMorselEditItemTableViewCell *morselMorselCell = [self.morselItemsTableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselItemCellKey
                                                                                                         forIndexPath:indexPath];
     morselMorselCell.item = item;
     morselMorselCell.delegate = self;
@@ -396,7 +396,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(_item.itemID)}];
     NSUInteger index = [_items indexOfObject:_item];
-    MRSLMediaItemPreviewViewController *imagePreviewVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLImagePreviewViewController"];
+    MRSLMediaItemPreviewViewController *imagePreviewVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardImagePreviewViewControllerKey];
     [imagePreviewVC setPreviewMedia:_items andStartingIndex:index];
 
     [self.navigationController pushViewController:imagePreviewVC
@@ -525,7 +525,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.morselItemsTableView.dataSource = nil;
     self.morselItemsTableView.delegate = nil;
     [self.morselItemsTableView removeFromSuperview];

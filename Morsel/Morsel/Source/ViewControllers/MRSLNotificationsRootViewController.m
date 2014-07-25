@@ -116,12 +116,8 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
-    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *childViewController, NSUInteger idx, BOOL *stop) {
-        [childViewController willMoveToParentViewController:nil];
-        [childViewController removeFromParentViewController];
-        [childViewController.view removeFromSuperview];
-    }];
+- (void)reset {
+    [super reset];
     self.notificationsViewController = nil;
     self.followableActivityTableViewController = nil;
     self.myActivityTableViewController = nil;

@@ -184,6 +184,7 @@
 		06C4CD08192A6FD3004CD3B7 /* Social_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06C4CD06192A6FD3004CD3B7 /* Social_iPhone.storyboard */; };
 		06C4CD0C192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C4CD0B192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m */; };
 		06CE1882187F13A0009F9722 /* MRSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1881187F13A0009F9722 /* MRSLConstants.m */; };
+		06D0536A1986B7B30065916D /* UIViewController+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D053691986B7B30065916D /* UIViewController+Additions.m */; };
 		06D52EB218C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D52EB118C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m */; };
 		06DAFB40191A8F640044AF3E /* MRSLAPIService+Registration.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB3F191A8F640044AF3E /* MRSLAPIService+Registration.m */; };
 		06DAFB43191A910A0044AF3E /* MRSLAPIService+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB42191A910A0044AF3E /* MRSLAPIService+Profile.m */; };
@@ -732,6 +733,8 @@
 		06C4CD0B192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSocialComposeViewController.m; sourceTree = "<group>"; };
 		06CE1880187F13A0009F9722 /* MRSLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLConstants.h; sourceTree = "<group>"; };
 		06CE1881187F13A0009F9722 /* MRSLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLConstants.m; sourceTree = "<group>"; };
+		06D053681986B7B30065916D /* UIViewController+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Additions.h"; sourceTree = "<group>"; };
+		06D053691986B7B30065916D /* UIViewController+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Additions.m"; sourceTree = "<group>"; };
 		06D52EB018C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselEditDescriptionViewController.h; sourceTree = "<group>"; };
 		06D52EB118C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselEditDescriptionViewController.m; sourceTree = "<group>"; };
 		06DAFB3E191A8F640044AF3E /* MRSLAPIService+Registration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLAPIService+Registration.h"; sourceTree = "<group>"; };
@@ -1581,6 +1584,8 @@
 				068602A41891AE26000CD576 /* UIView+Additions.m */,
 				40854F8519747A350015DFBB /* UIView+States.h */,
 				40854F8619747A350015DFBB /* UIView+States.m */,
+				06D053681986B7B30065916D /* UIViewController+Additions.h */,
+				06D053691986B7B30065916D /* UIViewController+Additions.m */,
 			);
 			name = Categories;
 			path = Morsel/Source/Categories;
@@ -2731,6 +2736,7 @@
 				06B87802193C633B00160707 /* MRSLFoursquarePlaceTableViewCell.m in Sources */,
 				068602AE1891C603000CD576 /* MRSLRobotoSlabBoldLabel.m in Sources */,
 				0684504C192F9F6A00B38870 /* MRSLSegmentedHeaderReusableView.m in Sources */,
+				06D0536A1986B7B30065916D /* UIViewController+Additions.m in Sources */,
 				06DAFB43191A910A0044AF3E /* MRSLAPIService+Profile.m in Sources */,
 				06FE510B19117CFE003A6D7D /* MRSLKeyword.m in Sources */,
 				06F4461D195339A700BE3014 /* MRSLRobotoBoldLabel.m in Sources */,

@@ -102,7 +102,7 @@
 }
 
 - (IBAction)signUpWithEmail {
-    [self performSegueWithIdentifier:@"seg_DisplaySignUp"
+    [self performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
                               sender:nil];
 }
 
@@ -139,7 +139,7 @@
                                                                                            [alert setTag:MRSLSocialAlertViewTypeFacebook];
                                                                                        } else {
                                                                                            // If it doesn't, display sign up with prefilled Facebook user data
-                                                                                           [weakSelf performSegueWithIdentifier:@"seg_DisplaySignUp"
+                                                                                           [weakSelf performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
                                                                                                                          sender:nil];
                                                                                        }
                                                                                    }];
@@ -168,7 +168,7 @@
                                                   } else {
                                                       weakSelf.activityView.hidden = YES;
                                                       // If it doesn't, display sign up with prefilled Twitter user data
-                                                      [weakSelf performSegueWithIdentifier:@"seg_DisplaySignUp"
+                                                      [weakSelf performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
                                                                                     sender:nil];
                                                   }
                                               }];
@@ -178,11 +178,11 @@
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"seg_DisplaySignUp"]) {
+    if ([segue.identifier isEqualToString:MRSLStoryboardSegueDisplaySignUpKey]) {
         MRSLSignUpViewController *signUpVC = [segue destinationViewController];
         if (_socialUser) signUpVC.socialUser = _socialUser;
         if (_shouldOmitEmailFromSignUp) signUpVC.shouldOmitEmail = _shouldOmitEmailFromSignUp;
-    } else if ([segue.identifier isEqualToString:@"seg_DisplayLogin"]) {
+    } else if ([segue.identifier isEqualToString:MRSLStoryboardSegueDisplayLoginKey]) {
         MRSLLoginViewController *loginVC = [segue destinationViewController];
         if (_socialUser) loginVC.socialUser = _socialUser;
     }
@@ -194,11 +194,11 @@
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
         // Display sign up without email
         self.shouldOmitEmailFromSignUp = YES;
-        [self performSegueWithIdentifier:@"seg_DisplaySignUp"
+        [self performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
                                   sender:nil];
     } else {
         // Display log in with prefilled email
-        [self performSegueWithIdentifier:@"seg_DisplayLogin"
+        [self performSegueWithIdentifier:MRSLStoryboardSegueDisplayLoginKey
                                   sender:nil];
     }
 }

@@ -71,7 +71,7 @@
 
     MRSLTableViewDataSource *newDataSource = [[MRSLTableViewDataSource alloc] initWithObjects:nil
                                                                            configureCellBlock:^UITableViewCell *(id item, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
-                                                                               UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_MRSLActivityTableViewCell"
+                                                                               UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDActivityTableViewCellKey
                                                                                                                                        forIndexPath:indexPath];
                                                                                if ([item isKindOfClass:[MRSLActivity class]])
                                                                                    [(MRSLActivityTableViewCell *)cell setActivity:item];
@@ -85,7 +85,7 @@
 }
 
 - (void)displayUserFeedWithMorsel:(MRSLMorsel *)morsel {
-    MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
+    MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardUserMorselsFeedViewControllerKey];
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
     [self.navigationController pushViewController:userMorselsFeedVC
@@ -93,14 +93,14 @@
 }
 
 - (void)displayPlace:(MRSLPlace *)place {
-    MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceViewController"];
+    MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlaceViewControllerKey];
     placeVC.place = place;
     [self.navigationController pushViewController:placeVC
                                          animated:YES];
 }
 
 - (void)displayUser:(MRSLUser *)user {
-    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
     profileVC.user = user;
     [self.navigationController pushViewController:profileVC
                                          animated:YES];

@@ -101,7 +101,7 @@
         __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService createMorsel:morsel
                                       success:^(id responseObject) {
-                                          MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselEditViewController"];
+                                          MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];
                                           editMorselVC.shouldPresentMediaCapture = YES;
                                           editMorselVC.morselID = morsel.morselID;
                                           [weakSelf.navigationController pushViewController:editMorselVC
@@ -140,6 +140,15 @@
         return NO;
     }
     return YES;
+}
+
+#pragma mark - Dealloc
+
+- (void)reset {
+    [super reset];
+    self.morselTitleTextView.delegate = nil;
+    self.morselTitleTextView.placeholder = nil;
+    self.morselTitleTextView.placeholderColor = nil;
 }
 
 @end

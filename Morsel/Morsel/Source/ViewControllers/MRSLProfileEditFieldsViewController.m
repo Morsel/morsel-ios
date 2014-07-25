@@ -311,8 +311,11 @@ UIAlertViewDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)reset {
+    [super reset];
+    self.bioTextView.delegate = nil;
+    self.bioTextView.placeholder = nil;
+    self.bioTextView.placeholderColor = nil;
 }
 
 @end

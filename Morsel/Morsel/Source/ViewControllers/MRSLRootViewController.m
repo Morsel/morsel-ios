@@ -14,7 +14,6 @@
 #import "MRSLAPIService+Profile.h"
 #import "UINavigationController+Additions.h"
 
-#import "MRSLFeedViewController.h"
 #import "MRSLMenuViewController.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLWebBrowserViewController.h"
@@ -160,8 +159,8 @@ MRSLMenuViewControllerDelegate>
 }
 
 - (void)changeToNewStatusBarStyle:(NSNotification *)notification {
-    //self.currentStatusBarStyle = [notification.object intValue];
-    //[self setNeedsStatusBarAppearanceUpdate];
+    self.currentStatusBarStyle = [notification.object intValue];
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)displayBaseViewController:(NSNotification *)notification {
@@ -171,21 +170,21 @@ MRSLMenuViewControllerDelegate>
 }
 
 - (void)displayProfessionalSettings:(NSNotification *)notification {
-    UINavigationController *professionalSettingsNC = [[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:@"sb_ProfessionalSettings"];
+    UINavigationController *professionalSettingsNC = [[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfessionalSettingsKey];
     MRSLBaseViewController *professionalSettingsVC = (MRSLBaseViewController *)[[professionalSettingsNC viewControllers] firstObject];
     if (notification.object) [professionalSettingsVC setupWithUserInfo:notification.object];
     [self presentBaseViewController:professionalSettingsVC withContainingNavigationController:professionalSettingsNC];
 }
 
 - (void)displayUserProfile:(NSNotification *)notification {
-    UINavigationController *userProfileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
+    UINavigationController *userProfileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileKey];
     MRSLBaseViewController *profileVC = (MRSLBaseViewController *)[[userProfileNC viewControllers] firstObject];
     if (notification.object) [profileVC setupWithUserInfo:notification.object];
     [self presentBaseViewController:profileVC withContainingNavigationController:userProfileNC];
 }
 
 - (void)displayWebBrowser:(NSNotification *)notification {
-    UINavigationController *webBrowserNC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:@"sb_WebBrowser"];
+    UINavigationController *webBrowserNC = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardWebBrowserKey];
     MRSLWebBrowserViewController *webBrowserVC = (MRSLWebBrowserViewController *)[[webBrowserNC viewControllers] firstObject];
     if (notification.object) {
         NSDictionary *webParams = notification.object;
@@ -253,27 +252,14 @@ MRSLMenuViewControllerDelegate>
     [self dismissViewControllerAnimated:NO
                              completion:nil];
     [self displaySignUpAnimated:YES];
-    [self removeChildNavigationControllers];
+    [self resetChildNavigationControllers];
     [_appDelegate resetDataStore];
 }
 
 #pragma mark - Private Methods
 
-- (void)removeChildNavigationControllers {
-    [self.childViewControllers enumerateObjectsUsingBlock:^(UINavigationController *navController, NSUInteger idx, BOOL *stop) {
-        if ([navController isKindOfClass:[UINavigationController class]]) {
-            [navController willMoveToParentViewController:nil];
-            [navController.view removeFromSuperview];
-            [navController removeFromParentViewController];
-            if ([[navController viewControllers] count] > 0) [[[navController viewControllers] firstObject] viewDidDisappear:NO];
-            [navController setViewControllers:nil];
-        }
-    }];
-}
-
 - (void)displaySignUpAnimated:(BOOL)animated {
-    UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:@"sb_SignUp"];
-
+    UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardSignUpKey];
     [self presentViewController:signUpNC
                        animated:animated
                      completion:nil];
@@ -294,12 +280,12 @@ MRSLMenuViewControllerDelegate>
     self.menuOpen = !self.isMenuOpen;
 }
 
-- (void)displayNavigationControllerEmbeddedViewControllerWithPrefix:(NSString *)classPrefixName
-                                                andStoryboardPrefix:(NSString *)storyboardPrefixName {
-    UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:[NSString stringWithFormat:@"%@_iPhone", storyboardPrefixName]
+- (void)displayNavigationControllerEmbeddedViewControllerWithName:(NSString *)identifierName
+                                            andStoryboardFileName:(NSString *)storyboardFileName {
+    UIStoryboard *owningStoryboard = [UIStoryboard storyboardWithName:storyboardFileName
                                                                bundle:nil];
-    UINavigationController *viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:[NSString stringWithFormat:@"%@_%@", @"sb", classPrefixName]];
-    [self removeChildNavigationControllers];
+    UINavigationController *viewControllerNC = [owningStoryboard instantiateViewControllerWithIdentifier:identifierName];
+    [self resetChildNavigationControllers];
     [self addChildViewController:viewControllerNC];
     [self.rootContainerView addSubview:viewControllerNC.view];
     [viewControllerNC didMoveToParentViewController:self];
@@ -355,15 +341,15 @@ MRSLMenuViewControllerDelegate>
         CASE(MRSLMenuAddKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Morsel Add"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"MorselAdd"
-                                                          andStoryboardPrefix:@"MorselManagement"];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardMorselAddKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneMorselManagementKey];
             break;
         }
         CASE(MRSLMenuDraftsKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Drafts"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"MorselList"
-                                                          andStoryboardPrefix:@"MorselManagement"];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardMorselListKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneMorselManagementKey];
             break;
         }
         CASE(MRSLMenuFeedKey) {
@@ -373,8 +359,8 @@ MRSLMenuViewControllerDelegate>
                 [[UIApplication sharedApplication] setStatusBarHidden:NO
                                                         withAnimation:UIStatusBarAnimationSlide];
             }
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Feed"
-                                                          andStoryboardPrefix:@"Feed"];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardFeedKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneFeedKey];
             if (self.presentedViewController) {
                 id presentedViewController = self.presentedViewController;
                 [self dismissViewControllerAnimated:YES
@@ -393,8 +379,8 @@ MRSLMenuViewControllerDelegate>
         CASE(MRSLMenuNotificationsKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Activity"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Activity"
-                                                          andStoryboardPrefix:@"Activity"];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardActivityKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneActivityKey];
             break;
         }
         CASE(MRSLMenuPlacesKey) {
@@ -403,29 +389,29 @@ MRSLMenuViewControllerDelegate>
         CASE(MRSLMenuPeopleKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Following People"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"FollowingPeople"
-                                                          andStoryboardPrefix:@"Profile"];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardFollowingPeopleKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneProfileKey];
             break;
         }
         CASE(MRSLMenuFindKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Find"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"FindFriends"
-                                                          andStoryboardPrefix:@"Social"];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardFindFriendsKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneSocialKey];
             break;
         }
         CASE(MRSLMenuSettingsKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Settings"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Settings"
-                                                          andStoryboardPrefix:@"Settings"];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardSettingsKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneSettingsKey];
             break;
         }
         CASE(MRSLMenuProfileKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
                                          properties:@{@"name": @"Profile"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithPrefix:@"Profile"
-                                                          andStoryboardPrefix:@"Profile"];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardProfileKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneProfileKey];
             break;
         }
         DEFAULT {

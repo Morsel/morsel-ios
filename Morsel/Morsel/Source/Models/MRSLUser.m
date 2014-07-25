@@ -178,10 +178,10 @@
 
     switch (type) {
         case MRSLImageSizeTypeSmall:
-            typeSizeString = (isRetina) ? @"_80x80" : @"_40x40";
+            typeSizeString = (isRetina) ? MRSLProfileImageLargeRetinaKey : MRSLProfileImageLargeKey;
             break;
         case MRSLImageSizeTypeLarge:
-            typeSizeString = (isRetina) ? @"_144x144" : @"_72x72";
+            typeSizeString = (isRetina) ? MRSLProfileImageSmallRetinaKey : MRSLProfileImageSmallKey;
             break;
         default:
             DDLogError(@"Unsupported Profile Image Size Type Requested!");
@@ -189,7 +189,7 @@
             break;
     }
 
-    NSString *adjustedURLForType = [self.profilePhotoURL stringByReplacingOccurrencesOfString:@"IMAGE_SIZE"
+    NSString *adjustedURLForType = [self.profilePhotoURL stringByReplacingOccurrencesOfString:MRSLImageSizeKey
                                                                                    withString:typeSizeString];
     return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
 }
