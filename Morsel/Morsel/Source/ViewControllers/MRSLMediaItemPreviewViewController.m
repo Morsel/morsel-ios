@@ -51,8 +51,6 @@ CaptureMediaViewControllerDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO
-                                            withAnimation:UIStatusBarAnimationSlide];
     if ([_previewMedia count] > 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.previewMediaCollectionView reloadData];
@@ -62,16 +60,6 @@ CaptureMediaViewControllerDelegate>
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES
-                                            withAnimation:UIStatusBarAnimationSlide];
-}
-
-- (BOOL)prefersStatusBarHidden {
-    return NO;
-}
-
-- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-    return UIStatusBarAnimationSlide;
 }
 
 - (void)setPreviewMedia:(NSMutableArray *)media andStartingIndex:(NSUInteger)index {

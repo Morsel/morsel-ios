@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseTableViewCell.h"
 
 @class MRSLFoursquarePlace;
 
-@interface MRSLFoursquarePlaceTableViewCell : UITableViewCell
+@interface MRSLFoursquarePlaceTableViewCell : MRSLBaseTableViewCell
 
 @property (strong, nonatomic) MRSLFoursquarePlace *foursquarePlace;
 

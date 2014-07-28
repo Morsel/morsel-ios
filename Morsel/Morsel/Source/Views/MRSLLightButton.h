@@ -11,5 +11,6 @@
 @interface MRSLLightButton : UIButton
 
 - (void)setUp;
+- (void)setFittedTitleForAllStates:(NSString *)title;
 
 @end

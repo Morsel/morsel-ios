@@ -15,11 +15,11 @@
                         <subviews>
                             <view contentMode="scaleToFill" id="Wg3-jh-dBZ" customClass="MRSLSegmentedButtonView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="0BB-b0-pK3" customClass="MRSLColoredBackgroundToggleButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="0BB-b0-pK3" customClass="MRSLSegmentButton">
                                         <rect key="frame" x="0.0" y="0.0" width="108" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="Notifications">
@@ -29,9 +29,9 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="Eg0-VS-emV" customClass="MRSLColoredBackgroundToggleButton">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="Eg0-VS-emV" customClass="MRSLSegmentButton">
                                         <rect key="frame" x="108" y="0.0" width="106" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="Following">
@@ -41,9 +41,9 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="kCm-Ow-giH" customClass="MRSLColoredBackgroundToggleButton">
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="kCm-Ow-giH" customClass="MRSLSegmentButton">
                                         <rect key="frame" x="214" y="0.0" width="106" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="My Activity">
@@ -63,7 +63,7 @@
                             </view>
                             <containerView contentMode="scaleToFill" id="JT8-9W-1ns">
                                 <rect key="frame" x="0.0" y="50" width="320" height="455"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </containerView>
                         </subviews>

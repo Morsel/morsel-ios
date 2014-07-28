@@ -8,6 +8,8 @@
 
 #import "MRSLLightButton.h"
 
+static CGFloat kPadding = MRSLDefaultPadding;
+
 @implementation MRSLLightButton
 
 - (id)initWithFrame:(CGRect)frame {
@@ -28,6 +30,22 @@
 
 - (void)setUp {
     [self.titleLabel setFont:[UIFont robotoLightFontOfSize:self.titleLabel.font.pointSize]];
+    [self setDefaultRoundedCornerRadius];
+}
+
+- (void)setFittedTitleForAllStates:(NSString *)title {
+    if ([title isEqualToString:self.titleLabel.text]) return;
+
+    [self setTitle:title
+                 forState:UIControlStateNormal];
+    [self sizeToFit];
+    //  Assure height is never less than 30
+    if ([self getHeight] < 30.0f) {
+        [self setHeight:30.0f];
+    }
+    [UIView animateWithDefaultDurationAnimations:^{
+        [self setWidth:[self getWidth] + (kPadding * 2.0f)];
+    }];
 }
 
 @end

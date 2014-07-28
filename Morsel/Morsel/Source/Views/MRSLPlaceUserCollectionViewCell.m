@@ -22,6 +22,11 @@
 
 @implementation MRSLPlaceUserCollectionViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self setBackgroundColor:[UIColor morselDefaultCellBackgroundColor]];
+}
+
 - (void)setUser:(MRSLUser *)user {
     _user = user;
     self.profileImageView.user = _user;

@@ -18,7 +18,7 @@
     [super awakeFromNib];
 
     if (!self.shouldBlur) {
-        [self addCornersWithRadius:[self getWidth] / 2];
+        [self setRoundedCornerRadius:[self getWidth] / 2];
         self.layer.borderColor = [UIColor whiteColor].CGColor;
         self.layer.borderWidth = 2.f;
     }

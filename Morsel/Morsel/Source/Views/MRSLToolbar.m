@@ -16,7 +16,10 @@
 
 - (void)awakeFromNib {
     [self addDefaultBorderForDirections:MRSLBorderNorth];
-
+    [self addShadowWithOpacity:0.2f
+                     andRadius:0.5f
+                     withColor:[UIColor blackColor]];
+    [self setBackgroundColor:[UIColor morselDefaultToolbarBackgroundColor]];
 }
 
 #pragma mark - Action Methods

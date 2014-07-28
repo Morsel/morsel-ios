@@ -6,20 +6,25 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+
 typedef NS_OPTIONS(NSUInteger, MRSLBorderDirection) {
     MRSLBorderNone = 0,
     MRSLBorderNorth = 1 << 0,
     MRSLBorderEast  = 1 << 1,
     MRSLBorderSouth = 1 << 2,
-    MRSLBorderWest  = 1 << 3
+    MRSLBorderWest  = 1 << 3,
+    MRSLBorderAll   = 0xFFFF
 };
 
 static const CGFloat MRSLBorderDefaultWidth = 0.5f;
-
-
-#import <UIKit/UIKit.h>
+static const CGFloat MRSLDefaultPadding = 10.0f;
+static const CGFloat MRSLRoundedCornerDefaultRadius = 2.0f;
+static const CGFloat MRSLDefaultAnimationDuration = 0.2f;
 
 @interface UIView (Additions)
+
++ (void)animateWithDefaultDurationAnimations:(void (^)(void))animations;
 
 - (void)addCenteredSubview:(UIView *)subviewToAddAndCenter withOffset:(CGPoint)offset;
 - (void)addCenteredSubview:(UIView *)subviewToAddAndCenter;
@@ -35,7 +40,9 @@ static const CGFloat MRSLBorderDefaultWidth = 0.5f;
 
 - (CAShapeLayer *)addDefaultBorderForDirections:(MRSLBorderDirection)borderDirections;
 
-- (void)addCornersWithRadius:(CGFloat)radius;
+
+- (void)setRoundedCornerRadius:(CGFloat)radius;
+- (void)setDefaultRoundedCornerRadius;
 - (void)addStandardShadow;
 - (void)addStandardShadowWithColor:(UIColor *)shadowColor;
 - (void)addShadowWithOpacity:(float)opacity

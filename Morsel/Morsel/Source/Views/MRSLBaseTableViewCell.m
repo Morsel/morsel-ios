@@ -40,7 +40,7 @@
 #pragma mark - Private Methods
 
 - (UIColor *)defaultBackgroundColor {
-    return [UIColor morselBackground];
+    return [UIColor morselDefaultCellBackgroundColor];
 }
 
 - (UIColor *)defaultHighlightedBackgroundColor {

@@ -12,7 +12,7 @@
 #import "MRSLMenuItem.h"
 #import "MRSLMenuOptionTableViewCell.h"
 #import "MRSLProfileImageView.h"
-#import "MRSLRobotoBoldLabel.h"
+#import "MRSLSectionView.h"
 
 #import "MRSLUser.h"
 
@@ -210,17 +210,7 @@ UITableViewDelegate>
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    MRSLRobotoBoldLabel *boldLabel = [[MRSLRobotoBoldLabel alloc] initWithFrame:CGRectMake(16.f, 5.f, 240.f, 14.f)
-                                                                    andFontSize:12.f];
-    boldLabel.text = [[self.menuOptions objectAtIndex:section][@"name"] uppercaseString];
-    boldLabel.textColor = [UIColor morselRed];
-    boldLabel.backgroundColor = [UIColor clearColor];
-
-    UIView *menuOptionHeader = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 24.f)];
-    [menuOptionHeader setBackgroundColor:[UIColor colorWithWhite:1.f
-                                                           alpha:.4f]];
-    [menuOptionHeader addSubview:boldLabel];
-    return menuOptionHeader;
+    return [MRSLSectionView sectionViewWithTitle:[[self.menuOptions objectAtIndex:section][@"name"] uppercaseString]];
 }
 
 - (MRSLMenuOptionTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

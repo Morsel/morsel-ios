@@ -1,35 +1,21 @@
 //
-//  MRSLRobotoLightTextView.m
+//  MRSLPlaceholderTextView.m
 //  Morsel
 //
-//  Created by Javier Otero on 4/16/14.
+//  Created by Marty Trzpit on 7/25/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
 static CGFloat kPadding = MRSLDefaultPadding;
 
-#import "MRSLRobotoLightTextView.h"
+#import "MRSLPlaceholderTextView.h"
 
-@implementation MRSLRobotoLightTextView
+@implementation MRSLPlaceholderTextView
 
-- (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setUp];
-    }
-    return self;
-}
+- (void)awakeFromNib {
+    [super awakeFromNib];
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self setUp];
-    }
-    return self;
-}
-
-- (void)setUp {
-    [self setFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
+    [self addDefaultBorderForDirections:(MRSLBorderNorth|MRSLBorderSouth)];
     [self setTextColor:[UIColor morselDarkContent]];
     [self setBackgroundColor:[UIColor morselDefaultTextFieldBackgroundColor]];
 

@@ -9,10 +9,11 @@
 #import "MRSLModalDescriptionViewController.h"
 
 #import "MRSLItem.h"
+#import "MRSLRobotoLightTextView.h"
 
 @interface MRSLModalDescriptionViewController ()
 
-@property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
+@property (weak, nonatomic) IBOutlet MRSLRobotoLightTextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UIView *descriptionContainerView;
 
 @end
@@ -23,6 +24,7 @@
     self.disableFade = YES;
     [super viewDidLoad];
     self.descriptionTextView.text = _item.itemDescription;
+    [self.descriptionTextView setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

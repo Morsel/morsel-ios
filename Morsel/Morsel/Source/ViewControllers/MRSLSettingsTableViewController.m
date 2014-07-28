@@ -94,7 +94,9 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
 
 - (IBAction)displaySoftwareAcknowledgements:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Software Acknowledgements",
-                                                                                                                   @"url": [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"html"]]}];
+                                                                                                                   @"url": [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"html"]],
+                                                                                                                   @"hideToolbar": @YES
+                                                                                                                   }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

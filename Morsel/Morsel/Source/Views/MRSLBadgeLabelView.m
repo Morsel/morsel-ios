@@ -18,7 +18,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self addCornersWithRadius:[self getWidth] / 2];
+    [self setRoundedCornerRadius:[self getWidth] / 2];
 }
 
 - (void)setCount:(NSInteger)count {

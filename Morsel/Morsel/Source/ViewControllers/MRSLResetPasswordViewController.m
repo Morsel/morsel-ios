@@ -21,6 +21,11 @@
 
 @implementation MRSLResetPasswordViewController
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.usernameEmailField becomeFirstResponder];
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)resetPassword {
