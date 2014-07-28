@@ -16,10 +16,12 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.followed_user_count = @"followed_user_count",
 	.follower_count = @"follower_count",
 	.following = @"following",
+	.isUploading = @"isUploading",
 	.last_name = @"last_name",
 	.liked_item_count = @"liked_item_count",
 	.morsel_count = @"morsel_count",
 	.passwordSet = @"passwordSet",
+	.photo_processing = @"photo_processing",
 	.professional = @"professional",
 	.profilePhotoFull = @"profilePhotoFull",
 	.profilePhotoLarge = @"profilePhotoLarge",
@@ -96,6 +98,11 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"isUploadingValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"isUploading"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"liked_item_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"liked_item_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -108,6 +115,11 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	}
 	if ([key isEqualToString:@"passwordSetValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"passwordSet"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"photo_processingValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"photo_processing"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -312,6 +324,32 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 
 
+@dynamic isUploading;
+
+
+
+- (BOOL)isUploadingValue {
+	NSNumber *result = [self isUploading];
+	return [result boolValue];
+}
+
+- (void)setIsUploadingValue:(BOOL)value_ {
+	[self setIsUploading:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsUploadingValue {
+	NSNumber *result = [self primitiveIsUploading];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsUploadingValue:(BOOL)value_ {
+	[self setPrimitiveIsUploading:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
 @dynamic last_name;
 
 
@@ -391,6 +429,32 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 - (void)setPrimitivePasswordSetValue:(BOOL)value_ {
 	[self setPrimitivePasswordSet:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic photo_processing;
+
+
+
+- (BOOL)photo_processingValue {
+	NSNumber *result = [self photo_processing];
+	return [result boolValue];
+}
+
+- (void)setPhoto_processingValue:(BOOL)value_ {
+	[self setPhoto_processing:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitivePhoto_processingValue {
+	NSNumber *result = [self primitivePhoto_processing];
+	return [result boolValue];
+}
+
+- (void)setPrimitivePhoto_processingValue:(BOOL)value_ {
+	[self setPrimitivePhoto_processing:[NSNumber numberWithBool:value_]];
 }
 
 

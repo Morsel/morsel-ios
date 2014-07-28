@@ -131,30 +131,47 @@
 }
 
 - (void)API_updateImage {
+    self.isUploading = @YES;
+
     //  If presignedUpload returned, use it, otherwise fallback to old upload method
     if (self.presignedUpload) {
-        [_appDelegate.s3Service uploadImageData:self.profilePhotoFull
-                             forPresignedUpload:self.presignedUpload
-                                        success:^(NSDictionary *responseDictionary) {
-                                            [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
-                                                                            forUser:self
-                                                                            success:^(id responseObject) {
-                                                                                [self.presignedUpload MR_deleteEntity];
-                                                                                [self.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
-                                                                            } failure:^(NSError *error) {
-                                                                                NSLog(@"asdf");
-                                                                            }];
-                                        } failure:^(NSError *error) {
-                                            //  S3 upload failed, fallback to API upload
-                                            [_appDelegate.apiService updateUserImage:self
-                                                                             success:nil
-                                                                             failure:nil];
-                                        }];
+        [self S3_updateImage];
     } else {
-        [_appDelegate.apiService updateUserImage:self
-                                         success:nil
-                                         failure:nil];
+        [self API_prepareAndUploadPresignedUpload];
     }
+}
+
+- (void)API_prepareAndUploadPresignedUpload {
+    [_appDelegate.apiService getUserProfile:self
+                                 parameters:@{ @"prepare_presigned_upload": @"true" }
+                                    success:^(id responseObject) {
+                                        [self S3_updateImage];
+                                    } failure:^(NSError *error) {
+                                        [_appDelegate.apiService updateUserImage:self
+                                                                         success:^(id responseObject) {
+                                                                             self.isUploading = @NO;
+                                                                         } failure:nil];
+                                    }];
+}
+
+- (void)S3_updateImage {
+    [_appDelegate.s3Service uploadImageData:self.profilePhotoFull
+                         forPresignedUpload:self.presignedUpload
+                                    success:^(NSDictionary *responseDictionary) {
+                                        [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
+                                                                        forUser:self
+                                                                        success:^(id responseObject) {
+                                                                            [self.presignedUpload MR_deleteEntity];
+                                                                            [self.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                                            self.isUploading = @NO;
+                                                                        } failure:nil];
+                                    } failure:^(NSError *error) {
+                                        //  S3 upload failed, fallback to API upload
+                                        [_appDelegate.apiService updateUserImage:self
+                                                                         success:^(id responseObject) {
+                                                                             self.isUploading = @NO;
+                                                                         } failure:nil];
+                                    }];
 }
 
 - (NSString *)fullName {
@@ -209,7 +226,7 @@
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
-    if (![data[@"photos"] isEqual:[NSNull null]]) {
+    if (![data[@"photos"] isEqual:[NSNull null]] && !self.photo_processingValue && !self.isUploadingValue) {
         NSDictionary *photoDictionary = data[@"photos"];
         self.profilePhotoURL = [photoDictionary[@"_40x40"] stringByReplacingOccurrencesOfString:@"_40x40"
                                                                                      withString:@"IMAGE_SIZE"];
@@ -223,6 +240,8 @@
             self.auto_follow = @([data[@"settings"][@"auto_follow"] boolValue]);
         }
     }
+
+    if (self.photo_processingValue || self.profilePhotoURL) self.isUploading = @NO;
 }
 
 - (NSString *)jsonKeyName {

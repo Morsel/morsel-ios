@@ -17,13 +17,16 @@
 #pragma mark - User Services
 
 - (void)getUserProfile:(MRSLUser *)user
+            parameters:(NSDictionary *)additionalParametersOrNil
                success:(MRSLAPISuccessBlock)successOrNil
                failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+    if (!user) return;
+    BOOL isCurrentUser = [user isCurrentUser];
+    NSMutableDictionary *parameters = [self parametersWithDictionary:isCurrentUser ? additionalParametersOrNil : nil
                                                 includingMRSLObjects:nil
-                                              requiresAuthentication:([user isCurrentUser])];
+                                              requiresAuthentication:isCurrentUser];
 
-    NSString *userEndpoint = ([user isCurrentUser]) ? @"users/me" : [NSString stringWithFormat:@"users/%i", user.userIDValue];
+    NSString *userEndpoint = isCurrentUser ? @"users/me" : [NSString stringWithFormat:@"users/%i", user.userIDValue];
 
     [[MRSLAPIClient sharedClient] GET:userEndpoint
                            parameters:parameters
@@ -37,6 +40,15 @@
                                             withError:error
                                              inMethod:NSStringFromSelector(_cmd)];
                               }];
+}
+
+- (void)getUserProfile:(MRSLUser *)user
+               success:(MRSLAPISuccessBlock)successOrNil
+               failure:(MRSLFailureBlock)failureOrNil {
+    [self getUserProfile:user
+              parameters:nil
+                 success:successOrNil
+                 failure:failureOrNil];
 }
 
 - (void)updateUser:(MRSLUser *)user
@@ -177,6 +189,7 @@
                                                                                                                                              withValue:@(userID)];
                                                                                                   }
                                                                                                   if (userToUpdate) {
+                                                                                                      userToUpdate.isUploading = @NO;
                                                                                                       userToUpdate.userID = responseObject[@"data"][@"id"];
                                                                                                       [userToUpdate MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                                                                                       [userToUpdate.managedObjectContext MR_saveToPersistentStoreAndWait];
@@ -188,6 +201,9 @@
                                                                                                   if (!userToUpdate || !userToUpdate.managedObjectContext) {
                                                                                                       userToUpdate = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                                                                                                              withValue:@(userID)];
+                                                                                                  }
+                                                                                                  if ([userToUpdate managedObjectContext]) {
+                                                                                                      userToUpdate.isUploading = @NO;
                                                                                                   }
                                                                                                   [self reportFailure:failureOrNil
                                                                                                          forOperation:operation

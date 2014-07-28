@@ -17,10 +17,12 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *followed_user_count;
 	__unsafe_unretained NSString *follower_count;
 	__unsafe_unretained NSString *following;
+	__unsafe_unretained NSString *isUploading;
 	__unsafe_unretained NSString *last_name;
 	__unsafe_unretained NSString *liked_item_count;
 	__unsafe_unretained NSString *morsel_count;
 	__unsafe_unretained NSString *passwordSet;
+	__unsafe_unretained NSString *photo_processing;
 	__unsafe_unretained NSString *professional;
 	__unsafe_unretained NSString *profilePhotoFull;
 	__unsafe_unretained NSString *profilePhotoLarge;
@@ -53,6 +55,8 @@ extern const struct MRSLUserFetchedProperties {
 @class MRSLPlace;
 @class MRSLPresignedUpload;
 @class MRSLTag;
+
+
 
 
 
@@ -234,6 +238,20 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* isUploading;
+
+
+
+@property BOOL isUploadingValue;
+- (BOOL)isUploadingValue;
+- (void)setIsUploadingValue:(BOOL)value_;
+
+//- (BOOL)validateIsUploading:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* last_name;
 
 
@@ -281,6 +299,20 @@ extern const struct MRSLUserFetchedProperties {
 - (void)setPasswordSetValue:(BOOL)value_;
 
 //- (BOOL)validatePasswordSet:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* photo_processing;
+
+
+
+@property BOOL photo_processingValue;
+- (BOOL)photo_processingValue;
+- (void)setPhoto_processingValue:(BOOL)value_;
+
+//- (BOOL)validatePhoto_processing:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -574,6 +606,15 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+- (NSNumber*)primitiveIsUploading;
+- (void)setPrimitiveIsUploading:(NSNumber*)value;
+
+- (BOOL)primitiveIsUploadingValue;
+- (void)setPrimitiveIsUploadingValue:(BOOL)value_;
+
+
+
+
 - (NSString*)primitiveLast_name;
 - (void)setPrimitiveLast_name:(NSString*)value;
 
@@ -603,6 +644,15 @@ extern const struct MRSLUserFetchedProperties {
 
 - (BOOL)primitivePasswordSetValue;
 - (void)setPrimitivePasswordSetValue:(BOOL)value_;
+
+
+
+
+- (NSNumber*)primitivePhoto_processing;
+- (void)setPrimitivePhoto_processing:(NSNumber*)value;
+
+- (BOOL)primitivePhoto_processingValue;
+- (void)setPrimitivePhoto_processingValue:(BOOL)value_;
 
 
 
