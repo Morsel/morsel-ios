@@ -59,7 +59,19 @@
             self.imageProcessed = YES;
         });
     } else {
-        self.image = (self.grayScale) ? [image convertImageToGrayScale] : image;
+        if (self.grayScale) {
+            __weak __typeof(self) weakSelf = self;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                UIImage *grayScaleImage = [image convertImageToGrayScale];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (weakSelf) {
+                        weakSelf.image = grayScaleImage;
+                    }
+                });
+            });
+        } else {
+            self.image = image;
+        }
     }
 }
 

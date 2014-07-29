@@ -28,10 +28,9 @@
     previewLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
 }
 
-- (void)dealloc {
-    for (UIView *view in self.subviews) {
-        [view removeFromSuperview];
-    }
+- (void)reset {
+    [[self session] stopRunning];
+    [self setSession:nil];
 }
 
 @end

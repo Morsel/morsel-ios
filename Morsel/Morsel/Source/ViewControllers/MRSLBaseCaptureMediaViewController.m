@@ -701,15 +701,10 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self resetChildViewControllers];
     [self.capturedMediaItems removeAllObjects];
     [self endCameraSession];
 
-    [self.previewView setSession:nil];
-    [self.previewView.layer removeFromSuperlayer];
-    [self.previewView removeFromSuperview];
-
-    [self removeSubviews];
+    [self.previewView reset];
 
     self.runtimeErrorHandlingObserver = nil;
     self.videoDeviceInput = nil;
@@ -718,6 +713,8 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
     self.previewView = nil;
     self.assetsLibrary = nil;
     self.capturedMediaItems = nil;
+
+    [self resetChildViewControllers];
 }
 
 @end
