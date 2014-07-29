@@ -38,4 +38,18 @@
     return [MRSLSectionView sectionViewWithTitle:[self tableView:tableView titleForHeaderInSection:section]];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return [self.tableView hasHeaderForSection:section] ? MRSLSectionViewDefaultHeight : 0.0f;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [cell setBackgroundColor:[UIColor morselDefaultCellBackgroundColor]];
+
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        [cell addDefaultBorderForDirections:MRSLBorderNorth];
+    } else if (!([self.tableView isLastRowInSectionForIndexPath:indexPath] && ![self.tableView isLastSectionForIndexPath:indexPath])) {
+        [cell addDefaultBorderForDirections:MRSLBorderSouth];
+    }
+}
+
 @end
