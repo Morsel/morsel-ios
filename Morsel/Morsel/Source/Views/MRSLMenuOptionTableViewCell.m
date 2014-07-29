@@ -72,11 +72,11 @@
 }
 
 - (UIColor *)defaultHighlightedBackgroundColor {
-    return [[UIColor morselPrimaryLight] colorWithAlphaComponent:0.05f];
+    return [[UIColor morselMedium] colorWithAlphaComponent:0.05f];
 }
 
 - (UIColor *)defaultSelectedBackgroundColor {
-    return [[UIColor morselMedium] colorWithAlphaComponent:0.05f];
+    return [[UIColor morselPrimaryLight] colorWithAlphaComponent:0.05f];
 }
 
 @end
