@@ -77,8 +77,6 @@ NSFetchedResultsControllerDelegate>
         self.selectedIndexPath = nil;
     }
 
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-
     if (self.dataSource) {
         [self resetFetchedResultsController];
         [self populateContent];

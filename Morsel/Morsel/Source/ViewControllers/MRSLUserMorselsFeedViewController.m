@@ -70,8 +70,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-
     if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
 
     [self setupFetchRequest];

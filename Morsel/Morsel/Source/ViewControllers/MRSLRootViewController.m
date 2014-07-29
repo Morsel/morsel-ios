@@ -33,8 +33,6 @@ MRSLMenuViewControllerDelegate>
 @property (nonatomic) BOOL shouldCheckForUser;
 @property (nonatomic) BOOL keyboardOpen;
 
-@property (nonatomic) UIStatusBarStyle currentStatusBarStyle;
-
 @property (weak, nonatomic) IBOutlet UIView *menuContainerView;
 @property (weak, nonatomic) IBOutlet UIView *rootContainerView;
 
@@ -52,7 +50,6 @@ MRSLMenuViewControllerDelegate>
     [super viewDidLoad];
 
     self.shouldCheckForUser = YES;
-    self.currentStatusBarStyle = UIStatusBarStyleDefault;
 
     self.menuViewController = [self.childViewControllers lastObject];
     self.menuViewController.delegate = self;
@@ -66,10 +63,6 @@ MRSLMenuViewControllerDelegate>
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(enableMenuOpen)
                                                  name:MRSLModalWillDismissNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(changeToNewStatusBarStyle:)
-                                                 name:MRSLAppDidRequestNewPreferredStatusBarStyle
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayBaseViewController:)
@@ -136,10 +129,6 @@ MRSLMenuViewControllerDelegate>
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return _currentStatusBarStyle;
-}
-
 #pragma mark - Notification Methods
 
 - (void)disableMenuOpen {
@@ -156,11 +145,6 @@ MRSLMenuViewControllerDelegate>
 
 - (void)keyboardWillHide {
     self.keyboardOpen = NO;
-}
-
-- (void)changeToNewStatusBarStyle:(NSNotification *)notification {
-    self.currentStatusBarStyle = [notification.object intValue];
-    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)displayBaseViewController:(NSNotification *)notification {

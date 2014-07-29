@@ -103,8 +103,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-
     [super viewWillAppear:animated];
     [self showMorselTitleView:YES];
     MRSLUser *currentUser = [MRSLUser currentUser];

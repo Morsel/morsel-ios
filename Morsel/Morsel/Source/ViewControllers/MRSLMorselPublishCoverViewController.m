@@ -66,13 +66,7 @@ UICollectionViewDelegate>
     [_appDelegate.apiService updateMorsel:_morsel
                                   success:nil
                                   failure:nil];
-    /*
-     These are declared as variables due to an issue with StoryboardLint throwing
-     An error if they were incorporated in the ternary operator
-     */
-    NSString *placeSegue = MRSLStoryboardSegueSelectPlaceKey;
-    NSString *publishSegue = MRSLStoryboardSeguePublishShareMorselKey;
-    [self performSegueWithIdentifier:([[MRSLUser currentUser] isProfessional]) ? placeSegue : publishSegue
+    [self performSegueWithIdentifier:([[MRSLUser currentUser] isProfessional]) ? MRSLStoryboardSegueSelectPlaceKey : MRSLStoryboardSeguePublishShareMorselKey
                               sender:nil];
 }
 

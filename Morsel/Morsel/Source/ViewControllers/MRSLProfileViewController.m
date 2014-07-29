@@ -162,8 +162,6 @@ MRSLStateViewDelegate>
                                              animated:animated];
     [super viewWillAppear:animated];
 
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-
     [self populateUserInformation];
     [self refreshContent];
 }

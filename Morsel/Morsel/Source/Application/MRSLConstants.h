@@ -36,8 +36,6 @@ extern NSString *const MRSLAppShouldDisplayWebBrowserNotification;
 extern NSString *const MRSLAppShouldDisplayEmailComposerNotification;
 extern NSString *const MRSLAppShouldCallPhoneNumberNotification;
 
-extern NSString *const MRSLAppDidRequestNewPreferredStatusBarStyle;
-
 #pragma mark - Social Constants
 
 extern NSString *const MRSLTwitterCredentialsKey;

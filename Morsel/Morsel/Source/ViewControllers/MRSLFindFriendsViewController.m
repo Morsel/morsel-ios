@@ -74,8 +74,6 @@ MRSLSegmentedButtonViewDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];

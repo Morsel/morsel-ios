@@ -56,11 +56,6 @@ UITextFieldDelegate>
     self.statusType = MRSLStatusTypeNone;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
@@ -149,11 +144,27 @@ UITextFieldDelegate>
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_locationDisabled || _shouldDisplayStatus) {
-        NSString *ruid = MRSLStoryboardRUIDLocationDisabledCellKey;
-        if (_statusType == MRSLStatusTypeNone && !_locationDisabled) ruid = MRSLStoryboardRUIDInstructionCellKey;
-        if (_statusType == MRSLStatusTypeNoResults) ruid = MRSLStoryboardRUIDNoResultsCellKey;
-        if (_statusType == MRSLStatusTypeLoading) ruid = MRSLStoryboardRUIDLoadingCellKey;
-        if (_statusType == MRSLStatusTypeMoreCharactersRequired) ruid = MRSLStoryboardRUIDMoreCharactersCellKey;
+        NSString *ruid = nil;
+        switch (_statusType) {
+            case MRSLStatusTypeNone:
+                if (!_locationDisabled)
+                    ruid = MRSLStoryboardRUIDInstructionCellKey;
+                else
+                    ruid = MRSLStoryboardRUIDLocationDisabledCellKey;
+                break;
+            case MRSLStatusTypeNoResults:
+                ruid = MRSLStoryboardRUIDNoResultsCellKey;
+                break;
+            case MRSLStatusTypeLoading:
+                ruid = MRSLStoryboardRUIDLoadingCellKey;
+                break;
+            case MRSLStatusTypeMoreCharactersRequired:
+                ruid = MRSLStoryboardRUIDMoreCharactersCellKey;
+                break;
+            default:
+                ruid = MRSLStoryboardRUIDLocationDisabledCellKey;
+                break;
+        }
         return [tableView dequeueReusableCellWithIdentifier:ruid];
     } else {
         MRSLFoursquarePlace *foursquarePlace = [_foursquarePlaces objectAtIndex:indexPath.row];

@@ -101,13 +101,6 @@
     @throw @"setupWithUserInfo Not Implemented in subclass!";
 }
 
-#pragma mark - Appearance Methods
-
-- (void)changeStatusBarStyle:(UIStatusBarStyle)style {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppDidRequestNewPreferredStatusBarStyle
-                                                        object:@(style)];
-}
-
 #pragma mark - Utility Methods
 
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
