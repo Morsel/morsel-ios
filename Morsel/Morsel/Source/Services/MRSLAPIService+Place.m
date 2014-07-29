@@ -62,17 +62,19 @@
                                                                        @"title": title}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"places/%@/employment", foursquarePlace.foursquarePlaceID]
-                            parameters:parameters
-                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                   if (successOrNil) successOrNil(responseObject);
-                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                   [self reportFailure:failureOrNil
-                                          forOperation:operation
-                                             withError:error
-                                              inMethod:NSStringFromSelector(_cmd)];
-                               }];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"places/%@/employment", foursquarePlace.foursquarePlaceID]
+                                                  withMethod:MRSLAPIMethodTypePOST
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                                         if (successOrNil) successOrNil(responseObject);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
 }
 
 - (void)getPlace:(MRSLPlace *)place

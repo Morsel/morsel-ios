@@ -89,38 +89,42 @@
                                               requiresAuthentication:YES];
     if (shouldLike) {
         item.like_count = @(item.like_countValue + 1);
-        [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
-                                parameters:parameters
-                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                       if (likeBlockOrNil) likeBlockOrNil(YES);
-                                   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                       MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                       if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"item: already liked"]) {
-                                           if (likeBlockOrNil) likeBlockOrNil(YES);
-                                       } else {
-                                           [self reportFailure:failureOrNil
-                                                  forOperation:operation
-                                                     withError:error
-                                                      inMethod:NSStringFromSelector(_cmd)];
-                                       }
-                                   }];
+        [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
+                                                      withMethod:MRSLAPIMethodTypePOST
+                                                  formParameters:[self parametersToDataWithDictionary:parameters]
+                                                      parameters:nil
+                                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                             if (likeBlockOrNil) likeBlockOrNil(YES);
+                                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                             MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                             if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"item: already liked"]) {
+                                                                 if (likeBlockOrNil) likeBlockOrNil(YES);
+                                                             } else {
+                                                                 [self reportFailure:failureOrNil
+                                                                        forOperation:operation
+                                                                           withError:error
+                                                                            inMethod:NSStringFromSelector(_cmd)];
+                                                             }
+                                                         }];
     } else {
         item.like_count = @(item.like_countValue - 1);
-        [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
-                                  parameters:parameters
-                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                         if (likeBlockOrNil) likeBlockOrNil(NO);
-                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                         if ([operation.response statusCode] == 200  || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"item: not liked"]) {
-                                             if (likeBlockOrNil) likeBlockOrNil(NO);
-                                         } else {
-                                             [self reportFailure:failureOrNil
-                                                    forOperation:operation
-                                                       withError:error
-                                                        inMethod:NSStringFromSelector(_cmd)];
-                                         }
-                                     }];
+        [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
+                                                      withMethod:MRSLAPIMethodTypeDELETE
+                                                  formParameters:[self parametersToDataWithDictionary:parameters]
+                                                      parameters:nil
+                                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                             if (likeBlockOrNil) likeBlockOrNil(NO);
+                                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                             MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                             if ([operation.response statusCode] == 200  || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"item: not liked"]) {
+                                                                 if (likeBlockOrNil) likeBlockOrNil(NO);
+                                                             } else {
+                                                                 [self reportFailure:failureOrNil
+                                                                        forOperation:operation
+                                                                           withError:error
+                                                                            inMethod:NSStringFromSelector(_cmd)];
+                                                             }
+                                                         }];
     }
 }
 

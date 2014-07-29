@@ -71,6 +71,30 @@
     return parametersDictionary;
 }
 
+/*
+ Converts parameter keys into NSData.
+ */
+- (NSDictionary *)parametersToDataWithDictionary:(NSDictionary *)parameters {
+    __block NSMutableDictionary *parameterDictionary = [NSMutableDictionary dictionary];
+    __weak __typeof(self) weakSelf = self;
+    [parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        if ([obj isKindOfClass:[NSDictionary class]]) {
+            parameterDictionary[key] = [weakSelf parametersToDataWithDictionary:obj];
+        } else {
+            if ([obj isKindOfClass:[NSString class]]) {
+                parameterDictionary[key] = [obj dataUsingEncoding:NSUTF8StringEncoding];
+            } else if ([obj isKindOfClass:[NSNumber class]]) {
+                parameterDictionary[key] = [[obj stringValue] dataUsingEncoding:NSUTF8StringEncoding];
+            } else if ([obj isKindOfClass:[NSData class]]) {
+                parameterDictionary[key] = obj;
+            } else {
+                DDLogError(@"Unsupported form parameter object will not be converted to NSData: %@", obj);
+            }
+        }
+    }];
+    return parameterDictionary;
+}
+
 #pragma mark - Importing Helpers
 
 - (void)importManagedObjectClass:(Class)objectClass

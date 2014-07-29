@@ -58,23 +58,25 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 
-    [[MRSLAPIClient sharedClient] POST:[NSString stringWithFormat:@"items/%i/comments", item.itemIDValue]
-                            parameters:parameters
-                               success: ^(AFHTTPRequestOperation * operation, id responseObject) {
-                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                   MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
-                                                                                     withValue:responseObject[@"data"][@"id"]];
-                                   if (!comment) comment = [MRSLComment MR_createEntity];
-                                   [comment MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                   item.comment_count = @(item.comment_countValue + 1);
-                                   [comment.managedObjectContext MR_saveToPersistentStoreAndWait];
-                                   if (successOrNil) successOrNil(comment);
-                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                   [self reportFailure:failureOrNil
-                                          forOperation:operation
-                                             withError:error
-                                              inMethod:NSStringFromSelector(_cmd)];
-                               }];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"items/%i/comments", item.itemIDValue]
+                                                  withMethod:MRSLAPIMethodTypePOST
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                                         MRSLComment *comment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
+                                                                                                           withValue:responseObject[@"data"][@"id"]];
+                                                         if (!comment) comment = [MRSLComment MR_createEntity];
+                                                         [comment MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                         item.comment_count = @(item.comment_countValue + 1);
+                                                         [comment.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                         if (successOrNil) successOrNil(comment);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
 }
 
 - (void)deleteComment:(MRSLComment *)comment
@@ -89,19 +91,21 @@
     [comment MR_deleteEntity];
     [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
 
-    [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"items/%i/comments/%i", item.itemIDValue, commentID]
-                              parameters:parameters
-                                 success:nil
-                                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                     if ([operation.response statusCode] == 200) {
-                                         if (successOrNil) successOrNil(YES);
-                                     } else {
-                                         [self reportFailure:failureOrNil
-                                                forOperation:operation
-                                                   withError:error
-                                                    inMethod:NSStringFromSelector(_cmd)];
-                                     }
-                                 }];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"items/%i/comments/%i", item.itemIDValue, commentID]
+                                                  withMethod:MRSLAPIMethodTypeDELETE
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:nil
+                                                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         if ([operation.response statusCode] == 200) {
+                                                             if (successOrNil) successOrNil(YES);
+                                                         } else {
+                                                             [self reportFailure:failureOrNil
+                                                                    forOperation:operation
+                                                                       withError:error
+                                                                        inMethod:NSStringFromSelector(_cmd)];
+                                                         }
+                                                     }];
 }
 
 @end

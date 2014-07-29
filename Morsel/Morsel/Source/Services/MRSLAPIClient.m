@@ -29,4 +29,73 @@
     return _sharedClient;
 }
 
+#pragma mark - Instance Methods
+
+- (void)multipartFormRequestString:(NSString *)urlString
+                        withMethod:(MRSLAPIMethodType)apiMethodType
+                    formParameters:(NSDictionary *)formParameters
+                        parameters:(NSDictionary *)parameters
+                           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))successOrNil
+                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failureOrNil {
+    AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+    [requestSerializer setValue:@"application/json"
+             forHTTPHeaderField:@"ACCEPT"];
+    NSMutableURLRequest *request = [requestSerializer multipartFormRequestWithMethod:[self apiMethodStringWithType:apiMethodType]
+                                                                           URLString:[[NSURL URLWithString:urlString relativeToURL:[self baseURL]] absoluteString]
+                                                                          parameters:parameters
+                                                           constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                                               [self appendParameters:formParameters
+                                                                           toFormData:formData
+                                                                             withName:nil];
+                                                           }];
+    AFHTTPRequestOperation *operation = [[MRSLAPIClient sharedClient] HTTPRequestOperationWithRequest:request
+                                                                                              success:successOrNil
+                                                                                              failure:failureOrNil];
+    [[MRSLAPIClient sharedClient].operationQueue addOperation:operation];
+}
+
+- (void)appendParameters:(NSDictionary *)formParameters
+              toFormData:(id<AFMultipartFormData>)formData
+                withName:(NSString *)name {
+    [formParameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSString *dataKey = (name) ? [NSString stringWithFormat:@"%@[%@]", name, key] : key;
+        if ([obj isKindOfClass:[NSDictionary class]]) {
+            [self appendParameters:obj
+                        toFormData:formData
+                          withName:dataKey];
+        } else if ([obj isKindOfClass:[NSData class]]) {
+            if ([key isEqualToString:@"photo"]) {
+                [formData appendPartWithFileData:obj
+                                            name:dataKey
+                                        fileName:@"photo.jpg"
+                                        mimeType:@"image/jpeg"];
+            } else {
+                [formData appendPartWithFormData:obj
+                                            name:dataKey];
+            }
+        } else {
+            DDLogError(@"Unable to append unsupported object to multipart form parameters: %@", obj);
+        }
+    }];
+}
+
+#pragma mark - Utility Methods
+
+- (NSString *)apiMethodStringWithType:(MRSLAPIMethodType)apiMethodType {
+    switch (apiMethodType) {
+        case MRSLAPIMethodTypePOST:
+            return @"POST";
+            break;
+        case MRSLAPIMethodTypePUT:
+            return @"PUT";
+            break;
+        case MRSLAPIMethodTypeDELETE:
+            return @"DELETE";
+            break;
+        default:
+            return @"";
+            break;
+    }
+}
+
 @end
