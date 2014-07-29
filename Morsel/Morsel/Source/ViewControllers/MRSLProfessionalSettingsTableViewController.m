@@ -8,6 +8,7 @@
 
 #import "MRSLProfessionalSettingsTableViewController.h"
 
+#import "MRSLSectionView.h"
 #import "MRSLToggleKeywordsTableViewController.h"
 
 @interface MRSLProfessionalSettingsTableViewController ()
@@ -31,6 +32,10 @@
         else if ([[segue identifier] isEqualToString:@"seg_Specialties"])
             [segue.destinationViewController setKeywordType:@"Specialties"];
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [MRSLSectionView sectionViewWithTitle:[self tableView:tableView titleForHeaderInSection:section]];
 }
 
 @end

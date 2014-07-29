@@ -215,7 +215,6 @@ NSFetchedResultsControllerDelegate>
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     CGFloat baselineY = self.view.frame.size.height - keyboardSize.height;
-    if (![UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) baselineY -= [UIApplication sharedApplication].statusBarFrame.size.height;
     [UIView animateWithDuration:.35f
                      animations:^{
                          [_commentInputView setY:baselineY - [_commentInputView getHeight]];

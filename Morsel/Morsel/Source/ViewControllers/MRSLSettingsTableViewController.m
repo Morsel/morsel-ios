@@ -12,6 +12,7 @@
 
 #import <MessageUI/MFMailComposeViewController.h>
 
+#import "MRSLSectionView.h"
 #import "MRSLUser.h"
 #import "MRSLUtil.h"
 
@@ -107,6 +108,10 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
     } else {
         return [super tableView:tableView numberOfRowsInSection:section];
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [MRSLSectionView sectionViewWithTitle:[self tableView:tableView titleForHeaderInSection:section]];
 }
 
 

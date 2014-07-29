@@ -349,7 +349,7 @@ MRSLSegmentedButtonViewDelegate>
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (_friendSection == 0) {
-        return [MRSLSectionView sectionViewWithTitle:([self shouldShowSuggestedPeople] ? @"Suggested People" : @"Search Results")];
+        return [MRSLSectionView sectionViewWithTitle:([self shouldShowSuggestedPeople] ? @"Suggested people" : @"Search results")];
     } else {
         return [MRSLSectionView sectionViewWithTitle:@"People found"];
     }
