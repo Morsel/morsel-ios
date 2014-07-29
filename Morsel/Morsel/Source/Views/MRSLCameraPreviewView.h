@@ -14,4 +14,6 @@
 
 @property (nonatomic) AVCaptureSession *session;
 
+- (void)reset;
+
 @end
