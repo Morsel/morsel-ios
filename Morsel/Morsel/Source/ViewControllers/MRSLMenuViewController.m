@@ -151,6 +151,10 @@ UITableViewDelegate>
     draftItem.badgeCount = currentUser.draft_countValue;
     [self.menuTableView reloadRowsAtIndexPaths:@[draftIndexPath]
                               withRowAnimation:UITableViewRowAnimationNone];
+
+    [self.menuTableView selectRowAtIndexPath:_selectedIndexPath
+                                    animated:NO
+                              scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void)clearUserInformation {
