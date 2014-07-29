@@ -2265,13 +2265,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 066066C218522E7900E780FC /* Build configuration list for PBXNativeTarget "Morsel" */;
 			buildPhases = (
+				06D9908918AADB20000158EE /* Update Build Version */,
 				E173818B69074B2A8591BDD8 /* Check Pods Manifest.lock */,
 				0660668918522E7900E780FC /* Sources */,
 				0660668A18522E7900E780FC /* Frameworks */,
 				0660668B18522E7900E780FC /* Resources */,
 				2D110345279C4A75AB205E62 /* Copy Pods Resources */,
-				06D9908918AADB20000158EE /* Update Build Version */,
 				0693C25B18F6CC2D0026D6B3 /* Storyboard Lint */,
+				06C055B31987EE56002D5F3B /* Rollbar dSYM Upload */,
 			);
 			buildRules = (
 			);
@@ -2463,9 +2464,23 @@
 			shellScript = "command -v /usr/local/bin/mogenerator > /dev/null 2>&1 || { echo >&2 \"mogenerator is not installed. Run 'brew install mogenerator' and try again.\"; exit 1; }\n\ncd $PROJECT_DIR/$PROJECT_NAME/Source/Models\n\n/usr/local/bin/mogenerator \\\n--model \"$PROJECT_NAME.xcdatamodeld/Morsel.xcdatamodel\"/ \\\n--human-dir $PROJECT_DIR/$PROJECT_NAME/Source/Models \\\n--machine-dir $PROJECT_DIR/$PROJECT_NAME/Source/Models/Generated \\\n--template-var arc=true";
 			showEnvVarsInLog = 0;
 		};
+		06C055B31987EE56002D5F3B /* Rollbar dSYM Upload */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Rollbar dSYM Upload";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "python \"${SRCROOT}/../Vendor/Rollbar/upload_dsym.py\"";
+		};
 		06D9908918AADB20000158EE /* Update Build Version */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -2473,7 +2488,7 @@
 			name = "Update Build Version";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(date +%Y%m%d%H%M)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
 			showEnvVarsInLog = 0;
