@@ -43,9 +43,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
     if ([self getHeight] < 30.0f) {
         [self setHeight:30.0f];
     }
-    [UIView animateWithDefaultDurationAnimations:^{
-        [self setWidth:[self getWidth] + (kPadding * 2.0f)];
-    }];
+    [self setWidth:[self getWidth] + (kPadding * 2.0f)];
 }
 
 @end
