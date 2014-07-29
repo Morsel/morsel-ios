@@ -31,6 +31,11 @@
 
 @implementation MRSLUserLikedItemCollectionViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self setBackgroundColor:[UIColor morselDefaultCellBackgroundColor]];
+}
+
 - (void)setItem:(MRSLItem *)item
         andUser:(MRSLUser *)user {
     if (_item != item) {

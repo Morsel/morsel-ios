@@ -33,21 +33,19 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.pipeOriginalColor = self.pipeView.backgroundColor;
+    self.optionNameLabel.textColor = [UIColor morselPrimary];
+    self.optionNameLabel.font = [UIFont robotoRegularFontOfSize:_optionNameLabel.font.pointSize];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    self.optionNameLabel.textColor = (selected) ? [UIColor morselRed] : [UIColor morselDarkContent];
-    self.optionNameLabel.font = (selected) ? [UIFont robotoBoldFontOfSize:_optionNameLabel.font.pointSize] : [UIFont robotoLightFontOfSize:_optionNameLabel.font.pointSize];
     self.pipeView.backgroundColor = (selected) ? [UIColor clearColor] : self.pipeOriginalColor;
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
 
-    self.optionNameLabel.textColor = (highlighted) ? [UIColor whiteColor] : (self.togglable && self.selected ? [UIColor morselRed] : [UIColor morselDarkContent]);
-    self.optionNameLabel.font = (highlighted) ? [UIFont robotoBoldFontOfSize:_optionNameLabel.font.pointSize] : (self.togglable && self.selected ? [UIFont robotoBoldFontOfSize:_optionNameLabel.font.pointSize] : [UIFont robotoLightFontOfSize:_optionNameLabel.font.pointSize]);
     self.pipeView.backgroundColor = (highlighted) ? [UIColor clearColor] : self.pipeOriginalColor;
 }
 
@@ -69,15 +67,16 @@
 }
 
 - (UIColor *)defaultBackgroundColor {
-    return [UIColor whiteColor];
+    return [UIColor colorWithWhite:1.0f
+                             alpha:0.2f];
 }
 
 - (UIColor *)defaultHighlightedBackgroundColor {
-    return [UIColor morselRed];
+    return [[UIColor morselPrimaryLight] colorWithAlphaComponent:0.05f];
 }
 
 - (UIColor *)defaultSelectedBackgroundColor {
-    return [UIColor morselLightOff];
+    return [[UIColor morselMedium] colorWithAlphaComponent:0.05f];
 }
 
 @end

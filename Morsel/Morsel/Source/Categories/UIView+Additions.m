@@ -10,6 +10,13 @@
 
 @implementation UIView (Additions)
 
+#pragma mark - Class Methods
+
++ (void)animateWithDefaultDurationAnimations:(void (^)(void))animations {
+    [UIView animateWithDuration:MRSLDefaultAnimationDuration
+                     animations:animations];
+}
+
 #pragma mark - Instance Methods
 
 - (void)addCenteredSubview:(UIView *)subviewToAddAndCenter withOffset:(CGPoint)offset {
@@ -80,13 +87,17 @@
                              borderColor:[UIColor morselLight]];
 }
 
-- (void)addCornersWithRadius:(CGFloat)radius {
+- (void)setRoundedCornerRadius:(CGFloat)radius {
     self.clipsToBounds = YES;
     self.layer.cornerRadius = radius;
     self.layer.masksToBounds = YES;
     self.layer.opaque = YES;
     self.layer.needsDisplayOnBoundsChange = NO;
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+}
+
+- (void)setDefaultRoundedCornerRadius {
+    [self setRoundedCornerRadius:MRSLRoundedCornerDefaultRadius];
 }
 
 - (void)addStandardShadow {

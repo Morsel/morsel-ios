@@ -354,7 +354,7 @@ MRSLStateViewDelegate>
                     MRSLTag *previousTag = [self.segmentedPanelCollectionViewDataSource objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section]];
                     shouldDisplayTypeHeader = ![previousTag.keyword.type isEqualToString:currentTag.keyword.type];
                 }
-                return CGSizeMake(320.f, (shouldDisplayTypeHeader) ? 80.f : 40.f);
+                return CGSizeMake(320.f, (shouldDisplayTypeHeader) ? 64.f : 40.f);
             } else {
                 return CGSizeMake(320.f, 80.f);
             }

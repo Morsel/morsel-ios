@@ -11,6 +11,8 @@
 @implementation MRSLColoredBackgroundLightButton
 
 - (void)setUp {
+    [super setUp];
+
     [self addObserver:self
            forKeyPath:@"highlighted"
               options:NSKeyValueObservingOptionNew
@@ -26,7 +28,7 @@
 
     [self setTitleColor:[UIColor whiteColor]
                forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor darkGrayColor]
+    [self setTitleColor:[UIColor morselOffWhite]
                forState:UIControlStateHighlighted];
     [self setTitleColor:[UIColor whiteColor]
                forState:UIControlStateDisabled];
@@ -46,32 +48,16 @@
         ![backgroundColor isEqual:self.highlightedBackgroundColor]) {
         [self setupColors];
     }
+
+    [self setBorderWithColor:[self.backgroundColor colorWithBrightness:0.9f]
+                    andWidth:MRSLBorderDefaultWidth];
 }
+
 
 - (void)setupColors {
     if (self.backgroundColor == nil) return;
     self.originalBackgroundColor = self.backgroundColor;
-
-    CGFloat hue;
-    CGFloat saturation;
-    CGFloat brightness;
-    CGFloat alpha;
-
-    BOOL colorSpaceConverted = [self.originalBackgroundColor getHue:&hue
-                                                         saturation:&saturation
-                                                         brightness:&brightness
-                                                              alpha:&alpha];
-
-    if (colorSpaceConverted) {
-        alpha = .4f;
-
-        self.highlightedBackgroundColor = [UIColor colorWithHue:hue
-                                                     saturation:saturation
-                                                     brightness:brightness
-                                                          alpha:alpha];
-    } else {
-        self.highlightedBackgroundColor = [UIColor darkGrayColor];
-    }
+    self.highlightedBackgroundColor = [self.backgroundColor colorWithBrightness:1.2f];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

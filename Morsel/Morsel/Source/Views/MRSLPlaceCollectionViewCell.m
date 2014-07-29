@@ -21,6 +21,12 @@
 
 @implementation MRSLPlaceCollectionViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+
+    [self setBackgroundColor:[UIColor morselDefaultCellBackgroundColor]];
+}
+
 - (void)setPlace:(MRSLPlace *)place {
     if (_place != place) {
         _place = place;

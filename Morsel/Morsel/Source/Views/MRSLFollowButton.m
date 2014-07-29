@@ -16,6 +16,7 @@
 @implementation MRSLFollowButton
 
 - (void)setUp {
+    [super setUp];
     [self addTarget:self
              action:@selector(toggleFollow)
    forControlEvents:UIControlEventTouchUpInside];
@@ -34,8 +35,9 @@
 - (void)setFollowState {
     if (![_user isCurrentUser]) {
         [self setBackgroundColor:(_user.followingValue || _place.followingValue) ? [UIColor lightGrayColor] : [UIColor morselGreen]];
-        [self setTitle:(_user.followingValue || _place.followingValue) ? @"Following" : @"Follow"
-              forState:UIControlStateNormal];
+        CGFloat maxX = CGRectGetMaxX(self.frame);
+        [self setFittedTitleForAllStates:(_user.followingValue || _place.followingValue) ? @"Following" : @"Follow"];
+        [self setX:maxX - [self getWidth]];
     } else {
         self.hidden = YES;
     }

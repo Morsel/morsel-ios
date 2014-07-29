@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseTableViewCell.h"
 
 @class MRSLComment, MRSLUser;
 
@@ -17,7 +17,7 @@
 
 @end
 
-@interface MRSLCommentTableViewCell : UITableViewCell
+@interface MRSLCommentTableViewCell : MRSLBaseTableViewCell
 
 @property (weak, nonatomic) id <CommentTableViewCellDelegate> delegate;
 

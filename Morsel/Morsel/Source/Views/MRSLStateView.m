@@ -12,8 +12,8 @@
 
 static CGFloat kContainerWidth = 320.0f;
 static CGFloat kContainerHeight = 48.0f;
-static CGFloat kPadding = 10.0f;
-static CGFloat kButtonHeight = 50.0f;
+static CGFloat kPadding = MRSLDefaultPadding;
+static CGFloat kButtonHeight = 40.0f;
 
 @interface MRSLStateView ()
 
@@ -60,7 +60,7 @@ static CGFloat kButtonHeight = 50.0f;
 
 - (MRSLColoredBackgroundLightButton *)button {
     if (!_button) {
-        _button = [[MRSLColoredBackgroundLightButton alloc] initWithFrame:CGRectMake(kPadding, 0.0f, kContainerWidth, kButtonHeight)];
+        _button = [[MRSLColoredBackgroundLightButton alloc] initWithFrame:CGRectMake(kPadding, 0.0f, kContainerWidth - (kPadding * 2.0f), kButtonHeight)];
         [_button addTarget:self
                     action:@selector(buttonPressed:)
           forControlEvents:UIControlEventTouchUpInside];
@@ -90,9 +90,7 @@ static CGFloat kButtonHeight = 50.0f;
         [self.button setHidden:NO];
         [self.button setTitle:title
                      forState:UIControlStateNormal];
-        [self.button sizeToFit];
         [self.button setHeight:kButtonHeight];
-        [self.button setWidth:[self.button getWidth] + (kPadding * 4.0f)];
         [self.button setCenter:CGPointMake(CGRectGetWidth(_containerView.frame) * 0.5f, self.button.center.y)];
     } else {
         [self.button setHidden:YES];

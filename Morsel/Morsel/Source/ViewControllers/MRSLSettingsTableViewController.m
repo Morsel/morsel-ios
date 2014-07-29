@@ -12,6 +12,7 @@
 
 #import <MessageUI/MFMailComposeViewController.h>
 
+#import "MRSLSectionView.h"
 #import "MRSLUser.h"
 #import "MRSLUtil.h"
 
@@ -92,6 +93,13 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
                                                                                                                    @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/privacy_text", MORSEL_BASE_URL]]}];
 }
 
+- (IBAction)displaySoftwareAcknowledgements:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Software Acknowledgements",
+                                                                                                                   @"url": [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"html"]],
+                                                                                                                   @"hideToolbar": @YES
+                                                                                                                   }];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == MRSLSettingsTableViewSectionSetupProfessionalAccount) {
         return [[MRSLUser currentUser] isProfessional] ? 0 : 1;
@@ -100,6 +108,10 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
     } else {
         return [super tableView:tableView numberOfRowsInSection:section];
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [MRSLSectionView sectionViewWithTitle:[self tableView:tableView titleForHeaderInSection:section]];
 }
 
 

@@ -43,6 +43,7 @@
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
     [self.morselTitleLabel addStandardShadow];
+    [self.shareCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {

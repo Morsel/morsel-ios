@@ -79,7 +79,23 @@
 #pragma mark - Defined Colors
 
 + (UIColor *)morselDefaultBackgroundColor {
-    return [UIColor morselOffWhite];
+    return [UIColor morselLightOff];
+}
+
++ (UIColor *)morselDefaultCellBackgroundColor {
+    return [UIColor morselBackground];
+}
+
++ (UIColor *)morselDefaultSectionHeaderBackgroundColor {
+    return [UIColor morselLightest];
+}
+
++ (UIColor *)morselDefaultTextFieldBackgroundColor {
+    return [UIColor whiteColor];
+}
+
++ (UIColor *)morselDefaultToolbarBackgroundColor {
+    return [UIColor morselLightest];
 }
 
 
@@ -132,6 +148,28 @@
                            green:170.f / 255.f
                             blue:170.f / 255.f
                            alpha:1.f];
+}
+
+
+#pragma mark - Instance Methods
+
+- (UIColor *)colorWithBrightness:(CGFloat)brightness {
+    CGFloat originalHue, originalSaturation, originalBrightness, originalAlpha;
+    if ([self getHue:&originalHue saturation:&originalSaturation brightness:&originalBrightness alpha:&originalAlpha]) {
+        return [UIColor colorWithHue:originalHue
+                          saturation:originalSaturation
+                          brightness:MIN(originalBrightness * brightness, 1.0)
+                               alpha:originalAlpha];
+    }
+
+    //  Grayscale colors crap out on getHue:, fallback to getWhite:
+    CGFloat originalWhite;
+    if ([self getWhite:&originalWhite alpha:&originalAlpha]) {
+        return [UIColor colorWithWhite:MIN(originalWhite * brightness, 1.0)
+                                 alpha:originalAlpha];
+    }
+
+    return nil;
 }
 
 @end

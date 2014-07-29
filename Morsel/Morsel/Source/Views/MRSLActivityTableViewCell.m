@@ -28,6 +28,12 @@
 
 @implementation MRSLActivityTableViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+
+    [self setBackgroundColor:[UIColor morselDefaultCellBackgroundColor]];
+}
+
 - (void)setActivity:(MRSLActivity *)activity {
     self.descriptionLabel.text = [activity message];
     self.timeAgoLabel.text = [activity.creationDate timeAgo];

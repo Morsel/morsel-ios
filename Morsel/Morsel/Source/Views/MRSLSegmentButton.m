@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLColoredBackgroundToggleButton.h"
+#import "MRSLSegmentButton.h"
 
-@interface MRSLColoredBackgroundToggleButton ()
+@interface MRSLSegmentButton ()
 
 @property (nonatomic) BOOL colorSet;
 
 @end
 
-@implementation MRSLColoredBackgroundToggleButton
+@implementation MRSLSegmentButton
 
 - (void)setUp {
     [self addObserver:self
@@ -32,7 +32,7 @@
 
     [self setTitleColor:[UIColor lightGrayColor]
                forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor darkGrayColor]
+    [self setTitleColor:[UIColor morselLight]
                forState:UIControlStateHighlighted];
     [self setTitleColor:[UIColor whiteColor]
                forState:UIControlStateDisabled];
