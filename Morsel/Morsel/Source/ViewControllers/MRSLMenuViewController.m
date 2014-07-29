@@ -88,7 +88,7 @@ UITableViewDelegate>
     MRSLMenuItem *itemPeople = [[MRSLMenuItem alloc] initWithName:@"People"
                                                               key:MRSLMenuPeopleKey
                                                              icon:@"icon-menu-people"];
-    MRSLMenuItem *itemFindFriends = [[MRSLMenuItem alloc] initWithName:@"Find Friends"
+    MRSLMenuItem *itemFindFriends = [[MRSLMenuItem alloc] initWithName:@"Find People"
                                                                    key:MRSLMenuFindKey
                                                                   icon:@"icon-menu-find"];
     MRSLMenuItem *itemSettings = [[MRSLMenuItem alloc] initWithName:@"Settings"

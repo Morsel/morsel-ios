@@ -10,22 +10,17 @@
 
 @implementation MRSLActivityIndicatorView
 
-- (id)initWithFrame:(CGRect)frame
-{
++ (instancetype)defaultActivityIndicatorView {
+    return [[MRSLActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+}
+
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        [self setColor:[UIColor morselDark]];
+        [self setHidesWhenStopped:YES];
     }
     return self;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end
