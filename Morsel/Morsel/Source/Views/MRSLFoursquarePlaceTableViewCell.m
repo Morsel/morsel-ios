@@ -30,11 +30,4 @@
     }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    self.nameLabel.textColor = (selected) ? [UIColor whiteColor] : [UIColor darkGrayColor];
-    self.cityStateLabel.textColor = (selected) ? [UIColor whiteColor] : [UIColor darkGrayColor];
-    [self setBackgroundColor:(selected) ? [UIColor morselRed] : [UIColor whiteColor]];
-}
-
 @end

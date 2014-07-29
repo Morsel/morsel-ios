@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLActivityIndicatorView.h"
 
 @interface MRSLValidationStatusView : UIView
 
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet MRSLActivityIndicatorView *activityIndicator;
 
 @end

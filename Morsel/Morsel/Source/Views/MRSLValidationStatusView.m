@@ -15,7 +15,6 @@
     [self.statusLabel addShadowWithOpacity:.2f
                                  andRadius:3.f
                                  withColor:[UIColor whiteColor]];
-    [self.activityIndicator setHidesWhenStopped:YES];
 }
 
 @end

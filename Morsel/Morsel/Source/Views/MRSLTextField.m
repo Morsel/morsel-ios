@@ -16,7 +16,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.font = [UIFont robotoLightFontOfSize:self.font.pointSize];
-        self.textColor = [UIColor morselDarkContent];
+        self.textColor = [UIColor morselDefaultTextColor];
         self.backgroundColor = [UIColor morselDefaultTextFieldBackgroundColor];
     }
     return self;
@@ -29,7 +29,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
 }
 
 - (void)drawPlaceholderInRect:(CGRect)rect {
-    [[UIColor morselPlaceholderColor] setFill];
+    [[UIColor morselDefaultPlaceholderTextColor] setFill];
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
         // Pushing down placeholder to align with textfield user added text. This only works with 14 point font.
         rect.origin.y += 10.f;

@@ -307,16 +307,14 @@ MRSLStateViewDelegate>
                 [(MRSLUserLikedItemCollectionViewCell *)cell setItem:item
                                                              andUser:_user];
                 if (indexPath.row != count) {
-                    [cell addBorderWithDirections:MRSLBorderSouth
-                                      borderColor:[UIColor morselLightOffColor]];
+                    [cell addDefaultBorderForDirections:MRSLBorderSouth];
                 }
             } else if ([item isKindOfClass:[MRSLPlace class]]) {
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPlaceCellKey
                                                                  forIndexPath:indexPath];
                 [(MRSLPlaceCollectionViewCell *)cell setPlace:item];
                 if (indexPath.row != count) {
-                    [cell addBorderWithDirections:MRSLBorderSouth
-                                      borderColor:[UIColor morselLightOffColor]];
+                    [cell addDefaultBorderForDirections:MRSLBorderSouth];
                 }
             } else if ([item isKindOfClass:[MRSLTag class]]) {
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDKeywordCellKey
@@ -324,8 +322,7 @@ MRSLStateViewDelegate>
                 [[(MRSLTagStatsNameCell *)cell nameLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] name]];
                 [[(MRSLTagStatsNameCell *)cell tagTypeLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] isCuisineType] ? @"Cuisines" : @"Specialties"];
                 if (indexPath.row != count) {
-                    [cell addBorderWithDirections:MRSLBorderSouth
-                                      borderColor:[UIColor morselLightOffColor]];
+                    [cell addDefaultBorderForDirections:MRSLBorderSouth];
                 }
             }
         }

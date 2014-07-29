@@ -82,8 +82,16 @@
     return [UIColor morselLightOff];
 }
 
++ (UIColor *)morselDefaultBorderColor {
+    return [UIColor morselLight];
+}
+
 + (UIColor *)morselDefaultCellBackgroundColor {
     return [UIColor morselBackground];
+}
+
++ (UIColor *)morselDefaultNavigationBarBackgroundColor {
+    return [UIColor morselLightest];
 }
 
 + (UIColor *)morselDefaultSectionHeaderBackgroundColor {
@@ -94,60 +102,24 @@
     return [UIColor whiteColor];
 }
 
++ (UIColor *)morselDefaultTextColor {
+    return [UIColor morselDark];
+}
+
++ (UIColor *)morselDefaultPlaceholderTextColor {
+    return [[UIColor morselDefaultTextColor] colorWithBrightness:1.2f];
+}
+
 + (UIColor *)morselDefaultToolbarBackgroundColor {
     return [UIColor morselLightest];
 }
 
-
-#pragma mark - Misc
-
-+ (UIColor *)morselRed {
-    return [UIColor colorWithRed:232.f / 255.f
-                           green:97.f / 255.f
-                            blue:67.f / 255.f
-                           alpha:1.f];
++ (UIColor *)morselValidColor {
+    return [UIColor greenColor];
 }
 
-+ (UIColor *)morselGreen {
-    return [UIColor colorWithRed:81.f / 255.f
-                           green:186.f / 255.f
-                            blue:61.f / 255.f
-                           alpha:1.f];
-}
-
-+ (UIColor *)morselUserInterface {
-    return [UIColor colorWithRed:251.f / 255.f
-                           green:250.f / 255.f
-                            blue:250.f / 255.f
-                           alpha:1.f];
-}
-
-+ (UIColor *)morselDarkContent {
-    return [UIColor colorWithRed:57.f / 255.f
-                           green:64.f / 255.f
-                            blue:56.f / 255.f
-                           alpha:1.f];
-}
-
-+ (UIColor *)morselLightContent {
-    return [UIColor colorWithRed:147.f / 255.f
-                           green:165.f / 255.f
-                            blue:144.f / 255.f
-                           alpha:1.f];
-}
-
-+ (UIColor *)morselLightOffColor {
-    return [UIColor colorWithRed:243.f / 255.f
-                           green:241.f / 255.f
-                            blue:239.f / 255.f
-                           alpha:1.f];
-}
-
-+ (UIColor *)morselPlaceholderColor {
-    return [UIColor colorWithRed:170.f / 255.f
-                           green:170.f / 255.f
-                            blue:170.f / 255.f
-                           alpha:1.f];
++ (UIColor *)morselInvalidColor {
+    return [UIColor redColor];
 }
 
 

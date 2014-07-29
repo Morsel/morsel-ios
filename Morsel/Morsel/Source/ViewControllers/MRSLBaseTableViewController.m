@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
+#import "MRSLActivityIndicatorView.h"
 #import "MRSLBaseTableViewController.h"
 #import "MRSLTableViewDataSource.h"
 #import "MRSLIconStateView.h"
@@ -28,7 +29,7 @@ NSFetchedResultsControllerDelegate>
 @property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL stopLoadingNextPage;
 
-@property (strong, nonatomic) UIActivityIndicatorView *footerActivityIndicatorView;
+@property (strong, nonatomic) MRSLActivityIndicatorView *footerActivityIndicatorView;
 
 - (void)refreshContent;
 - (void)populateContent;
@@ -50,9 +51,7 @@ NSFetchedResultsControllerDelegate>
         [self.tableView addSubview:self.refreshControl];
 
         //  Bottom activity Indicator
-        self.footerActivityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [_footerActivityIndicatorView setColor:[UIColor morselDarkContent]];
-        [_footerActivityIndicatorView setHidesWhenStopped:YES];
+        self.footerActivityIndicatorView = [MRSLActivityIndicatorView defaultActivityIndicatorView];
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(.0f, .0f, [self.tableView getWidth], 60.f)];
         [footerView addSubview:_footerActivityIndicatorView];
         [_footerActivityIndicatorView setX:([footerView getWidth] * .5f) - ([_footerActivityIndicatorView getWidth] * .5f)];

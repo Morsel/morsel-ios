@@ -39,7 +39,7 @@
     _itemDescription.text = (_item.itemDescription.length > 0) ? _item.itemDescription : @"Tap to edit item";
 
     if (_item.itemDescription.length > 0) {
-        _itemDescription.textColor = [UIColor morselDarkContent];
+        _itemDescription.textColor = [UIColor morselDefaultTextColor];
     }
     _itemThumbnail.item = _item;
 }
@@ -118,8 +118,8 @@
 #pragma mark - Private Methods
 
 - (void)displaySelectedState:(BOOL)selected {
-    self.backgroundColor = selected ? [UIColor morselRed] : [UIColor whiteColor];
-    self.itemDescription.textColor = selected ? [UIColor whiteColor] : [UIColor morselDarkContent];
+    self.backgroundColor = selected ? [UIColor morselPrimary] : [UIColor whiteColor];
+    self.itemDescription.textColor = selected ? [UIColor whiteColor] : [UIColor morselDefaultTextColor];
 
     if (_itemThumbnail.image) {
         self.itemThumbnail.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -127,7 +127,7 @@
     }
 
     if (_item.itemDescription.length == 0 && !selected) {
-        _itemDescription.textColor = [UIColor morselLightContent];
+        _itemDescription.textColor = [UIColor morselDefaultPlaceholderTextColor];
     }
 
     if (self.arrowImageView) {
@@ -138,7 +138,7 @@
 - (void)reset {
     self.itemDescription.text = nil;
 
-    _itemDescription.textColor = [UIColor morselLightContent];
+    _itemDescription.textColor = [UIColor morselDefaultPlaceholderTextColor];
 }
 
 @end

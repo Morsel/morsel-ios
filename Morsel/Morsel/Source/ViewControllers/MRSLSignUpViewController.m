@@ -352,13 +352,13 @@ UITextFieldDelegate>
                                                      validated:^(BOOL isAvailable, NSError *error) {
                                                          if (isAvailable && !error) {
                                                              weakSelf.usernameStatusView.statusLabel.text = @"Available";
-                                                             weakSelf.usernameStatusView.statusLabel.textColor = [UIColor morselGreen];
+                                                             weakSelf.usernameStatusView.statusLabel.textColor = [UIColor morselValidColor];
                                                          } else if (isAvailable && error) {
                                                              weakSelf.usernameStatusView.statusLabel.text = @"Invalid";
-                                                             weakSelf.usernameStatusView.statusLabel.textColor = [UIColor morselRed];
+                                                             weakSelf.usernameStatusView.statusLabel.textColor = [UIColor morselInvalidColor];
                                                          } else {
                                                              weakSelf.usernameStatusView.statusLabel.text = @"Unavailable";
-                                                             weakSelf.usernameStatusView.statusLabel.textColor = [UIColor morselRed];
+                                                             weakSelf.usernameStatusView.statusLabel.textColor = [UIColor morselInvalidColor];
                                                          }
                                                          [weakSelf.usernameStatusView.activityIndicator stopAnimating];
                                                          weakSelf.usernameStatusView.statusLabel.hidden = NO;

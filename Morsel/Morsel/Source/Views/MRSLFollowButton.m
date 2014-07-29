@@ -34,7 +34,7 @@
 
 - (void)setFollowState {
     if (![_user isCurrentUser]) {
-        [self setBackgroundColor:(_user.followingValue || _place.followingValue) ? [UIColor lightGrayColor] : [UIColor morselGreen]];
+        [self setBackgroundColor:(_user.followingValue || _place.followingValue) ? [UIColor lightGrayColor] : [UIColor morselSecondary]];
         CGFloat maxX = CGRectGetMaxX(self.frame);
         [self setFittedTitleForAllStates:(_user.followingValue || _place.followingValue) ? @"Following" : @"Follow"];
         [self setX:maxX - [self getWidth]];

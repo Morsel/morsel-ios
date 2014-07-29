@@ -8,11 +8,10 @@
 
 #import "MRSLModalCommentsViewController.h"
 
-#import <GCPlaceholderTextView/GCPlaceholderTextView.h>
-
 #import "MRSLAPIService+Comment.h"
 
 #import "MRSLCommentTableViewCell.h"
+#import "MRSLPlaceholderTextView.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLTableView.h"
 
@@ -35,7 +34,7 @@ NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet MRSLTableView *commentsTableView;
 @property (weak, nonatomic) IBOutlet UIView *commentInputView;
-@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *commentInputTextView;
+@property (weak, nonatomic) IBOutlet MRSLPlaceholderTextView *commentInputTextView;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSArray *comments;
@@ -72,7 +71,6 @@ NSFetchedResultsControllerDelegate>
     [self.commentsTableView setEmptyStateTitle:@"No comments yet. Add one below."];
 
     self.commentInputTextView.placeholder = @"Write a comment...";
-    self.commentInputTextView.placeholderColor = [UIColor morselLightContent];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

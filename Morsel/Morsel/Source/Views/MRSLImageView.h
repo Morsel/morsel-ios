@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@class MRSLActivityIndicatorView;
 
 #import "MRSLImageRequestable.h"
 
@@ -15,7 +15,7 @@
 @property (nonatomic) BOOL grayScale;
 @property (nonatomic) BOOL shouldBlur;
 
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, strong) MRSLActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, strong) id <MRSLImageRequestable> imageObject;
 
 - (UIImage *)placeholderImage;

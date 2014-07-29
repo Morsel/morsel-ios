@@ -21,8 +21,8 @@
 }
 
 - (void)displaySelectedState:(BOOL)selected {
-    self.backgroundColor = (selected) ? [UIColor morselRed] : [UIColor whiteColor];
-    self.nameLabel.textColor = (selected) ? [UIColor whiteColor] : [UIColor morselRed];
+    self.backgroundColor = (selected) ? [UIColor morselPrimary] : [UIColor whiteColor];
+    self.nameLabel.textColor = (selected) ? [UIColor whiteColor] : [UIColor morselPrimary];
 }
 
 @end

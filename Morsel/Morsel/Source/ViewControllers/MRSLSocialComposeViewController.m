@@ -84,9 +84,9 @@
     NSUInteger textLength = textView.text.length;
     _doneBarButtonItem.enabled = !(textLength == 0);
     if (textLength < 130) {
-        [_textCountLabel setTextColor:[UIColor morselGreen]];
+        [_textCountLabel setTextColor:[UIColor morselValidColor]];
     } else if (textLength >= 130 && textLength <= 140) {
-        [_textCountLabel setTextColor:[UIColor morselRed]];
+        [_textCountLabel setTextColor:[UIColor morselInvalidColor]];
     }
     NSUInteger remainingTextLength = 140 - textLength;
     _textCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)remainingTextLength];

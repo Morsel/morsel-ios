@@ -481,7 +481,7 @@ Access it later from Settings.</string>
                                             <outlet property="delegate" destination="qw9-yF-Jf9" id="92Q-N1-9AG"/>
                                         </connections>
                                     </textView>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="r2Y-zc-DGc">
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="r2Y-zc-DGc" customClass="MRSLActivityIndicatorView">
                                         <rect key="frame" x="46" y="46" width="20" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="color" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>

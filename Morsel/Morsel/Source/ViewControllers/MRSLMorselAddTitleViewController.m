@@ -123,9 +123,9 @@
     _doneBarButtonItem.enabled = !(textLength == 0);
     _titlePlaceholderLabel.hidden = !(textLength == 0);
     if (textLength < 40) {
-        [_titleCountLimitLabel setTextColor:[UIColor morselGreen]];
+        [_titleCountLimitLabel setTextColor:[UIColor morselValidColor]];
     } else if (textLength >= 40 && textLength <= 50) {
-        [_titleCountLimitLabel setTextColor:[UIColor morselRed]];
+        [_titleCountLimitLabel setTextColor:[UIColor morselInvalidColor]];
     }
     NSUInteger remainingTextLength = 50 - textLength;
     _titleCountLimitLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)remainingTextLength];
