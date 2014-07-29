@@ -32,7 +32,10 @@
 #pragma mark - Defined Colors
 
 + (UIColor *)morselDefaultBackgroundColor;
-
++ (UIColor *)morselDefaultCellBackgroundColor;
++ (UIColor *)morselDefaultSectionHeaderBackgroundColor;
++ (UIColor *)morselDefaultTextFieldBackgroundColor;
++ (UIColor *)morselDefaultToolbarBackgroundColor;
 
 #pragma mark - Misc
 
@@ -43,5 +46,10 @@
 + (UIColor *)morselLightContent;
 + (UIColor *)morselLightOffColor;
 + (UIColor *)morselPlaceholderColor;
+
+
+#pragma mark - Instance Methods
+
+- (UIColor *)colorWithBrightness:(CGFloat)brightness;
 
 @end

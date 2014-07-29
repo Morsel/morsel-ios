@@ -17,6 +17,11 @@
            failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getItem:(MRSLItem *)item
+     parameters:(NSDictionary *)additionalParametersOrNil
+        success:(MRSLAPISuccessBlock)successOrNil
+        failure:(MRSLFailureBlock)failureOrNil;
+
+- (void)getItem:(MRSLItem *)item
         success:(MRSLAPISuccessBlock)successOrNil
         failure:(MRSLFailureBlock)failureOrNil;
 

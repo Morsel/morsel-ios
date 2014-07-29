@@ -18,6 +18,7 @@
 #import "MRSLSegmentedButtonView.h"
 #import "MRSLUserFollowTableViewCell.h"
 #import "MRSLProfileViewController.h"
+#import "MRSLSectionView.h"
 #import "MRSLTableView.h"
 
 #import "MRSLUser.h"
@@ -346,15 +347,11 @@ MRSLSegmentedButtonViewDelegate>
     return userFollowCell;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (_friendSection == 0) {
-        if ([self shouldShowSuggestedPeople]) {
-            return @"Suggested People";
-        } else {
-            return @"Search Results";
-        }
+        return [MRSLSectionView sectionViewWithTitle:([self shouldShowSuggestedPeople] ? @"Suggested people" : @"Search results")];
     } else {
-        return nil;
+        return [MRSLSectionView sectionViewWithTitle:@"People found"];
     }
 }
 

@@ -8,7 +8,7 @@
 
 #import "MRSLColoredBackgroundLightButton.h"
 
-@interface MRSLColoredBackgroundToggleButton : MRSLLightButton
+@interface MRSLSegmentButton : MRSLLightButton
 
 @property (nonatomic) BOOL allowsToggle;
 

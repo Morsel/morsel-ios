@@ -13,11 +13,16 @@
 #pragma mark - User Services
 
 - (void)getUserProfile:(MRSLUser *)user
-               success:(MRSLAPISuccessBlock)userSuccessOrNil
+            parameters:(NSDictionary *)additionalParametersOrNil
+               success:(MRSLAPISuccessBlock)successOrNil
+               failure:(MRSLFailureBlock)failureOrNil;
+
+- (void)getUserProfile:(MRSLUser *)user
+               success:(MRSLAPISuccessBlock)successOrNil
                failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)updateUser:(MRSLUser *)user
-           success:(MRSLAPISuccessBlock)userSuccessOrNil
+           success:(MRSLAPISuccessBlock)successOrNil
            failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)updateEmail:(NSString *)email

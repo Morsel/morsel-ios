@@ -49,7 +49,6 @@ UIAlertViewDelegate>
     if (!_user) self.user = [MRSLUser currentUser];
 
     self.scrollViewHeight = [_contentScrollView getHeight];
-    self.bioTextView.backgroundColor = [UIColor morselLightOffColor];
     self.bioTextView.placeholder = @"Tell us about yourself";
     [self.contentScrollView setContentSize:CGSizeMake([_contentScrollView getWidth], (CGRectGetMaxY(_bioTextView.frame) + 20.f))];
 
@@ -131,11 +130,12 @@ UIAlertViewDelegate>
         if ([self firstNameChanged]) _user.first_name = _firstNameField.text;
         if ([self lastNameChanged]) _user.last_name = _lastNameField.text;
         if ([self bioChanged]) _user.bio = _bioTextView.text;
+        __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService updateUser:_user
                                     success:^(id responseObject) {
                                         MRSLUser *updatedUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                                                         withValue:responseObject[@"data"][@"id"]];
-                                        if (updatedUser.presignedUpload && updatedUser.profilePhotoFull) {
+                                        if (weakSelf.photoChanged) {
                                             [updatedUser API_updateImage];
                                         }
 

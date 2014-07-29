@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseTableViewCell.h"
 
-@interface MRSLToggleKeywordTableViewCell : UITableViewCell
+@interface MRSLToggleKeywordTableViewCell : MRSLBaseTableViewCell
 
 @property (weak, nonatomic) MRSLKeyword *keyword;
 

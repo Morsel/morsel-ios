@@ -6,37 +6,45 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
+static CGFloat kPadding = MRSLDefaultPadding;
+
 #import "MRSLTextField.h"
 
 @implementation MRSLTextField
 
 - (id)initWithCoder:(NSCoder  *)aDecoder {
     self = [super initWithCoder:aDecoder];
-    if (self)
-    {
+    if (self) {
         self.font = [UIFont robotoLightFontOfSize:self.font.pointSize];
         self.textColor = [UIColor morselDarkContent];
-        self.backgroundColor = [UIColor morselLightOffColor];
+        self.backgroundColor = [UIColor morselDefaultTextFieldBackgroundColor];
     }
     return self;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+
+    [self addDefaultBorderForDirections:(MRSLBorderNorth|MRSLBorderSouth)];
 }
 
 - (void)drawPlaceholderInRect:(CGRect)rect {
     [[UIColor morselPlaceholderColor] setFill];
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
         // Pushing down placeholder to align with textfield user added text. This only works with 14 point font.
-        rect.origin.y += 6.f;
+        rect.origin.y += 10.f;
     }
     [[self placeholder] drawInRect:rect
                           withFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
 }
 
-- (CGRect)editingRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds, 5.f, 5.f);
+- (CGRect)textRectForBounds:(CGRect)bounds {
+    return CGRectMake(bounds.origin.x + kPadding, bounds.origin.y,
+                      bounds.size.width - (kPadding * 2.0f), bounds.size.height);
 }
 
-- (CGRect)textRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds, 5.f, 5.f);
+- (CGRect)editingRectForBounds:(CGRect)bounds {
+    return [self textRectForBounds:bounds];
 }
 
 @end

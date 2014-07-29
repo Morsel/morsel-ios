@@ -43,26 +43,40 @@
     self.didFailUpload = @NO;
     //  If presignedUpload returned, use it, otherwise fallback to old upload method
     if (self.presignedUpload) {
-        [_appDelegate.s3Service uploadImageData:self.itemPhotoFull
-                             forPresignedUpload:self.presignedUpload
-                                        success:^(NSDictionary *responseDictionary) {
-                                            [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
-                                                                            forItem:self
-                                                                            success:^(id responseObject) {
-                                                                                [self.presignedUpload MR_deleteEntity];
-                                                                                [self.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
-                                                                            } failure:nil];
-                                        } failure:^(NSError *error) {
-                                            //  S3 upload failed, fallback to API upload
-                                            [_appDelegate.apiService updateItemImage:self
-                                                                             success:nil
-                                                                             failure:nil];
-                                        }];
+        [self S3_updateImage];
     } else {
-        [_appDelegate.apiService updateItemImage:self
-                                         success:nil
-                                         failure:nil];
+        [self API_prepareAndUploadPresignedUpload];
     }
+}
+
+- (void)API_prepareAndUploadPresignedUpload {
+    [_appDelegate.apiService getItem:self
+                          parameters:@{ @"prepare_presigned_upload": @"true" }
+                             success:^(id responseObject) {
+                                 [self S3_updateImage];
+                             } failure:^(NSError *error) {
+                                 [_appDelegate.apiService updateItemImage:self
+                                                                  success:nil
+                                                                  failure:nil];
+                             }];
+}
+
+- (void)S3_updateImage {
+    [_appDelegate.s3Service uploadImageData:self.itemPhotoFull
+                         forPresignedUpload:self.presignedUpload
+                                    success:^(NSDictionary *responseDictionary) {
+                                        [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
+                                                                        forItem:self
+                                                                        success:^(id responseObject) {
+                                                                            [self.presignedUpload MR_deleteEntity];
+                                                                            [self.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                                        } failure:nil];
+                                    } failure:^(NSError *error) {
+                                        //  S3 upload failed, fallback to API upload
+                                        [_appDelegate.apiService updateItemImage:self
+                                                                         success:nil
+                                                                         failure:nil];
+                                    }];
 }
 
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {

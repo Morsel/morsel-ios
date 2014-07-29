@@ -53,6 +53,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+
+    [self.itemImageView addDefaultBorderForDirections:MRSLBorderSouth];
 }
 
 - (void)setItem:(MRSLItem *)item {

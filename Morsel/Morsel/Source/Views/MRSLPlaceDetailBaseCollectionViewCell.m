@@ -10,4 +10,9 @@
 
 @implementation MRSLPlaceDetailBaseCollectionViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self setBackgroundColor:[UIColor morselDefaultCellBackgroundColor]];
+}
+
 @end

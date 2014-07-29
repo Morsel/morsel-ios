@@ -88,6 +88,9 @@ UITextFieldDelegate>
         });
     }
 
+    [self.firstNameField addDefaultBorderForDirections:MRSLBorderWest];
+    [self.lastNameField addDefaultBorderForDirections:MRSLBorderWest];
+
     [self.proCheckbox.titleLabel setText:@"I am a professional chef, sommelier, mixologist, etc."];
 
     self.scrollViewHeight = [self.contentScrollView getHeight];
