@@ -422,10 +422,4 @@ UITextFieldDelegate>
     }
 }
 
-#pragma mark - Dealloc
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 @end

@@ -109,14 +109,14 @@ MRSLStateViewDelegate>
                                                                                                                           UICollectionReusableView *reusableView = nil;
                                                                                                                           if (indexPath.section == 1) {
                                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                                                withReuseIdentifier:@"ruid_HeaderCell"
+                                                                                                                                                                                withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
                                                                                                                                                                                        forIndexPath:indexPath];
 
                                                                                                                               [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
                                                                                                                               [(MRSLSegmentedHeaderReusableView *)reusableView setShouldDisplayProfessionalTabs:[weakSelf.user isProfessional]];
                                                                                                                           } else {
                                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                                                withReuseIdentifier:@"ruid_HeaderCell"
+                                                                                                                                                                                withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
                                                                                                                                                                                        forIndexPath:indexPath];
                                                                                                                               [reusableView setHidden:YES];
                                                                                                                           }
@@ -162,8 +162,6 @@ MRSLStateViewDelegate>
                                              animated:animated];
     [super viewWillAppear:animated];
 
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-
     [self populateUserInformation];
     [self refreshContent];
 }
@@ -181,7 +179,7 @@ MRSLStateViewDelegate>
 }
 
 - (void)displayEditProfile {
-    MRSLProfileEditFieldsViewController *profileEditFieldsViewController = [[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileEditFieldsViewController"];
+    MRSLProfileEditFieldsViewController *profileEditFieldsViewController = [[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileEditFieldsViewControllerKey];
     profileEditFieldsViewController.user = self.user;
     [self.navigationController pushViewController:profileEditFieldsViewController
                                          animated:YES];
@@ -276,7 +274,7 @@ MRSLStateViewDelegate>
 }
 
 - (void)displayUserFeedWithMorsel:(MRSLMorsel *)morsel {
-    MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
+    MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardUserMorselsFeedViewControllerKey];
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
     [self.navigationController pushViewController:userMorselsFeedVC
@@ -291,7 +289,7 @@ MRSLStateViewDelegate>
                                       andCount:(NSUInteger)count {
     UICollectionViewCell *cell = nil;
     if (indexPath.section == 0) {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PanelCell"
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPanelCellKey
                                                          forIndexPath:indexPath];
         [(MRSLProfilePanelCollectionViewCell *)cell setUser:self.user];
         [(MRSLProfilePanelCollectionViewCell *)cell setDelegate:self];
@@ -300,11 +298,11 @@ MRSLStateViewDelegate>
             [cell addBorderWithDirections:MRSLBorderSouth
                               borderColor:[UIColor whiteColor]];
             if ([item isKindOfClass:[MRSLMorsel class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselPreviewCell"
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMorselPreviewCellKey
                                                                  forIndexPath:indexPath];
                 [(MRSLMorselPreviewCollectionViewCell *)cell setMorsel:item];
             } else if ([item isKindOfClass:[MRSLItem class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_UserLikedItemCell"
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDUserLikedItemCellKey
                                                                  forIndexPath:indexPath];
                 [(MRSLUserLikedItemCollectionViewCell *)cell setItem:item
                                                              andUser:_user];
@@ -313,7 +311,7 @@ MRSLStateViewDelegate>
                                       borderColor:[UIColor morselLightOffColor]];
                 }
             } else if ([item isKindOfClass:[MRSLPlace class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PlaceCell"
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPlaceCellKey
                                                                  forIndexPath:indexPath];
                 [(MRSLPlaceCollectionViewCell *)cell setPlace:item];
                 if (indexPath.row != count) {
@@ -321,7 +319,7 @@ MRSLStateViewDelegate>
                                       borderColor:[UIColor morselLightOffColor]];
                 }
             } else if ([item isKindOfClass:[MRSLTag class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_KeywordCell"
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDKeywordCellKey
                                                                  forIndexPath:indexPath];
                 [[(MRSLTagStatsNameCell *)cell nameLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] name]];
                 [[(MRSLTagStatsNameCell *)cell tagTypeLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] isCuisineType] ? @"Cuisines" : @"Specialties"];
@@ -332,7 +330,7 @@ MRSLStateViewDelegate>
             }
         }
     }
-    return cell ?: [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_EmptyCell"
+    return cell ?: [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDEmptyCellKey
                                                              forIndexPath:indexPath];
 }
 
@@ -365,7 +363,7 @@ MRSLStateViewDelegate>
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"seg_FollowList"]) {
+    if ([segue.identifier isEqualToString:MRSLStoryboardSegueFollowListKey]) {
         MRSLUserFollowListViewController *userFollowListVC = [segue destinationViewController];
         userFollowListVC.user = _user;
         userFollowListVC.shouldDisplayFollowers = _shouldShowFollowers;
@@ -377,7 +375,7 @@ MRSLStateViewDelegate>
 - (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItem:(id)item {
     if ([item isKindOfClass:[MRSLMorsel class]]) {
         MRSLMorsel *morsel = item;
-        MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
+        MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardUserMorselsFeedViewControllerKey];
         userMorselsFeedVC.morsel = morsel;
         userMorselsFeedVC.user = _user;
         [self.navigationController pushViewController:userMorselsFeedVC
@@ -397,12 +395,12 @@ MRSLStateViewDelegate>
                                        } failure:nil];
         }
     } else if ([item isKindOfClass:[MRSLPlace class]]) {
-        MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceViewController"];
+        MRSLPlaceViewController *placeVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlaceViewControllerKey];
         placeVC.place = item;
         [self.navigationController pushViewController:placeVC
                                              animated:YES];
     } else if ([item isKindOfClass:[MRSLTag class]]) {
-        MRSLKeywordUsersViewController *keywordUsersVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLKeywordUsersViewController"];
+        MRSLKeywordUsersViewController *keywordUsersVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardKeywordUsersViewControllerKey];
         keywordUsersVC.keyword = [(MRSLTag *)item keyword];
         [self.navigationController pushViewController:keywordUsersVC
                                              animated:YES];
@@ -419,13 +417,13 @@ MRSLStateViewDelegate>
 
 - (void)profilePanelDidSelectFollowers {
     self.shouldShowFollowers = YES;
-    [self performSegueWithIdentifier:@"seg_FollowList"
+    [self performSegueWithIdentifier:MRSLStoryboardSegueFollowListKey
                               sender:nil];
 }
 
 - (void)profilePanelDidSelectFollowing {
     self.shouldShowFollowers = NO;
-    [self performSegueWithIdentifier:@"seg_FollowList"
+    [self performSegueWithIdentifier:MRSLStoryboardSegueFollowListKey
                               sender:nil];
 }
 
@@ -489,7 +487,8 @@ MRSLStateViewDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     [self.profileCollectionView setEmptyStateDelegate:nil];
     self.profileCollectionView.delegate = nil;
     self.profileCollectionView.dataSource = nil;

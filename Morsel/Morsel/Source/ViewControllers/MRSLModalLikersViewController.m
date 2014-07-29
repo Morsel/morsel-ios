@@ -49,7 +49,7 @@ UITableViewDelegate>
 - (MRSLUserFollowTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLUser *user = [_likers objectAtIndex:indexPath.row];
 
-    MRSLUserFollowTableViewCell *likerCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_UserFollowCell"];
+    MRSLUserFollowTableViewCell *likerCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDUserFollowCellKey];
     likerCell.user = user;
     likerCell.pipeView.hidden = (indexPath.row == [_likers count] - 1);
 
@@ -60,7 +60,7 @@ UITableViewDelegate>
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLUser *user = [_likers objectAtIndex:indexPath.row];
-    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+    MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
     profileVC.user = user;
     [self.navigationController pushViewController:profileVC
                                          animated:YES];
@@ -68,7 +68,8 @@ UITableViewDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.likersTableView.dataSource = nil;
     self.likersTableView.delegate = nil;
     [self.likersTableView removeFromSuperview];

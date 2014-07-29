@@ -25,7 +25,6 @@
 }
 
 - (void)setupNavigationItems {
-
     if ([self.navigationController.viewControllers count] > 1 && ![self.navigationController isDisplayingMorselAdd]) {
         UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
                                                                        style:UIBarButtonItemStyleBordered
@@ -73,13 +72,13 @@
 }
 
 - (IBAction)displayMorselAdd {
-    MRSLMorselAddTitleViewController *morselAddTitleVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLMorselAddTitleViewController"];
+    MRSLMorselAddTitleViewController *morselAddTitleVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselAddTitleViewControllerKey];
     [self.navigationController pushViewController:morselAddTitleVC
                                          animated:YES];
 }
 
 - (IBAction)displayAddPlace:(id)sender {
-    [self.navigationController pushViewController:[[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"]
+    [self.navigationController pushViewController:[[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlacesAddViewControllerKey]
                                          animated:YES];
 }
 
@@ -88,7 +87,7 @@
 }
 
 - (IBAction)displayProfessionalSettings {
-    [self.navigationController pushViewController:[[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfessionalSettingsTableViewController"]
+    [self.navigationController pushViewController:[[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfessionalSettingsTableViewControllerKey]
                                          animated:YES];
 }
 
@@ -100,13 +99,6 @@
 
 - (void)setupWithUserInfo:(NSDictionary *)userInfo {
     @throw @"setupWithUserInfo Not Implemented in subclass!";
-}
-
-#pragma mark - Appearance Methods
-
-- (void)changeStatusBarStyle:(UIStatusBarStyle)style {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppDidRequestNewPreferredStatusBarStyle
-                                                        object:@(style)];
 }
 
 #pragma mark - Utility Methods
@@ -125,18 +117,9 @@
     }];
 }
 
-- (UIViewController *)topPresentingViewController {
-    UIViewController *topMostVC = (self.navigationController) ? self.navigationController : self;
-    UIViewController *potentialTopMostVC = topMostVC;
-    while (potentialTopMostVC != nil) {
-        topMostVC = potentialTopMostVC;
-        if (potentialTopMostVC.navigationController) potentialTopMostVC = potentialTopMostVC.navigationController;
-        potentialTopMostVC = potentialTopMostVC.presentedViewController;
-    }
-    return topMostVC;
-}
-
 - (void)reset {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self resetChildViewControllers];
     if (self.navigationItem) {
         [self.navigationItem setLeftBarButtonItem:nil];
         [self.navigationItem setRightBarButtonItem:nil];
@@ -146,7 +129,6 @@
 #pragma mark - Dealloc
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self reset];
 }
 

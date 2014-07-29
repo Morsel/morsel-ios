@@ -159,8 +159,9 @@ UITableViewDelegate>
 }
 
 - (void)presentFeed:(NSNotification *)notification {
+    __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self selectRowWithKey:MRSLMenuFeedKey];
+        [weakSelf selectRowWithKey:MRSLMenuFeedKey];
     });
 }
 
@@ -215,7 +216,7 @@ UITableViewDelegate>
 
 - (MRSLMenuOptionTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMenuItem *menuItem = [self menuItemAtIndexPath:indexPath];
-    MRSLMenuOptionTableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_MenuOptionCell"];
+    MRSLMenuOptionTableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMenuOptionCellKey];
     [tableViewCell reset];
     tableViewCell.optionNameLabel.text = menuItem.name;
     tableViewCell.iconImageView.image = [UIImage imageNamed:menuItem.iconImageName];

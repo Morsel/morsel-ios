@@ -16,6 +16,7 @@
 #import <CocoaLumberjack/DDTTYLogger.h>
 #import <DBChooser/DBChooser.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #import "MRSLAPIService+Authentication.h"
 
@@ -64,6 +65,8 @@
 
     [MRSLAppDelegate setupTheme];
 
+    [[SDImageCache sharedImageCache] clearDiskOnCompletion:nil];
+
     [self setupMorselEnvironment];
 
     [self setupRouteHandler];
@@ -74,6 +77,10 @@
                                                object:nil];
 
     return YES;
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    [[SDImageCache sharedImageCache] clearMemory];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

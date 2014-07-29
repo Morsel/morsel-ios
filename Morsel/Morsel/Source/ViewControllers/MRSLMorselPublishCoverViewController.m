@@ -66,13 +66,7 @@ UICollectionViewDelegate>
     [_appDelegate.apiService updateMorsel:_morsel
                                   success:nil
                                   failure:nil];
-    /*
-     These are declared as variables due to an issue with StoryboardLint throwing
-     An error if they were incorporated in the ternary operator
-     */
-    NSString *placeSegue = @"seg_SelectPlace";
-    NSString *publishSegue = @"seg_PublishShareMorsel";
-    [self performSegueWithIdentifier:([[MRSLUser currentUser] isProfessional]) ? placeSegue : publishSegue
+    [self performSegueWithIdentifier:([[MRSLUser currentUser] isProfessional]) ? MRSLStoryboardSegueSelectPlaceKey : MRSLStoryboardSeguePublishShareMorselKey
                               sender:nil];
 }
 
@@ -87,10 +81,10 @@ UICollectionViewDelegate>
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"seg_SelectPlace"]) {
+    if ([segue.identifier isEqualToString:MRSLStoryboardSegueSelectPlaceKey]) {
         MRSLMorselPublishPlaceViewController *publishPlaceVC = [segue destinationViewController];
         publishPlaceVC.morsel = _morsel;
-    } else if ([segue.identifier isEqualToString:@"seg_PublishShareMorsel"]) {
+    } else if ([segue.identifier isEqualToString:MRSLStoryboardSeguePublishShareMorselKey]) {
         MRSLMorselPublishShareViewController *publishShareVC = [segue destinationViewController];
         publishShareVC.morsel = _morsel;
     }
@@ -108,7 +102,7 @@ UICollectionViewDelegate>
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLItem *item = [[_morsel itemsArray] objectAtIndex:indexPath.row];
-    MRSLImagePreviewCollectionViewCell *imagePreviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MediaPreviewCell"
+    MRSLImagePreviewCollectionViewCell *imagePreviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMediaPreviewCellKey
                                                                                                      forIndexPath:indexPath];
     imagePreviewCell.mediaPreviewItem = item;
     return imagePreviewCell;
@@ -123,7 +117,8 @@ UICollectionViewDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.coverCollectionView.delegate = nil;
     self.coverCollectionView.dataSource = nil;
     [self.coverCollectionView removeFromSuperview];

@@ -55,7 +55,7 @@
 
     self.dataSource = [[MRSLTableViewDataSource alloc] initWithObjects:nil
                                                     configureCellBlock:^UITableViewCell *(MRSLKeyword *keyword, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
-                                                        MRSLToggleKeywordTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_MRSLToggleKeywordTableViewCell"];
+                                                        MRSLToggleKeywordTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDToggleKeywordTableViewCellKey];
                                                         [cell setKeyword:keyword];
                                                         cell.pipeView.hidden = (indexPath.row == count - 1);
                                                         if ([keyword taggedByCurrentUser]) [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
@@ -69,7 +69,6 @@
     [self.navigationController setNavigationBarHidden:NO
                                              animated:animated];
     [super viewWillAppear:animated];
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
     if (self.fetchedResultsController) return;
 

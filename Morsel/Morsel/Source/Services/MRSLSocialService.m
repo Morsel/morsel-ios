@@ -82,7 +82,7 @@
           inViewController:(UIViewController *)viewController
                    success:(MRSLSocialSuccessBlock)successOrNil
                     cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
-    UINavigationController *shareNavNC = [[UIStoryboard socialStoryboard] instantiateViewControllerWithIdentifier:@"sb_SocialCompose"];
+    UINavigationController *shareNavNC = [[UIStoryboard socialStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardSocialComposeKey];
     MRSLSocialComposeViewController *socialComposeVC = [shareNavNC.viewControllers firstObject];
     socialComposeVC.title = @"Post to Twitter";
     socialComposeVC.placeholderText = text;
@@ -101,7 +101,7 @@
    inViewController:(UIViewController *)viewController
             success:(MRSLSocialSuccessBlock)successOrNil
              cancel:(MRSLSocialCancelBlock)cancelBlockOrNil {
-    UINavigationController *shareNavNC = [[UIStoryboard socialStoryboard] instantiateViewControllerWithIdentifier:@"sb_SocialCompose"];
+    UINavigationController *shareNavNC = [[UIStoryboard socialStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardSocialComposeKey];
     MRSLSocialComposeViewController *socialComposeVC = [shareNavNC.viewControllers firstObject];
     socialComposeVC.morsel = morsel;
     socialComposeVC.accountType = accountType;

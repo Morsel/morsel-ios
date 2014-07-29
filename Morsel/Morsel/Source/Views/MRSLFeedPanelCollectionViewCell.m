@@ -19,19 +19,18 @@
 
 @implementation MRSLFeedPanelCollectionViewCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    self.feedPanelViewController = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLFeedPanelViewController"];
-    _feedPanelViewController.delegate = self;
-}
-
 - (void)setOwningViewController:(UIViewController *)owningViewController
                        withMorsel:(MRSLMorsel *)morsel {
     _owningViewController = owningViewController;
-    if (!_feedPanelViewController.parentViewController) {
-        [self.owningViewController addChildViewController:_feedPanelViewController];
-        [self addSubview:_feedPanelViewController.view];
-        [_feedPanelViewController didMoveToParentViewController:self.owningViewController];
+    if (!_feedPanelViewController) {
+        MRSLFeedPanelViewController *feedPanelVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardFeedPanelViewControllerKey];
+        feedPanelVC.delegate = self;
+        [self.owningViewController addChildViewController:feedPanelVC];
+        [self addSubview:feedPanelVC.view];
+        [feedPanelVC didMoveToParentViewController:owningViewController];
+
+        self.owningViewController = owningViewController;
+        self.feedPanelViewController = feedPanelVC;
     }
     _feedPanelViewController.morsel = morsel;
 }
@@ -60,6 +59,7 @@
         self.feedPanelViewController.delegate = nil;
         self.feedPanelViewController = nil;
     }
+    self.owningViewController = nil;
 }
 
 @end

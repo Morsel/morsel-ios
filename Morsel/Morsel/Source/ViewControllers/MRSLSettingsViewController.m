@@ -22,8 +22,6 @@
     [self.navigationController setNavigationBarHidden:NO
                                              animated:animated];
     [super viewWillAppear:animated];
-    
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 
     [MRSLUser refreshCurrentUserWithSuccess:nil
                                     failure:nil];
@@ -44,16 +42,6 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
                                                             object:nil];
     }
-}
-
-#pragma mark - Dealloc
-
-- (void)dealloc {
-    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
-        [viewController willMoveToParentViewController:nil];
-        [viewController.view removeFromSuperview];
-        [viewController removeFromParentViewController];
-    }];
 }
 
 @end

@@ -89,7 +89,7 @@
 #pragma mark - Action Methods
 
 - (IBAction)displayProfile {
-    UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_Profile"];
+    UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileKey];
     MRSLProfileViewController *profileVC = [[profileNC viewControllers] firstObject];
     profileVC.user = _morsel.creator;
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification

@@ -101,4 +101,13 @@ UITextViewDelegate>
     }
 }
 
+#pragma mark - Dealloc
+
+- (void)reset {
+    [super reset];
+    self.itemDescriptionTextView.delegate = nil;
+    self.itemDescriptionTextView.placeholder = nil;
+    self.itemDescriptionTextView.placeholderColor = nil;
+}
+
 @end

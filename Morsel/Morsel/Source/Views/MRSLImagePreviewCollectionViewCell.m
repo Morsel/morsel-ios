@@ -47,4 +47,10 @@
     }
 }
 
+- (void)dealloc {
+    self.descriptionField.delegate = nil;
+    self.descriptionField.placeholder = nil;
+    self.descriptionField.placeholderColor = nil;
+}
+
 @end

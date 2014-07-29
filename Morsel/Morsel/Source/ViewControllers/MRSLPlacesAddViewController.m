@@ -56,11 +56,6 @@ UITextFieldDelegate>
     self.statusType = MRSLStatusTypeNone;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
@@ -149,15 +144,31 @@ UITextFieldDelegate>
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_locationDisabled || _shouldDisplayStatus) {
-        NSString *ruid = @"ruid_LocationDisabledCell";
-        if (_statusType == MRSLStatusTypeNone && !_locationDisabled) ruid = @"ruid_InstructionCell";
-        if (_statusType == MRSLStatusTypeNoResults) ruid = @"ruid_NoResultsCell";
-        if (_statusType == MRSLStatusTypeLoading) ruid = @"ruid_LoadingCell";
-        if (_statusType == MRSLStatusTypeMoreCharactersRequired) ruid = @"ruid_MoreCharactersCell";
+        NSString *ruid = nil;
+        switch (_statusType) {
+            case MRSLStatusTypeNone:
+                if (!_locationDisabled)
+                    ruid = MRSLStoryboardRUIDInstructionCellKey;
+                else
+                    ruid = MRSLStoryboardRUIDLocationDisabledCellKey;
+                break;
+            case MRSLStatusTypeNoResults:
+                ruid = MRSLStoryboardRUIDNoResultsCellKey;
+                break;
+            case MRSLStatusTypeLoading:
+                ruid = MRSLStoryboardRUIDLoadingCellKey;
+                break;
+            case MRSLStatusTypeMoreCharactersRequired:
+                ruid = MRSLStoryboardRUIDMoreCharactersCellKey;
+                break;
+            default:
+                ruid = MRSLStoryboardRUIDLocationDisabledCellKey;
+                break;
+        }
         return [tableView dequeueReusableCellWithIdentifier:ruid];
     } else {
         MRSLFoursquarePlace *foursquarePlace = [_foursquarePlaces objectAtIndex:indexPath.row];
-        MRSLFoursquarePlaceTableViewCell *foursquarePlaceCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_FoursquarePlaceCell"];
+        MRSLFoursquarePlaceTableViewCell *foursquarePlaceCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDFoursquarePlaceCellKey];
         foursquarePlaceCell.foursquarePlace = foursquarePlace;
         return foursquarePlaceCell;
     }
@@ -306,7 +317,8 @@ UITextFieldDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
     [self.tableView removeFromSuperview];

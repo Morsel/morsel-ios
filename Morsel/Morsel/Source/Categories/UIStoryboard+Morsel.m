@@ -13,59 +13,59 @@
 #pragma mark - Main
 
 + (UIStoryboard *)activityStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Activity_iPad" : @"Activity_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneActivityKey
                                      bundle:nil];
 }
 
 + (UIStoryboard *)feedStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Feed_iPad" : @"Feed_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneFeedKey
                                      bundle:nil];
 }
 
 + (UIStoryboard *)loginStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Login_iPad" : @"Login_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneLoginKey
                                      bundle:nil];
 }
 
 + (UIStoryboard *)mainStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Main_iPad" : @"Main_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneMainKey
                                      bundle:nil];
 }
 
 + (UIStoryboard *)mediaManagementStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"MediaManagement_iPad" : @"MediaManagement_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneMediaManagementKey
                                      bundle:nil];
 }
 
 + (UIStoryboard *)morselManagementStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"MorselManagement_iPad" : @"MorselManagement_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneMorselManagementKey
                                      bundle:nil];
 }
 
 + (UIStoryboard *)placesStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Places_iPad" : @"Places_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhonePlacesKey
                                      bundle:nil];
 }
 
 + (UIStoryboard *)profileStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Profile_iPad" : @"Profile_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneProfileKey
                                      bundle:nil];
 }
 
 + (UIStoryboard *)settingsStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Settings_iPad" : @"Settings_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneSettingsKey
                                      bundle:nil];
 }
 
 + (UIStoryboard *)socialStoryboard {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Social_iPad" : @"Social_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneSocialKey
                                      bundle:nil];
 }
 
 #pragma mark - Specs
 
 + (UIStoryboard *)specsStoryboardInBundle:(NSBundle *)bundleOrNil {
-    return [UIStoryboard storyboardWithName:[UIDevice currentDeviceIsIpad] ? @"Specs_iPad" : @"Specs_iPhone"
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneSpecsKey
                                      bundle:bundleOrNil];
 }
 

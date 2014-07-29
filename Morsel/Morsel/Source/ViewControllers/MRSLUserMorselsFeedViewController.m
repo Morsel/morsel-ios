@@ -70,8 +70,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
-
     if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
 
     [self setupFetchRequest];
@@ -182,7 +180,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
-    MRSLFeedPanelCollectionViewCell *morselPanelCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_FeedPanelCell"
+    MRSLFeedPanelCollectionViewCell *morselPanelCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDFeedPanelCellKey
                                                                                                  forIndexPath:indexPath];
     [morselPanelCell setOwningViewController:self
                                   withMorsel:morsel];
@@ -248,14 +246,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
-    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
-        [viewController willMoveToParentViewController:nil];
-        [viewController.view removeFromSuperview];
-        [viewController removeFromParentViewController];
-        viewController = nil;
-    }];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)reset {
+    [super reset];
     self.feedCollectionView.delegate = nil;
     self.feedCollectionView.dataSource = nil;
     [self.feedCollectionView removeFromSuperview];

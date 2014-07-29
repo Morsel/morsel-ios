@@ -20,9 +20,8 @@
 - (IBAction)displayProfessionalSettings;
 - (IBAction)goBack;
 
-- (void)changeStatusBarStyle:(UIStatusBarStyle)style;
 - (void)setupWithUserInfo:(NSDictionary *)userInfo;
 
-- (UIViewController *)topPresentingViewController;
+- (void)reset;
 
 @end

@@ -73,13 +73,6 @@
     @throw @"setupWithUserInfo Not Implemented in subclass!";
 }
 
-#pragma mark - Appearance Methods
-
-- (void)changeStatusBarStyle:(UIStatusBarStyle)style {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppDidRequestNewPreferredStatusBarStyle
-                                                        object:@(style)];
-}
-
 #pragma mark - Utility Methods
 
 - (UIViewController *)topPresentingViewController {
@@ -91,12 +84,6 @@
         potentialTopMostVC = potentialTopMostVC.presentedViewController;
     }
     return topMostVC;
-}
-
-#pragma mark - Dealloc
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

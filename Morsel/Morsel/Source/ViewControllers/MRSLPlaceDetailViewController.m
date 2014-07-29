@@ -60,7 +60,7 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
                                                                                                                               indexPath:indexPath];
                                                                                     } supplementaryBlock:^UICollectionReusableView *(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
                                                                                         MRSLSectionHeaderReusableView *sectionHeader = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                                          withReuseIdentifier:@"ruid_SectionHeader"
+                                                                                                                                                                          withReuseIdentifier:MRSLStoryboardRUIDSectionHeaderKey
                                                                                                                                                                                  forIndexPath:indexPath];
                                                                                         sectionHeader.titleLabel.text = [weakSelf.detailSections objectAtIndex:[indexPath section]];
                                                                                         return sectionHeader;
@@ -84,28 +84,28 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
     MRSLPlaceInfo *placeInfo = nil;
     NSString *sectionName = [_detailSections objectAtIndex:[indexPath section]];
     if ([sectionName isEqualToString:@"Details"]) {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_BasicInfoCell"
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDBasicInfoCellKey
                                                          forIndexPath:indexPath];
         [(MRSLPlaceDetailPanelCollectionViewCell *)cell setPlace:_place];
         [(MRSLPlaceDetailPanelCollectionViewCell *)cell setDelegate:self];
     } else if ([sectionName isEqualToString:@"Contact"]) {
         placeInfo = [_contactInfo objectAtIndex:indexPath.row];
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_ContactCell"
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDContactCellKey
                                                          forIndexPath:indexPath];
         [(MRSLPlaceDetailBaseCollectionViewCell *)cell setPlaceInfo:placeInfo];
     } else if ([sectionName isEqualToString:@"Hours"]) {
         placeInfo = [_hoursInfo objectAtIndex:indexPath.row];
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_HoursCell"
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDHoursCellKey
                                                          forIndexPath:indexPath];
         [(MRSLPlaceDetailBaseCollectionViewCell *)cell setPlaceInfo:placeInfo];
     } else if ([sectionName isEqualToString:@"Dining"]) {
         placeInfo = [_diningInfo objectAtIndex:indexPath.row];
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_InfoCell"
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDInfoCellKey
                                                          forIndexPath:indexPath];
         [(MRSLPlaceDetailBaseCollectionViewCell *)cell setPlaceInfo:placeInfo];
     } else if ([sectionName isEqualToString:@"Directions"]) {
         placeInfo = [_directionsInfo objectAtIndex:indexPath.row];
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_InfoCell"
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDInfoCellKey
                                                          forIndexPath:indexPath];
         [(MRSLPlaceDetailBaseCollectionViewCell *)cell setPlaceInfo:placeInfo];
     }
@@ -196,7 +196,8 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.collectionView.delegate = nil;
     self.collectionView.dataSource = nil;
     [self.collectionView removeFromSuperview];

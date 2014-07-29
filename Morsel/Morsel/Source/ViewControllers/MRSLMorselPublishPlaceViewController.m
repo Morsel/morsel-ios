@@ -73,7 +73,7 @@ UITableViewDelegate>
     [_appDelegate.apiService updateMorsel:_morsel
                                   success:nil
                                   failure:nil];
-    [self performSegueWithIdentifier:@"seg_PublishShareMorsel"
+    [self performSegueWithIdentifier:MRSLStoryboardSeguePublishShareMorselKey
                               sender:nil];
 }
 
@@ -133,7 +133,7 @@ UITableViewDelegate>
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"seg_PublishShareMorsel"]) {
+    if ([segue.identifier isEqualToString:MRSLStoryboardSeguePublishShareMorselKey]) {
         MRSLMorselPublishShareViewController *publishShareVC = [segue destinationViewController];
         publishShareVC.morsel = _morsel;
     }
@@ -152,10 +152,10 @@ UITableViewDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = nil;
     if ([self.places count] == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_EmptyCell"];
+        cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDEmptyCellKey];
     } else {
         MRSLPlace *place = [_places objectAtIndex:indexPath.row];
-        MRSLPlaceCoverSelectTableViewCell *placeCell = [tableView dequeueReusableCellWithIdentifier:@"ruid_PlaceCell"];
+        MRSLPlaceCoverSelectTableViewCell *placeCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDPlaceCellKey];
         placeCell.place = place;
         cell = placeCell;
     }
@@ -166,7 +166,7 @@ UITableViewDelegate>
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.places count] == 0) {
-        MRSLPlacesAddViewController *placesAddVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlacesAddViewController"];
+        MRSLPlacesAddViewController *placesAddVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlacesAddViewControllerKey];
         [self.navigationController pushViewController:placesAddVC
                                              animated:YES];
     } else if(_selectedPlaceRow == indexPath.row) {
@@ -187,7 +187,8 @@ UITableViewDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.placeTableView.dataSource = nil;
     self.placeTableView.delegate = nil;
     [self.placeTableView removeFromSuperview];

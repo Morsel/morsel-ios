@@ -82,12 +82,12 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                                           UICollectionReusableView *reusableView = nil;
                                                                                                                           if (indexPath.section == 1) {
                                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                                                withReuseIdentifier:@"ruid_HeaderCell"
+                                                                                                                                                                                withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
                                                                                                                                                                                        forIndexPath:indexPath];
                                                                                                                               [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
                                                                                                                           } else {
                                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                                                withReuseIdentifier:@"ruid_HeaderCell"
+                                                                                                                                                                                withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
                                                                                                                                                                                        forIndexPath:indexPath];
                                                                                                                               [reusableView setHidden:YES];
                                                                                                                           }
@@ -121,8 +121,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [self.navigationController setNavigationBarHidden:NO
                                              animated:animated];
     [super viewWillAppear:animated];
-
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) [self changeStatusBarStyle:UIStatusBarStyleDefault];
 }
 
 - (void)setPlace:(MRSLPlace *)place {
@@ -229,7 +227,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                       andCount:(NSUInteger)count {
     UICollectionViewCell *cell = nil;
     if (indexPath.section == 0) {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_PanelCell"
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPanelCellKey
                                                          forIndexPath:indexPath];
         [(MRSLPlacePanelCollectionViewCell *)cell setPlace:self.place];
         [(MRSLPlacePanelCollectionViewCell *)cell setDelegate:self];
@@ -238,11 +236,11 @@ MRSLSegmentedHeaderReusableViewDelegate>
             [cell addBorderWithDirections:MRSLBorderSouth
                               borderColor:[UIColor morselLightOff]];
             if ([item isKindOfClass:[MRSLMorsel class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MorselPreviewCell"
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMorselPreviewCellKey
                                                                  forIndexPath:indexPath];
                 [(MRSLMorselPreviewCollectionViewCell *)cell setMorsel:item];
             } else if ([item isKindOfClass:[MRSLUser class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_UserCell"
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDUserCellKey
                                                                  forIndexPath:indexPath];
                 [(MRSLPlaceUserCollectionViewCell *)cell setUser:item];
                 if (indexPath.row != count) {
@@ -255,7 +253,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 
     if (!cell) {
         // Create an empty state cell.
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_EmptyCell"
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDEmptyCellKey
                                                          forIndexPath:indexPath];
         // If the place doesn't have twitter, set the label inside the cell to black to not look tappable (default)
         if (!_place.twitter_username) {
@@ -292,13 +290,13 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItem:(id)item {
     if ([item isKindOfClass:[MRSLMorsel class]]) {
         MRSLMorsel *morsel = item;
-        MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLUserMorselsFeedViewController"];
+        MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardUserMorselsFeedViewControllerKey];
         userMorselsFeedVC.morsel = morsel;
         userMorselsFeedVC.user = morsel.creator;
         [self.navigationController pushViewController:userMorselsFeedVC
                                              animated:YES];
     } else if ([item isKindOfClass:[MRSLUser class]]) {
-        MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLProfileViewController"];
+        MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
         profileVC.user = item;
         [self.navigationController pushViewController:profileVC
                                              animated:YES];
@@ -307,7 +305,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 
 - (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    if ([cell.reuseIdentifier isEqualToString:@"ruid_EmptyCell"] && _place.twitter_username) {
+    if ([cell.reuseIdentifier isEqualToString:MRSLStoryboardRUIDEmptyCellKey] && _place.twitter_username) {
         [[MRSLSocialService sharedService] shareTextToTwitter:[NSString stringWithFormat:@"Hey @%@ I’d love to see your food and drinks on @eatmorsel!", _place.twitter_username]
                                              inViewController:self
                                                       success:nil
@@ -355,7 +353,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 #pragma mark - MRSLPlacePanelCollectionViewCellDelegate
 
 - (void)placePanelDidSelectDetails {
-    MRSLPlaceDetailViewController *placeDetailVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:@"sb_MRSLPlaceDetailViewController"];
+    MRSLPlaceDetailViewController *placeDetailVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlaceDetailViewControllerKey];
     placeDetailVC.place = _place;
     [self.navigationController pushViewController:placeDetailVC
                                          animated:YES];
@@ -363,7 +361,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
 
 #pragma mark - Dealloc
 
-- (void)dealloc {
+- (void)reset {
+    [super reset];
     self.collectionView.delegate = nil;
     self.collectionView.dataSource = nil;
     [self.collectionView removeFromSuperview];

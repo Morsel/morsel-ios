@@ -27,9 +27,9 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController respondsToSelector:@selector(setKeywordType:)]) {
-        if ([[segue identifier] isEqualToString:@"seg_Cuisines"])
+        if ([[segue identifier] isEqualToString:MRSLStoryboardSegueCuisinesKey])
             [segue.destinationViewController setKeywordType:@"Cuisines"];
-        else if ([[segue identifier] isEqualToString:@"seg_Specialties"])
+        else if ([[segue identifier] isEqualToString:MRSLStoryboardSegueSpecialtiesKey])
             [segue.destinationViewController setKeywordType:@"Specialties"];
     }
 }

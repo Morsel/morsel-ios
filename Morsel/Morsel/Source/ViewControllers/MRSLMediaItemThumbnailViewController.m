@@ -62,7 +62,7 @@ MRSLImagePreviewViewControllerDelegate>
 #pragma mark - Segue Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"seg_DisplayImagePreview"]) {
+    if ([segue.identifier isEqualToString:MRSLStoryboardSegueDisplayImagePreviewKey]) {
         MRSLMediaItemPreviewViewController *previewMediaVC = [[[segue destinationViewController] viewControllers] firstObject];
         previewMediaVC.delegate = self;
         [previewMediaVC setPreviewMedia:_previewMediaItemThumbs
@@ -80,7 +80,7 @@ MRSLImagePreviewViewControllerDelegate>
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMediaItem *mediaItem = [_previewMediaItemThumbs objectAtIndex:indexPath.row];
 
-    MRSLMediaItemPreviewCollectionViewCell *mediaPreviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ruid_MediaItemCell"
+    MRSLMediaItemPreviewCollectionViewCell *mediaPreviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMediaItemCellKey
                                                                                                          forIndexPath:indexPath];
     mediaPreviewCell.mediaItem = mediaItem;
 
@@ -93,7 +93,7 @@ MRSLImagePreviewViewControllerDelegate>
     [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
                                  properties:@{@"view": @"Media Capture"}];
     self.selectedIndex = indexPath.row;
-    [self performSegueWithIdentifier:@"seg_DisplayImagePreview"
+    [self performSegueWithIdentifier:MRSLStoryboardSegueDisplayImagePreviewKey
                               sender:nil];
 }
 

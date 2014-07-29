@@ -88,13 +88,13 @@
 
     switch (type) {
         case MRSLImageSizeTypeLarge:
-            typeSizeString = (isRetina) ? @"_640x640" : @"_320x320";
+            typeSizeString = (isRetina) ? MRSLItemImageLargeRetinaKey : MRSLItemImageLargeKey;
             break;
         case MRSLImageSizeTypeSmall:
-            typeSizeString = (isRetina) ? @"_100x100" : @"_50x50";
+            typeSizeString = (isRetina) ? MRSLItemImageSmallRetinaKey : MRSLItemImageSmallKey;
             break;
         case MRSLImageSizeTypeFull:
-            typeSizeString = @"_640x640";
+            typeSizeString = MRSLItemImageLargeRetinaKey;
             break;
         default:
             DDLogError(@"Unsupported Morsel Image Size Type Requested!");
@@ -102,7 +102,7 @@
             break;
     }
 
-    NSString *adjustedURLForType = [self.itemPhotoURL stringByReplacingOccurrencesOfString:@"IMAGE_SIZE"
+    NSString *adjustedURLForType = [self.itemPhotoURL stringByReplacingOccurrencesOfString:MRSLImageSizeKey
                                                                                 withString:typeSizeString];
 
     return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];

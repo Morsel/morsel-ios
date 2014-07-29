@@ -49,14 +49,14 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    if ([identifier isEqualToString:@"seg_SetupProfessionalAccount"]) {
+    if ([identifier isEqualToString:MRSLStoryboardSegueSetupProfessionalAccountKey]) {
         [UIAlertView showAlertViewWithTitle:@"Professional Account"
                                     message:@"Professional accounts allow chefs, sommeliers, and other restaurant professionals to connect with their restaurants and give more insight into who they are. Setup your professional account now?"
                                    delegate:self
                           cancelButtonTitle:@"Cancel"
                           otherButtonTitles:@"Continue", nil];
         return NO;
-    } else if ([identifier isEqualToString:@"seg_AccountSettings"] && ![[MRSLUser currentUser] passwordSetValue]) {
+    } else if ([identifier isEqualToString:MRSLStoryboardSegueAccountSettingsKey] && ![[MRSLUser currentUser] passwordSetValue]) {
         MRSLUser *currentUser = [MRSLUser currentUser];
         // Password not set, show alertview and return NO
         [UIAlertView showAlertViewWithTitle:@"Account Settings"
@@ -139,7 +139,7 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
         [MRSLUser updateCurrentUserToProfessional];
 
         //  Push Pro Settings
-        [self performSegueWithIdentifier:@"seg_ProfessionalSettings"
+        [self performSegueWithIdentifier:MRSLStoryboardSegueProfessionalSettingsKey
                                   sender:nil];
 
     }
