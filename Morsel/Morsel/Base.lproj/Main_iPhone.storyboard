@@ -29,11 +29,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" id="p87-Ls-4qZ">
-                                                    <rect key="frame" x="14" y="42" width="306" height="3"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <color key="backgroundColor" white="1" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Menu Item" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Mda-UE-hXA" customClass="MRSLRobotoLightLabel">
                                                     <rect key="frame" x="42" y="0.0" width="228" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -69,7 +64,6 @@
                                             <outlet property="badgeLabelView" destination="fqR-aE-r5o" id="Hga-hL-SOT"/>
                                             <outlet property="iconImageView" destination="1RW-Rd-vit" id="kd0-6v-abw"/>
                                             <outlet property="optionNameLabel" destination="Mda-UE-hXA" id="FAU-bw-Rgi"/>
-                                            <outlet property="pipeView" destination="p87-Ls-4qZ" id="3KJ-9q-A0l"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

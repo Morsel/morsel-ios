@@ -8,23 +8,20 @@
 
 #import "MRSLNotificationsRootViewController.h"
 
-#import "MRSLNotificationsTableViewController.h"
 #import "MRSLFollowableActivityTableViewController.h"
 #import "MRSLMyActivityTableViewController.h"
 
 #import "MRSLSegmentedButtonView.h"
 
 NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
-    MRSLNotificationsRootViewControllerSegmentNotifications = 0,
-    MRSLNotificationsRootViewControllerSegmentFollowing = 1,
-    MRSLNotificationsRootViewControllerSegmentMyActivity = 2
+    MRSLNotificationsRootViewControllerSegmentFollowing = 0,
+    MRSLNotificationsRootViewControllerSegmentMyActivity = 1
 };
 
 
 @interface MRSLNotificationsRootViewController ()
 <MRSLSegmentedButtonViewDelegate>
 
-@property (strong, nonatomic) MRSLNotificationsTableViewController *notificationsViewController;
 @property (strong, nonatomic) MRSLFollowableActivityTableViewController *followableActivityTableViewController;
 @property (strong, nonatomic) MRSLMyActivityTableViewController *myActivityTableViewController;
 @property (strong, nonatomic) UIViewController *currentViewController;
@@ -73,21 +70,12 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
 }
 
 - (UIViewController *)viewControllerForSegmentIndex:(NSInteger)index {
-    if (index == MRSLNotificationsRootViewControllerSegmentNotifications)
-        return [self notificationsTableViewController];
-    else if (index == MRSLNotificationsRootViewControllerSegmentFollowing)
+    if (index == MRSLNotificationsRootViewControllerSegmentFollowing)
         return [self followableActivityTableViewController];
     else if (index == MRSLNotificationsRootViewControllerSegmentMyActivity)
         return [self myActivityTableViewController];
     else
         return nil;
-}
-
-- (MRSLNotificationsTableViewController *)notificationsTableViewController {
-    if (_notificationsViewController) return _notificationsViewController;
-    _notificationsViewController = [[MRSLNotificationsTableViewController alloc] init];
-
-    return _notificationsViewController;
 }
 
 - (MRSLFollowableActivityTableViewController *)followableActivityTableViewController {
@@ -118,7 +106,6 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
 
 - (void)reset {
     [super reset];
-    self.notificationsViewController = nil;
     self.followableActivityTableViewController = nil;
     self.myActivityTableViewController = nil;
 }

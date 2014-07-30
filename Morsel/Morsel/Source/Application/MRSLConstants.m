@@ -54,7 +54,7 @@ NSString *const MRSLMenuDraftsKey = @"morseldrafts";
 NSString *const MRSLMenuFeedKey = @"feed";
 NSString *const MRSLMenuNotificationsKey = @"notifications";
 NSString *const MRSLMenuPlacesKey = @"places";
-NSString *const MRSLMenuPeopleKey = @"people";
+NSString *const MRSLMenuActivityKey = @"activity";
 NSString *const MRSLMenuFindKey = @"find";
 NSString *const MRSLMenuSettingsKey = @"settings";
 
@@ -106,6 +106,7 @@ NSString *const MRSLStoryboardMorselAddKey = @"sb_MorselAdd";
 NSString *const MRSLStoryboardMorselEditKey = @"sb_MorselEdit";
 NSString *const MRSLStoryboardMorselListKey = @"sb_MorselList";
 NSString *const MRSLStoryboardMorselEditViewControllerKey = @"sb_MRSLMorselEditViewController";
+NSString *const MRSLStoryboardNotificationsKey = @"sb_Notifications";
 NSString *const MRSLStoryboardPlaceDetailViewControllerKey = @"sb_MRSLPlaceDetailViewController";
 NSString *const MRSLStoryboardPlaceKey = @"sb_Place";
 NSString *const MRSLStoryboardPlacesAddViewControllerKey = @"sb_MRSLPlacesAddViewController";

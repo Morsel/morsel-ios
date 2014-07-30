@@ -54,7 +54,7 @@ extern NSString *const MRSLMenuDraftsKey;
 extern NSString *const MRSLMenuFeedKey;
 extern NSString *const MRSLMenuNotificationsKey;
 extern NSString *const MRSLMenuPlacesKey;
-extern NSString *const MRSLMenuPeopleKey;
+extern NSString *const MRSLMenuActivityKey;
 extern NSString *const MRSLMenuFindKey;
 extern NSString *const MRSLMenuSettingsKey;
 
@@ -106,6 +106,7 @@ extern NSString *const MRSLStoryboardMorselAddKey;
 extern NSString *const MRSLStoryboardMorselEditKey;
 extern NSString *const MRSLStoryboardMorselListKey;
 extern NSString *const MRSLStoryboardMorselEditViewControllerKey;
+extern NSString *const MRSLStoryboardNotificationsKey;
 extern NSString *const MRSLStoryboardPlaceDetailViewControllerKey;
 extern NSString *const MRSLStoryboardPlaceKey;
 extern NSString *const MRSLStoryboardPlacesAddViewControllerKey;

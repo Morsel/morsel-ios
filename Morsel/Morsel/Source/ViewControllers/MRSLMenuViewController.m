@@ -68,41 +68,47 @@ UITableViewDelegate>
 #pragma mark - Private Methods
 
 - (void)setupMenuOptions {
-    MRSLMenuItem *itemNewMorsel = [[MRSLMenuItem alloc] initWithName:@"Create New Morsel!"
+    MRSLMenuItem *itemNewMorsel = [[MRSLMenuItem alloc] initWithName:@"New morsel"
                                                                  key:MRSLMenuAddKey
                                                                 icon:@"icon-menu-morseladd"];
     MRSLMenuItem *itemDrafts = [[MRSLMenuItem alloc] initWithName:@"Drafts"
                                                               key:MRSLMenuDraftsKey
                                                              icon:@"icon-menu-morseldrafts"];
-    MRSLMenuItem *itemFeed = [[MRSLMenuItem alloc] initWithName:@"Morsel Feed"
+
+    MRSLMenuItem *itemFeed = [[MRSLMenuItem alloc] initWithName:@"Feed"
                                                             key:MRSLMenuFeedKey
                                                            icon:@"icon-menu-feed"];
     MRSLMenuItem *itemNotifications = [[MRSLMenuItem alloc] initWithName:@"Notifications"
                                                                      key:MRSLMenuNotificationsKey
                                                                     icon:@"icon-menu-notifications"];
-    /*
-     MRSLMenuItem *itemRestaurants = [[MRSLMenuItem alloc] initWithName:@"Restaurants"
-     key:MRSLMenuPlacesKey
-     icon:@"icon-menu-places"];
-     */
-    MRSLMenuItem *itemPeople = [[MRSLMenuItem alloc] initWithName:@"People"
-                                                              key:MRSLMenuPeopleKey
-                                                             icon:@"icon-menu-people"];
-    MRSLMenuItem *itemFindFriends = [[MRSLMenuItem alloc] initWithName:@"Find People"
+    MRSLMenuItem *itemActivity = [[MRSLMenuItem alloc] initWithName:@"Activity"
+                                                                key:MRSLMenuActivityKey
+                                                               icon:@"icon-menu-activity"];
+    MRSLMenuItem *itemFindFriends = [[MRSLMenuItem alloc] initWithName:@"Find people"
                                                                    key:MRSLMenuFindKey
                                                                   icon:@"icon-menu-find"];
     MRSLMenuItem *itemSettings = [[MRSLMenuItem alloc] initWithName:@"Settings"
                                                                 key:MRSLMenuSettingsKey
                                                                icon:@"icon-menu-settings"];
 
-    self.menuOptions = @[@{@"name": @"Feeds / Activity",
-                           @"options": @[itemFeed, itemNotifications]},
-                         @{@"name": @"Create",
-                           @"options": @[itemNewMorsel, itemDrafts]},
-                         @{@"name": @"Following",
-                           @"options": @[itemPeople, itemFindFriends]},
-                         @{@"name": @"Other",
-                           @"options": @[itemSettings]}];
+    self.menuOptions = @[
+                         @{
+                             @"name": @"",
+                             @"options": @[
+                                     itemNewMorsel,
+                                     itemDrafts
+                                     ]
+                             }, @{
+                             @"name": @"",
+                             @"options": @[
+                                     itemFeed,
+                                     itemNotifications,
+                                     itemActivity,
+                                     itemFindFriends,
+                                     itemSettings
+                                     ]
+                             }
+                         ];
 }
 
 #pragma mark - Action Methods
@@ -211,7 +217,7 @@ UITableViewDelegate>
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 24.f;
+    return section == 0 ? 0.0f : 24.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -221,11 +227,9 @@ UITableViewDelegate>
 - (MRSLMenuOptionTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMenuItem *menuItem = [self menuItemAtIndexPath:indexPath];
     MRSLMenuOptionTableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMenuOptionCellKey];
-    [tableViewCell reset];
     tableViewCell.optionNameLabel.text = menuItem.name;
     tableViewCell.iconImageView.image = [UIImage imageNamed:menuItem.iconImageName];
     tableViewCell.badgeCount = menuItem.badgeCount;
-    tableViewCell.pipeView.hidden = ([[self arrayForSection:indexPath.section] count] - 1 == indexPath.row);
     return tableViewCell;
 }
 
