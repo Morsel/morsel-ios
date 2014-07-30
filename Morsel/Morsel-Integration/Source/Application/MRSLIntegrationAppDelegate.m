@@ -1,17 +1,21 @@
 //
-//  MRSLSpecsAppDelegate.m
+//  MRSLIntegrationAppDelegate.m
 //  Morsel
 //
-//  Created by Javier Otero on 2/27/14.
+//  Created by Javier Otero on 7/30/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLSpecsAppDelegate.h"
+#import "MRSLIntegrationAppDelegate.h"
 
 #import "MRSLAppDelegate+CustomURLSchemes.h"
 
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
+
+#if MRSL_RECORDING
+#import <VCRURLConnection/VCR.h>
+#endif
 
 #import "MRSLAPIClient.h"
 #import "MRSLS3Client.h"
@@ -22,7 +26,7 @@
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
 
-@implementation MRSLSpecsAppDelegate
+@implementation MRSLIntegrationAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [DDLog addLogger:[DDASLLogger sharedInstance]];
@@ -45,11 +49,13 @@
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
     [self.defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [self.defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
-    
+
     self.apiService = [[MRSLAPIService alloc] init];
     self.s3Service = [[MRSLS3Service alloc] init];
 
-    UIViewController *viewController = [[UIStoryboard specsStoryboardInBundle:[NSBundle bundleForClass:[self class]]] instantiateInitialViewController];
+    [MagicalRecord setupCoreDataStackWithInMemoryStore];
+
+    UIViewController *viewController = [[UIStoryboard mainStoryboard] instantiateInitialViewController];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = viewController;
     [self.window makeKeyAndVisible];

@@ -30,6 +30,7 @@
                                                                        style:UIBarButtonItemStyleBordered
                                                                       target:self
                                                                       action:@selector(goBack)];
+        backButton.accessibilityLabel = @"Back";
         [self.navigationItem setLeftBarButtonItem:backButton];
     } else if (([self.navigationController.viewControllers count] == 1 && !self.presentingViewController) || [self.navigationController isDisplayingMorselAdd]) {
         if (!self.navigationController.navigationBarHidden) {
@@ -37,6 +38,7 @@
                                                                            style:UIBarButtonItemStyleBordered
                                                                           target:self
                                                                           action:@selector(displayMenuBar)];
+            menuButton.accessibilityLabel = @"Menu";
             [self.navigationItem setLeftBarButtonItem:menuButton];
         }
     } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
@@ -45,6 +47,7 @@
                                                                            style:UIBarButtonItemStyleBordered
                                                                           target:self
                                                                           action:@selector(dismiss)];
+            menuButton.accessibilityLabel = @"Dismiss";
             [self.navigationItem setLeftBarButtonItem:menuButton];
         }
     }

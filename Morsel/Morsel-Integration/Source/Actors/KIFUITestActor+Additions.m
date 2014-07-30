@@ -14,22 +14,23 @@
 @implementation KIFUITestActor (Additions)
 
 - (void)navigateToLoginPage {
-    [self waitForViewWithAccessibilityLabel:@"Sign up"];
-    [self tapViewWithAccessibilityLabel:@"Already have an account? Sign in!"];
+    [self tapViewWithAccessibilityLabel:@"Log in"];
 }
 
 - (void)performLogIn {
-    [self waitForViewWithAccessibilityLabel:@"Login"];
-    [self enterText:@"javier@eatmorsel.com" intoViewWithAccessibilityLabel:@"Email"];
+    [self waitForViewWithAccessibilityLabel:@"Log in"];
+    [self enterText:@"javierotero" intoViewWithAccessibilityLabel:@"Username or email"];
     [self enterText:@"morselios" intoViewWithAccessibilityLabel:@"Password"];
-    [self tapViewWithAccessibilityLabel:@"Log in"];
+    [self tapViewWithAccessibilityLabel:@"go"];
 }
 
 - (void)returnToLoggedOutHomeScreen {
     [self tapViewWithAccessibilityLabel:@"Menu"];
-    [self waitForViewWithAccessibilityLabel:@"Logout"];
-    [self tapViewWithAccessibilityLabel:@"Logout"];
-    [self waitForViewWithAccessibilityLabel:@"Sign up"];
+    [self tapViewWithAccessibilityLabel:@"Settings"];
+    [self tapViewWithAccessibilityLabel:@"Log Out"];
+    [self waitForViewWithAccessibilityLabel:@"Yes"];
+    [self tapViewWithAccessibilityLabel:@"Yes"];
+    [self waitForViewWithAccessibilityLabel:@"Log in"];
 }
 
 #warning Figure out why collectionview is casting as tableview

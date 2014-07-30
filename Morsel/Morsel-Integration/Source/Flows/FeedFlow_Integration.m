@@ -11,6 +11,14 @@
 KIF_SPEC_BEGIN(FeedFlowIntegration)
 
 describe(@"The feed", ^{
+    beforeEach(^{
+        [OHHTTPStubs removeAllStubs];
+        [MagicalRecord setupCoreDataStackWithInMemoryStore];
+    });
+
+    afterEach(^{
+        [MagicalRecord cleanUp];
+    });
     beforeAll(^{
         [tester navigateToLoginPage];
         [tester performLogIn];

@@ -10,7 +10,6 @@
 
 #import <CocoaLumberjack/DDLog.h>
 #import <Mixpanel/Mixpanel.h>
-#import "Rollbar.h"
 
 #pragma mark - Blocks
 
@@ -129,21 +128,45 @@ static const int MRSLStatsTagViewTag = 9991;
 #define ROLLBAR_ACCESS_TOKEN @"80ee8af968f646898f1c1a6d6253b347"
 #define ROLLBAR_VERSION @"v0.1.2"
 
+#if defined (ROLLBAR_ENVIRONMENT)
+#import "Rollbar.h"
+#endif
+
 #pragma mark - Defines
 
-#if defined (SPEC_TESTING) || defined (INTEGRATION_TESTING)
+#define MORSEL_SUPPORT_EMAIL @"Morsel Support <support@eatmorsel.com>"
 
-#define MORSEL_API_BASE_URL @"DUMMY_BASE_URL"
-#define MORSEL_BASE_URL @"DUMMY_BASE_URL"
-#define S3_BASE_URL @"DUMMY_BASE_URL"
+#define TWITTER_BASE_URL @"https://www.twitter.com"
 
-#elif (defined(MORSEL_BETA) || defined(RELEASE))
+#if defined(SPEC_TESTING)
+
+#define MORSEL_API_BASE_URL @"http://MORSEL_API_BASE_URL"
+#define MORSEL_BASE_URL @"http://MORSEL_BASE_URL"
+#define S3_BASE_URL @"http://S3_BASE_URL"
+
+#import "MRSLSpecsAppDelegate.h"
+#define _appDelegate ((MRSLSpecsAppDelegate *)[[UIApplication sharedApplication] delegate])
+#define _appDelClassString @"MRSLSpecsAppDelegate"
+
+#elif defined(INTEGRATION_TESTING)
+
+#define MORSEL_API_BASE_URL @"http://MORSEL_API_BASE_URL"
+#define MORSEL_BASE_URL @"http://MORSEL_BASE_URL"
+#define S3_BASE_URL @"http://S3_BASE_URL"
+
+#import "MRSLIntegrationAppDelegate.h"
+#define _appDelegate ((MRSLIntegrationAppDelegate *)[[UIApplication sharedApplication] delegate])
+#define _appDelClassString @"MRSLIntegrationAppDelegate"
+
+#else
+
+#if (defined(MORSEL_BETA) || defined(RELEASE))
 
 #define MORSEL_API_BASE_URL @"https://api.eatmorsel.com"
 #define MORSEL_BASE_URL @"http://www.eatmorsel.com"
 #define S3_BASE_URL @"https://morsel.s3.amazonaws.com/"
 
-#else
+#elif (defined(MORSEL_DEBUG) || defined(MORSEL_ALPHA))
 
 #define MORSEL_API_BASE_URL @"http://api-staging.eatmorsel.com"
 #define MORSEL_BASE_URL @"http://staging.eatmorsel.com"
@@ -151,16 +174,10 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #endif
 
-#define MORSEL_SUPPORT_EMAIL @"Morsel Support <support@eatmorsel.com>"
-
-#define TWITTER_BASE_URL @"https://www.twitter.com"
-
-#ifdef SPEC_TESTING
-#import "MRSLSpecsAppDelegate.h"
-    #define _appDelegate ((MRSLSpecsAppDelegate *)[[UIApplication sharedApplication] delegate])
-#else
 #import "MRSLAppDelegate.h"
-    #define _appDelegate ((MRSLAppDelegate *)[[UIApplication sharedApplication] delegate])
+#define _appDelegate ((MRSLAppDelegate *)[[UIApplication sharedApplication] delegate])
+#define _appDelClassString @"MRSLAppDelegate"
+
 #endif
 
 #pragma mark - Macros

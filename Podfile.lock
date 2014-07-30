@@ -59,6 +59,7 @@ PODS:
   - SDWebImage (3.6):
     - SDWebImage/Core
   - SDWebImage/Core (3.6)
+  - VCRURLConnection (0.2.0)
   - XMLDictionary (1.4)
 
 DEPENDENCIES:
@@ -83,6 +84,7 @@ DEPENDENCIES:
   - OAuthCore (~> 0.0.1)
   - OHHTTPStubs (~> 3.1.4)
   - SDWebImage (~> 3.6)
+  - VCRURLConnection (from `git@github.com:dstnbrkr/VCRURLConnection.git`, commit `aa0b0fcf0e112da363e9c63d6215b216ff604614`)
   - XMLDictionary (~> 1.4)
 
 EXTERNAL SOURCES:
@@ -96,6 +98,9 @@ EXTERNAL SOURCES:
   M13Checkbox:
     :commit: 8c3a6f167e0f602dd47928492ef3777e604be66b
     :git: git@github.com:Marxon13/M13Checkbox.git
+  VCRURLConnection:
+    :commit: aa0b0fcf0e112da363e9c63d6215b216ff604614
+    :git: git@github.com:dstnbrkr/VCRURLConnection.git
 
 SPEC CHECKSUMS:
   AFNetworking: a4d0e9a64de9242986620dafd1b3cee3b413ac5c
@@ -122,6 +127,7 @@ SPEC CHECKSUMS:
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   OHHTTPStubs: 398901e787d9b62ce539a8a3df0b81431a98236a
   SDWebImage: c6989652c1cdf27cbdf3f56957e2030f825af5bc
+  VCRURLConnection: 5cc98951bd44186e19f33b77dd9c714da2f74208
   XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc
 
 COCOAPODS: 0.33.1

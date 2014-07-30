@@ -12,10 +12,10 @@
 
 /*
  The entire purpose of this method is to ensure stub collisions do not occur on similar API requests
-*/
+ */
 
 + (void)stubItemAPIRequestsWithJSONFileName:(NSString *)fileName
-                                forRequestPath:(NSString *)urlParametersToMatch {
+                             forRequestPath:(NSString *)urlParametersToMatch {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         NSString *requestToStub = [NSString stringWithFormat:@"%@%@", request.URL.host, urlParametersToMatch];
         NSRange apiRequestRange = [request.URL.absoluteString rangeOfString:requestToStub];

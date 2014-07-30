@@ -18,6 +18,11 @@
 
 @implementation MRSLSettingsViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.accessibilityLabel = @"Settings";
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO
                                              animated:animated];
