@@ -20,6 +20,7 @@ SPEC_BEGIN(ModelObjectImporting_Spec)
 
 describe(@"Importing from the API", ^{
     beforeEach(^{
+        [OHHTTPStubs removeAllStubs];
         [MagicalRecord setupCoreDataStackWithInMemoryStore];
     });
 
@@ -37,12 +38,12 @@ describe(@"Importing from the API", ^{
         beforeEach(^{
             __block BOOL requestCompleted = NO;
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-item-authenticated.json"
-                                                 forRequestPath:@"/items/2"];
+                                               forRequestPath:@"/items/2"];
 
             [_appDelegate.apiService getItem:item
-                                             success:^(id responseObject) {
-                                                 requestCompleted = YES;
-                                             } failure:nil];
+                                     success:^(id responseObject) {
+                                         requestCompleted = YES;
+                                     } failure:nil];
 
             [[expectFutureValue(theValue(requestCompleted)) shouldEventuallyBeforeTimingOutAfter(MRSL_DEFAULT_TIMEOUT)] beTrue];
         });
@@ -75,6 +76,7 @@ describe(@"Importing from the API", ^{
             let(itemWithComments, ^id{
                 MRSLItem *_itemWithComments = [MRSLItem MR_createEntity];
                 [_itemWithComments setItemID:@40];
+                [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
                 return _itemWithComments;
             });
             let(comment, nil);
@@ -83,13 +85,16 @@ describe(@"Importing from the API", ^{
                 __block BOOL requestCompleted = NO;
                 __block MRSLComment *firstComment = nil;
                 [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-comment.json"
-                                                     forRequestPath:@"/items/40/comments"];
+                                                   forRequestPath:@"/items/40/comments"];
 
                 [_appDelegate.apiService getComments:itemWithComments
-                                                   success:^(NSArray *responseArray) {
-                                                       firstComment = [[[itemWithComments comments] allObjects] firstObject];
-                                                       requestCompleted = YES;
-                                                   } failure:nil];
+                                           withMaxID:nil
+                                           orSinceID:nil
+                                            andCount:nil
+                                             success:^(NSArray *responseArray) {
+                                                 firstComment = [[[itemWithComments comments] allObjects] firstObject];
+                                                 requestCompleted = YES;
+                                             } failure:nil];
 
                 [[expectFutureValue(theValue(requestCompleted)) shouldEventuallyBeforeTimingOutAfter(MRSL_DEFAULT_TIMEOUT)] beTrue];
                 comment = firstComment;
@@ -114,12 +119,13 @@ describe(@"Importing from the API", ^{
         beforeEach(^{
             __block BOOL requestCompleted = NO;
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-morsel.json"
-                                                 forRequestPath:@"/morsels/1"];
+                                               forRequestPath:@"/morsels/1"];
 
             [_appDelegate.apiService getMorsel:morsel
-                                           success:^(id responseObject) {
-                                               requestCompleted = YES;
-                                           } failure:nil];
+                                      orWithID:nil
+                                       success:^(id responseObject) {
+                                           requestCompleted = YES;
+                                       } failure:nil];
 
             [[expectFutureValue(theValue(requestCompleted)) shouldEventuallyBeforeTimingOutAfter(MRSL_DEFAULT_TIMEOUT)] beTrue];
         });
@@ -151,13 +157,14 @@ describe(@"Importing from the API", ^{
         beforeEach(^{
             __block BOOL requestCompleted = NO;
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-user-with-auth-token.json"
-                                                 forRequestPath:@"/users/sign_in"];
+                                               forRequestPath:@"/users/sign_in"];
 
             [_appDelegate.apiService signInUserWithEmailOrUsername:nil
-                                                   andPassword:nil
-                                                       success:^(id responseObject) {
-                                                           requestCompleted = YES;
-                                                       } failure:nil];
+                                                       andPassword:nil
+                                                  orAuthentication:nil
+                                                           success:^(id responseObject) {
+                                                               requestCompleted = YES;
+                                                           } failure:nil];
 
             [[expectFutureValue(theValue(requestCompleted)) shouldEventuallyBeforeTimingOutAfter(MRSL_DEFAULT_TIMEOUT)] beTrue];
             currentUser = [MRSLUser currentUser];
@@ -198,11 +205,11 @@ describe(@"Importing from the API", ^{
         it(@"has draft_count of 10", ^{
             [[[currentUser draft_count] should] equal:@10];
         });
-
-        it(@"has liked_items_count of 3", ^{
-            [[[currentUser liked_items_count] should] equal:@3];
+        
+        it(@"has liked_item_count of 3", ^{
+            [[[currentUser liked_item_count] should] equal:@3];
         });
-
+        
         it(@"has morsel_count of 1", ^{
             [[[currentUser morsel_count] should] equal:@1];
         });

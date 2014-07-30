@@ -18,6 +18,7 @@ SPEC_BEGIN(MRSLActivity_Spec)
 
 describe(@"MRSLActivity", ^{
     beforeEach(^{
+        [OHHTTPStubs removeAllStubs];
         [MagicalRecord setupCoreDataStackWithInMemoryStore];
     });
 
@@ -34,16 +35,16 @@ describe(@"MRSLActivity", ^{
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-users-activities.json"
                                                  forRequestPath:@"/users/activities"];
             [_appDelegate.apiService getUserActivitiesForUser:nil
-                                                              maxID:nil
-                                                          orSinceID:nil
-                                                           andCount:nil
-                                                            success:^(NSArray *responseArray) {
-                                                                NSNumber *firstActivityID = [responseArray firstObject];
-                                                                importedActivity = [MRSLActivity MR_findFirstByAttribute:MRSLActivityAttributes.activityID
-                                                                                                               withValue:firstActivityID];
+                                                        maxID:nil
+                                                    orSinceID:nil
+                                                     andCount:nil
+                                                      success:^(NSArray *responseArray) {
+                                                          NSNumber *firstActivityID = [responseArray firstObject];
+                                                          importedActivity = [MRSLActivity MR_findFirstByAttribute:MRSLActivityAttributes.activityID
+                                                                                                         withValue:firstActivityID];
 
-                                                                requestCompleted = YES;
-                                                            } failure:nil];
+                                                          requestCompleted = YES;
+                                                      } failure:nil];
             [[expectFutureValue(theValue(requestCompleted)) shouldEventuallyBeforeTimingOutAfter(MRSL_DEFAULT_TIMEOUT)] beTrue];
             activity = importedActivity;
         });
@@ -61,7 +62,7 @@ describe(@"MRSLActivity", ^{
         });
 
         describe(@"item", ^{
-            let(item, ^id { return [activity item]; });
+            let(item, ^id { return [activity itemSubject]; });
 
             it(@"should have an id", ^{
                 [[[item itemID] should] equal:@402531];

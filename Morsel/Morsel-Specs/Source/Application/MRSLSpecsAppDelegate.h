@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @class MRSLAPIService;
+@class MRSLS3Service;
 
 @interface MRSLSpecsAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (nonatomic, strong) MRSLAPIService *apiService;
-@property (nonatomic, strong) NSDateFormatter *defaultDateFormatter;
+@property (strong, nonatomic) MRSLAPIService *apiService;
+@property (strong, nonatomic) MRSLS3Service *s3Service;
+@property (strong, nonatomic) NSDateFormatter *defaultDateFormatter;
 @property (strong, nonatomic) UIWindow *window;
 
 - (void)resetDataStore;
+- (void)resetSocialConnections;
 
 @end

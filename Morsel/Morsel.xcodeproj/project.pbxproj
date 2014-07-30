@@ -210,7 +210,6 @@
 		06ECF67A18BFE36500577F9C /* MRSLSpecsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF67918BFE36500577F9C /* MRSLSpecsAppDelegate.m */; };
 		06ECF68018BFE38400577F9C /* ModelObjectImporting_Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF67C18BFE38400577F9C /* ModelObjectImporting_Spec.m */; };
 		06ECF68418BFE39A00577F9C /* Crash_Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF68318BFE39A00577F9C /* Crash_Spec.m */; };
-		06ECF68618BFE3C800577F9C /* SocialService_Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF68518BFE3C800577F9C /* SocialService_Spec.m */; };
 		06ECF68918BFE3F000577F9C /* MRSLSpecUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF68818BFE3F000577F9C /* MRSLSpecUtil.m */; };
 		06ECF68B18BFED9100577F9C /* MRSLSpecsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ECF67918BFE36500577F9C /* MRSLSpecsAppDelegate.m */; };
 		06ECF68C18BFEEB500577F9C /* Specs_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06F567DE18BBDA3D0067FCD4 /* Specs_iPhone.storyboard */; };
@@ -241,7 +240,6 @@
 		4003509918EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4003509818EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m */; };
 		4003509A18EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4003509818EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m */; };
 		4003509B18EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4003509818EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m */; };
-		4003509E18EB928800C97DDC /* MRSLCustomURLScheme_Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4003509D18EB928800C97DDC /* MRSLCustomURLScheme_Spec.m */; };
 		400350A118EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = 400350A018EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m */; };
 		400350A218EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = 400350A018EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m */; };
 		400350A318EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m in Sources */ = {isa = PBXBuildFile; fileRef = 400350A018EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m */; };
@@ -789,7 +787,6 @@
 		06ECF67918BFE36500577F9C /* MRSLSpecsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSpecsAppDelegate.m; path = Source/Application/MRSLSpecsAppDelegate.m; sourceTree = "<group>"; };
 		06ECF67C18BFE38400577F9C /* ModelObjectImporting_Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelObjectImporting_Spec.m; path = Source/Models/ModelObjectImporting_Spec.m; sourceTree = "<group>"; };
 		06ECF68318BFE39A00577F9C /* Crash_Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Crash_Spec.m; path = Source/Stability/Crash_Spec.m; sourceTree = "<group>"; };
-		06ECF68518BFE3C800577F9C /* SocialService_Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SocialService_Spec.m; path = "Morsel-Specs/Source/Services/SocialService_Spec.m"; sourceTree = SOURCE_ROOT; };
 		06ECF68718BFE3F000577F9C /* MRSLSpecUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSpecUtil.h; path = Source/Utilities/MRSLSpecUtil.h; sourceTree = "<group>"; };
 		06ECF68818BFE3F000577F9C /* MRSLSpecUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSpecUtil.m; path = Source/Utilities/MRSLSpecUtil.m; sourceTree = "<group>"; };
 		06F1847918E0B68C00DBA468 /* MRSLFeedPanelCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLFeedPanelCollectionViewCell.h; path = Source/Views/MRSLFeedPanelCollectionViewCell.h; sourceTree = "<group>"; };
@@ -836,7 +833,6 @@
 		4003509218EB578C00C97DDC /* MRSLCollectionViewArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCollectionViewArrayDataSource.m; sourceTree = "<group>"; };
 		4003509718EB5CED00C97DDC /* MRSLActivityCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLActivityCollectionViewCell.h; path = Source/Views/MRSLActivityCollectionViewCell.h; sourceTree = "<group>"; };
 		4003509818EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLActivityCollectionViewCell.m; path = Source/Views/MRSLActivityCollectionViewCell.m; sourceTree = "<group>"; };
-		4003509D18EB928800C97DDC /* MRSLCustomURLScheme_Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLCustomURLScheme_Spec.m; path = Source/Application/MRSLCustomURLScheme_Spec.m; sourceTree = "<group>"; };
 		4003509F18EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLAppDelegate+CustomURLSchemes.h"; sourceTree = "<group>"; };
 		400350A018EB969E00C97DDC /* MRSLAppDelegate+CustomURLSchemes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLAppDelegate+CustomURLSchemes.m"; sourceTree = "<group>"; };
 		4005ED8218A19965005B8484 /* UIAlertView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Additions.h"; sourceTree = "<group>"; };
@@ -1832,7 +1828,6 @@
 				4040D4A418E62AC8008A39E5 /* Factories */,
 				0653A46F18B7107E006F6774 /* Models */,
 				06F567C218BBB1270067FCD4 /* Resources */,
-				4069CB2E189B12E9001790F3 /* Services */,
 				0653A46E18B70C50006F6774 /* Stability */,
 				0698CAB61852432D007AF442 /* Supporting Files */,
 				06F567E118BBDB8F0067FCD4 /* User Interface */,
@@ -2001,7 +1996,6 @@
 			children = (
 				06ECF67818BFE36500577F9C /* MRSLSpecsAppDelegate.h */,
 				06ECF67918BFE36500577F9C /* MRSLSpecsAppDelegate.m */,
-				4003509D18EB928800C97DDC /* MRSLCustomURLScheme_Spec.m */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -2169,14 +2163,6 @@
 			);
 			name = Services;
 			path = Source/Services;
-			sourceTree = "<group>";
-		};
-		4069CB2E189B12E9001790F3 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				06ECF68518BFE3C800577F9C /* SocialService_Spec.m */,
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		407FDEE51948052E005FEEBF /* Vendor */ = {
@@ -2853,7 +2839,6 @@
 				068E277818BBFBB50020CA84 /* MRSLComment.m in Sources */,
 				40854F97197482560015DFBB /* MRSLCollectionView.m in Sources */,
 				40A83E4D196E0A7F00DED0A1 /* MRSLStateView.m in Sources */,
-				06ECF68618BFE3C800577F9C /* SocialService_Spec.m in Sources */,
 				4040D49918E6249E008A39E5 /* MRSLActivity_Spec.m in Sources */,
 				4067732F196BA3400055BEAE /* MRSLS3Service.m in Sources */,
 				4003509A18EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m in Sources */,
@@ -2869,7 +2854,6 @@
 				40348F26195363F900BDDC15 /* MRSLActivityTableViewCell.m in Sources */,
 				4040D4A218E62809008A39E5 /* MRSLActivity.m in Sources */,
 				4062A4FC196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */,
-				4003509E18EB928800C97DDC /* MRSLCustomURLScheme_Spec.m in Sources */,
 				068E278C18BBFBB50020CA84 /* _MRSLUser.m in Sources */,
 				4061724C198308310097CD17 /* MRSLPlaceholderTextView.m in Sources */,
 				069AE51A18B80FDF002F63D5 /* MRSLBaseCaptureMediaViewController.m in Sources */,
