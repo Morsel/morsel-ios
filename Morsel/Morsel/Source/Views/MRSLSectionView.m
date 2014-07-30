@@ -42,6 +42,7 @@
 
         [self setBackgroundColor:[UIColor morselDefaultSectionHeaderBackgroundColor]];
         [self addSubview:_label];
+        [self addDefaultBorderForDirections:(MRSLBorderNorth|MRSLBorderSouth)];
     }
     return self;
 }

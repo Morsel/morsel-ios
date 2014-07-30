@@ -55,9 +55,9 @@
 }
 
 - (void)displaySelectedState:(BOOL)selected {
-    self.backgroundColor = selected ? [UIColor morselRed] : [UIColor whiteColor];
-    self.morselTitleLabel.textColor = selected ? [UIColor whiteColor] : [UIColor morselDarkContent];
-    self.morselCountLabel.textColor = selected ? [UIColor whiteColor] : [UIColor morselLightContent];
+    self.backgroundColor = selected ? [UIColor morselPrimary] : [UIColor whiteColor];
+    self.morselTitleLabel.textColor = selected ? [UIColor whiteColor] : [UIColor morselDefaultTextColor];
+    self.morselCountLabel.textColor = selected ? [UIColor whiteColor] : [UIColor morselLight];
     if (self.arrowImageView) {
         self.arrowImageView.image = [UIImage imageNamed:(selected) ? @"icon-arrow-accessory-white" : @"icon-arrow-accessory-red"];
     }

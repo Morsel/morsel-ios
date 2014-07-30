@@ -84,7 +84,7 @@
 
 - (CAShapeLayer *)addDefaultBorderForDirections:(MRSLBorderDirection)borderDirections {
     return [self addBorderWithDirections:borderDirections
-                             borderColor:[UIColor morselLight]];
+                             borderColor:[UIColor morselDefaultBorderColor]];
 }
 
 - (void)setRoundedCornerRadius:(CGFloat)radius {

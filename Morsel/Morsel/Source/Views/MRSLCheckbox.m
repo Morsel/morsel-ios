@@ -19,8 +19,8 @@
     [self setFlat:YES];
     [self setStrokeWidth:1.f];
     [self setRadius:0.f];
-    [self setStrokeColor:[UIColor morselRed]];
-    [self setCheckColor:[UIColor morselRed]];
+    [self setStrokeColor:[UIColor morselPrimary]];
+    [self setCheckColor:[UIColor morselPrimary]];
 }
 
 @end

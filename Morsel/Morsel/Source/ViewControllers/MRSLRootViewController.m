@@ -362,19 +362,16 @@ MRSLMenuViewControllerDelegate>
         }
         CASE(MRSLMenuNotificationsKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Activity"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardActivityKey
+                                         properties:@{@"name": @"Notifications"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardNotificationsKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneActivityKey];
             break;
         }
-        CASE(MRSLMenuPlacesKey) {
-            break;
-        }
-        CASE(MRSLMenuPeopleKey) {
+        CASE(MRSLMenuActivityKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Following People"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardFollowingPeopleKey
-                                                      andStoryboardFileName:MRSLStoryboardiPhoneProfileKey];
+                                         properties:@{@"name": @"Activity"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardActivityKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneActivityKey];
             break;
         }
         CASE(MRSLMenuFindKey) {

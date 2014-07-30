@@ -12,4 +12,12 @@
 
 - (NSInteger)numberOfRowsInAllSections;
 
+- (BOOL)isFirstRowInSectionForIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)isFirstSectionForIndexPath:(NSIndexPath *)indexPath;
+
+- (BOOL)isLastRowInSectionForIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)isLastSectionForIndexPath:(NSIndexPath *)indexPath;
+
+- (BOOL)hasHeaderForSection:(NSInteger)section;
+
 @end

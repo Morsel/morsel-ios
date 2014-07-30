@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Notifications Root View Controller - Notifications-->
+        <!--Notifications Root View Controller - Activity-->
         <scene sceneID="UPV-wP-zzx">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLNotificationsRootViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="IzJ-YF-bgp" customClass="MRSLNotificationsRootViewController" sceneMemberID="viewController">
@@ -17,20 +17,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="0BB-b0-pK3" customClass="MRSLSegmentButton">
-                                        <rect key="frame" x="0.0" y="0.0" width="108" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <state key="normal" title="Notifications">
-                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="Eg0-VS-emV" customClass="MRSLSegmentButton">
-                                        <rect key="frame" x="108" y="0.0" width="106" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="Eg0-VS-emV" customClass="MRSLSegmentButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -41,8 +29,8 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="kCm-Ow-giH" customClass="MRSLSegmentButton">
-                                        <rect key="frame" x="214" y="0.0" width="106" height="50"/>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="kCm-Ow-giH" customClass="MRSLSegmentButton">
+                                        <rect key="frame" x="160" y="0.0" width="160" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -56,7 +44,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outletCollection property="buttons" destination="0BB-b0-pK3" id="vOD-5V-EDm"/>
                                     <outletCollection property="buttons" destination="Eg0-VS-emV" id="z1R-cz-eLg"/>
                                     <outletCollection property="buttons" destination="kCm-Ow-giH" id="zXM-bK-TBZ"/>
                                 </connections>
@@ -70,7 +57,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Notifications" id="bJm-9K-5hM"/>
+                    <navigationItem key="navigationItem" title="Activity" id="bJm-9K-5hM"/>
                     <connections>
                         <outlet property="containerView" destination="JT8-9W-1ns" id="ZsS-Gh-1MP"/>
                         <outlet property="segmentedButtonView" destination="Wg3-jh-dBZ" id="4dO-FH-EfW"/>
@@ -98,6 +85,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pex-b3-MMT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="812" y="110"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="P5x-CS-Vvv">
+            <objects>
+                <navigationController storyboardIdentifier="sb_Notifications" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="d0p-PC-9XK" customClass="MRSLNavigationController" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Q7u-ee-KWa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4iP-IK-cLb" kind="relationship" relationship="rootViewController" id="0ov-1a-2my"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vr5-yE-a84" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="812" y="-578"/>
+        </scene>
+        <!--Notifications Table View Controller - Notifications-->
+        <scene sceneID="lUy-S3-4lP">
+            <objects>
+                <tableViewController storyboardIdentifier="sb_MRSLNotificationsTableViewController" id="4iP-IK-cLb" customClass="MRSLNotificationsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="yec-tq-gEt">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="4iP-IK-cLb" id="3jI-bs-9lu"/>
+                            <outlet property="delegate" destination="4iP-IK-cLb" id="WoQ-O5-iTF"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Notifications" id="Doc-QM-QO6"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YbU-1S-J8O" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1262" y="-578"/>
         </scene>
     </scenes>
     <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>

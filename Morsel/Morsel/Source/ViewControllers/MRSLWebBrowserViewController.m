@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
+#import "MRSLActivityIndicatorView.h"
 #import "MRSLWebBrowserViewController.h"
 
 @interface MRSLWebBrowserViewController ()
@@ -13,7 +14,7 @@
 
 @property (nonatomic) CGFloat webViewHeight;
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (weak, nonatomic) IBOutlet MRSLActivityIndicatorView *activityIndicatorView;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UIButton *goBackButton;
 @property (weak, nonatomic) IBOutlet UIButton *goForwardButton;

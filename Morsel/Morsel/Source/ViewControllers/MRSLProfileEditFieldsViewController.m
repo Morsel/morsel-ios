@@ -12,6 +12,7 @@
 
 #import "MRSLAPIService+Profile.h"
 
+#import "MRSLActivityIndicatorView.h"
 #import "MRSLProfileImageView.h"
 
 #import "MRSLUser.h"
@@ -28,7 +29,7 @@ UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *firstNameField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameField;
 @property (weak, nonatomic) IBOutlet UIButton *editPhotoButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (weak, nonatomic) IBOutlet MRSLActivityIndicatorView *activityIndicatorView;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *bioTextView;
@@ -111,7 +112,7 @@ UIAlertViewDelegate>
     BOOL fieldsFilled = YES;
     for (UITextField *requiredField in _requiredFields) {
         if ([[requiredField text] length] == 0) {
-            [requiredField setBorderWithColor:[UIColor morselRed]
+            [requiredField setBorderWithColor:[UIColor morselPrimary]
                                      andWidth:2.f];
             fieldsFilled = NO;
         } else {

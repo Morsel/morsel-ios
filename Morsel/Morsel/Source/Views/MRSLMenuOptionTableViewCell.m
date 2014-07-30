@@ -20,43 +20,22 @@
 
 @end
 
-@interface MRSLMenuOptionTableViewCell ()
-
-@property (copy, nonatomic) UIColor *pipeOriginalColor;
-
-@end
-
 @implementation MRSLMenuOptionTableViewCell
 
 #pragma mark - Instance Methods
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.pipeOriginalColor = self.pipeView.backgroundColor;
     self.optionNameLabel.textColor = [UIColor morselPrimary];
     self.optionNameLabel.font = [UIFont robotoRegularFontOfSize:_optionNameLabel.font.pointSize];
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    self.pipeView.backgroundColor = (selected) ? [UIColor clearColor] : self.pipeOriginalColor;
-}
-
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    [super setHighlighted:highlighted animated:animated];
-
-    self.pipeView.backgroundColor = (highlighted) ? [UIColor clearColor] : self.pipeOriginalColor;
+    [self addBorderWithDirections:MRSLBorderSouth
+                      borderColor:[[self defaultBackgroundColor] colorWithAlphaComponent:0.8f]];
 }
 
 - (void)setBadgeCount:(NSInteger)badgeCount {
     _badgeCount = badgeCount;
     self.badgeLabelView.count = badgeCount;
     self.badgeLabelView.hidden = (badgeCount == 0);
-}
-
-- (void)reset {
-    self.pipeView.backgroundColor = self.pipeOriginalColor;
 }
 
 
@@ -68,15 +47,15 @@
 
 - (UIColor *)defaultBackgroundColor {
     return [UIColor colorWithWhite:1.0f
-                             alpha:0.2f];
+                             alpha:0.4f];
 }
 
 - (UIColor *)defaultHighlightedBackgroundColor {
-    return [[UIColor morselPrimaryLight] colorWithAlphaComponent:0.05f];
+    return [[UIColor morselMedium] colorWithAlphaComponent:0.1f];
 }
 
 - (UIColor *)defaultSelectedBackgroundColor {
-    return [[UIColor morselMedium] colorWithAlphaComponent:0.05f];
+    return [[UIColor morselPrimaryLight] colorWithAlphaComponent:0.1f];
 }
 
 @end

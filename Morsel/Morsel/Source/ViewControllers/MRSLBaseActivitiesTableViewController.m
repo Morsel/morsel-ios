@@ -63,6 +63,7 @@
     [self.navigationController setNavigationBarHidden:NO
                                              animated:animated];
     [super viewWillAppear:animated];
+    [self.navigationItem setRightBarButtonItem:nil];
 }
 
 - (MRSLTableViewDataSource *)dataSource {

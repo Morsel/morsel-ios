@@ -294,6 +294,9 @@
 		4040D4B018E62F35008A39E5 /* MRSLFactory+Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4AF18E62F35008A39E5 /* MRSLFactory+Item.m */; };
 		405A36AA18EC9D16006F1D98 /* MRSLNotificationsRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A36A918EC9D16006F1D98 /* MRSLNotificationsRootViewController.m */; };
 		405A36B018ECAE35006F1D98 /* MRSLCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A36AF18ECAE35006F1D98 /* MRSLCollectionViewDataSource.m */; };
+		405C1E2B19883B140021DE36 /* MRSLActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 405C1E2A19883B140021DE36 /* MRSLActivityIndicatorView.m */; };
+		405C1E2C19883B140021DE36 /* MRSLActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 405C1E2A19883B140021DE36 /* MRSLActivityIndicatorView.m */; };
+		405C1E2D19883B140021DE36 /* MRSLActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 405C1E2A19883B140021DE36 /* MRSLActivityIndicatorView.m */; };
 		405F2F071986F9E900F0A11C /* MRSLSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 405F2F061986F9E800F0A11C /* MRSLSectionView.m */; };
 		405F2F081986F9E900F0A11C /* MRSLSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 405F2F061986F9E800F0A11C /* MRSLSectionView.m */; };
 		405F2F091986F9E900F0A11C /* MRSLSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 405F2F061986F9E800F0A11C /* MRSLSectionView.m */; };
@@ -874,6 +877,8 @@
 		405A36A918EC9D16006F1D98 /* MRSLNotificationsRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLNotificationsRootViewController.m; sourceTree = "<group>"; };
 		405A36AE18ECAE35006F1D98 /* MRSLCollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCollectionViewDataSource.h; sourceTree = "<group>"; };
 		405A36AF18ECAE35006F1D98 /* MRSLCollectionViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCollectionViewDataSource.m; sourceTree = "<group>"; };
+		405C1E2919883B140021DE36 /* MRSLActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLActivityIndicatorView.h; path = Source/Views/MRSLActivityIndicatorView.h; sourceTree = "<group>"; };
+		405C1E2A19883B140021DE36 /* MRSLActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLActivityIndicatorView.m; path = Source/Views/MRSLActivityIndicatorView.m; sourceTree = "<group>"; };
 		405F2F051986F9E800F0A11C /* MRSLSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSectionView.h; path = Source/Views/MRSLSectionView.h; sourceTree = "<group>"; };
 		405F2F061986F9E800F0A11C /* MRSLSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSectionView.m; path = Source/Views/MRSLSectionView.m; sourceTree = "<group>"; };
 		40617245198303A50097CD17 /* Acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgements.html; sourceTree = "<group>"; };
@@ -1151,6 +1156,8 @@
 				0661F7EA19703E7600248E6A /* Toolbar */,
 				40A83E49196E0A2E00DED0A1 /* States */,
 				06340921191C5A1B00C67FB8 /* Validation */,
+				405C1E2919883B140021DE36 /* MRSLActivityIndicatorView.h */,
+				405C1E2A19883B140021DE36 /* MRSLActivityIndicatorView.m */,
 				40854F94197482560015DFBB /* MRSLCollectionView.h */,
 				40854F95197482560015DFBB /* MRSLCollectionView.m */,
 				40854F7B197450F90015DFBB /* MRSLTableView.h */,
@@ -2591,6 +2598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06ECF68B18BFED9100577F9C /* MRSLSpecsAppDelegate.m in Sources */,
+				405C1E2B19883B140021DE36 /* MRSLActivityIndicatorView.m in Sources */,
 				06B87814193CBB7500160707 /* MRSLPlaceDetailInfoCollectionViewCell.m in Sources */,
 				40DC742F19549DA2005CFECF /* MRSLBaseTableViewCell.m in Sources */,
 				06B87808193CB01F00160707 /* MRSLPlacePanelCollectionViewCell.m in Sources */,
@@ -2902,6 +2910,7 @@
 				40C7E0A31953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m in Sources */,
 				4069CB2B189B127E001790F3 /* MRSLAPIService.m in Sources */,
 				06ECF68018BFE38400577F9C /* ModelObjectImporting_Spec.m in Sources */,
+				405C1E2C19883B140021DE36 /* MRSLActivityIndicatorView.m in Sources */,
 				4069CB29189B127E001790F3 /* MRSLAPIClient.m in Sources */,
 				40348F3519536CC000BDDC15 /* MRSLDataSource.m in Sources */,
 				407FDF5F194807E4005FEEBF /* RollbarLogger.m in Sources */,
@@ -2956,6 +2965,7 @@
 				4040D49E18E627ED008A39E5 /* _MRSLActivity.m in Sources */,
 				40A83E53196E0B6F00DED0A1 /* MRSLLoadingStateView.m in Sources */,
 				40677325196BA27C0055BEAE /* _MRSLPresignedUpload.m in Sources */,
+				405C1E2D19883B140021DE36 /* MRSLActivityIndicatorView.m in Sources */,
 				407FDF69194807E4005FEEBF /* RollbarThread.m in Sources */,
 				4061724D198308310097CD17 /* MRSLPlaceholderTextView.m in Sources */,
 				40854F7A197440830015DFBB /* UITableView+States.m in Sources */,

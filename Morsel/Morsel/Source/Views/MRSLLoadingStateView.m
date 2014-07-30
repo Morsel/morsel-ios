@@ -7,6 +7,7 @@
 //
 
 #import "MRSLLoadingStateView.h"
+#import "MRSLActivityIndicatorView.h"
 
 static CGFloat kLoadingContainerWidth = 140.0f;
 
@@ -18,8 +19,7 @@ static CGFloat kLoadingContainerWidth = 140.0f;
     MRSLLoadingStateView *loadingStateView = [self stateViewWithWidth:kLoadingContainerWidth];
 
     [loadingStateView setTitle:@"Loading..."];
-    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [activityIndicatorView setHidesWhenStopped:YES];
+    MRSLActivityIndicatorView *activityIndicatorView = [MRSLActivityIndicatorView defaultActivityIndicatorView];
     [activityIndicatorView startAnimating];
     [loadingStateView setAccessorySubview:activityIndicatorView];
 

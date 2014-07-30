@@ -16,8 +16,9 @@ static CGFloat kPadding = MRSLDefaultPadding;
     [super awakeFromNib];
 
     [self addDefaultBorderForDirections:(MRSLBorderNorth|MRSLBorderSouth)];
-    [self setTextColor:[UIColor morselDarkContent]];
+    [self setTextColor:[UIColor morselDefaultTextColor]];
     [self setBackgroundColor:[UIColor morselDefaultTextFieldBackgroundColor]];
+    [self setPlaceholderColor:[UIColor morselDefaultPlaceholderTextColor]];
 
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
         self.textContainerInset = UIEdgeInsetsMake(kPadding, kPadding, kPadding, kPadding);

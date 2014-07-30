@@ -9,6 +9,7 @@
 #import "MRSLImagePreviewCollectionViewCell.h"
 
 #import <GCPlaceholderTextView/GCPlaceholderTextView.h>
+#import "MRSLPlaceholderTextView.h"
 
 #import "MRSLItemImageView.h"
 
@@ -18,7 +19,7 @@
 @interface MRSLImagePreviewCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *previewImageView;
-@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *descriptionField;
+@property (weak, nonatomic) IBOutlet MRSLPlaceholderTextView *descriptionField;
 @property (weak, nonatomic) IBOutlet UIButton *descriptionButton;
 
 @end
@@ -28,7 +29,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.descriptionField.placeholder = @"Tap to add text";
-    self.descriptionField.placeholderColor = [UIColor morselLightContent];
 }
 
 - (void)setMediaPreviewItem:(id)mediaPreviewItem {

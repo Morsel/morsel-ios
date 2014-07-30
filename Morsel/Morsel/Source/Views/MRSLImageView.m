@@ -7,6 +7,7 @@
 //
 
 #import "MRSLImageView.h"
+#import "MRSLActivityIndicatorView.h"
 
 #import <GPUImage/GPUImageGaussianBlurFilter.h>
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -28,15 +29,14 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 
-    self.backgroundColor = [UIColor morselDarkContent];
+    self.backgroundColor = [UIColor morselDark];
     self.contentMode = UIViewContentModeScaleToFill;
 
     self.image = [self placeholderImage];
 
-    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityIndicatorView = [MRSLActivityIndicatorView defaultActivityIndicatorView];
     [_activityIndicatorView setX:([self getWidth] / 2) - ([_activityIndicatorView getWidth] / 2)];
     [_activityIndicatorView setY:([self getHeight] / 2) - ([_activityIndicatorView getHeight] / 2)];
-    [_activityIndicatorView setHidesWhenStopped:YES];
 
     [self addSubview:_activityIndicatorView];
 
@@ -193,7 +193,7 @@
 - (void)reset {
     [self cancelCurrentImageLoad];
     [self.activityIndicatorView stopAnimating];
-    [self.activityIndicatorView setColor:([self imageSizeType] == MRSLImageSizeTypeSmall) ? [UIColor darkGrayColor] : [UIColor morselUserInterface]];
+    [self.activityIndicatorView setColor:([self imageSizeType] == MRSLImageSizeTypeSmall) ? [UIColor darkGrayColor] : [UIColor morselOffWhite]];
 }
 
 #pragma mark - Dealloc Methods

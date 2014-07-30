@@ -17,4 +17,25 @@
     return rowCount;
 }
 
+- (BOOL)isFirstRowInSectionForIndexPath:(NSIndexPath *)indexPath {
+    return indexPath.row == 0;
+}
+
+- (BOOL)isFirstSectionForIndexPath:(NSIndexPath *)indexPath {
+    return indexPath.section == 0;
+}
+
+- (BOOL)isLastRowInSectionForIndexPath:(NSIndexPath *)indexPath {
+    return [self numberOfRowsInSection:indexPath.section] - 1 == indexPath.row;
+}
+
+- (BOOL)isLastSectionForIndexPath:(NSIndexPath *)indexPath {
+    return [self numberOfSections] - 1 == indexPath.section;
+}
+
+- (BOOL)hasHeaderForSection:(NSInteger)section {
+    return [self.dataSource tableView:self
+              titleForHeaderInSection:section] != nil;
+}
+
 @end

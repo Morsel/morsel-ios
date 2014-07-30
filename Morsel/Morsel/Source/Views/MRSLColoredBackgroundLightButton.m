@@ -57,7 +57,7 @@
 - (void)setupColors {
     if (self.backgroundColor == nil) return;
     self.originalBackgroundColor = self.backgroundColor;
-    self.highlightedBackgroundColor = [self.backgroundColor colorWithBrightness:1.2f];
+    self.highlightedBackgroundColor = [self.backgroundColor colorWithBrightness:0.8f];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

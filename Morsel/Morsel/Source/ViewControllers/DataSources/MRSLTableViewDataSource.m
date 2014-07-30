@@ -70,8 +70,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *tableViewCell = self.configureCellBlock([self objectAtIndexPath:indexPath], tableView, indexPath, [self count]);
-    [tableViewCell addBorderWithDirections:MRSLBorderSouth
-                               borderColor:[UIColor morselLightOffColor]];
+    [tableViewCell addDefaultBorderForDirections:MRSLBorderSouth];
     return tableViewCell;
 }
 

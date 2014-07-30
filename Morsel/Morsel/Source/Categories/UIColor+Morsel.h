@@ -32,20 +32,16 @@
 #pragma mark - Defined Colors
 
 + (UIColor *)morselDefaultBackgroundColor;
++ (UIColor *)morselDefaultBorderColor;
 + (UIColor *)morselDefaultCellBackgroundColor;
++ (UIColor *)morselDefaultNavigationBarBackgroundColor;
 + (UIColor *)morselDefaultSectionHeaderBackgroundColor;
 + (UIColor *)morselDefaultTextFieldBackgroundColor;
++ (UIColor *)morselDefaultTextColor;
++ (UIColor *)morselDefaultPlaceholderTextColor;
 + (UIColor *)morselDefaultToolbarBackgroundColor;
-
-#pragma mark - Misc
-
-+ (UIColor *)morselRed;
-+ (UIColor *)morselGreen;
-+ (UIColor *)morselUserInterface;
-+ (UIColor *)morselDarkContent;
-+ (UIColor *)morselLightContent;
-+ (UIColor *)morselLightOffColor;
-+ (UIColor *)morselPlaceholderColor;
++ (UIColor *)morselValidColor;
++ (UIColor *)morselInvalidColor;
 
 
 #pragma mark - Instance Methods

@@ -11,6 +11,12 @@
 #import "MRSLKeyword.h"
 #import "MRSLUser.h"
 
+@interface MRSLBaseTableViewCell ()
+
+- (UIColor *)defaultBackgroundColor;
+
+@end
+
 @interface MRSLToggleKeywordTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *keywordCheckmarkView;
@@ -41,6 +47,14 @@
     [super setSelected:selected
               animated:animated];
     self.keywordCheckmarkView.image = [UIImage imageNamed:(selected) ? @"icon-circle-check-green" : @"icon-circle-check-gray"];
+}
+
+- (UIColor *)defaultHighlightedBackgroundColor {
+    return [UIColor morselLight];
+}
+
+- (UIColor *)defaultSelectedBackgroundColor {
+    return [self defaultBackgroundColor];
 }
 
 @end

@@ -30,7 +30,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
 
 - (void)setUp {
     [self setFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
-    [self setTextColor:[UIColor morselDarkContent]];
+    [self setTextColor:[UIColor morselDefaultTextColor]];
     [self setBackgroundColor:[UIColor morselDefaultTextFieldBackgroundColor]];
 
     if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
