@@ -10,10 +10,27 @@
 
 #import <AFNetworking/AFNetworking.h>
 
+typedef NS_ENUM(NSUInteger, MRSLAPIMethodType) {
+    MRSLAPIMethodTypePOST,
+    MRSLAPIMethodTypePUT,
+    MRSLAPIMethodTypeDELETE
+};
+
 @class MRSLUser;
 
 @interface MRSLAPIClient : AFHTTPRequestOperationManager
 
+#pragma mark - Class Methods
+
 + (instancetype)sharedClient;
+
+#pragma mark - Instance Methods
+
+- (void)multipartFormRequestString:(NSString *)urlString
+                        withMethod:(MRSLAPIMethodType)apiMethodType
+                    formParameters:(NSDictionary *)formParameters
+                        parameters:(NSDictionary *)parameters
+                           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end

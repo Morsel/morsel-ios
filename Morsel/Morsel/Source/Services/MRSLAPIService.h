@@ -21,6 +21,7 @@
 - (NSMutableDictionary *)parametersWithDictionary:(NSDictionary *)dictionaryOrNil
                              includingMRSLObjects:(NSArray *)objects
                            requiresAuthentication:(BOOL)requiresAuthentication;
+- (NSDictionary *)parametersToDataWithDictionary:(NSDictionary *)parameters;
 
 #pragma mark - Importing Helpers
 

@@ -43,21 +43,23 @@
         parameters[@"prepare_presigned_upload"] = @"true";
     }
 
-    [[MRSLAPIClient sharedClient] POST:@"users"
-                            parameters:parameters
-                               success: ^(AFHTTPRequestOperation * operation, id responseObject) {
-                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:@"users"
+                                                  withMethod:MRSLAPIMethodTypePOST
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
-                                   [MRSLUser createOrUpdateUserFromResponseObject:responseObject[@"data"]
-                                                                     existingUser:NO];
+                                                         [MRSLUser createOrUpdateUserFromResponseObject:responseObject[@"data"]
+                                                                                           existingUser:NO];
 
-                                   if (userSuccessOrNil) userSuccessOrNil(responseObject[@"data"]);
-                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                   [self reportFailure:failureOrNil
-                                          forOperation:operation
-                                             withError:error
-                                              inMethod:NSStringFromSelector(_cmd)];
-                               }];
+                                                         if (userSuccessOrNil) userSuccessOrNil(responseObject[@"data"]);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
 }
 
 - (void)signInUserWithEmailOrUsername:(NSString *)emailOrUsername
@@ -81,41 +83,21 @@
                              requiresAuthentication:NO];
     }
 
-    [[MRSLAPIClient sharedClient] POST:@"users/sign_in"
-                            parameters:parameters
-                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                   [MRSLUser createOrUpdateUserFromResponseObject:responseObject[@"data"]
-                                                                     existingUser:YES];
-                                   if (successOrNil) successOrNil(responseObject[@"data"]);
-                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                   [self reportFailure:failureOrNil
-                                          forOperation:operation
-                                             withError:error
-                                              inMethod:NSStringFromSelector(_cmd)];
-                               }];
-}
-
-- (void)updateUserBio:(MRSLUser *)user
-              success:(MRSLAPISuccessBlock)successOrNil
-              failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user": @{@"bio": NSNullIfNil(user.bio)}}
-                                                includingMRSLObjects:nil
-                                              requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"users/%i", user.userIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  if (successOrNil) successOrNil(responseObject);
-                           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                               if ([operation.response statusCode] == 200) {
-                                   if (successOrNil) successOrNil(nil);
-                               } else {
-                                   [self reportFailure:failureOrNil
-                                          forOperation:operation
-                                             withError:error
-                                              inMethod:NSStringFromSelector(_cmd)];
-                               }
-                           }];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:@"users/sign_in"
+                                                  withMethod:MRSLAPIMethodTypePOST
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                                         [MRSLUser createOrUpdateUserFromResponseObject:responseObject[@"data"]
+                                                                                           existingUser:YES];
+                                                         if (successOrNil) successOrNil(responseObject[@"data"]);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
 }
 
 - (void)forgotPasswordWithEmail:(NSString *)emailAddress
@@ -125,20 +107,22 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
 
-    [[MRSLAPIClient sharedClient] POST:@"users/forgot_password"
-                            parameters:parameters
-                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                   if (successOrNil) successOrNil(responseObject);
-                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                   if ([operation.response statusCode] == 200) {
-                                       if (successOrNil) successOrNil(nil);
-                                   } else {
-                                       [self reportFailure:failureOrNil
-                                              forOperation:operation
-                                                 withError:error
-                                                  inMethod:NSStringFromSelector(_cmd)];
-                                   }
-                               }];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:@"users/forgot_password"
+                                                  withMethod:MRSLAPIMethodTypePOST
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         if (successOrNil) successOrNil(responseObject);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         if ([operation.response statusCode] == 200) {
+                                                             if (successOrNil) successOrNil(nil);
+                                                         } else {
+                                                             [self reportFailure:failureOrNil
+                                                                    forOperation:operation
+                                                                       withError:error
+                                                                        inMethod:NSStringFromSelector(_cmd)];
+                                                         }
+                                                     }];
 }
 
 - (void)checkUsernameAvailability:(NSString *)username
@@ -161,7 +145,7 @@
 }
 
 - (void)checkEmail:(NSString *)email
-         exists:(MRSLAPIExistsBlock)existsOrNil {
+            exists:(MRSLAPIExistsBlock)existsOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"email" : NSNullIfNil(email)}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];

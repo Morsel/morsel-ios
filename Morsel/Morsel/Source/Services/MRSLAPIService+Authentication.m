@@ -53,18 +53,21 @@
                                                                                             @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] POST:@"authentications"
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  authentication.authenticationID = responseObject[@"data"][@"id"];
-                                  if (userSuccessOrNil) userSuccessOrNil(responseObject);
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:@"authentications"
+                                                  withMethod:MRSLAPIMethodTypePOST
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                                         authentication.authenticationID = responseObject[@"data"][@"id"];
+                                                         if (userSuccessOrNil) userSuccessOrNil(responseObject);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
 }
 
 - (void)getUserAuthenticationsWithSuccess:(MRSLAPISuccessBlock)successOrNil
@@ -112,7 +115,8 @@
                             andCount:(NSNumber *)countOrNil
                              success:(MRSLAPIArrayBlock)successOrNil
                              failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"provider" : NSNullIfNil(provider)}
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"provider" : NSNullIfNil(provider),
+                                                                       @"uids" : NSNullIfNil(uids)}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (maxOrNil && sinceOrNil) {
@@ -124,28 +128,21 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    NSData *uidData = [uids dataUsingEncoding:NSUTF8StringEncoding];
-    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
-    NSString *urlString = [[NSURL URLWithString:@"authentications/connections"
-                                  relativeToURL:[[MRSLAPIClient sharedClient] baseURL]] absoluteString];
-    NSMutableURLRequest *request = [requestSerializer multipartFormRequestWithMethod:@"POST"
-                                                                           URLString:urlString
-                                                                          parameters:parameters
-                                                           constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                                                               [formData appendPartWithFormData:uidData name:@"uids"];
-                                                           }];
-    AFHTTPRequestOperation *operation = [[MRSLAPIClient sharedClient] HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self importManagedObjectClass:[MRSLUser class]
-                        withDictionary:responseObject
-                               success:successOrNil
-                               failure:failureOrNil];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self reportFailure:failureOrNil
-               forOperation:operation
-                  withError:error
-                   inMethod:NSStringFromSelector(_cmd)];
-    }];
-    [[MRSLAPIClient sharedClient].operationQueue addOperation:operation];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:@"authentications/connections"
+                                                  withMethod:MRSLAPIMethodTypePOST
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         [self importManagedObjectClass:[MRSLUser class]
+                                                                         withDictionary:responseObject
+                                                                                success:successOrNil
+                                                                                failure:failureOrNil];
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
 }
 
 - (void)updateUserAuthentication:(MRSLSocialAuthentication *)authentication
@@ -162,16 +159,18 @@
                                                                                             @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] PUT:[NSString stringWithFormat:@"authentications/%i", [authentication.authenticationID intValue]]
-                              parameters:parameters
-                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                     if (successOrNil) successOrNil(responseObject);
-                                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                     [self reportFailure:failureOrNil
-                                            forOperation:operation
-                                               withError:error
-                                                inMethod:NSStringFromSelector(_cmd)];
-                                 }];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"authentications/%i", [authentication.authenticationID intValue]]
+                                                  withMethod:MRSLAPIMethodTypePUT
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         if (successOrNil) successOrNil(responseObject);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
 }
 
 - (void)deleteUserAuthentication:(MRSLSocialAuthentication *)authentication
@@ -184,16 +183,18 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] DELETE:[NSString stringWithFormat:@"authentications/%i", [authentication.authenticationID intValue]]
-                              parameters:parameters
-                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                     if (successOrNil) successOrNil(responseObject);
-                                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                     [self reportFailure:failureOrNil
-                                            forOperation:operation
-                                               withError:error
-                                                inMethod:NSStringFromSelector(_cmd)];
-                                 }];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"authentications/%i", [authentication.authenticationID intValue]]
+                                                  withMethod:MRSLAPIMethodTypeDELETE
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         if (successOrNil) successOrNil(responseObject);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
 }
 
 @end
