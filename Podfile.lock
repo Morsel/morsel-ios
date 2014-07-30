@@ -55,7 +55,7 @@ PODS:
   - NXOAuth2Client (1.2.5)
   - OAuthCore (0.0.1):
     - NSData+Base64
-  - OHHTTPStubs (3.1.0)
+  - OHHTTPStubs (3.1.4)
   - SDWebImage (3.6):
     - SDWebImage/Core
   - SDWebImage/Core (3.6)
@@ -81,7 +81,7 @@ DEPENDENCIES:
   - NullSafe (~> 1.2)
   - NXOAuth2Client (~> 1.2)
   - OAuthCore (~> 0.0.1)
-  - OHHTTPStubs (~> 3.1.0)
+  - OHHTTPStubs (~> 3.1.4)
   - SDWebImage (~> 3.6)
   - XMLDictionary (~> 1.4)
 
@@ -120,7 +120,7 @@ SPEC CHECKSUMS:
   NullSafe: 9685bb76b0fa73cab04a69c176622662d46f0160
   NXOAuth2Client: 9359e8e703bb8357f41c1e169ec3e107612a794c
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
-  OHHTTPStubs: 8b032ab399e356050010ed34613ee1761c6c8ae3
+  OHHTTPStubs: 398901e787d9b62ce539a8a3df0b81431a98236a
   SDWebImage: c6989652c1cdf27cbdf3f56957e2030f825af5bc
   XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc
 

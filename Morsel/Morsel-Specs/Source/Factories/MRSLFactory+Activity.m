@@ -22,7 +22,7 @@
 + (MRSLActivity *)itemLikeActivity {
     MRSLActivity *activity = [MRSLFactory activity];
 
-    [activity setItem:[MRSLFactory item]];
+    [activity setItemSubject:[MRSLFactory item]];
     [activity setActionType:@"Like"];
 
     return activity;

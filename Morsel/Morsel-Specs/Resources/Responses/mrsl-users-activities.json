@@ -30,7 +30,7 @@
                      "_640x640":"https://morsel-staging.s3.amazonaws.com/item-images/item/40253l/_640x640_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png",
                      "_992x992":"https://morsel-staging.s3.amazonaws.com/item-images/item/40253l/_992x992_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png"
                  },
-                 "photo_processing":true,
+                 "photo_processing":false,
                  "morsel_id":8057,
                  "sort_order":2,
                  "url":"https://test.eatmorsel.com/turdferg/8057-some-morsel/2",

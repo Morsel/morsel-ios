@@ -134,6 +134,8 @@ static const int MRSLStatsTagViewTag = 9991;
 #if defined (SPEC_TESTING) || defined (INTEGRATION_TESTING)
 
 #define MORSEL_API_BASE_URL @"DUMMY_BASE_URL"
+#define MORSEL_BASE_URL @"DUMMY_BASE_URL"
+#define S3_BASE_URL @"DUMMY_BASE_URL"
 
 #elif (defined(MORSEL_BETA) || defined(RELEASE))
 

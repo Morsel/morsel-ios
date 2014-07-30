@@ -14,9 +14,11 @@
 
 #import "MRSLAPIClient.h"
 #import "MRSLS3Client.h"
+#import "MRSLS3Service.h"
 #import "MRSLComment.h"
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
+#import "MRSLPlace.h"
 #import "MRSLUser.h"
 
 @implementation MRSLSpecsAppDelegate
@@ -44,6 +46,7 @@
     [self.defaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'H:mm:ss.SSS'Z'"];
     
     self.apiService = [[MRSLAPIService alloc] init];
+    self.s3Service = [[MRSLS3Service alloc] init];
 
 #ifdef INTEGRATION_TESTING
     [self setupDatabase];
@@ -65,9 +68,14 @@
     [MRSLItem MR_truncateAll];
     [MRSLMorsel MR_truncateAll];
     [MRSLComment MR_truncateAll];
+    [MRSLPlace MR_truncateAll];
 
     [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
     [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
+}
+
+- (void)resetSocialConnections {
+    // Blank on purpose
 }
 
 - (void)resetDataStore {
