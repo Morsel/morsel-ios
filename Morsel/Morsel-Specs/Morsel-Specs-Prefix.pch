@@ -7,12 +7,6 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-    #import <OHHTTPStubs/OHHTTPStubs.h>
-    #import <OHHTTPStubs/OHHTTPStubsResponse+JSON.h>
-    #import <Kiwi/Kiwi.h>
 
-    #import "MRSLDefines.h"
-    #import "MRSLSpecUtil.h"
-
-    #define MRSL_DEFAULT_TIMEOUT 3
+    #import "MRSLSpecsDefines.h"
 #endif

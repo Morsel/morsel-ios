@@ -96,10 +96,11 @@
 }
 
 + (void)resetThirdPartySettings {
+#if defined (ROLLBAR_ENVIRONMENT)
     [[Rollbar currentConfiguration] setPersonId:nil
                                        username:nil
                                           email:nil];
-
+#endif
     [[Mixpanel sharedInstance] identify:nil];
     [[Mixpanel sharedInstance].people set:@{}];
 }
@@ -117,9 +118,11 @@
 
 - (void)setThirdPartySettings {
     NSString *idString = [NSString stringWithFormat:@"%i", self.userIDValue];
+#if defined (ROLLBAR_ENVIRONMENT)
     [[Rollbar currentConfiguration] setPersonId:idString
                                        username:self.username
                                           email:nil];
+#endif
     [[Mixpanel sharedInstance] identify:idString];
     [[Mixpanel sharedInstance].people set:@{@"first_name": NSNullIfNil(self.first_name),
                                             @"last_name": NSNullIfNil(self.last_name),
