@@ -279,7 +279,7 @@ UITextFieldDelegate>
                                                                 [place MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                                             } completion:^(BOOL success, NSError *error) {
                                                                 [weakSelf goBack];
-                                                                [workContext reset];
+                                                                if (success) [workContext reset];
                                                             }];
                                                         } failure:^(NSError *error) {
                                                             weakSelf.selectedFoursquarePlace = nil;

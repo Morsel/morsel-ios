@@ -457,7 +457,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                     delegate:nil];
                 }
             } completion:^(BOOL success, NSError *error) {
-                [workContext reset];
+                if (success) [workContext reset];
             }];
         }];
 

@@ -70,12 +70,16 @@
                                         constrainedToSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
                                             lineBreakMode:NSLineBreakByWordWrapping];
 
-    CGFloat maxDescriptionHeight = [_descriptionPanelView getHeight] - ([UIDevice has35InchScreen] ? 15.0f : 35.f);
+    CGFloat maxDescriptionHeight = [_descriptionPanelView getHeight] - ([UIDevice has35InchScreen] ? 15.0f : 20.f);
+    [_itemDescriptionLabel setY:0.f];
     if (textSize.height < maxDescriptionHeight || [_item.itemDescription length] == 0) {
         [_itemDescriptionLabel setHeight:textSize.height];
         [_viewMoreButton setHidden:YES];
+        if (![UIDevice has35InchScreen]) {
+            [_itemDescriptionLabel setY:6.f];
+        }
     } else {
-        [_itemDescriptionLabel setHeight:maxDescriptionHeight];
+        [_itemDescriptionLabel setHeight:MAX(maxDescriptionHeight, 0)];
         [_viewMoreButton setHidden:NO];
     }
 
@@ -93,7 +97,7 @@
                     forState:UIControlStateNormal];
 
     if (![_viewMoreButton isHidden]) {
-        [_viewMoreButton setHeight:[_itemDescriptionLabel getHeight] + 14.f];
+        [_viewMoreButton setHeight:[_itemDescriptionLabel getY] + [_itemDescriptionLabel getHeight] + 14.f];
     }
 
     [self setLikeButtonImageForMorsel:_item];
