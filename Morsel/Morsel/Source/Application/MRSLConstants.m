@@ -172,10 +172,16 @@ NSString *const MRSLStoryboardRUIDPlaceCellKey = @"ruid_PlaceCell";
 NSString *const MRSLStoryboardRUIDPreviousCommentCellKey = @"ruid_PreviousCommentCell";
 NSString *const MRSLStoryboardRUIDPreviousLoadingKey = @"ruid_PreviousLoading";
 NSString *const MRSLStoryboardRUIDSectionFooterKey = @"ruid_SectionFooter";
-NSString *const MRSLStoryboardRUIDSectionHeaderKey = @"ruid_SectionHeader";
 NSString *const MRSLStoryboardRUIDUserCellKey = @"ruid_UserCell";
 NSString *const MRSLStoryboardRUIDUserFollowCellKey = @"ruid_UserFollowCell";
 NSString *const MRSLStoryboardRUIDUserLikedItemCellKey = @"ruid_UserLikedItemCell";
+
+#pragma mark - Storyboard Source Identifiers
+/*
+    Reserved area to avoid warnings from StoryboardLint if identifiers are not included in Storyboard or IB files.
+*/
+
+NSString *const MRSLStoryboardRUIDSectionHeaderKey = @"srcuid_SectionHeader";
 
 #pragma mark - Debugging Constants
 

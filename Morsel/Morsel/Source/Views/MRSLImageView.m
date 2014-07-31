@@ -101,7 +101,7 @@
                     __weak __typeof(self)weakSelf = self;
                     [self setImageWithURL:smallImageURLRequest.URL
                          placeholderImage:[self placeholderImage]
-                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                         [weakSelf setImageWithURL:largeImageURLRequest.URL
                                                  placeholderImage:image
@@ -131,16 +131,16 @@
 
 - (void)setImageWithURL:(NSURL *)url
        placeholderImage:(UIImage *)placeholder
-              completed:(SDWebImageCompletionBlock)completedBlockOrNil
+              completed:(SDWebImageCompletedBlock)completedBlockOrNil
   showActivityIndicator:(BOOL)showActivityIndicator {
     if (showActivityIndicator) [self.activityIndicatorView startAnimating];
     __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self sd_setImageWithURL:url
+        [self setImageWithURL:url
              placeholderImage:placeholder ?: [self placeholderImage]
                       options:([self window] ? SDWebImageHighPriority : 0)
-                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                        if (completedBlockOrNil) completedBlockOrNil(image, error, cacheType, imageURL);
+                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                        if (completedBlockOrNil) completedBlockOrNil(image, error, cacheType);
                         if (!image || error) {
                             [weakSelf attemptToSetLocalMorselImageForSizeType:[weakSelf imageSizeType]
                                                                     withError:error];
@@ -191,7 +191,7 @@
 }
 
 - (void)reset {
-    [self sd_cancelCurrentImageLoad];
+    [self cancelCurrentImageLoad];
     [self.activityIndicatorView stopAnimating];
     [self.activityIndicatorView setColor:([self imageSizeType] == MRSLImageSizeTypeSmall) ? [UIColor darkGrayColor] : [UIColor morselOffWhite]];
 }
