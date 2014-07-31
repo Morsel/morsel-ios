@@ -434,7 +434,14 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="OI9-5H-JIr"/>
+                    <navigationItem key="navigationItem" id="OI9-5H-JIr">
+                        <barButtonItem key="rightBarButtonItem" title="Share" id="FaW-eh-7Yu">
+                            <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="displayMorselShare" destination="bQs-Ee-YU4" id="g0k-sW-fDk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="feedCollectionView" destination="jVK-mb-Gjh" id="4zm-V0-9Tb"/>
                     </connections>

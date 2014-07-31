@@ -32,12 +32,6 @@
                                                                              target:self
                                                                              action:@selector(displayMorselAdd)];
                 [self.navigationItem setRightBarButtonItem:addButton];
-            } else {
-                UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithTitle:@"Share"
-                                                                                style:UIBarButtonItemStyleBordered
-                                                                               target:self
-                                                                               action:@selector(displayMorselShare)];
-                [self.navigationItem setRightBarButtonItem:shareButton];
             }
         }
     } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
