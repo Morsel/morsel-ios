@@ -90,10 +90,10 @@
                      withType:(MRSLImageSizeType)imageSizeType
                  highPriority:(BOOL)isHighPriority {
     NSURLRequest *itemRequest = [item imageURLRequestForImageSizeType:imageSizeType];
-    [_webImageManager downloadWithURL:itemRequest.URL
+    [_webImageManager downloadImageWithURL:itemRequest.URL
                               options:(isHighPriority) ? SDWebImageHighPriority : SDWebImageLowPriority
                              progress:nil
-                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                                 DDLogVerbose(@"Image preloaded");
                                 // Completion block must be set otherwise SDWebImageManager throws an exception
                             }];
