@@ -130,6 +130,11 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
         [(MRSLPlaceDetailBaseCollectionViewCell *)cell setPlaceInfo:placeInfo];
     }
 
+    if (![collectionView isLastItemInSectionForIndexPath:indexPath] || [collectionView isLastItemForIndexPath:indexPath]) {
+        [cell addBorderWithDirections:MRSLBorderSouth
+                          borderColor:[UIColor morselDefaultBorderColor]];
+    }
+
     return cell;
 }
 
