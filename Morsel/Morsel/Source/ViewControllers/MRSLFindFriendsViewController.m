@@ -413,6 +413,7 @@ MRSLSegmentedButtonViewDelegate>
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ([text isEqualToString:@"\n"]) {
+        [searchBar setShowsCancelButton:NO animated:YES];
         [searchBar resignFirstResponder];
         return NO;
     } else {
@@ -421,7 +422,12 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:NO animated:YES];
     [self.view endEditing:YES];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:YES animated:YES];
 }
 
 #pragma mark - Dealloc
