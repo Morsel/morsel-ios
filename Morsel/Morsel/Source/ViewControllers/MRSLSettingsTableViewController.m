@@ -123,7 +123,7 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
 
     if (indexPath.section == MRSLSettingsTableViewSectionSetupProfessionalAccount || indexPath.section == MRSLSettingsTableViewSectionProfessionalSettings) {
         [cell addDefaultBorderForDirections:MRSLBorderNorth|MRSLBorderSouth];
-    } else if (!([self.tableView isLastRowInSectionForIndexPath:indexPath] && ![self.tableView isLastSectionForIndexPath:indexPath])) {
+    } else if (![self.tableView isLastRowForIndexPath:indexPath]) {
         [cell addDefaultBorderForDirections:MRSLBorderSouth];
     }
 }

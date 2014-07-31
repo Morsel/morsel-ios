@@ -22,7 +22,7 @@
 + (instancetype)sectionViewWithTitle:(NSString *)title {
     MRSLSectionView *sectionView = [[MRSLSectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 24.f)];
 
-    [sectionView.label setText:[title uppercaseString]];
+    if (title) [sectionView.label setText:[title uppercaseString]];
 
     return sectionView;
 }
@@ -45,6 +45,10 @@
         [self addDefaultBorderForDirections:(MRSLBorderNorth|MRSLBorderSouth)];
     }
     return self;
+}
+
+- (void)setTitle:(NSString *)title {
+    [self.label setText:title];
 }
 
 @end

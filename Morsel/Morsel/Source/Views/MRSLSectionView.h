@@ -14,4 +14,6 @@ static const CGFloat MRSLSectionViewDefaultHeight = 24.0f;
 
 + (instancetype)sectionViewWithTitle:(NSString *)title;
 
+- (void)setTitle:(NSString *)title;
+
 @end

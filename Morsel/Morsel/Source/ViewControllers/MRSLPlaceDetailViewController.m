@@ -15,6 +15,7 @@
 
 #import "MRSLPlace.h"
 #import "MRSLPlaceInfo.h"
+#import "MRSLSectionCollectionReusableView.h"
 
 @interface MRSLPlaceDetailViewController ()
 <MRSLCollectionViewDataSourceDelegate,
@@ -52,6 +53,10 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
     if ([_diningInfo count] > 0) [_detailSections addObject:@"Dining"];
     if ([_directionsInfo count] > 0) [_detailSections addObject:@"Directions"];
 
+    [self.collectionView registerClass:[MRSLSectionCollectionReusableView class]
+            forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                   withReuseIdentifier:MRSLStoryboardRUIDSectionHeaderKey];
+
     __weak __typeof(self) weakSelf = self;
     self.collectionViewDataSource = [[MRSLCollectionViewArraySectionsDataSource alloc] initWithObjects:@[[NSNull null]]
                                                                                               sections:_detailSections
@@ -59,14 +64,25 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
                                                                                         return [weakSelf configureCellForCollectionView:collectionView
                                                                                                                               indexPath:indexPath];
                                                                                     } supplementaryBlock:^UICollectionReusableView *(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
-                                                                                        MRSLSectionHeaderReusableView *sectionHeader = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                                          withReuseIdentifier:MRSLStoryboardRUIDSectionHeaderKey
-                                                                                                                                                                                 forIndexPath:indexPath];
-                                                                                        sectionHeader.titleLabel.text = [weakSelf.detailSections objectAtIndex:[indexPath section]];
-                                                                                        return sectionHeader;
-                                                                                    } sectionSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
-                                                                                        return [weakSelf configureSectionSizeForCollectionView:collectionView
-                                                                                                                                     section:section];
+                                                                                        if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+                                                                                            MRSLSectionCollectionReusableView *sectionCollectionReusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                              withReuseIdentifier:MRSLStoryboardRUIDSectionHeaderKey
+                                                                                                                                                                     forIndexPath:indexPath];
+                                                                                            [sectionCollectionReusableView setTitle:[weakSelf.detailSections objectAtIndex:[indexPath section]]];
+                                                                                            return sectionCollectionReusableView;
+                                                                                        } else if ([kind isEqualToString:UICollectionElementKindSectionFooter] && [collectionView isLastItemForIndexPath:indexPath]) {
+                                                                                            return [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                      withReuseIdentifier:MRSLStoryboardRUIDSectionFooterKey
+                                                                                                                                             forIndexPath:indexPath];
+                                                                                        } else {
+                                                                                            return nil;
+                                                                                        }
+                                                                                    } sectionHeaderSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                        return [weakSelf configureSectionHeaderSizeForCollectionView:collectionView
+                                                                                                                                             section:section];
+                                                                                    } sectionFooterSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                        return [weakSelf configureSectionFooterSizeForCollectionView:collectionView
+                                                                                                                                             section:section];
                                                                                     } cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
                                                                                         return [weakSelf configureCellSizeForCollectionView:collectionView
                                                                                                                                   indexPath:indexPath];
@@ -77,6 +93,10 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (CGFloat)cellHeightForDetails {
+    return [_place detailsCellHeight] ?: 0.0f;
+}
 
 - (UICollectionViewCell *)configureCellForCollectionView:(UICollectionView *)collectionView
                                                indexPath:(NSIndexPath *)indexPath {
@@ -113,14 +133,19 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
     return cell;
 }
 
-- (CGSize)configureSectionSizeForCollectionView:(UICollectionView *)collectionView
-                                        section:(NSInteger)section {
+- (CGSize)configureSectionHeaderSizeForCollectionView:(UICollectionView *)collectionView
+                                              section:(NSInteger)section {
     NSString *sectionName = [_detailSections objectAtIndex:section];
-    CGSize cellSize = CGSizeMake(320.f, 44.f);
+    CGSize cellSize = CGSizeMake(320.f, MRSLSectionViewDefaultHeight);
     if ([sectionName isEqualToString:@"Details"]) {
         cellSize.height = 0.f;
     }
     return cellSize;
+}
+
+- (CGSize)configureSectionFooterSizeForCollectionView:(UICollectionView *)collectionView
+                                              section:(NSInteger)section {
+    return CGSizeMake(320.0f, ([collectionView lastSection] == section) ? 44.0f : 0.0f);
 }
 
 - (CGSize)configureCellSizeForCollectionView:(UICollectionView *)collectionView
@@ -128,12 +153,12 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
     NSString *sectionName = [_detailSections objectAtIndex:[indexPath section]];
     CGSize cellSize = CGSizeMake(320.f, 44.f);
     if ([sectionName isEqualToString:@"Details"]) {
-        cellSize.height = 180.f;
+        cellSize.height = [self cellHeightForDetails];
     } else if ([sectionName isEqualToString:@"Hours"]) {
         MRSLPlaceInfo *placeInfo = [_hoursInfo objectAtIndex:indexPath.row];
         CGSize placeInfoSecondarySize = [placeInfo.secondaryInfo sizeWithFont:[UIFont robotoLightFontOfSize:14.f]
-                                       constrainedToSize:CGSizeMake(156.f, CGFLOAT_MAX)
-                                           lineBreakMode:NSLineBreakByWordWrapping];
+                                                            constrainedToSize:CGSizeMake(156.f, CGFLOAT_MAX)
+                                                                lineBreakMode:NSLineBreakByWordWrapping];
         cellSize = CGSizeMake(320.f, (placeInfoSecondarySize.height <= 44.f) ? 44.f : placeInfoSecondarySize.height);
     }
     return cellSize;

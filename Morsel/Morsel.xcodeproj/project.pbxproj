@@ -514,6 +514,9 @@
 		4069CB2B189B127E001790F3 /* MRSLAPIService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB23189B127E001790F3 /* MRSLAPIService.m */; };
 		4069CB2C189B127E001790F3 /* MRSLSocialService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB25189B127E001790F3 /* MRSLSocialService.m */; };
 		4069CB2D189B127E001790F3 /* MRSLSocialService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4069CB25189B127E001790F3 /* MRSLSocialService.m */; };
+		40780BB6198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */; };
+		40780BB7198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */; };
+		40780BB8198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */; };
 		407FDF55194807E4005FEEBF /* Rollbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF45194807E4005FEEBF /* Rollbar.m */; };
 		407FDF58194807E4005FEEBF /* RollbarConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF47194807E4005FEEBF /* RollbarConfiguration.m */; };
 		407FDF5B194807E4005FEEBF /* RollbarFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF49194807E4005FEEBF /* RollbarFileReader.m */; };
@@ -1049,6 +1052,8 @@
 		4069CB23189B127E001790F3 /* MRSLAPIService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLAPIService.m; sourceTree = "<group>"; };
 		4069CB24189B127E001790F3 /* MRSLSocialService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSocialService.h; sourceTree = "<group>"; };
 		4069CB25189B127E001790F3 /* MRSLSocialService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSocialService.m; sourceTree = "<group>"; };
+		40780BB4198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSectionCollectionReusableView.h; path = Source/Views/MRSLSectionCollectionReusableView.h; sourceTree = "<group>"; };
+		40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSectionCollectionReusableView.m; path = Source/Views/MRSLSectionCollectionReusableView.m; sourceTree = "<group>"; };
 		407FDF44194807E4005FEEBF /* Rollbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rollbar.h; sourceTree = "<group>"; };
 		407FDF45194807E4005FEEBF /* Rollbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rollbar.m; sourceTree = "<group>"; };
 		407FDF46194807E4005FEEBF /* RollbarConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollbarConfiguration.h; sourceTree = "<group>"; };
@@ -2188,6 +2193,8 @@
 				40874445194167EA000B491F /* MRSLReusableView.m */,
 				405F2F051986F9E800F0A11C /* MRSLSectionView.h */,
 				405F2F061986F9E800F0A11C /* MRSLSectionView.m */,
+				40780BB4198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.h */,
+				40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -2859,6 +2866,7 @@
 				06E7B9E718B2C66A00833427 /* MRSLEventManager.m in Sources */,
 				068602A51891AE26000CD576 /* UIView+Additions.m in Sources */,
 				0637B66F19368B9C00358F25 /* MRSLContainerCollectionViewCell.m in Sources */,
+				40780BB6198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */,
 				06CE1882187F13A0009F9722 /* MRSLConstants.m in Sources */,
 				408504A9193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */,
 				0686029C1891A7B7000CD576 /* UIFont+Morsel.m in Sources */,
@@ -3017,6 +3025,7 @@
 				4040D4AA18E62BA4008A39E5 /* MRSLFactory.m in Sources */,
 				4087443D1940F273000B491F /* MRSLBaseTableViewController.m in Sources */,
 				40677329196BA2900055BEAE /* MRSLPresignedUpload.m in Sources */,
+				40780BB7198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */,
 				4003509418EB578C00C97DDC /* MRSLCollectionViewArrayDataSource.m in Sources */,
 				40348F26195363F900BDDC15 /* MRSLActivityTableViewCell.m in Sources */,
 				4040D4A218E62809008A39E5 /* MRSLActivity.m in Sources */,
@@ -3277,6 +3286,7 @@
 				06C4DE8719897E14009B6406 /* KIFUITestActor+Additions.m in Sources */,
 				06C4DE8819897E14009B6406 /* FeedFlow_Integration.m in Sources */,
 				06C4DE8919897E14009B6406 /* LoginFlow_Integration.m in Sources */,
+				40780BB8198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

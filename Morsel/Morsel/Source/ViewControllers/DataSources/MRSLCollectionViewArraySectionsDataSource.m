@@ -19,7 +19,8 @@
 @interface MRSLCollectionViewArraySectionsDataSource ()
 
 @property (copy, nonatomic) MRSLSupplementaryCellConfigureBlock supplementaryConfigureBlock;
-@property (copy, nonatomic) MRSLLayoutSectionSizeConfigureBlock sectionSizeBlock;
+@property (copy, nonatomic) MRSLLayoutSectionSizeConfigureBlock sectionHeaderSizeBlock;
+@property (copy, nonatomic) MRSLLayoutSectionSizeConfigureBlock sectionFooterSizeBlock;
 @property (copy, nonatomic) MRSLLayoutCellSizeConfigureBlock cellSizeBlock;
 
 @end
@@ -30,20 +31,8 @@
              sections:(NSArray *)sectionsOrNil
    configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
    supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
-        cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock {
-    return [self initWithObjects:objects
-                        sections:sectionsOrNil
-              configureCellBlock:configureCellBlock
-              supplementaryBlock:supplementaryBlock
-                sectionSizeBlock:nil
-                   cellSizeBlock:cellSizeBlock];
-}
-
-- (id)initWithObjects:(NSArray *)objects
-             sections:(NSArray *)sectionsOrNil
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
-   supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
-     sectionSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionSizeBlock
+sectionHeaderSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionHeaderSizeBlock
+sectionFooterSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionFooterSizeBlock
         cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock {
     self = [super init];
     if (self) {
@@ -51,11 +40,42 @@
         self.sections = sectionsOrNil ?: @[[NSNull null]];
         self.configureCellBlock = [configureCellBlock copy];
         self.supplementaryConfigureBlock = supplementaryBlock;
-        self.sectionSizeBlock = sectionSizeBlock;
+        self.sectionHeaderSizeBlock = sectionHeaderSizeBlock;
+        self.sectionFooterSizeBlock = sectionFooterSizeBlock;
         self.cellSizeBlock = cellSizeBlock;
     }
     return self;
 }
+
+- (id)initWithObjects:(NSArray *)objects
+             sections:(NSArray *)sectionsOrNil
+   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+   supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
+     sectionHeaderSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionHeaderSizeBlock
+        cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock {
+    return [self initWithObjects:objects
+                        sections:sectionsOrNil
+              configureCellBlock:configureCellBlock
+              supplementaryBlock:supplementaryBlock
+          sectionHeaderSizeBlock:sectionHeaderSizeBlock
+                   sectionFooterSizeBlock:nil
+                   cellSizeBlock:cellSizeBlock];
+}
+
+- (id)initWithObjects:(NSArray *)objects
+             sections:(NSArray *)sectionsOrNil
+   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+   supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
+        cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock {
+    return [self initWithObjects:objects
+                        sections:sectionsOrNil
+              configureCellBlock:configureCellBlock
+              supplementaryBlock:supplementaryBlock
+          sectionHeaderSizeBlock:nil
+          sectionFooterSizeBlock:nil
+                   cellSizeBlock:cellSizeBlock];
+}
+
 
 #pragma mark - UICollectionViewDataSource
 
@@ -72,7 +92,11 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return (_sectionSizeBlock) ? _sectionSizeBlock(collectionView, section) : CGSizeZero;
+    return (_sectionHeaderSizeBlock) ? _sectionHeaderSizeBlock(collectionView, section) : CGSizeZero;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    return (_sectionFooterSizeBlock) ? _sectionFooterSizeBlock(collectionView, section) : CGSizeZero;
 }
 
 @end

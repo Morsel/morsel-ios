@@ -12,4 +12,13 @@
 
 - (NSInteger)numberOfItemsInAllSections;
 
+- (BOOL)isFirstItemInSectionForIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)isFirstSectionForIndexPath:(NSIndexPath *)indexPath;
+
+- (BOOL)isLastItemInSectionForIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)isLastSectionForIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)isLastItemForIndexPath:(NSIndexPath *)indexPath;
+
+- (NSInteger)lastSection;
+
 @end
