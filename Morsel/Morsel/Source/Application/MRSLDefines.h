@@ -125,6 +125,13 @@ static const int MRSLStatsTagViewTag = 9991;
 #define ROLLBAR_ENVIRONMENT @"debug"
 #endif
 
+/* 
+ Defining to disable Mixpanel using the advertising identifier, 
+ which Apple prohibits if AdSupport.framework is included but 
+ this feature is not enabled in iTunes Connect.
+*/
+#define MIXPANEL_NO_IFA
+
 #define ROLLBAR_ACCESS_TOKEN @"80ee8af968f646898f1c1a6d6253b347"
 #define ROLLBAR_VERSION @"v0.1.2"
 

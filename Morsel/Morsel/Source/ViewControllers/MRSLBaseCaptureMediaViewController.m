@@ -330,7 +330,7 @@ ELCImagePickerControllerDelegate>
 }
 
 - (IBAction)completeMediaCapture:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped OK"
+    [[MRSLEventManager sharedManager] track:@"Tapped Done"
                                  properties:@{@"view": @"Media Capture",
                                               @"picture_count": @([_capturedMediaItems count])}];
     if ([self.capturedMediaItems count] > 0) {
