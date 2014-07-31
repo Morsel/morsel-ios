@@ -120,7 +120,7 @@
         } else {
             if (failureOrNil) failureOrNil(error);
         }
-        [workContext reset];
+        if (success) [workContext reset];
     }];
 }
 
@@ -129,7 +129,7 @@
     if ([responseDictionary[@"data"] isKindOfClass:[NSArray class]]) {
         __block NSMutableArray *feedItemIDs = [NSMutableArray array];
         NSArray *feedItemsArray = responseDictionary[@"data"];
-        __block NSManagedObjectContext *workContext = nil;
+        __weak __block NSManagedObjectContext *workContext = nil;
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
             workContext = localContext;
             [feedItemsArray enumerateObjectsUsingBlock:^(NSDictionary *feedItemDictionary, NSUInteger idx, BOOL *stop) {
@@ -149,7 +149,7 @@
             }];
         } completion:^(BOOL success, NSError *error) {
             if (successOrNil) successOrNil(feedItemIDs);
-            [workContext reset];
+            if (success) [workContext reset];
         }];
     }
 }
@@ -177,7 +177,7 @@
             }];
         } completion:^(BOOL success, NSError *error) {
             if (successOrNil) successOrNil(itemIDs);
-            [workContext reset];
+            if (success) [workContext reset];
         }];
     }
 }

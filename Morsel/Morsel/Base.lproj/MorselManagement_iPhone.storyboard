@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="qdQ-No-x4G">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="qdQ-No-x4G">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Morsel Add Title View Controller - New Morsel-->
+        <!--Morsel Add Title View Controller - New morsel-->
         <scene sceneID="QQh-X0-9F7">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLMorselAddTitleViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="xiT-us-aqg" customClass="MRSLMorselAddTitleViewController" sceneMemberID="viewController">
@@ -46,7 +46,7 @@
                         <color key="backgroundColor" red="0.97647058959999999" green="0.96862745289999996" blue="0.96862745289999996" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="New Morsel" id="LlN-f7-5kY">
+                    <navigationItem key="navigationItem" title="New morsel" id="LlN-f7-5kY">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="7oU-5m-ehi">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -65,7 +65,7 @@
             </objects>
             <point key="canvasLocation" x="1706" y="73"/>
         </scene>
-        <!--Morsel Edit View Controller - Your Morsel-->
+        <!--Morsel Edit View Controller - Your morsel-->
         <scene sceneID="ZCc-aS-vaj">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLMorselEditViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="QmE-5e-DXK" customClass="MRSLMorselEditViewController" sceneMemberID="viewController">
@@ -235,7 +235,7 @@
                         <color key="backgroundColor" red="0.96862745100000003" green="0.97647058819999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Your Morsel" id="sil-H5-pNn"/>
+                    <navigationItem key="navigationItem" title="Your morsel" id="sil-H5-pNn"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="lastUpdatedLabel" destination="In7-2o-cvL" id="JWt-tA-YFI"/>
@@ -250,7 +250,7 @@
             </objects>
             <point key="canvasLocation" x="1163" y="845"/>
         </scene>
-        <!--Morsel Publish Cover View Controller - Select Cover-->
+        <!--Morsel Publish Cover View Controller - Select cover-->
         <scene sceneID="5Og-AE-TPy">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLMorselPublishViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="HS6-Lc-kLD" customClass="MRSLMorselPublishCoverViewController" sceneMemberID="viewController">
@@ -306,7 +306,7 @@
                                 <color key="pageIndicatorTintColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             </pageControl>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe left or right to select the cover photo for your Morsel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rxS-Cf-oQ0" customClass="MRSLRobotoLightLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe left or right to select the cover photo for your morsel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rxS-Cf-oQ0" customClass="MRSLRobotoLightLabel">
                                 <rect key="frame" x="15" y="340" width="290" height="47"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -317,7 +317,7 @@
                         <color key="backgroundColor" red="0.97647058959999999" green="0.96862745289999996" blue="0.96862745289999996" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Select Cover" id="Meq-Pb-DDR">
+                    <navigationItem key="navigationItem" title="Select cover" id="Meq-Pb-DDR">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="SeR-xl-OW7">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -337,7 +337,7 @@
             </objects>
             <point key="canvasLocation" x="1706" y="1656"/>
         </scene>
-        <!--Morsel Publish Place View Controller - Associate Place-->
+        <!--Morsel Publish Place View Controller - Associate place-->
         <scene sceneID="fHN-I5-fAE">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLMorselPublishPlaceViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Skl-OL-Y5W" customClass="MRSLMorselPublishPlaceViewController" sceneMemberID="viewController">
@@ -358,7 +358,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restaurant Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Cj-jE-w16" customClass="MRSLRobotoSlabBoldLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restaurant name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Cj-jE-w16" customClass="MRSLRobotoSlabBoldLabel">
                                                     <rect key="frame" x="54" y="0.0" width="208" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -425,7 +425,7 @@
                                     <outlet property="delegate" destination="Skl-OL-Y5W" id="iy8-R5-i6f"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select a place to associate your Morsel with:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eQC-za-w1l" customClass="MRSLRobotoLightLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select a place to associate your morsel with:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eQC-za-w1l" customClass="MRSLRobotoLightLabel">
                                 <rect key="frame" x="20" y="11" width="280" height="47"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -436,7 +436,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Associate Place" id="L2c-zT-CFl">
+                    <navigationItem key="navigationItem" title="Associate place" id="L2c-zT-CFl">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="TJV-d5-Krg">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -511,7 +511,7 @@
                                 <rect key="frame" x="0.0" y="144" width="320" height="54"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open Cover in Instagram" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k7D-rK-IeT" customClass="MRSLRobotoLightLabel">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open cover in Instagram" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k7D-rK-IeT" customClass="MRSLRobotoLightLabel">
                                         <rect key="frame" x="20" y="11" width="206" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>

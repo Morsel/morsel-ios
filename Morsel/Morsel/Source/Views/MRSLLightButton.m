@@ -34,8 +34,6 @@ static CGFloat kPadding = MRSLDefaultPadding;
 }
 
 - (void)setFittedTitleForAllStates:(NSString *)title {
-    if ([title isEqualToString:self.titleLabel.text]) return;
-
     [self setTitle:title
                  forState:UIControlStateNormal];
     [self sizeToFit];

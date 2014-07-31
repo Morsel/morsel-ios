@@ -243,7 +243,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (IBAction)toggleEditing {
     [[MRSLEventManager sharedManager] track:@"Tapped Edit"
-                                 properties:@{@"view": @"Your Morsel",
+                                 properties:@{@"view": @"Your morsel",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     self.isEditing = !_isEditing;
     [_morselItemsTableView setEditing:_isEditing
@@ -279,7 +279,7 @@ MRSLMorselEditItemTableViewCellDelegate>
             }
         }
         [[MRSLEventManager sharedManager] track:@"Tapped Next"
-                                     properties:@{@"view": @"Your Morsel",
+                                     properties:@{@"view": @"Your morsel",
                                                   @"item_count": @([_items count]),
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"morsel_draft":(_morsel.draftValue) ? @"true" : @"false"}];
@@ -306,7 +306,7 @@ MRSLMorselEditItemTableViewCellDelegate>
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         MRSLItem *deletedItem = [_items objectAtIndex:indexPath.row];
         [[MRSLEventManager sharedManager] track:@"Tapped Delete Item"
-                                     properties:@{@"view": @"Your Morsel",
+                                     properties:@{@"view": @"Your morsel",
                                                   @"item_count": @([_items count]),
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(deletedItem.itemID)}];
@@ -340,7 +340,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                  atIndex:destinationIndexPath.row];
 
     [[MRSLEventManager sharedManager] track:@"Tapped Reordered Morsel"
-                                 properties:@{@"view": @"Your Morsel",
+                                 properties:@{@"view": @"Your morsel",
                                               @"item_count": @([_items count]),
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(movedItem.itemID)}];
@@ -391,7 +391,7 @@ MRSLMorselEditItemTableViewCellDelegate>
     self.item = [_items objectAtIndex:indexPath.row];
     if (!self.item.itemID) return;
     [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
-                                 properties:@{@"view": @"Your Morsel",
+                                 properties:@{@"view": @"Your morsel",
                                               @"item_count": @([_items count]),
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(_item.itemID)}];
@@ -457,7 +457,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                     delegate:nil];
                 }
             } completion:^(BOOL success, NSError *error) {
-                [workContext reset];
+                if (success) [workContext reset];
             }];
         }];
 
@@ -502,7 +502,7 @@ MRSLMorselEditItemTableViewCellDelegate>
         self.morsel = [self getOrLoadMorselIfExists];
         if (_morsel) {
             [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
-                                         properties:@{@"view": @"Your Morsel",
+                                         properties:@{@"view": @"Your morsel",
                                                       @"morsel_id": NSNullIfNil(_morsel.morselID)}];
             [_appDelegate.apiService deleteMorsel:_morsel
                                           success:nil
@@ -518,7 +518,7 @@ MRSLMorselEditItemTableViewCellDelegate>
         }
     } else {
         [[MRSLEventManager sharedManager] track:@"Tapped Cancel Delete Morsel"
-                                     properties:@{@"view": @"Your Morsel",
+                                     properties:@{@"view": @"Your morsel",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     }
 }
