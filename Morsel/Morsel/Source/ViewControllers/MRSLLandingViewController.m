@@ -95,8 +95,8 @@
             }
         } failure:^(NSError *error) {
             weakSelf.activityView.hidden = YES;
-            [UIAlertView showAlertViewForError:error
-                                      delegate:nil];
+            if (error) [UIAlertView showAlertViewForError:error
+                                                 delegate:nil];
         }];
     }
 }
