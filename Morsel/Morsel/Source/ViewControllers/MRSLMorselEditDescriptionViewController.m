@@ -73,7 +73,7 @@ UITextViewDelegate>
     self.item = [self getOrLoadMorselIfExists];
     if (!self.item.itemID) return;
     [[MRSLEventManager sharedManager] track:@"Tapped Done"
-                                 properties:@{@"view": @"Your Morsel",
+                                 properties:@{@"view": @"Your morsel",
                                               @"char_count": @([_itemDescriptionTextView.text length]),
                                               @"item_id": NSNullIfNil(_item.itemID)}];
     if (![_item.itemDescription isEqualToString:self.itemDescriptionTextView.text]) {

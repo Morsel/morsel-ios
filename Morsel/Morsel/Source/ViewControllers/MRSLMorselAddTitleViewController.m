@@ -41,9 +41,9 @@
         self.morselTitleTextView.text = morsel.title;
         self.previousTitle = morsel.title;
         [self textViewDidChange:_morselTitleTextView];
-        self.title = @"Edit Morsel title";
+        self.title = @"Edit morsel title";
     } else {
-        self.title = @"Give your Morsel a title";
+        self.title = @"Give your morsel a title";
     }
 }
 

@@ -35,7 +35,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 @property (nonatomic) MRSLScrollDirection scrollDirection;
 
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *feedCollectionView;
 
 @property (strong, nonatomic) NSFetchedResultsController *feedFetchedResultsController;
@@ -53,7 +52,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = [NSString stringWithFormat:@"%@'s Morsels", _user.username];
+    self.title = [NSString stringWithFormat:@"%@'s morsels", _user.username];
 
     self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array];
     if (_morsel) [self.morselIDs addObject:_morsel.morselID];
@@ -94,11 +93,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)toggleControls:(BOOL)shouldDisplay {
     _feedCollectionView.scrollEnabled = shouldDisplay;
-    _backButton.enabled = shouldDisplay;
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [_backButton setAlpha:shouldDisplay];
-                     }];
 }
 
 #pragma mark - Private Methods
