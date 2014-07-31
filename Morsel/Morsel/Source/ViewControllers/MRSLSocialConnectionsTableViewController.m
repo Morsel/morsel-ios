@@ -194,4 +194,16 @@
     });
 }
 
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [cell setBackgroundColor:[UIColor morselDefaultCellBackgroundColor]];
+
+    [cell addDefaultBorderForDirections:MRSLBorderNorth];
+    if ([self.tableView isLastRowInSectionForIndexPath:indexPath]) {
+        [cell addDefaultBorderForDirections:MRSLBorderSouth];
+    }
+}
+
 @end
