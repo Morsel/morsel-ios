@@ -234,7 +234,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
     } else {
         if (count > 0) {
             [cell addBorderWithDirections:MRSLBorderSouth
-                              borderColor:[UIColor morselLightOff]];
+                              borderColor:[UIColor morselDefaultBorderColor]];
             if ([item isKindOfClass:[MRSLMorsel class]]) {
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMorselPreviewCellKey
                                                                  forIndexPath:indexPath];
@@ -245,7 +245,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                 [(MRSLPlaceUserCollectionViewCell *)cell setUser:item];
                 if (indexPath.row != count) {
                     [cell addBorderWithDirections:MRSLBorderSouth
-                                      borderColor:[UIColor morselLightOff]];
+                                      borderColor:[UIColor morselDefaultBorderColor]];
                 }
             }
         }
