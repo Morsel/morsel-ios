@@ -47,7 +47,7 @@
 
     if (indexPath.section == 0 && indexPath.row == 0) {
         [cell addDefaultBorderForDirections:MRSLBorderNorth];
-    } else if (!([self.tableView isLastRowInSectionForIndexPath:indexPath] && ![self.tableView isLastSectionForIndexPath:indexPath])) {
+    } else if (![self.tableView isLastRowForIndexPath:indexPath]) {
         [cell addDefaultBorderForDirections:MRSLBorderSouth];
     }
 }

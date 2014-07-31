@@ -171,6 +171,7 @@ NSString *const MRSLStoryboardRUIDPanelCellKey = @"ruid_PanelCell";
 NSString *const MRSLStoryboardRUIDPlaceCellKey = @"ruid_PlaceCell";
 NSString *const MRSLStoryboardRUIDPreviousCommentCellKey = @"ruid_PreviousCommentCell";
 NSString *const MRSLStoryboardRUIDPreviousLoadingKey = @"ruid_PreviousLoading";
+NSString *const MRSLStoryboardRUIDSectionFooterKey = @"ruid_SectionFooter";
 NSString *const MRSLStoryboardRUIDSectionHeaderKey = @"ruid_SectionHeader";
 NSString *const MRSLStoryboardRUIDUserCellKey = @"ruid_UserCell";
 NSString *const MRSLStoryboardRUIDUserFollowCellKey = @"ruid_UserFollowCell";

@@ -17,6 +17,7 @@
 
 - (BOOL)isLastRowInSectionForIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)isLastSectionForIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)isLastRowForIndexPath:(NSIndexPath *)indexPath;
 
 - (BOOL)hasHeaderForSection:(NSInteger)section;
 

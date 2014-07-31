@@ -33,6 +33,10 @@
     return [self numberOfSections] - 1 == indexPath.section;
 }
 
+- (BOOL)isLastRowForIndexPath:(NSIndexPath *)indexPath {
+    return [self isLastSectionForIndexPath:indexPath] && [self isLastRowInSectionForIndexPath:indexPath];
+}
+
 - (BOOL)hasHeaderForSection:(NSInteger)section {
     return [self.dataSource tableView:self
               titleForHeaderInSection:section] != nil;

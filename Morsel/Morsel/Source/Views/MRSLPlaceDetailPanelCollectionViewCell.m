@@ -29,8 +29,15 @@
 
         self.nameLabel.text = _place.name;
         self.addressLabel.text = [_place fullAddress];
-        self.viewMenuButton.hidden = (_place.menu_url == nil || _place.menu_mobile_url == nil);
-        self.makeReservationButton.hidden = (_place.reservations_url == nil);
+        BOOL hideMenuButton = ![_place hasMenuLink];
+        self.viewMenuButton.hidden = hideMenuButton;
+        BOOL hideReservationButton = ![_place hasReservationLink];
+        self.makeReservationButton.hidden = hideReservationButton;
+
+        if (hideMenuButton && !hideReservationButton) {
+            //  Reposition the reservation button
+            [self.makeReservationButton setFrame:self.viewMenuButton.frame];
+        }
     }
 }
 

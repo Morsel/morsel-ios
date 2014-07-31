@@ -171,6 +171,7 @@ extern NSString *const MRSLStoryboardRUIDPanelCellKey;
 extern NSString *const MRSLStoryboardRUIDPlaceCellKey;
 extern NSString *const MRSLStoryboardRUIDPreviousCommentCellKey;
 extern NSString *const MRSLStoryboardRUIDPreviousLoadingKey;
+extern NSString *const MRSLStoryboardRUIDSectionFooterKey;
 extern NSString *const MRSLStoryboardRUIDSectionHeaderKey;
 extern NSString *const MRSLStoryboardRUIDUserCellKey;
 extern NSString *const MRSLStoryboardRUIDUserFollowCellKey;

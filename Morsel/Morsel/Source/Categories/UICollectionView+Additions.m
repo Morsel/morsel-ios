@@ -17,4 +17,28 @@
     return rowCount;
 }
 
+- (BOOL)isFirstItemInSectionForIndexPath:(NSIndexPath *)indexPath {
+    return indexPath.row == 0;
+}
+
+- (BOOL)isFirstSectionForIndexPath:(NSIndexPath *)indexPath {
+    return indexPath.section == 0;
+}
+
+- (BOOL)isLastItemInSectionForIndexPath:(NSIndexPath *)indexPath {
+    return [self numberOfItemsInSection:indexPath.section] - 1 == indexPath.row;
+}
+
+- (BOOL)isLastSectionForIndexPath:(NSIndexPath *)indexPath {
+    return [self lastSection] == indexPath.section;
+}
+
+- (BOOL)isLastItemForIndexPath:(NSIndexPath *)indexPath {
+    return [self isLastSectionForIndexPath:indexPath] && [self isLastItemInSectionForIndexPath:indexPath];
+}
+
+- (NSInteger)lastSection {
+    return [self numberOfSections] - 1;
+}
+
 @end

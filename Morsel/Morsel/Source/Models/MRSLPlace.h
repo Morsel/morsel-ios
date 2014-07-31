@@ -10,4 +10,8 @@
 - (NSArray *)directionsInfo;
 - (NSArray *)placeTimeFrames;
 
+- (CGFloat)detailsCellHeight;
+- (BOOL)hasMenuLink;
+- (BOOL)hasReservationLink;
+
 @end

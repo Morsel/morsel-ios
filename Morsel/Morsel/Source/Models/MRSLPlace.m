@@ -100,6 +100,24 @@
     return self.timeframes;
 }
 
+- (CGFloat)detailsCellHeight {
+    CGFloat cellHeight = 185.0f;
+
+    if (![self hasMenuLink]) cellHeight -= 45.0f;
+    if (![self hasReservationLink]) cellHeight -= 45.0f;
+
+    return cellHeight;
+}
+
+- (BOOL)hasMenuLink {
+    return (self.menu_url != nil || self.menu_mobile_url != nil);
+}
+
+- (BOOL)hasReservationLink {
+    return self.reservations_url != nil;
+}
+
+
 #pragma mark - Magical Record Methods
 
 - (void)didImport:(id)data {
