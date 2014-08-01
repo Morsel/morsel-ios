@@ -25,6 +25,13 @@
     [super viewWillAppear:animated];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayOnboardingNotification object:nil];
+    });
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController respondsToSelector:@selector(setKeywordType:)]) {
         if ([[segue identifier] isEqualToString:MRSLStoryboardSegueCuisinesKey])

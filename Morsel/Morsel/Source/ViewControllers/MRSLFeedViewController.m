@@ -97,6 +97,10 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeTimer)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayOnboarding)
+                                                 name:MRSLAppShouldDisplayOnboardingNotification
+                                               object:nil];
 
     //  Don't want the default empty string to show up in between states
     [self.feedCollectionView setEmptyStateTitle:@""];
@@ -118,18 +122,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
         [self populateContent];
         [self refreshContent];
         [self resetCollectionViewWidth];
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    if (![standardUserDefaults boolForKey:@"didViewOnboarding"]) {
-        [standardUserDefaults setBool:YES
-                               forKey:@"didViewOnboarding"];
-        [standardUserDefaults synchronize];
-
-        [self displayOnboarding];
     }
 }
 
@@ -296,6 +288,13 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)displayOnboarding {
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if ([standardUserDefaults boolForKey:@"didViewOnboarding"]) return;
+
+    [standardUserDefaults setBool:YES
+                           forKey:@"didViewOnboarding"];
+    [standardUserDefaults synchronize];
+
     UIButton *onboardingButton = [[UIButton alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [onboardingButton setBackgroundImage:[UIImage imageNamed:@"graphic-onboarding"]
                                 forState:UIControlStateNormal];

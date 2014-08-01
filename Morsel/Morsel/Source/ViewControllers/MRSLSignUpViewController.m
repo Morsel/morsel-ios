@@ -234,6 +234,10 @@ UITextFieldDelegate>
                                                         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayProfessionalSettingsNotification
                                                                                                             object:nil];
                                                     });
+                                                } else {
+                                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayOnboardingNotification object:nil];
+                                                    });
                                                 }
                                             });
                                             [[MRSLEventManager sharedManager] track:@"$signup"

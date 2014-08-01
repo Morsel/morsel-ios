@@ -30,6 +30,7 @@ NSString *const MRSLModalWillDismissNotification = @"MRSLModalWillDismissNotific
 
 NSString *const MRSLAppShouldDisplayMenuBarNotification = @"MRSLAppShouldDisplayMenuBarNotification";
 NSString *const MRSLAppShouldDisplayBaseViewControllerNotification = @"MRSLAppShouldDisplayBaseViewControllerNotification";
+NSString *const MRSLAppShouldDisplayOnboardingNotification = @"MRSLAppShouldDisplayOnboardingNotification";
 NSString *const MRSLAppShouldDisplayProfessionalSettingsNotification = @"MRSLAppShouldDisplayProfessionalSettingsNotification";
 NSString *const MRSLAppShouldDisplayUserProfileNotification = @"MRSLAppShouldDisplayUserProfileNotification";
 NSString *const MRSLAppShouldDisplayWebBrowserNotification = @"MRSLAppShouldDisplayWebBrowserNotification";
