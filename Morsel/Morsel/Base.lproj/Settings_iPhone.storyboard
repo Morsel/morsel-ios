@@ -592,11 +592,12 @@ Access it later from Settings.</string>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="h6l-Nc-v6u" customClass="MRSLLightButton">
-                                        <rect key="frame" x="200" y="0.0" width="120" height="44"/>
+                                        <rect key="frame" x="190" y="0.0" width="130" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
-                                        <state key="normal" title="Add place">
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
+                                        <state key="normal" title="Add place" image="icon-add">
                                             <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
@@ -959,6 +960,7 @@ follow them for you.</string>
         </scene>
     </scenes>
     <resources>
+        <image name="icon-add" width="21" height="21"/>
         <image name="icon-circle-check-green" width="30" height="30"/>
         <image name="icon-place" width="30" height="30"/>
         <image name="icon-social-facebook-mark-dark" width="22" height="22"/>
