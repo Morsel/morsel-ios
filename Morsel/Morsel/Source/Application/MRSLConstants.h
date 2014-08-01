@@ -99,6 +99,7 @@ extern NSString *const MRSLStoryboardFollowingPeopleKey;
 extern NSString *const MRSLStoryboardImagePreviewViewControllerKey;
 extern NSString *const MRSLStoryboardKeywordUsersViewControllerKey;
 extern NSString *const MRSLStoryboardLikesKey;
+extern NSString *const MRSLStoryboardMediaPreviewKey;
 extern NSString *const MRSLStoryboardModalDescriptionViewControllerKey;
 extern NSString *const MRSLStoryboardModalShareViewControllerKey;
 extern NSString *const MRSLStoryboardMorselAddTitleViewControllerKey;

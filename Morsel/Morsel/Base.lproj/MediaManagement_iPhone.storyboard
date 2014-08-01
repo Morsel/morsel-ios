@@ -370,7 +370,7 @@
         <!--Navigation Controller-->
         <scene sceneID="GKv-Af-Vtr">
             <objects>
-                <navigationController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="W6x-Dp-nKh" customClass="MRSLNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_MediaPreview" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="W6x-Dp-nKh" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

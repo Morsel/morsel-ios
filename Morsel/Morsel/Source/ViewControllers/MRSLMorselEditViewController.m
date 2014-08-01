@@ -405,11 +405,11 @@ MRSLMorselEditItemTableViewCellDelegate>
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(_item.itemID)}];
     NSUInteger index = [_items indexOfObject:_item];
-    MRSLMediaItemPreviewViewController *imagePreviewVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardImagePreviewViewControllerKey];
+    UINavigationController *imagePreviewNC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMediaPreviewKey];
+    MRSLMediaItemPreviewViewController *imagePreviewVC = [[imagePreviewNC viewControllers] firstObject];
     [imagePreviewVC setPreviewMedia:_items andStartingIndex:index];
-
-    [self.navigationController pushViewController:imagePreviewVC
-                                         animated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                        object:imagePreviewNC];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

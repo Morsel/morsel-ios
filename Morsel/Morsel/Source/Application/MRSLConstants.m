@@ -99,6 +99,7 @@ NSString *const MRSLStoryboardFollowingPeopleKey = @"sb_FollowingPeople";
 NSString *const MRSLStoryboardImagePreviewViewControllerKey = @"sb_MRSLImagePreviewViewController";
 NSString *const MRSLStoryboardKeywordUsersViewControllerKey = @"sb_MRSLKeywordUsersViewController";
 NSString *const MRSLStoryboardLikesKey = @"sb_Likes";
+NSString *const MRSLStoryboardMediaPreviewKey = @"sb_MediaPreview";
 NSString *const MRSLStoryboardModalDescriptionViewControllerKey = @"sb_MRSLModalDescriptionViewController";
 NSString *const MRSLStoryboardModalShareViewControllerKey = @"sb_MRSLModalShareViewController";
 NSString *const MRSLStoryboardMorselAddTitleViewControllerKey = @"sb_MRSLMorselAddTitleViewController";
