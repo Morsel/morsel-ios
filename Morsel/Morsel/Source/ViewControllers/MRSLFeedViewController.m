@@ -121,6 +121,18 @@ MRSLFeedPanelCollectionViewCellDelegate>
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if (![standardUserDefaults boolForKey:@"didViewOnboarding"]) {
+        [standardUserDefaults setBool:YES
+                               forKey:@"didViewOnboarding"];
+        [standardUserDefaults synchronize];
+
+        [self displayOnboarding];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.feedFetchedResultsController.delegate = nil;
@@ -276,6 +288,29 @@ MRSLFeedPanelCollectionViewCellDelegate>
         if ([_feedMorsels count] > 0) self.loading = NO;
     });
 }
+
+- (void)displayOnboarding {
+    UIButton *onboardingButton = [[UIButton alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [onboardingButton setBackgroundImage:[UIImage imageNamed:@"graphic-onboarding"]
+                                forState:UIControlStateNormal];
+    [onboardingButton setAlpha:0.0f];
+    [onboardingButton addTarget:self
+                         action:@selector(dismissOnboarding:)
+               forControlEvents:UIControlEventTouchUpInside];
+    [self.view.window addSubview:onboardingButton];
+    [UIView animateWithDefaultDurationAnimations:^{
+        [onboardingButton setAlpha:1.0f];
+    }];
+}
+
+- (void)dismissOnboarding:(id)sender {
+    [UIView animateWithDefaultDurationAnimations:^{
+        [sender setAlpha:0.0f];
+    } completion:^(BOOL finished) {
+        [sender removeFromSuperview];
+    }];
+}
+
 
 #pragma mark - Section Methods
 
