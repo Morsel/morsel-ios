@@ -20,7 +20,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     //  Remove the 'Access it later from Settings' label
     if ([self presentingViewController] == nil) {
-        [self.tableView setTableHeaderView:nil];
+        [self.tableView setTableFooterView:nil];
     }
     [super viewWillAppear:animated];
 }
