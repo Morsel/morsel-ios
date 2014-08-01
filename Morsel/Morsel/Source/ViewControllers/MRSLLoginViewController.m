@@ -133,6 +133,7 @@
     [UIView animateWithDuration:.2f
                      animations:^{
                          [self.loginScrollView setHeight:[self.view getHeight] - keyboardSize.height];
+                         [self.loginScrollView scrollRectToVisible:_passwordTextField.frame animated:YES];
                      }];
 }
 

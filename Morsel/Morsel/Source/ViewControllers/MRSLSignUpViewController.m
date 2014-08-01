@@ -251,6 +251,7 @@ UITextFieldDelegate>
     [UIView animateWithDuration:.2f
                      animations:^{
                          [self.contentScrollView setHeight:[self.view getHeight] - keyboardSize.height];
+                         [self.contentScrollView scrollRectToVisible:_passwordField.frame animated:YES];
                      }];
 }
 
