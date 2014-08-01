@@ -759,8 +759,8 @@ Access it later from Settings.</string>
                             <rect key="frame" x="0.0" y="182" width="320" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <string key="text">When one of your friends from a connected 
-account above joins Morsel we’ll automagically 
-follow them for you. Super social!</string>
+account above joins Morsel we’ll automatically 
+follow them for you.</string>
                             <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="14"/>
                             <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
