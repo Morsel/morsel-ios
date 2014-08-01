@@ -21,6 +21,7 @@ pod 'AFOAuth1Client', :git => 'https://github.com/Morsel/AFOAuth1Client'
 pod 'AFOAuth2Client', :git => 'https://github.com/Morsel/AFOAuth2Client'
 pod 'NXOAuth2Client', '1.2.6'
 pod 'XMLDictionary', '1.4'
+pod 'NGAParallaxMotion', '~> 1.0'
 
 # Note: 0.1.5 contains a fix for a common crash but has not been released as a cocoapod yet, so point to GitHub instead.
 pod 'GPUImage', :git => 'git@github.com:BradLarson/GPUImage.git', :tag => '0.1.5'

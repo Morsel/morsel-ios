@@ -49,6 +49,7 @@ PODS:
     - MagicalRecord/Core
   - MagicalRecord/Core (2.2)
   - Mixpanel (2.3.1)
+  - NGAParallaxMotion (1.0.2)
   - NSData+Base64 (1.0.0)
   - NSDate+TimeAgo (1.0.2)
   - NullSafe (1.2)
@@ -78,6 +79,7 @@ DEPENDENCIES:
   - M13Checkbox (from `git@github.com:Marxon13/M13Checkbox.git`, commit `8c3a6f167e0f602dd47928492ef3777e604be66b`)
   - MagicalRecord (= 2.2)
   - Mixpanel (= 2.3.1)
+  - NGAParallaxMotion (~> 1.0)
   - NSDate+TimeAgo (= 1.0.2)
   - NullSafe (= 1.2)
   - NXOAuth2Client (= 1.2.6)
@@ -120,6 +122,7 @@ SPEC CHECKSUMS:
   M13Checkbox: 4223ca1325bd4fefacf92ae616eb52341a98dce0
   MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
   Mixpanel: 9cc470a58346f60da8ce2982096bcc72b5a7372b
+  NGAParallaxMotion: f25d6b7e4eefe1c94211dbf402cd3563e56d46f3
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   NSDate+TimeAgo: c01d6ac0b81add41f77f264fa4276d355723fcde
   NullSafe: 9685bb76b0fa73cab04a69c176622662d46f0160
