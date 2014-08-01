@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jtb-qR-yHr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jtb-qR-yHr">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -235,7 +235,7 @@ Access it later from Settings.</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="qw9-yF-Jf9" kind="push" id="700-Vj-Cks"/>
+                                            <segue destination="qw9-yF-Jf9" kind="push" identifier="seg_EditProfile" id="700-Vj-Cks"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="SoO-ZC-cr4" style="IBUITableViewCellStyleDefault" id="jaH-5Y-Eqq" userLabel="Social Connections Cell">
@@ -255,7 +255,7 @@ Access it later from Settings.</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="QZP-QV-mgC" kind="push" id="Eiq-8I-Vrt"/>
+                                            <segue destination="QZP-QV-mgC" kind="push" identifier="seg_SocialConnections" id="Eiq-8I-Vrt"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="puJ-UQ-bdw" style="IBUITableViewCellStyleDefault" id="SX1-Oi-pTb" userLabel="Account Settings Cell">
@@ -895,6 +895,8 @@ follow them for you. Super social!</string>
                         <outlet property="autoFollowSwitch" destination="LwC-23-jma" id="Md4-tk-vQZ"/>
                         <outlet property="facebookSwitch" destination="1V0-CS-YLX" id="IaQ-ij-vJw"/>
                         <outlet property="facebookUsernameLabel" destination="1DD-gV-g3w" id="aqR-xy-bhp"/>
+                        <outlet property="instagramSwitch" destination="FL3-A3-rsw" id="Raq-g5-GUD"/>
+                        <outlet property="instagramUsernameLabel" destination="0Sr-xY-Sdl" id="GWe-8z-k9e"/>
                         <outlet property="twitterSwitch" destination="T7H-Oa-lbb" id="dfZ-9Q-5dd"/>
                         <outlet property="twitterUsernameLabel" destination="JcT-Fb-Jb4" id="h56-ik-GuH"/>
                     </connections>
@@ -969,7 +971,7 @@ follow them for you. Super social!</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="hIZ-Jg-7dw"/>
+        <segue reference="8pa-4z-b2V"/>
         <segue reference="jp2-hb-9Es"/>
     </inferredMetricsTieBreakers>
 </document>

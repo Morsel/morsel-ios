@@ -81,9 +81,11 @@ CaptureMediaViewControllerDelegate>
 
     if ([firstMediaItem isKindOfClass:[MRSLItem class]]) {
         self.title = @"Your morsel";
+        self.mp_eventView = @"your_morsel";
         self.toolbar.leftButton.hidden = NO;
     } else {
         self.title = @"Image preview";
+        self.mp_eventView = @"image_preview";
         self.toolbar.leftButton.hidden = YES;
     }
 
@@ -143,8 +145,9 @@ CaptureMediaViewControllerDelegate>
 - (IBAction)editDescription {
     MRSLItem *item = [_previewMedia objectAtIndex:_currentIndex];
     if (!item.itemID) return;
-    [[MRSLEventManager sharedManager] track:@"Tapped Add Description"
-                                 properties:@{@"view": @"Your morsel",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Add Description",
+                                              @"_view": self.mp_eventView,
                                               @"item_count": @([_previewMedia count]),
                                               @"morsel_id": NSNullIfNil(item.morsel.morselID),
                                               @"item_id": NSNullIfNil(item.itemID)}];

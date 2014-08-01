@@ -64,6 +64,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"your_morsel";
+
     self.isEditing = NO;
 
     self.items = [NSMutableArray array];
@@ -242,8 +244,9 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - Action Methods
 
 - (IBAction)toggleEditing {
-    [[MRSLEventManager sharedManager] track:@"Tapped Edit"
-                                 properties:@{@"view": @"Your morsel",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Edit",
+                                              @"_view": self.mp_eventView,
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     self.isEditing = !_isEditing;
     [_morselItemsTableView setEditing:_isEditing
@@ -278,9 +281,10 @@ MRSLMorselEditItemTableViewCellDelegate>
                 return;
             }
         }
-        [[MRSLEventManager sharedManager] track:@"Tapped Next"
-                                     properties:@{@"view": @"Your morsel",
-                                                  @"item_count": @([_items count]),
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Next",
+                                                  @"_view": self.mp_eventView,
+                                                  @"items_count": @([_items count]),
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"morsel_draft":(_morsel.draftValue) ? @"true" : @"false"}];
         [self performSegueWithIdentifier:MRSLStoryboardSeguePublishMorselKey
@@ -305,8 +309,9 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         MRSLItem *deletedItem = [_items objectAtIndex:indexPath.row];
-        [[MRSLEventManager sharedManager] track:@"Tapped Delete Item"
-                                     properties:@{@"view": @"Your morsel",
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Delete Item",
+                                                  @"_view": self.mp_eventView,
                                                   @"item_count": @([_items count]),
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(deletedItem.itemID)}];
@@ -339,8 +344,9 @@ MRSLMorselEditItemTableViewCellDelegate>
     [_items insertObject:movedItem
                  atIndex:destinationIndexPath.row];
 
-    [[MRSLEventManager sharedManager] track:@"Tapped Reordered Morsel"
-                                 properties:@{@"view": @"Your morsel",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Reordered Morsel",
+                                              @"_view": self.mp_eventView,
                                               @"item_count": @([_items count]),
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(movedItem.itemID)}];
@@ -390,8 +396,9 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.item = [_items objectAtIndex:indexPath.row];
     if (!self.item.itemID) return;
-    [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
-                                 properties:@{@"view": @"Your morsel",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Thumbnail",
+                                              @"_view": self.mp_eventView,
                                               @"item_count": @([_items count]),
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(_item.itemID)}];
@@ -501,8 +508,9 @@ MRSLMorselEditItemTableViewCellDelegate>
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"]) {
         self.morsel = [self getOrLoadMorselIfExists];
         if (_morsel) {
-            [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
-                                         properties:@{@"view": @"Your morsel",
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"Delete Morsel",
+                                                      @"_view": self.mp_eventView,
                                                       @"morsel_id": NSNullIfNil(_morsel.morselID)}];
             [_appDelegate.apiService deleteMorsel:_morsel
                                           success:nil
@@ -517,8 +525,9 @@ MRSLMorselEditItemTableViewCellDelegate>
             }
         }
     } else {
-        [[MRSLEventManager sharedManager] track:@"Tapped Cancel Delete Morsel"
-                                     properties:@{@"view": @"Your morsel",
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Cancel Delete Morsel",
+                                                  @"_view": self.mp_eventView,
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     }
 }

@@ -42,6 +42,8 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"drafts";
+
     self.morselIDs =  [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:@"currentuser_draft_morselIDs"] ?: [NSMutableArray array];
 
     self.title = @"Drafts";
@@ -216,8 +218,9 @@ NSFetchedResultsControllerDelegate>
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         MRSLMorsel *deletedMorsel = [_morsels objectAtIndex:indexPath.row];
-        [[MRSLEventManager sharedManager] track:@"Tapped Delete Morsel"
-                                     properties:@{@"view": @"Drafts",
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Delete Morsel",
+                                                  @"_view": self.mp_eventView,
                                                   @"item_count": @([_morsels count]),
                                                   @"morsel_id": NSNullIfNil(deletedMorsel.morselID)}];
         [_morsels removeObject:deletedMorsel];
@@ -238,8 +241,9 @@ NSFetchedResultsControllerDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
-    [[MRSLEventManager sharedManager] track:@"Tapped Morsel"
-                                 properties:@{@"view": @"Drafts",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Morsel",
+                                              @"_view": self.mp_eventView,
                                               @"morsel_id": NSNullIfNil(morsel.morselID),
                                               @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
     MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];

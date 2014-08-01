@@ -39,6 +39,8 @@ UITableViewDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.mp_eventView = @"publish_place";
     self.placeIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username]] ?: [NSMutableArray array];
 
     self.places = [NSMutableArray array];
@@ -75,6 +77,12 @@ UITableViewDelegate>
                                   failure:nil];
     [self performSegueWithIdentifier:MRSLStoryboardSeguePublishShareMorselKey
                               sender:nil];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Next",
+                                              @"_view": self.mp_eventView,
+                                              @"place_selected": NSNullIfNil(_morsel.place.placeID),
+                                              @"place_count": NSNullIfNil(@([_places count])),
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
 }
 
 #pragma mark - Private Methods

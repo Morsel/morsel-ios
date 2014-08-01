@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.mp_action = @"edit";
     self.finishButton.hidden = YES;
 }
 

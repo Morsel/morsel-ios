@@ -18,6 +18,11 @@
 
 #pragma mark - Instance Methods
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.mp_eventView = @"root";
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.view setBackgroundColor:[UIColor morselDefaultBackgroundColor]];
@@ -70,17 +75,26 @@
 }
 
 - (IBAction)displayMenuBar {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Menu",
+                                              @"_view": self.mp_eventView ?: @"menu"}];
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayMenuBarNotification
                                                         object:nil];
 }
 
 - (IBAction)displayMorselAdd {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Add morsel",
+                                              @"_view": self.mp_eventView ?: @"menu"}];
     MRSLMorselAddTitleViewController *morselAddTitleVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselAddTitleViewControllerKey];
     [self.navigationController pushViewController:morselAddTitleVC
                                          animated:YES];
 }
 
 - (IBAction)displayAddPlace:(id)sender {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Add place",
+                                              @"_view": self.mp_eventView ?: @"menu"}];
     [self.navigationController pushViewController:[[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlacesAddViewControllerKey]
                                          animated:YES];
 }
@@ -90,6 +104,9 @@
 }
 
 - (IBAction)displayProfessionalSettings {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Professional settings",
+                                              @"_view": self.mp_eventView ?: @"menu"}];
     [self.navigationController pushViewController:[[UIStoryboard settingsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfessionalSettingsTableViewControllerKey]
                                          animated:YES];
 }

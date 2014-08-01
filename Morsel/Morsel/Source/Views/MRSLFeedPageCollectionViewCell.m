@@ -153,22 +153,25 @@
 - (IBAction)toggleLike {
     _likeButton.enabled = NO;
 
-    [[MRSLEventManager sharedManager] track:@"Tapped Like Icon"
-                                 properties:@{@"view": @"main_feed",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Like Icon",
+                                              @"_view": @"feed",
                                               @"item_id": _item.itemID}];
 
     [_item setLikedValue:!_item.likedValue];
     [self setLikeButtonImageForMorsel:_item];
 
+    __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService likeItem:_item
                            shouldLike:_item.likedValue
                               didLike:^(BOOL doesLike) {
-                                  _likeButton.enabled = YES;
+                                  if (weakSelf.item.likedValue) [MRSLEventManager sharedManager].likes_given++;
+                                  weakSelf.likeButton.enabled = YES;
                               } failure: ^(NSError * error) {
-                                  _likeButton.enabled = YES;
-                                  [_item setLikedValue:!_item.likedValue];
-                                  [_item setLike_countValue:_item.like_countValue - 1];
-                                  [self setLikeButtonImageForMorsel:_item];
+                                  weakSelf.likeButton.enabled = YES;
+                                  [weakSelf.item setLikedValue:!weakSelf.item.likedValue];
+                                  [weakSelf.item setLike_countValue:weakSelf.item.like_countValue - 1];
+                                  [weakSelf setLikeButtonImageForMorsel:weakSelf.item];
                               }];
 }
 

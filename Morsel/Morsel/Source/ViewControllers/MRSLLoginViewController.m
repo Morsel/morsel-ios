@@ -11,6 +11,7 @@
 #import "MRSLAPIService+Authentication.h"
 #import "MRSLAPIService+Registration.h"
 
+#import "MRSLSocialAuthentication.h"
 #import "MRSLSocialUser.h"
 
 @interface MRSLLoginViewController ()
@@ -31,6 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.mp_eventView = @"email_login";
 
     if (_socialUser) {
         self.emailTextField.text = _socialUser.email;
@@ -68,6 +71,14 @@
 
 #pragma mark - Private Methods
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:MRSLStoryboardSegueDisplayResetPasswordKey]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Forgot Password",
+                                                  @"_view": self.mp_eventView}];
+    }
+}
+
 - (void)showInvalidLoginAlert {
     [UIAlertView showAlertViewWithTitle:@"Invalid Login"
                                 message:@"Check your credentials and try again"
@@ -86,8 +97,9 @@
 }
 
 - (IBAction)logIn {
-    [[MRSLEventManager sharedManager] track:@"Tapped Log in"
-                                 properties:@{@"view": @"Log in"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Log in",
+                                              @"_view": self.mp_eventView}];
 
     //  We shouldn't care too much about validation on the login page and just let them throw whatever
     if (![self validateFields]) {
@@ -107,6 +119,9 @@
                                                andPassword:_passwordTextField.text
                                           orAuthentication:nil
                                                    success:^(id responseObject) {
+                                                       [[MRSLEventManager sharedManager] track:@"User logged in"
+                                                                                    properties:@{@"_view": self.mp_eventView,
+                                                                                                 @"auth_type": (weakSelf.socialUser.authentication) ? NSNullIfNil(weakSelf.socialUser.authentication.provider) : @"email"}];
                                                        if (weakSelf.socialUser) {
                                                            [_appDelegate.apiService createUserAuthentication:weakSelf.socialUser.authentication
                                                                                                      success:^(id responseObject) {
@@ -147,11 +162,13 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if ([textField isEqual:_emailTextField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Email Field"
-                                     properties:@{@"view": @"Log in"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
+                                     properties:@{@"_title": @"Email",
+                                                  @"_view": self.mp_eventView}];
     } else if ([textField isEqual:_passwordTextField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Password Field"
-                                     properties:@{@"view": @"Log in"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
+                                     properties:@{@"_title": @"Password",
+                                                  @"_view": self.mp_eventView}];
     }
     return YES;
 }
@@ -169,7 +186,7 @@
     } else {
         return YES;
     }
-
+    
     return YES;
 }
 

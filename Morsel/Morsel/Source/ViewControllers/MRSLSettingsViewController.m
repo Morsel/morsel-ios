@@ -21,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.accessibilityLabel = @"Settings";
+    self.mp_eventView = @"settings";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -44,6 +45,10 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Log Out",
+                                                  @"settings_item": @"logout",
+                                                  @"_view": self.mp_eventView}];
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
                                                             object:nil];
     }

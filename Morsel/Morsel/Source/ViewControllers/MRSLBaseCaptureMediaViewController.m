@@ -27,6 +27,9 @@ UINavigationControllerDelegate,
 ELCImagePickerControllerDelegate>
 
 @property (nonatomic) int processingImageCount;
+@property (nonatomic) int picturesTakenCount;
+@property (nonatomic) int picturesImportedFromCameraCount;
+@property (nonatomic) int picturesImportedFromDropboxCount;
 
 @property (weak, nonatomic) IBOutlet UIButton *cancelMorselButton;
 @property (weak, nonatomic) IBOutlet UIView *topPanelView;
@@ -153,6 +156,7 @@ ELCImagePickerControllerDelegate>
                                     fromViewController:self completion:^(NSArray *results) {
          if ([results count]) {
              // Process results from Chooser
+             __weak __typeof(self) weakSelf = self;
              [results enumerateObjectsUsingBlock:^(DBChooserResult *result, NSUInteger idx, BOOL *stop) {
                  [SDWebImageDownloader.sharedDownloader downloadImageWithURL:result.link
                                                                      options:0
@@ -161,7 +165,8 @@ ELCImagePickerControllerDelegate>
                                                                        if (image && finished) {
                                                                            MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
                                                                            mediaItem.mediaFullImage = image;
-                                                                           [self processMediaItem:mediaItem];
+                                                                           [weakSelf processMediaItem:mediaItem];
+                                                                           weakSelf.picturesImportedFromDropboxCount++;
                                                                        } else if (error) {
                                                                            [UIAlertView showAlertViewWithTitle:@"Error"
                                                                                                        message:@"Unable to download photo from Dropbox! Please try again."
@@ -317,8 +322,9 @@ ELCImagePickerControllerDelegate>
 }
 
 - (IBAction)cancelMediaCapture:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Cancel"
-                                 properties:@{@"view": @"Media Capture",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Cancel",
+                                              @"_view": @"media_capture",
                                               @"picture_count": @([_capturedMediaItems count])}];
     id captureDelegate = self.delegate;
     [self.presentingViewController dismissViewControllerAnimated:YES
@@ -330,9 +336,14 @@ ELCImagePickerControllerDelegate>
 }
 
 - (IBAction)completeMediaCapture:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Done"
-                                 properties:@{@"view": @"Media Capture",
-                                              @"picture_count": @([_capturedMediaItems count])}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Done",
+                                              @"_view": @"media_capture",
+                                              @"action": self.mp_action ?: @"add",
+                                              @"picture_count": NSNullIfNil(@([_capturedMediaItems count])),
+                                              @"pictures_taken_count": NSNullIfNil(@(self.picturesTakenCount)),
+                                              @"pictures_camera_roll_count": NSNullIfNil(@(self.picturesImportedFromCameraCount)),
+                                              @"pictures_dropbox_count": NSNullIfNil(@(self.picturesImportedFromDropboxCount))}];
     if ([self.capturedMediaItems count] > 0) {
         if ([self.delegate respondsToSelector:@selector(captureMediaViewControllerDidFinishCapturingMediaItems:)]) {
             [self.delegate captureMediaViewControllerDidFinishCapturingMediaItems:_capturedMediaItems];
@@ -344,8 +355,9 @@ ELCImagePickerControllerDelegate>
 }
 
 - (IBAction)displayCameraRoll:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Camera Roll Icon"
-                                 properties:@{@"view": @"Media Capture"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Camera Roll Icon",
+                                              @"_view": @"media_capture"}];
 
     [self endCameraSession];
 
@@ -361,8 +373,9 @@ ELCImagePickerControllerDelegate>
 }
 
 - (IBAction)snapStillImage:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Take a Picture"
-                                 properties:@{@"view": @"Media Capture",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Take a Picture",
+                                              @"_view": @"media_capture",
                                               @"picture_count": @([_capturedMediaItems count])}];
     dispatch_async(self.sessionQueue, ^{
 		// Update the orientation on the still image output video connection before capturing.
@@ -373,6 +386,7 @@ ELCImagePickerControllerDelegate>
                                            forDevice:[self.videoDeviceInput device]];
 
 		// Capture a still image.
+        __weak __typeof(self) weakSelf = self;
 		[self.stillImageOutput captureStillImageAsynchronouslyFromConnection:[self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo]
                                                            completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
                                                                if (imageDataSampleBuffer) {
@@ -388,7 +402,8 @@ ELCImagePickerControllerDelegate>
                                                                    MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
                                                                    mediaItem.mediaFullImage = capturedImage;
 
-                                                                   [self processMediaItem:mediaItem];
+                                                                   [weakSelf processMediaItem:mediaItem];
+                                                                   weakSelf.picturesTakenCount++;
                                                                }
                                                            }];
     });
@@ -679,9 +694,11 @@ monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
 #pragma mark - ELCImagePickerControllerDelegate
 
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
-    [[MRSLEventManager sharedManager] track:@"Tapped Done"
-                                 properties:@{@"view": @"Media Capture",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Done",
+                                              @"_view": @"media_capture",
                                               @"picture_count": @([info count])}];
+    self.picturesImportedFromCameraCount++;
     [info enumerateObjectsUsingBlock:^(NSDictionary *mediaInfo, NSUInteger idx, BOOL *stop) {
         MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
         mediaItem.mediaFullImage = mediaInfo[UIImagePickerControllerOriginalImage];

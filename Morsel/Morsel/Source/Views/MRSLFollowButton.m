@@ -50,8 +50,8 @@
 - (void)toggleFollow {
     __weak __typeof(self) weakSelf = self;
     if (_user) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Follow"
-                                     properties:@{@"view": @"profile",
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Follow",
                                                   @"user_id": _user.userID}];
 
         [_user setFollowingValue:!_user.followingValue];
@@ -60,6 +60,7 @@
         [_appDelegate.apiService followUser:_user
                                shouldFollow:_user.followingValue
                                   didFollow:^(BOOL doesFollow) {
+                                      if (weakSelf.user.followingValue) [MRSLEventManager sharedManager].users_followed++;
                                       weakSelf.enabled = YES;
                                   } failure:^(NSError *error) {
                                       weakSelf.enabled = YES;
@@ -69,12 +70,17 @@
                                   }];
     }
     if (_place) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Follow",
+                                                  @"place_id": _place.placeID}];
+
         [_place setFollowingValue:!_place.followingValue];
         [self setFollowState];
 
         [_appDelegate.apiService followPlace:_place
                                 shouldFollow:_place.followingValue
                                    didFollow:^(BOOL doesFollow) {
+                                       if (weakSelf.place.followingValue) [MRSLEventManager sharedManager].places_followed++;
                                        weakSelf.enabled = YES;
                                    } failure:^(NSError *error) {
                                        weakSelf.enabled = YES;

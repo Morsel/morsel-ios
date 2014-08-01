@@ -48,6 +48,8 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"comments";
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -177,8 +179,9 @@ NSFetchedResultsControllerDelegate>
     if (_item) {
         if (_commentInputTextView.text.length > 0) {
             [_commentInputTextView resignFirstResponder];
-            [[MRSLEventManager sharedManager] track:@"Tapped Add Comment"
-                                         properties:@{@"view": @"main_feed",
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"Add Comment",
+                                                      @"_view": self.mp_eventView,
                                                       @"morsel_id": NSNullIfNil(_item.morsel.morselID),
                                                       @"item_id": NSNullIfNil(_item.itemID),
                                                       @"comment_count": NSNullIfNil(_item.comment_count)}];
@@ -186,6 +189,7 @@ NSFetchedResultsControllerDelegate>
             [_appDelegate.apiService addCommentWithDescription:_commentInputTextView.text
                                                       toMorsel:_item
                                                        success:^(id responseObject) {
+                                                           [MRSLEventManager sharedManager].comments_added++;
                                                            if (responseObject && weakSelf) {
                                                                [weakSelf.commentIDs addObject:[(MRSLComment *)responseObject commentID]];
                                                                [weakSelf setupFetchRequest];

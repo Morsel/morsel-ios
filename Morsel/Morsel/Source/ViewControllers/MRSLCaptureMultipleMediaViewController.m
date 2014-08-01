@@ -23,6 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.mp_action = @"add";
     if ([self.childViewControllers count] > 0) {
         UIViewController *firstChildVC = [self.childViewControllers firstObject];
         if ([firstChildVC isKindOfClass:[MRSLMediaItemThumbnailViewController class]]) {

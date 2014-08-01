@@ -97,8 +97,9 @@
 }
 
 - (IBAction)displayPreviousMorsel:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Prev Morsel"
-                                 properties:@{@"view": @"main_feed",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Prev Morsel",
+                                              @"_view": @"feed",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     if ([self.delegate respondsToSelector:@selector(feedShareCollectionViewCellDidSelectPreviousMorsel)]) {
         [self.delegate feedShareCollectionViewCellDidSelectPreviousMorsel];
@@ -106,8 +107,9 @@
 }
 
 - (IBAction)displayNextMorsel:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Next Morsel"
-                                 properties:@{@"view": @"main_feed",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Next Morsel",
+                                              @"_view": @"feed",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     if ([self.delegate respondsToSelector:@selector(feedShareCollectionViewCellDidSelectNextMorsel)]) {
         [self.delegate feedShareCollectionViewCellDidSelectNextMorsel];

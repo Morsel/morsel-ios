@@ -323,22 +323,25 @@ MRSLMenuViewControllerDelegate>
     if (self.isMenuOpen) [self toggleMenu];
     SWITCH(menuOption) {
         CASE(MRSLMenuAddKey) {
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Morsel Add"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"New morsel",
+                                                      @"_view": @"menu"}];
             [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardMorselAddKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneMorselManagementKey];
             break;
         }
         CASE(MRSLMenuDraftsKey) {
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Drafts"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"Drafts",
+                                                      @"_view": @"menu"}];
             [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardMorselListKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneMorselManagementKey];
             break;
         }
         CASE(MRSLMenuFeedKey) {
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Feed"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"Feed",
+                                                      @"_view": @"menu"}];
             if ([UIApplication sharedApplication].statusBarHidden) {
                 [[UIApplication sharedApplication] setStatusBarHidden:NO
                                                         withAnimation:UIStatusBarAnimationSlide];
@@ -361,36 +364,41 @@ MRSLMenuViewControllerDelegate>
             break;
         }
         CASE(MRSLMenuNotificationsKey) {
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Notifications"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"Notifications",
+                                                      @"_view": @"menu"}];
             [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardNotificationsKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneActivityKey];
             break;
         }
         CASE(MRSLMenuActivityKey) {
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Activity"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"Activity",
+                                                      @"_view": @"menu"}];
             [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardActivityKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneActivityKey];
             break;
         }
         CASE(MRSLMenuFindKey) {
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Find"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"Find people",
+                                                      @"_view": @"menu"}];
             [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardFindFriendsKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneSocialKey];
             break;
         }
         CASE(MRSLMenuSettingsKey) {
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Settings"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"Settings",
+                                                      @"_view": @"menu"}];
             [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardSettingsKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneSettingsKey];
             break;
         }
         CASE(MRSLMenuProfileKey) {
-            [[MRSLEventManager sharedManager] track:@"Tapped Menu Option"
-                                         properties:@{@"name": @"Profile"}];
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"View profile",
+                                                      @"_view": @"menu"}];
             [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardProfileKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneProfileKey];
             break;

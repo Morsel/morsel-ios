@@ -142,8 +142,9 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 #pragma mark - MRSLItemImageViewDelegate
 
 - (void)itemImageViewDidSelectItem:(MRSLItem *)item {
-    [[MRSLEventManager sharedManager] track:@"Tapped Morsel Thumbnail"
-                                 properties:@{@"view": @"main_feed",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Morsel Thumbnail",
+                                              @"_view": @"feed",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(item.itemID)}];
     if ([self.delegate respondsToSelector:@selector(feedCoverCollectionViewCellDidSelectMorsel:)]) {
