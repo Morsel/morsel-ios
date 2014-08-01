@@ -442,14 +442,7 @@
                                         <rect key="frame" x="20" y="355" width="280" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <attributedString key="attributedText">
-                                            <fragment content="Forget your ">
-                                                <attributes>
-                                                    <color key="NSColor" red="0.22352941176470589" green="0.25098039215686274" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <font key="NSFont" size="15" name="Helvetica-Light"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                                </attributes>
-                                            </fragment>
-                                            <fragment content="password?">
+                                            <fragment content="Forgot your password?">
                                                 <attributes>
                                                     <color key="NSColor" red="0.31764705882352939" green="0.72549019607843135" blue="0.23529411764705882" alpha="1" colorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="15" name="Helvetica-Light"/>

@@ -42,7 +42,7 @@
     
     if ([self isDirty]) {
         [UIAlertView showAlertViewWithTitle:@"Warning"
-                                    message:@"You have unsaved changes, are you sure you want to leave?"
+                                    message:@"You have unsaved changes, are you sure you want to discard them?"
                                    delegate:self
                           cancelButtonTitle:@"Cancel"
                           otherButtonTitles:@"Discard", nil];
@@ -126,7 +126,7 @@
     BOOL passValid = ([_currentPasswordField.text length] >= 8);
     if (!passValid) {
         [UIAlertView showAlertViewWithTitle:@"Current Password Required"
-                                    message:@"For security puposes, please enter your current password to make these changes"
+                                    message:@"For security purposes, please enter your current password to make these changes"
                                    delegate:nil
                           cancelButtonTitle:@"OK"
                           otherButtonTitles:nil];

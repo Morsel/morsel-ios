@@ -100,7 +100,7 @@ UIAlertViewDelegate>
     
     if ([self isDirty]) {
         [UIAlertView showAlertViewWithTitle:@"Warning"
-                                    message:@"You have unsaved changes, are you sure you want to leave?"
+                                    message:@"You have unsaved changes, are you sure you want to discard them?"
                                    delegate:self
                           cancelButtonTitle:@"Cancel"
                           otherButtonTitles:@"Discard", nil];
