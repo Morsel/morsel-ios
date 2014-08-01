@@ -4,6 +4,11 @@
       "idiom" : "universal",
       "scale" : "1x",
       "filename" : "graphic-onboarding.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x",
+      "filename" : "graphic-onboarding@2x.png"
     }
   ],
   "info" : {

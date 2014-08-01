@@ -201,6 +201,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)determineControlState {
     [self.toolbarView.rightButton setTitle:(_isEditing) ? @"Delete morsel" : @"New item"
                                   forState:UIControlStateNormal];
+    [self.toolbarView.rightButton setImage:(_isEditing) ? nil : [UIImage imageNamed:@"icon-add"]
+                                  forState:UIControlStateNormal];
     if (_isEditing) {
         [self showDoneButton];
         [self.rightBarButton setEnabled:YES];

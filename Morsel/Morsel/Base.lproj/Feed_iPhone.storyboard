@@ -347,7 +347,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wyp-8d-VK5" customClass="MRSLPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6" width="250" height="32"/>
+                                        <rect key="frame" x="11" y="6.0000000447034791" width="250" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -542,14 +542,14 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dD2-3O-yZb" customClass="MRSLRobotoSlabBoldLabel">
-                                                            <rect key="frame" x="20" y="316" width="127" height="23"/>
+                                                            <rect key="frame" x="22" y="318" width="127" height="23"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" red="0.66666666669999997" green="0.6588235294" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-clock" id="M2u-Ck-pax">
-                                                            <rect key="frame" x="3" y="321" width="14" height="14"/>
+                                                            <rect key="frame" x="3" y="322" width="15" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OkJ-0l-ahm" customClass="MRSLRobotoRegularLabel">
@@ -995,7 +995,7 @@
         <image name="icon-arrow-left-feed" width="15" height="25"/>
         <image name="icon-arrow-right-feed" width="15" height="25"/>
         <image name="icon-back" width="12" height="20"/>
-        <image name="icon-clock" width="9" height="9"/>
+        <image name="icon-clock" width="15" height="15"/>
         <image name="icon-comment-off" width="23" height="21"/>
         <image name="icon-delete" width="16" height="16"/>
         <image name="icon-edit" width="24" height="24"/>

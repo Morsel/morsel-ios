@@ -35,7 +35,7 @@
     NSString *iconImageName = nil;
 
     if ([iconType isEqualToString:@"twitter"]) {
-        iconImageName = @"icon-social-twitter-mark-red";
+        iconImageName = @"icon-social-twitter-mark-dark";
     } else if ([iconType isEqualToString:@"phone"]) {
         iconImageName = @"icon-phone";
     } else if ([iconType isEqualToString:@"website"]) {
