@@ -299,6 +299,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
     UIButton *onboardingButton = [[UIButton alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [onboardingButton setBackgroundImage:[UIImage imageNamed:@"graphic-onboarding"]
                                 forState:UIControlStateNormal];
+    [onboardingButton setAdjustsImageWhenDisabled:NO];
+    [onboardingButton setAdjustsImageWhenHighlighted:NO];
     [onboardingButton setAlpha:0.0f];
     [onboardingButton addTarget:self
                          action:@selector(dismissOnboarding:)
@@ -310,6 +312,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)dismissOnboarding:(id)sender {
+    [sender setEnabled:NO];
     [UIView animateWithDefaultDurationAnimations:^{
         [sender setAlpha:0.0f];
     } completion:^(BOOL finished) {
