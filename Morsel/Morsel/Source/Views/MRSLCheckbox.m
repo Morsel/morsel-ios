@@ -21,6 +21,7 @@
     [self setRadius:0.f];
     [self setStrokeColor:[UIColor morselPrimary]];
     [self setCheckColor:[UIColor morselPrimary]];
+    [self setUncheckedColor:[UIColor morselDefaultTextFieldBackgroundColor]];
 }
 
 @end
