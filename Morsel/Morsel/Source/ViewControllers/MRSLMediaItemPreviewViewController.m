@@ -56,6 +56,12 @@ CaptureMediaViewControllerDelegate>
             [self.previewMediaCollectionView reloadData];
         });
     }
+
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                                style:UIBarButtonItemStyleDone
+                                                                               target:self
+                                                                               action:@selector(dismissModalViewControllerAnimated:)]];
+    [self.navigationItem setLeftBarButtonItem:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
