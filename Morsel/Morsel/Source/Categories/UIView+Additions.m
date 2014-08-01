@@ -12,9 +12,15 @@
 
 #pragma mark - Class Methods
 
-+ (void)animateWithDefaultDurationAnimations:(void (^)(void))animations {
++ (void)animateWithDefaultDurationAnimations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion {
     [UIView animateWithDuration:MRSLDefaultAnimationDuration
-                     animations:animations];
+                     animations:animations
+                     completion:completion];
+}
+
++ (void)animateWithDefaultDurationAnimations:(void (^)(void))animations {
+    [self animateWithDefaultDurationAnimations:animations
+                                    completion:nil];
 }
 
 #pragma mark - Instance Methods

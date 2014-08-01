@@ -24,6 +24,7 @@ static const CGFloat MRSLDefaultAnimationDuration = 0.2f;
 
 @interface UIView (Additions)
 
++ (void)animateWithDefaultDurationAnimations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
 + (void)animateWithDefaultDurationAnimations:(void (^)(void))animations;
 
 - (void)addCenteredSubview:(UIView *)subviewToAddAndCenter withOffset:(CGPoint)offset;
