@@ -37,7 +37,10 @@
         self.hidden = NO;
         [self setBackgroundColor:(_user.followingValue || _place.followingValue) ? [UIColor lightGrayColor] : [UIColor morselSecondary]];
         CGFloat maxX = CGRectGetMaxX(self.frame);
-        [self setFittedTitleForAllStates:(_user.followingValue || _place.followingValue) ? @"Following" : @"Follow"];
+        [self setTitle:(_user.followingValue || _place.followingValue) ? @"Following" : @"Follow"
+              forState:UIControlStateNormal];
+        [self setWidth:84.0f];
+        [self setHeight:32.0f];
         [self setX:maxX - [self getWidth]];
     } else {
         self.hidden = YES;
