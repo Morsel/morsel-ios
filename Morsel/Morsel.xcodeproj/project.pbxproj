@@ -569,6 +569,9 @@
 		409055481976E5B900026DCC /* MRSLNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 409055461976E5B900026DCC /* MRSLNavigationController.m */; };
 		4090554C1976F19900026DCC /* UIRefreshControl+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4090554B1976F19900026DCC /* UIRefreshControl+Additions.m */; };
 		4090554D1976F19900026DCC /* UIRefreshControl+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4090554B1976F19900026DCC /* UIRefreshControl+Additions.m */; };
+		409ED7F3198B4AD300C9B5FB /* MRSLBorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 409ED7F2198B4AD300C9B5FB /* MRSLBorderedView.m */; };
+		409ED7F4198B4AD300C9B5FB /* MRSLBorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 409ED7F2198B4AD300C9B5FB /* MRSLBorderedView.m */; };
+		409ED7F5198B4AD300C9B5FB /* MRSLBorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 409ED7F2198B4AD300C9B5FB /* MRSLBorderedView.m */; };
 		40A4E11C194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */; };
 		40A4E11D194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */; };
 		40A83E4C196E0A7F00DED0A1 /* MRSLStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A83E4B196E0A7F00DED0A1 /* MRSLStateView.m */; };
@@ -1103,6 +1106,8 @@
 		409055461976E5B900026DCC /* MRSLNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLNavigationController.m; sourceTree = "<group>"; };
 		4090554A1976F19900026DCC /* UIRefreshControl+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIRefreshControl+Additions.h"; sourceTree = "<group>"; };
 		4090554B1976F19900026DCC /* UIRefreshControl+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+Additions.m"; sourceTree = "<group>"; };
+		409ED7F1198B4AD300C9B5FB /* MRSLBorderedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLBorderedView.h; path = Source/Views/MRSLBorderedView.h; sourceTree = "<group>"; };
+		409ED7F2198B4AD300C9B5FB /* MRSLBorderedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLBorderedView.m; path = Source/Views/MRSLBorderedView.m; sourceTree = "<group>"; };
 		40A4E11A194026F200251AA5 /* MRSLSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSettingsTableViewController.h; sourceTree = "<group>"; };
 		40A4E11B194026F200251AA5 /* MRSLSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSettingsTableViewController.m; sourceTree = "<group>"; };
 		40A83E4A196E0A7F00DED0A1 /* MRSLStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLStateView.h; path = Source/Views/MRSLStateView.h; sourceTree = "<group>"; };
@@ -1316,6 +1321,8 @@
 				40854F95197482560015DFBB /* MRSLCollectionView.m */,
 				40854F7B197450F90015DFBB /* MRSLTableView.h */,
 				40854F7C197450F90015DFBB /* MRSLTableView.m */,
+				409ED7F1198B4AD300C9B5FB /* MRSLBorderedView.h */,
+				409ED7F2198B4AD300C9B5FB /* MRSLBorderedView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -2771,6 +2778,7 @@
 				0680411318A42AF5000B7E71 /* NSManagedObject+Additions.m in Sources */,
 				062DF21718845B7E00C199D8 /* MRSLLoginViewController.m in Sources */,
 				061F934D1910094400608C0B /* MRSLTagStatsTypeCell.m in Sources */,
+				409ED7F3198B4AD300C9B5FB /* MRSLBorderedView.m in Sources */,
 				0693C25418F6C0DD0026D6B3 /* MRSLItem.m in Sources */,
 				06DAFB4C191A91A60044AF3E /* MRSLAPIService+Morsel.m in Sources */,
 				065904D41937DD8700414E06 /* MRSLPlace.m in Sources */,
@@ -2994,6 +3002,7 @@
 				066E8C27191AAC7200991165 /* MRSLAPIService+Comment.m in Sources */,
 				066E8C28191AAC7200991165 /* MRSLAPIService+Feed.m in Sources */,
 				066E8C29191AAC7200991165 /* MRSLAPIService+Item.m in Sources */,
+				409ED7F4198B4AD300C9B5FB /* MRSLBorderedView.m in Sources */,
 				066E8C2A191AAC7200991165 /* MRSLAPIService+Morsel.m in Sources */,
 				066E8C2B191AAC7200991165 /* MRSLAPIService+Activity.m in Sources */,
 				066E8C2C191AAC7200991165 /* MRSLAPIService+Authentication.m in Sources */,
@@ -3126,6 +3135,7 @@
 				06C4DDE819897E14009B6406 /* _MRSLActivity.m in Sources */,
 				06C4DDE919897E14009B6406 /* _MRSLComment.m in Sources */,
 				06C4DDEA19897E14009B6406 /* _MRSLItem.m in Sources */,
+				409ED7F5198B4AD300C9B5FB /* MRSLBorderedView.m in Sources */,
 				06C4DDEB19897E14009B6406 /* _MRSLKeyword.m in Sources */,
 				06C4DDEC19897E14009B6406 /* _MRSLMorsel.m in Sources */,
 				06C4DDED19897E14009B6406 /* _MRSLNotification.m in Sources */,
