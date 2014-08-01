@@ -148,6 +148,7 @@ extern NSString *const MRSLStoryboardRUIDCommentCellKey;
 extern NSString *const MRSLStoryboardRUIDContactCellKey;
 extern NSString *const MRSLStoryboardRUIDEmptyCellKey;
 extern NSString *const MRSLStoryboardRUIDFeedCoverCellKey;
+extern NSString *const MRSLStoryboardRUIDFeedLoadingMoreFooterKey;
 extern NSString *const MRSLStoryboardRUIDFeedPageCellKey;
 extern NSString *const MRSLStoryboardRUIDFeedPanelCellKey;
 extern NSString *const MRSLStoryboardRUIDFeedShareCellKey;

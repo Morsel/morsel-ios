@@ -256,6 +256,12 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [self.feedCollectionView toggleLoading:loading];
 }
 
+- (void)setLoadingMore:(BOOL)loadingMore {
+    _loadingMore = loadingMore;
+
+    [self.feedCollectionView.collectionViewLayout invalidateLayout];
+}
+
 - (void)showMorselTitleView:(BOOL)shouldShow {
     if (shouldShow) {
         UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-identity-nav"]];
@@ -458,12 +464,26 @@ MRSLFeedPanelCollectionViewCellDelegate>
     return morselPanelCell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+        return [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                  withReuseIdentifier:MRSLStoryboardRUIDFeedLoadingMoreFooterKey
+                                                         forIndexPath:indexPath];
+    }
+    return nil;
+}
+
 #pragma mark - UICollectionViewDelegateFlowLayout Methods
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake((indexPath.row == [self.feedMorsels count] - 1) ? 321.f : 320.f, [UIDevice has35InchScreen] ? 416.f : 504.f);
+}
+
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    return _loadingMore ? CGSizeMake(50.f, [UIDevice has35InchScreen] ? 416.f : 504.f) : CGSizeZero;
 }
 
 #pragma mark - UIScrollViewDelegate
