@@ -115,11 +115,17 @@
 }
 
 + (UIColor *)morselValidColor {
-    return [UIColor greenColor];
+    return [UIColor colorWithRed:.2f
+                           green:.8f
+                            blue:.2f
+                           alpha:1.f];
 }
 
 + (UIColor *)morselInvalidColor {
-    return [UIColor redColor];
+    return [UIColor colorWithRed:.8f
+                           green:.2f
+                            blue:.2f
+                           alpha:1.f];
 }
 
 

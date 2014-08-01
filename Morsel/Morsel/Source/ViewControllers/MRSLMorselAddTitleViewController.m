@@ -89,7 +89,10 @@
                                                   morsel.title = weakSelf.previousTitle;
                                                   [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel title! Please try again."
                                                                                   delegate:nil];
-                                                  weakSelf.isPerformingRequest = NO;
+                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                      [weakSelf.doneBarButtonItem setEnabled:YES];
+                                                      weakSelf.isPerformingRequest = NO;
+                                                  });
                                               }];
             }
         } else {
@@ -114,8 +117,10 @@
                                           [UIAlertView showAlertViewForErrorString:@"Unable to create Morsel! Please try again."
                                                                           delegate:nil];
                                           [morsel MR_deleteEntity];
-                                          [weakSelf.doneBarButtonItem setEnabled:YES];
-                                          weakSelf.isPerformingRequest = NO;
+                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                              [weakSelf.doneBarButtonItem setEnabled:YES];
+                                              weakSelf.isPerformingRequest = NO;
+                                          });
                                       }];
     }
 }

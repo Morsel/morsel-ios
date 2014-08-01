@@ -175,6 +175,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 - (void)showNextButton {
+    self.morsel = [self getOrLoadMorselIfExists];
     if (_morsel.draftValue) {
         if (![self.rightBarButton.title isEqualToString:@"Next"]) {
             [self.navigationItem setRightBarButtonItem:nil];
@@ -310,6 +311,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        self.morsel = [self getOrLoadMorselIfExists];
         MRSLItem *deletedItem = [_items objectAtIndex:indexPath.row];
         [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                      properties:@{@"_title": @"Delete Item",
