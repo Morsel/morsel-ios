@@ -13,6 +13,7 @@
 #import "MRSLAPIService+Morsel.h"
 #import "NSMutableArray+Additions.h"
 
+#import "MRSLFeedPanelViewController.h"
 #import "MRSLFeedPanelCollectionViewCell.h"
 #import "MRSLMediaManager.h"
 #import "MRSLProfileViewController.h"
@@ -93,6 +94,17 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)toggleControls:(BOOL)shouldDisplay {
     _feedCollectionView.scrollEnabled = shouldDisplay;
+}
+
+
+#pragma mark - Action Methods
+
+- (IBAction)displayMorselShare {
+    NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLFeedPanelCollectionViewCell *visibleFeedPanel = (MRSLFeedPanelCollectionViewCell *)[self.feedCollectionView cellForItemAtIndexPath:indexPath];
+        [visibleFeedPanel.feedPanelViewController displayShare];
+    }
 }
 
 #pragma mark - Private Methods
