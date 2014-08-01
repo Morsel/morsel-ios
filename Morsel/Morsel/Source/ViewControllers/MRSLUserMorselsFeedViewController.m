@@ -53,6 +53,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"user_feed";
+
     self.title = [NSString stringWithFormat:@"%@'s morsels", _user.username];
 
     self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array];
@@ -171,7 +173,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                        } failure:^(NSError *error) {
                                            if (weakSelf) weakSelf.loadingMore = NO;
                                            [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                        properties:@{@"view": @"user_feed",
+                                                                        properties:@{@"_view": self.mp_eventView,
                                                                                      @"message" : NSNullIfNil(error.description),
                                                                                      @"action" : @"load_more"}];
                                        }];

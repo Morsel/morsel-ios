@@ -90,8 +90,8 @@ MRSLImagePreviewViewControllerDelegate>
 #pragma mark - UICollectionViewDelegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [[MRSLEventManager sharedManager] track:@"Tapped Thumbnail"
-                                 properties:@{@"view": @"Media Capture"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Image"
+                                 properties:@{@"_view": @"media_capture"}];
     self.selectedIndex = indexPath.row;
     [self performSegueWithIdentifier:MRSLStoryboardSegueDisplayImagePreviewKey
                               sender:nil];

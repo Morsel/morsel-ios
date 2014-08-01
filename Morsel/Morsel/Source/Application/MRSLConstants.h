@@ -128,6 +128,7 @@ extern NSString *const MRSLStoryboardSegueAccountSettingsKey;
 extern NSString *const MRSLStoryboardSegueCuisinesKey;
 extern NSString *const MRSLStoryboardSegueDisplayImagePreviewKey;
 extern NSString *const MRSLStoryboardSegueDisplayLoginKey;
+extern NSString *const MRSLStoryboardSegueDisplayResetPasswordKey;
 extern NSString *const MRSLStoryboardSegueDisplaySignUpKey;
 extern NSString *const MRSLStoryboardSegueEditItemTextKey;
 extern NSString *const MRSLStoryboardSegueEditMorselTitleKey;

@@ -47,7 +47,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 @property (strong, nonatomic) NSFetchedResultsController *feedFetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *feedMorsels;
 @property (strong, nonatomic) NSMutableArray *morselIDs;
-@property (strong, nonatomic) NSMutableArray *viewedMorsels;
 @property (strong, nonatomic) NSTimer *timer;
 
 @property (strong, nonatomic) MRSLUser *currentUser;
@@ -61,6 +60,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"feed";
+
     NSInteger recentlyPublishedInteger = [[NSUserDefaults standardUserDefaults] integerForKey:@"recentlyPublishedMorselID"];
     if (recentlyPublishedInteger > 0) self.recentlyPublishedMorselID = @([[NSUserDefaults standardUserDefaults] integerForKey:@"recentlyPublishedMorselID"]);
 
@@ -69,7 +70,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     self.feedMorsels = [NSMutableArray array];
     self.morselIDs = [NSMutableArray feedIDArray];
-    self.viewedMorsels = [NSMutableArray array];
 
     [self resumeTimer];
     [self toggleNewMorselsButton:NO
@@ -333,7 +333,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                       } failure:^(NSError *error) {
                                           if (weakSelf) {
                                               [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                           properties:@{@"view": @"main_feed",
+                                                                           properties:@{@"_view": self.mp_eventView,
                                                                                         @"message" : NSNullIfNil(error.description),
                                                                                         @"action" : @"refresh"}];
                                               weakSelf.loading = NO;
@@ -398,7 +398,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                       } failure:^(NSError *error) {
                                           if (weakSelf) {
                                               [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                           properties:@{@"view": @"main_feed",
+                                                                           properties:@{@"_view": self.mp_eventView,
                                                                                         @"message" : NSNullIfNil(error.description),
                                                                                         @"action" : @"load_new"}];
 
@@ -433,7 +433,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                       } failure:^(NSError *error) {
                                           if (weakSelf) weakSelf.loadingMore = NO;
                                           [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                       properties:@{@"view": @"main_feed",
+                                                                       properties:@{@"_view": self.mp_eventView,
                                                                                     @"message" : NSNullIfNil(error.description),
                                                                                     @"action" : @"load_more"}];
                                       }];
@@ -502,25 +502,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     NSIndexPath *indexPath = [[_feedCollectionView indexPathsForVisibleItems] firstObject];
     if (indexPath && indexPath.row < [_feedMorsels count]) {
         MRSLMorsel *visibleMorsel = [_feedMorsels objectAtIndex:indexPath.row];
-        BOOL isLast = ([_feedMorsels indexOfObject:visibleMorsel] == [_feedMorsels count] - 1);
-        NSNumber *morselID = @(visibleMorsel.morselIDValue);
-        BOOL morselIDFound = CFArrayContainsValue ((__bridge CFArrayRef)_viewedMorsels,
-                                                   CFRangeMake(0, _viewedMorsels.count),
-                                                   (CFNumberRef)morselID );
-        if (!morselIDFound) [_viewedMorsels addObject:morselID];
-        if (_scrollDirection == MRSLScrollDirectionRight) {
-            [[MRSLEventManager sharedManager] track:@"Scroll Feed Right"
-                                         properties:@{@"view": @"main_feed",
-                                                      @"morsel_id": NSNullIfNil(visibleMorsel.morselID),
-                                                      @"is_last": (isLast) ? @"true" : @"false",
-                                                      @"morsels_viewed": NSNullIfNil(@([_viewedMorsels count]))}];
-        } else if (_scrollDirection == MRSLScrollDirectionLeft) {
-            [[MRSLEventManager sharedManager] track:@"Scroll Feed Left"
-                                         properties:@{@"view": @"main_feed",
-                                                      @"morsel_id": NSNullIfNil(visibleMorsel.morselID),
-                                                      @"is_last": (isLast) ? @"true" : @"false",
-                                                      @"morsels_viewed": NSNullIfNil(@([_viewedMorsels count]))}];
-        }
+        [[MRSLEventManager sharedManager] registerMorsel:visibleMorsel];
     }
     [self resetCollectionViewWidth];
 }

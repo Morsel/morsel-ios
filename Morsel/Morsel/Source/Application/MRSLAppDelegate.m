@@ -84,6 +84,7 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[MRSLEventManager sharedManager] startSession];
     // Handle the user leaving the app while the Facebook login dialog is being shown
     [FBAppCall handleDidBecomeActive];
     [application endBackgroundTask:_backgroundTaskIdentifier];
@@ -93,6 +94,7 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+    [[MRSLEventManager sharedManager] endSession];
     self.backgroundTaskIdentifier = [application beginBackgroundTaskWithExpirationHandler:^(void) {
         [application endBackgroundTask:_backgroundTaskIdentifier];
         [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];

@@ -24,4 +24,8 @@
     [self setUncheckedColor:[UIColor morselDefaultTextFieldBackgroundColor]];
 }
 
+- (BOOL)isChecked {
+    return (self.checkState == M13CheckboxStateChecked);
+}
+
 @end

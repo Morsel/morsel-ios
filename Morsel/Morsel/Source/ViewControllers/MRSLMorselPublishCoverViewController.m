@@ -37,6 +37,7 @@ UICollectionViewDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.mp_eventView = @"publish_cover";
     _morselTitleLabel.text = _morsel.title;
     [_morselTitleLabel addStandardShadow];
 
@@ -68,6 +69,12 @@ UICollectionViewDelegate>
                                   failure:nil];
     [self performSegueWithIdentifier:([[MRSLUser currentUser] isProfessional]) ? MRSLStoryboardSegueSelectPlaceKey : MRSLStoryboardSeguePublishShareMorselKey
                               sender:nil];
+    MRSLItem *coverItem = [_morsel coverItem];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Next",
+                                              @"_view": self.mp_eventView,
+                                              @"cover_item": NSNullIfNil(coverItem.itemID),
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
 }
 
 #pragma mark - Private Methods

@@ -34,14 +34,30 @@
 
 @implementation MRSLMorselPublishShareViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.mp_eventView = @"publish_morsel";
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)publishMorsel:(id)sender {
     _publishButton.enabled = NO;
     _morsel.draft = @NO;
+
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Publish",
+                                              @"_view": self.mp_eventView,
+                                              @"morsel_id": NSNullIfNil(self.morsel.morselID),
+                                              @"creator_id": NSNullIfNil(self.morsel.creator.userID),
+                                              @"share_to_facebook": _facebookSwitch.isOn ? @"true" : @"false",
+                                              @"share_to_twitter": _twitterSwitch.isOn ? @"true" : @"false",
+                                              @"share_to_instagram": _instagramSwitch.isOn ? @"true" : @"false"}];
+
     __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService publishMorsel:_morsel
                                    success:^(id responseObject) {
+                                       [MRSLEventManager sharedManager].morsels_published++;
                                        if (weakSelf.instagramSwitch.isOn) [weakSelf sendToInstagram];
                                    } failure:^(NSError *error) {
                                        weakSelf.publishButton.enabled = YES;
@@ -54,9 +70,6 @@
 }
 
 - (IBAction)toggleFacebook:(UISwitch *)switchControl {
-    [[MRSLEventManager sharedManager] track:@"Tapped Toggle Facebook"
-                                 properties:@{@"view": @"Publish",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     __weak __typeof(self) weakSelf = self;
     _facebookSwitch.enabled = NO;
     if (![FBSession.activeSession isOpen]) {
@@ -80,10 +93,6 @@
 }
 
 - (IBAction)toggleInstagram:(UISwitch *)switchControl {
-    [[MRSLEventManager sharedManager] track:@"Tapped Toggle Instagram"
-                                 properties:@{@"view": @"Publish",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://app"]]) {
         [self setOnSwitch:_instagramSwitch
                forNetwork:@"instagram"
@@ -101,10 +110,6 @@
 }
 
 - (IBAction)toggleTwitter:(UISwitch *)switchControl {
-    [[MRSLEventManager sharedManager] track:@"Tapped Toggle Twitter"
-                                 properties:@{@"view": @"Publish",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-
     _twitterSwitch.enabled = NO;
 
     __weak __typeof(self) weakSelf = self;
@@ -183,13 +188,6 @@
 - (void)setOnSwitch:(UISwitch *)socialSwitch
          forNetwork:(NSString *)network
        shouldTurnOn:(BOOL)shouldTurnOn {
-    if (shouldTurnOn) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Share Own Morsel"
-                                     properties:@{@"view": @"Publish",
-                                                  @"morsel_id": NSNullIfNil(self.morsel.morselID),
-                                                  @"creator_id": NSNullIfNil(self.morsel.creator.userID),
-                                                  @"social_type": network}];
-    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [socialSwitch setEnabled:YES];
         [socialSwitch setOn:shouldTurnOn

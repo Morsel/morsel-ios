@@ -47,6 +47,8 @@ UIAlertViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"Edit profile";
+
     if (!_user) self.user = [MRSLUser currentUser];
 
     self.scrollViewHeight = [_contentScrollView getHeight];
@@ -191,8 +193,9 @@ UIAlertViewDelegate>
 }
 
 - (IBAction)changePhoto {
-    [[MRSLEventManager sharedManager] track:@"Tapped Change Photo Icon"
-                                 properties:@{@"view": @"Edit Profile"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Change Photo",
+                                              @"_view": self.mp_eventView}];
 
     [self.view endEditing:YES];
 

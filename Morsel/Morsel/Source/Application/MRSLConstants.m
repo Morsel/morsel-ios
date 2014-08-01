@@ -128,6 +128,7 @@ NSString *const MRSLStoryboardSegueAccountSettingsKey = @"seg_AccountSettings";
 NSString *const MRSLStoryboardSegueCuisinesKey = @"seg_Cuisines";
 NSString *const MRSLStoryboardSegueDisplayImagePreviewKey = @"seg_DisplayImagePreview";
 NSString *const MRSLStoryboardSegueDisplayLoginKey = @"seg_DisplayLogin";
+NSString *const MRSLStoryboardSegueDisplayResetPasswordKey = @"seg_DisplayResetPassword";
 NSString *const MRSLStoryboardSegueDisplaySignUpKey = @"seg_DisplaySignUp";
 NSString *const MRSLStoryboardSegueEditItemTextKey = @"seg_EditItemText";
 NSString *const MRSLStoryboardSegueEditMorselTitleKey = @"seg_EditMorselTitle";

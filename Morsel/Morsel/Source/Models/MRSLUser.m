@@ -127,10 +127,11 @@
     [[Mixpanel sharedInstance].people set:@{@"first_name": NSNullIfNil(self.first_name),
                                             @"last_name": NSNullIfNil(self.last_name),
                                             @"created_at": NSNullIfNil(self.creationDate),
-                                            @"username": NSNullIfNil(self.username),
-                                            @"is_staff": NSNullIfNil(self.staff)}];
+                                            @"username": NSNullIfNil(self.username)}];
     [[Mixpanel sharedInstance].people increment:@"open_count"
                                              by:@(1)];
+    [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_staff": (self.staffValue) ? @"true" : @"false"}];
+    [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_pro": (self.professionalValue) ? @"true" : @"false"}];
 }
 
 - (void)API_updateImage {

@@ -27,7 +27,7 @@
                                               otherButtonTitles:nil];
 
     [[MRSLEventManager sharedManager] track:@"User viewed error"
-                          properties:@{@"view": @"Alert",
+                          properties:@{@"_view": @"alert",
                                        @"message": NSNullIfNil(alertMessage)}];
     if (otherButtonTitles != nil) {
         [alertView addButtonWithTitle:otherButtonTitles];

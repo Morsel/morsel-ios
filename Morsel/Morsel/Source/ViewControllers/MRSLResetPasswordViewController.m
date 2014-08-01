@@ -21,6 +21,11 @@
 
 @implementation MRSLResetPasswordViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.mp_eventView = @"reset_password";
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.usernameEmailField becomeFirstResponder];
@@ -29,8 +34,9 @@
 #pragma mark - Action Methods
 
 - (IBAction)resetPassword {
-    [[MRSLEventManager sharedManager] track:@"Tapped Reset Password"
-                                 properties:@{@"view": @"Forgot password"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Reset Password",
+                                              @"_view": self.mp_eventView}];
     if (![MRSLUtil validateEmail:_usernameEmailField.text]) {
         [UIAlertView showAlertViewWithTitle:@"Invalid Email"
                                     message:@"Email must be valid."
@@ -64,8 +70,9 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if ([textField isEqual:_usernameEmailField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Username/Email Field"
-                                     properties:@{@"view": @"Reset Password"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
+                                     properties:@{@"_title": @"Username/Email",
+                                                  @"_view": self.mp_eventView}];
     }
     return YES;
 }

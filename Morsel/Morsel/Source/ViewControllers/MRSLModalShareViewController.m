@@ -33,8 +33,9 @@
 
 - (IBAction)shareToFacebook {
     _facebookButton.enabled = NO;
-    [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
-                                 properties:@{@"view": @"share",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Share Morsel",
+                                              @"_view": @"share",
                                               @"morsel_id": NSNullIfNil(_item.morsel.morselID),
                                               @"creator_id": NSNullIfNil(_item.morsel.creator.userID),
                                               @"social_type": @"facebook"}];
@@ -43,6 +44,7 @@
                                             inViewController:self
                                                      success:^(BOOL success) {
                                                          if (weakSelf && success) {
+                                                             [MRSLEventManager sharedManager].morsels_shared_to_fb++;
                                                              weakSelf.shareStatusLabel.text = @"Shared to Facebook";
                                                          } else {
                                                              weakSelf.facebookButton.enabled = YES;
@@ -56,8 +58,9 @@
 
 - (IBAction)shareToTwitter {
     _twitterButton.enabled = NO;
-    [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
-                                 properties:@{@"view": @"share",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Share Morsel",
+                                              @"_view": @"share",
                                               @"morsel_id": NSNullIfNil(_item.morsel.morselID),
                                               @"creator_id": NSNullIfNil(_item.morsel.creator.userID),
                                               @"social_type": @"twitter"}];
@@ -66,6 +69,7 @@
                                            inViewController:self
                                                     success:^(BOOL success) {
                                                         if (weakSelf && success) {
+                                                            [MRSLEventManager sharedManager].morsels_shared_to_twitter++;
                                                             weakSelf.shareStatusLabel.text = @"Shared to Twitter";
                                                         } else {
                                                             weakSelf.twitterButton.enabled = YES;

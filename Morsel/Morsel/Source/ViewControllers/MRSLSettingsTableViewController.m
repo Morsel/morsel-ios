@@ -46,6 +46,30 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
     if ([segue.destinationViewController respondsToSelector:@selector(setUser:)]) {
         [segue.destinationViewController setUser:(id)[MRSLUser currentUser]]; // Casting to id to get rid of "incompatible pointer types" warning
     }
+
+    NSString *buttonName = nil;
+    NSString *settingsItemName = nil;
+
+    if ([segue.identifier isEqualToString:@"seg_SetupProfessionalAccount"]) {
+        buttonName = @"Setup professional account";
+        settingsItemName = @"setup_prof_account";
+    } else if ([segue.identifier isEqualToString:@"seg_ProfessionalSettings"]) {
+        buttonName = @"Professional settings";
+        settingsItemName = @"prof_settings";
+    } else if ([segue.identifier isEqualToString:@"seg_EditProfile"]) {
+        buttonName = @"Edit profile";
+        settingsItemName = @"edit_profile";
+    } else if ([segue.identifier isEqualToString:@"seg_SocialConnections"]) {
+        buttonName = @"Social connections";
+        settingsItemName = @"social_connections";
+    } else if ([segue.identifier isEqualToString:@"seg_AccountSettings"]) {
+        buttonName = @"Account settings";
+        settingsItemName = @"account_settings";
+    }
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": NSNullIfNil(buttonName),
+                                              @"settings_item": NSNullIfNil(settingsItemName),
+                                              @"_view": @"settings"}];
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
@@ -71,6 +95,10 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
 }
 
 - (IBAction)displayContactMorsel {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Contact morsel",
+                                              @"settings_item": @"contact_morsel",
+                                              @"_view": @"settings"}];
     if ([MFMailComposeViewController canSendMail]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayEmailComposerNotification
                                                             object:@{
@@ -84,16 +112,28 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
 }
 
 - (IBAction)displayTermsOfService {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Terms of service",
+                                              @"settings_item": @"terms",
+                                              @"_view": @"settings"}];
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Terms of Service",
                                                                                                                    @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/terms_text", MORSEL_BASE_URL]]}];
 }
 
 - (IBAction)displayPrivacyPolicy {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Privacy policy",
+                                              @"settings_item": @"privacy",
+                                              @"_view": @"settings"}];
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Privacy Policy",
                                                                                                                    @"url": [NSURL URLWithString:[NSString stringWithFormat:@"%@/privacy_text", MORSEL_BASE_URL]]}];
 }
 
 - (IBAction)displaySoftwareAcknowledgements:(id)sender {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Software acknowledgements",
+                                              @"settings_item": @"software_ack",
+                                              @"_view": @"settings"}];
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Software Acknowledgements",
                                                                                                                    @"url": [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Acknowledgements" ofType:@"html"]],
                                                                                                                    @"hideToolbar": @YES

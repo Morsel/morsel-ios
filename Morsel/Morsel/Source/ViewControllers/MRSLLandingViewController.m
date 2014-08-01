@@ -40,6 +40,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"welcome";
+
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self.navigationController setNavigationBarHidden:NO
                                              animated:NO];
@@ -66,6 +68,9 @@
 #pragma mark - Action Methods
 
 - (IBAction)connectWithFacebook {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Connect with Facebook",
+                                              @"_view": self.mp_eventView}];
     self.activityView.hidden = NO;
     if ([FBSession.activeSession isOpen]) {
         [self connectFacebookAccountUsingActiveSession];
@@ -82,6 +87,9 @@
 }
 
 - (IBAction)connectWithTwitter {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Connect with Twitter",
+                                              @"_view": self.mp_eventView}];
     self.activityView.hidden = NO;
     if ([MRSLSocialServiceTwitter sharedService].oauth1Client.accessToken) {
         [self connectTwitterAccountUsingActiveSession];
@@ -102,6 +110,9 @@
 }
 
 - (IBAction)signUpWithEmail {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Use my email address",
+                                              @"_view": self.mp_eventView}];
     [self performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
                               sender:nil];
 }
@@ -183,6 +194,9 @@
         if (_socialUser) signUpVC.socialUser = _socialUser;
         if (_shouldOmitEmailFromSignUp) signUpVC.shouldOmitEmail = _shouldOmitEmailFromSignUp;
     } else if ([segue.identifier isEqualToString:MRSLStoryboardSegueDisplayLoginKey]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Log in",
+                                                  @"_view": self.mp_eventView}];
         MRSLLoginViewController *loginVC = [segue destinationViewController];
         if (_socialUser) loginVC.socialUser = _socialUser;
     }

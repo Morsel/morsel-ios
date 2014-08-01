@@ -36,6 +36,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"morsel_title";
+
     if (_morselID) {
         MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
         self.morselTitleTextView.text = morsel.title;
@@ -71,8 +73,9 @@
     if (_isPerformingRequest) return;
     self.isPerformingRequest = YES;
     [self.doneBarButtonItem setEnabled:NO];
-    [[MRSLEventManager sharedManager] track:@"Tapped Done"
-                                 properties:@{@"view": @"Add Morsel Title"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Done",
+                                              @"_view": self.mp_eventView}];
     if (_isUserEditingTitle) {
         MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
         if (morsel) {
@@ -101,6 +104,7 @@
         __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService createMorsel:morsel
                                       success:^(id responseObject) {
+                                          [MRSLEventManager sharedManager].new_morsels_created++;
                                           MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];
                                           editMorselVC.shouldPresentMediaCapture = YES;
                                           editMorselVC.morselID = morsel.morselID;

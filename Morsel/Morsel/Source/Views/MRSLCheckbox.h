@@ -10,4 +10,6 @@
 
 @interface MRSLCheckbox : M13Checkbox
 
+- (BOOL)isChecked;
+
 @end

@@ -160,7 +160,7 @@
         activity = [item activity];
 
     [[MRSLEventManager sharedManager] track:self.tappedItemEventName
-                                 properties:@{@"view": self.tappedItemEventView,
+                                 properties:@{@"_view": self.tappedItemEventView,
                                               @"action_type": NSNullIfNil(activity.actionType),
                                               @"activity_id": NSNullIfNil(activity.activityID),
                                               @"subject_type": NSNullIfNil(activity.subjectType),

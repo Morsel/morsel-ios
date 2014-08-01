@@ -118,8 +118,9 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (IBAction)viewMore {
     MRSLItem *visibleItem = [self visibleItem];
-    [[MRSLEventManager sharedManager] track:@"Tapped View More Description"
-                                 properties:@{@"view": @"main_feed",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"View More Description",
+                                              @"_view": @"feed",
                                               @"item_id": NSNullIfNil(visibleItem.itemID)}];
     MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardModalDescriptionViewControllerKey];
     modalDescriptionVC.item = visibleItem;
@@ -129,8 +130,9 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (IBAction)displayComments {
     MRSLItem *visibleItem = [self visibleItem];
-    [[MRSLEventManager sharedManager] track:@"Tapped Comments"
-                                 properties:@{@"view": @"main_feed",
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Comments",
+                                              @"_view": @"feed",
                                               @"morsel_id": NSNullIfNil(_morsel.morselID),
                                               @"item_id": NSNullIfNil(visibleItem.itemID),
                                               @"comment_count": NSNullIfNil(visibleItem.comment_count)}];
@@ -151,8 +153,9 @@ MRSLFeedShareCollectionViewCellDelegate>
     }];
     if (!alreadyDisplayed) {
         MRSLItem *visibleItem = [self visibleItem];
-        [[MRSLEventManager sharedManager] track:@"Tapped Likes"
-                                     properties:@{@"view": @"main_feed",
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Likes",
+                                                  @"_view": @"feed",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(visibleItem.itemID),
                                                   @"like_count": NSNullIfNil(visibleItem.like_count)}];
@@ -174,8 +177,9 @@ MRSLFeedShareCollectionViewCellDelegate>
     }];
     if (!alreadyDisplayed) {
         MRSLItem *visibleItem = [self visibleItem];
-        [[MRSLEventManager sharedManager] track:@"Tapped Share Morsel"
-                                     properties:@{@"view": @"main_feed",
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Share Morsel",
+                                                  @"_view": @"feed",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(visibleItem.itemID)}];
         MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardModalShareViewControllerKey];
@@ -249,30 +253,13 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSIndexPath *indexPath = [[_collectionView indexPathsForVisibleItems] firstObject];
     if (indexPath && indexPath.row - 1 < [_morsel.items count]) {
-        MRSLItem *visibleMorsel = nil;
+        MRSLItem *visibleItem = nil;
         if (_isPresentingMorselLayout && indexPath.row != 0) {
-            visibleMorsel = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+            visibleItem = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
         } else {
-            visibleMorsel = [_morsel coverItem];
+            visibleItem = [_morsel coverItem];
         }
-        CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
-        BOOL onShare = (currentPage == [_morsel.items count] + 2);
-
-        if (_scrollDirection == MRSLScrollDirectionDown) {
-            [[MRSLEventManager sharedManager] track:@"Scroll Morsel Down"
-                                         properties:@{@"view": @"main_feed",
-                                                      @"morsel_id": NSNullIfNil(visibleMorsel.morsel.morselID),
-                                                      @"item_id": NSNullIfNil(visibleMorsel.itemID),
-                                                      @"on_share": (onShare) ? @"true" : @"false",
-                                                      @"item_scroll_index": NSNullIfNil(@(currentPage))}];
-        } else if (_scrollDirection == MRSLScrollDirectionUp) {
-            [[MRSLEventManager sharedManager] track:@"Scroll Morsel Up"
-                                         properties:@{@"view": @"main_feed",
-                                                      @"morsel_id": NSNullIfNil(visibleMorsel.morsel.morselID),
-                                                      @"item_id": NSNullIfNil(visibleMorsel.itemID),
-                                                      @"on_share": (onShare) ? @"true" : @"false",
-                                                      @"item_scroll_index": NSNullIfNil(@(currentPage))}];
-        }
+        [[MRSLEventManager sharedManager] registerItem:visibleItem];
     }
 }
 

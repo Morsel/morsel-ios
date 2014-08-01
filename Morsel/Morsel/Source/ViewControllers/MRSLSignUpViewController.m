@@ -55,6 +55,8 @@ UITextFieldDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"sign_up";
+
     if (_socialUser) {
         self.userConnectedWithSocial = YES;
 
@@ -137,8 +139,9 @@ UITextFieldDelegate>
 
 
 - (IBAction)addPhoto:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Add Photo Icon"
-                                 properties:@{@"view": @"Sign up"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Add Photo Icon",
+                                              @"_view": self.mp_eventView}];
 
     [self.view endEditing:YES];
 
@@ -154,8 +157,11 @@ UITextFieldDelegate>
 }
 
 - (IBAction)signUp {
-    [[MRSLEventManager sharedManager] track:@"Tapped Sign up"
-                                 properties:@{@"view": @"Sign up"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Get started",
+                                              @"_view": self.mp_eventView,
+                                              @"incl_profile_image": (self.originalProfileImage) ? @"true" : @"false",
+                                              @"pro_checkbox": ([self.proCheckbox isChecked]) ? @"true" : @"false"}];
 
     BOOL usernameValid = [MRSLUtil validateUsername:_usernameField.text];
     BOOL emailValid = [MRSLUtil validateEmail:_emailField.text];
@@ -230,6 +236,9 @@ UITextFieldDelegate>
                                                     });
                                                 }
                                             });
+                                            [[MRSLEventManager sharedManager] track:@"$signup"
+                                                                         properties:@{@"distinct_id": NSNullIfNil(responseObject[@"id"]),
+                                                                                      @"_view": self.mp_eventView}];
                                         } failure:^(NSError *error) {
                                             self.activityView.hidden = YES;
                                             [self.continueButton setEnabled:YES];
@@ -271,13 +280,15 @@ UITextFieldDelegate>
 
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take Photo"]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Take Photo"
-                                     properties:@{@"view": @"Sign up"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Take Photo",
+                                                  @"_view": self.mp_eventView}];
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     } else {
-        [[MRSLEventManager sharedManager] track:@"Tapped Select From Library"
-                                     properties:@{@"view": @"Sign up"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Select From Library",
+                                                  @"_view": self.mp_eventView}];
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
 
@@ -302,7 +313,7 @@ UITextFieldDelegate>
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
         [[MRSLEventManager sharedManager] track:@"Added Photo"
-                                     properties:@{@"view": @"Sign up"}];
+                                     properties:@{@"_view": self.mp_eventView}];
 
         self.originalProfileImage = info[UIImagePickerControllerEditedImage];
 
@@ -320,8 +331,9 @@ UITextFieldDelegate>
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [[MRSLEventManager sharedManager] track:@"Tapped Cancel"
-                                 properties:@{@"view": @"Sign up"}];
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Cancel",
+                                              @"_view": self.mp_eventView}];
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 
@@ -370,20 +382,25 @@ UITextFieldDelegate>
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if ([textField isEqual:_firstNameField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped First Name Field"
-                                     properties:@{@"view": @"Sign up"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
+                                     properties:@{@"_title": @"First Name",
+                                                  @"_view": self.mp_eventView}];
     } else if ([textField isEqual:_lastNameField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Last Name Field"
-                                     properties:@{@"view": @"Sign up"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
+                                     properties:@{@"_title": @"Last Name",
+                                                  @"_view": self.mp_eventView}];
     } else if ([textField isEqual:_usernameField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Username Field"
-                                     properties:@{@"view": @"Sign up"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
+                                     properties:@{@"_title": @"Username",
+                                                  @"_view": self.mp_eventView}];
     } else if ([textField isEqual:_emailField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Email Field"
-                                     properties:@{@"view": @"Sign up"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
+                                     properties:@{@"_title": @"Email",
+                                                  @"_view": self.mp_eventView}];
     } else if ([textField isEqual:_passwordField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Password Field"
-                                     properties:@{@"view": @"Sign up"}];
+        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
+                                     properties:@{@"_title": @"Password",
+                                                  @"_view": self.mp_eventView}];
     }
     return YES;
 }
@@ -410,7 +427,7 @@ UITextFieldDelegate>
     } else {
         CGRect centeredFrame = textField.frame;
         centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-
+        
         [self.contentScrollView scrollRectToVisible:centeredFrame
                                            animated:YES];
         if ([textField isEqual:_usernameField]) {
