@@ -57,11 +57,17 @@ CaptureMediaViewControllerDelegate>
         });
     }
 
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done"
-                                                                                style:UIBarButtonItemStyleDone
-                                                                               target:self
-                                                                               action:@selector(dismissModalViewControllerAnimated:)]];
-    [self.navigationItem setLeftBarButtonItem:nil];
+    if (!self.presentingViewController) {
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                                    style:UIBarButtonItemStyleDone
+                                                                                   target:self
+                                                                                   action:@selector(goBack)]];
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-transparent"]
+                                                                       style:UIBarButtonItemStyleBordered
+                                                                      target:self
+                                                                      action:@selector(goBack)];
+        [self.navigationItem setLeftBarButtonItem:backButton];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
