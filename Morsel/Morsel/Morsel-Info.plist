@@ -47,7 +47,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201408011707</string>
+	<string>201408011853</string>
 	<key>FacebookAppID</key>
 	<string>${FB_APP_ID}</string>
 	<key>FacebookDisplayName</key>
