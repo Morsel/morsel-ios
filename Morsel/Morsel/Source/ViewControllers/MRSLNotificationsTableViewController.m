@@ -11,7 +11,7 @@
 #import "MRSLTableViewDataSource.h"
 #import "MRSLActivity.h"
 
-#import "MRSLAPIService+Activity.h"
+#import "MRSLAPIService+Notifications.h"
 
 #import "MRSLUser.h"
 
@@ -27,9 +27,12 @@
 
 @interface MRSLBaseActivitiesTableViewController ()
 
+@property (strong, nonatomic) MRSLTableViewDataSource *dataSource;
 @property (nonatomic, strong) NSString *tappedItemEventName;
 @property (nonatomic, strong) NSString *tappedItemEventView;
 @property (copy, nonatomic) MRSLRemoteRequestBlock remoteRequestBlock;
+
+- (void)refreshContent;
 
 @end
 
@@ -41,7 +44,7 @@
     self.tappedItemEventView = @"Notifications";
 
     self.remoteRequestBlock = ^(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
-        [_appDelegate.apiService getUserNotificationsForUser:[MRSLUser currentUser]
+        [_appDelegate.apiService getNotificationsForUser:[MRSLUser currentUser]
                                                        maxID:maxID
                                                    orSinceID:sinceID
                                                     andCount:count
@@ -52,9 +55,22 @@
                                                      }];
     };
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshNotifications)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+
+    [MRSLUser API_updateNotificationsAmount:nil
+                                    failure:nil];
+
     [super viewDidLoad];
 }
 
+#pragma mark - NSNotification Methods
+
+- (void)refreshNotifications {
+    [self refreshContent];
+}
 
 #pragma mark - MRSLBaseTableViewController Methods
 
@@ -69,6 +85,19 @@
 
 - (NSString *)emptyStateTitle {
     return @"No notifications yet!";
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    int unreadCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"MRSLUserUnreadCount"] intValue];
+    if (unreadCount > 0) {
+        MRSLActivity *latestActivity = [self.dataSource objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [_appDelegate.apiService markAllNotificationsReadSinceNotification:latestActivity.notification
+                                                                   success:nil
+                                                                   failure:nil];
+    }
 }
 
 @end

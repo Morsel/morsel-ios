@@ -14,6 +14,7 @@ NSString *const MRSLServiceDidLogInUserNotification = @"MRSLServiceDidLogInUserN
 NSString *const MRSLServiceShouldLogOutUserNotification = @"MRSLServiceShouldLogOutUserNotification";
 NSString *const MRSLServiceDidLogOutUserNotification = @"MRSLServiceDidLogOutUserNotification";
 NSString *const MRSLServiceDidUpdateUserNotification = @"MRSLServiceDidUpdateUserNotification";
+NSString *const MRSLServiceDidUpdateUnreadAmountNotification = @"MRSLServiceDidUpdateUnreadAmountNotification";
 
 NSString *const MRSLUserDidBeginCreateMorselNotification = @"MRSLUserDidBeginCreateMorselNotification";
 NSString *const MRSLUserDidUpdateUserNotification = @"MRSLUserDidUpdateUserNotification";

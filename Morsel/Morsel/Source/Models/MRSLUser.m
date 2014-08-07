@@ -2,6 +2,7 @@
 
 #import "MRSLS3Service.h"
 #import "MRSLAPIService+Profile.h"
+#import "MRSLAPIService+Notifications.h"
 
 #import "MRSLPresignedUpload.h"
 
@@ -47,13 +48,25 @@
     [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
 }
 
-+ (void)refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil failure:(MRSLFailureBlock)failureOrNil {
++ (void)API_refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil
+                                  failure:(MRSLFailureBlock)failureOrNil {
     MRSLUser *currentUser = [MRSLUser currentUser];
     if (!currentUser) return;
 
     [_appDelegate.apiService getUserProfile:currentUser
                                     success:userSuccessOrNil
                                     failure:failureOrNil];
+}
+
++ (void)API_updateNotificationsAmount:(MRSLAPICountBlock)amountOrNil
+                              failure:(MRSLFailureBlock)failureOrNil {
+    if (![MRSLUser currentUser]) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        return;
+    }
+    [_appDelegate.apiService getUnreadCountWithSuccess:^(int countValue) {
+        if (amountOrNil) amountOrNil(countValue);
+    } failure:failureOrNil];
 }
 
 + (MRSLUser *)createOrUpdateUserFromResponseObject:(id)userDictionary

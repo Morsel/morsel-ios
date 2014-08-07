@@ -10,4 +10,8 @@
 
 @interface MRSLBaseTableViewCell : UITableViewCell
 
+- (UIColor *)defaultBackgroundColor;
+- (UIColor *)defaultHighlightedBackgroundColor;
+- (UIColor *)defaultSelectedBackgroundColor;
+
 @end

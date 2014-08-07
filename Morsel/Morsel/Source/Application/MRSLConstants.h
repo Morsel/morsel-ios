@@ -14,6 +14,7 @@ extern NSString *const MRSLServiceDidLogInUserNotification;
 extern NSString *const MRSLServiceShouldLogOutUserNotification;
 extern NSString *const MRSLServiceDidLogOutUserNotification;
 extern NSString *const MRSLServiceDidUpdateUserNotification;
+extern NSString *const MRSLServiceDidUpdateUnreadAmountNotification;
 
 extern NSString *const MRSLUserDidBeginCreateMorselNotification;
 extern NSString *const MRSLUserDidUpdateUserNotification;

@@ -40,6 +40,8 @@ MRSLMenuViewControllerDelegate>
 
 @property (nonatomic) CGPoint currentTouchPoint;
 
+@property (strong, nonatomic) NSTimer *timer;
+
 @end
 
 @implementation MRSLRootViewController
@@ -127,6 +129,37 @@ MRSLMenuViewControllerDelegate>
                                                                 object:nil];
         }
     }
+    [self resumeTimer];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self suspendTimer];
+}
+
+- (void)suspendTimer {
+    if (_timer) {
+        [_timer invalidate];
+        self.timer = nil;
+    }
+}
+
+- (void)resumeTimer {
+    [self suspendTimer];
+    if (!_timer) {
+        self.timer = [NSTimer timerWithTimeInterval:180.f
+                                             target:self
+                                           selector:@selector(updateUnread)
+                                           userInfo:nil
+                                            repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_timer
+                                     forMode:NSRunLoopCommonModes];
+    }
+}
+
+- (void)updateUnread {
+    [MRSLUser API_updateNotificationsAmount:nil
+                                    failure:nil];
 }
 
 #pragma mark - Notification Methods

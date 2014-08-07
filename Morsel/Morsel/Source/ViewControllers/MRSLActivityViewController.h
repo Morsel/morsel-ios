@@ -8,6 +8,6 @@
 
 #import "MRSLBaseViewController.h"
 
-@interface MRSLNotificationsRootViewController : MRSLBaseViewController
+@interface MRSLActivityViewController : MRSLBaseViewController
 
 @end

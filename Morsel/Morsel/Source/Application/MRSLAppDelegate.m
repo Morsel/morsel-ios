@@ -89,7 +89,9 @@
     [FBAppCall handleDidBecomeActive];
     [application endBackgroundTask:_backgroundTaskIdentifier];
 
-    [MRSLUser refreshCurrentUserWithSuccess:nil
+    [MRSLUser API_refreshCurrentUserWithSuccess:nil
+                                        failure:nil];
+    [MRSLUser API_updateNotificationsAmount:nil
                                     failure:nil];
 }
 
@@ -153,10 +155,12 @@
 - (void)refreshUserInformation {
     MRSLUser *currentUser = [MRSLUser currentUser];
     if (!currentUser) return;
-    [MRSLUser refreshCurrentUserWithSuccess:^(id responseObject) {
+    [MRSLUser API_refreshCurrentUserWithSuccess:^(id responseObject) {
         [self.apiService getUserAuthenticationsWithSuccess:nil
                                                    failure:nil];
     } failure:nil];
+    [MRSLUser API_updateNotificationsAmount:nil
+                                    failure:nil];
     [currentUser setThirdPartySettings];
 }
 
@@ -216,6 +220,7 @@
 
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
                                                        forName:[[NSBundle mainBundle] bundleIdentifier]];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
     NSURL *persistentStoreURL = [NSPersistentStore MR_urlForStoreName:@"Morsel.sqlite"];
     NSURL *shmURL = [NSURL URLWithString:[[persistentStoreURL absoluteString] stringByAppendingString:@"-shm"]];
