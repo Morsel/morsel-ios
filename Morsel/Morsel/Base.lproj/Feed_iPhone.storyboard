@@ -358,7 +358,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wyp-8d-VK5" customClass="MRSLPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6.0000000447034791" width="250" height="32"/>
+                                        <rect key="frame" x="11" y="6.0000000964653966" width="250" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -519,6 +519,18 @@
                                                                 <action selector="editMorsel" destination="CdJ-7I-0rO" eventType="touchUpInside" id="CxC-uO-Afj"/>
                                                             </connections>
                                                         </button>
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JfF-lc-f7Y">
+                                                            <rect key="frame" x="260" y="0.0" width="60" height="60"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <accessibility key="accessibilityConfiguration" label="Edit"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <state key="normal" image="icon-report-white">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="reportContent" destination="CdJ-7I-0rO" eventType="touchUpInside" id="EM5-HS-BAK"/>
+                                                            </connections>
+                                                        </button>
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" id="3Ny-3d-HWN">
                                                             <rect key="frame" x="160" y="322" width="158" height="180"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
@@ -616,6 +628,7 @@
                                             <outlet property="placeCityStateLabel" destination="OkJ-0l-ahm" id="Fi1-dx-BTa"/>
                                             <outlet property="placeNameLabel" destination="O1k-FO-6SI" id="WFb-lC-O8D"/>
                                             <outlet property="profileImageView" destination="ED5-Fu-yTT" id="ZZs-NV-plK"/>
+                                            <outlet property="reportButton" destination="JfF-lc-f7Y" id="seg-Qp-bZG"/>
                                             <outlet property="timeAgoLabel" destination="dD2-3O-yZb" id="Gl8-G1-9XI"/>
                                             <outlet property="userNameLabel" destination="K0C-Dq-kd8" id="Hjd-1h-uXr"/>
                                         </connections>
@@ -735,6 +748,18 @@
                                                                 <action selector="editMorsel" destination="CdJ-7I-0rO" eventType="touchUpInside" id="azI-D9-CGY"/>
                                                             </connections>
                                                         </button>
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2dV-u7-7zo">
+                                                            <rect key="frame" x="260" y="0.0" width="60" height="60"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <accessibility key="accessibilityConfiguration" label="Edit"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <state key="normal" image="icon-report-white">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="reportContent" destination="CdJ-7I-0rO" eventType="touchUpInside" id="PRY-pP-UC2"/>
+                                                            </connections>
+                                                        </button>
                                                         <view contentMode="scaleToFill" id="rNx-VR-FSJ">
                                                             <rect key="frame" x="0.0" y="320" width="320" height="124"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
@@ -774,6 +799,7 @@
                                             <outlet property="likeButton" destination="IT0-2u-AAW" id="zDZ-nv-L25"/>
                                             <outlet property="likeCountButton" destination="EdH-OK-Aiw" id="3MS-Ou-JlY"/>
                                             <outlet property="profileImageView" destination="HEo-R7-0pL" id="Zqz-iU-18r"/>
+                                            <outlet property="reportButton" destination="2dV-u7-7zo" id="brt-A1-KeB"/>
                                             <outlet property="userNameLabel" destination="iyA-XY-NOk" id="TGN-ks-JPY"/>
                                             <outlet property="viewMoreButton" destination="LBz-5V-8XV" id="ULY-j5-ysn"/>
                                         </connections>
@@ -792,6 +818,18 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="rfe-Cd-vJV" customClass="MRSLItemImageView">
                                                             <rect key="frame" x="0.0" y="-48" width="320" height="320"/>
                                                         </imageView>
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XV9-Zs-1uL">
+                                                            <rect key="frame" x="260" y="0.0" width="60" height="60"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <accessibility key="accessibilityConfiguration" label="Edit"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <state key="normal" image="icon-report-white">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="reportContent" destination="CdJ-7I-0rO" eventType="touchUpInside" id="QNk-iw-swe"/>
+                                                            </connections>
+                                                        </button>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mFg-Df-YZz" customClass="MRSLRobotoSlabBoldLabel">
                                                             <rect key="frame" x="30" y="0.0" width="260" height="224"/>
                                                             <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
@@ -907,6 +945,7 @@
                                             <outlet property="nextMorselButton" destination="xMa-zz-OTs" id="sZ4-Aw-WSG"/>
                                             <outlet property="previousMorselButton" destination="8us-sP-XvU" id="leY-I0-sJd"/>
                                             <outlet property="profileImageView" destination="SZa-bC-Vw6" id="ciu-zv-9FC"/>
+                                            <outlet property="reportButton" destination="XV9-Zs-1uL" id="2WA-aW-k3e"/>
                                             <outlet property="shareCoverImageView" destination="rfe-Cd-vJV" id="gK5-H9-5Lz"/>
                                             <outlet property="twitterButton" destination="O0F-QI-eYa" id="ci6-SE-GWv"/>
                                             <outlet property="userBioLabel" destination="b8w-yn-1iI" id="0yy-8W-Mox"/>
@@ -1012,6 +1051,7 @@
         <image name="icon-edit" width="24" height="24"/>
         <image name="icon-like-off" width="21" height="20"/>
         <image name="icon-mail" width="22" height="22"/>
+        <image name="icon-report-white" width="37" height="13"/>
         <image name="icon-social-facebook-mark" width="22" height="22"/>
         <image name="icon-social-twitter-mark" width="22" height="22"/>
     </resources>

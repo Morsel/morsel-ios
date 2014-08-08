@@ -2,6 +2,7 @@
 
 #import "MRSLS3Service.h"
 #import "MRSLAPIService+Profile.h"
+#import "MRSLAPIService+Report.h"
 
 #import "MRSLPresignedUpload.h"
 
@@ -225,6 +226,17 @@
 
 - (NSString *)imageURL {
     return self.profilePhotoURL;
+}
+
+- (NSString *)reportableUrlString {
+    return [NSString stringWithFormat:@"users/%i/report", self.userIDValue];
+}
+
+- (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil {
+    [_appDelegate.apiService sendReportable:self
+                                    success:successOrNil
+                                    failure:failureOrNil];
 }
 
 #pragma mark - MagicalRecord

@@ -1,6 +1,8 @@
 #import "_MRSLPlace.h"
 
-@interface MRSLPlace : _MRSLPlace {}
+#import "MRSLReportable.h"
+
+@interface MRSLPlace : _MRSLPlace <MRSLReportable>
 
 - (NSString *)fullAddress;
 

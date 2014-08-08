@@ -1,13 +1,10 @@
 #import "MRSLMorsel.h"
 
+#import "MRSLAPIService+Report.h"
+
 #import "MRSLItem.h"
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
-
-@interface MRSLMorsel ()
-
-@end
-
 
 @implementation MRSLMorsel
 
@@ -63,6 +60,17 @@
 - (BOOL)hasCreatorInfo {
     //  Can tell if a User object has been fetched if a username exists.
     return self.creator && self.creator.username;
+}
+
+- (NSString *)reportableUrlString {
+    return [NSString stringWithFormat:@"morsels/%i/report", self.morselIDValue];
+}
+
+- (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil {
+    [_appDelegate.apiService sendReportable:self
+                                    success:successOrNil
+                                    failure:failureOrNil];
 }
 
 #pragma mark - MagicalRecord

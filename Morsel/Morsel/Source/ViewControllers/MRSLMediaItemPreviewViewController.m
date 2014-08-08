@@ -56,18 +56,15 @@ CaptureMediaViewControllerDelegate>
             [self.previewMediaCollectionView reloadData];
         });
     }
-
-    if (!self.presentingViewController) {
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done"
-                                                                                    style:UIBarButtonItemStyleDone
-                                                                                   target:self
-                                                                                   action:@selector(goBack)]];
-        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-transparent"]
-                                                                       style:UIBarButtonItemStyleBordered
-                                                                      target:self
-                                                                      action:@selector(goBack)];
-        [self.navigationItem setLeftBarButtonItem:backButton];
-    }
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                                style:UIBarButtonItemStyleDone
+                                                                               target:self
+                                                                               action:@selector(closeImagePreview)]];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-transparent"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:nil];
+    [self.navigationItem setLeftBarButtonItem:backButton];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -84,8 +81,12 @@ CaptureMediaViewControllerDelegate>
 #pragma mark - Private Methods
 
 - (void)closeImagePreview {
-    [self.presentingViewController dismissViewControllerAnimated:YES
-                                                      completion:nil];
+    if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
+        [self.presentingViewController dismissViewControllerAnimated:YES
+                                                          completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)setupControls {

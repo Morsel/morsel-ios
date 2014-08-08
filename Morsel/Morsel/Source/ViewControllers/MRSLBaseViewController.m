@@ -115,6 +115,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)report {
+    // Should be overridden if intended to be used
+}
+
 #pragma mark - Routing Methods
 
 - (void)setupWithUserInfo:(NSDictionary *)userInfo {

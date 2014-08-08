@@ -30,7 +30,8 @@
 #import "MRSLUser.h"
 
 @interface MRSLPlaceViewController ()
-<MRSLCollectionViewDataSourceDelegate,
+<UIActionSheetDelegate,
+MRSLCollectionViewDataSourceDelegate,
 MRSLPlacePanelCollectionViewCellDelegate,
 MRSLSegmentedHeaderReusableViewDelegate>
 
@@ -128,6 +129,18 @@ MRSLSegmentedHeaderReusableViewDelegate>
         _place = place;
         [self populatePlaceInformation];
     }
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)report {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:nil
+                                               destructiveButtonTitle:@"Report inappropriate"
+                                                    otherButtonTitles:nil];
+    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+    [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
 }
 
 #pragma mark - Private Methods
@@ -357,6 +370,20 @@ MRSLSegmentedHeaderReusableViewDelegate>
     placeDetailVC.place = _place;
     [self.navigationController pushViewController:placeDetailVC
                                          animated:YES];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Report inappropriate"]) {
+        [self.place API_reportWithSuccess:^(BOOL success) {
+            [UIAlertView showOKAlertViewWithTitle:@"Report Successful"
+                                          message:@"Thank you for the feedback!"];
+        } failure:^(NSError *error) {
+            [UIAlertView showOKAlertViewWithTitle:@"Report Failed"
+                                          message:@"Please try again"];
+        }];
+    }
 }
 
 #pragma mark - Dealloc

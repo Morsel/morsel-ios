@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
+@property (weak, nonatomic) IBOutlet UIButton *reportButton;
 @property (weak, nonatomic) IBOutlet UIButton *likeCountButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
 @property (weak, nonatomic) IBOutlet UILabel *itemDescriptionLabel;
@@ -86,6 +87,7 @@
     _profileImageView.user = _item.morsel.creator;
     _userNameLabel.text = [_item.morsel.creator fullName];
     _editButton.hidden = ![_item.morsel.creator isCurrentUser];
+    _reportButton.hidden = !_editButton.hidden;
 
     [_likeCountButton setTitle:[NSString stringWithFormat:@"%i", _item.like_countValue]
                       forState:UIControlStateNormal];
