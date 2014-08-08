@@ -1,8 +1,9 @@
 #import "_MRSLItem.h"
 
 #import "MRSLImageRequestable.h"
+#import "MRSLReportable.h"
 
-@interface MRSLItem : _MRSLItem <MRSLImageRequestable>
+@interface MRSLItem : _MRSLItem <MRSLImageRequestable, MRSLReportable>
 
 + (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context;
 
