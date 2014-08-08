@@ -1,5 +1,7 @@
 #import "MRSLPlace.h"
 
+#import "MRSLAPIService+Report.h"
+
 #import "MRSLPlaceInfo.h"
 #import "MRSLPlaceTimeframe.h"
 
@@ -117,11 +119,15 @@
     return self.reservations_url != nil;
 }
 
+- (NSString *)reportableUrlString {
+    return [NSString stringWithFormat:@"places/%i/report", self.placeIDValue];
+}
 
-#pragma mark - Magical Record Methods
-
-- (void)didImport:(id)data {
-    
+- (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil {
+    [_appDelegate.apiService sendReportable:self
+                                    success:successOrNil
+                                    failure:failureOrNil];
 }
 
 @end

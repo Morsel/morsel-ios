@@ -26,6 +26,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 <MRSLItemImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
+@property (weak, nonatomic) IBOutlet UIButton *reportButton;
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;
@@ -92,6 +93,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
         self.userNameLabel.text = [_morsel.creator fullName];
 
         _editButton.hidden = ![_morsel.creator isCurrentUser];
+        _reportButton.hidden = !_editButton.hidden;
 
         MRSLItem *firstItem = [_morsel.itemsArray firstObject];
         self.moreItemImageView.grayScale = YES;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mgU-9x-CbA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mgU-9x-CbA">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -57,6 +57,18 @@
                                                             <rect key="frame" x="10" y="10" width="80" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="85u-KW-I9F">
+                                                            <rect key="frame" x="20" y="91" width="60" height="28"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <accessibility key="accessibilityConfiguration" label="Edit"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <state key="normal" image="icon-report-white">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="report" destination="MYi-AS-SvG" eventType="touchUpInside" id="RqX-Gu-SNa"/>
+                                                            </connections>
+                                                        </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V1E-4e-rQT" customClass="MRSLRegularButton">
                                                             <rect key="frame" x="110" y="93" width="69" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -93,6 +105,7 @@
                                             <outlet property="followingButton" destination="44w-Ui-et2" id="fud-lH-SPC"/>
                                             <outlet property="nameLabel" destination="DXf-MG-zfq" id="BhR-Bq-Ufh"/>
                                             <outlet property="profileImageView" destination="GMc-6J-rv2" id="uN2-c9-Rgn"/>
+                                            <outlet property="reportButton" destination="85u-KW-I9F" id="DxU-9B-c07"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselPreviewCell" id="18U-pM-zK7" customClass="MRSLMorselPreviewCollectionViewCell">
@@ -637,6 +650,7 @@
     </scenes>
     <resources>
         <image name="icon-place" width="30" height="30"/>
+        <image name="icon-report-white" width="37" height="13"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

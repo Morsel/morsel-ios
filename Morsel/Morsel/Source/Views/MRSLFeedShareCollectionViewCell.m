@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousMorselButton;
+@property (weak, nonatomic) IBOutlet UIButton *reportButton;
 
 @end
 
@@ -61,6 +62,8 @@
     _profileImageView.user = _morsel.creator;
     _userNameLabel.text = _morsel.creator.fullName;
     _userBioLabel.text = _morsel.creator.bio;
+
+    _reportButton.hidden = [_morsel.creator isCurrentUser];
 
     [_userBioLabel sizeToFit];
     [_userBioLabel setWidth:192.f];

@@ -2,6 +2,7 @@
 
 #import "MRSLS3Service.h"
 #import "MRSLAPIService+Item.h"
+#import "MRSLAPIService+Report.h"
 
 #import "MRSLComment.h"
 #import "MRSLMorsel.h"
@@ -215,6 +216,17 @@
     } else {
         self.didFailUpload = @NO;
     }
+}
+
+- (NSString *)reportableUrlString {
+    return [NSString stringWithFormat:@"items/%i/report", self.itemIDValue];
+}
+
+- (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil {
+    [_appDelegate.apiService sendReportable:self
+                                    success:successOrNil
+                                    failure:failureOrNil];
 }
 
 - (NSString *)jsonKeyName {
