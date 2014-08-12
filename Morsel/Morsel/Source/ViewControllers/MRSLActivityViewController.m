@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLNotificationsRootViewController.h"
+#import "MRSLActivityViewController.h"
 
 #import "MRSLFollowableActivityTableViewController.h"
 #import "MRSLMyActivityTableViewController.h"
@@ -19,7 +19,7 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
 };
 
 
-@interface MRSLNotificationsRootViewController ()
+@interface MRSLActivityViewController ()
 <MRSLSegmentedButtonViewDelegate>
 
 @property (strong, nonatomic) MRSLFollowableActivityTableViewController *followableActivityTableViewController;
@@ -32,7 +32,7 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
 
 @end
 
-@implementation MRSLNotificationsRootViewController
+@implementation MRSLActivityViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

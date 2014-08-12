@@ -5,10 +5,12 @@
 
 const struct MRSLNotificationAttributes MRSLNotificationAttributes = {
 	.creationDate = @"creationDate",
+	.markedReadAt = @"markedReadAt",
 	.message = @"message",
 	.notificationID = @"notificationID",
 	.payloadID = @"payloadID",
 	.payloadType = @"payloadType",
+	.read = @"read",
 };
 
 const struct MRSLNotificationRelationships MRSLNotificationRelationships = {
@@ -54,6 +56,11 @@ const struct MRSLNotificationFetchedProperties MRSLNotificationFetchedProperties
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"readValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"read"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 
 	return keyPaths;
 }
@@ -62,6 +69,13 @@ const struct MRSLNotificationFetchedProperties MRSLNotificationFetchedProperties
 
 
 @dynamic creationDate;
+
+
+
+
+
+
+@dynamic markedReadAt;
 
 
 
@@ -129,6 +143,32 @@ const struct MRSLNotificationFetchedProperties MRSLNotificationFetchedProperties
 
 @dynamic payloadType;
 
+
+
+
+
+
+@dynamic read;
+
+
+
+- (BOOL)readValue {
+	NSNumber *result = [self read];
+	return [result boolValue];
+}
+
+- (void)setReadValue:(BOOL)value_ {
+	[self setRead:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveReadValue {
+	NSNumber *result = [self primitiveRead];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveReadValue:(BOOL)value_ {
+	[self setPrimitiveRead:[NSNumber numberWithBool:value_]];
+}
 
 
 

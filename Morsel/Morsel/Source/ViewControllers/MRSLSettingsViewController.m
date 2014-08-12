@@ -29,8 +29,8 @@
                                              animated:animated];
     [super viewWillAppear:animated];
 
-    [MRSLUser refreshCurrentUserWithSuccess:nil
-                                    failure:nil];
+    [MRSLUser API_refreshCurrentUserWithSuccess:nil
+                                        failure:nil];
 }
 
 - (IBAction)logOut:(id)sender {

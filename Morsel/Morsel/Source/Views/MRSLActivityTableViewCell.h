@@ -12,6 +12,6 @@
 
 @interface MRSLActivityTableViewCell : MRSLBaseTableViewCell
 
-- (void)setActivity:(MRSLActivity *)activity;
+@property (weak, nonatomic) MRSLActivity *activity;
 
 @end

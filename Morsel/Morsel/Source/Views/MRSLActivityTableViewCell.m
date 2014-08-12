@@ -14,6 +14,7 @@
 #import "MRSLProfileImageView.h"
 
 #import "MRSLActivity.h"
+#import "MRSLNotification.h"
 #import "MRSLUser.h"
 
 @interface MRSLActivityTableViewCell ()
@@ -35,6 +36,8 @@
 }
 
 - (void)setActivity:(MRSLActivity *)activity {
+    _activity = activity;
+
     self.descriptionLabel.text = [activity message];
     self.timeAgoLabel.text = [activity.creationDate timeAgo];
     self.senderProfileImageView.user = activity.creator;
@@ -56,6 +59,10 @@
         self.receiverProfileImageView.hidden = YES;
         self.receiverProfileImageView.user = nil;
     }
+}
+
+- (UIColor *)defaultBackgroundColor {
+    return (self.activity.notification.readValue) ? [UIColor morselDefaultCellBackgroundColor] : [UIColor morselOffWhite];
 }
 
 @end

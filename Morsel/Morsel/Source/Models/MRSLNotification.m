@@ -1,4 +1,7 @@
 #import "MRSLNotification.h"
+
+#import "MRSLAPIService+Notifications.h"
+
 #import "MRSLActivity.h"
 
 @implementation MRSLNotification
@@ -11,12 +14,24 @@
 
 #pragma mark - Instance Methods
 
+- (void)API_markRead {
+    [_appDelegate.apiService markNotificationRead:self
+                                          success:nil
+                                          failure:nil];
+}
+
 - (void)didImport:(id)data {
     if ([data[@"payload_type"] isEqualToString:@"Activity"]) [self importActivity:data[@"payload"]];
     
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
+    }
+
+    if (![data[@"marked_read_at"] isEqual:[NSNull null]]) {
+        NSString *dateString = data[@"marked_read_at"];
+        self.markedReadAt = [_appDelegate.defaultDateFormatter dateFromString:dateString];
+        self.read = @YES;
     }
 }
 

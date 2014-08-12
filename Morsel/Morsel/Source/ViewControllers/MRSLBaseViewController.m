@@ -11,6 +11,7 @@
 #import "UINavigationController+Additions.h"
 
 #import "MRSLMorselAddTitleViewController.h"
+#import "MRSLMenuBarButtonItem.h"
 
 #import "MRSLUser.h"
 
@@ -39,12 +40,11 @@
         [self.navigationItem setLeftBarButtonItem:backButton];
     } else if (([self.navigationController.viewControllers count] == 1 && !self.presentingViewController) || [self.navigationController isDisplayingMorselAdd]) {
         if (!self.navigationController.navigationBarHidden) {
-            UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-burger-bar"]
-                                                                           style:UIBarButtonItemStyleBordered
-                                                                          target:self
-                                                                          action:@selector(displayMenuBar)];
-            menuButton.accessibilityLabel = @"Menu";
-            [self.navigationItem setLeftBarButtonItem:menuButton];
+            MRSLMenuBarButtonItem *menuBarButtonItem = [MRSLMenuBarButtonItem menuBarButtonItem];
+            [(UIButton *)menuBarButtonItem.customView addTarget:self
+                                                         action:@selector(displayMenuBar)
+                                               forControlEvents:UIControlEventTouchUpInside];
+            [self.navigationItem setLeftBarButtonItem:menuBarButtonItem];
         }
     } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
         if (self.navigationController) {

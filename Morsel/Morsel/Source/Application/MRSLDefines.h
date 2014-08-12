@@ -21,6 +21,7 @@ typedef void (^ MRSLAPIFollowBlock)(BOOL doesFollow);
 typedef void (^ MRSLAPISuccessBlock)(id responseObject);
 typedef void (^ MRSLAPIExistsBlock)(BOOL exists, NSError *error);
 typedef void (^ MRSLAPIValidationBlock)(BOOL isAvailable, NSError *error);
+typedef void (^ MRSLAPICountBlock)(int countValue);
 typedef void (^ MRSLImageProcessingBlock)(BOOL success);
 typedef void (^ MRSLSocialSuccessBlock)(BOOL success);
 typedef void (^ MRSLSocialFailureBlock)(NSError *error);
