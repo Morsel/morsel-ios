@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *bioLabel;
 @property (weak, nonatomic) IBOutlet UIButton *followersButton;
 @property (weak, nonatomic) IBOutlet UIButton *followingButton;
+@property (weak, nonatomic) IBOutlet UIButton *reportButton;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *blurProfileImageView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
@@ -42,6 +43,7 @@
     self.profileImageView.user = nil;
     self.profileImageView.user = _user;
     self.blurProfileImageView.user = _user;
+    self.reportButton.hidden = [_user isCurrentUser];
     [self.followersButton setTitle:[NSString stringWithFormat:@"Followers: %i", _user.follower_countValue]
                           forState:UIControlStateNormal];
     [self.followingButton setTitle:[NSString stringWithFormat:@"Following: %i", _user.followed_user_countValue]

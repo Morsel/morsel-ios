@@ -24,7 +24,8 @@
 #import "MRSLUser.h"
 
 @interface MRSLFeedPanelViewController ()
-<UICollectionViewDataSource,
+<UIActionSheetDelegate,
+UICollectionViewDataSource,
 UICollectionViewDelegate,
 MRSLFeedCoverCollectionViewCellDelegate,
 MRSLFeedShareCollectionViewCellDelegate>
@@ -38,6 +39,9 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+
+@property (weak, nonatomic) MRSLMorsel *reportedMorsel;
+@property (weak, nonatomic) MRSLItem *reportedItem;
 
 @end
 
@@ -199,6 +203,25 @@ MRSLFeedShareCollectionViewCellDelegate>
                      completion:nil];
 }
 
+- (IBAction)reportContent {
+    self.reportedItem = nil;
+    self.reportedMorsel = nil;
+
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath.row == 0 || indexPath.row == [_morsel.items count]) {
+        self.reportedMorsel = self.morsel;
+    } else {
+        self.reportedItem = [self visibleItem];
+    }
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:nil
+                                               destructiveButtonTitle:@"Report inappropriate"
+                                                    otherButtonTitles:nil];
+    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+    [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -303,6 +326,20 @@ MRSLFeedShareCollectionViewCellDelegate>
             [self resetCollectionViewContentOffset:YES];
         });
         [self.delegate feedPanelViewControllerDidSelectNextMorsel];
+    }
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Report inappropriate"]) {
+        [self.reportedMorsel ?: self.reportedItem API_reportWithSuccess:^(BOOL success) {
+            [UIAlertView showOKAlertViewWithTitle:@"Report Successful"
+                                          message:@"Thank you for the feedback!"];
+        } failure:^(NSError *error) {
+            [UIAlertView showOKAlertViewWithTitle:@"Report Failed"
+                                          message:@"Please try again"];
+        }];
     }
 }
 

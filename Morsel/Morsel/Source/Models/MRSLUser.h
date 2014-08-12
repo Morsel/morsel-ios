@@ -1,8 +1,9 @@
 #import "_MRSLUser.h"
 
 #import "MRSLImageRequestable.h"
+#import "MRSLReportable.h"
 
-@interface MRSLUser : _MRSLUser <MRSLImageRequestable>
+@interface MRSLUser : _MRSLUser <MRSLImageRequestable, MRSLReportable>
 
 + (MRSLUser *)currentUser;
 + (NSString *)apiTokenForCurrentUser;

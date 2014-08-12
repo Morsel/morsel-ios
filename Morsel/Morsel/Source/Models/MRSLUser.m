@@ -3,6 +3,7 @@
 #import "MRSLS3Service.h"
 #import "MRSLAPIService+Profile.h"
 #import "MRSLAPIService+Notifications.h"
+#import "MRSLAPIService+Report.h"
 
 #import "MRSLPresignedUpload.h"
 
@@ -159,34 +160,38 @@
 }
 
 - (void)API_prepareAndUploadPresignedUpload {
+    __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService getUserProfile:self
                                  parameters:@{ @"prepare_presigned_upload": @"true" }
                                     success:^(id responseObject) {
-                                        [self S3_updateImage];
+                                        if (weakSelf) [weakSelf S3_updateImage];
                                     } failure:^(NSError *error) {
-                                        [_appDelegate.apiService updateUserImage:self
+                                        [_appDelegate.apiService updateUserImage:weakSelf
                                                                          success:^(id responseObject) {
-                                                                             self.isUploading = @NO;
+                                                                             if (weakSelf) weakSelf.isUploading = @NO;
                                                                          } failure:nil];
                                     }];
 }
 
 - (void)S3_updateImage {
+    __weak __typeof(self)weakSelf = self;
     [_appDelegate.s3Service uploadImageData:self.profilePhotoFull
                          forPresignedUpload:self.presignedUpload
                                     success:^(NSDictionary *responseDictionary) {
                                         [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
-                                                                        forUser:self
+                                                                        forUser:weakSelf
                                                                         success:^(id responseObject) {
-                                                                            [self.presignedUpload MR_deleteEntity];
-                                                                            [self.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
-                                                                            self.isUploading = @NO;
+                                                                            if (weakSelf) {
+                                                                                [weakSelf.presignedUpload MR_deleteEntity];
+                                                                                [weakSelf.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                                                weakSelf.isUploading = @NO;
+                                                                            }
                                                                         } failure:nil];
                                     } failure:^(NSError *error) {
                                         //  S3 upload failed, fallback to API upload
-                                        [_appDelegate.apiService updateUserImage:self
+                                        [_appDelegate.apiService updateUserImage:weakSelf
                                                                          success:^(id responseObject) {
-                                                                             self.isUploading = @NO;
+                                                                             if (weakSelf) weakSelf.isUploading = @NO;
                                                                          } failure:nil];
                                     }];
 }
@@ -238,6 +243,17 @@
 
 - (NSString *)imageURL {
     return self.profilePhotoURL;
+}
+
+- (NSString *)reportableUrlString {
+    return [NSString stringWithFormat:@"users/%i/report", self.userIDValue];
+}
+
+- (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil {
+    [_appDelegate.apiService sendReportable:self
+                                    success:successOrNil
+                                    failure:failureOrNil];
 }
 
 #pragma mark - MagicalRecord

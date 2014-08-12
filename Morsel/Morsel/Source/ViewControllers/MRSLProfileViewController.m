@@ -41,7 +41,8 @@
 #import "MRSLUser.h"
 
 @interface MRSLProfileViewController ()
-<UIScrollViewDelegate,
+<UIActionSheetDelegate,
+UIScrollViewDelegate,
 MRSLCollectionViewDataSourceDelegate,
 MRSLProfilePanelCollectionViewCellDelegate,
 MRSLSegmentedHeaderReusableViewDelegate,
@@ -164,6 +165,18 @@ MRSLStateViewDelegate>
 
     [self populateUserInformation];
     [self refreshContent];
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)report {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:nil
+                                               destructiveButtonTitle:@"Report inappropriate"
+                                                    otherButtonTitles:nil];
+    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+    [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
 }
 
 #pragma mark - Private Methods
@@ -479,6 +492,20 @@ MRSLStateViewDelegate>
         [self displayAddPlace:button];
     } else if ([button.titleLabel.text isEqualToString:@"Manage tags"]) {
         [self displayProfessionalSettings];
+    }
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Report inappropriate"]) {
+        [self.user API_reportWithSuccess:^(BOOL success) {
+            [UIAlertView showOKAlertViewWithTitle:@"Report Successful"
+                                          message:@"Thank you for the feedback!"];
+        } failure:^(NSError *error) {
+            [UIAlertView showOKAlertViewWithTitle:@"Report Failed"
+                                          message:@"Please try again"];
+        }];
     }
 }
 

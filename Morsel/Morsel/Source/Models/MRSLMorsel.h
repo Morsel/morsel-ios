@@ -1,6 +1,8 @@
 #import "_MRSLMorsel.h"
 
-@interface MRSLMorsel : _MRSLMorsel
+#import "MRSLReportable.h"
+
+@interface MRSLMorsel : _MRSLMorsel <MRSLReportable>
 
 - (NSDate *)latestUpdatedDate;
 - (NSArray *)itemsArray;

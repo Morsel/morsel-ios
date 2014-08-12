@@ -21,6 +21,7 @@
 - (IBAction)displayMorselShare;
 - (IBAction)displayProfessionalSettings;
 - (IBAction)goBack;
+- (IBAction)report;
 
 - (void)setupWithUserInfo:(NSDictionary *)userInfo;
 
