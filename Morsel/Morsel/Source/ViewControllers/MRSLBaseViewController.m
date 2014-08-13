@@ -15,6 +15,13 @@
 
 #import "MRSLUser.h"
 
+@interface MRSLBaseViewController ()
+
+@property (strong, nonatomic) UIBarButtonItem *storedLeftItem;
+@property (strong, nonatomic) UIBarButtonItem *storedRightItem;
+
+@end
+
 @implementation MRSLBaseViewController
 
 #pragma mark - Instance Methods
@@ -22,6 +29,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mp_eventView = @"root";
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(modalWillDisplay:)
+                                                 name:MRSLModalWillDisplayNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(modalWillDismiss:)
+                                                 name:MRSLModalWillDismissNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -48,17 +64,54 @@
         }
     } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
         if (self.navigationController) {
-            UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-collapse"]
+            UIBarButtonItem *dismissButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-collapse"]
                                                                            style:UIBarButtonItemStyleBordered
                                                                           target:self
                                                                           action:@selector(dismiss)];
-            menuButton.accessibilityLabel = @"Dismiss";
-            [self.navigationItem setLeftBarButtonItem:menuButton];
+            dismissButton.accessibilityLabel = @"Dismiss";
+            [self.navigationItem setLeftBarButtonItem:dismissButton];
         }
     }
 }
 
+#pragma mark - Notification Methods
+
+- (void)modalWillDisplay:(NSNotification *)notification {
+    self.storedLeftItem = self.navigationItem.leftBarButtonItem;
+    self.storedRightItem = self.navigationItem.rightBarButtonItem;
+
+    /*
+     Ignoring warning because the dismiss: selector does exist within the notification.object
+     */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                                    style:UIBarButtonItemStyleBordered
+                                                                   target:notification.object
+                                                                   action:@selector(dismiss:)];
+#pragma clang diagnostic pop
+    closeButton.accessibilityLabel = @"Close";
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-transparent"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:nil];
+    [self.navigationItem setLeftBarButtonItem:backButton];
+    [self.navigationItem setRightBarButtonItem:closeButton];
+}
+
+- (void)modalWillDismiss:(NSNotification *)notification {
+    [self.navigationItem setLeftBarButtonItem:_storedLeftItem];
+    [self.navigationItem setRightBarButtonItem:_storedRightItem];
+    self.storedLeftItem = nil;
+    self.storedRightItem = nil;
+}
+
 #pragma mark - Action Methods
+
+- (IBAction)dismissModal {
+    
+}
 
 - (IBAction)dismiss {
     UINavigationController *containingNavigationController = self.navigationController;
@@ -144,6 +197,8 @@
 - (void)reset {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self resetChildViewControllers];
+    self.storedLeftItem = nil;
+    self.storedRightItem = nil;
     if (self.navigationItem) {
         [self.navigationItem setLeftBarButtonItem:nil];
         [self.navigationItem setRightBarButtonItem:nil];
