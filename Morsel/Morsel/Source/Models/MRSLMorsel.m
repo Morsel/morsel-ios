@@ -42,7 +42,6 @@
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
     objectInfoJSON[@"title"] = NSNullIfNil(self.title);
-    if (self.draft) objectInfoJSON[@"draft"] = (self.draftValue) ? @"true" : @"false";
     if (self.place) objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
 
     MRSLItem *coverItem = [self coverItem];
