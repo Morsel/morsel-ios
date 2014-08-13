@@ -41,7 +41,7 @@
                          }];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLModalWillDisplayNotification
-                                                        object:nil];
+                                                        object:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -56,7 +56,7 @@
 
 - (IBAction)dismiss:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLModalWillDismissNotification
-                                                        object:nil];
+                                                        object:self];
     [self viewWillDisappear:YES];
     if (!_disableFade) {
         [UIView animateWithDuration:.4f

@@ -56,7 +56,10 @@
 }
 
 - (UIColor *)defaultBackgroundColor {
-    return (self.activity.notification.readValue) ? [UIColor morselDefaultCellBackgroundColor] : [UIColor morselPrimaryLightest];
+    if (self.activity.notification) {
+        return (self.activity.notification.readValue) ? [UIColor morselDefaultCellBackgroundColor] : [UIColor morselPrimaryLightest];
+    }
+    return [UIColor morselDefaultCellBackgroundColor];
 }
 
 @end
