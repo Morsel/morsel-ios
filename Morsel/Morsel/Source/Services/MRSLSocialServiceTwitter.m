@@ -94,7 +94,7 @@
 - (void)checkForValidTwitterAuthenticationWithSuccess:(MRSLSocialSuccessBlock)successOrNil
                                               failure:(MRSLSocialFailureBlock)failureOrNil {
     AFOAuth1Token *twitterToken = [AFOAuth1Token retrieveCredentialWithIdentifier:MRSLTwitterCredentialsKey];
-    if (twitterToken) {
+    if (twitterToken && [self.socialAuthentication isValid]) {
         self.oauth1Client.accessToken = twitterToken;
         if (successOrNil) successOrNil(YES);
     } else {
