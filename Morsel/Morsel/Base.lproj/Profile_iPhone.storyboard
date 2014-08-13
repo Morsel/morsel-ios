@@ -493,25 +493,32 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_UserFollowCell" id="yjN-lS-xUe" customClass="MRSLUserFollowTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_UserFollowCell" id="amH-qk-R4S" customClass="MRSLUserFollowTableViewCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yjN-lS-xUe" id="oV5-yy-YP5">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="amH-qk-R4S" id="5Q3-IL-fYm">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="agE-Yn-WFx" customClass="MRSLProfileImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="X9A-jB-0Vy" customClass="MRSLProfileImageView">
                                                     <rect key="frame" x="10" y="10" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jUR-Pd-43M" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="60" y="20" width="160" height="20"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qaC-Bx-7Pz" customClass="MRSLRobotoSlabBoldLabel">
+                                                    <rect key="frame" x="58" y="10" width="160" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="NsH-PK-6jv" customClass="MRSLFollowButton">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P3E-38-Zb5" customClass="MRSLRobotoLightLabel">
+                                                    <rect key="frame" x="58" y="30" width="160" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="tfy-Jr-h27" customClass="MRSLFollowButton">
                                                     <rect key="frame" x="238" y="15" width="72" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -521,7 +528,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <view contentMode="scaleToFill" id="xhr-UI-vue">
+                                                <view contentMode="scaleToFill" id="s2y-xd-rHW">
                                                     <rect key="frame" x="20" y="59" width="270" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                     <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -529,10 +536,11 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="followButton" destination="NsH-PK-6jv" id="p6R-EK-X8I"/>
-                                            <outlet property="pipeView" destination="xhr-UI-vue" id="aFZ-iI-f9X"/>
-                                            <outlet property="profileImageView" destination="agE-Yn-WFx" id="PPm-Ua-9AZ"/>
-                                            <outlet property="userNameLabel" destination="jUR-Pd-43M" id="haM-Lp-Pxv"/>
+                                            <outlet property="followButton" destination="tfy-Jr-h27" id="k1p-O7-K7H"/>
+                                            <outlet property="pipeView" destination="s2y-xd-rHW" id="fBf-2K-NKO"/>
+                                            <outlet property="profileImageView" destination="X9A-jB-0Vy" id="HVX-K9-zCn"/>
+                                            <outlet property="userFullNameLabel" destination="qaC-Bx-7Pz" id="kwz-wd-aeu"/>
+                                            <outlet property="usernameLabel" destination="P3E-38-Zb5" id="p1a-TI-UGJ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -579,10 +587,17 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="alG-O3-xGc" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="60" y="20" width="160" height="20"/>
+                                                    <rect key="frame" x="58" y="10" width="160" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="q1a-2a-iwc" customClass="MRSLRobotoLightLabel">
+                                                    <rect key="frame" x="58" y="30" width="160" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="sLs-DQ-ZbR" customClass="MRSLFollowButton">
@@ -606,7 +621,8 @@
                                             <outlet property="followButton" destination="sLs-DQ-ZbR" id="Y1B-ow-fcT"/>
                                             <outlet property="pipeView" destination="IrG-bj-585" id="oDz-3h-Mxd"/>
                                             <outlet property="profileImageView" destination="T0c-fo-HRN" id="tQB-hz-9NI"/>
-                                            <outlet property="userNameLabel" destination="alG-O3-xGc" id="pf1-S4-1js"/>
+                                            <outlet property="userFullNameLabel" destination="alG-O3-xGc" id="61G-Cx-uc6"/>
+                                            <outlet property="usernameLabel" destination="q1a-2a-iwc" id="cSw-qv-mDH"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
