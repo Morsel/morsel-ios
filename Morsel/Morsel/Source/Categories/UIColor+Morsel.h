@@ -22,6 +22,7 @@
 + (UIColor *)morselDark;
 + (UIColor *)morselLightOff;
 + (UIColor *)morselPrimaryLight;
++ (UIColor *)morselPrimaryLightest;
 + (UIColor *)morselPrimaryDark;
 + (UIColor *)morselPrimaryBright;
 + (UIColor *)morselSecondaryBright;

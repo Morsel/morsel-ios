@@ -29,12 +29,6 @@
 
 @implementation MRSLActivityTableViewCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-
-    [self setBackgroundColor:[UIColor morselDefaultCellBackgroundColor]];
-}
-
 - (void)setActivity:(MRSLActivity *)activity {
     _activity = activity;
 
@@ -62,7 +56,7 @@
 }
 
 - (UIColor *)defaultBackgroundColor {
-    return (self.activity.notification.readValue) ? [UIColor morselDefaultCellBackgroundColor] : [UIColor morselOffWhite];
+    return (self.activity.notification.readValue) ? [UIColor morselDefaultCellBackgroundColor] : [UIColor morselPrimaryLightest];
 }
 
 @end
