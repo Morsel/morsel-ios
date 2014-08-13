@@ -18,7 +18,8 @@
 @interface MRSLUserFollowTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet MRSLFollowButton *followButton;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *userFullNameLabel;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
@@ -31,7 +32,8 @@
         _user = user;
 
         self.profileImageView.user = _user;
-        self.userNameLabel.text = _user.fullName;
+        self.userFullNameLabel.text = _user.fullName;
+        self.usernameLabel.text = _user.username;
     }
     self.followButton.user = _user;
 }
