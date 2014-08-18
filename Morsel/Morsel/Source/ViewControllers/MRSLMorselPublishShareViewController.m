@@ -23,6 +23,8 @@
 @interface MRSLMorselPublishShareViewController ()
 <UIDocumentInteractionControllerDelegate>
 
+@property (nonatomic) int morselID;
+
 @property (weak, nonatomic) IBOutlet UISwitch *twitterSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *facebookSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *instagramSwitch;
@@ -37,6 +39,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mp_eventView = @"publish_morsel";
+}
+
+- (void)setMorsel:(MRSLMorsel *)morsel {
+    _morsel = morsel;
+    self.morselID = morsel.morselIDValue;
 }
 
 #pragma mark - Action Methods
@@ -163,24 +170,28 @@
 }
 
 - (void)sendToInstagram {
+    __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSData *photoCroppedData = [[_morsel coverItem] itemPhotoFull];
-
+        MRSLMorsel *publishedMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID withValue:@(weakSelf.morselID)];
+        NSData *photoCroppedData = [[publishedMorsel coverItem] itemPhotoFull] ?: [NSData dataWithContentsOfURL:[[publishedMorsel coverItem] imageURLRequestForImageSizeType:MRSLImageSizeTypeLarge].URL];
         if (photoCroppedData) {
             NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
             if ([photoCroppedData writeToFile:photoFilePath
                                    atomically:YES]) {
-                self.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
-                self.documentInteractionController.UTI = @"com.instagram.exclusivegram";
-                self.documentInteractionController.delegate = self;
-                self.documentInteractionController.annotation = @{ @"InstagramCaption" : (self.morsel.title ? [NSString stringWithFormat:@"\"%@\" on @eatmorsel", self.morsel.title] : @"Posted on @eatmorsel") };
+                weakSelf.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
+                weakSelf.documentInteractionController.UTI = @"com.instagram.exclusivegram";
+                weakSelf.documentInteractionController.delegate = self;
+                weakSelf.documentInteractionController.annotation = @{ @"InstagramCaption" : (weakSelf.morsel.title ? [NSString stringWithFormat:@"\"%@\" on @eatmorsel", self.morsel.title] : @"Posted on @eatmorsel") };
                 [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
-                                                                   inView:self.view
+                                                                   inView:weakSelf.view
                                                                  animated:YES];
             } else {
-                [UIAlertView showAlertViewForErrorString:@"Unable to set Instagram photo. Please try again."
+                [UIAlertView showAlertViewForErrorString:@"There was an error preparing your Instagram photo. Please try again."
                                                 delegate:nil];
             }
+        } else {
+            [UIAlertView showAlertViewForErrorString:@"There was an error preparing your Instagram photo."
+                                            delegate:nil];
         }
     });
 }
