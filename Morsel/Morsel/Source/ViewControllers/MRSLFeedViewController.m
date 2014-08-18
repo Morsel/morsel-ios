@@ -20,6 +20,7 @@
 #import "MRSLMorselEditViewController.h"
 #import "MRSLFeedPanelCollectionViewCell.h"
 #import "MRSLFeedPanelViewController.h"
+#import "MRSLTitleItemView.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
@@ -104,11 +105,14 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     //  Don't want the default empty string to show up in between states
     [self.feedCollectionView setEmptyStateTitle:@""];
+
+    MRSLTitleItemView *titleItemView = [[MRSLTitleItemView alloc] init];
+    titleItemView.title = nil;
+    [self.navigationController.navigationBar.topItem setTitleView:titleItemView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self showMorselTitleView:YES];
     MRSLUser *currentUser = [MRSLUser currentUser];
     if (!currentUser) return;
     [self resumeTimer];
@@ -129,11 +133,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [super viewWillDisappear:animated];
     self.feedFetchedResultsController.delegate = nil;
     [self suspendTimer];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [self showMorselTitleView:NO];
 }
 
 #pragma mark - Notification Methods
@@ -242,7 +241,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 #pragma mark - Private Methods
 
 - (void)setLoading:(BOOL)loading {
-
     _loading = loading;
 
     [self.feedCollectionView toggleLoading:loading];
@@ -252,16 +250,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
     _loadingMore = loadingMore;
 
     [self.feedCollectionView.collectionViewLayout invalidateLayout];
-}
-
-- (void)showMorselTitleView:(BOOL)shouldShow {
-    if (shouldShow) {
-        UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-identity-nav"]];
-        [titleView setY:-4.f];
-        [self.navigationController.navigationBar.topItem setTitleView:titleView];
-    } else {
-        [self.navigationController.navigationBar.topItem setTitleView:nil];
-    }
 }
 
 - (void)setupFetchRequest {
@@ -542,6 +530,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.feedCollectionView setWidth:320.f];
     });
+    if (![self.navigationController.navigationBar.topItem.titleView isKindOfClass:[MRSLTitleItemView class]]) return;
+    [(MRSLTitleItemView *)self.navigationController.navigationBar.topItem.titleView setTitle:nil];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods

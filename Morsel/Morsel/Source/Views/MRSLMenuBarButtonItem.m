@@ -10,13 +10,15 @@
 
 #import "UIBarButtonItem+Additions.h"
 
+#import "MRSLAlignedButton.h"
+
 @implementation MRSLMenuBarButtonItem
 
 #pragma mark - Class Methods
 
 + (MRSLMenuBarButtonItem *)menuBarButtonItem {
     UIImage *image = [UIImage imageNamed:@"icon-burger-bar"];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    MRSLAlignedButton *button = [MRSLAlignedButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:CGRectMake(0.f, 0.f, image.size.width, image.size.height)];
     [button setBackgroundImage:image
                       forState:UIControlStateNormal];
@@ -33,6 +35,7 @@
 - (id)initWithCustomView:(UIView *)customView {
     self = [super initWithCustomView:customView];
     if (self) {
+        self.style = UIBarButtonItemStyleBordered;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(updateMenuBadge:)
                                                      name:MRSLServiceDidUpdateUnreadAmountNotification
