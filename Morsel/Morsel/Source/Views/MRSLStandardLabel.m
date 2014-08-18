@@ -15,6 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.font = [UIFont robotoLightFontOfSize:fontSize];
+        [self setTextColor:[UIColor morselDefaultTextColor]];
         [self setUp];
     }
     return self;
@@ -24,6 +25,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.font = [UIFont robotoLightFontOfSize:16.f];
+        [self setTextColor:[UIColor morselDefaultTextColor]];
         [self setUp];
     }
     return self;
