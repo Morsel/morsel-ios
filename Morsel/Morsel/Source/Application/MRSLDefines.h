@@ -103,7 +103,7 @@ static const CGFloat croppedImageHeightOffset = 106.f;
 static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;
 static const CGFloat MRSLUserProfileImageThumbDimensionSize = 40.f;
 static const CGFloat MRSLItemImageFullDimensionSize = 640.f;
-static const CGFloat MRSLItemImageLargeDimensionSize = 320.f;
+static const CGFloat MRSLItemImageLargeDimensionSize = 220.f;
 static const CGFloat MRSLItemImageThumbDimensionSize = 50.f;
 static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 static const int MRSLMaximumMorselsToDisplayInMorselAdd = 5;
@@ -148,9 +148,9 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #if defined(SPEC_TESTING)
 
-#define MORSEL_API_BASE_URL @"http://MORSEL_API_BASE_URL"
-#define MORSEL_BASE_URL @"http://MORSEL_BASE_URL"
-#define S3_BASE_URL @"http://S3_BASE_URL"
+#define MORSEL_API_BASE_URL @"https://MORSEL_API_BASE_URL"
+#define MORSEL_BASE_URL @"https://MORSEL_BASE_URL"
+#define S3_BASE_URL @"https://S3_BASE_URL"
 
 #import "MRSLSpecsAppDelegate.h"
 #define _appDelegate ((MRSLSpecsAppDelegate *)[[UIApplication sharedApplication] delegate])
@@ -158,9 +158,9 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #elif defined(INTEGRATION_TESTING)
 
-#define MORSEL_API_BASE_URL @"http://MORSEL_API_BASE_URL"
-#define MORSEL_BASE_URL @"http://MORSEL_BASE_URL"
-#define S3_BASE_URL @"http://S3_BASE_URL"
+#define MORSEL_API_BASE_URL @"https://MORSEL_API_BASE_URL"
+#define MORSEL_BASE_URL @"https://MORSEL_BASE_URL"
+#define S3_BASE_URL @"https://S3_BASE_URL"
 
 #import "MRSLIntegrationAppDelegate.h"
 #define _appDelegate ((MRSLIntegrationAppDelegate *)[[UIApplication sharedApplication] delegate])
@@ -171,13 +171,13 @@ static const int MRSLStatsTagViewTag = 9991;
 #if (defined(MORSEL_BETA) || defined(RELEASE))
 
 #define MORSEL_API_BASE_URL @"https://api.eatmorsel.com"
-#define MORSEL_BASE_URL @"http://www.eatmorsel.com"
+#define MORSEL_BASE_URL @"https://www.eatmorsel.com"
 #define S3_BASE_URL @"https://morsel.s3.amazonaws.com/"
 
 #elif (defined(MORSEL_DEBUG) || defined(MORSEL_ALPHA))
 
-#define MORSEL_API_BASE_URL @"http://api-staging.eatmorsel.com"
-#define MORSEL_BASE_URL @"http://staging.eatmorsel.com"
+#define MORSEL_API_BASE_URL @"https://api-staging.eatmorsel.com"
+#define MORSEL_BASE_URL @"https://staging.eatmorsel.com"
 #define S3_BASE_URL @"https://morsel-staging.s3.amazonaws.com/"
 
 #endif

@@ -34,7 +34,7 @@
 
 @property (strong, nonatomic) NSMutableArray *capturedMediaItems;
 
-@property (nonatomic, strong) NSString *mp_action;
+@property (strong, nonatomic) NSString *mp_action;
 
 @property (weak, nonatomic) MRSLCameraPreviewView *previewView;
 

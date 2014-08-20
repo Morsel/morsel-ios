@@ -99,7 +99,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)displayContent {
     if (_collectionView && _morsel) {
-        self.pageControl.numberOfPages = [_morsel.items count] + 2;
+        self.pageControl.numberOfPages = [_morsel.items count] + (_morsel.publishedDate ? 2 : 1);
         [self.pageControl setY:320.f - ((([_pageControl sizeForNumberOfPages:_pageControl.numberOfPages].width) / 2) + 34.f)];
         self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
 
@@ -243,7 +243,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return !_morsel ? 0 : ([_morsel.items count] + 2);
+    return !_morsel ? 0 : ([_morsel.items count] + (_morsel.publishedDate ? 2 : 1));
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {

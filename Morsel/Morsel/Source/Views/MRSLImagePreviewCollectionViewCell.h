@@ -12,4 +12,6 @@
 
 @property (weak, nonatomic) id mediaPreviewItem;
 
+@property (weak, nonatomic) IBOutlet UILabel *itemPositionLabel;
+
 @end

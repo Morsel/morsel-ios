@@ -12,6 +12,6 @@
 
 @interface MRSLTagStatsNameCell : MRSLTagBaseCell
 
-@property (nonatomic, weak) IBOutlet UILabel *tagTypeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tagTypeLabel;
 
 @end

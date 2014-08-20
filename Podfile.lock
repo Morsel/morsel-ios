@@ -22,7 +22,7 @@ PODS:
   - AFOAuth2Client (0.1.1):
     - AFNetworking (= 2.0.3)
   - ALAssetsLibrary-CustomPhotoAlbum (1.1.5)
-  - Bolts (1.1.0)
+  - Bolts (1.1.2)
   - CocoaLumberjack (1.6.5.1):
     - CocoaLumberjack/Core
     - CocoaLumberjack/Extensions
@@ -107,7 +107,7 @@ SPEC CHECKSUMS:
   AFOAuth1Client: 8187e41f78e12333628f0dc27a0c7360d2cc74da
   AFOAuth2Client: d8f2a53a2abc1fee32415ced190c7fc97a83f290
   ALAssetsLibrary-CustomPhotoAlbum: 785e1852efacd51235dd8dd19a8a467196fdeafa
-  Bolts: 91c2af8eae1d44e1dd75946a5b0ae04a43ea43e4
+  Bolts: 2635e8698a630774689441047f3465d78c48d485
   CocoaLumberjack: baf4a09a3bcbdfea3363556a90104e026d3504e2
   ELCImagePickerController: 4dc83bb6ce995f4964b0080d77ad5a01141e6db2
   Facebook-iOS-SDK: 93aae4f3dacd6bad35f419e09889397697b1e20b

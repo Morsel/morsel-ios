@@ -44,8 +44,8 @@
 
 @interface MRSLBaseActivitiesTableViewController ()
 
-@property (nonatomic, strong) NSString *tappedItemEventName;
-@property (nonatomic, strong) NSString *tappedItemEventView;
+@property (strong, nonatomic) NSString *tappedItemEventName;
+@property (strong, nonatomic) NSString *tappedItemEventView;
 
 @end
 

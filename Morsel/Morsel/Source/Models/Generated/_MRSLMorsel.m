@@ -18,6 +18,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.total_comment_count = @"total_comment_count",
 	.total_like_count = @"total_like_count",
 	.twitter_mrsl = @"twitter_mrsl",
+	.type = @"type",
 	.url = @"url",
 };
 
@@ -88,6 +89,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"total_like_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"total_like_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"typeValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"type"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -324,6 +330,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic twitter_mrsl;
 
+
+
+
+
+
+@dynamic type;
+
+
+
+- (int16_t)typeValue {
+	NSNumber *result = [self type];
+	return [result shortValue];
+}
+
+- (void)setTypeValue:(int16_t)value_ {
+	[self setType:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveTypeValue {
+	NSNumber *result = [self primitiveType];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveTypeValue:(int16_t)value_ {
+	[self setPrimitiveType:[NSNumber numberWithShort:value_]];
+}
 
 
 

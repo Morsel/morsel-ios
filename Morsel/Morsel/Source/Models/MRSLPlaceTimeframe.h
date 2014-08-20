@@ -10,7 +10,7 @@
 
 @interface MRSLPlaceTimeframe : NSObject
 
-@property (nonatomic, strong) NSString *days;
-@property (nonatomic, strong) NSArray *hours;
+@property (strong, nonatomic) NSString *days;
+@property (strong, nonatomic) NSArray *hours;
 
 @end

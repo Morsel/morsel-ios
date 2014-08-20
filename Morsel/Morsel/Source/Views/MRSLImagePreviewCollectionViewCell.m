@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *previewImageView;
 @property (weak, nonatomic) IBOutlet MRSLPlaceholderTextView *descriptionField;
 @property (weak, nonatomic) IBOutlet UIButton *descriptionButton;
+@property (weak, nonatomic) IBOutlet UIButton *retakePhotoButton;
+@property (weak, nonatomic) IBOutlet UILabel *placeholderDescriptionLabel;
 
 @end
 
@@ -29,6 +31,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.descriptionField.placeholder = @"Tap to add text";
+    if (self.retakePhotoButton) [self.retakePhotoButton setRoundedCornerRadius:[self.retakePhotoButton getWidth] / 2];
 }
 
 - (void)setMediaPreviewItem:(id)mediaPreviewItem {
@@ -39,6 +42,7 @@
         MRSLItem *item = (MRSLItem *)mediaPreviewItem;
         self.previewImageView.item = item;
         self.descriptionField.text = item.itemDescription;
+        self.placeholderDescriptionLabel.text = item.placeholder_description ?: @"Additional photo";
     } else if ([mediaPreviewItem isKindOfClass:[MRSLMediaItem class]]) {
         self.descriptionButton.hidden = YES;
         self.descriptionField.hidden = YES;

@@ -55,8 +55,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     self.mp_eventView = @"user_feed";
 
-    self.title = [NSString stringWithFormat:@"%@'s morsels", _user.username];
+    self.title = (_morsel.publishedDate) ? [NSString stringWithFormat:@"%@'s morsels", _user.username] : @"Preview";
 
+    if (!_morsel.publishedDate) self.navigationItem.rightBarButtonItem = nil;
     self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array];
     if (_morsel) [self.morselIDs addObject:_morsel.morselID];
 

@@ -103,6 +103,15 @@
     }
 
     [self setLikeButtonImageForMorsel:_item];
+
+    if (![_item.morsel publishedDate]) {
+        self.commentButton.enabled = NO;
+        self.likeButton.enabled = NO;
+        self.commentCountButton.enabled = NO;
+        self.likeCountButton.enabled = NO;
+        self.profileImageView.userInteractionEnabled = NO;
+        self.editButton.hidden = YES;
+    }
 }
 
 #pragma mark - Notification Methods

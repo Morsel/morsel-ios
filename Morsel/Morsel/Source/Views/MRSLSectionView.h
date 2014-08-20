@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-static const CGFloat MRSLSectionViewDefaultHeight = 24.0f;
+static const CGFloat MRSLSectionViewDefaultHeight = 34.0f;
 
 @interface MRSLSectionView : UIView
 

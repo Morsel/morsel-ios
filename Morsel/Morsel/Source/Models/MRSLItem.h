@@ -13,6 +13,8 @@
 
 - (NSString *)displayName;
 
+- (BOOL)isCoverItem;
+
 - (void)API_updateImage;
 
 @end

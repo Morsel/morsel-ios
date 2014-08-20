@@ -87,6 +87,7 @@ NSString *const MRSLStoryboardiPhoneProfileKey = @"Profile_iPhone";
 NSString *const MRSLStoryboardiPhoneSettingsKey = @"Settings_iPhone";
 NSString *const MRSLStoryboardiPhoneSocialKey = @"Social_iPhone";
 NSString *const MRSLStoryboardiPhoneSpecsKey = @"Specs_iPhone";
+NSString *const MRSLStoryboardiPhoneTemplatesKey = @"Templates_iPhone";
 
 #pragma mark - Storyboard Identifier Constants
 
@@ -124,6 +125,8 @@ NSString *const MRSLStoryboardSignUpKey = @"sb_SignUp";
 NSString *const MRSLStoryboardSocialComposeKey = @"sb_SocialCompose" ;
 NSString *const MRSLStoryboardUserMorselsFeedViewControllerKey = @"sb_MRSLUserMorselsFeedViewController";
 NSString *const MRSLStoryboardWebBrowserKey = @"sb_WebBrowser";
+NSString *const MRSLStoryboardTemplateSelectionKey = @"sb_TemplateSelection";
+NSString *const MRSLStoryboardTemplateSelectionViewControllerKey = @"sb_MRSLTemplateSelectionViewController";
 
 #pragma mark - Storyboard Segue Constants
 
@@ -137,11 +140,11 @@ NSString *const MRSLStoryboardSegueEditItemTextKey = @"seg_EditItemText";
 NSString *const MRSLStoryboardSegueEditMorselTitleKey = @"seg_EditMorselTitle";
 NSString *const MRSLStoryboardSegueFollowListKey = @"seg_FollowList";
 NSString *const MRSLStoryboardSegueProfessionalSettingsKey = @"seg_ProfessionalSettings";
-NSString *const MRSLStoryboardSeguePublishMorselKey = @"seg_PublishMorsel";
 NSString *const MRSLStoryboardSeguePublishShareMorselKey = @"seg_PublishShareMorsel";
 NSString *const MRSLStoryboardSegueSelectPlaceKey = @"seg_SelectPlace";
 NSString *const MRSLStoryboardSegueSetupProfessionalAccountKey = @"seg_SetupProfessionalAccount";
 NSString *const MRSLStoryboardSegueSpecialtiesKey = @"seg_Specialties";
+NSString *const MRSLStoryboardSegueTemplateInfoKey = @"seg_DisplayTemplateInfo";
 
 #pragma mark - Storyboard Reuse Identifier Constants
 
@@ -162,6 +165,7 @@ NSString *const MRSLStoryboardRUIDInstructionCellKey = @"ruid_InstructionCell";
 NSString *const MRSLStoryboardRUIDKeywordCellKey = @"ruid_KeywordCell";
 NSString *const MRSLStoryboardRUIDLoadingCellKey = @"ruid_LoadingCell";
 NSString *const MRSLStoryboardRUIDLocationDisabledCellKey = @"ruid_LocationDisabledCell";
+NSString *const MRSLStoryboardRUIDItemPreviewCellKey = @"ruid_ItemPreviewCell";
 NSString *const MRSLStoryboardRUIDMediaItemCellKey = @"ruid_MediaItemCell";
 NSString *const MRSLStoryboardRUIDMediaPreviewCellKey = @"ruid_MediaPreviewCell";
 NSString *const MRSLStoryboardRUIDMenuOptionCellKey = @"ruid_MenuOptionCell";
@@ -180,6 +184,10 @@ NSString *const MRSLStoryboardRUIDSectionFooterKey = @"ruid_SectionFooter";
 NSString *const MRSLStoryboardRUIDUserCellKey = @"ruid_UserCell";
 NSString *const MRSLStoryboardRUIDUserFollowCellKey = @"ruid_UserFollowCell";
 NSString *const MRSLStoryboardRUIDUserLikedItemCellKey = @"ruid_UserLikedItemCell";
+NSString *const MRSLStoryboardRUIDTemplateCell = @"ruid_TemplateCell";
+NSString *const MRSLStoryboardRUIDTemplateInfoCell = @"ruid_TemplateInfoCell";
+NSString *const MRSLStoryboardRUIDMorselAddCell = @"ruid_MorselAddCell";
+NSString *const MRSLStoryboardRUIDMorselInfoCell = @"ruid_MorselInfoCell";
 
 #pragma mark - Storyboard Source Identifiers
 /*

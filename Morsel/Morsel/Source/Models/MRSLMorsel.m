@@ -4,6 +4,7 @@
 
 #import "MRSLItem.h"
 #import "MRSLPlace.h"
+#import "MRSLTemplate.h"
 #import "MRSLUser.h"
 
 @implementation MRSLMorsel
@@ -42,11 +43,12 @@
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
     objectInfoJSON[@"title"] = NSNullIfNil(self.title);
-    if (self.place) objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
+    objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
 
+    if (self.type) objectInfoJSON[@"type"] = NSNullIfNil(self.type);
     MRSLItem *coverItem = [self coverItem];
     if (coverItem) objectInfoJSON[@"primary_item_id"] = NSNullIfNil(coverItem.itemID);
-    
+
     return objectInfoJSON;
 }
 
@@ -59,6 +61,12 @@
 - (BOOL)hasCreatorInfo {
     //  Can tell if a User object has been fetched if a username exists.
     return self.creator && self.creator.username;
+}
+
+- (BOOL)hasPlaceholderTitle {
+    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
+                                                               withValue:self.type];
+    return ([[self.title lowercaseString] isEqualToString:[[NSString stringWithFormat:@"%@ morsel", morselTemplate.title] lowercaseString]]) || [[self.title lowercaseString] isEqualToString:@"new morsel"];
 }
 
 - (NSString *)reportableUrlString {
@@ -79,8 +87,8 @@
         !self.creator) {
         NSNumber *creatorID = data[@"creator_id"];
         MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                               withValue:creatorID
-                                               inContext:self.managedObjectContext];
+                                                 withValue:creatorID
+                                                 inContext:self.managedObjectContext];
         if (!user) {
             user = [MRSLUser MR_createInContext:self.managedObjectContext];
             user.userID = data[@"creator_id"];

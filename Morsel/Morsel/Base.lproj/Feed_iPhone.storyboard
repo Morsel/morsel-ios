@@ -333,7 +333,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wyp-8d-VK5" customClass="MRSLPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6.0000003061543925" width="250" height="32"/>
+                                        <rect key="frame" x="11" y="6.0000003991980355" width="250" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -603,11 +603,13 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="clockImageView" destination="M2u-Ck-pax" id="mVY-yb-NdR"/>
                                             <outlet property="editButton" destination="0Z6-qS-Vop" id="dgK-Dx-BHE"/>
                                             <outlet property="featuredImageView" destination="Udj-sn-M2K" id="rYp-of-X54"/>
                                             <outlet property="moreItemImageView" destination="0hp-cR-wfY" id="9c2-CR-juf"/>
                                             <outlet property="morselCoverImageView" destination="mwH-gO-QpV" id="EM9-Am-Z6a"/>
                                             <outlet property="morselTitleLabel" destination="OI1-yX-HLC" id="g5r-e5-y0P"/>
+                                            <outlet property="placeButton" destination="ffz-0S-jyq" id="7Vf-dP-ndS"/>
                                             <outlet property="placeCityStateLabel" destination="OkJ-0l-ahm" id="Fi1-dx-BTa"/>
                                             <outlet property="placeNameLabel" destination="O1k-FO-6SI" id="WFb-lC-O8D"/>
                                             <outlet property="profileImageView" destination="ED5-Fu-yTT" id="ZZs-NV-plK"/>
@@ -647,7 +649,7 @@
                                                                         <action selector="toggleLike" destination="LWX-ds-AvT" eventType="touchUpInside" id="cMl-ux-xxg"/>
                                                                     </connections>
                                                                 </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="H2A-Vy-JTW">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="H2A-Vy-JTW">
                                                                     <rect key="frame" x="213" y="0.0" width="54" height="40"/>
                                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
                                                                     <accessibility key="accessibilityConfiguration" label="Comment"/>

@@ -26,7 +26,7 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
 @interface MRSLSettingsTableViewController ()
 <UIAlertViewDelegate>
 
-@property (nonatomic, weak) IBOutlet UILabel *appVersionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *appVersionLabel;
 
 - (IBAction)displayContactMorsel;
 - (IBAction)displayTermsOfService;

@@ -1,0 +1,214 @@
+{
+    "data": [{
+        "title": "Create your own",
+        "icon": "icon-add-white",
+        "id": 0,
+        "description": null,
+        "tip": null,
+        "items": null
+    },{
+        "title": "Inspiration",
+        "icon": "template-icon",
+        "id": 1,
+        "description": "Culinary inspirations can come from anywhere - a place, another dish, an ingredient, or a product on a store shelf to name a few. Capture yours here.",
+        "tip": "Inspiration stories are some of the most valuable stories you can share to connect with diners — and more importantly for media who are learning about you.",
+        "items": [{
+            "id": 1410060,
+            "placeholder_id": 0,
+            "placeholder_sort_order": 0,
+            "placeholder_description": "Share the original inspiration for your dish.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 1410061,
+            "placeholder_id": 1,
+            "placeholder_sort_order": 1,
+            "placeholder_description": "Share the thing you find most interesting about the process.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 1410062,
+            "placeholder_id": 2,
+            "placeholder_sort_order": 2,
+            "placeholder_description": "Share the finished dish and how you adapted the inspiration.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }]
+    }, {
+        "title": "Kitchen Hacks",
+        "icon": "template-icon",
+        "id": 2,
+        "description": "You've probably got some kitchen secrets or shortcuts that make your life easier or your food taste astoundingly better. Kitchen hacks can be anything from tips for making better pasta to how to squeeze limes faster. Share your secrets!",
+        "tip": "Kitchen hacks are what people share because they're useful. Be the person who shares something useful and you'll be the person everyone follows!",
+        "items": [{
+            "id": 1410063,
+            "placeholder_id": 3,
+            "placeholder_sort_order": 0,
+            "placeholder_description": "Share the problem you set out to solve with your kitchen hack.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 1410064,
+            "placeholder_id": 4,
+            "placeholder_sort_order": 1,
+            "placeholder_description": "Explain the shortcut/hack or tip.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 1410065,
+            "placeholder_id": 5,
+            "placeholder_sort_order": 2,
+            "placeholder_description": "Share the finished product.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "placeholder-template-item-large"
+            }
+        }]
+    }, {
+        "title": "Great Pairing",
+        "icon": "template-icon",
+        "id": 3,
+        "description": "Whether you're pairing foods or food and drink, playing with ingredients and flavors has the power to create something amazing. Share your great combinations!",
+        "tip": null,
+        "items": [{
+            "id": 1410066,
+            "placeholder_id": 6,
+            "placeholder_sort_order": 0,
+            "placeholder_description": "Share your insights and ideas about one part of your pairing on it's own.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 1410067,
+            "placeholder_id": 7,
+            "placeholder_sort_order": 1,
+            "placeholder_description": "Share your insights and ideas about the other part of your pairing on it's own.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 1410068,
+            "placeholder_id": 8,
+            "placeholder_sort_order": 2,
+            "placeholder_description": "Share why you love the pairing and what the reader should look for when tasting!",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }]
+    }, {
+        "title": "Ingredient Spotlight",
+        "icon": "template-icon",
+        "id": 4,
+        "description": "Did you discover some new artisanal bitters? Do you want to showcase your haul from the farmer's market? Or maybe share your new gluten-free flour that actually makes delicious croissants? If the ingredient is the focus, tell us more!",
+        "tip": "Ingredient spotlight is a chance to share your discoveries with the world. It can be new, new to you, or even a beloved old favorite you think needs some attention. (Hello Old Bay Seasoning!)",
+        "items": [{
+            "id": 141006,
+            "placeholder_id": 9,
+            "placeholder_sort_order": 0,
+            "placeholder_description": "Share your discovery and what makes it exciting; think sight, smell, taste, feel or umami.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 14100610,
+            "placeholder_id": 10,
+            "placeholder_sort_order": 1,
+            "placeholder_description": "Share something you learned about using the product.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 14100611,
+            "placeholder_id": 11,
+            "placeholder_sort_order": 2,
+            "placeholder_description": "Share what you did with the ingredient and how it makes your dish or drink sing.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }]
+    }, {
+        "title": "Everyday Goodness",
+        "icon": "template-icon",
+        "id": 5,
+        "description": "The Zuni Cafe chicken. La Super-Rica Taqueria Fish Tacos. Sometimes the best food is every day food, done right.",
+        "tip": "Everyday Goodness is a place to share simple dishes that might not arrive with fanfare but worth a pilgrimage.",
+        "items": [{
+            "id": 14100612,
+            "placeholder_id": 12,
+            "placeholder_sort_order": 0,
+            "placeholder_description": "Share the ingredients that make the dish and how they go together.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 14100613,
+            "placeholder_id": 13,
+            "placeholder_sort_order": 1,
+            "placeholder_description": "Share the key points, tips or highlights of the preparation of your dish.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 14100614,
+            "placeholder_id": 14,
+            "placeholder_sort_order": 2,
+            "placeholder_description": "Share a beauty picture of the finished dish, along with tasting notes, pairings or make-ahead notes.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }]
+    }, {
+        "title": "Reinvention / Deconstruction",
+        "icon": "template-icon",
+        "id": 6,
+        "description": "You can take a measure of a cook by seeing how they reinvent a recipe or deconstructs a dish. It's your interpretation of the familiar, serving up your vision on a plate, and it tells  more about what you value in food than anything else.",
+        "tip": "Reconstruction/Deconstruction is for classic dishes you break down and rebuild in your own vision.",
+        "items": [{
+            "id": 14100615,
+            "placeholder_id": 15,
+            "placeholder_sort_order": 0,
+            "placeholder_description": "Share a picture of the dish you are reinventing and how you are approaching the new dish.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 14100616,
+            "placeholder_id": 16,
+            "placeholder_sort_order": 1,
+            "placeholder_description": "Share the most interesting place in the recipe where you change things up and explain how and why.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }, {
+            "id": 14100617,
+            "placeholder_id": 17,
+            "placeholder_sort_order": 2,
+            "placeholder_description": "Share the finished dish and how you adapted the inspiration.",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }]
+    }]
+}

@@ -11,9 +11,9 @@
 @interface MRSLMenuItem : NSObject
 
 @property (nonatomic) NSInteger badgeCount;
-@property (nonatomic, weak) NSString *name;
-@property (nonatomic, weak) NSString *key;
-@property (nonatomic, weak) NSString *iconImageName;
+@property (weak, nonatomic) NSString *name;
+@property (weak, nonatomic) NSString *key;
+@property (weak, nonatomic) NSString *iconImageName;
 
 - (id)initWithName:(NSString *)name key:(NSString *)key icon:(NSString *)iconImageName;
 

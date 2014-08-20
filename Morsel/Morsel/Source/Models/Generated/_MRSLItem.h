@@ -22,6 +22,10 @@ extern const struct MRSLItemAttributes {
 	__unsafe_unretained NSString *localUUID;
 	__unsafe_unretained NSString *morsel_id;
 	__unsafe_unretained NSString *photo_processing;
+	__unsafe_unretained NSString *placeholder_description;
+	__unsafe_unretained NSString *placeholder_id;
+	__unsafe_unretained NSString *placeholder_photo_large;
+	__unsafe_unretained NSString *placeholder_photo_small;
 	__unsafe_unretained NSString *sort_order;
 	__unsafe_unretained NSString *url;
 } MRSLItemAttributes;
@@ -40,6 +44,10 @@ extern const struct MRSLItemFetchedProperties {
 @class MRSLComment;
 @class MRSLMorsel;
 @class MRSLPresignedUpload;
+
+
+
+
 
 
 
@@ -280,6 +288,50 @@ extern const struct MRSLItemFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* placeholder_description;
+
+
+
+//- (BOOL)validatePlaceholder_description:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* placeholder_id;
+
+
+
+@property int16_t placeholder_idValue;
+- (int16_t)placeholder_idValue;
+- (void)setPlaceholder_idValue:(int16_t)value_;
+
+//- (BOOL)validatePlaceholder_id:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* placeholder_photo_large;
+
+
+
+//- (BOOL)validatePlaceholder_photo_large:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* placeholder_photo_small;
+
+
+
+//- (BOOL)validatePlaceholder_photo_small:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* sort_order;
 
 
@@ -477,6 +529,33 @@ extern const struct MRSLItemFetchedProperties {
 
 - (BOOL)primitivePhoto_processingValue;
 - (void)setPrimitivePhoto_processingValue:(BOOL)value_;
+
+
+
+
+- (NSString*)primitivePlaceholder_description;
+- (void)setPrimitivePlaceholder_description:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitivePlaceholder_id;
+- (void)setPrimitivePlaceholder_id:(NSNumber*)value;
+
+- (int16_t)primitivePlaceholder_idValue;
+- (void)setPrimitivePlaceholder_idValue:(int16_t)value_;
+
+
+
+
+- (NSString*)primitivePlaceholder_photo_large;
+- (void)setPrimitivePlaceholder_photo_large:(NSString*)value;
+
+
+
+
+- (NSString*)primitivePlaceholder_photo_small;
+- (void)setPrimitivePlaceholder_photo_small:(NSString*)value;
 
 
 

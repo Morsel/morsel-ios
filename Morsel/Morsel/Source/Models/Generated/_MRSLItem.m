@@ -21,6 +21,10 @@ const struct MRSLItemAttributes MRSLItemAttributes = {
 	.localUUID = @"localUUID",
 	.morsel_id = @"morsel_id",
 	.photo_processing = @"photo_processing",
+	.placeholder_description = @"placeholder_description",
+	.placeholder_id = @"placeholder_id",
+	.placeholder_photo_large = @"placeholder_photo_large",
+	.placeholder_photo_small = @"placeholder_photo_small",
 	.sort_order = @"sort_order",
 	.url = @"url",
 };
@@ -103,6 +107,11 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 	}
 	if ([key isEqualToString:@"photo_processingValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"photo_processing"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"placeholder_idValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"placeholder_id"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -403,6 +412,53 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 - (void)setPrimitivePhoto_processingValue:(BOOL)value_ {
 	[self setPrimitivePhoto_processing:[NSNumber numberWithBool:value_]];
 }
+
+
+
+
+
+@dynamic placeholder_description;
+
+
+
+
+
+
+@dynamic placeholder_id;
+
+
+
+- (int16_t)placeholder_idValue {
+	NSNumber *result = [self placeholder_id];
+	return [result shortValue];
+}
+
+- (void)setPlaceholder_idValue:(int16_t)value_ {
+	[self setPlaceholder_id:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitivePlaceholder_idValue {
+	NSNumber *result = [self primitivePlaceholder_id];
+	return [result shortValue];
+}
+
+- (void)setPrimitivePlaceholder_idValue:(int16_t)value_ {
+	[self setPrimitivePlaceholder_id:[NSNumber numberWithShort:value_]];
+}
+
+
+
+
+
+@dynamic placeholder_photo_large;
+
+
+
+
+
+
+@dynamic placeholder_photo_small;
+
 
 
 

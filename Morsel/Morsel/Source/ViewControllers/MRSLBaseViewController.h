@@ -10,7 +10,7 @@
 
 @interface MRSLBaseViewController : UIViewController
 
-@property (nonatomic, strong) NSString *mp_eventView;
+@property (strong, nonatomic) NSString *mp_eventView;
 
 - (void)setupNavigationItems;
 

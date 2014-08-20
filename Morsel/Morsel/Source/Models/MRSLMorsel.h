@@ -8,5 +8,6 @@
 - (NSArray *)itemsArray;
 - (MRSLItem *)coverItem;
 - (BOOL)hasCreatorInfo;
+- (BOOL)hasPlaceholderTitle;
 
 @end
