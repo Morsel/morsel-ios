@@ -640,6 +640,9 @@
 		409055481976E5B900026DCC /* MRSLNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 409055461976E5B900026DCC /* MRSLNavigationController.m */; };
 		4090554C1976F19900026DCC /* UIRefreshControl+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4090554B1976F19900026DCC /* UIRefreshControl+Additions.m */; };
 		4090554D1976F19900026DCC /* UIRefreshControl+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4090554B1976F19900026DCC /* UIRefreshControl+Additions.m */; };
+		4095840919AE8D4E00612A52 /* UIImage+Watermark.m in Sources */ = {isa = PBXBuildFile; fileRef = 4095840819AE8D4E00612A52 /* UIImage+Watermark.m */; };
+		4095840A19AE8D4E00612A52 /* UIImage+Watermark.m in Sources */ = {isa = PBXBuildFile; fileRef = 4095840819AE8D4E00612A52 /* UIImage+Watermark.m */; };
+		4095840B19AE8D4E00612A52 /* UIImage+Watermark.m in Sources */ = {isa = PBXBuildFile; fileRef = 4095840819AE8D4E00612A52 /* UIImage+Watermark.m */; };
 		409ED7F3198B4AD300C9B5FB /* MRSLBorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 409ED7F2198B4AD300C9B5FB /* MRSLBorderedView.m */; };
 		409ED7F4198B4AD300C9B5FB /* MRSLBorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 409ED7F2198B4AD300C9B5FB /* MRSLBorderedView.m */; };
 		409ED7F5198B4AD300C9B5FB /* MRSLBorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 409ED7F2198B4AD300C9B5FB /* MRSLBorderedView.m */; };
@@ -1224,6 +1227,8 @@
 		409055461976E5B900026DCC /* MRSLNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLNavigationController.m; sourceTree = "<group>"; };
 		4090554A1976F19900026DCC /* UIRefreshControl+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIRefreshControl+Additions.h"; sourceTree = "<group>"; };
 		4090554B1976F19900026DCC /* UIRefreshControl+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+Additions.m"; sourceTree = "<group>"; };
+		4095840719AE8D4E00612A52 /* UIImage+Watermark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Watermark.h"; sourceTree = "<group>"; };
+		4095840819AE8D4E00612A52 /* UIImage+Watermark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Watermark.m"; sourceTree = "<group>"; };
 		409ED7F1198B4AD300C9B5FB /* MRSLBorderedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLBorderedView.h; path = Source/Views/MRSLBorderedView.h; sourceTree = "<group>"; };
 		409ED7F2198B4AD300C9B5FB /* MRSLBorderedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLBorderedView.m; path = Source/Views/MRSLBorderedView.m; sourceTree = "<group>"; };
 		40A4E11A194026F200251AA5 /* MRSLSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSettingsTableViewController.h; sourceTree = "<group>"; };
@@ -1943,6 +1948,8 @@
 				40854F8619747A350015DFBB /* UIView+States.m */,
 				06D053681986B7B30065916D /* UIViewController+Additions.h */,
 				06D053691986B7B30065916D /* UIViewController+Additions.m */,
+				4095840719AE8D4E00612A52 /* UIImage+Watermark.h */,
+				4095840819AE8D4E00612A52 /* UIImage+Watermark.m */,
 			);
 			name = Categories;
 			path = Morsel/Source/Categories;
@@ -3225,6 +3232,7 @@
 				06FE510E19118E4D003A6D7D /* MRSLTag.m in Sources */,
 				065904DA1937DE1900414E06 /* MRSLAPIService+Place.m in Sources */,
 				06845050192FC30A00B38870 /* MRSLStickyHeaderCollectionViewLayout.m in Sources */,
+				4095840919AE8D4E00612A52 /* UIImage+Watermark.m in Sources */,
 				06F446171952227A00BE3014 /* MRSLBadgeLabelView.m in Sources */,
 				06DAFB58191A925C0044AF3E /* MRSLAPIService+Keyword.m in Sources */,
 				405A36AA18EC9D16006F1D98 /* MRSLActivityViewController.m in Sources */,
@@ -3238,6 +3246,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4095840A19AE8D4E00612A52 /* UIImage+Watermark.m in Sources */,
 				0621C2DF19ACFDE200340C48 /* MRSLMorselInfoTableViewCell.m in Sources */,
 				066E8C25191AAC7200991165 /* MRSLAPIService+Like.m in Sources */,
 				065D0CC319A99AB1009E6FC7 /* _MRSLTemplate.m in Sources */,
@@ -3507,6 +3516,7 @@
 				06C4DE4519897E14009B6406 /* MRSLFeedPageCollectionViewCell.m in Sources */,
 				06C4DE4619897E14009B6406 /* MRSLFeedPanelCollectionViewCell.m in Sources */,
 				06C4DE4719897E14009B6406 /* MRSLFeedShareCollectionViewCell.m in Sources */,
+				4095840B19AE8D4E00612A52 /* UIImage+Watermark.m in Sources */,
 				06C4DE4819897E14009B6406 /* MRSLUserFollowTableViewCell.m in Sources */,
 				06C4DE4919897E14009B6406 /* MRSLReusableView.m in Sources */,
 				06C4DE4A19897E14009B6406 /* MRSLSectionView.m in Sources */,
