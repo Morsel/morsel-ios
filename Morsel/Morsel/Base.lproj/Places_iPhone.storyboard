@@ -220,11 +220,11 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="C0S-5O-KRi">
-                                                    <rect key="frame" x="258" y="0.0" width="60" height="48"/>
+                                                    <rect key="frame" x="278" y="0.0" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <accessibility key="accessibilityConfiguration" label="Edit"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <state key="normal" image="icon-report-dark">
+                                                    <state key="normal" image="icon-flag-dark">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -682,9 +682,9 @@
     <resources>
         <image name="graphic-foursquare-attribution" width="241" height="61"/>
         <image name="icon-arrow-accessory-red" width="16" height="16"/>
+        <image name="icon-flag-dark" width="20" height="20"/>
         <image name="icon-phone" width="30" height="30"/>
         <image name="icon-place" width="30" height="30"/>
-        <image name="icon-report-dark" width="37" height="13"/>
     </resources>
     <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
