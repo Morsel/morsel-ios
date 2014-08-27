@@ -86,7 +86,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
     [self.morselItemsTableView setEmptyStateTitle:@"This morsel has no items."];
 
-    [self.morsel downloadCoverPhotoIfNil];
+    [self.morsel downloadCoverPhotoIfNilWithCompletion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

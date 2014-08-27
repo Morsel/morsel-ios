@@ -18,7 +18,7 @@
 #import "MRSLSocialUser.h"
 #import "MRSLUser.h"
 
-# import <SDWebImage/SDWebImageManager.h>
+#import <SDWebImage/SDWebImageManager.h>
 
 @interface MRSLMorselPublishShareViewController ()
 <UIDocumentInteractionControllerDelegate>
@@ -65,7 +65,7 @@
     [_appDelegate.apiService publishMorsel:_morsel
                                    success:^(id responseObject) {
                                        [MRSLEventManager sharedManager].morsels_published++;
-                                       if (weakSelf.instagramSwitch.isOn) [weakSelf sendToInstagram];
+                                       if (weakSelf.instagramSwitch.isOn) [weakSelf prepareForInstagram];
                                    } failure:^(NSError *error) {
                                        weakSelf.publishButton.enabled = YES;
                                        [UIAlertView showAlertViewForErrorString:@"Unable to publish morsel, please try again!"
@@ -169,28 +169,37 @@
     }];
 }
 
-- (void)sendToInstagram {
+- (void)prepareForInstagram {
+    __weak __typeof(self) weakSelf = self;
+    NSData *coverPhotoData = [self.morsel downloadCoverPhotoIfNilWithCompletion:^(BOOL success, NSError *error) {
+        if (success) {
+            [weakSelf sendDataToInstagram:[weakSelf.morsel coverItem].itemPhotoFull];
+        } else {
+            [UIAlertView showAlertViewForErrorString:@"There was an error preparing your Instagram photo. Please try again."
+                                            delegate:nil];
+        }
+    }];
+
+    if (coverPhotoData) [self sendDataToInstagram:coverPhotoData];
+}
+
+- (void)sendDataToInstagram:(NSData *)photoData {
     __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        MRSLMorsel *publishedMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID withValue:@(weakSelf.morselID)];
-        NSData *photoCroppedData = [[publishedMorsel coverItem] itemPhotoFull] ?: [NSData dataWithContentsOfURL:[[publishedMorsel coverItem] imageURLRequestForImageSizeType:MRSLImageSizeTypeLarge].URL];
-        if (photoCroppedData) {
-            NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
-            if ([photoCroppedData writeToFile:photoFilePath
-                                   atomically:YES]) {
-                weakSelf.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
-                weakSelf.documentInteractionController.UTI = @"com.instagram.exclusivegram";
-                weakSelf.documentInteractionController.delegate = self;
-                weakSelf.documentInteractionController.annotation = @{ @"InstagramCaption" : (weakSelf.morsel.title ? [NSString stringWithFormat:@"\"%@\" on @eatmorsel", self.morsel.title] : @"Posted on @eatmorsel") };
-                [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
-                                                                   inView:weakSelf.view
-                                                                 animated:YES];
-            } else {
-                [UIAlertView showAlertViewForErrorString:@"There was an error preparing your Instagram photo. Please try again."
-                                                delegate:nil];
-            }
+        UIImage *watermarkedImage = [UIImage MRSL_applyWatermarkToImage:[UIImage imageWithData:photoData]];
+
+        NSString *photoFilePath = [NSString stringWithFormat:@"%@/%@",[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"],@"tempinstgramphoto.igo"];
+        if([UIImageJPEGRepresentation(watermarkedImage, 1.f) writeToFile:photoFilePath
+                                                              atomically:YES]) {
+            weakSelf.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
+            weakSelf.documentInteractionController.UTI = @"com.instagram.exclusivegram";
+            weakSelf.documentInteractionController.delegate = weakSelf;
+            weakSelf.documentInteractionController.annotation = @{ @"InstagramCaption" : (weakSelf.morsel.title ? [NSString stringWithFormat:@"%@. Get the whole story at eatmorsel.com/%@ #morselgram", weakSelf.morsel.title, weakSelf.morsel.creator.username] : @"Get the whole story at eatmorsel.com #morselgram") };
+            [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
+                                                               inView:weakSelf.view
+                                                             animated:YES];
         } else {
-            [UIAlertView showAlertViewForErrorString:@"There was an error preparing your Instagram photo."
+            [UIAlertView showAlertViewForErrorString:@"There was an error preparing your Instagram photo. Please try again."
                                             delegate:nil];
         }
     });

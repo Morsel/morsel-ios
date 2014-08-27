@@ -80,9 +80,11 @@
                                     failure:failureOrNil];
 }
 
-- (void)downloadCoverPhotoIfNil {
+- (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil {
     // Specifically to ensure the cover photo full NSData is available for Instagram distribution
     MRSLItem *coverItem = [self coverItem];
+    if (coverItem.itemPhotoFull) return coverItem.itemPhotoFull;
+
     if (!coverItem.itemPhotoFull && coverItem.itemPhotoURL && !coverItem.photo_processingValue) {
         __block NSManagedObjectContext *workContext = nil;
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
@@ -93,8 +95,13 @@
             localContextCoverItem.itemPhotoFull = [NSData dataWithContentsOfURL:[coverItem imageURLRequestForImageSizeType:MRSLImageSizeTypeFull].URL];
         } completion:^(BOOL success, NSError *error) {
             [workContext reset];
+            if (completionOrNil) completionOrNil(success, error);
         }];
+    } else if(completionOrNil) {
+        completionOrNil(NO, nil);
     }
+
+    return nil;
 }
 
 #pragma mark - MagicalRecord

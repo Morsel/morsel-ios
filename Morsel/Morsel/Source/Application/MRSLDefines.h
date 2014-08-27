@@ -15,6 +15,7 @@
 
 typedef void (^ MRSLSuccessBlock)(BOOL success);
 typedef void (^ MRSLFailureBlock)(NSError *error);
+typedef void (^ MRSLSuccessOrFailureBlock)(BOOL success, NSError *error);
 typedef void (^ MRSLAPIArrayBlock)(NSArray *responseArray);
 typedef void (^ MRSLAPILikeBlock)(BOOL doesLike);
 typedef void (^ MRSLAPIFollowBlock)(BOOL doesFollow);
@@ -254,6 +255,7 @@ static const int MRSLStatsTagViewTag = 9991;
 #import "UIDevice+Additions.h"
 #import "UIFont+Morsel.h"
 #import "UIImage+Resize.h"
+#import "UIImage+Watermark.h"
 #import "UIImagePickerController+StatusBarHidden.h"
 #import "NSMutableString+Additions.h"
 #import "NSString+Additions.h"

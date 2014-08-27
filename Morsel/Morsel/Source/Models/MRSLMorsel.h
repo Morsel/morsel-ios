@@ -9,6 +9,6 @@
 - (MRSLItem *)coverItem;
 - (BOOL)hasCreatorInfo;
 - (BOOL)hasPlaceholderTitle;
-- (void)downloadCoverPhotoIfNil;
+- (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil;
 
 @end
