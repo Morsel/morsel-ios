@@ -17,7 +17,8 @@
                                 <rect key="frame" x="0.0" y="50" width="320" height="454"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <inset key="contentInset" minX="20" minY="20" maxX="20" maxY="20"/>
+                                <inset key="insetFor6xAndEarlier" minX="-20" minY="0.0" maxX="-20" maxY="0.0"/>
+                                <inset key="contentInset" minX="0.0" minY="20" maxX="0.0" maxY="20"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="iM2-ep-Sbt">
                                     <size key="itemSize" width="130" height="130"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
