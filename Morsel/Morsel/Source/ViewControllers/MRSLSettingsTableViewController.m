@@ -17,9 +17,9 @@
 #import "MRSLUtil.h"
 
 NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
-    MRSLSettingsTableViewSectionSetupProfessionalAccount,
     MRSLSettingsTableViewSectionProfessionalSettings,
     MRSLSettingsTableViewSectionUserSettings,
+    MRSLSettingsTableViewSectionSetupProfessionalAccount,
     MRSLSettingsTableViewSectionSupport
 };
 
