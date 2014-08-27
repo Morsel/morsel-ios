@@ -80,6 +80,23 @@
                                     failure:failureOrNil];
 }
 
+- (void)downloadCoverPhotoIfNil {
+    // Specifically to ensure the cover photo full NSData is available for Instagram distribution
+    MRSLItem *coverItem = [self coverItem];
+    if (!coverItem.itemPhotoFull && coverItem.itemPhotoURL && !coverItem.photo_processingValue) {
+        __block NSManagedObjectContext *workContext = nil;
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            workContext = localContext;
+            MRSLItem *localContextCoverItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                      withValue:coverItem.itemID
+                                                                      inContext:localContext];
+            localContextCoverItem.itemPhotoFull = [NSData dataWithContentsOfURL:[coverItem imageURLRequestForImageSizeType:MRSLImageSizeTypeFull].URL];
+        } completion:^(BOOL success, NSError *error) {
+            [workContext reset];
+        }];
+    }
+}
+
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {

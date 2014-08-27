@@ -238,7 +238,10 @@ CaptureMediaViewControllerDelegate>
     MRSLImagePreviewCollectionViewCell *previewImageCell = [collectionView dequeueReusableCellWithReuseIdentifier:_cellIdentifier
                                                                                                      forIndexPath:indexPath];
     previewImageCell.mediaPreviewItem = [_previewMedia objectAtIndex:indexPath.row];
-    if (previewImageCell.itemPositionLabel) previewImageCell.itemPositionLabel.text = [NSString stringWithFormat:@"%i", indexPath.row + 1];
+    if (previewImageCell.itemPositionLabel) {
+        NSInteger itemPosition = indexPath.row + 1;
+        previewImageCell.itemPositionLabel.text = [NSString stringWithFormat:@"%i", itemPosition];
+    }
     return previewImageCell;
 }
 

@@ -370,6 +370,7 @@
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="XXs-BS-oj3">
                                         <rect key="frame" x="20" y="6" width="51" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <inset key="insetFor6xAndEarlier" minX="16" minY="0.0" maxX="-16" maxY="0.0"/>
                                         <connections>
                                             <action selector="toggleCoverPhoto" destination="Ugr-cT-X8v" eventType="valueChanged" id="BoR-vd-e3f"/>
                                         </connections>
@@ -377,6 +378,7 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cover photo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lxQ-BN-zxE" customClass="MRSLRobotoLightLabel">
                                         <rect key="frame" x="77" y="0.0" width="101" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <inset key="insetFor6xAndEarlier" minX="-20" minY="0.0" maxX="20" maxY="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
