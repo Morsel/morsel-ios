@@ -42,7 +42,7 @@
 			<string>Dropbox Chooser</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>db-idlz880gzvcodma</string>
+				<string>db-${DB_APP_ID}</string>
 			</array>
 		</dict>
 	</array>

@@ -27,7 +27,7 @@
                                                                                                      constrainedToSize:CGSizeMake(_descriptionLabel.frame.size.width, CGFLOAT_MAX)
                                                                                                          lineBreakMode:NSLineBreakByWordWrapping] : CGSizeZero;
 
-    self.positionLabel.text =[NSString stringWithFormat:@"%i", templateItem.placeholder_sort_orderValue + 1];
+    self.positionLabel.text =[NSString stringWithFormat:@"%i", templateItem.placeholder_sort_orderValue];
     self.descriptionLabel.text = templateItem.placeholder_description;
     self.templateImageView.image = [UIImage imageNamed:templateItem.placeholder_photo_small];
 

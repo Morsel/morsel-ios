@@ -119,9 +119,8 @@ CaptureMediaViewControllerDelegate>
                                                                                     inSection:0]
                                                 atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                                         animated:NO];
+        [self updateControls];
     });
-
-    if ([_previewMedia count] == 1) [self updateControls];
 }
 
 - (void)updateControls {

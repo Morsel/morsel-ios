@@ -16,7 +16,11 @@
 
 - (void)setItem:(MRSLItem *)item {
     _item = item;
-    [self setImageObject:_item];
+    if ([_item isTemplatePlaceholderItem]) {
+        self.image = [UIImage imageNamed:([self imageSizeType] == MRSLImageSizeTypeLarge) ? _item.placeholder_photo_large : _item.placeholder_photo_small];
+    } else {
+        [self setImageObject:_item];
+    }
 }
 
 - (MRSLImageSizeType)imageSizeType {

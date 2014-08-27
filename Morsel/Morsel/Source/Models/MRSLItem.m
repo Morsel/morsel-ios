@@ -94,7 +94,7 @@
 }
 
 - (BOOL)isTemplatePlaceholderItem {
-    return (self.template_order && !self.itemPhotoFull);
+    return (self.template_order != nil && !self.itemPhotoURL && !self.itemPhotoFull);
 }
 
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
@@ -203,7 +203,7 @@
             [self.morsel addItemsObject:self];
         }
     }
-    if (![data[@"photos"] isEqual:[NSNull null]] && !self.photo_processingValue && !self.isUploadingValue && ![self isTemplatePlaceholderItem]) {
+    if (![data[@"photos"] isEqual:[NSNull null]] && !self.photo_processingValue && !self.isUploadingValue) {
         NSDictionary *photoDictionary = data[@"photos"];
         self.itemPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
                                                                                     withString:@"IMAGE_SIZE"];
@@ -226,14 +226,12 @@
         self.localUUID = nil;
     }
 
-    if (![self isTemplatePlaceholderItem]) {
-        if (self.photo_processingValue || self.itemPhotoURL) self.isUploading = @NO;
+    if (self.photo_processingValue || self.itemPhotoURL) self.isUploading = @NO;
 
-        if (!self.isUploadingValue && !self.itemPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.itemPhotoFull) {
-            self.didFailUpload = @YES;
-        } else {
-            self.didFailUpload = @NO;
-        }
+    if (!self.isUploadingValue && !self.itemPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.itemPhotoFull) {
+        self.didFailUpload = @YES;
+    } else {
+        self.didFailUpload = @NO;
     }
 }
 
