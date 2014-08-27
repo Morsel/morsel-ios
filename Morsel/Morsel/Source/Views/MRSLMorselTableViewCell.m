@@ -32,11 +32,10 @@
 
     if ([_morsel.items count] > 0) {
         _morselThumbnailView.item = [_morsel coverItem];
-        self.morselCountLabel.text = [NSString stringWithFormat:@"%lu ITEM%@", (unsigned long)[_morsel.items count], ([_morsel.items count] > 1) ? @"S" : @""];
+        self.morselCountLabel.text = [NSString stringWithFormat:@"%lu photo%@", (unsigned long)[_morsel.items count], ([_morsel.items count] > 1) ? @"s" : @""];
     } else {
-        DDLogError(@"MorselCollectionViewCell assigned a Morsel with no items. Morsel ID: %i", _morsel.morselIDValue);
         _morselThumbnailView.item = nil;
-        self.morselCountLabel.text = @"NO ITEMS";
+        self.morselCountLabel.text = @"No photos";
     }
 
     [_morselCountLabel sizeToFit];
@@ -57,7 +56,7 @@
 - (void)displaySelectedState:(BOOL)selected {
     self.backgroundColor = selected ? [UIColor morselPrimary] : [UIColor whiteColor];
     self.morselTitleLabel.textColor = selected ? [UIColor whiteColor] : [UIColor morselDefaultTextColor];
-    self.morselCountLabel.textColor = selected ? [UIColor whiteColor] : [UIColor morselLight];
+    self.morselCountLabel.textColor = selected ? [UIColor whiteColor] : [UIColor morselDefaultTextColor];
     if (self.arrowImageView) {
         self.arrowImageView.image = [UIImage imageNamed:(selected) ? @"icon-arrow-accessory-white" : @"icon-arrow-accessory-red"];
     }

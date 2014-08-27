@@ -34,4 +34,8 @@
     [self.checkmarkView setImage:[UIImage imageNamed:(selected) ? @"icon-circle-check-green" : @"icon-circle-check-gray"]];
 }
 
+- (UIColor *)defaultSelectedBackgroundColor {
+    return [UIColor morselDefaultCellBackgroundColor];
+}
+
 @end

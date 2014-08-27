@@ -10,7 +10,7 @@
 
 #import "UINavigationController+Additions.h"
 
-#import "MRSLMorselAddTitleViewController.h"
+#import "MRSLTemplateSelectionViewController.h"
 #import "MRSLMenuBarButtonItem.h"
 
 #import "MRSLUser.h"
@@ -65,9 +65,9 @@
     } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
         if (self.navigationController) {
             UIBarButtonItem *dismissButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-collapse"]
-                                                                           style:UIBarButtonItemStyleBordered
-                                                                          target:self
-                                                                          action:@selector(dismiss)];
+                                                                              style:UIBarButtonItemStyleBordered
+                                                                             target:self
+                                                                             action:@selector(dismiss)];
             dismissButton.accessibilityLabel = @"Dismiss";
             [self.navigationItem setLeftBarButtonItem:dismissButton];
         }
@@ -110,7 +110,7 @@
 #pragma mark - Action Methods
 
 - (IBAction)dismissModal {
-    
+
 }
 
 - (IBAction)dismiss {
@@ -137,10 +137,10 @@
 
 - (IBAction)displayMorselAdd {
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Add morsel",
+                                 properties:@{@"_title": @"Create morsel",
                                               @"_view": self.mp_eventView ?: @"menu"}];
-    MRSLMorselAddTitleViewController *morselAddTitleVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselAddTitleViewControllerKey];
-    [self.navigationController pushViewController:morselAddTitleVC
+    MRSLTemplateSelectionViewController *templateSelectionVC = [[UIStoryboard templatesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardTemplateSelectionViewControllerKey];
+    [self.navigationController pushViewController:templateSelectionVC
                                          animated:YES];
 }
 

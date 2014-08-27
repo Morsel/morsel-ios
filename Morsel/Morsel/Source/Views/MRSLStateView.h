@@ -22,7 +22,7 @@
 + (instancetype)stateView;
 + (instancetype)stateViewWithWidth:(CGFloat)width;
 
-@property (nonatomic, weak) id <MRSLStateViewDelegate> delegate;
+@property (weak, nonatomic) id <MRSLStateViewDelegate> delegate;
 
 - (void)setTitle:(NSString *)title;
 - (void)setButtonTitle:(NSString *)title;

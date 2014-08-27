@@ -11,6 +11,8 @@
 #import "MRSLAPIService+Item.h"
 #import "MRSLS3Service.h"
 
+#import "UITableViewCell+Additions.h"
+
 #import "MRSLItemImageView.h"
 
 #import "MRSLItem.h"
@@ -22,7 +24,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *itemDescription;
 @property (weak, nonatomic) IBOutlet UIView *failureView;
-@property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
 
 @end
 
@@ -30,17 +31,23 @@
 
 #pragma mark - Instance Methods
 
+- (BOOL)shouldAllowReorder {
+    return YES;
+}
+
 - (void)setItem:(MRSLItem *)item {
     if (_item != item) [self reset];
 
     _item = item;
 
     self.failureView.hidden = !_item.didFailUploadValue;
-    _itemDescription.text = (_item.itemDescription.length > 0) ? _item.itemDescription : @"Tap to edit item";
-
-    if (_item.itemDescription.length > 0) {
-        _itemDescription.textColor = [UIColor morselDefaultTextColor];
+    if (item.placeholder_description) {
+        _itemDescription.text = _item.placeholder_description;
+    } else {
+        _itemDescription.text = (_item.itemDescription.length > 0) ? _item.itemDescription : @"Tap to edit";
     }
+    _itemDescription.font = (_item.itemDescription.length > 0) ? [UIFont robotoLightFontOfSize:_itemDescription.font.pointSize] : [UIFont robotoLightItalicFontOfSize:_itemDescription.font.pointSize];
+
     _itemThumbnail.item = _item;
 }
 
@@ -125,20 +132,11 @@
         self.itemThumbnail.layer.borderColor = [UIColor whiteColor].CGColor;
         self.itemThumbnail.layer.borderWidth = selected ? 2.f : 0.f;
     }
-
-    if (_item.itemDescription.length == 0 && !selected) {
-        _itemDescription.textColor = [UIColor morselDefaultPlaceholderTextColor];
-    }
-
-    if (self.arrowImageView) {
-        self.arrowImageView.image = [UIImage imageNamed:(selected) ? @"icon-arrow-accessory-white" : @"icon-arrow-accessory-red"];
-    }
 }
 
 - (void)reset {
     self.itemDescription.text = nil;
-
-    _itemDescription.textColor = [UIColor morselDefaultPlaceholderTextColor];
+    _itemDescription.textColor = [UIColor morselDefaultTextColor];
 }
 
 @end

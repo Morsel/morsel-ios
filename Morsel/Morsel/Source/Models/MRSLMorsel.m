@@ -4,6 +4,7 @@
 
 #import "MRSLItem.h"
 #import "MRSLPlace.h"
+#import "MRSLTemplate.h"
 #import "MRSLUser.h"
 
 @implementation MRSLMorsel
@@ -42,11 +43,12 @@
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
     objectInfoJSON[@"title"] = NSNullIfNil(self.title);
-    if (self.place) objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
+    objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
 
+    if (self.type) objectInfoJSON[@"type"] = NSNullIfNil(self.type);
     MRSLItem *coverItem = [self coverItem];
     if (coverItem) objectInfoJSON[@"primary_item_id"] = NSNullIfNil(coverItem.itemID);
-    
+
     return objectInfoJSON;
 }
 
@@ -61,6 +63,12 @@
     return self.creator && self.creator.username;
 }
 
+- (BOOL)hasPlaceholderTitle {
+    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
+                                                               withValue:self.type];
+    return ([[self.title lowercaseString] isEqualToString:[[NSString stringWithFormat:@"%@ morsel", morselTemplate.title] lowercaseString]]) || [[self.title lowercaseString] isEqualToString:@"new morsel"];
+}
+
 - (NSString *)reportableUrlString {
     return [NSString stringWithFormat:@"morsels/%i/report", self.morselIDValue];
 }
@@ -72,6 +80,23 @@
                                     failure:failureOrNil];
 }
 
+- (void)downloadCoverPhotoIfNil {
+    // Specifically to ensure the cover photo full NSData is available for Instagram distribution
+    MRSLItem *coverItem = [self coverItem];
+    if (!coverItem.itemPhotoFull && coverItem.itemPhotoURL && !coverItem.photo_processingValue) {
+        __block NSManagedObjectContext *workContext = nil;
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            workContext = localContext;
+            MRSLItem *localContextCoverItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                      withValue:coverItem.itemID
+                                                                      inContext:localContext];
+            localContextCoverItem.itemPhotoFull = [NSData dataWithContentsOfURL:[coverItem imageURLRequestForImageSizeType:MRSLImageSizeTypeFull].URL];
+        } completion:^(BOOL success, NSError *error) {
+            [workContext reset];
+        }];
+    }
+}
+
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
@@ -79,8 +104,8 @@
         !self.creator) {
         NSNumber *creatorID = data[@"creator_id"];
         MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                               withValue:creatorID
-                                               inContext:self.managedObjectContext];
+                                                 withValue:creatorID
+                                                 inContext:self.managedObjectContext];
         if (!user) {
             user = [MRSLUser MR_createInContext:self.managedObjectContext];
             user.userID = data[@"creator_id"];

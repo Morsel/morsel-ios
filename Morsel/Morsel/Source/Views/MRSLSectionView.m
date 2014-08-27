@@ -11,7 +11,7 @@
 
 @interface MRSLSectionView()
 
-@property (nonatomic, strong) MRSLRobotoSlabBoldLabel *label;
+@property (strong, nonatomic) MRSLRobotoSlabBoldLabel *label;
 
 @end
 
@@ -20,9 +20,9 @@
 #pragma mark - Class Methods
 
 + (instancetype)sectionViewWithTitle:(NSString *)title {
-    MRSLSectionView *sectionView = [[MRSLSectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 24.f)];
+    MRSLSectionView *sectionView = [[MRSLSectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 34.f)];
 
-    if (title) [sectionView.label setText:[title uppercaseString]];
+    if (title) [sectionView.label setText:title];
 
     return sectionView;
 }
@@ -34,10 +34,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _label = [[MRSLRobotoSlabBoldLabel alloc] initWithFrame:CGRectMake(16.f, 5.f, 240.f, 14.f)
-                                                    andFontSize:12.f];
+        _label = [[MRSLRobotoSlabBoldLabel alloc] initWithFrame:CGRectMake(16.f, 0.f, 240.f, 34.f)
+                                                    andFontSize:16.f];
 
-        _label.textColor = [[UIColor morselDark] colorWithBrightness:1.4f];
+        _label.textColor = [UIColor morselDark];
         _label.backgroundColor = [UIColor clearColor];
 
         [self setBackgroundColor:[UIColor morselDefaultSectionHeaderBackgroundColor]];

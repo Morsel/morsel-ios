@@ -25,6 +25,11 @@
                            size:fontSize];
 }
 
++ (UIFont *)robotoLightItalicFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Roboto-LightItalic"
+                           size:fontSize];
+}
+
 + (UIFont *)robotoRegularFontOfSize:(CGFloat)fontSize {
     return [UIFont fontWithName:@"Roboto-Regular"
                            size:fontSize];

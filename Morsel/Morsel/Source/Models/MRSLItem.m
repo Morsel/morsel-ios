@@ -23,6 +23,8 @@
 
 + (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context {
     MRSLItem *item = [MRSLItem MR_createInContext:context];
+    int randomID = arc4random_uniform(1410065407);
+    item.itemID = @(randomID);
 
     NSString *uniqueUUID = [[NSUUID UUID] UUIDString];
 
@@ -85,6 +87,10 @@
                                                                              if (weakSelf) weakSelf.isUploading = @NO;
                                                                          } failure:nil];
                                     }];
+}
+
+- (BOOL)isCoverItem {
+    return [[self.morsel coverItem] isEqual:self];
 }
 
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
@@ -193,7 +199,7 @@
             [self.morsel addItemsObject:self];
         }
     }
-    if (![data[@"photos"] isEqual:[NSNull null]] && !self.photo_processingValue && !self.isUploadingValue) {
+    if (![data[@"photos"] isEqual:[NSNull null]] && !self.photo_processingValue && !self.isUploadingValue && !self.placeholder_id) {
         NSDictionary *photoDictionary = data[@"photos"];
         self.itemPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
                                                                                     withString:@"IMAGE_SIZE"];
@@ -216,12 +222,14 @@
         self.localUUID = nil;
     }
 
-    if (self.photo_processingValue || self.itemPhotoURL) self.isUploading = @NO;
+    if (!self.placeholder_id) {
+        if (self.photo_processingValue || self.itemPhotoURL) self.isUploading = @NO;
 
-    if (!self.isUploadingValue && !self.itemPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.itemPhotoFull) {
-        self.didFailUpload = @YES;
-    } else {
-        self.didFailUpload = @NO;
+        if (!self.isUploadingValue && !self.itemPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.itemPhotoFull) {
+            self.didFailUpload = @YES;
+        } else {
+            self.didFailUpload = @NO;
+        }
     }
 }
 
@@ -246,6 +254,8 @@
     if (self.itemDescription) objectInfoJSON[@"description"] = self.itemDescription;
 
     if (self.localUUID) objectInfoJSON[@"nonce"] = self.localUUID;
+
+    if (self.placeholder_id) objectInfoJSON[@"placeholder_id"] = self.placeholder_id;
 
     if (self.morsel) {
         if (self.morsel.morselID) objectInfoJSON[@"morsel_id"] = self.morsel.morselID;

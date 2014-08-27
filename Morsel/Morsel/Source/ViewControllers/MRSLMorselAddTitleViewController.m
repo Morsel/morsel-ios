@@ -40,13 +40,12 @@
 
     if (_morselID) {
         MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
-        self.morselTitleTextView.text = morsel.title;
-        self.previousTitle = morsel.title;
+        self.morselTitleTextView.text = ([morsel hasPlaceholderTitle]) ? @"" : morsel.title;
+        self.previousTitle = ([morsel hasPlaceholderTitle]) ? @"" : morsel.title;
         [self textViewDidChange:_morselTitleTextView];
-        self.title = @"Edit morsel title";
-    } else {
-        self.title = @"Give your morsel a title";
     }
+
+    self.title = @"Morsel title";
 }
 
 - (void)viewDidAppear:(BOOL)animated {

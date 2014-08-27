@@ -231,7 +231,7 @@ UITableViewDelegate>
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return section == 0 ? 0.0f : 24.f;
+    return section == 0 ? 0.0f : 34.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

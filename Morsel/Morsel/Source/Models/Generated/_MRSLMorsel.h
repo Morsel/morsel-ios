@@ -19,6 +19,7 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *total_comment_count;
 	__unsafe_unretained NSString *total_like_count;
 	__unsafe_unretained NSString *twitter_mrsl;
+	__unsafe_unretained NSString *type;
 	__unsafe_unretained NSString *url;
 } MRSLMorselAttributes;
 
@@ -34,6 +35,7 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLPlace;
+
 
 
 
@@ -232,6 +234,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* type;
+
+
+
+@property int16_t typeValue;
+- (int16_t)typeValue;
+- (void)setTypeValue:(int16_t)value_;
+
+//- (BOOL)validateType:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* url;
 
 
@@ -379,6 +395,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSString*)primitiveTwitter_mrsl;
 - (void)setPrimitiveTwitter_mrsl:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveType;
+- (void)setPrimitiveType:(NSNumber*)value;
+
+- (int16_t)primitiveTypeValue;
+- (void)setPrimitiveTypeValue:(int16_t)value_;
 
 
 

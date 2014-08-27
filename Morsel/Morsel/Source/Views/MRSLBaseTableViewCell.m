@@ -32,7 +32,6 @@
     [self setBackgroundColor:(selected) ? [self defaultSelectedBackgroundColor] : [self defaultBackgroundColor]];
 }
 
-
 #pragma mark - Private Methods
 
 - (UIColor *)defaultBackgroundColor {

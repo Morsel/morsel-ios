@@ -17,10 +17,10 @@ static CGFloat kButtonHeight = 40.0f;
 
 @interface MRSLStateView ()
 
-@property (nonatomic, strong) UIView *containerView;
-@property (nonatomic, strong) MRSLRobotoLightLabel *titleLabel;
-@property (nonatomic, strong) UIView *accessoryView;
-@property (nonatomic, strong) MRSLColoredBackgroundLightButton *button;
+@property (strong, nonatomic) UIView *containerView;
+@property (strong, nonatomic) MRSLRobotoLightLabel *titleLabel;
+@property (strong, nonatomic) UIView *accessoryView;
+@property (strong, nonatomic) MRSLColoredBackgroundLightButton *button;
 
 @end
 

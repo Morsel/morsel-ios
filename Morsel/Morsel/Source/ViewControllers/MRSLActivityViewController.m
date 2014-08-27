@@ -28,7 +28,7 @@ NS_ENUM(NSUInteger, MRSLNotificationsRootViewControllerSegments) {
 @property (nonatomic) enum MRSLNotificationsRootViewControllerSegments selectedSegment;
 
 @property (weak, nonatomic) IBOutlet MRSLSegmentedButtonView *segmentedButtonView;
-@property (nonatomic, weak) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @end
 

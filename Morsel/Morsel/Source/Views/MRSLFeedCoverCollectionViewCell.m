@@ -27,12 +27,14 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *reportButton;
+@property (weak, nonatomic) IBOutlet UIButton *placeButton;
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *placeCityStateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *featuredImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *clockImageView;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *morselCoverImageView;
@@ -102,6 +104,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 
         _placeNameLabel.hidden = (!_morsel.place);
         _placeCityStateLabel.hidden = (!_morsel.place);
+        _placeButton.enabled = (_morsel.place != nil);
 
         if (_morsel.place) {
             _placeNameLabel.text = _morsel.place.name;
@@ -117,6 +120,14 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
                 [_placeNameLabel setHeight:textSize.height];
             }
             [_placeNameLabel setY:[_placeCityStateLabel getY] - ([_placeNameLabel getHeight] - 5.f)];
+        }
+
+        if (!_morsel.publishedDate) {
+            self.timeAgoLabel.hidden = YES;
+            self.clockImageView.hidden = YES;
+            self.profileImageView.userInteractionEnabled = NO;
+            self.editButton.hidden = YES;
+            self.placeButton.enabled = NO;
         }
     });
 }

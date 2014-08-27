@@ -11,6 +11,7 @@
 @interface MRSLMorselEditViewController : MRSLBaseViewController
 
 @property (nonatomic) BOOL shouldPresentMediaCapture;
+@property (nonatomic) BOOL wasNewMorsel;
 
 @property (strong, nonatomic) NSNumber *morselID;
 
