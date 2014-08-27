@@ -6,10 +6,10 @@
 
 extern const struct MRSLTemplateItemAttributes {
 	__unsafe_unretained NSString *placeholder_description;
-	__unsafe_unretained NSString *placeholder_id;
 	__unsafe_unretained NSString *placeholder_photo_large;
 	__unsafe_unretained NSString *placeholder_photo_small;
 	__unsafe_unretained NSString *placeholder_sort_order;
+	__unsafe_unretained NSString *template_order;
 } MRSLTemplateItemAttributes;
 
 extern const struct MRSLTemplateItemRelationships {
@@ -50,20 +50,6 @@ extern const struct MRSLTemplateItemFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* placeholder_id;
-
-
-
-@property int16_t placeholder_idValue;
-- (int16_t)placeholder_idValue;
-- (void)setPlaceholder_idValue:(int16_t)value_;
-
-//- (BOOL)validatePlaceholder_id:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSString* placeholder_photo_large;
 
 
@@ -98,6 +84,20 @@ extern const struct MRSLTemplateItemFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* template_order;
+
+
+
+@property int16_t template_orderValue;
+- (int16_t)template_orderValue;
+- (void)setTemplate_orderValue:(int16_t)value_;
+
+//- (BOOL)validateTemplate_order:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) MRSLTemplate *template;
 
 //- (BOOL)validateTemplate:(id*)value_ error:(NSError**)error_;
@@ -121,15 +121,6 @@ extern const struct MRSLTemplateItemFetchedProperties {
 
 
 
-- (NSNumber*)primitivePlaceholder_id;
-- (void)setPrimitivePlaceholder_id:(NSNumber*)value;
-
-- (int16_t)primitivePlaceholder_idValue;
-- (void)setPrimitivePlaceholder_idValue:(int16_t)value_;
-
-
-
-
 - (NSString*)primitivePlaceholder_photo_large;
 - (void)setPrimitivePlaceholder_photo_large:(NSString*)value;
 
@@ -147,6 +138,15 @@ extern const struct MRSLTemplateItemFetchedProperties {
 
 - (int16_t)primitivePlaceholder_sort_orderValue;
 - (void)setPrimitivePlaceholder_sort_orderValue:(int16_t)value_;
+
+
+
+
+- (NSNumber*)primitiveTemplate_order;
+- (void)setPrimitiveTemplate_order:(NSNumber*)value;
+
+- (int16_t)primitiveTemplate_orderValue;
+- (void)setPrimitiveTemplate_orderValue:(int16_t)value_;
 
 
 

@@ -333,7 +333,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wyp-8d-VK5" customClass="MRSLPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6" width="250" height="32"/>
+                                        <rect key="frame" x="11" y="6.0000000964653966" width="250" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -503,11 +503,11 @@
                                                             </connections>
                                                         </button>
                                                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JfF-lc-f7Y">
-                                                            <rect key="frame" x="260" y="0.0" width="60" height="60"/>
+                                                            <rect key="frame" x="0.0" y="275" width="44" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <accessibility key="accessibilityConfiguration" label="Edit"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <state key="normal" image="icon-report-white">
+                                                            <state key="normal" image="icon-flag-white">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <connections>
@@ -528,10 +528,13 @@
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                         </view>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ED5-Fu-yTT" customClass="MRSLProfileImageView">
+                                                        <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ED5-Fu-yTT" customClass="MRSLProfileImageView">
                                                             <rect key="frame" x="51" y="354" width="56" height="56"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                             <gestureRecognizers/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="nil" keyPath="addRoundedCorners"/>
+                                                            </userDefinedRuntimeAttributes>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="14" id="K0C-Dq-kd8" customClass="MRSLRobotoSlabBoldLabel">
                                                             <rect key="frame" x="0.0" y="408" width="159" height="50"/>
@@ -1034,6 +1037,7 @@
         <image name="icon-comment-off" width="23" height="21"/>
         <image name="icon-delete" width="16" height="16"/>
         <image name="icon-edit" width="24" height="24"/>
+        <image name="icon-flag-white" width="20" height="20"/>
         <image name="icon-like-off" width="21" height="20"/>
         <image name="icon-mail" width="22" height="22"/>
         <image name="icon-report-white" width="37" height="13"/>

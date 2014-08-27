@@ -22,10 +22,10 @@ const struct MRSLItemAttributes MRSLItemAttributes = {
 	.morsel_id = @"morsel_id",
 	.photo_processing = @"photo_processing",
 	.placeholder_description = @"placeholder_description",
-	.placeholder_id = @"placeholder_id",
 	.placeholder_photo_large = @"placeholder_photo_large",
 	.placeholder_photo_small = @"placeholder_photo_small",
 	.sort_order = @"sort_order",
+	.template_order = @"template_order",
 	.url = @"url",
 };
 
@@ -110,13 +110,13 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"placeholder_idValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"placeholder_id"];
+	if ([key isEqualToString:@"sort_orderValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"sort_order"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"sort_orderValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"sort_order"];
+	if ([key isEqualToString:@"template_orderValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"template_order"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -424,32 +424,6 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 
 
-@dynamic placeholder_id;
-
-
-
-- (int16_t)placeholder_idValue {
-	NSNumber *result = [self placeholder_id];
-	return [result shortValue];
-}
-
-- (void)setPlaceholder_idValue:(int16_t)value_ {
-	[self setPlaceholder_id:[NSNumber numberWithShort:value_]];
-}
-
-- (int16_t)primitivePlaceholder_idValue {
-	NSNumber *result = [self primitivePlaceholder_id];
-	return [result shortValue];
-}
-
-- (void)setPrimitivePlaceholder_idValue:(int16_t)value_ {
-	[self setPrimitivePlaceholder_id:[NSNumber numberWithShort:value_]];
-}
-
-
-
-
-
 @dynamic placeholder_photo_large;
 
 
@@ -484,6 +458,32 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 - (void)setPrimitiveSort_orderValue:(int32_t)value_ {
 	[self setPrimitiveSort_order:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic template_order;
+
+
+
+- (int16_t)template_orderValue {
+	NSNumber *result = [self template_order];
+	return [result shortValue];
+}
+
+- (void)setTemplate_orderValue:(int16_t)value_ {
+	[self setTemplate_order:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveTemplate_orderValue {
+	NSNumber *result = [self primitiveTemplate_order];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveTemplate_orderValue:(int16_t)value_ {
+	[self setPrimitiveTemplate_order:[NSNumber numberWithShort:value_]];
 }
 
 

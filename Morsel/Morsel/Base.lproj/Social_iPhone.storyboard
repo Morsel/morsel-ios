@@ -75,7 +75,7 @@
                                     <outletCollection property="buttons" destination="4CE-7a-Ssl" id="LHZ-Z0-DHR"/>
                                 </connections>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="V0x-fl-B4F" customClass="MRSLTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="34" sectionFooterHeight="22" id="V0x-fl-B4F" customClass="MRSLTableView">
                                 <rect key="frame" x="0.0" y="50" width="320" height="454"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -89,7 +89,7 @@
                                 </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_UserFollowCell" id="RaI-oM-TCD" customClass="MRSLUserFollowTableViewCell">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="78" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RaI-oM-TCD" id="xlN-Lb-Jmi">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>

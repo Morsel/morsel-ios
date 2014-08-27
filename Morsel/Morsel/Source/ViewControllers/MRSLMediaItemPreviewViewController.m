@@ -240,7 +240,7 @@ CaptureMediaViewControllerDelegate>
     previewImageCell.mediaPreviewItem = [_previewMedia objectAtIndex:indexPath.row];
     if (previewImageCell.itemPositionLabel) {
         NSInteger itemPosition = indexPath.row + 1;
-        previewImageCell.itemPositionLabel.text = [NSString stringWithFormat:@"%i", itemPosition];
+        previewImageCell.itemPositionLabel.text = [NSString stringWithFormat:@"%li", (long)itemPosition];
     }
     return previewImageCell;
 }

@@ -45,7 +45,7 @@
     objectInfoJSON[@"title"] = NSNullIfNil(self.title);
     objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
 
-    if (self.type) objectInfoJSON[@"type"] = NSNullIfNil(self.type);
+    if (self.template_id) objectInfoJSON[@"template_id"] = NSNullIfNil(self.template_id);
     MRSLItem *coverItem = [self coverItem];
     if (coverItem) objectInfoJSON[@"primary_item_id"] = NSNullIfNil(coverItem.itemID);
 
@@ -65,7 +65,7 @@
 
 - (BOOL)hasPlaceholderTitle {
     MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
-                                                               withValue:self.type];
+                                                               withValue:self.template_id];
     return ([[self.title lowercaseString] isEqualToString:[[NSString stringWithFormat:@"%@ morsel", morselTemplate.title] lowercaseString]]) || [[self.title lowercaseString] isEqualToString:@"new morsel"];
 }
 

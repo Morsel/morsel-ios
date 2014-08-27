@@ -66,7 +66,7 @@
 }
 
 - (void)checkForPublishPermissions:(MRSLSocialSuccessBlock)canPublishOrNil {
-    if ([[FBSession activeSession] isOpen]) {
+    if ([[FBSession activeSession] isOpen] && [self.socialAuthentication isValid]) {
         // Call permissions just to be extra sure, since it could possibly not be restored.
         [FBRequestConnection startWithGraphPath:@"/me/permissions"
                               completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
