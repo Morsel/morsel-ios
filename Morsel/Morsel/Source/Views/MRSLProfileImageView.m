@@ -16,11 +16,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-
     if (!self.shouldBlur) {
-        [self setRoundedCornerRadius:[self getWidth] / 2];
-        self.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.layer.borderWidth = 2.f;
+        UIImageView *whiteCircleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:([self getWidth] <= MRSLProfileThumbDimensionThreshold) ? @"effect-circle-white-large" : @"effect-circle-white-small"]];
+        whiteCircleImageView.frame = CGRectMake(0.f, 0.f, [self getWidth], [self getHeight]);
+        [self addSubview:whiteCircleImageView];
     }
 }
 
@@ -57,6 +56,20 @@
         NSDictionary *parameters = @{@"user_id": NSNullIfNil(_user.userID)};
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayUserProfileNotification
                                                             object:parameters];
+    }
+}
+
+#pragma mark - Private Methods
+
+- (void)setValue:(id)value
+      forKeyPath:(NSString *)keyPath {
+    if ([keyPath isEqualToString:@"addRoundedCorners"]) {
+        if (!self.shouldBlur) {
+            [self setRoundedCornerRadius:[self getWidth] / 2];
+        }
+    } else {
+        [super setValue:value
+             forKeyPath:keyPath];
     }
 }
 

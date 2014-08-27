@@ -65,7 +65,7 @@
             </objects>
             <point key="canvasLocation" x="1706" y="73"/>
         </scene>
-        <!--Morsel Edit View Controller - Your morsel-->
+        <!--Morsel Edit View Controller - Morsel checklist-->
         <scene sceneID="ZCc-aS-vaj">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLMorselEditViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="QmE-5e-DXK" customClass="MRSLMorselEditViewController" sceneMemberID="viewController">
@@ -259,7 +259,7 @@
                         <color key="backgroundColor" red="0.96862745100000003" green="0.97647058819999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Your morsel" id="sil-H5-pNn"/>
+                    <navigationItem key="navigationItem" title="Morsel checklist" id="sil-H5-pNn"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="morselItemsTableView" destination="WDj-WI-oTC" id="gbI-7n-2gF"/>
