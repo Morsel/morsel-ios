@@ -84,13 +84,18 @@ UITableViewDelegate>
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.morselTemplate.itemsSet count];
+    return [self.morselTemplate.items count] + 1;
 }
 
-- (MRSLTemplateItemInfoTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLTemplateItem *templateItem = [_morselTemplate.itemsArray objectAtIndex:indexPath.row];
-    MRSLTemplateItemInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDTemplateInfoCell];
-    cell.templateItem = templateItem;
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = nil;
+    if (indexPath.row > [self.morselTemplate.items count] - 1) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_CreateMorselCell"];
+    } else {
+        MRSLTemplateItem *templateItem = [_morselTemplate.itemsArray objectAtIndex:indexPath.row];
+        cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDTemplateInfoCell];
+        [(MRSLTemplateItemInfoTableViewCell *)cell setTemplateItem:templateItem];
+    }
     return cell;
 }
 
