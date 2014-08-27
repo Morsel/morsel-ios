@@ -93,6 +93,10 @@
     return [[self.morsel coverItem] isEqual:self];
 }
 
+- (BOOL)isTemplatePlaceholderItem {
+    return (self.template_order && !self.itemPhotoFull);
+}
+
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
     if (!self.itemPhotoURL) return nil;
 
@@ -199,7 +203,7 @@
             [self.morsel addItemsObject:self];
         }
     }
-    if (![data[@"photos"] isEqual:[NSNull null]] && !self.photo_processingValue && !self.isUploadingValue && !self.placeholder_id) {
+    if (![data[@"photos"] isEqual:[NSNull null]] && !self.photo_processingValue && !self.isUploadingValue && ![self isTemplatePlaceholderItem]) {
         NSDictionary *photoDictionary = data[@"photos"];
         self.itemPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
                                                                                     withString:@"IMAGE_SIZE"];
@@ -222,7 +226,7 @@
         self.localUUID = nil;
     }
 
-    if (!self.placeholder_id) {
+    if (![self isTemplatePlaceholderItem]) {
         if (self.photo_processingValue || self.itemPhotoURL) self.isUploading = @NO;
 
         if (!self.isUploadingValue && !self.itemPhotoURL && !self.photo_processingValue && self.creator_idValue == [MRSLUser currentUser].userIDValue && self.itemPhotoFull) {
@@ -255,7 +259,7 @@
 
     if (self.localUUID) objectInfoJSON[@"nonce"] = self.localUUID;
 
-    if (self.placeholder_id) objectInfoJSON[@"placeholder_id"] = self.placeholder_id;
+    if (self.template_order) objectInfoJSON[@"template_order"] = self.template_order;
 
     if (self.morsel) {
         if (self.morsel.morselID) objectInfoJSON[@"morsel_id"] = self.morsel.morselID;

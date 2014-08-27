@@ -90,10 +90,10 @@
         <attribute name="morsel_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="photo_processing" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="placeholder_description" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="placeholder_id" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="placeholder_photo_large" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="placeholder_photo_small" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sort_order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="template_order" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="itemSubject" inverseEntity="MRSLActivity" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="item" inverseEntity="MRSLComment" syncable="YES">
@@ -141,11 +141,11 @@
         <attribute name="morselPhotoURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="primary_item_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="publishedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="template_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="total_comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="total_like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="twitter_mrsl" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="morsels" inverseEntity="MRSLUser" syncable="YES">
             <userInfo>
@@ -358,13 +358,12 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLTemplateItem" inverseName="template" inverseEntity="MRSLTemplateItem" syncable="YES">
             <userInfo>
-                <entry key="relatedByAttribute" value="placeholder_id"/>
+                <entry key="relatedByAttribute" value="template_order"/>
             </userInfo>
         </relationship>
     </entity>
     <entity name="MRSLTemplateItem" representedClassName="MRSLTemplateItem" syncable="YES">
         <attribute name="placeholder_description" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="placeholder_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="placeholder_photo_large" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="placeholder_photos.large"/>
@@ -376,6 +375,7 @@
             </userInfo>
         </attribute>
         <attribute name="placeholder_sort_order" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="template_order" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="template" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLTemplate" inverseName="items" inverseEntity="MRSLTemplate" syncable="YES"/>
     </entity>
     <entity name="MRSLUser" representedClassName="MRSLUser" syncable="YES">
@@ -455,7 +455,7 @@
     <elements>
         <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="193"/>
         <element name="MRSLComment" positionX="7" positionY="0" width="128" height="118"/>
-        <element name="MRSLItem" positionX="-243" positionY="0" width="128" height="450"/>
+        <element name="MRSLItem" positionX="-243" positionY="0" width="128" height="448"/>
         <element name="MRSLKeyword" positionX="7" positionY="-130" width="128" height="103"/>
         <element name="MRSLMorsel" positionX="-153" positionY="458" width="128" height="328"/>
         <element name="MRSLNotification" positionX="9" positionY="405" width="128" height="165"/>
@@ -463,7 +463,7 @@
         <element name="MRSLPresignedUpload" positionX="-36" positionY="18" width="128" height="180"/>
         <element name="MRSLTag" positionX="196" positionY="-45" width="128" height="118"/>
         <element name="MRSLTemplate" positionX="-36" positionY="18" width="128" height="133"/>
-        <element name="MRSLTemplateItem" positionX="-27" positionY="27" width="128" height="133"/>
+        <element name="MRSLTemplateItem" positionX="-27" positionY="27" width="128" height="135"/>
         <element name="MRSLUser" positionX="376" positionY="18" width="128" height="568"/>
     </elements>
 </model>

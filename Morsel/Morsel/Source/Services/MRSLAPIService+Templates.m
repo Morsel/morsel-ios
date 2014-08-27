@@ -44,7 +44,7 @@
     MRSLMorsel *morsel = [MRSLMorsel MR_createEntity];
     morsel.draft = @YES;
     morsel.title = [NSString stringWithFormat:@"%@ morsel", morselTemplate.title];
-    morsel.type = morselTemplate.templateID;
+    morsel.template_id = morselTemplate.templateID;
 
     [_appDelegate.apiService createMorsel:morsel
                                   success:^(id responseObject) {
@@ -59,7 +59,7 @@
                                               MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
                                               item.sort_order = @(templateItem.placeholder_sort_orderValue + 1);
                                               item.placeholder_description = templateItem.placeholder_description;
-                                              item.placeholder_id = templateItem.placeholder_id;
+                                              item.template_order = templateItem.template_order;
                                               item.placeholder_photo_large = templateItem.placeholder_photo_large;
                                               item.placeholder_photo_small = templateItem.placeholder_photo_small;
                                               item.morsel = morselInContext;
