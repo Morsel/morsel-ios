@@ -56,9 +56,9 @@ PODS:
   - OAuthCore (0.0.1):
     - NSData+Base64
   - OHHTTPStubs (3.1.4)
-  - SDWebImage (3.6):
+  - SDWebImage (3.7.1):
     - SDWebImage/Core
-  - SDWebImage/Core (3.6)
+  - SDWebImage/Core (3.7.1)
   - VCRURLConnection (0.2.0)
   - XMLDictionary (1.4)
 
@@ -83,7 +83,7 @@ DEPENDENCIES:
   - NXOAuth2Client (= 1.2.6)
   - OAuthCore (= 0.0.1)
   - OHHTTPStubs (= 3.1.4)
-  - SDWebImage (= 3.6)
+  - SDWebImage (from `https://github.com/Morsel/SDWebImage`)
   - VCRURLConnection (from `git@github.com:dstnbrkr/VCRURLConnection.git`, commit `aa0b0fcf0e112da363e9c63d6215b216ff604614`)
   - XMLDictionary (= 1.4)
 
@@ -98,6 +98,8 @@ EXTERNAL SOURCES:
   M13Checkbox:
     :commit: 8c3a6f167e0f602dd47928492ef3777e604be66b
     :git: git@github.com:Marxon13/M13Checkbox.git
+  SDWebImage:
+    :git: https://github.com/Morsel/SDWebImage
   VCRURLConnection:
     :commit: aa0b0fcf0e112da363e9c63d6215b216ff604614
     :git: git@github.com:dstnbrkr/VCRURLConnection.git
@@ -126,7 +128,7 @@ SPEC CHECKSUMS:
   NXOAuth2Client: f9a3efde1cce92c92fd1518070caf305bd363ef4
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   OHHTTPStubs: 398901e787d9b62ce539a8a3df0b81431a98236a
-  SDWebImage: c6989652c1cdf27cbdf3f56957e2030f825af5bc
+  SDWebImage: ff5239e81afa8f9cc29552712cac071183529f66
   VCRURLConnection: 5cc98951bd44186e19f33b77dd9c714da2f74208
   XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc
 
