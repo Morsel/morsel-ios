@@ -3792,7 +3792,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DB_APP_ID = pzh0ne5iy99ym8u;
-				FB_APP_ID = 1406459019603393;
+				FB_APP_ID = 1494348764142824;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
@@ -3978,7 +3978,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DB_APP_ID = pzh0ne5iy99ym8u;
-				FB_APP_ID = 1406459019603393;
+				FB_APP_ID = 1494348764142824;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
@@ -4242,7 +4242,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DB_APP_ID = pzh0ne5iy99ym8u;
-				FB_APP_ID = 1406459019603393;
+				FB_APP_ID = 1494348764142824;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
@@ -4388,7 +4388,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				DB_APP_ID = 6jjbiuc2h1eurub;
-				FB_APP_ID = 1402286360015732;
+				FB_APP_ID = 1494348960809471;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
@@ -4534,7 +4534,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				DB_APP_ID = z0y5ib27fwhziik;
-				FB_APP_ID = 1406459019603393;
+				FB_APP_ID = 1494349067476127;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
