@@ -174,8 +174,11 @@ CaptureMediaViewControllerDelegate>
     currentVisibleItem.morsel.primary_item_id = currentVisibleItem.itemID;
     __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService updateMorsel:currentVisibleItem.morsel
-                                  success:nil
-                                  failure:^(NSError *error) {
+                                  success:^(id responseObject) {
+                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                          weakSelf.coverSwitch.enabled = NO;
+                                      });
+                                  } failure:^(NSError *error) {
                                       if (weakSelf) {
                                           dispatch_async(dispatch_get_main_queue(), ^{
                                               [weakSelf.coverSwitch setOn:NO];
