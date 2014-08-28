@@ -14,6 +14,7 @@
 - (NSString *)displayName;
 
 - (BOOL)isCoverItem;
+- (BOOL)isTemplatePlaceholderItem;
 
 - (void)API_updateImage;
 

@@ -45,6 +45,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 @property (nonatomic) BOOL isEditing;
 @property (nonatomic, getter = isCapturing) BOOL capturing;
 
+@property (nonatomic) int previous_sort_order;
+
 @property (nonatomic) NSInteger totalUserCells;
 @property (nonatomic) NSInteger totalCells;
 
@@ -248,41 +250,54 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)displayPublishMorsel {
     self.morsel = [self getOrLoadMorselIfExists];
-    if (_morsel) {
-        if ([[_morsel items] count] == 0) {
-            [UIAlertView showOKAlertViewWithTitle:@"No photos"
-                                          message:@"Please add at least one photo to this Morsel to continue."];
-            return;
-        }
-        for (MRSLItem *item in _morsel.itemsArray) {
-            if (item.didFailUploadValue) {
-                [UIAlertView showOKAlertViewWithTitle:@"Item Upload Failed"
-                                              message:@"An item failed to upload. Please try again before continuing."];
-                return;
-            } else if (item.isUploadingValue) {
-                [UIAlertView showOKAlertViewWithTitle:@"Currently Uploading"
-                                              message:@"Please wait for all items to finish uploading before continuing."];
-                return;
-            } else if (!item.itemPhotoURL) {
-                [UIAlertView showOKAlertViewWithTitle:@"Missing photos"
-                                              message:([[_morsel items] count] == 1) ? @"Please add a photo to your item in order to continue." : @"All items must have photos in order to continue."];
-                return;
-            }
-        }
-        if ([_morsel hasPlaceholderTitle]) {
-            [UIAlertView showOKAlertViewWithTitle:@"Missing title"
-                                          message:@"Please give your morsel a title."];
-            return;
-        }
-        [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                     properties:@{@"_title": @"Next",
-                                                  @"_view": self.mp_eventView,
-                                                  @"items_count": @([_objects count]),
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"morsel_draft":(_morsel.draftValue) ? @"true" : @"false"}];
-        [self performSegueWithIdentifier:MRSLStoryboardSeguePublishShareMorselKey
-                                  sender:nil];
-    }
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    __weak __typeof(self)weakSelf = self;
+    [_appDelegate.apiService getMorsel:_morsel
+                              orWithID:nil
+                               success:^(id responseObject) {
+                                   if (weakSelf) {
+                                       weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+                                       if ([[weakSelf.morsel items] count] == 0) {
+                                           [UIAlertView showOKAlertViewWithTitle:@"No photos"
+                                                                         message:@"Please add at least one photo to this Morsel to continue."];
+                                           return;
+                                       }
+                                       for (MRSLItem *item in weakSelf.morsel.itemsArray) {
+                                           if (item.didFailUploadValue) {
+                                               [UIAlertView showOKAlertViewWithTitle:@"Photo upload failed"
+                                                                             message:@"A photo failed to upload. Please try again before continuing."];
+                                               return;
+                                           } else if (item.isUploadingValue || item.photo_processingValue) {
+                                               [UIAlertView showOKAlertViewWithTitle:@"Currently uploading"
+                                                                             message:@"Please try again."];
+                                               return;
+                                           } else if (!item.itemPhotoURL) {
+                                               [UIAlertView showOKAlertViewWithTitle:@"Missing photos"
+                                                                             message:([[weakSelf.morsel items] count] == 1) ? @"Please add a photo to your item in order to continue." : @"All items must have photos in order to continue."];
+                                               return;
+                                           }
+                                       }
+                                       if ([weakSelf.morsel hasPlaceholderTitle]) {
+                                           [UIAlertView showOKAlertViewWithTitle:@"Missing title"
+                                                                         message:@"Please give your morsel a title."];
+                                           return;
+                                       }
+                                       [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                                                    properties:@{@"_title": @"Next",
+                                                                                 @"_view": weakSelf.mp_eventView,
+                                                                                 @"items_count": @([weakSelf.objects count]),
+                                                                                 @"morsel_id": NSNullIfNil(weakSelf.morsel.morselID),
+                                                                                 @"morsel_draft":(weakSelf.morsel.draftValue) ? @"true" : @"false"}];
+                                       [weakSelf performSegueWithIdentifier:MRSLStoryboardSeguePublishShareMorselKey
+                                                                     sender:nil];
+                                   }
+                               } failure:^(NSError *error) {
+                                   if (weakSelf) {
+                                       weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+                                       [UIAlertView showOKAlertViewWithTitle:@"Error uploading"
+                                                                     message:@"Please try again."];
+                                   }
+                               }];
 }
 
 #pragma mark - BVReorderTableView Methods
@@ -291,6 +306,9 @@ MRSLMorselEditItemTableViewCellDelegate>
     id object = [_objects objectAtIndex:indexPath.row];
     [_objects replaceObjectAtIndex:indexPath.row
                         withObject:@"REORDER_PLACEHOLDER"];
+    if ([object isKindOfClass:[MRSLItem class]]) {
+        self.previous_sort_order = [(MRSLItem *)object sort_orderValue];
+    }
     return object;
 }
 
@@ -332,15 +350,17 @@ MRSLMorselEditItemTableViewCellDelegate>
     }
     DDLogDebug(@"Item New Sort Order: %@", movedItem.sort_order);
 
-    __weak __typeof(self) weakSelf = self;
-    [_appDelegate.apiService updateItem:movedItem
-                              andMorsel:nil
-                                success:^(id responseObject) {
-                                    if (weakSelf) {
-                                        weakSelf.morsel = [weakSelf getOrLoadMorselIfExists];
-                                        weakSelf.morsel.lastUpdatedDate = [NSDate date];
-                                    }
-                                } failure:nil];
+    if (self.previous_sort_order != movedItem.sort_orderValue) {
+        __weak __typeof(self) weakSelf = self;
+        [_appDelegate.apiService updateItem:movedItem
+                                  andMorsel:nil
+                                    success:^(id responseObject) {
+                                        if (weakSelf) {
+                                            weakSelf.morsel = [weakSelf getOrLoadMorselIfExists];
+                                            weakSelf.morsel.lastUpdatedDate = [NSDate date];
+                                        }
+                                    } failure:nil];
+    }
     self.sourceIndexPath = nil;
 }
 
@@ -405,7 +425,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
             NSString *cellTitle = @"";
             if (indexPath.row == 0) {
-                cellTitle = [NSString stringWithFormat:@"Title: %@", ([_morsel hasPlaceholderTitle]) ? @"Name your morsel" : [_morsel title]];
+                cellTitle = [NSString stringWithFormat:@"Title: %@", ([_morsel hasPlaceholderTitle] || !_morsel) ? @"Name your morsel" : [_morsel title]];
             } else if (indexPath.row == 1) {
                 cellTitle = [NSString stringWithFormat:@"Where: %@", [_morsel.place name] ?: @"None"];
             }

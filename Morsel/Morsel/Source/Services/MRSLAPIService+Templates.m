@@ -57,7 +57,7 @@
                                                                                       inContext:localContext];
                                           for (MRSLTemplateItem *templateItem in morselTemplate.itemsArray) {
                                               MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
-                                              item.sort_order = @(templateItem.placeholder_sort_orderValue + 1);
+                                              item.sort_order = @(templateItem.placeholder_sort_orderValue);
                                               item.placeholder_description = templateItem.placeholder_description;
                                               item.template_order = templateItem.template_order;
                                               item.placeholder_photo_large = templateItem.placeholder_photo_large;

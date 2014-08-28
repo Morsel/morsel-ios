@@ -317,6 +317,16 @@
                                                         <action selector="retakePhoto" destination="Ugr-cT-X8v" eventType="touchUpInside" id="NvQ-ub-dBk"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jfc-2J-qkx">
+                                                    <rect key="frame" x="50" y="56" width="220" height="217"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="retakePhoto" destination="Ugr-cT-X8v" eventType="touchUpInside" id="8yH-Fx-8h7"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>

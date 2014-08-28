@@ -41,7 +41,7 @@
     _item = item;
 
     self.failureView.hidden = !_item.didFailUploadValue;
-    if (item.placeholder_description) {
+    if (item.placeholder_description && !_item.itemDescription) {
         _itemDescription.text = _item.placeholder_description;
     } else {
         _itemDescription.text = (_item.itemDescription.length > 0) ? _item.itemDescription : @"Tap to edit";

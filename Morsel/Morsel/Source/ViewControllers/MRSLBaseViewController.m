@@ -54,7 +54,7 @@
                                                                       action:@selector(goBack)];
         backButton.accessibilityLabel = @"Back";
         [self.navigationItem setLeftBarButtonItem:backButton];
-    } else if (([self.navigationController.viewControllers count] == 1 && !self.presentingViewController) || [self.navigationController isDisplayingMorselAdd]) {
+    } else if (([self.navigationController.viewControllers count] == 1 && !self.presentingViewController) || ([self.navigationController isDisplayingMorselAdd] && !self.presentingViewController)) {
         if (!self.navigationController.navigationBarHidden) {
             MRSLMenuBarButtonItem *menuBarButtonItem = [MRSLMenuBarButtonItem menuBarButtonItem];
             [(UIButton *)menuBarButtonItem.customView addTarget:self

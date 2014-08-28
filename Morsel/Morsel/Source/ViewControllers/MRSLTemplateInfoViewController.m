@@ -23,6 +23,7 @@ UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *proTipLabel;
+@property (weak, nonatomic) IBOutlet UIButton *createButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
@@ -49,8 +50,9 @@ UITableViewDelegate>
     [self.proTipLabel setHeight:proTipSize.height];
 
     [self.proTipLabel setY:[_descriptionLabel getHeight] + [_descriptionLabel getY] + 10.f];
+    [self.createButton setY:[_proTipLabel getHeight] + [_proTipLabel getY] + 10.f];
 
-    [self.tableView setY:[_proTipLabel getHeight] + [_proTipLabel getY] + 10.f];
+    [self.tableView setY:[_createButton getHeight] + [_createButton getY] + 10.f];
     [self.tableView setHeight:[self.view getHeight] - [self.tableView getY]];
 
     [self.tableView reloadData];
@@ -84,18 +86,13 @@ UITableViewDelegate>
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.morselTemplate.items count] + 1;
+    return [self.morselTemplate.items count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    if (indexPath.row > [self.morselTemplate.items count] - 1) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_CreateMorselCell"];
-    } else {
-        MRSLTemplateItem *templateItem = [_morselTemplate.itemsArray objectAtIndex:indexPath.row];
-        cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDTemplateInfoCell];
-        [(MRSLTemplateItemInfoTableViewCell *)cell setTemplateItem:templateItem];
-    }
+    MRSLTemplateItem *templateItem = [_morselTemplate.itemsArray objectAtIndex:indexPath.row];
+    MRSLTemplateItemInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDTemplateInfoCell];
+    [cell setTemplateItem:templateItem];
     return cell;
 }
 
