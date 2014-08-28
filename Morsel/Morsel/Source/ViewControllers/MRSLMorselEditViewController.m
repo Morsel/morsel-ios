@@ -45,6 +45,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 @property (nonatomic) BOOL isEditing;
 @property (nonatomic, getter = isCapturing) BOOL capturing;
 
+@property (nonatomic) int previous_sort_order;
+
 @property (nonatomic) NSInteger totalUserCells;
 @property (nonatomic) NSInteger totalCells;
 
@@ -304,6 +306,9 @@ MRSLMorselEditItemTableViewCellDelegate>
     id object = [_objects objectAtIndex:indexPath.row];
     [_objects replaceObjectAtIndex:indexPath.row
                         withObject:@"REORDER_PLACEHOLDER"];
+    if ([object isKindOfClass:[MRSLItem class]]) {
+        self.previous_sort_order = [(MRSLItem *)object sort_orderValue];
+    }
     return object;
 }
 
@@ -345,15 +350,17 @@ MRSLMorselEditItemTableViewCellDelegate>
     }
     DDLogDebug(@"Item New Sort Order: %@", movedItem.sort_order);
 
-    __weak __typeof(self) weakSelf = self;
-    [_appDelegate.apiService updateItem:movedItem
-                              andMorsel:nil
-                                success:^(id responseObject) {
-                                    if (weakSelf) {
-                                        weakSelf.morsel = [weakSelf getOrLoadMorselIfExists];
-                                        weakSelf.morsel.lastUpdatedDate = [NSDate date];
-                                    }
-                                } failure:nil];
+    if (self.previous_sort_order != movedItem.sort_orderValue) {
+        __weak __typeof(self) weakSelf = self;
+        [_appDelegate.apiService updateItem:movedItem
+                                  andMorsel:nil
+                                    success:^(id responseObject) {
+                                        if (weakSelf) {
+                                            weakSelf.morsel = [weakSelf getOrLoadMorselIfExists];
+                                            weakSelf.morsel.lastUpdatedDate = [NSDate date];
+                                        }
+                                    } failure:nil];
+    }
     self.sourceIndexPath = nil;
 }
 
@@ -418,7 +425,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 
             NSString *cellTitle = @"";
             if (indexPath.row == 0) {
-                cellTitle = [NSString stringWithFormat:@"Title: %@", ([_morsel hasPlaceholderTitle]) ? @"Name your morsel" : [_morsel title]];
+                cellTitle = [NSString stringWithFormat:@"Title: %@", ([_morsel hasPlaceholderTitle] || !_morsel) ? @"Name your morsel" : [_morsel title]];
             } else if (indexPath.row == 1) {
                 cellTitle = [NSString stringWithFormat:@"Where: %@", [_morsel.place name] ?: @"None"];
             }

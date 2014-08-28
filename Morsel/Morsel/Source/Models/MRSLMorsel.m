@@ -44,7 +44,6 @@
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
     objectInfoJSON[@"title"] = NSNullIfNil(self.title);
     objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
-
     if (self.template_id) objectInfoJSON[@"template_id"] = NSNullIfNil(self.template_id);
     MRSLItem *coverItem = [self coverItem];
     if (coverItem) objectInfoJSON[@"primary_item_id"] = NSNullIfNil(coverItem.itemID);
