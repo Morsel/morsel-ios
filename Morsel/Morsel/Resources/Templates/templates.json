@@ -44,8 +44,8 @@
         "title": "Kitchen Hacks",
         "icon": "template-icon",
         "id": 3,
-        "description": "You've probably got some kitchen secrets or shortcuts that make your life easier or your food taste astoundingly better. Kitchen hacks can be anything from tips for making better pasta to how to squeeze limes faster.",
-        "tip": "Kitchen hacks are what people share because they're useful. Be the person who shares something useful and you'll be the person everyone follows!",
+        "description": "If you've worked in a kitchen for any amount of time, you've hacked something. Maybe it's the immersion circulator you build from an old drill or possibly you fashion a smoker on your grill using sheet pans because bacon needs a good smoke.",
+        "tip": "Kitchen hacks are what people share to get their MacGyver on.",
         "items": [{
             "id": 4,
             "template_order": 4,
@@ -316,13 +316,13 @@
         "title": "How To",
         "icon": "template-icon",
         "id": 11,
-        "description": "TBD",
-        "tip": null,
+        "description": "Once you've made hollandaise for 200 every weekend for a year or grilled oysters for 500 even once, you learn a thing or two about how to do it right, what to look out for, and how to avoid disaster. Those things, the things you just \"do\", they are the things everyone wants to know..",
+        "tip": "How To is the place to share the methods and techniques you've nailed and everyone wants to read (and share!). Be the person who shares something useful and you'll be the person everyone follows! ",
         "items": [{
             "id": 27,
             "template_order": 28,
             "placeholder_sort_order": 1,
-            "placeholder_description": "TBD",
+            "placeholder_description": "Share the first tip for nailing your method and technique.",
             "placeholder_photos": {
                 "small": "template-item-small",
                 "large": "template-item-large"
@@ -331,7 +331,7 @@
             "id": 28,
             "template_order": 29,
             "placeholder_sort_order": 2,
-            "placeholder_description": "TBD",
+            "placeholder_description": "Share another tip for nailing your method and technique.",
             "placeholder_photos": {
                 "small": "template-item-small",
                 "large": "template-item-large"
@@ -340,7 +340,7 @@
             "id": 29,
             "template_order": 30,
             "placeholder_sort_order": 3,
-            "placeholder_description": "TBD",
+            "placeholder_description": "Share another tip for nailing your method and technique.",
             "placeholder_photos": {
                 "small": "template-item-small",
                 "large": "template-item-large"
