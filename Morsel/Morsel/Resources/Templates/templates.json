@@ -41,40 +41,6 @@
             }
         }]
     }, {
-        "title": "Kitchen Hacks",
-        "icon": "template-icon-hack",
-        "id": 3,
-        "description": "If you've worked in a kitchen for any amount of time, you've hacked something. Maybe it's the immersion circulator you build from an old drill or possibly you fashion a smoker on your grill using sheet pans because bacon needs a good smoke.",
-        "tip": "Kitchen hacks are what people share to get their MacGyver on.",
-        "items": [{
-            "id": 4,
-            "template_order": 4,
-            "placeholder_sort_order": 1,
-            "placeholder_description": "Share the problem you set out to solve with your kitchen hack.",
-            "placeholder_photos": {
-                "small": "template-hack1-small",
-                "large": "template-hack1-large"
-            }
-        }, {
-            "id": 5,
-            "template_order": 5,
-            "placeholder_sort_order": 2,
-            "placeholder_description": "Explain the shortcut / hack or tip.",
-            "placeholder_photos": {
-                "small": "template-hack2-small",
-                "large": "template-hack2-large"
-            }
-        }, {
-            "id": 6,
-            "template_order": 6,
-            "placeholder_sort_order": 3,
-            "placeholder_description": "Share the finished product.",
-            "placeholder_photos": {
-                "small": "template-hack3-small",
-                "large": "template-hack3-large"
-            }
-        }]
-    }, {
         "title": "Great Pairing",
         "icon": "template-icon-pairing",
         "id": 4,

@@ -193,7 +193,7 @@ NSString *const MRSLStoryboardRUIDMorselInfoCell = @"ruid_MorselInfoCell";
     Reserved area to avoid warnings from StoryboardLint if identifiers are not included in Storyboard or IB files.
 */
 
-NSString *const MRSLStoryboardRUIDFeedPanelCellKey = @"srcuid_FeedPanelCell";
+NSString *const MRSLStoryboardRUIDFeedPanelCellKey = @"FeedPanelCell";
 NSString *const MRSLStoryboardRUIDSectionHeaderKey = @"srcuid_SectionHeader";
 
 #pragma mark - Debugging Constants
