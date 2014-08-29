@@ -254,7 +254,7 @@
             "id": 24,
             "template_order": 25,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share what's important to you about the ingredient, dish or drink.",
+            "placeholder_description": "Share what's important to you about the ingredient, dish, or drink.",
             "placeholder_photos": {
                 "small": "template-days1-small",
                 "large": "template-days1-large"
