@@ -8,7 +8,7 @@
         "items": null
     }, {
         "title": "Inspiration",
-        "icon": "template-icon",
+        "icon": "template-icon-inspiration",
         "id": 2,
         "description": "Culinary inspirations can come from anywhere - a place, another dish, an ingredient, or a product on a store shelf to name a few.",
         "tip": "Inspiration stories are some of the most valuable stories you can share to connect with diners - and more importantly for media who are learning about you.",
@@ -18,8 +18,8 @@
             "placeholder_sort_order": 1,
             "placeholder_description": "Share the original inspiration for your dish / drink.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-inspiration1-small",
+                "large": "template-inspiration1-large"
             }
         }, {
             "id": 2,
@@ -27,8 +27,8 @@
             "placeholder_sort_order": 2,
             "placeholder_description": "Share the thing you find most interesting about the process.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-inspiration2-small",
+                "large": "template-inspiration2-large"
             }
         }, {
             "id": 3,
@@ -36,13 +36,13 @@
             "placeholder_sort_order": 3,
             "placeholder_description": "Share the finished product and how you adapted the inspiration.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-inspiration3-small",
+                "large": "template-inspiration3-large"
             }
         }]
     }, {
         "title": "Kitchen Hacks",
-        "icon": "template-icon",
+        "icon": "template-icon-hack",
         "id": 3,
         "description": "If you've worked in a kitchen for any amount of time, you've hacked something. Maybe it's the immersion circulator you build from an old drill or possibly you fashion a smoker on your grill using sheet pans because bacon needs a good smoke.",
         "tip": "Kitchen hacks are what people share to get their MacGyver on.",
@@ -52,17 +52,17 @@
             "placeholder_sort_order": 1,
             "placeholder_description": "Share the problem you set out to solve with your kitchen hack.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-hack1-small",
+                "large": "template-hack1-large"
             }
         }, {
             "id": 5,
             "template_order": 5,
             "placeholder_sort_order": 2,
-            "placeholder_description": "Explain the shortcut/hack or tip.",
+            "placeholder_description": "Explain the shortcut / hack or tip.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-hack2-small",
+                "large": "template-hack2-large"
             }
         }, {
             "id": 6,
@@ -70,13 +70,13 @@
             "placeholder_sort_order": 3,
             "placeholder_description": "Share the finished product.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "placeholder-template-item-large"
+                "small": "template-hack3-small",
+                "large": "template-hack3-large"
             }
         }]
     }, {
         "title": "Great Pairing",
-        "icon": "template-icon",
+        "icon": "template-icon-pairing",
         "id": 4,
         "description": "Whether you're pairing foods or food and drink, playing with ingredients and flavors has the power to create something amazing. Share your great combinations!",
         "tip": null,
@@ -84,33 +84,33 @@
             "id": 7,
             "template_order": 7,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share the ingredient and what makes it exciting.",
+            "placeholder_description": "Share your insights and ideas about one part of the pairing.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-pairing1-small",
+                "large": "template-pairing1-large"
             }
         }, {
             "id": 8,
             "template_order": 8,
             "placeholder_sort_order": 2,
-            "placeholder_description": "Share the thing you find most interesting about the process.",
+            "placeholder_description": "Share your insights and ideas about the other part of the pairing.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-pairing2-small",
+                "large": "template-pairing2-large"
             }
         }, {
             "id": 9,
             "template_order": 9,
             "placeholder_sort_order": 3,
-            "placeholder_description": "Share the finished product and how the ingredient makes it sing.",
+            "placeholder_description": "Share the final product and why you love the pairing.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-pairing3-small",
+                "large": "template-pairing3-large"
             }
         }]
     }, {
         "title": "Ingredient Spotlight",
-        "icon": "template-icon",
+        "icon": "template-icon-ingredient",
         "id": 5,
         "description": "Did you discover some new artisanal bitters? Do you want to showcase your haul from the farmer's market? If the ingredient is the focus, tell us more!",
         "tip": "Ingredient spotlight is a chance to share your discoveries with the world. It can be new, new to you, or even a beloved old favorite you think needs some attention. (Hello Old Bay Seasoning!)",
@@ -120,8 +120,8 @@
             "placeholder_sort_order": 1,
             "placeholder_description": "Share the ingredient and what makes it exciting.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-ingredient1-small",
+                "large": "template-ingredient1-large"
             }
         }, {
             "id": 11,
@@ -129,8 +129,8 @@
             "placeholder_sort_order": 2,
             "placeholder_description": "Share the thing you find most interesting about the process.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-ingredient2-small",
+                "large": "template-ingredient2-large"
             }
         }, {
             "id": 12,
@@ -138,13 +138,13 @@
             "placeholder_sort_order": 3,
             "placeholder_description": "Share the finished product and how the ingredient makes it sing.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-ingredient3-small",
+                "large": "template-ingredient3-large"
             }
         }]
     }, {
         "title": "Everyday Goodness",
-        "icon": "template-icon",
+        "icon": "template-icon-everyday",
         "id": 6,
         "description": "The Zuni Cafe chicken. La Super-Rica Taqueria Fish Tacos. Sometimes the best food is every day food, done right.",
         "tip": "Everyday Goodness is a place to share simple dishes that might not arrive with fanfare but worth a pilgrimage.",
@@ -154,8 +154,8 @@
             "placeholder_sort_order": 1,
             "placeholder_description": "Share the ingredients that make the dish.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-everyday1-small",
+                "large": "template-everyday1-large"
             }
         }, {
             "id": 14,
@@ -163,8 +163,8 @@
             "placeholder_sort_order": 2,
             "placeholder_description": "Share the key points, tips or highlights of the preparation of your dish.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-everyday2-small",
+                "large": "template-everyday2-large"
             }
         }, {
             "id": 15,
@@ -172,15 +172,15 @@
             "placeholder_sort_order": 3,
             "placeholder_description": "Share the final product and tasting, pairing or make-ahead notes.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-everyday3-small",
+                "large": "template-everyday3-large"
             }
         }]
     }, {
         "title": "Deconstruct / Reinvent",
-        "icon": "template-icon",
+        "icon": "template-icon-reconstruct",
         "id": 7,
-        "description": "You can take a measure of a cook by seeing how they reinvent a recipe or deconstructs a dish. It's your interpretation of the familiar, serving up your vision on a plate and it can tell more about what you value in food than anything else.",
+        "description": "You can take a measure of a cook by seeing how they reinvent a recipe or deconstruct a dish. It's your interpretation of the familiar, serving up your vision on a plate and it can tell more about what you value in food than anything else.",
         "tip": "Deconstruct / Reinvent is for classic dishes you break down and rebuild in your own vision.",
         "items": [{
             "id": 16,
@@ -188,8 +188,8 @@
             "placeholder_sort_order": 1,
             "placeholder_description": "Share a the dish you are reinventing.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-reconstruct1-small",
+                "large": "template-reconstruct1-large"
             }
         }, {
             "id": 17,
@@ -197,8 +197,8 @@
             "placeholder_sort_order": 2,
             "placeholder_description": "Share the most interesting place in the recipe where you change things up.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-reconstruct2-small",
+                "large": "template-reconstruct2-large"
             }
         }, {
             "id": 18,
@@ -206,13 +206,13 @@
             "placeholder_sort_order": 3,
             "placeholder_description": "Share the finished dish and how you adapted the inspiration.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-reconstruct3-small",
+                "large": "template-reconstruct3-large"
             }
         }]
     }, {
         "title": "Special Event",
-        "icon": "template-icon",
+        "icon": "template-icon-event",
         "id": 8,
         "description": "You go all out. You wow your guests. Capture your awesome dinner party or event in just three easy steps (after all, you need to spend time with your guests!)",
         "tip": "Dinner party is a place to tell the story of your party, showcasing the atmosphere as well as the menu.",
@@ -222,8 +222,8 @@
             "placeholder_sort_order": 1,
             "placeholder_description": "Get a wide shot of the table and share a bit about what your celebrating.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-event1-small",
+                "large": "template-event1-large"
             }
         }, {
             "id": 20,
@@ -231,8 +231,8 @@
             "placeholder_sort_order": 2,
             "placeholder_description": "You can capture each dish, of course, but the piece de resistance is essential!",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-event2-small",
+                "large": "template-event2-large"
             }
         }, {
             "id": 21,
@@ -240,13 +240,13 @@
             "placeholder_sort_order": 3,
             "placeholder_description": "Share another dish or drink and what make it special.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-event3-small",
+                "large": "template-event3-large"
             }
         }]
     }, {
         "title": "Travel Guide",
-        "icon": "template-icon",
+        "icon": "template-icon-travel",
         "id": 9,
         "description": "Insiders know that the people who know where to go in a given city are the people who know food and drink. Since you're here, we know you know a thing or two about a place or two.",
         "tip": "Travel guide is not just a list of places to go, it's a place to add some backstory to your recommendations.",
@@ -256,8 +256,8 @@
             "placeholder_sort_order": 1,
             "placeholder_description": "Share the trip location to set the stage for the morsel.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-travel1-small",
+                "large": "template-travel1-large"
             }
         }, {
             "id": 22,
@@ -265,8 +265,8 @@
             "placeholder_sort_order": 2,
             "placeholder_description": "Share a dish / drink / ingredient that stood out here.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-travel2-small",
+                "large": "template-travel2-large"
             }
         }, {
             "id": 23,
@@ -274,13 +274,13 @@
             "placeholder_sort_order": 3,
             "placeholder_description": "Share another dish / drink / ingredient that stood out here",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-travel3-small",
+                "large": "template-travel3-large"
             }
         }]
     }, {
         "title": "Food Days",
-        "icon": "template-icon",
+        "icon": "template-icon-days",
         "id": 10,
         "description": "Food holidays all seem like silliness until National Bourbon Day comes around. Then Food Days, like holidays, take on a bit of importance. Here's the thing, the world is celebrating these days, so jump in the conversation and see what happens.",
         "tip": "Food Days are easy topics for media to cover, so they'll be on the lookout for at-home tips, clever reconstructions, or spectacular renderings of a classic.",
@@ -290,8 +290,8 @@
             "placeholder_sort_order": 1,
             "placeholder_description": "Share what's important to you about the ingredient, dish or drink.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-days1-small",
+                "large": "template-days1-large"
             }
         }, {
             "id": 25,
@@ -299,8 +299,8 @@
             "placeholder_sort_order": 2,
             "placeholder_description": "Share the thing you find most interesting about the process.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-days2-small",
+                "large": "template-days2-large"
             }
         }, {
             "id": 26,
@@ -308,13 +308,13 @@
             "placeholder_sort_order": 3,
             "placeholder_description": "Share how you serve the item, with pairings if you got 'em.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-days3-small",
+                "large": "template-days3-large"
             }
         }]
     }, {
         "title": "How To",
-        "icon": "template-icon",
+        "icon": "template-icon-how",
         "id": 11,
         "description": "Once you've made hollandaise for 200 every weekend for a year or grilled oysters for 500 even once, you learn a thing or two about how to do it right, what to look out for, and how to avoid disaster. Those things, the things you just \"do\", they are the things everyone wants to know..",
         "tip": "How To is the place to share the methods and techniques you've nailed and everyone wants to read (and share!). Be the person who shares something useful and you'll be the person everyone follows! ",
@@ -324,8 +324,8 @@
             "placeholder_sort_order": 1,
             "placeholder_description": "Share the first tip for nailing your method and technique.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-how1-small",
+                "large": "template-how1-large"
             }
         }, {
             "id": 28,
@@ -333,8 +333,8 @@
             "placeholder_sort_order": 2,
             "placeholder_description": "Share another tip for nailing your method and technique.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-how2-small",
+                "large": "template-how2-large"
             }
         }, {
             "id": 29,
@@ -342,8 +342,8 @@
             "placeholder_sort_order": 3,
             "placeholder_description": "Share another tip for nailing your method and technique.",
             "placeholder_photos": {
-                "small": "template-item-small",
-                "large": "template-item-large"
+                "small": "template-how3-small",
+                "large": "template-how3-large"
             }
         }]
     }]
