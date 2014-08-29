@@ -55,13 +55,11 @@ CaptureMediaViewControllerDelegate>
 
     [self setupControls];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
-                                                                                    inSection:0]
-                                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
-                                                        animated:NO];
-        [self updateControls];
-    });
+    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
+                                                                                inSection:0]
+                                            atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                                    animated:NO];
+    [self updateControls];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
