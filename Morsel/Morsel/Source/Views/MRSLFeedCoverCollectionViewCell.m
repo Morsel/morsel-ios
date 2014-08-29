@@ -85,7 +85,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 
 - (void)populateContent {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _morselCoverImageView.item = [_morsel coverItem];
+        self.morselCoverImageView.item = [self.morsel coverItem];
 
         self.featuredImageView.hidden = !([self isHomeFeedItem] && _morsel.feedItemFeaturedValue);
         self.morselTitleLabel.text = _morsel.title;
@@ -97,7 +97,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
         _editButton.hidden = ![_morsel.creator isCurrentUser];
         _reportButton.hidden = !_editButton.hidden;
 
-        MRSLItem *firstItem = [_morsel.itemsArray firstObject];
+        MRSLItem *firstItem = [self.morsel.itemsArray firstObject];
         self.moreItemImageView.grayScale = YES;
         self.moreItemImageView.item = firstItem;
         self.moreItemImageView.delegate = self;

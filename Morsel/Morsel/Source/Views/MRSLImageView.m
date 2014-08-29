@@ -50,7 +50,6 @@
 #pragma mark - Image Methods
 
 - (void)setItemImage:(UIImage *)image {
-    if (self.imageProcessed) return;
     if (self.shouldBlur && image) {
         GPUImageGaussianBlurFilter *blurFilter = [[GPUImageGaussianBlurFilter alloc] init];
         blurFilter.blurPasses = 5.f;
@@ -76,55 +75,52 @@
 }
 
 - (void)setImageObject:(id<MRSLImageRequestable>)imageObject {
-    if (_imageObject != imageObject) self.imageProcessed = NO;
+    self.imageProcessed = NO;
     _imageObject = imageObject;
-    [self reset];
     if (imageObject) {
         MRSLImageSizeType imageSizeType = [self imageSizeType];
         if ([imageObject imageURL]) {
             NSURLRequest *largeImageURLRequest = [imageObject imageURLRequestForImageSizeType:MRSLImageSizeTypeLarge];
             NSURLRequest *smallImageURLRequest = [imageObject imageURLRequestForImageSizeType:MRSLImageSizeTypeSmall];
+            UIImage *smallImage = [self imageForCacheKey:[smallImageURLRequest.URL absoluteString]];
             if (imageSizeType == MRSLImageSizeTypeLarge && !_shouldBlur) {
-                UIImage *smallImage = [self imageForCacheKey:[smallImageURLRequest.URL absoluteString]];
                 UIImage *largeImage = [self imageForCacheKey:[largeImageURLRequest.URL absoluteString]];
                 if (largeImage) {
                     [self setItemImage:largeImage];
                 } else if (!largeImage && smallImage) {
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [self setImageWithURL:largeImageURLRequest.URL
-                             placeholderImage:smallImage ?: [self placeholderImage]
-                                    completed:nil
-                        showActivityIndicator:YES];
-                    });
+                    [self setImageWithURL:largeImageURLRequest.URL
+                         placeholderImage:smallImage ?: [self placeholderImage]
+                                completed:nil
+                    showActivityIndicator:YES];
                 } else {
-                    [_activityIndicatorView startAnimating];
                     __weak __typeof(self)weakSelf = self;
                     [self setImageWithURL:smallImageURLRequest.URL
                          placeholderImage:[self placeholderImage]
                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                        [weakSelf setImageWithURL:largeImageURLRequest.URL
-                                                 placeholderImage:image
-                                                        completed:nil
-                                            showActivityIndicator:YES];
-                                    });
+                                    [weakSelf setImageWithURL:largeImageURLRequest.URL
+                                             placeholderImage:image
+                                                    completed:nil
+                                        showActivityIndicator:YES];
                                 } showActivityIndicator:YES];
                 }
             } else {
-                UIImage *thumbImage = [self imageForCacheKey:[smallImageURLRequest.URL absoluteString]];
-                [self setItemImage:thumbImage];
-                if (!thumbImage) {
-                    [self setImageWithURL:[imageObject imageURLRequestForImageSizeType:MRSLImageSizeTypeSmall].URL
+                if (!smallImage) {
+                    [self setImageWithURL:smallImageURLRequest.URL
                          placeholderImage:[self placeholderImage]
                                 completed:nil
                     showActivityIndicator:YES];
+                } else {
+                    [self reset];
+                    [self setItemImage:smallImage];
                 }
             }
         } else {
+            [self reset];
             [self attemptToSetLocalMorselImageForSizeType:imageSizeType
                                                 withError:nil];
         }
     } else {
+        [self reset];
         self.image = [self placeholderImage];
     }
 }
