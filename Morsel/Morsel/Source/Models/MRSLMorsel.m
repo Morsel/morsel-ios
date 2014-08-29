@@ -1,10 +1,12 @@
 #import "MRSLMorsel.h"
 
 #import "MRSLAPIService+Report.h"
+#import "MRSLAPIService+Templates.h"
 
 #import "MRSLItem.h"
 #import "MRSLPlace.h"
 #import "MRSLTemplate.h"
+#import "MRSLTemplateItem.h"
 #import "MRSLUser.h"
 
 @implementation MRSLMorsel
@@ -101,6 +103,49 @@
     }
 
     return nil;
+}
+
+- (void)reloadTemplateDataIfNecessaryWithSuccess:(MRSLSuccessBlock)successOrNil
+                                         failure:(MRSLFailureBlock)failureOrNil {
+    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
+                                                               withValue:self.template_id ?: @(1)];
+    if (!morselTemplate) {
+        __weak __typeof(self)weakSelf = self;
+        [_appDelegate.apiService getTemplatesWithSuccess:^(NSArray *responseArray) {
+            [weakSelf reloadPlaceholderItemsWithSuccess:successOrNil
+                                                failure:failureOrNil];
+        } failure:failureOrNil];
+    } else {
+        [self reloadPlaceholderItemsWithSuccess:successOrNil
+                                        failure:failureOrNil];
+    }
+}
+
+- (void)reloadPlaceholderItemsWithSuccess:(MRSLSuccessBlock)successOrNil
+                                  failure:(MRSLFailureBlock)failureOrNil {
+    __weak __typeof(self)weakSelf = self;
+    __block NSManagedObjectContext *workContext = nil;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        if (weakSelf) {
+            workContext = localContext;
+            MRSLMorsel *localContextMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                                       withValue:weakSelf.morselID
+                                                                       inContext:localContext];
+            for (MRSLItem *item in localContextMorsel.items) {
+                if (item.template_order && !item.placeholder_description) {
+                    MRSLTemplateItem *templateItem = [MRSLTemplateItem MR_findFirstByAttribute:MRSLTemplateItemAttributes.template_order
+                                                                                     withValue:item.template_order
+                                                                                     inContext:localContext];
+                    item.placeholder_description = templateItem.placeholder_description;
+                    item.placeholder_photo_large = templateItem.placeholder_photo_large;
+                    item.placeholder_photo_small = templateItem.placeholder_photo_small;
+                }
+            }
+        }
+    } completion:^(BOOL success, NSError *error) {
+        [workContext reset];
+        if (successOrNil) successOrNil(YES);
+    }];
 }
 
 #pragma mark - MagicalRecord

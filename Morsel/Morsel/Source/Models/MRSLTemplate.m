@@ -15,7 +15,7 @@
 }
 
 - (BOOL)isCreateMorselType {
-    return (!self.templateDescription && !self.tip && [self.items count] == 0);
+    return (self.templateIDValue == 1);
 }
 
 @end

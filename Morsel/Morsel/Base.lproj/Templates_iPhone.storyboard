@@ -216,6 +216,26 @@
             </objects>
             <point key="canvasLocation" x="642" y="-81"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2l2-oZ-xRg">
+            <objects>
+                <navigationController storyboardIdentifier="sb_TemplateInfo" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="uiZ-g2-4eb" customClass="MRSLNavigationController" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="tR4-qC-KPD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4HB-gF-5RL" kind="relationship" relationship="rootViewController" id="mpL-zc-10R"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OMP-sB-aGl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1168" y="649"/>
+        </scene>
     </scenes>
     <resources>
         <image name="template-icon" width="30" height="30"/>
@@ -226,4 +246,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="mpL-zc-10R"/>
+    </inferredMetricsTieBreakers>
 </document>

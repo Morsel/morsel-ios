@@ -3,8 +3,8 @@
         "title": "Quick Add",
         "icon": "icon-add-white",
         "id": 1,
-        "description": null,
-        "tip": null,
+        "description": "Something",
+        "tip": "A tip",
         "items": null
     }, {
         "title": "Inspiration",

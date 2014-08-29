@@ -23,6 +23,7 @@
 #import "MRSLMorselPublishShareViewController.h"
 #import "MRSLMorselPublishPlaceViewController.h"
 #import "MRSLUserMorselsFeedViewController.h"
+#import "MRSLTemplateInfoViewController.h"
 
 #import "MRSLMediaItem.h"
 
@@ -30,6 +31,7 @@
 #import "MRSLMorsel.h"
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
+#import "MRSLTemplate.h"
 
 @interface MRSLMorselEditViewController ()
 <NSFetchedResultsControllerDelegate,
@@ -573,7 +575,21 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - MRSLToolbarViewDelegate
 
 - (void)toolbarDidSelectLeftButton:(UIButton *)leftButton {
-#warning Display Help
+    self.morsel = [self getOrLoadMorselIfExists];
+    MRSLTemplate *currentTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
+                                                                withValue:_morsel.template_id ?: @(1)];
+    if (currentTemplate) {
+        UINavigationController *templateInfoNC = [[UIStoryboard templatesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardTemplateInfoKey];
+        MRSLTemplateInfoViewController *templateInfoVC = [templateInfoNC.viewControllers firstObject];
+        templateInfoVC.isDisplayingHelp = YES;
+        templateInfoVC.morselTemplate = currentTemplate;
+        [self presentViewController:templateInfoNC
+                           animated:YES
+                         completion:nil];
+    } else {
+        [UIAlertView showAlertViewForErrorString:@"Unable to display help. Please try again."
+                                        delegate:nil];
+    }
 }
 
 - (void)toolbarDidSelectRightButton:(UIButton *)rightButton {

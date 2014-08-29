@@ -35,6 +35,11 @@ UITableViewDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (_isDisplayingHelp) {
+        self.createButton.hidden = YES;
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+
     CGSize descriptionSize = (_morselTemplate.templateDescription) ? [_morselTemplate.templateDescription sizeWithFont:_descriptionLabel.font
                                                                                                      constrainedToSize:CGSizeMake([_descriptionLabel getWidth], CGFLOAT_MAX)
                                                                                                          lineBreakMode:NSLineBreakByWordWrapping] : CGSizeZero;
@@ -50,12 +55,19 @@ UITableViewDelegate>
     [self.proTipLabel setHeight:proTipSize.height];
 
     [self.proTipLabel setY:[_descriptionLabel getHeight] + [_descriptionLabel getY] + 10.f];
-    [self.createButton setY:[_proTipLabel getHeight] + [_proTipLabel getY] + 10.f];
 
-    [self.tableView setY:([UIDevice has35InchScreen] ? 50.f : 0.f) + ([_createButton getHeight] + [_createButton getY] + 10.f)];
+    if (_isDisplayingHelp) {
+        [self.tableView setY:([UIDevice has35InchScreen] ? 50.f : 0.f) + ([_proTipLabel getHeight] + [_proTipLabel getY] + 10.f)];
+    } else {
+        [self.createButton setY:[_proTipLabel getHeight] + [_proTipLabel getY] + 10.f];
+        [self.tableView setY:([UIDevice has35InchScreen] ? 50.f : 0.f) + ([_createButton getHeight] + [_createButton getY] + 10.f)];
+    }
+
     [self.tableView setHeight:[self.view getHeight] - [self.tableView getY]];
 
     [self.tableView reloadData];
+
+    if ([self.morselTemplate.items count] == 0) self.tableView.hidden = YES;
 }
 
 #pragma mark - Action Methods

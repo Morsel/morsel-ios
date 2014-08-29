@@ -127,6 +127,8 @@ NSString *const MRSLStoryboardUserMorselsFeedViewControllerKey = @"sb_MRSLUserMo
 NSString *const MRSLStoryboardWebBrowserKey = @"sb_WebBrowser";
 NSString *const MRSLStoryboardTemplateSelectionKey = @"sb_TemplateSelection";
 NSString *const MRSLStoryboardTemplateSelectionViewControllerKey = @"sb_MRSLTemplateSelectionViewController";
+NSString *const MRSLStoryboardTemplateInfoViewControllerKey = @"sb_MRSLTemplateInfoViewController";
+NSString *const MRSLStoryboardTemplateInfoKey = @"sb_TemplateInfo";
 
 #pragma mark - Storyboard Segue Constants
 

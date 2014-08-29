@@ -8,6 +8,7 @@
 
 #import "MRSLItemImageView.h"
 
+#import "MRSLMorsel.h"
 #import "MRSLItem.h"
 
 @implementation MRSLItemImageView
@@ -17,7 +18,23 @@
 - (void)setItem:(MRSLItem *)item {
     _item = item;
     if ([_item isTemplatePlaceholderItem]) {
-        self.image = [UIImage imageNamed:([self imageSizeType] == MRSLImageSizeTypeLarge) ? _item.placeholder_photo_large : _item.placeholder_photo_small];
+        if (!_item.placeholder_description) {
+            __weak __typeof(self)weakSelf = self;
+            [_item.morsel reloadTemplateDataIfNecessaryWithSuccess:^(BOOL success) {
+                if (weakSelf) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        weakSelf.image = [UIImage imageNamed:([self imageSizeType] == MRSLImageSizeTypeLarge) ? _item.placeholder_photo_large : _item.placeholder_photo_small];
+                    });
+                }
+            } failure:^(NSError *error) {
+                if (weakSelf) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        weakSelf.image = nil;
+                    });                }
+            }];
+        } else {
+            self.image = [UIImage imageNamed:([self imageSizeType] == MRSLImageSizeTypeLarge) ? _item.placeholder_photo_large : _item.placeholder_photo_small];
+        }
     } else {
         [self setImageObject:_item];
     }

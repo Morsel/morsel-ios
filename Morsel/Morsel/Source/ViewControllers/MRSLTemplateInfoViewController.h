@@ -12,6 +12,8 @@
 
 @interface MRSLTemplateInfoViewController : MRSLBaseViewController
 
+@property (nonatomic) BOOL isDisplayingHelp;
+
 @property (weak, nonatomic) MRSLTemplate *morselTemplate;
 
 @end

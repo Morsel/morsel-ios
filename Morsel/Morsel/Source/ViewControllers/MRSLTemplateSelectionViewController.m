@@ -130,7 +130,8 @@ NSFetchedResultsControllerDelegate>
     if ([morselTemplate isCreateMorselType]) {
         MRSLMorsel *morsel = [MRSLMorsel MR_createEntity];
         morsel.draft = @YES;
-        morsel.title = @"New morsel";
+        morsel.title = @"Quick Add";
+        morsel.template_id = morselTemplate.templateID;
 
         self.collectionView.userInteractionEnabled = NO;
         __weak __typeof(self) weakSelf = self;
