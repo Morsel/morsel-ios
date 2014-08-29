@@ -195,7 +195,7 @@
             "id": 20,
             "template_order": 20,
             "placeholder_sort_order": 2,
-            "placeholder_description": "You can capture each dish, of course, but the piece de resistance is essential!",
+            "placeholder_description": "You can capture each dish, but the piece de resistance is essential!",
             "placeholder_photos": {
                 "small": "template-event2-small",
                 "large": "template-event2-large"
