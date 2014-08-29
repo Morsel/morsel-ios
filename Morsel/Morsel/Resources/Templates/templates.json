@@ -152,7 +152,7 @@
             "id": 16,
             "template_order": 16,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share a the dish you are reinventing.",
+            "placeholder_description": "Share the dish you are reinventing.",
             "placeholder_photos": {
                 "small": "template-reconstruct1-small",
                 "large": "template-reconstruct1-large"
