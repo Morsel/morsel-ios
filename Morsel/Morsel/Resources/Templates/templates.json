@@ -127,7 +127,7 @@
             "id": 14,
             "template_order": 14,
             "placeholder_sort_order": 2,
-            "placeholder_description": "Share the key points, tips or highlights of the preparation of your dish.",
+            "placeholder_description": "Share the key points, tips, or highlights of the preparation of your dish.",
             "placeholder_photos": {
                 "small": "template-everyday2-small",
                 "large": "template-everyday2-large"
@@ -136,7 +136,7 @@
             "id": 15,
             "template_order": 15,
             "placeholder_sort_order": 3,
-            "placeholder_description": "Share the final product and tasting, pairing or make-ahead notes.",
+            "placeholder_description": "Share the final product and tasting, pairing, or make-ahead notes.",
             "placeholder_photos": {
                 "small": "template-everyday3-small",
                 "large": "template-everyday3-large"
