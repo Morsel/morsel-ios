@@ -270,8 +270,8 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                                              message:@"A photo failed to upload. Please try again before continuing."];
                                                return;
                                            } else if (item.isUploadingValue || item.photo_processingValue) {
-                                               [UIAlertView showOKAlertViewWithTitle:@"Currently uploading"
-                                                                             message:@"Please try again."];
+                                               [UIAlertView showOKAlertViewWithTitle:@"Uploading in progress"
+                                                                             message:@"Images are still uploading. Please try again shortly."];
                                                return;
                                            } else if (!item.itemPhotoURL) {
                                                [UIAlertView showOKAlertViewWithTitle:@"Missing photos"

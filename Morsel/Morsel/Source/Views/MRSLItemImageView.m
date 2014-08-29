@@ -18,6 +18,7 @@
 - (void)setItem:(MRSLItem *)item {
     _item = item;
     if ([_item isTemplatePlaceholderItem]) {
+        [self reset];
         if (!_item.placeholder_description) {
             __weak __typeof(self)weakSelf = self;
             [_item.morsel reloadTemplateDataIfNecessaryWithSuccess:^(BOOL success) {
