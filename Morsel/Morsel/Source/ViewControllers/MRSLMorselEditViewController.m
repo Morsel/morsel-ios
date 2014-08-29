@@ -576,9 +576,13 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)toolbarDidSelectRightButton:(UIButton *)rightButton {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Morsel options"
                                                              delegate:self
-                                                    cancelButtonTitle:@"Cancel"
+                                                    cancelButtonTitle:nil
                                                destructiveButtonTitle:@"Delete"
-                                                    otherButtonTitles:@"Preview", nil];
+                                                    otherButtonTitles:nil];
+    if ([_morsel.items count] > 0) {
+        [actionSheet addButtonWithTitle:@"Preview"];
+    }
+    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
     [actionSheet showInView:self.view];
 }
 
