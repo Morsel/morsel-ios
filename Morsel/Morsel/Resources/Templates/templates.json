@@ -84,7 +84,7 @@
             "id": 7,
             "template_order": 7,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share the ingredient and what makes it exciting.",
+            "placeholder_description": "Share your insights and ideas about one part of the pairing.",
             "placeholder_photos": {
                 "small": "template-pairing1-small",
                 "large": "template-pairing1-large"
@@ -93,7 +93,7 @@
             "id": 8,
             "template_order": 8,
             "placeholder_sort_order": 2,
-            "placeholder_description": "Share the thing you find most interesting about the process.",
+            "placeholder_description": "Share your insights and ideas about the other part of the pairing.",
             "placeholder_photos": {
                 "small": "template-pairing2-small",
                 "large": "template-pairing2-large"
@@ -102,7 +102,7 @@
             "id": 9,
             "template_order": 9,
             "placeholder_sort_order": 3,
-            "placeholder_description": "Share the finished product and how the ingredient makes it sing.",
+            "placeholder_description": "Share the final product and why you love the pairing.",
             "placeholder_photos": {
                 "small": "template-pairing3-small",
                 "large": "template-pairing3-large"
