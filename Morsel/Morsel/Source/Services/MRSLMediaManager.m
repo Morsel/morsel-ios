@@ -60,7 +60,7 @@
 - (void)queueMorselsInMorsel:(MRSLMorsel *)morsel
               preloadCover:(BOOL)shouldPreloadCover {
     DDLogVerbose(@"Preloading images for morsel with title: %@", morsel.title);
-    __block int itemCount = 0;
+    //__block int itemCount = 0;
     MRSLItem *coverMorsel = nil;
     if (shouldPreloadCover) {
         DDLogVerbose(@"Cover image preloading for morsel with title: %@", morsel.title);
@@ -70,20 +70,16 @@
                            withType:MRSLImageSizeTypeLarge
                        highPriority:YES];
     }
-
+    /*
     [morsel.itemsArray enumerateObjectsUsingBlock:^(MRSLItem *item, NSUInteger idx, BOOL *stop) {
         if (![item isEqual:coverMorsel]) {
             [self queueRequestForMorsel:item
-                               withType:MRSLImageSizeTypeLarge
+                               withType:MRSLImageSizeTypeSmall
                            highPriority:NO];
-            if (itemCount < 4) {
-                [self queueRequestForMorsel:item
-                                   withType:MRSLImageSizeTypeSmall
-                               highPriority:YES];
-            }
             itemCount++;
+            if (itemCount >= 4) *stop = YES;
         }
-    }];
+    }];*/
 }
 
 - (void)queueRequestForMorsel:(MRSLItem *)item

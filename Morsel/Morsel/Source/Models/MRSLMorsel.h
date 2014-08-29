@@ -11,4 +11,7 @@
 - (BOOL)hasPlaceholderTitle;
 - (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil;
 
+- (void)reloadTemplateDataIfNecessaryWithSuccess:(MRSLSuccessBlock)successOrNil
+                                         failure:(MRSLFailureBlock)failureOrNil;
+
 @end

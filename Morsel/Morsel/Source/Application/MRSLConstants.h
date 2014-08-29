@@ -127,6 +127,8 @@ extern NSString *const MRSLStoryboardUserMorselsFeedViewControllerKey;
 extern NSString *const MRSLStoryboardWebBrowserKey;
 extern NSString *const MRSLStoryboardTemplateSelectionKey;
 extern NSString *const MRSLStoryboardTemplateSelectionViewControllerKey;
+extern NSString *const MRSLStoryboardTemplateInfoViewControllerKey;
+extern NSString *const MRSLStoryboardTemplateInfoKey;
 
 #pragma mark - Storyboard Segue Constants
 

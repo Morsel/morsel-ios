@@ -214,7 +214,7 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #elif defined(MORSEL_BETA)
 
-#define FACEBOOK_APP_ID @"1494348960809471"
+#define FACEBOOK_APP_ID @"1494915117419522"
 #define FACEBOOK_PUBLISH_AUDIENCE FBSessionDefaultAudienceFriends
 
 #define TWITTER_CONSUMER_KEY @"N7W5LRgC0vINRl1fr8Mz2AwOH"

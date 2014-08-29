@@ -23,6 +23,7 @@
 #import "MRSLMorselPublishShareViewController.h"
 #import "MRSLMorselPublishPlaceViewController.h"
 #import "MRSLUserMorselsFeedViewController.h"
+#import "MRSLTemplateInfoViewController.h"
 
 #import "MRSLMediaItem.h"
 
@@ -30,6 +31,7 @@
 #import "MRSLMorsel.h"
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
+#import "MRSLTemplate.h"
 
 @interface MRSLMorselEditViewController ()
 <NSFetchedResultsControllerDelegate,
@@ -268,8 +270,8 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                                              message:@"A photo failed to upload. Please try again before continuing."];
                                                return;
                                            } else if (item.isUploadingValue || item.photo_processingValue) {
-                                               [UIAlertView showOKAlertViewWithTitle:@"Currently uploading"
-                                                                             message:@"Please try again."];
+                                               [UIAlertView showOKAlertViewWithTitle:@"Uploading in progress"
+                                                                             message:@"Images are still uploading. Please try again shortly."];
                                                return;
                                            } else if (!item.itemPhotoURL) {
                                                [UIAlertView showOKAlertViewWithTitle:@"Missing photos"
@@ -278,8 +280,11 @@ MRSLMorselEditItemTableViewCellDelegate>
                                            }
                                        }
                                        if ([weakSelf.morsel hasPlaceholderTitle]) {
-                                           [UIAlertView showOKAlertViewWithTitle:@"Missing title"
-                                                                         message:@"Please give your morsel a title."];
+                                           [UIAlertView showAlertViewWithTitle:@"Missing title"
+                                                                       message:@"You need to give your morsel a title to continue. Would you like to add a title to your morsel now?"
+                                                                      delegate:weakSelf
+                                                             cancelButtonTitle:@"No"
+                                                             otherButtonTitles:@"Yes", nil];
                                            return;
                                        }
                                        [[MRSLEventManager sharedManager] track:@"Tapped Button"
@@ -570,7 +575,21 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - MRSLToolbarViewDelegate
 
 - (void)toolbarDidSelectLeftButton:(UIButton *)leftButton {
-#warning Display Help
+    self.morsel = [self getOrLoadMorselIfExists];
+    MRSLTemplate *currentTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
+                                                                withValue:_morsel.template_id ?: @(1)];
+    if (currentTemplate) {
+        UINavigationController *templateInfoNC = [[UIStoryboard templatesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardTemplateInfoKey];
+        MRSLTemplateInfoViewController *templateInfoVC = [templateInfoNC.viewControllers firstObject];
+        templateInfoVC.isDisplayingHelp = YES;
+        templateInfoVC.morselTemplate = currentTemplate;
+        [self presentViewController:templateInfoNC
+                           animated:YES
+                         completion:nil];
+    } else {
+        [UIAlertView showAlertViewForErrorString:@"Unable to display help. Please try again."
+                                        delegate:nil];
+    }
 }
 
 - (void)toolbarDidSelectRightButton:(UIButton *)rightButton {
@@ -607,7 +626,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"]) {
+    NSString *alertButtonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([alertButtonTitle isEqualToString:@"OK"]) {
         self.morsel = [self getOrLoadMorselIfExists];
         if (_morsel) {
             [[MRSLEventManager sharedManager] track:@"Tapped Button"
@@ -626,11 +646,19 @@ MRSLMorselEditItemTableViewCellDelegate>
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
         }
-    } else {
+    } else if ([alertButtonTitle isEqualToString:@"Cancel"]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                     properties:@{@"_title": @"Cancel Delete Morsel",
+                                     properties:@{@"_title": @"Delete: Cancel",
                                                   @"_view": self.mp_eventView,
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    } else if ([alertButtonTitle isEqualToString:@"No"]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Add Title: No",
+                                                  @"_view": self.mp_eventView,
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    } else if ([alertButtonTitle isEqualToString:@"Yes"]) {
+        [self performSegueWithIdentifier:MRSLStoryboardSegueEditMorselTitleKey
+                                  sender:nil];
     }
 }
 

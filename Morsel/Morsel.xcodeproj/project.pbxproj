@@ -4388,7 +4388,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				DB_APP_ID = 6jjbiuc2h1eurub;
-				FB_APP_ID = 1494348960809471;
+				FB_APP_ID = 1494915117419522;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
