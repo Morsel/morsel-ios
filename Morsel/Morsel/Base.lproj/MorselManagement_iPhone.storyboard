@@ -47,7 +47,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Morsel title" id="LlN-f7-5kY">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="7oU-5m-ehi">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Save" id="7oU-5m-ehi">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="done:" destination="xiT-us-aqg" id="OPY-Vo-8T5"/>
