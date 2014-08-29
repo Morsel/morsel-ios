@@ -55,11 +55,21 @@ CaptureMediaViewControllerDelegate>
 
     [self setupControls];
 
-    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
-                                                                                inSection:0]
-                                            atScrollPosition:UICollectionViewScrollPositionCenteredVertically
-                                                    animated:NO];
-    [self updateControls];
+    if ([UIDevice has35InchScreen]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
+                                                                                        inSection:0]
+                                                    atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                                            animated:NO];
+            [self updateControls];
+        });
+    } else {
+        [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
+                                                                                    inSection:0]
+                                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                                        animated:NO];
+        [self updateControls];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

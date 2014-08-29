@@ -74,6 +74,7 @@ UITableViewDelegate>
 
 - (IBAction)create:(id)sender {
     self.navigationItem.rightBarButtonItem.enabled = NO;
+    self.createButton.enabled = NO;
     __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService createMorselWithTemplate:_morselTemplate
                                               success:^(id responseObject) {
@@ -88,6 +89,7 @@ UITableViewDelegate>
                                                   [UIAlertView showAlertViewForErrorString:@"Unable to create morsel. Please try again."
                                                                                   delegate:nil];
                                                   weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+                                                  weakSelf.createButton.enabled = YES;
                                               }];
 }
 
