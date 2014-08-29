@@ -59,7 +59,7 @@
             "id": 5,
             "template_order": 5,
             "placeholder_sort_order": 2,
-            "placeholder_description": "Explain the shortcut/hack or tip.",
+            "placeholder_description": "Explain the shortcut / hack or tip.",
             "placeholder_photos": {
                 "small": "template-hack2-small",
                 "large": "template-hack2-large"
