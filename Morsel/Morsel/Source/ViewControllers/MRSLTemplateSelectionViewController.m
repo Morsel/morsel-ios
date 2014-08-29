@@ -115,6 +115,13 @@ NSFetchedResultsControllerDelegate>
     return cell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                withReuseIdentifier:@"ruid_TemplateHelperCell"
+                                                                                       forIndexPath:indexPath];
+    return reusableView;
+}
+
 #pragma mark - UICollectionViewDelegate Methods
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

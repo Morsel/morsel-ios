@@ -41,40 +41,6 @@
             }
         }]
     }, {
-        "title": "Kitchen Hacks",
-        "icon": "template-icon-hack",
-        "id": 3,
-        "description": "If you've worked in a kitchen for any amount of time, you've hacked something. Maybe it's the immersion circulator you build from an old drill or possibly you fashion a smoker on your grill using sheet pans because bacon needs a good smoke.",
-        "tip": "Kitchen hacks are what people share to get their MacGyver on.",
-        "items": [{
-            "id": 4,
-            "template_order": 4,
-            "placeholder_sort_order": 1,
-            "placeholder_description": "Share the problem you set out to solve with your kitchen hack.",
-            "placeholder_photos": {
-                "small": "template-hack1-small",
-                "large": "template-hack1-large"
-            }
-        }, {
-            "id": 5,
-            "template_order": 5,
-            "placeholder_sort_order": 2,
-            "placeholder_description": "Explain the shortcut / hack or tip.",
-            "placeholder_photos": {
-                "small": "template-hack2-small",
-                "large": "template-hack2-large"
-            }
-        }, {
-            "id": 6,
-            "template_order": 6,
-            "placeholder_sort_order": 3,
-            "placeholder_description": "Share the finished product.",
-            "placeholder_photos": {
-                "small": "template-hack3-small",
-                "large": "template-hack3-large"
-            }
-        }]
-    }, {
         "title": "Great Pairing",
         "icon": "template-icon-pairing",
         "id": 4,
@@ -161,7 +127,7 @@
             "id": 14,
             "template_order": 14,
             "placeholder_sort_order": 2,
-            "placeholder_description": "Share the key points, tips or highlights of the preparation of your dish.",
+            "placeholder_description": "Share the key points, tips, or highlights of the preparation of your dish.",
             "placeholder_photos": {
                 "small": "template-everyday2-small",
                 "large": "template-everyday2-large"
@@ -170,7 +136,7 @@
             "id": 15,
             "template_order": 15,
             "placeholder_sort_order": 3,
-            "placeholder_description": "Share the final product and tasting, pairing or make-ahead notes.",
+            "placeholder_description": "Share the final product and tasting, pairing, or make-ahead notes.",
             "placeholder_photos": {
                 "small": "template-everyday3-small",
                 "large": "template-everyday3-large"
@@ -186,7 +152,7 @@
             "id": 16,
             "template_order": 16,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share a the dish you are reinventing.",
+            "placeholder_description": "Share the dish you are reinventing.",
             "placeholder_photos": {
                 "small": "template-reconstruct1-small",
                 "large": "template-reconstruct1-large"
@@ -229,7 +195,7 @@
             "id": 20,
             "template_order": 20,
             "placeholder_sort_order": 2,
-            "placeholder_description": "You can capture each dish, of course, but the piece de resistance is essential!",
+            "placeholder_description": "You can capture each dish, but the piece de resistance is essential!",
             "placeholder_photos": {
                 "small": "template-event2-small",
                 "large": "template-event2-large"
@@ -272,7 +238,7 @@
             "id": 23,
             "template_order": 24,
             "placeholder_sort_order": 3,
-            "placeholder_description": "Share another dish / drink / ingredient that stood out here",
+            "placeholder_description": "Share another dish / drink / ingredient that stood out here.",
             "placeholder_photos": {
                 "small": "template-travel3-small",
                 "large": "template-travel3-large"
@@ -288,7 +254,7 @@
             "id": 24,
             "template_order": 25,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share what's important to you about the ingredient, dish or drink.",
+            "placeholder_description": "Share what's important to you about the ingredient, dish, or drink.",
             "placeholder_photos": {
                 "small": "template-days1-small",
                 "large": "template-days1-large"
@@ -322,7 +288,7 @@
             "id": 27,
             "template_order": 28,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share the first tip for nailing your method and technique.",
+            "placeholder_description": "Set the stage and share the starting point for the process.",
             "placeholder_photos": {
                 "small": "template-how1-small",
                 "large": "template-how1-large"
@@ -331,7 +297,7 @@
             "id": 28,
             "template_order": 29,
             "placeholder_sort_order": 2,
-            "placeholder_description": "Share another tip for nailing your method and technique.",
+            "placeholder_description": "Share a tip for nailing your method and technique.",
             "placeholder_photos": {
                 "small": "template-how2-small",
                 "large": "template-how2-large"
@@ -340,7 +306,7 @@
             "id": 29,
             "template_order": 30,
             "placeholder_sort_order": 3,
-            "placeholder_description": "Share another tip for nailing your method and technique.",
+            "placeholder_description": "Share the end result or final product of your work.",
             "placeholder_photos": {
                 "small": "template-how3-small",
                 "large": "template-how3-large"

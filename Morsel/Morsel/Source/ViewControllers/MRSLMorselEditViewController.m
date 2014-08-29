@@ -273,7 +273,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                return;
                                            } else if (!item.itemPhotoURL) {
                                                [UIAlertView showOKAlertViewWithTitle:@"Missing photos"
-                                                                             message:([[weakSelf.morsel items] count] == 1) ? @"Please add a photo to your item in order to continue." : @"All items must have photos in order to continue."];
+                                                                             message:([[weakSelf.morsel items] count] == 1) ? @"Please add a photo to your item in order to continue." : @"All items must have photos in order to continue. Please add photos or delete unused items."];
                                                return;
                                            }
                                        }

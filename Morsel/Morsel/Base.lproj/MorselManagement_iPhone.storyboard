@@ -47,7 +47,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Morsel title" id="LlN-f7-5kY">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="7oU-5m-ehi">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Save" id="7oU-5m-ehi">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="done:" destination="xiT-us-aqg" id="OPY-Vo-8T5"/>
@@ -120,6 +120,20 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <gestureRecognizers/>
                                                 </imageView>
+                                                <view hidden="YES" contentMode="scaleToFill" id="iLp-Rk-vl1">
+                                                    <rect key="frame" x="20" y="35" width="50" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="cover" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kew-iO-Q63" customClass="MRSLRobotoLightItalicLabel">
+                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="20"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="0.5" colorSpace="calibratedRGB"/>
+                                                </view>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-reorder-gray" id="lDI-N9-uoN">
                                                     <rect key="frame" x="281" y="22" width="20" height="18"/>
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -165,6 +179,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="coverView" destination="iLp-Rk-vl1" id="m4s-vG-Cx6"/>
                                             <outlet property="failureView" destination="DUg-e1-fHe" id="uwO-K7-C7t"/>
                                             <outlet property="itemDescription" destination="mXu-TV-bff" id="df1-ku-Fxw"/>
                                             <outlet property="itemThumbnail" destination="815-bt-VyA" id="IBV-Oe-gGm"/>

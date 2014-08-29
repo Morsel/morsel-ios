@@ -23,7 +23,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self setRoundedCornerRadius:4.f];
+    if (![UIDevice has35InchScreen]) [self setRoundedCornerRadius:4.f];
 }
 
 - (void)setMorselTemplate:(MRSLTemplate *)morselTemplate {
@@ -35,6 +35,14 @@
 
 - (UIColor *)defaultBackgroundColor {
     return [UIColor morselPrimary];
+}
+
+- (UIColor *)defaultHighlightedBackgroundColor {
+    return [self defaultSelectedBackgroundColor];
+}
+
+- (UIColor *)defaultSelectedBackgroundColor {
+    return [[UIColor morselPrimary] colorWithBrightness:.8f];
 }
 
 @end
