@@ -3,9 +3,18 @@
         "title": "Quick Add",
         "icon": "icon-add-white",
         "id": 1,
-        "description": "Something",
-        "tip": "A tip",
-        "items": null
+        "description": "Quick Add jumps right into the creation of a morsel without the additional step or boundaries of a pre-defined storyboard.",
+        "tip": null,
+        "items": [{
+            "id": 1,
+            "template_order": 99,
+            "placeholder_sort_order": 1,
+            "placeholder_description": "Additional photo",
+            "placeholder_photos": {
+                "small": "template-item-small",
+                "large": "template-item-large"
+            }
+        }]
     }, {
         "title": "Inspiration",
         "icon": "template-icon-inspiration",
@@ -215,12 +224,12 @@
         "icon": "template-icon-travel",
         "id": 9,
         "description": "Sometimes the most exciting aspects of food happen while you're exploring places outside your kitchen. Whether you're touring a neighborhood across the country or exploring the local farmer's market, capture the things you find interesting and worth sharing.",
-        "tip": "Travel guide is not just a list of places to go. It's a way to add some back-story to your findings and recommendations.",
+        "tip": "Travel Guide is not just a list of places to go. It's a way to add some back-story to your findings and recommendations.",
         "items": [{
             "id": 21,
             "template_order": 22,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share the trip location to set the stage for the morsel",
+            "placeholder_description": "Share the trip location to set the stage for the morsel.",
             "placeholder_photos": {
                 "small": "template-travel1-small",
                 "large": "template-travel1-large"
