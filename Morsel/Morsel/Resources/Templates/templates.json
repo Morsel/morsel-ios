@@ -214,13 +214,13 @@
         "title": "Travel Guide",
         "icon": "template-icon-travel",
         "id": 9,
-        "description": "Insiders know that the people who know where to go in a given city are the people who know food and drink. Since you're here, we know you know a thing or two about a place or two.",
-        "tip": "Travel guide is not just a list of places to go, it's a place to add some backstory to your recommendations.",
+        "description": "Sometimes the most exciting aspects of food happen while you're exploring places outside your kitchen. Whether you're touring a neighborhood across the country or exploring the local farmer's market, capture the things you find interesting and worth sharing.",
+        "tip": "Travel guide is not just a list of places to go. It's a way to add some back-story to your findings and recommendations.",
         "items": [{
             "id": 21,
             "template_order": 22,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share the trip location to set the stage for the morsel.",
+            "placeholder_description": "Share the trip location to set the stage for the morsel",
             "placeholder_photos": {
                 "small": "template-travel1-small",
                 "large": "template-travel1-large"
