@@ -288,7 +288,7 @@
             "id": 27,
             "template_order": 28,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Share the first tip for nailing your method and technique.",
+            "placeholder_description": "Set the stage and share the starting point for the process.",
             "placeholder_photos": {
                 "small": "template-how1-small",
                 "large": "template-how1-large"
@@ -297,7 +297,7 @@
             "id": 28,
             "template_order": 29,
             "placeholder_sort_order": 2,
-            "placeholder_description": "Share another tip for nailing your method and technique.",
+            "placeholder_description": "Share a tip for nailing your method and technique.",
             "placeholder_photos": {
                 "small": "template-how2-small",
                 "large": "template-how2-large"
@@ -306,7 +306,7 @@
             "id": 29,
             "template_order": 30,
             "placeholder_sort_order": 3,
-            "placeholder_description": "Share another tip for nailing your method and technique.",
+            "placeholder_description": "Share the end result or final product of your work.",
             "placeholder_photos": {
                 "small": "template-how3-small",
                 "large": "template-how3-large"
