@@ -238,7 +238,7 @@
             "id": 23,
             "template_order": 24,
             "placeholder_sort_order": 3,
-            "placeholder_description": "Share another dish / drink / ingredient that stood out here",
+            "placeholder_description": "Share another dish / drink / ingredient that stood out here.",
             "placeholder_photos": {
                 "small": "template-travel3-small",
                 "large": "template-travel3-large"
