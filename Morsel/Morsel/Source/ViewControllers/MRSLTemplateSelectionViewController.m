@@ -128,27 +128,22 @@ NSFetchedResultsControllerDelegate>
     self.selectedIndexPath = indexPath;
     MRSLTemplate *morselTemplate = [_templates objectAtIndex:indexPath.row];
     if ([morselTemplate isCreateMorselType]) {
-        MRSLMorsel *morsel = [MRSLMorsel MR_createEntity];
-        morsel.draft = @YES;
-        morsel.title = @"Quick Add";
-        morsel.template_id = morselTemplate.templateID;
-
-        self.collectionView.userInteractionEnabled = NO;
+        self.navigationItem.rightBarButtonItem.enabled = NO;
         __weak __typeof(self) weakSelf = self;
-        [_appDelegate.apiService createMorsel:morsel
-                                      success:^(id responseObject) {
-                                          [MRSLEventManager sharedManager].new_morsels_created++;
-                                          MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];
-                                          editMorselVC.shouldPresentMediaCapture = YES;
-                                          editMorselVC.morselID = morsel.morselID;
-                                          [weakSelf.navigationController pushViewController:editMorselVC
-                                                                                   animated:YES];
-                                      } failure:^(NSError *error) {
-                                          [UIAlertView showAlertViewForErrorString:@"Unable to create Morsel! Please try again."
-                                                                          delegate:nil];
-                                          [morsel MR_deleteEntity];
-                                          weakSelf.collectionView.userInteractionEnabled = YES;
-                                      }];
+        [_appDelegate.apiService createMorselWithTemplate:morselTemplate
+                                                  success:^(id responseObject) {
+                                                      if ([responseObject isKindOfClass:[MRSLMorsel class]]) {
+                                                          MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];
+                                                          editMorselVC.morselID = [(MRSLMorsel *)responseObject morselID];
+                                                          editMorselVC.wasNewMorsel = YES;
+                                                          [weakSelf.navigationController pushViewController:editMorselVC
+                                                                                                   animated:YES];
+                                                      }
+                                                  } failure:^(NSError *error) {
+                                                      [UIAlertView showAlertViewForErrorString:@"Unable to create morsel. Please try again."
+                                                                                      delegate:nil];
+                                                      weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+                                                  }];
     } else {
         [self performSegueWithIdentifier:MRSLStoryboardSegueTemplateInfoKey
                                   sender:nil];

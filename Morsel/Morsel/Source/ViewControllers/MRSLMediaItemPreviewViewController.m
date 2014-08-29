@@ -54,6 +54,14 @@ CaptureMediaViewControllerDelegate>
     self.previewMediaPageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
 
     [self setupControls];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
+                                                                                    inSection:0]
+                                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                                        animated:NO];
+        [self updateControls];
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -113,14 +121,6 @@ CaptureMediaViewControllerDelegate>
     [self.previewMediaPageControl setY:320.f - ((([_previewMediaPageControl sizeForNumberOfPages:_previewMediaPageControl.numberOfPages].width) / 2) + 34.f)];
 
     [self.previewMediaCollectionView reloadData];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
-                                                                                    inSection:0]
-                                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
-                                                        animated:NO];
-        [self updateControls];
-    });
 }
 
 - (void)updateControls {
