@@ -278,8 +278,11 @@ MRSLMorselEditItemTableViewCellDelegate>
                                            }
                                        }
                                        if ([weakSelf.morsel hasPlaceholderTitle]) {
-                                           [UIAlertView showOKAlertViewWithTitle:@"Missing title"
-                                                                         message:@"Please give your morsel a title."];
+                                           [UIAlertView showAlertViewWithTitle:@"Missing title"
+                                                                       message:@"You need to give your morsel a title to continue. Would you like to add a title to your morsel now?"
+                                                                      delegate:weakSelf
+                                                             cancelButtonTitle:@"No"
+                                                             otherButtonTitles:@"Yes", nil];
                                            return;
                                        }
                                        [[MRSLEventManager sharedManager] track:@"Tapped Button"
@@ -607,7 +610,8 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"]) {
+    NSString *alertButtonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([alertButtonTitle isEqualToString:@"OK"]) {
         self.morsel = [self getOrLoadMorselIfExists];
         if (_morsel) {
             [[MRSLEventManager sharedManager] track:@"Tapped Button"
@@ -626,11 +630,19 @@ MRSLMorselEditItemTableViewCellDelegate>
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
         }
-    } else {
+    } else if ([alertButtonTitle isEqualToString:@"Cancel"]) {
         [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                     properties:@{@"_title": @"Cancel Delete Morsel",
+                                     properties:@{@"_title": @"Delete: Cancel",
                                                   @"_view": self.mp_eventView,
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    } else if ([alertButtonTitle isEqualToString:@"No"]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Add Title: No",
+                                                  @"_view": self.mp_eventView,
+                                                  @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    } else if ([alertButtonTitle isEqualToString:@"Yes"]) {
+        [self performSegueWithIdentifier:MRSLStoryboardSegueEditMorselTitleKey
+                                  sender:nil];
     }
 }
 
