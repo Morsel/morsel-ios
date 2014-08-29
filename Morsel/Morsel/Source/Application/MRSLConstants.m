@@ -201,7 +201,7 @@ NSString *const MRSLStoryboardRUIDSectionHeaderKey = @"srcuid_SectionHeader";
 #pragma mark - Debugging Constants
 
 #if (defined(MORSEL_DEBUG) || defined(MORSEL_ALPHA))
-int LOG_LEVEL_DEF = LOG_LEVEL_ERROR;
+int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;
 #else
 int LOG_LEVEL_DEF = LOG_LEVEL_ERROR;
 #endif
