@@ -20,25 +20,25 @@
                                 <inset key="insetFor6xAndEarlier" minX="-20" minY="0.0" maxX="-20" maxY="0.0"/>
                                 <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="iM2-ep-Sbt">
-                                    <size key="itemSize" width="120" height="120"/>
+                                    <size key="itemSize" width="130" height="120"/>
                                     <size key="headerReferenceSize" width="300" height="50"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_TemplateCell" id="p5h-1u-dgI" customClass="MRSLTemplateSelectionCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="50" width="120" height="120"/>
+                                        <rect key="frame" x="0.0" y="50" width="130" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="130" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="template-icon" id="av8-yn-dhr">
-                                                    <rect key="frame" x="40" y="36" width="40" height="40"/>
+                                                    <rect key="frame" x="45" y="36" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="obH-Og-3o3" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="0.0" y="74" width="120" height="46"/>
+                                                    <rect key="frame" x="0.0" y="74" width="130" height="46"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
