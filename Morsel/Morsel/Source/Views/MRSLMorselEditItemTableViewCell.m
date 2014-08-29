@@ -24,6 +24,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *itemDescription;
 @property (weak, nonatomic) IBOutlet UIView *failureView;
+@property (weak, nonatomic) IBOutlet UIView *coverView;
 
 @end
 
@@ -46,6 +47,9 @@
     } else {
         _itemDescription.text = (_item.itemDescription.length > 0) ? _item.itemDescription : @"Tap to edit";
     }
+
+    self.coverView.hidden = ![_item isCoverItem];
+
     _itemDescription.font = (_item.itemDescription.length > 0) ? [UIFont robotoLightFontOfSize:_itemDescription.font.pointSize] : [UIFont robotoLightItalicFontOfSize:_itemDescription.font.pointSize];
 
     _itemThumbnail.item = _item;
