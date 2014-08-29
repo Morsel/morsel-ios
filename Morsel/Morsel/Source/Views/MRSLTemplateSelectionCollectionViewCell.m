@@ -37,4 +37,12 @@
     return [UIColor morselPrimary];
 }
 
+- (UIColor *)defaultHighlightedBackgroundColor {
+    return [self defaultSelectedBackgroundColor];
+}
+
+- (UIColor *)defaultSelectedBackgroundColor {
+    return [[UIColor morselPrimary] colorWithBrightness:.8f];
+}
+
 @end
