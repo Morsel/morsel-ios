@@ -9,6 +9,7 @@
 #import "MRSLMorselListViewController.h"
 
 #import "MRSLAPIService+Morsel.h"
+#import "MRSLAPIService+Templates.h"
 
 #import "MRSLMorselTableViewCell.h"
 #import "MRSLMorselEditViewController.h"
@@ -17,6 +18,7 @@
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
+#import "MRSLTemplate.h"
 
 @interface MRSLMorselListViewController ()
 <UITableViewDataSource,
@@ -68,6 +70,10 @@ NSFetchedResultsControllerDelegate>
                                                object:nil];
 
     [self.tableView setEmptyStateTitle:@"None yet. Create a new morsel below."];
+
+    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirst];
+    if (!morselTemplate) [_appDelegate.apiService getTemplatesWithSuccess:nil
+                                                                  failure:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

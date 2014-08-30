@@ -57,6 +57,10 @@ UITableViewDelegate>
                                              selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateMenuBadge:)
+                                                 name:MRSLServiceDidUpdateUnreadAmountNotification
+                                               object:nil];
 
     [self setupMenuOptions];
     [self.menuTableView setScrollsToTop:NO];
@@ -148,6 +152,17 @@ UITableViewDelegate>
     }];
 }
 
+- (void)updateMenuBadge:(NSNotification *)notification {
+    NSIndexPath *notificationsIndexPath = [self indexPathForKey:MRSLMenuNotificationsKey];
+    MRSLMenuItem *notificationItem = [self menuItemAtIndexPath:notificationsIndexPath];
+    notificationItem.badgeCount = [notification.object intValue];
+    [self.menuTableView reloadRowsAtIndexPaths:@[notificationsIndexPath]
+                              withRowAnimation:UITableViewRowAnimationNone];
+    [self.menuTableView selectRowAtIndexPath:_selectedIndexPath
+                                    animated:NO
+                              scrollPosition:UITableViewScrollPositionNone];
+}
+
 - (void)displayUserInformation {
     MRSLUser *currentUser = [MRSLUser currentUser];
     self.profileImageView.user = currentUser;
@@ -157,7 +172,6 @@ UITableViewDelegate>
     draftItem.badgeCount = currentUser.draft_countValue;
     [self.menuTableView reloadRowsAtIndexPaths:@[draftIndexPath]
                               withRowAnimation:UITableViewRowAnimationNone];
-
     [self.menuTableView selectRowAtIndexPath:_selectedIndexPath
                                     animated:NO
                               scrollPosition:UITableViewScrollPositionNone];
@@ -217,7 +231,7 @@ UITableViewDelegate>
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return section == 0 ? 0.0f : 24.f;
+    return section == 0 ? 0.0f : 34.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

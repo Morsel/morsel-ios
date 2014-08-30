@@ -44,8 +44,8 @@
 
 @interface MRSLBaseActivitiesTableViewController ()
 
-@property (nonatomic, strong) NSString *tappedItemEventName;
-@property (nonatomic, strong) NSString *tappedItemEventView;
+@property (strong, nonatomic) NSString *tappedItemEventName;
+@property (strong, nonatomic) NSString *tappedItemEventView;
 
 @end
 
@@ -154,10 +154,13 @@
               didSelectItem:(id)item {
     MRSLActivity *activity = nil;
 
-    if ([item isKindOfClass:[MRSLActivity class]])
+    if ([item isKindOfClass:[MRSLActivity class]]) {
         activity = item;
-    else if ([item isKindOfClass:[MRSLNotification class]])
+        if (activity.notification) [activity.notification API_markRead];
+    } else if ([item isKindOfClass:[MRSLNotification class]]) {
+        [item API_markRead];
         activity = [item activity];
+    }
 
     [[MRSLEventManager sharedManager] track:self.tappedItemEventName
                                  properties:@{@"_view": self.tappedItemEventView,

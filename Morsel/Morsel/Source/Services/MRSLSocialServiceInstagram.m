@@ -89,7 +89,7 @@
 
 - (void)checkForValidInstagramAuthenticationWithSuccess:(MRSLSocialSuccessBlock)successOrNil
                                                 failure:(MRSLSocialFailureBlock)failureOrNil {
-    if (_instagramCredentials) {
+    if (_instagramCredentials && [self.socialAuthentication isValid]) {
         if (successOrNil) successOrNil(YES);
     } else {
         if (failureOrNil) failureOrNil(nil);

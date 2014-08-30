@@ -31,6 +31,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
+@property (nonatomic) BOOL isPreview;
 
 @property (nonatomic) CGFloat previousContentOffset;
 
@@ -55,9 +56,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     self.mp_eventView = @"user_feed";
 
-    self.title = [NSString stringWithFormat:@"%@'s morsels", _user.username];
+    self.isPreview = (_morsel.publishedDate == nil);
+    self.title = (!_isPreview) ? [NSString stringWithFormat:@"%@'s morsels", _user.username] : @"Preview";
 
-    self.morselIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array];
+    if (_isPreview) self.navigationItem.rightBarButtonItem = nil;
+    self.morselIDs = (!_isPreview) ? ([[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array]) : [NSMutableArray array];
     if (_morsel) [self.morselIDs addObject:_morsel.morselID];
 
     self.morsels = [NSMutableArray array];
@@ -144,7 +147,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 #pragma mark - Section Methods
 
 - (void)loadMore {
-    if (_loadingMore || !_user || _loadedAll) return;
+    if (_loadingMore || !_user || _loadedAll || _isPreview) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more user morsels");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
@@ -188,7 +191,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
-    MRSLFeedPanelCollectionViewCell *morselPanelCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDFeedPanelCellKey
+    NSString *identifier = [NSString stringWithFormat:@"%@_%d", MRSLStoryboardRUIDFeedPanelCellKey, (int)(indexPath.row % 4)];
+    MRSLFeedPanelCollectionViewCell *morselPanelCell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier
                                                                                                  forIndexPath:indexPath];
     [morselPanelCell setOwningViewController:self
                                   withMorsel:morsel];

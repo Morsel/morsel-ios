@@ -6,10 +6,12 @@
 
 extern const struct MRSLNotificationAttributes {
 	__unsafe_unretained NSString *creationDate;
+	__unsafe_unretained NSString *markedReadAt;
 	__unsafe_unretained NSString *message;
 	__unsafe_unretained NSString *notificationID;
 	__unsafe_unretained NSString *payloadID;
 	__unsafe_unretained NSString *payloadType;
+	__unsafe_unretained NSString *read;
 } MRSLNotificationAttributes;
 
 extern const struct MRSLNotificationRelationships {
@@ -20,6 +22,8 @@ extern const struct MRSLNotificationFetchedProperties {
 } MRSLNotificationFetchedProperties;
 
 @class MRSLActivity;
+
+
 
 
 
@@ -45,6 +49,16 @@ extern const struct MRSLNotificationFetchedProperties {
 
 
 //- (BOOL)validateCreationDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* markedReadAt;
+
+
+
+//- (BOOL)validateMarkedReadAt:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -98,6 +112,20 @@ extern const struct MRSLNotificationFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* read;
+
+
+
+@property BOOL readValue;
+- (BOOL)readValue;
+- (void)setReadValue:(BOOL)value_;
+
+//- (BOOL)validateRead:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) MRSLActivity *activity;
 
 //- (BOOL)validateActivity:(id*)value_ error:(NSError**)error_;
@@ -117,6 +145,12 @@ extern const struct MRSLNotificationFetchedProperties {
 
 - (NSDate*)primitiveCreationDate;
 - (void)setPrimitiveCreationDate:(NSDate*)value;
+
+
+
+
+- (NSDate*)primitiveMarkedReadAt;
+- (void)setPrimitiveMarkedReadAt:(NSDate*)value;
 
 
 
@@ -147,6 +181,15 @@ extern const struct MRSLNotificationFetchedProperties {
 
 - (NSString*)primitivePayloadType;
 - (void)setPrimitivePayloadType:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveRead;
+- (void)setPrimitiveRead:(NSNumber*)value;
+
+- (BOOL)primitiveReadValue;
+- (void)setPrimitiveReadValue:(BOOL)value_;
 
 
 

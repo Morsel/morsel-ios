@@ -88,7 +88,7 @@
             } else if ([obj isKindOfClass:[NSData class]]) {
                 parameterDictionary[key] = obj;
             } else {
-                DDLogError(@"Unsupported form parameter object will not be converted to NSData: %@", obj);
+                DDLogDebug(@"Unsupported form parameter object will not be converted to NSData: %@", obj);
             }
         }
     }];

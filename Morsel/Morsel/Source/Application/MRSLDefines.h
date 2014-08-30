@@ -15,12 +15,14 @@
 
 typedef void (^ MRSLSuccessBlock)(BOOL success);
 typedef void (^ MRSLFailureBlock)(NSError *error);
+typedef void (^ MRSLSuccessOrFailureBlock)(BOOL success, NSError *error);
 typedef void (^ MRSLAPIArrayBlock)(NSArray *responseArray);
 typedef void (^ MRSLAPILikeBlock)(BOOL doesLike);
 typedef void (^ MRSLAPIFollowBlock)(BOOL doesFollow);
 typedef void (^ MRSLAPISuccessBlock)(id responseObject);
 typedef void (^ MRSLAPIExistsBlock)(BOOL exists, NSError *error);
 typedef void (^ MRSLAPIValidationBlock)(BOOL isAvailable, NSError *error);
+typedef void (^ MRSLAPICountBlock)(int countValue);
 typedef void (^ MRSLImageProcessingBlock)(BOOL success);
 typedef void (^ MRSLSocialSuccessBlock)(BOOL success);
 typedef void (^ MRSLSocialFailureBlock)(NSError *error);
@@ -102,7 +104,7 @@ static const CGFloat croppedImageHeightOffset = 106.f;
 static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;
 static const CGFloat MRSLUserProfileImageThumbDimensionSize = 40.f;
 static const CGFloat MRSLItemImageFullDimensionSize = 640.f;
-static const CGFloat MRSLItemImageLargeDimensionSize = 320.f;
+static const CGFloat MRSLItemImageLargeDimensionSize = 220.f;
 static const CGFloat MRSLItemImageThumbDimensionSize = 50.f;
 static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 static const int MRSLMaximumMorselsToDisplayInMorselAdd = 5;
@@ -147,9 +149,9 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #if defined(SPEC_TESTING)
 
-#define MORSEL_API_BASE_URL @"http://MORSEL_API_BASE_URL"
-#define MORSEL_BASE_URL @"http://MORSEL_BASE_URL"
-#define S3_BASE_URL @"http://S3_BASE_URL"
+#define MORSEL_API_BASE_URL @"https://MORSEL_API_BASE_URL"
+#define MORSEL_BASE_URL @"https://MORSEL_BASE_URL"
+#define S3_BASE_URL @"https://S3_BASE_URL"
 
 #import "MRSLSpecsAppDelegate.h"
 #define _appDelegate ((MRSLSpecsAppDelegate *)[[UIApplication sharedApplication] delegate])
@@ -157,9 +159,9 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #elif defined(INTEGRATION_TESTING)
 
-#define MORSEL_API_BASE_URL @"http://MORSEL_API_BASE_URL"
-#define MORSEL_BASE_URL @"http://MORSEL_BASE_URL"
-#define S3_BASE_URL @"http://S3_BASE_URL"
+#define MORSEL_API_BASE_URL @"https://MORSEL_API_BASE_URL"
+#define MORSEL_BASE_URL @"https://MORSEL_BASE_URL"
+#define S3_BASE_URL @"https://S3_BASE_URL"
 
 #import "MRSLIntegrationAppDelegate.h"
 #define _appDelegate ((MRSLIntegrationAppDelegate *)[[UIApplication sharedApplication] delegate])
@@ -170,13 +172,13 @@ static const int MRSLStatsTagViewTag = 9991;
 #if (defined(MORSEL_BETA) || defined(RELEASE))
 
 #define MORSEL_API_BASE_URL @"https://api.eatmorsel.com"
-#define MORSEL_BASE_URL @"http://www.eatmorsel.com"
+#define MORSEL_BASE_URL @"https://www.eatmorsel.com"
 #define S3_BASE_URL @"https://morsel.s3.amazonaws.com/"
 
 #elif (defined(MORSEL_DEBUG) || defined(MORSEL_ALPHA))
 
-#define MORSEL_API_BASE_URL @"http://api-staging.eatmorsel.com"
-#define MORSEL_BASE_URL @"http://staging.eatmorsel.com"
+#define MORSEL_API_BASE_URL @"https://api-staging.eatmorsel.com"
+#define MORSEL_BASE_URL @"https://staging.eatmorsel.com"
 #define S3_BASE_URL @"https://morsel-staging.s3.amazonaws.com/"
 
 #endif
@@ -197,7 +199,7 @@ static const int MRSLStatsTagViewTag = 9991;
 
 #pragma mark - Social
 
-#if (defined(MORSEL_BETA) || defined(RELEASE))
+#if defined(RELEASE)
 
 #define FACEBOOK_APP_ID @"1402286360015732"
 #define FACEBOOK_PUBLISH_AUDIENCE FBSessionDefaultAudienceFriends
@@ -210,18 +212,44 @@ static const int MRSLStatsTagViewTag = 9991;
 #define INSTAGRAM_CONSUMER_SECRET @"0887a6cfbea54cdea71ad7b7b3dc1a29"
 #define INSTAGRAM_CALLBACK @"insta-morsel://success"
 
-#else
+#elif defined(MORSEL_BETA)
 
-#define FACEBOOK_APP_ID @"1406459019603393"
+#define FACEBOOK_APP_ID @"1494915117419522"
+#define FACEBOOK_PUBLISH_AUDIENCE FBSessionDefaultAudienceFriends
+
+#define TWITTER_CONSUMER_KEY @"N7W5LRgC0vINRl1fr8Mz2AwOH"
+#define TWITTER_CONSUMER_SECRET @"gcbFIEjUYWC3MOnRfmJxTnNznwFTtay3EBBSW0jgaF4jsGD0Ni"
+#define TWITTER_CALLBACK @"tw-morsel-beta://success"
+
+#define INSTAGRAM_CONSUMER_KEY @"c67fd8af26a6447281ba3f35abc5ff4e"
+#define INSTAGRAM_CONSUMER_SECRET @"13e6bdcb4e414e0da86509d83278cec7"
+#define INSTAGRAM_CALLBACK @"insta-morsel-beta://success"
+
+#elif defined(MORSEL_ALPHA)
+
+#define FACEBOOK_APP_ID @"1494349067476127"
 #define FACEBOOK_PUBLISH_AUDIENCE FBSessionDefaultAudienceOnlyMe
 
 #define TWITTER_CONSUMER_KEY @"OWJtM9wGQSSdMctOI0gHkQ"
 #define TWITTER_CONSUMER_SECRET @"21EsTV2n8QjBUGZPfYx5JPKnxjicxboV0IHflBZB6w"
-#define TWITTER_CALLBACK @"tw-morsel-staging://success"
+#define TWITTER_CALLBACK @"tw-morsel-alpha://success"
 
 #define INSTAGRAM_CONSUMER_KEY @"2a431459c80145edb6608eaafddfb8ed"
 #define INSTAGRAM_CONSUMER_SECRET @"29edc5d19e8f4a3eac53d8e9a0c101e1"
-#define INSTAGRAM_CALLBACK @"insta-morsel-staging://success"
+#define INSTAGRAM_CALLBACK @"insta-morsel-alpha://success"
+
+#elif defined(MORSEL_DEBUG)
+
+#define FACEBOOK_APP_ID @"1494348764142824"
+#define FACEBOOK_PUBLISH_AUDIENCE FBSessionDefaultAudienceOnlyMe
+
+#define TWITTER_CONSUMER_KEY @"Q6sJRQ8Re8IEeV1jViDcgEix5"
+#define TWITTER_CONSUMER_SECRET @"l4SZdCVFGkGPWdV0Pt1rpUnPjAV0iBF8RokXuG0kY2w0NnnIrk"
+#define TWITTER_CALLBACK @"tw-morsel-debug://success"
+
+#define INSTAGRAM_CONSUMER_KEY @"4558aa3b9f9d4ef5a6708f3d9a017edb"
+#define INSTAGRAM_CONSUMER_SECRET @"206c303b2164441f83a68385d87f895c"
+#define INSTAGRAM_CALLBACK @"insta-morsel-debug://success"
 
 #endif
 
@@ -253,6 +281,7 @@ static const int MRSLStatsTagViewTag = 9991;
 #import "UIDevice+Additions.h"
 #import "UIFont+Morsel.h"
 #import "UIImage+Resize.h"
+#import "UIImage+Watermark.h"
 #import "UIImagePickerController+StatusBarHidden.h"
 #import "NSMutableString+Additions.h"
 #import "NSString+Additions.h"

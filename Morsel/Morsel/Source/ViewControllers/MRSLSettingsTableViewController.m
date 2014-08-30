@@ -17,16 +17,16 @@
 #import "MRSLUtil.h"
 
 NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
-    MRSLSettingsTableViewSectionSetupProfessionalAccount,
     MRSLSettingsTableViewSectionProfessionalSettings,
     MRSLSettingsTableViewSectionUserSettings,
+    MRSLSettingsTableViewSectionSetupProfessionalAccount,
     MRSLSettingsTableViewSectionSupport
 };
 
 @interface MRSLSettingsTableViewController ()
 <UIAlertViewDelegate>
 
-@property (nonatomic, weak) IBOutlet UILabel *appVersionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *appVersionLabel;
 
 - (IBAction)displayContactMorsel;
 - (IBAction)displayTermsOfService;
@@ -75,10 +75,10 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if ([identifier isEqualToString:MRSLStoryboardSegueSetupProfessionalAccountKey]) {
         [UIAlertView showAlertViewWithTitle:@"Professional Account"
-                                    message:@"Professional accounts allow chefs, sommeliers, and other restaurant professionals to connect with their restaurants and give more insight into who they are. Setup your professional account now?"
+                                    message:@"Professionals in the restaurant or culinary industry can link their account to a restaurant or other business and give additional insight into their background. Apply for a professional account now?"
                                    delegate:self
                           cancelButtonTitle:@"Cancel"
-                          otherButtonTitles:@"Continue", nil];
+                          otherButtonTitles:@"Apply", nil];
         return NO;
     } else if ([identifier isEqualToString:MRSLStoryboardSegueAccountSettingsKey] && ![[MRSLUser currentUser] passwordSetValue]) {
         MRSLUser *currentUser = [MRSLUser currentUser];
@@ -188,7 +188,7 @@ NS_ENUM(NSUInteger, MRSLSettingsTableViewSections) {
                                                      [UIAlertView showAlertViewForErrorString:@"Please try again"
                                                                                      delegate:nil];
                                                  }];
-    } else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Continue"]) {
+    } else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Apply"]) {
         //  Update the current_user to a pro account
         [MRSLUser updateCurrentUserToProfessional];
 

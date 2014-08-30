@@ -10,9 +10,17 @@
 
 #import "UINavigationController+Additions.h"
 
-#import "MRSLMorselAddTitleViewController.h"
+#import "MRSLTemplateSelectionViewController.h"
+#import "MRSLMenuBarButtonItem.h"
 
 #import "MRSLUser.h"
+
+@interface MRSLBaseViewController ()
+
+@property (strong, nonatomic) UIBarButtonItem *storedLeftItem;
+@property (strong, nonatomic) UIBarButtonItem *storedRightItem;
+
+@end
 
 @implementation MRSLBaseViewController
 
@@ -21,6 +29,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mp_eventView = @"root";
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(modalWillDisplay:)
+                                                 name:MRSLModalWillDisplayNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(modalWillDismiss:)
+                                                 name:MRSLModalWillDismissNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -37,28 +54,64 @@
                                                                       action:@selector(goBack)];
         backButton.accessibilityLabel = @"Back";
         [self.navigationItem setLeftBarButtonItem:backButton];
-    } else if (([self.navigationController.viewControllers count] == 1 && !self.presentingViewController) || [self.navigationController isDisplayingMorselAdd]) {
+    } else if (([self.navigationController.viewControllers count] == 1 && !self.presentingViewController) || ([self.navigationController isDisplayingMorselAdd] && !self.presentingViewController)) {
         if (!self.navigationController.navigationBarHidden) {
-            UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-burger-bar"]
-                                                                           style:UIBarButtonItemStyleBordered
-                                                                          target:self
-                                                                          action:@selector(displayMenuBar)];
-            menuButton.accessibilityLabel = @"Menu";
-            [self.navigationItem setLeftBarButtonItem:menuButton];
+            MRSLMenuBarButtonItem *menuBarButtonItem = [MRSLMenuBarButtonItem menuBarButtonItem];
+            [(UIButton *)menuBarButtonItem.customView addTarget:self
+                                                         action:@selector(displayMenuBar)
+                                               forControlEvents:UIControlEventTouchUpInside];
+            [self.navigationItem setLeftBarButtonItem:menuBarButtonItem];
         }
     } else if (self.presentingViewController && [self.navigationController.viewControllers count] == 1) {
         if (self.navigationController) {
-            UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-collapse"]
-                                                                           style:UIBarButtonItemStyleBordered
-                                                                          target:self
-                                                                          action:@selector(dismiss)];
-            menuButton.accessibilityLabel = @"Dismiss";
-            [self.navigationItem setLeftBarButtonItem:menuButton];
+            UIBarButtonItem *dismissButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-collapse"]
+                                                                              style:UIBarButtonItemStyleBordered
+                                                                             target:self
+                                                                             action:@selector(dismiss)];
+            dismissButton.accessibilityLabel = @"Dismiss";
+            [self.navigationItem setLeftBarButtonItem:dismissButton];
         }
     }
 }
 
+#pragma mark - Notification Methods
+
+- (void)modalWillDisplay:(NSNotification *)notification {
+    self.storedLeftItem = self.navigationItem.leftBarButtonItem;
+    self.storedRightItem = self.navigationItem.rightBarButtonItem;
+
+    /*
+     Ignoring warning because the dismiss: selector does exist within the notification.object
+     */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                                    style:UIBarButtonItemStyleBordered
+                                                                   target:notification.object
+                                                                   action:@selector(dismiss:)];
+#pragma clang diagnostic pop
+    closeButton.accessibilityLabel = @"Close";
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-transparent"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:nil];
+    [self.navigationItem setLeftBarButtonItem:backButton];
+    [self.navigationItem setRightBarButtonItem:closeButton];
+}
+
+- (void)modalWillDismiss:(NSNotification *)notification {
+    [self.navigationItem setLeftBarButtonItem:_storedLeftItem];
+    [self.navigationItem setRightBarButtonItem:_storedRightItem];
+    self.storedLeftItem = nil;
+    self.storedRightItem = nil;
+}
+
 #pragma mark - Action Methods
+
+- (IBAction)dismissModal {
+
+}
 
 - (IBAction)dismiss {
     UINavigationController *containingNavigationController = self.navigationController;
@@ -84,10 +137,10 @@
 
 - (IBAction)displayMorselAdd {
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Add morsel",
+                                 properties:@{@"_title": @"Create morsel",
                                               @"_view": self.mp_eventView ?: @"menu"}];
-    MRSLMorselAddTitleViewController *morselAddTitleVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselAddTitleViewControllerKey];
-    [self.navigationController pushViewController:morselAddTitleVC
+    MRSLTemplateSelectionViewController *templateSelectionVC = [[UIStoryboard templatesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardTemplateSelectionViewControllerKey];
+    [self.navigationController pushViewController:templateSelectionVC
                                          animated:YES];
 }
 
@@ -144,6 +197,8 @@
 - (void)reset {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self resetChildViewControllers];
+    self.storedLeftItem = nil;
+    self.storedRightItem = nil;
     if (self.navigationItem) {
         [self.navigationItem setLeftBarButtonItem:nil];
         [self.navigationItem setRightBarButtonItem:nil];

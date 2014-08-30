@@ -15,6 +15,7 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *morselPhotoURL;
 	__unsafe_unretained NSString *primary_item_id;
 	__unsafe_unretained NSString *publishedDate;
+	__unsafe_unretained NSString *template_id;
 	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *total_comment_count;
 	__unsafe_unretained NSString *total_like_count;
@@ -34,6 +35,7 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLPlace;
+
 
 
 
@@ -179,6 +181,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validatePublishedDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* template_id;
+
+
+
+@property int16_t template_idValue;
+- (int16_t)template_idValue;
+- (void)setTemplate_idValue:(int16_t)value_;
+
+//- (BOOL)validateTemplate_id:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -349,6 +365,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSDate*)primitivePublishedDate;
 - (void)setPrimitivePublishedDate:(NSDate*)value;
+
+
+
+
+- (NSNumber*)primitiveTemplate_id;
+- (void)setPrimitiveTemplate_id:(NSNumber*)value;
+
+- (int16_t)primitiveTemplate_idValue;
+- (void)setPrimitiveTemplate_idValue:(int16_t)value_;
 
 
 

@@ -8,5 +8,10 @@
 - (NSArray *)itemsArray;
 - (MRSLItem *)coverItem;
 - (BOOL)hasCreatorInfo;
+- (BOOL)hasPlaceholderTitle;
+- (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil;
+
+- (void)reloadTemplateDataIfNecessaryWithSuccess:(MRSLSuccessBlock)successOrNil
+                                         failure:(MRSLFailureBlock)failureOrNil;
 
 @end

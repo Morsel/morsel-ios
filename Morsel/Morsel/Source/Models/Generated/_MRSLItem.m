@@ -21,7 +21,11 @@ const struct MRSLItemAttributes MRSLItemAttributes = {
 	.localUUID = @"localUUID",
 	.morsel_id = @"morsel_id",
 	.photo_processing = @"photo_processing",
+	.placeholder_description = @"placeholder_description",
+	.placeholder_photo_large = @"placeholder_photo_large",
+	.placeholder_photo_small = @"placeholder_photo_small",
 	.sort_order = @"sort_order",
+	.template_order = @"template_order",
 	.url = @"url",
 };
 
@@ -108,6 +112,11 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 	}
 	if ([key isEqualToString:@"sort_orderValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"sort_order"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"template_orderValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"template_order"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -408,6 +417,27 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 
 
+@dynamic placeholder_description;
+
+
+
+
+
+
+@dynamic placeholder_photo_large;
+
+
+
+
+
+
+@dynamic placeholder_photo_small;
+
+
+
+
+
+
 @dynamic sort_order;
 
 
@@ -428,6 +458,32 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 - (void)setPrimitiveSort_orderValue:(int32_t)value_ {
 	[self setPrimitiveSort_order:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic template_order;
+
+
+
+- (int16_t)template_orderValue {
+	NSNumber *result = [self template_order];
+	return [result shortValue];
+}
+
+- (void)setTemplate_orderValue:(int16_t)value_ {
+	[self setTemplate_order:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveTemplate_orderValue {
+	NSNumber *result = [self primitiveTemplate_order];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveTemplate_orderValue:(int16_t)value_ {
+	[self setPrimitiveTemplate_order:[NSNumber numberWithShort:value_]];
 }
 
 

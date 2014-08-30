@@ -14,6 +14,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.morselPhotoURL = @"morselPhotoURL",
 	.primary_item_id = @"primary_item_id",
 	.publishedDate = @"publishedDate",
+	.template_id = @"template_id",
 	.title = @"title",
 	.total_comment_count = @"total_comment_count",
 	.total_like_count = @"total_like_count",
@@ -78,6 +79,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"primary_item_idValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"primary_item_id"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"template_idValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"template_id"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -258,6 +264,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic publishedDate;
 
+
+
+
+
+
+@dynamic template_id;
+
+
+
+- (int16_t)template_idValue {
+	NSNumber *result = [self template_id];
+	return [result shortValue];
+}
+
+- (void)setTemplate_idValue:(int16_t)value_ {
+	[self setTemplate_id:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveTemplate_idValue {
+	NSNumber *result = [self primitiveTemplate_id];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveTemplate_idValue:(int16_t)value_ {
+	[self setPrimitiveTemplate_id:[NSNumber numberWithShort:value_]];
+}
 
 
 

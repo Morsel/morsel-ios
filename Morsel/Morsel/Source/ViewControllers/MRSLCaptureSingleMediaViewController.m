@@ -26,6 +26,7 @@
     [super viewDidLoad];
     self.mp_action = @"edit";
     self.finishButton.hidden = YES;
+    if ([UIDevice has35InchScreen]) [self.approvalImageView setY:0.f];
 }
 
 #pragma mark - Override Methods

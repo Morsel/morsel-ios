@@ -27,12 +27,14 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *reportButton;
+@property (weak, nonatomic) IBOutlet UIButton *placeButton;
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *placeCityStateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *featuredImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *clockImageView;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *morselCoverImageView;
@@ -83,7 +85,7 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
 
 - (void)populateContent {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _morselCoverImageView.item = [_morsel coverItem];
+        self.morselCoverImageView.item = [self.morsel coverItem];
 
         self.featuredImageView.hidden = !([self isHomeFeedItem] && _morsel.feedItemFeaturedValue);
         self.morselTitleLabel.text = _morsel.title;
@@ -95,13 +97,14 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
         _editButton.hidden = ![_morsel.creator isCurrentUser];
         _reportButton.hidden = !_editButton.hidden;
 
-        MRSLItem *firstItem = [_morsel.itemsArray firstObject];
+        MRSLItem *firstItem = [self.morsel.itemsArray firstObject];
         self.moreItemImageView.grayScale = YES;
         self.moreItemImageView.item = firstItem;
         self.moreItemImageView.delegate = self;
 
         _placeNameLabel.hidden = (!_morsel.place);
         _placeCityStateLabel.hidden = (!_morsel.place);
+        _placeButton.enabled = (_morsel.place != nil);
 
         if (_morsel.place) {
             _placeNameLabel.text = _morsel.place.name;
@@ -117,6 +120,14 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
                 [_placeNameLabel setHeight:textSize.height];
             }
             [_placeNameLabel setY:[_placeCityStateLabel getY] - ([_placeNameLabel getHeight] - 5.f)];
+        }
+
+        if (!_morsel.publishedDate) {
+            self.timeAgoLabel.hidden = YES;
+            self.clockImageView.hidden = YES;
+            self.profileImageView.userInteractionEnabled = NO;
+            self.editButton.hidden = YES;
+            self.placeButton.enabled = NO;
         }
     });
 }

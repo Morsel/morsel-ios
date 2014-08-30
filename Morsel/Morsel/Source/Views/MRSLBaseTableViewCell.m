@@ -10,10 +10,6 @@
 
 @interface MRSLBaseTableViewCell ()
 
-- (UIColor *)defaultBackgroundColor;
-- (UIColor *)defaultHighlightedBackgroundColor;
-- (UIColor *)defaultSelectedBackgroundColor;
-
 @property (nonatomic) BOOL togglable;
 
 @end
@@ -35,7 +31,6 @@
 
     [self setBackgroundColor:(selected) ? [self defaultSelectedBackgroundColor] : [self defaultBackgroundColor]];
 }
-
 
 #pragma mark - Private Methods
 

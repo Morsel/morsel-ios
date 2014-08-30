@@ -135,7 +135,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="Capture Media">
                             <bool key="isElement" value="YES"/>
                         </accessibility>
@@ -237,7 +237,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="dsb-o4-0pc">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="dsb-o4-0pc">
                                     <size key="itemSize" width="320" height="460"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -245,17 +245,36 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MediaPreviewCell" id="l5P-nM-H6f" customClass="MRSLImagePreviewCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="kfs-7V-uaK" customClass="MRSLItemImageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="Pb1-d8-jE3" customClass="MRSLPlaceholderTextView">
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <size key="customSize" width="320" height="320"/>
+                                        <connections>
+                                            <outlet property="previewImageView" destination="kfs-7V-uaK" id="drS-ZK-wsW"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_ItemPreviewCell" id="pIv-R7-8Ov" customClass="MRSLImagePreviewCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="320" width="320" height="460"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="7mV-x6-28A" customClass="MRSLItemImageView">
+                                                    <rect key="frame" x="50" y="56" width="220" height="220"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="caB-HS-XQz" customClass="MRSLPlaceholderTextView">
                                                     <rect key="frame" x="0.0" y="335" width="320" height="115"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -263,23 +282,61 @@
                                                     <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                                                 </textView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="geS-eH-53v">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Uya-W0-EzB">
                                                     <rect key="frame" x="0.0" y="335" width="320" height="115"/>
+                                                    <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="editDescription" destination="Ugr-cT-X8v" eventType="touchUpInside" id="MDL-2z-YMT"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Placeholder" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pmm-u8-224" customClass="MRSLRobotoLightItalicLabel">
+                                                    <rect key="frame" x="48" y="0.0" width="224" height="48"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kq5-Pj-B9e" customClass="MRSLRobotoSlabBoldLabel">
+                                                    <rect key="frame" x="0.0" y="0.0" width="40" height="48"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="86I-qC-FJh">
+                                                    <rect key="frame" x="136" y="281" width="48" height="48"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" image="icon-camera">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="retakePhoto" destination="Ugr-cT-X8v" eventType="touchUpInside" id="NvQ-ub-dBk"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jfc-2J-qkx">
+                                                    <rect key="frame" x="50" y="56" width="220" height="217"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="editDescription" destination="Ugr-cT-X8v" eventType="touchUpInside" id="3jL-Ac-xQO"/>
+                                                        <action selector="retakePhoto" destination="Ugr-cT-X8v" eventType="touchUpInside" id="8yH-Fx-8h7"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <outlet property="descriptionButton" destination="geS-eH-53v" id="mYs-AM-aRQ"/>
-                                            <outlet property="descriptionField" destination="Pb1-d8-jE3" id="CiD-zB-N8q"/>
-                                            <outlet property="previewImageView" destination="kfs-7V-uaK" id="drS-ZK-wsW"/>
+                                            <outlet property="descriptionButton" destination="Uya-W0-EzB" id="WCF-n8-bc2"/>
+                                            <outlet property="descriptionField" destination="caB-HS-XQz" id="KSl-e1-dKn"/>
+                                            <outlet property="itemPositionLabel" destination="kq5-Pj-B9e" id="Bur-PG-AlU"/>
+                                            <outlet property="placeholderDescriptionLabel" destination="pmm-u8-224" id="d8d-zR-Z91"/>
+                                            <outlet property="previewImageView" destination="7mV-x6-28A" id="mPO-5L-kg9"/>
+                                            <outlet property="retakePhotoButton" destination="86I-qC-FJh" id="hhP-ek-GoF"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -289,8 +346,8 @@
                                 </connections>
                             </collectionView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="mmb-kL-U3H">
-                                <rect key="frame" x="141" y="310" width="39" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                <rect key="frame" x="290" y="256" width="39" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <color key="pageIndicatorTintColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             </pageControl>
@@ -320,32 +377,25 @@
                                             <action selector="deleteMedia" destination="Ugr-cT-X8v" eventType="touchUpInside" id="WZX-O5-3SF"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nhk-iB-ypG" customClass="MRSLLightButton">
-                                        <rect key="frame" x="0.0" y="0.0" width="120" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Retake Photo">
-                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="disabled">
-                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="selected">
-                                            <color key="titleColor" red="0.59109933039999996" green="0.2456843273" blue="0.17475133740000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" red="0.59299266579999999" green="0.24647127260000001" blue="0.17531107900000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="XXs-BS-oj3">
+                                        <rect key="frame" x="20" y="6" width="51" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <inset key="insetFor6xAndEarlier" minX="16" minY="0.0" maxX="-16" maxY="0.0"/>
                                         <connections>
-                                            <action selector="retakePhoto" destination="Ugr-cT-X8v" eventType="touchUpInside" id="NXm-wH-xbV"/>
+                                            <action selector="toggleCoverPhoto" destination="Ugr-cT-X8v" eventType="valueChanged" id="BoR-vd-e3f"/>
                                         </connections>
-                                    </button>
+                                    </switch>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cover photo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lxQ-BN-zxE" customClass="MRSLRobotoLightLabel">
+                                        <rect key="frame" x="77" y="0.0" width="101" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <inset key="insetFor6xAndEarlier" minX="-20" minY="0.0" maxX="20" maxY="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <outlet property="leftButton" destination="nhk-iB-ypG" id="b87-Vy-Wpc"/>
                                     <outlet property="rightButton" destination="G23-SL-piQ" id="3If-7w-TUG"/>
                                 </connections>
                             </view>
@@ -357,6 +407,8 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="jZG-Ld-bKs"/>
                     <connections>
+                        <outlet property="coverLabel" destination="lxQ-BN-zxE" id="PS1-41-hzZ"/>
+                        <outlet property="coverSwitch" destination="XXs-BS-oj3" id="aif-8v-LqS"/>
                         <outlet property="previewMediaCollectionView" destination="3zV-5S-lXQ" id="ngJ-nT-WMe"/>
                         <outlet property="previewMediaPageControl" destination="mmb-kL-U3H" id="dym-ZL-Y0y"/>
                         <outlet property="toolbar" destination="OL5-p0-EQm" id="zob-o8-Twf"/>
@@ -589,7 +641,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="Capture Media">
                             <bool key="isElement" value="YES"/>
                         </accessibility>
@@ -624,6 +676,7 @@
     <resources>
         <image name="button-capture" width="66" height="66"/>
         <image name="effect-gradient-icon" width="50" height="50"/>
+        <image name="icon-camera" width="30" height="30"/>
         <image name="icon-capture-camera-toggle" width="30" height="23"/>
         <image name="icon-capture-flash-off" width="60" height="44"/>
     </resources>

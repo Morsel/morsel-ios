@@ -17,7 +17,8 @@
 #import "MRSLMorsel.h"
 
 @interface MRSLMorselAddTitleViewController ()
-<UITextViewDelegate>
+<UIAlertViewDelegate,
+UITextViewDelegate>
 
 @property (nonatomic) BOOL isPerformingRequest;
 
@@ -40,13 +41,12 @@
 
     if (_morselID) {
         MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
-        self.morselTitleTextView.text = morsel.title;
-        self.previousTitle = morsel.title;
+        self.morselTitleTextView.text = ([morsel hasPlaceholderTitle]) ? @"" : morsel.title;
+        self.previousTitle = ([morsel hasPlaceholderTitle]) ? @"" : morsel.title;
         [self textViewDidChange:_morselTitleTextView];
-        self.title = @"Edit morsel title";
-    } else {
-        self.title = @"Give your morsel a title";
     }
+
+    self.title = @"Morsel title";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -68,6 +68,18 @@
 }
 
 #pragma mark - Action Methods
+
+- (void)goBack {
+    if ([self isDirty]) {
+        [UIAlertView showAlertViewWithTitle:@"Warning"
+                                    message:@"You have unsaved changes, are you sure you want to discard them?"
+                                   delegate:self
+                          cancelButtonTitle:@"Cancel"
+                          otherButtonTitles:@"Discard", nil];
+    } else {
+        [super goBack];
+    }
+}
 
 - (IBAction)done:(id)sender {
     if (_isPerformingRequest) return;
@@ -125,6 +137,12 @@
     }
 }
 
+#pragma mark - Private Methods
+
+- (BOOL)isDirty {
+    return ![self.previousTitle isEqualToString:self.morselTitleTextView.text];
+}
+
 #pragma mark - UITextViewDelegate Methods
 
 - (void)textViewDidChange:(UITextView *)textView {
@@ -149,6 +167,14 @@
         return NO;
     }
     return YES;
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Discard"]) {
+        [super goBack];
+    }
 }
 
 #pragma mark - Dealloc

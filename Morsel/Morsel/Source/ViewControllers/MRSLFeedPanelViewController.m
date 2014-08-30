@@ -18,6 +18,7 @@
 #import "MRSLModalShareViewController.h"
 #import "MRSLMorselEditViewController.h"
 #import "MRSLProfileImageView.h"
+#import "MRSLTitleItemView.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -32,6 +33,8 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 @property (nonatomic) BOOL isPresentingMorselLayout;
 @property (nonatomic) BOOL isDraggingScrollViewUp;
+@property (nonatomic) BOOL isViewingCover;
+@property (nonatomic) BOOL isViewingItem;
 
 @property (nonatomic) CGFloat previousContentOffset;
 
@@ -51,6 +54,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isViewingCover = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
@@ -95,7 +99,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)displayContent {
     if (_collectionView && _morsel) {
-        self.pageControl.numberOfPages = [_morsel.items count] + 2;
+        self.pageControl.numberOfPages = [_morsel.items count] + (_morsel.publishedDate ? 2 : 1);
         [self.pageControl setY:320.f - ((([_pageControl sizeForNumberOfPages:_pageControl.numberOfPages].width) / 2) + 34.f)];
         self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
 
@@ -116,6 +120,20 @@ MRSLFeedShareCollectionViewCellDelegate>
         visibleItem = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
     }
     return visibleItem;
+}
+
+- (void)displayTitleForCurrentPage:(CGFloat)currentPage {
+    if (![self.navigationController.navigationBar.topItem.titleView isKindOfClass:[MRSLTitleItemView class]]) return;
+    if (currentPage > 0 && currentPage < [_morsel.items count] + 1 && _isViewingCover) {
+        self.isViewingCover = NO;
+        self.isViewingItem = YES;
+        [(MRSLTitleItemView *)self.navigationController.navigationBar.topItem.titleView setTitle:_morsel.title];
+    }
+    if ((currentPage == 0 || currentPage == [_morsel.items count] + 1) && _isViewingItem) {
+        self.isViewingItem = NO;
+        self.isViewingCover = YES;
+        [(MRSLTitleItemView *)self.navigationController.navigationBar.topItem.titleView setTitle:nil];
+    }
 }
 
 #pragma mark - Action Methods
@@ -225,7 +243,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return !_morsel ? 0 : ([_morsel.items count] + 2);
+    return !_morsel ? 0 : ([_morsel.items count] + (_morsel.publishedDate ? 2 : 1));
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -271,6 +289,7 @@ MRSLFeedShareCollectionViewCellDelegate>
     } else if (_previousContentOffset < scrollView.contentOffset.y) {
         self.scrollDirection = MRSLScrollDirectionUp;
     }
+    [self displayTitleForCurrentPage:currentPage];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {

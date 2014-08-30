@@ -15,14 +15,15 @@
 
 - (BOOL)isDisplayingMorselAdd {
     __block BOOL isOnMorselAddFlow = YES;
-    [self.viewControllers enumerateObjectsUsingBlock:^(UIViewController *viewController, NSUInteger idx, BOOL *stop) {
+
+    for (UIViewController *viewController in self.viewControllers) {
         if ([viewController isKindOfClass:[MRSLMorselListViewController class]]) {
             isOnMorselAddFlow = NO;
-            *stop = YES;
+            break;
         }
-    }];
+    }
     if (isOnMorselAddFlow) {
-        isOnMorselAddFlow = [[self.viewControllers lastObject] isKindOfClass:[MRSLMorselEditViewController class]] && [self.viewControllers count] == 2;
+        isOnMorselAddFlow = [[self.viewControllers lastObject] isKindOfClass:[MRSLMorselEditViewController class]];
     }
     return isOnMorselAddFlow;
 }

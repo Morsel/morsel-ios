@@ -8,6 +8,8 @@
 
 #import "UIViewController+Base.h"
 
+#import "MRSLMenuBarButtonItem.h"
+
 #import "MRSLUser.h"
 
 @implementation UIViewController (Base)
@@ -21,11 +23,11 @@
         [self.navigationItem setLeftBarButtonItem:backButton];
     } else if ([self.navigationController.viewControllers count] == 1 && !self.presentingViewController) {
         if (!self.navigationController.navigationBarHidden) {
-            UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-burger-bar"]
-                                                                           style:UIBarButtonItemStyleBordered
-                                                                          target:self
-                                                                          action:@selector(displayMenuBar)];
-            [self.navigationItem setLeftBarButtonItem:menuButton];
+            MRSLMenuBarButtonItem *menuBarButtonItem = [MRSLMenuBarButtonItem menuBarButtonItem];
+            [(UIButton *)menuBarButtonItem.customView addTarget:self
+                                                         action:@selector(displayMenuBar)
+                                               forControlEvents:UIControlEventTouchUpInside];
+            [self.navigationItem setLeftBarButtonItem:menuBarButtonItem];
             if ([[MRSLUser currentUser] isProfessional]) {
                 UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Add"
                                                                               style:UIBarButtonItemStyleBordered

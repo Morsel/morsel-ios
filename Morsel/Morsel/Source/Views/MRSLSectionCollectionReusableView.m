@@ -10,7 +10,7 @@
 
 @interface MRSLSectionCollectionReusableView ()
 
-@property (nonatomic, strong) MRSLSectionView *sectionView;
+@property (strong, nonatomic) MRSLSectionView *sectionView;
 
 @end
 

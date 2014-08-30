@@ -9,6 +9,7 @@
 #import "MRSLMediaItemPreviewViewController.h"
 
 #import "MRSLAPIService+Item.h"
+#import "MRSLAPIService+Morsel.h"
 
 #import "MRSLCaptureSingleMediaViewController.h"
 #import "MRSLImagePreviewCollectionViewCell.h"
@@ -25,12 +26,17 @@ UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
 CaptureMediaViewControllerDelegate>
 
+@property (nonatomic) BOOL isDisplayingItems;
+
 @property (weak, nonatomic) IBOutlet UICollectionView *previewMediaCollectionView;
 @property (weak, nonatomic) IBOutlet UIPageControl *previewMediaPageControl;
 @property (weak, nonatomic) IBOutlet MRSLToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UISwitch *coverSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *coverLabel;
 
 @property (nonatomic) NSUInteger currentIndex;
 
+@property (strong, nonatomic) NSString *cellIdentifier;
 @property (strong, nonatomic) NSMutableArray *previewMedia;
 
 @end
@@ -45,8 +51,25 @@ CaptureMediaViewControllerDelegate>
     [self.previewMediaPageControl addTarget:self
                                      action:@selector(changePage:)
                            forControlEvents:UIControlEventValueChanged];
+    self.previewMediaPageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
 
     [self setupControls];
+
+    if ([UIDevice has35InchScreen]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
+                                                                                        inSection:0]
+                                                    atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                                            animated:NO];
+            [self updateControls];
+        });
+    } else {
+        [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
+                                                                                    inSection:0]
+                                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                                        animated:NO];
+        [self updateControls];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -65,10 +88,6 @@ CaptureMediaViewControllerDelegate>
                                                                   target:self
                                                                   action:nil];
     [self.navigationItem setLeftBarButtonItem:backButton];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
 - (void)setPreviewMedia:(NSMutableArray *)media andStartingIndex:(NSUInteger)index {
@@ -91,38 +110,41 @@ CaptureMediaViewControllerDelegate>
 
 - (void)setupControls {
     id firstMediaItem = [_previewMedia firstObject];
+    self.isDisplayingItems = [firstMediaItem isKindOfClass:[MRSLItem class]];
 
-    if ([firstMediaItem isKindOfClass:[MRSLItem class]]) {
-        self.title = @"Your morsel";
-        self.mp_eventView = @"your_morsel";
-        self.toolbar.leftButton.hidden = NO;
+    if (_isDisplayingItems) {
+        self.title = @"Morsel checklist";
+        self.mp_eventView = @"morsel_checklist";
+        self.cellIdentifier = MRSLStoryboardRUIDItemPreviewCellKey;
     } else {
         self.title = @"Image preview";
         self.mp_eventView = @"image_preview";
-        self.toolbar.leftButton.hidden = YES;
+        self.coverSwitch.hidden = YES;
+        self.coverLabel.hidden = YES;
+        self.cellIdentifier = MRSLStoryboardRUIDMediaPreviewCellKey;
     }
 
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
     [self.previewMediaPageControl setCurrentPage:_currentIndex];
+    [self.previewMediaPageControl setY:320.f - ((([_previewMediaPageControl sizeForNumberOfPages:_previewMediaPageControl.numberOfPages].width) / 2) + 34.f)];
 
     [self.previewMediaCollectionView reloadData];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
-                                                                                    inSection:0]
-                                                atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                                        animated:NO];
-    });
-
-    if ([_previewMedia count] == 1) [self updateControls];
 }
 
 - (void)updateControls {
-    self.currentIndex = _previewMediaCollectionView.contentOffset.x / _previewMediaCollectionView.frame.size.width;
+    self.currentIndex = _previewMediaCollectionView.contentOffset.y / _previewMediaCollectionView.frame.size.height;
 
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
     [self.previewMediaPageControl setCurrentPage:_currentIndex];
     self.previewMediaPageControl.hidden = ([_previewMedia count] == 1);
+    [self.previewMediaPageControl setY:320.f - ((([_previewMediaPageControl sizeForNumberOfPages:_previewMediaPageControl.numberOfPages].width) / 2) + 34.f)];
+
+    if (_isDisplayingItems) {
+        MRSLItem *currentVisibleItem = [_previewMedia objectAtIndex:_currentIndex];
+        BOOL currentItemIsCover = [currentVisibleItem isCoverItem];
+        self.coverSwitch.enabled = !currentItemIsCover;
+        [self.coverSwitch setOn:currentItemIsCover];
+    }
 }
 
 - (void)removeMediaItemAtCurrentIndex {
@@ -154,6 +176,26 @@ CaptureMediaViewControllerDelegate>
 }
 
 #pragma mark - Action Methods
+
+- (IBAction)toggleCoverPhoto {
+    MRSLItem *currentVisibleItem = [_previewMedia objectAtIndex:_currentIndex];
+    currentVisibleItem.morsel.primary_item_id = currentVisibleItem.itemID;
+    __weak __typeof(self)weakSelf = self;
+    [_appDelegate.apiService updateMorsel:currentVisibleItem.morsel
+                                  success:^(id responseObject) {
+                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                          weakSelf.coverSwitch.enabled = NO;
+                                      });
+                                  } failure:^(NSError *error) {
+                                      if (weakSelf) {
+                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                              [weakSelf.coverSwitch setOn:NO];
+                                              [UIAlertView showAlertViewForErrorString:@"Unable to set cover photo. Please try again."
+                                                                              delegate:nil];
+                                          });
+                                      }
+                                  }];
+}
 
 - (IBAction)editDescription {
     MRSLItem *item = [_previewMedia objectAtIndex:_currentIndex];
@@ -191,7 +233,7 @@ CaptureMediaViewControllerDelegate>
 
 - (void)changePage:(UIPageControl *)pageControl {
     [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:pageControl.currentPage inSection:0]
-                                            atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                            atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                                     animated:YES];
 }
 
@@ -203,9 +245,13 @@ CaptureMediaViewControllerDelegate>
 
 - (MRSLImagePreviewCollectionViewCell *)collectionView:(UICollectionView *)collectionView
                                 cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLImagePreviewCollectionViewCell *previewImageCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMediaPreviewCellKey
+    MRSLImagePreviewCollectionViewCell *previewImageCell = [collectionView dequeueReusableCellWithReuseIdentifier:_cellIdentifier
                                                                                                      forIndexPath:indexPath];
     previewImageCell.mediaPreviewItem = [_previewMedia objectAtIndex:indexPath.row];
+    if (previewImageCell.itemPositionLabel) {
+        NSInteger itemPosition = indexPath.row + 1;
+        previewImageCell.itemPositionLabel.text = [NSString stringWithFormat:@"%li", (long)itemPosition];
+    }
     return previewImageCell;
 }
 

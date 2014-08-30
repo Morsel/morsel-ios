@@ -1,9 +1,12 @@
 #import "MRSLMorsel.h"
 
 #import "MRSLAPIService+Report.h"
+#import "MRSLAPIService+Templates.h"
 
 #import "MRSLItem.h"
 #import "MRSLPlace.h"
+#import "MRSLTemplate.h"
+#import "MRSLTemplateItem.h"
 #import "MRSLUser.h"
 
 @implementation MRSLMorsel
@@ -42,12 +45,11 @@
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
     objectInfoJSON[@"title"] = NSNullIfNil(self.title);
-    if (self.draft) objectInfoJSON[@"draft"] = (self.draftValue) ? @"true" : @"false";
-    if (self.place) objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
-
+    objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
+    if (self.template_id) objectInfoJSON[@"template_id"] = NSNullIfNil(self.template_id);
     MRSLItem *coverItem = [self coverItem];
     if (coverItem) objectInfoJSON[@"primary_item_id"] = NSNullIfNil(coverItem.itemID);
-    
+
     return objectInfoJSON;
 }
 
@@ -62,6 +64,12 @@
     return self.creator && self.creator.username;
 }
 
+- (BOOL)hasPlaceholderTitle {
+    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
+                                                               withValue:self.template_id];
+    return ([[self.title lowercaseString] isEqualToString:[[NSString stringWithFormat:@"%@ morsel", morselTemplate.title] lowercaseString]]) || [[self.title lowercaseString] isEqualToString:@"new morsel"];
+}
+
 - (NSString *)reportableUrlString {
     return [NSString stringWithFormat:@"morsels/%i/report", self.morselIDValue];
 }
@@ -73,6 +81,59 @@
                                     failure:failureOrNil];
 }
 
+- (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil {
+    // Specifically to ensure the cover photo full NSData is available for Instagram distribution
+    MRSLItem *coverItem = [self coverItem];
+    if (coverItem.itemPhotoFull) return coverItem.itemPhotoFull;
+
+    if (!coverItem.itemPhotoFull && coverItem.itemPhotoURL && !coverItem.photo_processingValue) {
+        __block NSManagedObjectContext *workContext = nil;
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            workContext = localContext;
+            MRSLItem *localContextCoverItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                      withValue:coverItem.itemID
+                                                                      inContext:localContext];
+            localContextCoverItem.itemPhotoFull = [NSData dataWithContentsOfURL:[coverItem imageURLRequestForImageSizeType:MRSLImageSizeTypeFull].URL];
+        } completion:^(BOOL success, NSError *error) {
+            [workContext reset];
+            if (completionOrNil) completionOrNil(success, error);
+        }];
+    } else if(completionOrNil) {
+        completionOrNil(NO, nil);
+    }
+
+    return nil;
+}
+
+- (void)reloadTemplateDataIfNecessaryWithSuccess:(MRSLSuccessBlock)successOrNil
+                                         failure:(MRSLFailureBlock)failureOrNil {
+    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
+                                                               withValue:self.template_id ?: @(1)];
+    if (morselTemplate) {
+        [self reloadPlaceholderItemsWithSuccess:successOrNil
+                                        failure:failureOrNil];
+    }
+}
+
+- (void)reloadPlaceholderItemsWithSuccess:(MRSLSuccessBlock)successOrNil
+                                  failure:(MRSLFailureBlock)failureOrNil {
+    __weak __typeof(self)weakSelf = self;
+    MRSLMorsel *localContextMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                               withValue:weakSelf.morselID];
+    for (MRSLItem *item in localContextMorsel.items) {
+        if (item.template_order && !item.placeholder_description) {
+            MRSLTemplateItem *templateItem = [MRSLTemplateItem MR_findFirstByAttribute:MRSLTemplateItemAttributes.template_order
+                                                                             withValue:item.template_order];
+            item.placeholder_description = templateItem.placeholder_description;
+            item.placeholder_photo_large = templateItem.placeholder_photo_large;
+            item.placeholder_photo_small = templateItem.placeholder_photo_small;
+        }
+    }
+    [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+        if (successOrNil) successOrNil(success);
+    }];
+}
+
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
@@ -80,8 +141,8 @@
         !self.creator) {
         NSNumber *creatorID = data[@"creator_id"];
         MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                               withValue:creatorID
-                                               inContext:self.managedObjectContext];
+                                                 withValue:creatorID
+                                                 inContext:self.managedObjectContext];
         if (!user) {
             user = [MRSLUser MR_createInContext:self.managedObjectContext];
             user.userID = data[@"creator_id"];

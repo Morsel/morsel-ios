@@ -23,6 +23,8 @@
 
 + (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context {
     MRSLItem *item = [MRSLItem MR_createInContext:context];
+    int randomID = arc4random_uniform(1410065407);
+    item.itemID = @(randomID);
 
     NSString *uniqueUUID = [[NSUUID UUID] UUIDString];
 
@@ -51,33 +53,48 @@
 }
 
 - (void)API_prepareAndUploadPresignedUpload {
+    __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService getItem:self
                           parameters:@{ @"prepare_presigned_upload": @"true" }
                              success:^(id responseObject) {
-                                 [self S3_updateImage];
+                                 if (weakSelf) [weakSelf S3_updateImage];
                              } failure:^(NSError *error) {
-                                 [_appDelegate.apiService updateItemImage:self
-                                                                  success:nil
-                                                                  failure:nil];
+                                 [_appDelegate.apiService updateItemImage:weakSelf
+                                                                  success:^(id responseObject) {
+                                                                      if (weakSelf) weakSelf.isUploading = @NO;
+                                                                  } failure:nil];
                              }];
 }
 
 - (void)S3_updateImage {
+    __weak __typeof(self)weakSelf = self;
     [_appDelegate.s3Service uploadImageData:self.itemPhotoFull
                          forPresignedUpload:self.presignedUpload
                                     success:^(NSDictionary *responseDictionary) {
                                         [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
-                                                                        forItem:self
+                                                                        forItem:weakSelf
                                                                         success:^(id responseObject) {
-                                                                            [self.presignedUpload MR_deleteEntity];
-                                                                            [self.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                                            if (weakSelf) {
+                                                                                [weakSelf.presignedUpload MR_deleteEntity];
+                                                                                [weakSelf.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                                                weakSelf.isUploading = @NO;
+                                                                            }
                                                                         } failure:nil];
                                     } failure:^(NSError *error) {
                                         //  S3 upload failed, fallback to API upload
                                         [_appDelegate.apiService updateItemImage:self
-                                                                         success:nil
-                                                                         failure:nil];
+                                                                         success:^(id responseObject) {
+                                                                             if (weakSelf) weakSelf.isUploading = @NO;
+                                                                         } failure:nil];
                                     }];
+}
+
+- (BOOL)isCoverItem {
+    return [[self.morsel coverItem] isEqual:self];
+}
+
+- (BOOL)isTemplatePlaceholderItem {
+    return (self.template_order != nil && !self.itemPhotoURL && !self.itemPhotoFull);
 }
 
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
@@ -239,6 +256,8 @@
     if (self.itemDescription) objectInfoJSON[@"description"] = self.itemDescription;
 
     if (self.localUUID) objectInfoJSON[@"nonce"] = self.localUUID;
+
+    if (self.template_order) objectInfoJSON[@"template_order"] = self.template_order;
 
     if (self.morsel) {
         if (self.morsel.morselID) objectInfoJSON[@"morsel_id"] = self.morsel.morselID;

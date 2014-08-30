@@ -55,6 +55,10 @@
     return UIColorFromRGB(0xEE8872);
 }
 
++ (UIColor *)morselPrimaryLightest {
+    return UIColorFromRGB(0xFEEEEA);
+}
+
 + (UIColor *)morselPrimaryDark {
     return UIColorFromRGB(0x87392B);
 }
