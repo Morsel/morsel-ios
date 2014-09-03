@@ -163,7 +163,7 @@
 
 - (IBAction)toggleLike {
     _likeButton.enabled = NO;
-
+    if (!_item.managedObjectContext) return;
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Like Icon",
                                               @"_view": @"feed",
