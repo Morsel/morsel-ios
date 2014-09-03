@@ -12,6 +12,7 @@
 
 #import "MRSLAPIService+Feed.h"
 #import "NSMutableArray+Additions.h"
+#import "UIButton+Additions.h"
 
 #import "MRSLCollectionView.h"
 #import "MRSLFeedPanelCollectionViewCell.h"
@@ -289,24 +290,24 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [onboardingButton setAdjustsImageWhenDisabled:NO];
     [onboardingButton setAdjustsImageWhenHighlighted:NO];
     [onboardingButton setAlpha:0.0f];
-    [onboardingButton addTarget:self
-                         action:@selector(dismissOnboarding:)
-               forControlEvents:UIControlEventTouchUpInside];
+    __weak __typeof(onboardingButton)weakOnboardingButton = onboardingButton;
+    [onboardingButton setAction:kUIButtonBlockTouchUpInside
+                      withBlock:^{
+                          __strong __typeof(weakOnboardingButton)strongOnboardingButton = weakOnboardingButton;
+                          if (strongOnboardingButton) {
+                              [strongOnboardingButton setEnabled:NO];
+                              [UIView animateWithDefaultDurationAnimations:^{
+                                  [strongOnboardingButton setAlpha:0.f];
+                              } completion:^(BOOL finished) {
+                                  [strongOnboardingButton removeFromSuperview];
+                              }];
+                          }
+    }];
     [self.view.window addSubview:onboardingButton];
     [UIView animateWithDefaultDurationAnimations:^{
         [onboardingButton setAlpha:1.0f];
     }];
 }
-
-- (void)dismissOnboarding:(id)sender {
-    [sender setEnabled:NO];
-    [UIView animateWithDefaultDurationAnimations:^{
-        [sender setAlpha:0.0f];
-    } completion:^(BOOL finished) {
-        [sender removeFromSuperview];
-    }];
-}
-
 
 #pragma mark - Section Methods
 
