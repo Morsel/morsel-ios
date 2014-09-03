@@ -25,6 +25,9 @@
 		06004D601989B7DF002018CC /* MRSLIntegrationAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06004D5F1989B7DF002018CC /* MRSLIntegrationAppDelegate.m */; };
 		0609B8371894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B8361894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.m */; };
 		0609B8401894B52E005A11A4 /* MRSLCameraPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0609B83F1894B52E005A11A4 /* MRSLCameraPreviewView.m */; };
+		060C97A519B7B08D006AAC43 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060C97A419B7B08D006AAC43 /* UIButton+Additions.m */; };
+		060C97A619B7B08D006AAC43 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060C97A419B7B08D006AAC43 /* UIButton+Additions.m */; };
+		060C97A719B7B08D006AAC43 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060C97A419B7B08D006AAC43 /* UIButton+Additions.m */; };
 		060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */; };
 		061142A118F2766A00FA38BC /* MRSLModalShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061142A018F2766A00FA38BC /* MRSLModalShareViewController.m */; };
 		061531C218E220530025F07E /* RobotoSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 061531C018E220530025F07E /* RobotoSlab-Bold.ttf */; };
@@ -690,6 +693,8 @@
 		0609B8361894A9E6005A11A4 /* MRSLBaseCaptureMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLBaseCaptureMediaViewController.m; sourceTree = "<group>"; };
 		0609B83E1894B52E005A11A4 /* MRSLCameraPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLCameraPreviewView.h; path = Source/Views/MRSLCameraPreviewView.h; sourceTree = "<group>"; };
 		0609B83F1894B52E005A11A4 /* MRSLCameraPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLCameraPreviewView.m; path = Source/Views/MRSLCameraPreviewView.m; sourceTree = "<group>"; };
+		060C97A319B7B08D006AAC43 /* UIButton+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Additions.h"; sourceTree = "<group>"; };
+		060C97A419B7B08D006AAC43 /* UIButton+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Additions.m"; sourceTree = "<group>"; };
 		060FEC4718DCC75E00085ED1 /* MRSLBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseViewController.h; sourceTree = "<group>"; };
 		060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLBaseViewController.m; sourceTree = "<group>"; };
 		0611429F18F2766A00FA38BC /* MRSLModalShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalShareViewController.h; sourceTree = "<group>"; };
@@ -1914,6 +1919,8 @@
 				4005ED8318A19965005B8484 /* UIAlertView+Additions.m */,
 				06CDA743199A87E9004786F0 /* UIBarButtonItem+Additions.h */,
 				06CDA744199A87E9004786F0 /* UIBarButtonItem+Additions.m */,
+				060C97A319B7B08D006AAC43 /* UIButton+Additions.h */,
+				060C97A419B7B08D006AAC43 /* UIButton+Additions.m */,
 				40854F8F19747EFA0015DFBB /* UICollectionView+Additions.h */,
 				40854F9019747EFA0015DFBB /* UICollectionView+Additions.m */,
 				40854F8A19747EB10015DFBB /* UICollectionView+States.h */,
@@ -1928,6 +1935,8 @@
 				068B04DB195A083C004B302F /* UIImage+Color.m */,
 				0669C5111871FD370093132F /* UIImage+Resize.h */,
 				0669C5121871FD370093132F /* UIImage+Resize.m */,
+				4095840719AE8D4E00612A52 /* UIImage+Watermark.h */,
+				4095840819AE8D4E00612A52 /* UIImage+Watermark.m */,
 				4068303719804B0E00C293D1 /* UIImagePickerController+StatusBarHidden.h */,
 				4068303819804B0E00C293D1 /* UIImagePickerController+StatusBarHidden.m */,
 				06ECF61C1975AF4F005AAB63 /* UINavigationController+Additions.h */,
@@ -1948,8 +1957,6 @@
 				40854F8619747A350015DFBB /* UIView+States.m */,
 				06D053681986B7B30065916D /* UIViewController+Additions.h */,
 				06D053691986B7B30065916D /* UIViewController+Additions.m */,
-				4095840719AE8D4E00612A52 /* UIImage+Watermark.h */,
-				4095840819AE8D4E00612A52 /* UIImage+Watermark.m */,
 			);
 			name = Categories;
 			path = Morsel/Source/Categories;
@@ -3109,6 +3116,7 @@
 				061F93531910174300608C0B /* MRSLTagBaseCell.m in Sources */,
 				06DAFB5E191A93FA0044AF3E /* MRSLAPIService+Follow.m in Sources */,
 				061F93501910096E00608C0B /* MRSLTagStatsSupplmentaryCell.m in Sources */,
+				060C97A519B7B08D006AAC43 /* UIButton+Additions.m in Sources */,
 				0637B67919377B5300358F25 /* MRSLPlacesAddViewController.m in Sources */,
 				407FDF5E194807E4005FEEBF /* RollbarLogger.m in Sources */,
 				06256C6E196DC07000E32630 /* MRSLMenuItem.m in Sources */,
@@ -3268,6 +3276,7 @@
 				40854F79197440830015DFBB /* UITableView+States.m in Sources */,
 				066E8C2E191AAC7200991165 /* MRSLSocialServiceFacebook.m in Sources */,
 				066E8C2F191AAC7200991165 /* MRSLSocialServiceTwitter.m in Sources */,
+				060C97A619B7B08D006AAC43 /* UIButton+Additions.m in Sources */,
 				4062A4F2196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */,
 				40677334196BAAFD0055BEAE /* MRSLS3Client.m in Sources */,
 				06DAFB65191AA20E0044AF3E /* MRSLAPIService+Tag.m in Sources */,
@@ -3496,6 +3505,7 @@
 				06C4DE3519897E14009B6406 /* MRSLSocialComposeViewController.m in Sources */,
 				06C4DE3619897E14009B6406 /* MRSLKeywordUsersViewController.m in Sources */,
 				06C4DE3719897E14009B6406 /* MRSLToggleKeywordsTableViewController.m in Sources */,
+				060C97A719B7B08D006AAC43 /* UIButton+Additions.m in Sources */,
 				06C4DE3819897E14009B6406 /* MRSLUserFollowListViewController.m in Sources */,
 				06153B8B19956C16000C486D /* MRSLAPIService+Report.m in Sources */,
 				06C4DE3919897E14009B6406 /* MRSLUserMorselsFeedViewController.m in Sources */,

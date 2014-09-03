@@ -356,6 +356,7 @@ MRSLSegmentedButtonViewDelegate>
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row > [_users count] - 1) return;
     MRSLUser *user = [_users objectAtIndex:indexPath.row];
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
     profileVC.user = user;
