@@ -86,7 +86,7 @@
         }];
     } else {
         [FBSession.activeSession closeAndClearTokenInformation];
-        _facebookUsernameLabel.text = @"";
+        _facebookUsernameLabel.text = @"Connect with Facebook ➡︎";
         _facebookSwitch.on = NO;
     }
 }
@@ -98,13 +98,18 @@
     [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:^(BOOL success) {
         [_appDelegate.apiService deleteUserAuthentication:[MRSLSocialServiceTwitter sharedService].socialAuthentication
                                                   success:^(id responseObject) {
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          weakSelf.twitterUsernameLabel.text = @"Connect with Twitter ➡︎";
+                                                      });
                                                       [weakSelf toggleSwitch:weakSelf.twitterSwitch
                                                                 shouldEnable:NO];
                                                       [[MRSLSocialServiceTwitter sharedService] reset];
-                                                      weakSelf.twitterUsernameLabel.text = @"";
                                                   } failure:^(NSError *error) {
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          weakSelf.twitterUsernameLabel.text = @"Connect with Twitter ➡︎";
+                                                      });
                                                       [weakSelf toggleSwitch:weakSelf.twitterSwitch
-                                                                shouldEnable:YES];
+                                                                shouldEnable:NO];
                                                   }];
     } failure:^(NSError *error) {
         [[MRSLSocialServiceTwitter sharedService] authenticateWithTwitterWithSuccess:^(BOOL success) {
@@ -135,13 +140,18 @@
     [[MRSLSocialServiceInstagram sharedService] checkForValidInstagramAuthenticationWithSuccess:^(BOOL success) {
         [_appDelegate.apiService deleteUserAuthentication:[MRSLSocialServiceInstagram sharedService].socialAuthentication
                                                   success:^(id responseObject) {
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          weakSelf.instagramUsernameLabel.text = @"Connect with Instagram ➡︎";
+                                                      });
                                                       [weakSelf toggleSwitch:weakSelf.instagramSwitch
                                                                 shouldEnable:NO];
                                                       [[MRSLSocialServiceInstagram sharedService] reset];
-                                                      weakSelf.instagramUsernameLabel.text = @"";
                                                   } failure:^(NSError *error) {
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          weakSelf.instagramUsernameLabel.text = @"Connect with Instagram ➡︎";
+                                                      });
                                                       [weakSelf toggleSwitch:weakSelf.instagramSwitch
-                                                                shouldEnable:YES];
+                                                                shouldEnable:NO];
                                                   }];
     } failure:^(NSError *error) {
         [[MRSLSocialServiceInstagram sharedService] authenticateWithInstagramWithSuccess:^(BOOL success) {
