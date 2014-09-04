@@ -3802,7 +3802,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DB_APP_ID = pzh0ne5iy99ym8u;
-				FB_APP_ID = 1494348764142824;
+				FB_APP_ID = 1494349067476127;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
@@ -3810,14 +3810,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
-				INSTA_CALLBACK = "insta-morsel-debug";
+				INSTA_CALLBACK = "insta-morsel-staging";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				SOCIAL_DISPLAY_NAME = "Morsel Debug";
+				SOCIAL_DISPLAY_NAME = "Morsel Staging";
 				TARGETED_DEVICE_FAMILY = 1;
-				TW_CALLBACK = "tw-morsel-debug";
+				TW_CALLBACK = "tw-morsel-staging";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Integration;
@@ -3988,7 +3988,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DB_APP_ID = pzh0ne5iy99ym8u;
-				FB_APP_ID = 1494348764142824;
+				FB_APP_ID = 1494349067476127;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
@@ -3996,14 +3996,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
-				INSTA_CALLBACK = "insta-morsel-debug";
+				INSTA_CALLBACK = "insta-morsel-staging";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				SOCIAL_DISPLAY_NAME = "Morsel Debug";
+				SOCIAL_DISPLAY_NAME = "Morsel Staging";
 				TARGETED_DEVICE_FAMILY = 1;
-				TW_CALLBACK = "tw-morsel-debug";
+				TW_CALLBACK = "tw-morsel-staging";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4252,7 +4252,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DB_APP_ID = pzh0ne5iy99ym8u;
-				FB_APP_ID = 1494348764142824;
+				FB_APP_ID = 1494349067476127;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
@@ -4260,14 +4260,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
-				INSTA_CALLBACK = "insta-morsel-debug";
+				INSTA_CALLBACK = "insta-morsel-staging";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				SOCIAL_DISPLAY_NAME = "Morsel Debug";
+				SOCIAL_DISPLAY_NAME = "Morsel Staging";
 				TARGETED_DEVICE_FAMILY = 1;
-				TW_CALLBACK = "tw-morsel-debug";
+				TW_CALLBACK = "tw-morsel-staging";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Specs;
@@ -4398,7 +4398,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				DB_APP_ID = 6jjbiuc2h1eurub;
-				FB_APP_ID = 1494915117419522;
+				FB_APP_ID = 1402286360015732;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
@@ -4411,13 +4411,13 @@
 					"MORSEL_BETA=1",
 				);
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
-				INSTA_CALLBACK = "insta-morsel-beta";
+				INSTA_CALLBACK = "insta-morsel";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				SOCIAL_DISPLAY_NAME = "Morsel Beta";
+				SOCIAL_DISPLAY_NAME = Morsel;
 				TARGETED_DEVICE_FAMILY = 1;
-				TW_CALLBACK = "tw-morsel-beta";
+				TW_CALLBACK = "tw-morsel";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Beta;
@@ -4557,13 +4557,13 @@
 					"MORSEL_ALPHA=1",
 				);
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
-				INSTA_CALLBACK = "insta-morsel-alpha";
+				INSTA_CALLBACK = "insta-morsel-staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				SOCIAL_DISPLAY_NAME = "Morsel Alpha";
+				SOCIAL_DISPLAY_NAME = "Morsel Staging";
 				TARGETED_DEVICE_FAMILY = 1;
-				TW_CALLBACK = "tw-morsel-alpha";
+				TW_CALLBACK = "tw-morsel-staging";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Alpha;
