@@ -16,6 +16,7 @@
 #import "MRSLLoginViewController.h"
 #import "MRSLSignUpViewController.h"
 
+#import "MRSLUser.h"
 #import "MRSLSocialUser.h"
 
 @interface MRSLLandingViewController ()
@@ -27,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *emailButton;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIButton *guestButton;
 @property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @property (strong, nonatomic) MRSLSocialUser *socialUser;
@@ -115,6 +117,10 @@
                                               @"_view": self.mp_eventView}];
     [self performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
                               sender:nil];
+}
+
+- (IBAction)continueAsGuest {
+    [MRSLUser createGuestUser];
 }
 
 #pragma mark - Social Methods

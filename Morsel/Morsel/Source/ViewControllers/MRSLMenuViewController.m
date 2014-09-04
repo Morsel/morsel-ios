@@ -21,6 +21,7 @@
 UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet UILabel *profileLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *menuTableView;
@@ -175,6 +176,7 @@ UITableViewDelegate>
     [self.menuTableView selectRowAtIndexPath:_selectedIndexPath
                                     animated:NO
                               scrollPosition:UITableViewScrollPositionNone];
+    self.profileLabel.text = [MRSLUser isCurrentUserGuest] ? @"sign up" : @"view profile";
 }
 
 - (void)clearUserInformation {

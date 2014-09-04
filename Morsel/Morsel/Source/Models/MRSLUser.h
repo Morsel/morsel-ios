@@ -9,6 +9,7 @@
 + (NSString *)apiTokenForCurrentUser;
 + (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID;
 + (MRSLUser *)createOrUpdateUserFromResponseObject:(id)responseObject existingUser:(BOOL)existingUser;
++ (MRSLUser *)createGuestUser;
 + (void)updateCurrentUserToProfessional;
 + (void)resetThirdPartySettings;
 + (void)API_updateNotificationsAmount:(MRSLAPICountBlock)amountOrNil
@@ -17,6 +18,7 @@
                                   failure:(MRSLFailureBlock)failureOrNil;
 + (void)incrementCurrentUserDraftCount;
 + (void)decrementCurrentUserDraftCount;
++ (BOOL)isCurrentUserGuest;
 
 - (BOOL)isCurrentUser;
 - (BOOL)isProfessional;

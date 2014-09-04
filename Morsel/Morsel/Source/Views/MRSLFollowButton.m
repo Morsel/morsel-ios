@@ -48,6 +48,11 @@
 }
 
 - (void)toggleFollow {
+    if ([MRSLUser isCurrentUserGuest]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                            object:nil];
+        return;
+    }
     __weak __typeof(self) weakSelf = self;
     if (_user) {
         [[MRSLEventManager sharedManager] track:@"Tapped Button"

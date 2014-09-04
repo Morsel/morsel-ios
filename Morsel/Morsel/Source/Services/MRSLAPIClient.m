@@ -10,6 +10,8 @@
 
 #import "JSONResponseSerializerWithData.h"
 
+#import "MRSLUser.h"
+
 @implementation MRSLAPIClient
 
 #pragma mark - Class Methods
@@ -37,6 +39,10 @@
                         parameters:(NSDictionary *)parameters
                            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))successOrNil
                            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failureOrNil {
+    if ([MRSLUser isCurrentUserGuest]) {
+        if (failureOrNil) failureOrNil(nil, nil);
+        return;
+    }
     AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
     [requestSerializer setValue:@"application/json"
              forHTTPHeaderField:@"ACCEPT"];

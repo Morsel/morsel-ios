@@ -52,8 +52,8 @@
         }
     }
     // apply authentication
-    if (requiresAuthentication) [parametersDictionary setObject:[MRSLUser apiTokenForCurrentUser]
-                                                         forKey:@"api_key"];
+    if (requiresAuthentication && ![MRSLUser isCurrentUserGuest]) [parametersDictionary setObject:[MRSLUser apiTokenForCurrentUser]
+                                                                                           forKey:@"api_key"];
     // apply device information
     NSString *releaseAppendedIdentifier = @"";
 #if defined(MORSEL_BETA)
@@ -188,6 +188,10 @@
          forOperation:(AFHTTPRequestOperation *)operation
             withError:(NSError *)error
              inMethod:(NSString *)methodName {
+    if ([MRSLUser isCurrentUserGuest]) {
+        if (failureOrNil) failureOrNil(nil);
+        return;
+    }
     if (!self.loggingOut) {
         if (operation.response.statusCode == 401 && [[operation.responseObject[@"errors"][@"api"] firstObject] isEqualToString:@"unauthorized"]) {
             [UIAlertView showAlertViewWithTitle:@"Session Expired"

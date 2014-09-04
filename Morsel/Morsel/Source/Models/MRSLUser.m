@@ -7,9 +7,7 @@
 
 #import "MRSLPresignedUpload.h"
 
-@interface MRSLUser ()
-
-@end
+static const int kGuestUserID = -1;
 
 @implementation MRSLUser
 
@@ -51,6 +49,7 @@
 
 + (void)API_refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil
                                   failure:(MRSLFailureBlock)failureOrNil {
+    if ([MRSLUser isCurrentUserGuest]) return;
     MRSLUser *currentUser = [MRSLUser currentUser];
     if (!currentUser) return;
 
@@ -61,6 +60,7 @@
 
 + (void)API_updateNotificationsAmount:(MRSLAPICountBlock)amountOrNil
                               failure:(MRSLFailureBlock)failureOrNil {
+    if ([MRSLUser isCurrentUserGuest]) return;
     if (![MRSLUser currentUser]) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         return;
@@ -103,10 +103,36 @@
     return user;
 }
 
++ (MRSLUser *)createGuestUser {
+    MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                             withValue:@(kGuestUserID)
+                                             inContext:[NSManagedObjectContext MR_defaultContext]];
+    if (!user) {
+        user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+    }
+    user.userID = @(kGuestUserID);
+    user.first_name = @"Guest";
+    user.last_name = @"";
+    user.bio = @"";
+
+    [[NSUserDefaults standardUserDefaults] setObject:user.userID
+                                              forKey:@"userID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [user.managedObjectContext MR_saveToPersistentStoreAndWait];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+                                                        object:nil];
+    return user;
+}
+
 + (void)updateCurrentUserToProfessional {
     [_appDelegate.apiService updateCurrentUserToProfessional:YES
                                                      success:nil
                                                      failure:nil];
+}
+
++ (BOOL)isCurrentUserGuest {
+    return ([self currentUser].userIDValue == kGuestUserID);
 }
 
 + (void)resetThirdPartySettings {
@@ -131,6 +157,12 @@
 }
 
 - (void)setThirdPartySettings {
+    if ([MRSLUser isCurrentUserGuest]) {
+        [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_guest": @"true"}];
+        return;
+    } else {
+        [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_guest": @"false"}];
+    }
     NSString *idString = [NSString stringWithFormat:@"%i", self.userIDValue];
 #if defined (ROLLBAR_ENVIRONMENT)
     [[Rollbar currentConfiguration] setPersonId:idString
@@ -251,6 +283,7 @@
 
 - (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
                       failure:(MRSLFailureBlock)failureOrNil {
+    if ([MRSLUser isCurrentUserGuest]) return;
     [_appDelegate.apiService sendReportable:self
                                     success:successOrNil
                                     failure:failureOrNil];

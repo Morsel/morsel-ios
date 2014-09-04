@@ -222,6 +222,11 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 - (IBAction)reportContent {
+    if ([MRSLUser isCurrentUserGuest]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                            object:nil];
+        return;
+    }
     self.reportedItem = nil;
     self.reportedMorsel = nil;
 

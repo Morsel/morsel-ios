@@ -162,6 +162,11 @@
 }
 
 - (IBAction)toggleLike {
+    if ([MRSLUser isCurrentUserGuest]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                            object:nil];
+        return;
+    }
     _likeButton.enabled = NO;
     if (!_item.managedObjectContext) return;
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
