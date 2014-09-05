@@ -18,6 +18,7 @@
 #import "MRSLComment.h"
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
+#import "MRSLUser.h"
 
 static const CGFloat MRSLDefaultCommentLabelHeight = 14.f;
 static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
@@ -176,6 +177,11 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - Action Methods
 
 - (IBAction)addComment {
+    if ([MRSLUser isCurrentUserGuest]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                            object:nil];
+        return;
+    }
     if (_item) {
         if (_commentInputTextView.text.length > 0) {
             [_commentInputTextView resignFirstResponder];

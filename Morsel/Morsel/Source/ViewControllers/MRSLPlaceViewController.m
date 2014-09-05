@@ -134,6 +134,11 @@ MRSLSegmentedHeaderReusableViewDelegate>
 #pragma mark - Action Methods
 
 - (IBAction)report {
+    if ([MRSLUser isCurrentUserGuest]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                            object:nil];
+        return;
+    }
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
                                                     cancelButtonTitle:nil

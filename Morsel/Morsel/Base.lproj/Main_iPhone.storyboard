@@ -129,6 +129,7 @@
                     <connections>
                         <outlet property="menuTableView" destination="J97-SJ-llG" id="q86-EC-Hqk"/>
                         <outlet property="profileImageView" destination="VwH-Hl-jnS" id="Iir-FG-R9j"/>
+                        <outlet property="profileLabel" destination="vab-pu-sYb" id="cUV-xp-19W"/>
                         <outlet property="userNameLabel" destination="PtY-GP-fqB" id="W67-u9-9o2"/>
                     </connections>
                 </viewController>
