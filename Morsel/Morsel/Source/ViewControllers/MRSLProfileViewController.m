@@ -20,7 +20,7 @@
 #import "MRSLPlaceViewController.h"
 #import "MRSLProfileEditFieldsViewController.h"
 #import "MRSLProfileImageView.h"
-#import "MRSLUserMorselsFeedViewController.h"
+#import "MRSLMorselDetailViewController.h"
 #import "MRSLUserFollowListViewController.h"
 
 #import "MRSLStateView.h"
@@ -71,22 +71,34 @@ MRSLStateViewDelegate>
 #pragma mark - Instance Methods
 
 - (void)setupWithUserInfo:(NSDictionary *)userInfo {
-    if (userInfo[@"user_id"]) {
-        self.user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                            withValue:userInfo[@"user_id"]];
-        if (!_user) {
-            self.user = [MRSLUser MR_createEntity];
-            self.user.userID = @([userInfo[@"user_id"] intValue]);
-        }
-    }
+    self.userInfo = userInfo;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if (!_user) self.user = [MRSLUser currentUser];
+    if (self.userInfo[@"user_id"]) {
+        self.user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                            withValue:@([self.userInfo[@"user_id"] intValue])];
+        if (!_user) {
+            self.user = [MRSLUser MR_createEntity];
+            self.user.userID = @([self.userInfo[@"user_id"] intValue]);
+        }
+        __weak __typeof(self)weakSelf = self;
+        [_appDelegate.apiService getUserProfile:_user
+                                        success:^(id responseObject) {
+                                            if (weakSelf) {
+                                                [weakSelf loadObjectIDs];
+                                                [weakSelf setupCollectionViewDataSource];
+                                                [weakSelf refreshContent];
+                                            }
+                                        } failure:^(NSError *error) {
+                                            [UIAlertView showAlertViewForErrorString:@"Unable to load user profile."
+                                                                            delegate:nil];
+                                        }];
+    }
 
-    [self loadObjectIDs];
+    if (!_user) self.user = [MRSLUser currentUser];
 
     self.refreshControl = [UIRefreshControl MRSL_refreshControl];
     [_refreshControl addTarget:self
@@ -96,6 +108,49 @@ MRSLStateViewDelegate>
     [self.profileCollectionView addSubview:_refreshControl];
     self.profileCollectionView.alwaysBounceVertical = YES;
 
+    [self loadObjectIDs];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO
+                                             animated:animated];
+    [super viewWillAppear:animated];
+
+    [self setupCollectionViewDataSource];
+    [self populateUserInformation];
+    [self refreshContent];
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)report {
+    if ([MRSLUser isCurrentUserGuest]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                            object:nil];
+        return;
+    }
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:nil
+                                               destructiveButtonTitle:@"Report inappropriate"
+                                                    otherButtonTitles:nil];
+    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+    [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
+}
+
+#pragma mark - Private Methods
+
+- (BOOL)isCurrentUserProfile {
+    return [self.user isCurrentUser];
+}
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+
+    [self.profileCollectionView toggleLoading:loading];
+}
+
+- (void)setupCollectionViewDataSource {
     __weak __typeof(self) weakSelf = self;
     NSString *predicateString = [NSString stringWithFormat:@"%@ID", [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
     self.segmentedPanelCollectionViewDataSource = [[MRSLPanelSegmentedCollectionViewDataSource alloc] initWithManagedObjectClass:[MRSLUtil classForDataSourceType:_dataSourceTabType]
@@ -145,55 +200,6 @@ MRSLStateViewDelegate>
     [self.profileCollectionView setEmptyStateDelegate:self];
 
     [self.segmentedPanelCollectionViewDataSource setDelegate:self];
-
-    if ([self.user isCurrentUser]) {
-        //  Hide the follow button and show a 'Edit' button instead
-        [self.followButton setHidden:YES];
-
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Edit"
-                                                                                    style:UIBarButtonItemStyleBordered
-                                                                                   target:self
-                                                                                   action:@selector(displayEditProfile)]];
-        [self.profileCollectionView setEmptyStateButtonTitle:@"Add a morsel"];
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:NO
-                                             animated:animated];
-    [super viewWillAppear:animated];
-
-    [self populateUserInformation];
-    [self refreshContent];
-}
-
-#pragma mark - Action Methods
-
-- (IBAction)report {
-    if ([MRSLUser isCurrentUserGuest]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
-                                                            object:nil];
-        return;
-    }
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:nil
-                                               destructiveButtonTitle:@"Report inappropriate"
-                                                    otherButtonTitles:nil];
-    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
-    [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
-}
-
-#pragma mark - Private Methods
-
-- (BOOL)isCurrentUserProfile {
-    return [self.user isCurrentUser];
-}
-
-- (void)setLoading:(BOOL)loading {
-    _loading = loading;
-
-    [self.profileCollectionView toggleLoading:loading];
 }
 
 - (void)displayEditProfile {
@@ -214,6 +220,19 @@ MRSLStateViewDelegate>
 - (void)populateUserInformation {
     self.title = _user.username;
     self.followButton.user = _user;
+    if ([self.user isCurrentUser]) {
+        //  Hide the follow button and show a 'Edit' button instead
+        [self.followButton setHidden:YES];
+
+        if (![self.navigationItem.rightBarButtonItem.title isEqualToString:@"Edit"]) {
+            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Edit"
+                                                                                        style:UIBarButtonItemStyleBordered
+                                                                                       target:self
+                                                                                       action:@selector(displayEditProfile)]];
+
+        }
+        [self.profileCollectionView setEmptyStateButtonTitle:@"Add a morsel"];
+    }
     [_profileCollectionView reloadData];
 }
 
@@ -232,6 +251,7 @@ MRSLStateViewDelegate>
 }
 
 - (void)refreshContent {
+    if ([self isLoading]) return;
     [self refreshProfile];
     self.loadedAll = NO;
     self.loading = YES;
@@ -292,7 +312,7 @@ MRSLStateViewDelegate>
 }
 
 - (void)displayUserFeedWithMorsel:(MRSLMorsel *)morsel {
-    MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardUserMorselsFeedViewControllerKey];
+    MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
     [self.navigationController pushViewController:userMorselsFeedVC
@@ -390,7 +410,7 @@ MRSLStateViewDelegate>
 - (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItem:(id)item {
     if ([item isKindOfClass:[MRSLMorsel class]]) {
         MRSLMorsel *morsel = item;
-        MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardUserMorselsFeedViewControllerKey];
+        MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
         userMorselsFeedVC.morsel = morsel;
         userMorselsFeedVC.user = _user;
         [self.navigationController pushViewController:userMorselsFeedVC

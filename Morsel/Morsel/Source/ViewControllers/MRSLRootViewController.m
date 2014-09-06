@@ -75,6 +75,14 @@ MRSLMenuViewControllerDelegate>
                                                  name:MRSLAppShouldDisplayUserProfileNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayPlace:)
+                                                 name:MRSLAppShouldDisplayPlaceNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayMorselDetail:)
+                                                 name:MRSLAppShouldDisplayMorselDetailNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayProfessionalSettings:)
                                                  name:MRSLAppShouldDisplayProfessionalSettingsNotification
                                                object:nil];
@@ -194,10 +202,28 @@ MRSLMenuViewControllerDelegate>
 }
 
 - (void)displayUserProfile:(NSNotification *)notification {
-    UINavigationController *userProfileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileKey];
-    MRSLBaseViewController *profileVC = (MRSLBaseViewController *)[[userProfileNC viewControllers] firstObject];
-    if (notification.object) [profileVC setupWithUserInfo:notification.object];
-    [self presentBaseViewController:profileVC withContainingNavigationController:userProfileNC];
+    UINavigationController *baseNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileKey];
+    [self presentBaseViewControllerWithNotification:notification
+                            andNavigationController:baseNC];
+}
+
+- (void)displayMorselDetail:(NSNotification *)notification {
+    UINavigationController *baseNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailKey];
+    [self presentBaseViewControllerWithNotification:notification
+                            andNavigationController:baseNC];
+}
+
+- (void)displayPlace:(NSNotification *)notification {
+    UINavigationController *baseNC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlaceKey];
+    [self presentBaseViewControllerWithNotification:notification
+                            andNavigationController:baseNC];
+}
+
+- (void)presentBaseViewControllerWithNotification:(NSNotification *)notification
+                          andNavigationController:(UINavigationController *)navController {
+    MRSLBaseViewController *baseVC = (MRSLBaseViewController *)[[navController viewControllers] firstObject];
+    if (notification.object) [baseVC setupWithUserInfo:notification.object];
+    [self presentBaseViewController:baseVC withContainingNavigationController:navController];
 }
 
 - (void)displayWebBrowser:(NSNotification *)notification {

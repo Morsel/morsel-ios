@@ -9,9 +9,7 @@
 #import <JLRoutes/JLRoutes.h>
 
 #import "MRSLAppDelegate+CustomURLSchemes.h"
-#import "UIStoryboard+Morsel.h"
 
-#import "MRSLProfileViewController.h"
 #import "MRSLUser.h"
 
 @interface UIResponder (CustomURLSchemes_Private)
@@ -24,7 +22,13 @@
 
 - (void)setupRouteHandler {
     [JLRoutes addRoute:@"/users/:user_id" handler:^BOOL(NSDictionary *parameters) {
-        return [self handleUserProfileRouteWithParameters:parameters];
+        return [self handleRouteWithParameters:parameters];
+    }];
+    [JLRoutes addRoute:@"/morsels/:morsel_id" handler:^BOOL(NSDictionary *parameters) {
+        return [self handleRouteWithParameters:parameters];
+    }];
+    [JLRoutes addRoute:@"/places/:place_id" handler:^BOOL(NSDictionary *parameters) {
+        return [self handleRouteWithParameters:parameters];
     }];
 }
 
@@ -36,9 +40,20 @@
 
 #pragma mark - Private Methods
 
-- (BOOL)handleUserProfileRouteWithParameters:(NSDictionary *)parameters {
+- (BOOL)handleRouteWithParameters:(NSDictionary *)parameters {
+    if (![MRSLUser currentUser]) return NO;
     if (parameters[@"user_id"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayUserProfileNotification
+                                                            object:parameters];
+        return YES;
+    }
+    if (parameters[@"morsel_id"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayMorselDetailNotification
+                                                            object:parameters];
+        return YES;
+    }
+    if (parameters[@"place_id"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayPlaceNotification
                                                             object:parameters];
         return YES;
     }

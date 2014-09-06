@@ -15,7 +15,7 @@
 #import "MRSLPlaceViewController.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLTableViewDataSource.h"
-#import "MRSLUserMorselsFeedViewController.h"
+#import "MRSLMorselDetailViewController.h"
 
 #import "MRSLActivity.h"
 #import "MRSLItem.h"
@@ -86,7 +86,7 @@
 }
 
 - (void)displayUserFeedWithMorsel:(MRSLMorsel *)morsel {
-    MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardUserMorselsFeedViewControllerKey];
+    MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
     [self.navigationController pushViewController:userMorselsFeedVC

@@ -40,6 +40,7 @@
             CLLocationCoordinate2D locationCoordinate = CLLocationCoordinate2DMake(lat, lon);
             MKCoordinateRegion coordinateRegion = MKCoordinateRegionMake(locationCoordinate, MKCoordinateSpanMake(.002f, .002f));
             [self.placeMapView setRegion:coordinateRegion];
+            self.placeMapView.hidden = NO;
         } else {
             self.placeMapView.hidden = YES;
         }
