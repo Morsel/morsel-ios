@@ -229,7 +229,7 @@ static const int kGuestUserID = -1;
 }
 
 - (NSString *)fullName {
-    return [NSString stringWithFormat:@"%@ %@", self.first_name, self.last_name];
+    return [NSString stringWithFormat:@"%@ %@", self.first_name ? : @"", self.last_name ? : @""];
 }
 
 - (NSString *)displayName {

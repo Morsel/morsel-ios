@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLUserMorselsFeedViewController : MRSLBaseViewController
+@interface MRSLMorselDetailViewController : MRSLBaseViewController
 
 @property (weak, nonatomic) MRSLUser *user;
 @property (weak, nonatomic) MRSLMorsel *morsel;

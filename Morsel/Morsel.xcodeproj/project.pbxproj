@@ -34,7 +34,7 @@
 		06153B8919956C16000C486D /* MRSLAPIService+Report.m in Sources */ = {isa = PBXBuildFile; fileRef = 06153B8819956C16000C486D /* MRSLAPIService+Report.m */; };
 		06153B8A19956C16000C486D /* MRSLAPIService+Report.m in Sources */ = {isa = PBXBuildFile; fileRef = 06153B8819956C16000C486D /* MRSLAPIService+Report.m */; };
 		06153B8B19956C16000C486D /* MRSLAPIService+Report.m in Sources */ = {isa = PBXBuildFile; fileRef = 06153B8819956C16000C486D /* MRSLAPIService+Report.m */; };
-		0615C37F1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0615C37E1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.m */; };
+		0615C37F1908C8E200A1C361 /* MRSLMorselDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0615C37E1908C8E200A1C361 /* MRSLMorselDetailViewController.m */; };
 		061B4EA8195CC4DD00BC4C76 /* MRSLProfileCredentialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061B4EA1195CC4DD00BC4C76 /* MRSLProfileCredentialsViewController.m */; };
 		061B4EA9195CC4DD00BC4C76 /* MRSLProfileEditFieldsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061B4EA3195CC4DD00BC4C76 /* MRSLProfileEditFieldsViewController.m */; };
 		061B4EAA195CC4DD00BC4C76 /* MRSLProfileEditPlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061B4EA5195CC4DD00BC4C76 /* MRSLProfileEditPlacesViewController.m */; };
@@ -371,7 +371,7 @@
 		06C4DE3619897E14009B6406 /* MRSLKeywordUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F935F19105C7A00608C0B /* MRSLKeywordUsersViewController.m */; };
 		06C4DE3719897E14009B6406 /* MRSLToggleKeywordsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403B5BFC195A1040001F33D2 /* MRSLToggleKeywordsTableViewController.m */; };
 		06C4DE3819897E14009B6406 /* MRSLUserFollowListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06FE510019116048003A6D7D /* MRSLUserFollowListViewController.m */; };
-		06C4DE3919897E14009B6406 /* MRSLUserMorselsFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0615C37E1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.m */; };
+		06C4DE3919897E14009B6406 /* MRSLMorselDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0615C37E1908C8E200A1C361 /* MRSLMorselDetailViewController.m */; };
 		06C4DE3A19897E14009B6406 /* MRSLProfileCredentialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061B4EA1195CC4DD00BC4C76 /* MRSLProfileCredentialsViewController.m */; };
 		06C4DE3B19897E14009B6406 /* MRSLProfileEditFieldsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061B4EA3195CC4DD00BC4C76 /* MRSLProfileEditFieldsViewController.m */; };
 		06C4DE3C19897E14009B6406 /* MRSLProfileEditPlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061B4EA5195CC4DD00BC4C76 /* MRSLProfileEditPlacesViewController.m */; };
@@ -703,8 +703,8 @@
 		06153B8719956C16000C486D /* MRSLAPIService+Report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLAPIService+Report.h"; sourceTree = "<group>"; };
 		06153B8819956C16000C486D /* MRSLAPIService+Report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLAPIService+Report.m"; sourceTree = "<group>"; };
 		06153B8C19956CC8000C486D /* MRSLReportable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLReportable.h; path = Source/Protocols/MRSLReportable.h; sourceTree = "<group>"; };
-		0615C37D1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLUserMorselsFeedViewController.h; sourceTree = "<group>"; };
-		0615C37E1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLUserMorselsFeedViewController.m; sourceTree = "<group>"; };
+		0615C37D1908C8E200A1C361 /* MRSLMorselDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselDetailViewController.h; sourceTree = "<group>"; };
+		0615C37E1908C8E200A1C361 /* MRSLMorselDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselDetailViewController.m; sourceTree = "<group>"; };
 		061B4EA0195CC4DD00BC4C76 /* MRSLProfileCredentialsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLProfileCredentialsViewController.h; sourceTree = "<group>"; };
 		061B4EA1195CC4DD00BC4C76 /* MRSLProfileCredentialsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLProfileCredentialsViewController.m; sourceTree = "<group>"; };
 		061B4EA2195CC4DD00BC4C76 /* MRSLProfileEditFieldsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLProfileEditFieldsViewController.h; sourceTree = "<group>"; };
@@ -1391,8 +1391,8 @@
 		0615C3801908CDA000A1C361 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				0615C37D1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.h */,
-				0615C37E1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.m */,
+				0615C37D1908C8E200A1C361 /* MRSLMorselDetailViewController.h */,
+				0615C37E1908C8E200A1C361 /* MRSLMorselDetailViewController.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -3061,7 +3061,7 @@
 				06DAFB49191A91750044AF3E /* MRSLAPIService+Activity.m in Sources */,
 				06B877FC193C182800160707 /* MRSLPlaceUserCollectionViewCell.m in Sources */,
 				4061724B198308310097CD17 /* MRSLPlaceholderTextView.m in Sources */,
-				0615C37F1908C8E200A1C361 /* MRSLUserMorselsFeedViewController.m in Sources */,
+				0615C37F1908C8E200A1C361 /* MRSLMorselDetailViewController.m in Sources */,
 				061B4EA8195CC4DD00BC4C76 /* MRSLProfileCredentialsViewController.m in Sources */,
 				409055471976E5B900026DCC /* MRSLNavigationController.m in Sources */,
 				407FDF58194807E4005FEEBF /* RollbarConfiguration.m in Sources */,
@@ -3508,7 +3508,7 @@
 				060C97A719B7B08D006AAC43 /* UIButton+Additions.m in Sources */,
 				06C4DE3819897E14009B6406 /* MRSLUserFollowListViewController.m in Sources */,
 				06153B8B19956C16000C486D /* MRSLAPIService+Report.m in Sources */,
-				06C4DE3919897E14009B6406 /* MRSLUserMorselsFeedViewController.m in Sources */,
+				06C4DE3919897E14009B6406 /* MRSLMorselDetailViewController.m in Sources */,
 				06C4DE3A19897E14009B6406 /* MRSLProfileCredentialsViewController.m in Sources */,
 				06C4DE3B19897E14009B6406 /* MRSLProfileEditFieldsViewController.m in Sources */,
 				0621C2E019ACFDE200340C48 /* MRSLMorselInfoTableViewCell.m in Sources */,

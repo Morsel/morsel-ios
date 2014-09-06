@@ -413,10 +413,10 @@
             </objects>
             <point key="canvasLocation" x="747" y="96"/>
         </scene>
-        <!--User Morsels Feed View Controller-->
+        <!--Morsel Detail View Controller-->
         <scene sceneID="OCm-X4-GhK">
             <objects>
-                <viewController storyboardIdentifier="sb_MRSLUserMorselsFeedViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="bQs-Ee-YU4" customClass="MRSLUserMorselsFeedViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLMorselDetailViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="bQs-Ee-YU4" customClass="MRSLMorselDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fGp-mF-IfK">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -681,7 +681,7 @@
         <!--Navigation Controller-->
         <scene sceneID="MAm-BU-cdH">
             <objects>
-                <navigationController storyboardIdentifier="sb_UserFeed" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="jVf-MD-7pH" customClass="MRSLNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_MorselDetail" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="jVf-MD-7pH" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Emf-kj-fzi">

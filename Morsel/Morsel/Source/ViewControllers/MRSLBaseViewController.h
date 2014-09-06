@@ -11,6 +11,7 @@
 @interface MRSLBaseViewController : UIViewController
 
 @property (strong, nonatomic) NSString *mp_eventView;
+@property (strong, nonatomic) NSDictionary *userInfo;
 
 - (void)setupNavigationItems;
 

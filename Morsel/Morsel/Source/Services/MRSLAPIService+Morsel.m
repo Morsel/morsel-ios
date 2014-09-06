@@ -173,17 +173,17 @@
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                  MRSLMorsel *localMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                                                  withValue:@(morselObjectID)];
-                                  if (!morsel) morsel = [MRSLMorsel MR_createEntity];
+                                  if (!localMorsel) localMorsel = [MRSLMorsel MR_createEntity];
 
-                                  if (morsel.managedObjectContext) {
+                                  if (localMorsel.managedObjectContext) {
                                       @try {
-                                          [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                          [localMorsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                       } @catch (NSException *exception) {
                                           DDLogError(@"Unable to import morsel data due to exception: %@", exception.debugDescription);
                                       }
-                                      if (successOrNil) successOrNil(morsel);
+                                      if (successOrNil) successOrNil(localMorsel);
                                   }
                               } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                   [self reportFailure:failureOrNil

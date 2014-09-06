@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLUserMorselsFeedViewController.h"
+#import "MRSLMorselDetailViewController.h"
 
 #import <SDWebImage/SDWebImageManager.h>
 
@@ -22,7 +22,7 @@
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
-@interface MRSLUserMorselsFeedViewController ()
+@interface MRSLMorselDetailViewController ()
 <NSFetchedResultsControllerDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
@@ -47,21 +47,48 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 @end
 
-@implementation MRSLUserMorselsFeedViewController
+@implementation MRSLMorselDetailViewController
 
 #pragma mark - Instance Methods
+
+- (void)setupWithUserInfo:(NSDictionary *)userInfo {
+    self.userInfo = userInfo;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (self.userInfo[@"morsel_id"]) {
+        self.morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                withValue:self.userInfo[@"morsel_id"]];
+        if (!_morsel) {
+            self.morsel = [MRSLMorsel MR_createEntity];
+            self.morsel.morselID = @([self.userInfo[@"morsel_id"] intValue]);
+        } else {
+            self.user = self.morsel.creator;
+        }
+        __weak __typeof(self)weakSelf = self;
+        [_appDelegate.apiService getMorsel:_morsel
+                                  orWithID:nil
+                                   success:^(id responseObject) {
+                                       if (weakSelf) {
+                                           if ([responseObject isKindOfClass:[MRSLMorsel class]]) weakSelf.morsel = responseObject;
+                                           [weakSelf setupFetchRequest];
+                                           [weakSelf populateContent];
+                                       }
+                                   } failure:^(NSError *error) {
+                                       [UIAlertView showAlertViewForErrorString:@"Unable to load morsel."
+                                                                       delegate:nil];
+                                   }];
+    }
+
     self.mp_eventView = @"user_feed";
 
     self.isPreview = (_morsel.publishedDate == nil);
-    self.title = (!_isPreview) ? [NSString stringWithFormat:@"%@'s morsels", _user.username] : @"Preview";
 
     if (_isPreview) self.navigationItem.rightBarButtonItem = nil;
     self.morselIDs = (!_isPreview) ? ([[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array]) : [NSMutableArray array];
-    if (_morsel) [self.morselIDs addObject:_morsel.morselID];
 
     self.morsels = [NSMutableArray array];
 
@@ -75,7 +102,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (![MRSLUser currentUser] || _feedFetchedResultsController) return;
+    if (![MRSLUser currentUser] || _feedFetchedResultsController || (!_morsel && !_user)) return;
 
     [self setupFetchRequest];
     [self populateContent];
@@ -124,6 +151,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)populateContent {
+    if (_morsel && ![self.morselIDs containsObject:_morsel.morselID]) {
+        [self.morselIDs addObject:_morsel.morselID];
+        self.user = self.morsel.creator;
+    }
+    self.title = (!_isPreview) ? [NSString stringWithFormat:@"%@'s morsels", _user.username] : @"Preview";
     NSError *fetchError = nil;
     [_feedFetchedResultsController performFetch:&fetchError];
     self.morsels = [[_feedFetchedResultsController fetchedObjects] mutableCopy];

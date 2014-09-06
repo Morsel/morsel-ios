@@ -32,7 +32,7 @@
 				<string>${TW_CALLBACK}</string>
 				<string>${INSTA_CALLBACK}</string>
 				<string>fb${FB_APP_ID}</string>
-				<string>item</string>
+				<string>mrsl</string>
 			</array>
 		</dict>
 		<dict>

@@ -22,7 +22,7 @@
 #import "MRSLMorselInfoTableViewCell.h"
 #import "MRSLMorselPublishShareViewController.h"
 #import "MRSLMorselPublishPlaceViewController.h"
-#import "MRSLUserMorselsFeedViewController.h"
+#import "MRSLMorselDetailViewController.h"
 #import "MRSLTemplateInfoViewController.h"
 
 #import "MRSLMediaItem.h"
@@ -615,7 +615,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                           cancelButtonTitle:@"Cancel"
                           otherButtonTitles:@"OK", nil];
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Preview"]) {
-        MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardUserMorselsFeedViewControllerKey];
+        MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
         userMorselsFeedVC.morsel = _morsel;
         userMorselsFeedVC.user = _morsel.creator;
         [self.navigationController pushViewController:userMorselsFeedVC

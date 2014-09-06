@@ -18,7 +18,7 @@
 #import "MRSLProfileViewController.h"
 #import "MRSLSegmentedHeaderReusableView.h"
 #import "MRSLSocialService.h"
-#import "MRSLUserMorselsFeedViewController.h"
+#import "MRSLMorselDetailViewController.h"
 
 #import "MRSLCollectionView.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
@@ -55,11 +55,34 @@ MRSLSegmentedHeaderReusableViewDelegate>
 
 #pragma mark - Instance Methods
 
+- (void)setupWithUserInfo:(NSDictionary *)userInfo {
+    self.userInfo = userInfo;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.followButton.place = _place;
 
-    [self loadObjectIDs];
+    if (self.userInfo[@"place_id"]) {
+        self.place = [MRSLPlace MR_findFirstByAttribute:MRSLPlaceAttributes.placeID
+                                              withValue:self.userInfo[@"place_id"]];
+        if (!_place) {
+            self.place = [MRSLPlace MR_createEntity];
+            self.place.placeID = @([self.userInfo[@"place_id"] intValue]);
+        }
+        __weak __typeof(self)weakSelf = self;
+        [_appDelegate.apiService getPlace:_place
+                                  success:^(id responseObject) {
+                                      if (weakSelf) {
+                                          [weakSelf loadObjectIDs];
+                                          [weakSelf setupCollectionViewDataSource];
+                                          [weakSelf refreshContent];
+                                      }
+                                  }
+                                  failure:^(NSError *error) {
+                                      [UIAlertView showAlertViewForErrorString:@"Unable to load place."
+                                                                      delegate:nil];
+                                  }];
+    }
 
     self.refreshControl = [UIRefreshControl MRSL_refreshControl];
     [_refreshControl addTarget:self
@@ -68,7 +91,44 @@ MRSLSegmentedHeaderReusableViewDelegate>
 
     [self.collectionView addSubview:_refreshControl];
     self.collectionView.alwaysBounceVertical = YES;
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO
+                                             animated:animated];
+    [super viewWillAppear:animated];
+
+    [self loadObjectIDs];
+    [self setupCollectionViewDataSource];
+    [self refreshContent];
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)report {
+    if ([MRSLUser isCurrentUserGuest]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+                                                            object:nil];
+        return;
+    }
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:nil
+                                               destructiveButtonTitle:@"Report inappropriate"
+                                                    otherButtonTitles:nil];
+    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+    [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
+}
+
+#pragma mark - Private Methods
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+
+    [self.collectionView toggleLoading:loading];
+}
+
+- (void)setupCollectionViewDataSource {
     __weak __typeof(self) weakSelf = self;
     NSString *predicateString = [NSString stringWithFormat:@"%@ID", [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
     self.segmentedPanelCollectionViewDataSource = [[MRSLPanelSegmentedCollectionViewDataSource alloc] initWithManagedObjectClass:[MRSLUtil classForDataSourceType:_dataSourceTabType]
@@ -114,46 +174,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [self.collectionView setEmptyStateTitle:@"No morsels added"];
 
     [self.segmentedPanelCollectionViewDataSource setDelegate:self];
-
-    [self refreshContent];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:NO
-                                             animated:animated];
-    [super viewWillAppear:animated];
-}
-
-- (void)setPlace:(MRSLPlace *)place {
-    if (_place != place) {
-        _place = place;
-        [self populatePlaceInformation];
-    }
-}
-
-#pragma mark - Action Methods
-
-- (IBAction)report {
-    if ([MRSLUser isCurrentUserGuest]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
-                                                            object:nil];
-        return;
-    }
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:nil
-                                               destructiveButtonTitle:@"Report inappropriate"
-                                                    otherButtonTitles:nil];
-    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
-    [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
-}
-
-#pragma mark - Private Methods
-
-- (void)setLoading:(BOOL)loading {
-    _loading = loading;
-
-    [self.collectionView toggleLoading:loading];
 }
 
 - (void)refreshPlace {
@@ -166,8 +186,10 @@ MRSLSegmentedHeaderReusableViewDelegate>
 }
 
 - (void)populatePlaceInformation {
-    self.followButton.place = _place;
-    [_collectionView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.followButton.place = _place;
+        [_collectionView reloadData];
+    });
 }
 
 - (void)loadObjectIDs {
@@ -182,6 +204,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 }
 
 - (void)refreshContent {
+    if ([self isLoading]) return;
     [self refreshPlace];
     self.loadedAll = NO;
     self.loading = YES;
@@ -308,7 +331,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItem:(id)item {
     if ([item isKindOfClass:[MRSLMorsel class]]) {
         MRSLMorsel *morsel = item;
-        MRSLUserMorselsFeedViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardUserMorselsFeedViewControllerKey];
+        MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
         userMorselsFeedVC.morsel = morsel;
         userMorselsFeedVC.user = morsel.creator;
         [self.navigationController pushViewController:userMorselsFeedVC
