@@ -17,6 +17,7 @@
      forPresignedUpload:(MRSLPresignedUpload *)presignedUpload
                 success:(MRSLAPISuccessBlock)successOrNil
                 failure:(MRSLFailureBlock)failureOrNil {
+    NSError *error = nil;
     AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
     NSMutableURLRequest *request = [requestSerializer multipartFormRequestWithMethod:@"POST"
                                                                            URLString:presignedUpload.url
@@ -26,7 +27,8 @@
                                                                                            name:@"file"
                                                                                        fileName:@"photo.jpg"
                                                                                        mimeType:@"image/jpeg"];
-                                                           }];
+                                                           }
+                                                                               error:&error];
 
     AFHTTPRequestOperation *operation = [[MRSLS3Client sharedClient] HTTPRequestOperationWithRequest:request
                                                                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -44,6 +46,8 @@
                                                                                                  DDLogError(@"Request error in method (%@) with userInfo: %@", NSStringFromSelector(_cmd), error.userInfo);
                                                                                                  if (failureOrNil) failureOrNil(nil);
                                                                                              }];
-    [[MRSLS3Client sharedClient].operationQueue addOperation:operation];}
+    [[MRSLS3Client sharedClient].operationQueue addOperation:operation];
+    if (error) DDLogError(@"MRSLAPIClient: Multipart form request error: %@", error);
+}
 
 @end

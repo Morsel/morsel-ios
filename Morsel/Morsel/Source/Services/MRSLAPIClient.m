@@ -46,6 +46,7 @@
     AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
     [requestSerializer setValue:@"application/json"
              forHTTPHeaderField:@"ACCEPT"];
+    NSError *error = nil;
     NSMutableURLRequest *request = [requestSerializer multipartFormRequestWithMethod:[self apiMethodStringWithType:apiMethodType]
                                                                            URLString:[[NSURL URLWithString:urlString relativeToURL:[self baseURL]] absoluteString]
                                                                           parameters:parameters
@@ -53,11 +54,13 @@
                                                                [self appendParameters:formParameters
                                                                            toFormData:formData
                                                                              withName:nil];
-                                                           }];
+                                                           }
+                                                                               error:&error];
     AFHTTPRequestOperation *operation = [[MRSLAPIClient sharedClient] HTTPRequestOperationWithRequest:request
                                                                                               success:successOrNil
                                                                                               failure:failureOrNil];
     [[MRSLAPIClient sharedClient].operationQueue addOperation:operation];
+    if (error) DDLogError(@"MRSLAPIClient: Multipart form request error: %@", error);
 }
 
 - (void)appendParameters:(NSDictionary *)formParameters
