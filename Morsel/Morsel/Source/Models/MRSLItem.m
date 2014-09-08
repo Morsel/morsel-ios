@@ -177,8 +177,7 @@
         if (localItem &&
             !localItem.itemID &&
             localItem.didFailUploadValue &&
-            !localItem.itemPhotoURL &&
-            ![localItem.objectID isEqual:self.objectID]) {
+            !localItem.itemPhotoURL) {
             DDLogDebug(@"Duplicate local failed item found without server id. Removing before import of updated item.");
             if (localItem.itemPhotoFull) {
                 self.itemPhotoFull = [localItem.itemPhotoFull copy] ?: nil;

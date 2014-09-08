@@ -46,14 +46,6 @@
             [navController willMoveToParentViewController:nil];
             [navController.view removeFromSuperview];
             [navController removeFromParentViewController];
-            for (UIViewController *viewController in [navController viewControllers]) {
-                [viewController beginAppearanceTransition:NO
-                                                 animated:NO];
-                [viewController.view removeFromSuperview];
-                [viewController endAppearanceTransition];
-            }
-            [navController setViewControllers:nil];
-            navController = nil;
         }
     }];
 }

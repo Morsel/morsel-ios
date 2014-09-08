@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="WcM-JU-AWy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="WcM-JU-AWy">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment version="2048" defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
     </dependencies>
     <scenes>
-        <!--Places Add View Controller - Add Place-->
+        <!--Add Place-->
         <scene sceneID="PIC-tv-mux">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLPlacesAddViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="iGd-IA-Ilk" customClass="MRSLPlacesAddViewController" sceneMemberID="viewController">
@@ -445,7 +445,7 @@
             </objects>
             <point key="canvasLocation" x="1195" y="582"/>
         </scene>
-        <!--Place Detail View Controller - Details-->
+        <!--Details-->
         <scene sceneID="aUQ-CC-G0f">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLPlaceDetailViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="iaM-rs-kia" customClass="MRSLPlaceDetailViewController" sceneMemberID="viewController">
@@ -686,10 +686,13 @@
         <image name="icon-phone" width="30" height="30"/>
         <image name="icon-place" width="30" height="30"/>
     </resources>
-    <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination" type="retina4">
+            <size key="portraitSize" width="320" height="568"/>
+            <size key="landscapeSize" width="568" height="320"/>
+        </simulatedScreenMetrics>
     </simulatedMetricsContainer>
+    <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
 </document>

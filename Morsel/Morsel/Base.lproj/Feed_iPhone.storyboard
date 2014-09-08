@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="hhS-Tr-n28">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="hhS-Tr-n28">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment version="2048" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
     </dependencies>
     <scenes>
         <!--Feed View Controller-->
@@ -245,7 +245,6 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="mf2-AP-mcs"/>
                     <nil key="simulatedStatusBarMetrics"/>
-                    <size key="freeformSize" width="320" height="504"/>
                     <connections>
                         <outlet property="descriptionTextView" destination="k31-w2-VUD" id="AOA-n0-6Lf"/>
                     </connections>
@@ -254,7 +253,7 @@
             </objects>
             <point key="canvasLocation" x="-287" y="1689"/>
         </scene>
-        <!--Modal Comments View Controller - Comments-->
+        <!--Comments-->
         <scene sceneID="M8P-6F-DwE">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLModalCommentsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="A4W-d7-Umc" customClass="MRSLModalCommentsViewController" sceneMemberID="viewController">
@@ -370,7 +369,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wyp-8d-VK5" customClass="MRSLPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6.0000003991980355" width="250" height="32"/>
+                                        <rect key="frame" x="11" y="6" width="250" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -408,7 +407,7 @@
             </objects>
             <point key="canvasLocation" x="209" y="917"/>
         </scene>
-        <!--Modal Likers View Controller - Likes-->
+        <!--Likes-->
         <scene sceneID="ybd-Qd-rfv">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLModalLikesViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="1qR-Lb-ozf" customClass="MRSLModalLikersViewController" sceneMemberID="viewController">
@@ -1004,7 +1003,7 @@
             </objects>
             <point key="canvasLocation" x="209" y="171"/>
         </scene>
-        <!--Navigation Controller - Home-->
+        <!--Home-->
         <scene sceneID="PDw-fc-RSM">
             <objects>
                 <navigationController storyboardIdentifier="sb_Feed" autoresizesArchivedViewToFullSize="NO" title="Home" automaticallyAdjustsScrollViewInsets="NO" id="hhS-Tr-n28" customClass="MRSLNavigationController" sceneMemberID="viewController">
@@ -1099,10 +1098,13 @@
         <image name="icon-social-facebook-mark" width="22" height="22"/>
         <image name="icon-social-twitter-mark" width="22" height="22"/>
     </resources>
-    <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination" type="retina4">
+            <size key="portraitSize" width="320" height="568"/>
+            <size key="landscapeSize" width="568" height="320"/>
+        </simulatedScreenMetrics>
     </simulatedMetricsContainer>
+    <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
 </document>

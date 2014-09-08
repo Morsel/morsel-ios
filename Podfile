@@ -4,7 +4,7 @@ inhibit_all_warnings!
 
 xcodeproj 'Morsel/Morsel.xcodeproj'
 
-pod 'AFNetworking', '2.0.3'
+pod 'AFNetworking', '~> 2.4'
 pod 'MagicalRecord', '2.2'
 pod 'CocoaLumberjack', '1.6.5.1'
 pod 'GCPlaceholderTextView', '1.0.1'
@@ -16,7 +16,7 @@ pod 'ALAssetsLibrary-CustomPhotoAlbum', '1.1.5'
 pod 'ELCImagePickerController', '0.2'
 pod 'SDWebImage', :git => 'https://github.com/Morsel/SDWebImage'
 pod 'JLRoutes', '1.5'
-pod 'Facebook-iOS-SDK', '3.14'
+pod 'Facebook-iOS-SDK', '3.17'
 pod 'AFOAuth1Client', :git => 'https://github.com/Morsel/AFOAuth1Client'
 pod 'AFOAuth2Client', :git => 'https://github.com/Morsel/AFOAuth2Client'
 pod 'NXOAuth2Client', '1.2.6'
