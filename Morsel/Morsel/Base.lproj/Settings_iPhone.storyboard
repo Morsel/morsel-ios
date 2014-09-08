@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jtb-qR-yHr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jtb-qR-yHr">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment version="2048" defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Roboto-Light.ttf">
+            <string>Roboto-Light</string>
+            <string>Roboto-Light</string>
+            <string>Roboto-Light</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
-        <!--Professional Settings Table View Controller - Professional Settings-->
+        <!--Professional Settings-->
         <scene sceneID="XTS-Gv-r6d">
             <objects>
                 <tableViewController storyboardIdentifier="sb_MRSLProfessionalSettingsTableViewController" id="zV5-Ic-A6h" customClass="MRSLProfessionalSettingsTableViewController" sceneMemberID="viewController">
@@ -110,7 +117,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="971" y="-668"/>
         </scene>
-        <!--Navigation Controller - Professional Settings-->
+        <!--Professional Settings-->
         <scene sceneID="PFB-EF-uE8">
             <objects>
                 <navigationController storyboardIdentifier="sb_ProfessionalSettings" autoresizesArchivedViewToFullSize="NO" title="Professional Settings" automaticallyAdjustsScrollViewInsets="NO" definesPresentationContext="YES" id="CBe-az-RjT" sceneMemberID="viewController">
@@ -126,7 +133,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="-489" y="-700"/>
         </scene>
-        <!--Settings View Controller - Settings-->
+        <!--Settings-->
         <scene sceneID="pA5-hW-pbp">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLSettingsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="0SB-Yf-zYM" customClass="MRSLSettingsViewController" sceneMemberID="viewController">
@@ -376,7 +383,6 @@ Access it later from Settings.</string>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedTopBarMetrics"/>
-                    <size key="freeformSize" width="320" height="200"/>
                     <connections>
                         <outlet property="appVersionLabel" destination="zG2-TV-gac" id="ake-t6-TQ6"/>
                     </connections>
@@ -405,13 +411,12 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="434" y="20"/>
         </scene>
-        <!--Navigation Controller - Settings-->
+        <!--Settings-->
         <scene sceneID="SQW-ef-3TI">
             <objects>
                 <navigationController storyboardIdentifier="sb_Settings" autoresizesArchivedViewToFullSize="NO" title="Settings" automaticallyAdjustsScrollViewInsets="NO" definesPresentationContext="YES" id="jtb-qR-yHr" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8eh-PB-to6">
-                        <rect key="frame" x="0.0" y="-44" width="0.0" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
@@ -423,7 +428,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="-489" y="-12"/>
         </scene>
-        <!--Profile Edit Fields View Controller - Edit Profile-->
+        <!--Edit Profile-->
         <scene sceneID="DrB-Mi-VBl">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLProfileEditFieldsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="qw9-yF-Jf9" customClass="MRSLProfileEditFieldsViewController" sceneMemberID="viewController">
@@ -513,7 +518,6 @@ Access it later from Settings.</string>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <size key="freeformSize" width="320" height="360"/>
                     <connections>
                         <outlet property="activityIndicatorView" destination="r2Y-zc-DGc" id="QCB-FW-nEO"/>
                         <outlet property="bioTextView" destination="UJ4-CW-KOI" id="HiI-fY-Ucp"/>
@@ -531,7 +535,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="1433" y="-204"/>
         </scene>
-        <!--Profile Edit Places View Controller - Manage Places-->
+        <!--Manage Places-->
         <scene sceneID="MpQ-aF-9vI">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLProfileEditPlacesViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="ZhL-PA-ZjH" customClass="MRSLProfileEditPlacesViewController" sceneMemberID="viewController">
@@ -659,7 +663,6 @@ Access it later from Settings.</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Manage Places" id="tiO-CK-YxZ"/>
-                    <size key="freeformSize" width="320" height="214"/>
                     <connections>
                         <outlet property="collectionView" destination="cnn-Lf-XVS" id="yTj-8M-qjW"/>
                     </connections>
@@ -668,7 +671,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="2097" y="-1412"/>
         </scene>
-        <!--Profile Credentials View Controller - Account Settings-->
+        <!--Account Settings-->
         <scene sceneID="KZK-uJ-gBZ">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLProfileCredentialsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="tcF-OD-auu" customClass="MRSLProfileCredentialsViewController" sceneMemberID="viewController">
@@ -742,7 +745,6 @@ Access it later from Settings.</string>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <size key="freeformSize" width="320" height="460"/>
                     <connections>
                         <outlet property="confirmNewPasswordField" destination="j3y-LK-ehs" id="RVZ-L0-wBJ"/>
                         <outlet property="currentPasswordField" destination="19A-y6-Xvp" id="aw6-y0-5dU"/>
@@ -754,7 +756,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="1433" y="1120"/>
         </scene>
-        <!--Social Connections Table View Controller - Social Connections-->
+        <!--Social Connections-->
         <scene sceneID="8qI-YS-nKN">
             <objects>
                 <tableViewController storyboardIdentifier="sb_MRSLSocialConnectionsTableViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="QZP-QV-mgC" customClass="MRSLSocialConnectionsTableViewController" sceneMemberID="viewController">
@@ -897,7 +899,6 @@ follow them for you.</string>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Social Connections" id="bNM-NY-33u"/>
-                    <size key="freeformSize" width="320" height="214"/>
                     <connections>
                         <outlet property="autoFollowSwitch" destination="LwC-23-jma" id="Md4-tk-vQZ"/>
                         <outlet property="facebookSwitch" destination="1V0-CS-YLX" id="IaQ-ij-vJw"/>
@@ -976,7 +977,10 @@ follow them for you.</string>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination" type="retina4">
+            <size key="portraitSize" width="320" height="568"/>
+            <size key="landscapeSize" width="568" height="320"/>
+        </simulatedScreenMetrics>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="8pa-4z-b2V"/>
