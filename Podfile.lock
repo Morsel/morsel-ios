@@ -42,8 +42,13 @@ PODS:
   - Kiwi-KIF/XCTest (1.0.1):
     - KIF (~> 2.0.0)
     - Kiwi/XCTest (~> 2.2.3)
+  - Kiwi/ARC (2.2.4)
   - Kiwi/ARC (HEAD based on 2.2.4)
+  - Kiwi/NonARC (2.2.4)
   - Kiwi/NonARC (HEAD based on 2.2.4)
+  - Kiwi/XCTest (2.2.4):
+    - Kiwi/ARC
+    - Kiwi/NonARC
   - Kiwi/XCTest (HEAD based on 2.2.4):
     - Kiwi/ARC
     - Kiwi/NonARC
@@ -109,7 +114,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  AFOAuth1Client: 1cfa03a0ced161c845b1b494356569b688a885e3
+  AFOAuth1Client: 59d3463209e4dcd93c0652e73a841a25862afbd0
   AFOAuth2Client: 9c2f21896a7cca9107c033296fcd6c019f181bae
   ALAssetsLibrary-CustomPhotoAlbum: 785e1852efacd51235dd8dd19a8a467196fdeafa
   Bolts: 2635e8698a630774689441047f3465d78c48d485
