@@ -120,9 +120,6 @@ static const int kGuestUserID = -1;
         user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
     }
     user.userID = @(kGuestUserID);
-    user.first_name = @"Guest";
-    user.last_name = @"";
-    user.bio = @"";
 
     [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                               forKey:@"userID"];
@@ -141,7 +138,7 @@ static const int kGuestUserID = -1;
 }
 
 + (BOOL)isCurrentUserGuest {
-    return ([self currentUser].userIDValue == kGuestUserID);
+    return [[self currentUser] isGuestUser];
 }
 
 + (void)resetThirdPartySettings {
@@ -159,6 +156,10 @@ static const int kGuestUserID = -1;
 - (BOOL)isCurrentUser {
     NSNumber *currentUserID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
     return ([currentUserID intValue] == self.userIDValue);
+}
+
+- (BOOL)isGuestUser {
+    return (self.userIDValue == kGuestUserID);
 }
 
 - (BOOL)isProfessional {
@@ -238,7 +239,7 @@ static const int kGuestUserID = -1;
 }
 
 - (NSString *)fullName {
-    return [NSString stringWithFormat:@"%@ %@", self.first_name ? : @"", self.last_name ? : @""];
+    return ([MRSLUser isCurrentUserGuest]) ? @"Guest" : ([NSString stringWithFormat:@"%@ %@", self.first_name ? : @"", self.last_name ? : @""]);
 }
 
 - (NSString *)displayName {

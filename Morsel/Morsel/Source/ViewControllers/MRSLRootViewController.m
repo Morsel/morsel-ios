@@ -380,7 +380,7 @@ MRSLMenuViewControllerDelegate>
 
 - (void)menuViewControllerDidSelectMenuOption:(NSString *)menuOption {
     if (self.isMenuOpen) [self toggleMenu];
-    if (![menuOption isEqualToString:MRSLMenuFeedKey] && [MRSLUser isCurrentUserGuest]) {
+    if (menuOption != nil && ![menuOption isEqualToString:MRSLMenuFeedKey] && [MRSLUser isCurrentUserGuest]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
                                                             object:nil];
         return;
