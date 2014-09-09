@@ -17,6 +17,7 @@
     dispatch_once(&once, ^{
         _sharedClient = [[MRSLS3Client alloc] initWithBaseURL:[NSURL URLWithString:S3_BASE_URL]];
         _sharedClient.requestSerializer = [AFHTTPRequestSerializer serializer];
+        [_sharedClient.requestSerializer setCachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
         _sharedClient.responseSerializer = [AFHTTPResponseSerializer serializer];
         _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/xml"];
     });

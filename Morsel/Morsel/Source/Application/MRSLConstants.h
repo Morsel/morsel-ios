@@ -10,6 +10,7 @@
 
 #pragma mark - Notification Constants
 
+extern NSString *const MRSLServiceDidLogInGuestNotification;
 extern NSString *const MRSLServiceDidLogInUserNotification;
 extern NSString *const MRSLServiceShouldLogOutUserNotification;
 extern NSString *const MRSLServiceDidLogOutUserNotification;
@@ -29,6 +30,8 @@ extern NSString *const MRSLItemUploadDidFailNotification;
 extern NSString *const MRSLModalWillDisplayNotification;
 extern NSString *const MRSLModalWillDismissNotification;
 
+extern NSString *const MRSLAppShouldDisplayLandingNotification;
+extern NSString *const MRSLAppShouldDisplayFeedNotification;
 extern NSString *const MRSLAppShouldDisplayMenuBarNotification;
 extern NSString *const MRSLAppShouldDisplayBaseViewControllerNotification;
 extern NSString *const MRSLAppShouldDisplayOnboardingNotification;

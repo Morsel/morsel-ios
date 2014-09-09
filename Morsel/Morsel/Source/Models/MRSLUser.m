@@ -81,6 +81,7 @@ static const int kGuestUserID = -1;
 
 + (MRSLUser *)createOrUpdateUserFromResponseObject:(id)userDictionary
                                 existingUser:(BOOL)existingUser {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userID"] != nil) [_appDelegate resetDataStore];
     NSNumber *userID = @([userDictionary[@"id"] intValue]);
 
     MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
@@ -126,7 +127,7 @@ static const int kGuestUserID = -1;
     [[NSUserDefaults standardUserDefaults] synchronize];
     [user.managedObjectContext MR_saveToPersistentStoreAndWait];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInGuestNotification
                                                         object:nil];
     return user;
 }
@@ -239,7 +240,7 @@ static const int kGuestUserID = -1;
 }
 
 - (NSString *)fullName {
-    return ([MRSLUser isCurrentUserGuest]) ? @"Guest" : ([NSString stringWithFormat:@"%@ %@", self.first_name ? : @"", self.last_name ? : @""]);
+    return ([self isGuestUser]) ? @"Guest" : ([NSString stringWithFormat:@"%@ %@", self.first_name ? : @"", self.last_name ? : @""]);
 }
 
 - (NSString *)displayName {

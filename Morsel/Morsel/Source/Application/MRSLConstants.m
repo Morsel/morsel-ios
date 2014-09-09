@@ -10,6 +10,7 @@
 
 #pragma mark - Notification Constants
 
+NSString *const MRSLServiceDidLogInGuestNotification = @"MRSLServiceDidLogInGuestNotification";
 NSString *const MRSLServiceDidLogInUserNotification = @"MRSLServiceDidLogInUserNotification";
 NSString *const MRSLServiceShouldLogOutUserNotification = @"MRSLServiceShouldLogOutUserNotification";
 NSString *const MRSLServiceDidLogOutUserNotification = @"MRSLServiceDidLogOutUserNotification";
@@ -29,6 +30,8 @@ NSString *const MRSLItemUploadDidFailNotification = @"MRSLItemUploadDidFailNotif
 NSString *const MRSLModalWillDisplayNotification = @"MRSLModalWillDisplayNotification";
 NSString *const MRSLModalWillDismissNotification = @"MRSLModalWillDismissNotification";
 
+NSString *const MRSLAppShouldDisplayLandingNotification = @"MRSLAppShouldDisplayLandingNotification";
+NSString *const MRSLAppShouldDisplayFeedNotification = @"MRSLAppShouldDisplayFeedNotification";
 NSString *const MRSLAppShouldDisplayMenuBarNotification = @"MRSLAppShouldDisplayMenuBarNotification";
 NSString *const MRSLAppShouldDisplayBaseViewControllerNotification = @"MRSLAppShouldDisplayBaseViewControllerNotification";
 NSString *const MRSLAppShouldDisplayOnboardingNotification = @"MRSLAppShouldDisplayOnboardingNotification";

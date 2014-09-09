@@ -12,6 +12,8 @@
 
 #pragma mark - Utility
 
+- (BOOL)containsChildNavigationController;
+
 - (UIViewController *)topPresentingViewController;
 
 #pragma mark - Cleanup

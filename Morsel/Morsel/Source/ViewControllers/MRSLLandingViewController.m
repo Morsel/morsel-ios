@@ -121,6 +121,8 @@
 
 - (IBAction)continueAsGuest {
     [MRSLUser createGuestUser];
+    [self.presentingViewController dismissViewControllerAnimated:YES
+                                                      completion:nil];
 }
 
 #pragma mark - Social Methods

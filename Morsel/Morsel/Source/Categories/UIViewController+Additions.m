@@ -12,6 +12,17 @@
 
 #pragma mark - Utility
 
+- (BOOL)containsChildNavigationController {
+    __block BOOL containsNavController = NO;
+    [self.childViewControllers enumerateObjectsUsingBlock:^(UINavigationController *navController, NSUInteger idx, BOOL *stop) {
+        if ([navController isKindOfClass:[UINavigationController class]]) {
+            containsNavController = YES;
+            *stop = YES;
+        }
+    }];
+    return containsNavController;
+}
+
 - (UIViewController *)topPresentingViewController {
     UIViewController *topMostVC = (self.navigationController) ? self.navigationController : self;
     UIViewController *potentialTopMostVC = topMostVC;
