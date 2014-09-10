@@ -41,7 +41,7 @@ NSFetchedResultsControllerDelegate>
 
     self.templateIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:@"templateIDs"] ?: [NSMutableArray array];
 
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) self.collectionView.contentInset = UIEdgeInsetsMake(20.f, 20.f, 20.f, 20.f);
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) self.collectionView.contentInset = UIEdgeInsetsMake(20.f, 20.f, 20.f, 20.f);
     
     self.collectionView.alwaysBounceVertical = YES;
 }

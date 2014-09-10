@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="JLz-Da-HxU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="JLz-Da-HxU">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
-        <!--Activity View Controller - Activity-->
+        <!--Activity-->
         <scene sceneID="UPV-wP-zzx">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLNotificationsRootViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="IzJ-YF-bgp" customClass="MRSLActivityViewController" sceneMemberID="viewController">
@@ -105,7 +104,7 @@
             </objects>
             <point key="canvasLocation" x="812" y="-578"/>
         </scene>
-        <!--Notifications Table View Controller - Notifications-->
+        <!--Notifications-->
         <scene sceneID="lUy-S3-4lP">
             <objects>
                 <tableViewController storyboardIdentifier="sb_MRSLNotificationsTableViewController" id="4iP-IK-cLb" customClass="MRSLNotificationsTableViewController" sceneMemberID="viewController">
@@ -125,10 +124,10 @@
             <point key="canvasLocation" x="1262" y="-578"/>
         </scene>
     </scenes>
-    <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
 </document>

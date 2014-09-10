@@ -12,7 +12,7 @@
 
 + (void)setupTheme {
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
             [[UINavigationBar appearance] setBarTintColor:[UIColor morselDefaultNavigationBarBackgroundColor]];
             [[UINavigationBar appearance] setTintColor:[UIColor morselPrimary]];
             [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"graphic-navigation-bar-background"]
