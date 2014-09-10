@@ -20,6 +20,8 @@
 <UITableViewDataSource,
 UITableViewDelegate>
 
+@property (nonatomic) BOOL shouldResetMenu;
+
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *profileLabel;
 
@@ -47,8 +49,20 @@ UITableViewDelegate>
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(presentFeed:)
+                                                 name:MRSLAppShouldDisplayFeedNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(prepareMenuForReset)
+                                                 name:MRSLAppShouldDisplayLandingNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(displayUserInformation)
                                                  name:MRSLServiceDidLogInUserNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayGuestInformation)
+                                                 name:MRSLServiceDidLogInGuestNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(clearUserInformation)
@@ -62,7 +76,7 @@ UITableViewDelegate>
                                              selector:@selector(updateMenuBadge:)
                                                  name:MRSLServiceDidUpdateUnreadAmountNotification
                                                object:nil];
-
+    self.shouldResetMenu = YES;
     [self setupMenuOptions];
     [self.menuTableView setScrollsToTop:NO];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -166,8 +180,8 @@ UITableViewDelegate>
 
 - (void)displayUserInformation {
     MRSLUser *currentUser = [MRSLUser currentUser];
-    self.profileImageView.user = currentUser;
-    self.userNameLabel.text = [currentUser fullName];
+    self.profileImageView.user = [MRSLUser isCurrentUserGuest] ? nil : currentUser;
+    self.userNameLabel.text = [MRSLUser isCurrentUserGuest] ? @"Guest" : [currentUser fullName];
     NSIndexPath *draftIndexPath = [self indexPathForKey:MRSLMenuDraftsKey];
     MRSLMenuItem *draftItem = [self menuItemAtIndexPath:draftIndexPath];
     draftItem.badgeCount = currentUser.draft_countValue;
@@ -182,13 +196,29 @@ UITableViewDelegate>
 - (void)clearUserInformation {
     self.profileImageView.user = nil;
     self.userNameLabel.text = @"";
+    [self prepareMenuForReset];
+}
+
+- (void)prepareMenuForReset {
+    NSIndexPath *feedIndexPath = [self indexPathForKey:MRSLMenuFeedKey];
+    self.shouldResetMenu = self.selectedIndexPath ? (self.selectedIndexPath.row != feedIndexPath.row) : YES;
+}
+
+- (void)displayGuestInformation {
+    [self displayUserInformation];
+    if (self.shouldResetMenu) {
+        [self selectRowWithKey:MRSLMenuFeedKey];
+        self.shouldResetMenu = NO;
+    }
 }
 
 - (void)presentFeed:(NSNotification *)notification {
-    __weak __typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf selectRowWithKey:MRSLMenuFeedKey];
-    });
+    if (self.shouldResetMenu) {
+        __weak __typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf selectRowWithKey:MRSLMenuFeedKey];
+        });
+    }
 }
 
 #pragma mark - Utility Methods

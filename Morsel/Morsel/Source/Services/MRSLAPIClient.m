@@ -25,6 +25,7 @@
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         [_sharedClient.requestSerializer setValue:@"application/json"
                                forHTTPHeaderField:@"ACCEPT"];
+        [_sharedClient.requestSerializer setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
         _sharedClient.responseSerializer = [JSONResponseSerializerWithData serializer];
     });
 

@@ -163,7 +163,7 @@
 
 - (IBAction)toggleLike {
     if ([MRSLUser isCurrentUserGuest]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayLandingNotification
                                                             object:nil];
         return;
     }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="VgC-h7-Rc7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="VgC-h7-Rc7">
     <dependencies>
-        <deployment version="2048" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <deployment version="2048" defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Sign Up-->
+        <!--Sign Up View Controller - Sign Up-->
         <scene sceneID="mxT-kn-PIs">
             <objects>
                 <viewController storyboardIdentifier="sb_SignUpViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="8OR-HZ-uNV" customClass="MRSLSignUpViewController" sceneMemberID="viewController">
@@ -273,7 +273,7 @@
                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                                 <state key="normal">
                                     <attributedString key="attributedTitle">
-                                        <fragment content="Continue as guest">
+                                        <fragment content="Sign up with email">
                                             <attributes>
                                                 <color key="NSColor" red="0.31764706970000001" green="0.7254902124" blue="0.23529411850000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <font key="NSFont" size="15" name="Helvetica-Light"/>
@@ -283,7 +283,7 @@
                                     </attributedString>
                                 </state>
                                 <connections>
-                                    <action selector="continueAsGuest" destination="xBP-eN-YCV" eventType="touchUpInside" id="3wN-ie-v4d"/>
+                                    <action selector="signUpWithEmail" destination="xBP-eN-YCV" eventType="touchUpInside" id="RuW-EC-4fC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" id="pra-DU-2aQ" customClass="MRSLLightButton">
@@ -354,12 +354,12 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Use my email address" image="icon-mail">
+                                <state key="normal" title="Continue as Guest" image="icon-guest">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="signUpWithEmail" destination="xBP-eN-YCV" eventType="touchUpInside" id="shB-cN-DYB"/>
+                                    <action selector="continueAsGuest" destination="xBP-eN-YCV" eventType="touchUpInside" id="1t1-r2-W0h"/>
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" id="vX1-UD-SAI">
@@ -397,7 +397,7 @@
             </objects>
             <point key="canvasLocation" x="289" y="25"/>
         </scene>
-        <!--Login-->
+        <!--Login View Controller - Login-->
         <scene sceneID="3sP-bp-OQN">
             <objects>
                 <viewController storyboardIdentifier="sb_LoginViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="skl-I2-cK7" customClass="MRSLLoginViewController" sceneMemberID="viewController">
@@ -648,17 +648,14 @@
         <image name="graphic-splash-logo-morsel" width="152" height="44"/>
         <image name="graphic-white-pattern-background" width="320" height="568"/>
         <image name="icon-back" width="12" height="20"/>
-        <image name="icon-mail" width="22" height="22"/>
+        <image name="icon-guest" width="22" height="22"/>
         <image name="icon-social-facebook-mark" width="22" height="22"/>
         <image name="icon-social-twitter-mark" width="22" height="22"/>
     </resources>
+    <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination">
-            <size key="portraitSize" width="320" height="480"/>
-            <size key="landscapeSize" width="480" height="320"/>
-        </simulatedScreenMetrics>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
 </document>

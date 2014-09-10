@@ -103,6 +103,14 @@ MRSLMenuViewControllerDelegate>
                                                  name:MRSLServiceShouldLogOutUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayLanding)
+                                                 name:MRSLAppShouldDisplayLandingNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayFeedIfNothingVisible)
+                                                 name:MRSLServiceDidLogInGuestNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(toggleMenu)
                                                  name:MRSLAppShouldDisplayMenuBarNotification
                                                object:nil];
@@ -299,13 +307,30 @@ MRSLMenuViewControllerDelegate>
     [_appDelegate resetDataStore];
 }
 
+- (void)displayLanding {
+    if (![UIApplication sharedApplication].statusBarHidden) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES
+                                                withAnimation:UIStatusBarAnimationSlide];
+    }
+    [self displaySignUpAnimated:YES];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
+                                                       forName:[[NSBundle mainBundle] bundleIdentifier]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)displayFeedIfNothingVisible {
+    if (![self containsChildNavigationController]) {
+        [self menuViewControllerDidSelectMenuOption:MRSLMenuFeedKey];
+    }
+}
+
 #pragma mark - Private Methods
 
 - (void)displaySignUpAnimated:(BOOL)animated {
     UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardSignUpKey];
-    [self presentViewController:signUpNC
-                       animated:animated
-                     completion:nil];
+    [[self topPresentingViewController] presentViewController:signUpNC
+                                                     animated:animated
+                                                   completion:nil];
 }
 
 - (void)toggleMenu {
@@ -380,8 +405,8 @@ MRSLMenuViewControllerDelegate>
 
 - (void)menuViewControllerDidSelectMenuOption:(NSString *)menuOption {
     if (self.isMenuOpen) [self toggleMenu];
-    if (![menuOption isEqualToString:MRSLMenuFeedKey] && [MRSLUser isCurrentUserGuest]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceShouldLogOutUserNotification
+    if (menuOption != nil && ![menuOption isEqualToString:MRSLMenuFeedKey] && [MRSLUser isCurrentUserGuest]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayLandingNotification
                                                             object:nil];
         return;
     }
