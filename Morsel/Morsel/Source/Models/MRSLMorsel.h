@@ -7,6 +7,7 @@
 - (NSDate *)latestUpdatedDate;
 - (NSArray *)itemsArray;
 - (MRSLItem *)coverItem;
+- (NSString *)firstItemDescription;
 - (BOOL)hasCreatorInfo;
 - (BOOL)hasPlaceholderTitle;
 - (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil;

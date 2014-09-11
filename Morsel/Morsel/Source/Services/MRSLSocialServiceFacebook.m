@@ -227,7 +227,7 @@
         [FBDialogs presentShareDialogWithLink:fbLinkParams.link
                                          name:fbLinkParams.name
                                       caption:fbLinkParams.caption
-                                  description:fbLinkParams.description
+                                  description:[morsel firstItemDescription]
                                       picture:fbLinkParams.picture
                                   clientState:nil
                                       handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {

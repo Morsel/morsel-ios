@@ -59,6 +59,10 @@
     return item;
 }
 
+- (NSString *)firstItemDescription {
+    return [self.itemsArray.firstObject itemDescription];
+}
+
 - (BOOL)hasCreatorInfo {
     //  Can tell if a User object has been fetched if a username exists.
     return self.creator && self.creator.username;
