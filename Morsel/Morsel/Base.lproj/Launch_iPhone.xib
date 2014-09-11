@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="graphic-white-pattern-background" translatesAutoresizingMaskIntoConstraints="NO" id="1Fg-WJ-sG8">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-morsel-identity-large" translatesAutoresizingMaskIntoConstraints="NO" id="iHX-mA-3qG">
+                    <rect key="frame" x="149" y="159" width="182" height="54"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="54" id="bfr-xJ-6zM"/>
+                        <constraint firstAttribute="width" constant="182" id="f3G-09-YTe"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="1Fg-WJ-sG8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="7ro-jc-WLF"/>
+                <constraint firstAttribute="trailing" secondItem="1Fg-WJ-sG8" secondAttribute="trailing" id="Fox-B1-NlH"/>
+                <constraint firstItem="1Fg-WJ-sG8" firstAttribute="centerX" secondItem="iHX-mA-3qG" secondAttribute="centerX" id="biW-Co-t6r"/>
+                <constraint firstAttribute="bottom" secondItem="1Fg-WJ-sG8" secondAttribute="bottom" id="iYu-OL-5pN"/>
+                <constraint firstAttribute="centerY" secondItem="1Fg-WJ-sG8" secondAttribute="centerY" id="kKs-qK-WcW"/>
+                <constraint firstItem="iHX-mA-3qG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="159" id="kZN-0L-bTG"/>
+                <constraint firstAttribute="centerX" secondItem="1Fg-WJ-sG8" secondAttribute="centerX" id="ruN-XF-Srd"/>
+                <constraint firstItem="1Fg-WJ-sG8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ufa-1f-gL3"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="404" y="445"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="graphic-morsel-identity-large" width="182" height="54"/>
+        <image name="graphic-white-pattern-background" width="320" height="568"/>
+    </resources>
+</document>
