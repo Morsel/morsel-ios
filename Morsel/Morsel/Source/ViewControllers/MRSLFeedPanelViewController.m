@@ -313,10 +313,12 @@ MRSLFeedShareCollectionViewCellDelegate>
 #pragma mark - MRSLFeedCoverCollectionViewCellDelegate
 
 - (void)feedCoverCollectionViewCellDidSelectMorsel:(MRSLItem *)item {
-    NSInteger itemIndex = [_morsel.itemsArray indexOfObject:item] + 1;
-    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:itemIndex inSection:0]
-                                atScrollPosition:UICollectionViewScrollPositionTop
-                                        animated:YES];
+    NSInteger itemRow = [_morsel.itemsArray indexOfObject:item] + 1;
+    if (itemRow < [self.collectionView numberOfItemsInAllSections]) {
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:itemRow inSection:0]
+                                    atScrollPosition:UICollectionViewScrollPositionTop
+                                            animated:YES];
+    }
 }
 
 #pragma mark - MRSLFeedShareCollectionViewCellDelegate
