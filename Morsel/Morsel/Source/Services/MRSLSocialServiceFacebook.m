@@ -224,24 +224,24 @@
     // If the Facebook app is installed and we can present the share dialog
     if ([FBDialogs canPresentShareDialogWithParams:fbLinkParams]) {
         // Present share dialog
-        [FBDialogs presentMessageDialogWithLink:fbLinkParams.link
-                                           name:fbLinkParams.name
-                                        caption:fbLinkParams.caption
-                                    description:fbLinkParams.description
-                                        picture:fbLinkParams.picture
-                                    clientState:nil
-                                        handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-                                            if (error) {
-                                                // An error occurred, we need to handle the error
-                                                // See: https://developers.facebook.com/docs/ios/errors
-                                                DDLogError(@"Error publishing story: %@", error.description);
-                                                if (successOrNil) successOrNil(NO);
-                                            } else {
-                                                // Success
-                                                DDLogDebug(@"result %@", results);
-                                                if (successOrNil) successOrNil(YES);
-                                            }
-                                        }];
+        [FBDialogs presentShareDialogWithLink:fbLinkParams.link
+                                         name:fbLinkParams.name
+                                      caption:fbLinkParams.caption
+                                  description:fbLinkParams.description
+                                      picture:fbLinkParams.picture
+                                  clientState:nil
+                                      handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+                                          if (error) {
+                                              // An error occurred, we need to handle the error
+                                              // See: https://developers.facebook.com/docs/ios/errors
+                                              DDLogError(@"Error publishing story: %@", error.description);
+                                              if (successOrNil) successOrNil(NO);
+                                          } else {
+                                              // Success
+                                              DDLogDebug(@"result %@", results);
+                                              if (successOrNil) successOrNil(YES);
+                                          }
+                                      }];
     } else {
         // Present the feed dialog
         NSDictionary *parameters = @{@"name": NSNullIfNil(fbLinkParams.name),
