@@ -134,6 +134,8 @@ CaptureMediaViewControllerDelegate>
 - (void)updateControls {
     self.currentIndex = _previewMediaCollectionView.contentOffset.y / _previewMediaCollectionView.frame.size.height;
 
+    if (_currentIndex >= [_previewMedia count] - 1) self.currentIndex = [_previewMedia count] - 1;
+
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
     [self.previewMediaPageControl setCurrentPage:_currentIndex];
     self.previewMediaPageControl.hidden = ([_previewMedia count] == 1);
