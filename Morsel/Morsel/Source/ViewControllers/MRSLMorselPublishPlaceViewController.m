@@ -118,7 +118,7 @@ UITableViewDelegate>
 }
 
 - (void)updateMorsel {
-    if ([_places count] > 0 && _selectedPlaceRow >= 0) {
+    if ([_places count] > 0 && _selectedPlaceRow >= 0 && _selectedPlaceRow < [_places count]) {
         MRSLPlace *place = [_places objectAtIndex:_selectedPlaceRow];
         self.morsel.place = place;
     } else {
