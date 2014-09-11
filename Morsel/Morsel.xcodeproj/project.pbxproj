@@ -3801,6 +3801,7 @@
 				BUNDLE_ID_SUFFIX = .integration;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COMPRESS_PNG_FILES = NO;
 				DB_APP_ID = pzh0ne5iy99ym8u;
 				FB_APP_ID = 1494349067476127;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3987,6 +3988,7 @@
 				BUNDLE_ID_SUFFIX = .debug;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COMPRESS_PNG_FILES = NO;
 				DB_APP_ID = pzh0ne5iy99ym8u;
 				FB_APP_ID = 1494349067476127;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4018,6 +4020,7 @@
 				BUNDLE_ID_SUFFIX = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
+				COMPRESS_PNG_FILES = NO;
 				DB_APP_ID = idlz880gzvcodma;
 				FB_APP_ID = 1402286360015732;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4251,6 +4254,7 @@
 				BUNDLE_ID_SUFFIX = .specs;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COMPRESS_PNG_FILES = NO;
 				DB_APP_ID = pzh0ne5iy99ym8u;
 				FB_APP_ID = 1494349067476127;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4397,6 +4401,7 @@
 				BUNDLE_ID_SUFFIX = .beta;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
+				COMPRESS_PNG_FILES = NO;
 				DB_APP_ID = 6jjbiuc2h1eurub;
 				FB_APP_ID = 1402286360015732;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4543,6 +4548,7 @@
 				BUNDLE_ID_SUFFIX = .alpha;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
+				COMPRESS_PNG_FILES = NO;
 				DB_APP_ID = z0y5ib27fwhziik;
 				FB_APP_ID = 1494349067476127;
 				FRAMEWORK_SEARCH_PATHS = (
