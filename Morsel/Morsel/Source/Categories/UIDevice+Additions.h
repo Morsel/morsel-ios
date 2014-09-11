@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
 typedef NS_ENUM(NSInteger, UIDeviceScreenSize) {
     UIDeviceScreenSize35Inch = 0,
     UIDeviceScreenSize4Inch,
@@ -16,9 +22,6 @@ typedef NS_ENUM(NSInteger, UIDeviceScreenSize) {
 
 @interface UIDevice (Additions)
 
-+ (BOOL)currentDeviceSystemVersionIsAtLeastIOS6;
-+ (BOOL)currentDeviceSystemVersionIsAtLeastIOS7;
-+ (BOOL)currentDeviceSystemVersionIsAtLeastIOS8;
 + (BOOL)currentDeviceIsIpad;
 + (BOOL)has35InchScreen;
 

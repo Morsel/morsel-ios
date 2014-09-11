@@ -60,7 +60,7 @@ UITableViewDelegate>
         [self.tableView setY:([UIDevice has35InchScreen] ? 50.f : 0.f) + ([_proTipLabel getHeight] + [_proTipLabel getY] + 10.f)];
     } else {
         [self.createButton setY:[_proTipLabel getHeight] + [_proTipLabel getY] + 10.f];
-        [self.tableView setY:([UIDevice has35InchScreen] ? 50.f : 0.f) + ([_createButton getHeight] + [_createButton getY] + 10.f)];
+        [self.tableView setY:(([UIDevice has35InchScreen] || SYSTEM_VERSION_LESS_THAN(@"7.0")) ? 50.f : 0.f) + ([_createButton getHeight] + [_createButton getY] + 10.f)];
     }
 
     [self.tableView setHeight:[self.view getHeight] - [self.tableView getY]];

@@ -160,6 +160,9 @@
 		0661F7ED19703E9100248E6A /* MRSLToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0661F7EC19703E9100248E6A /* MRSLToolbar.m */; };
 		0667C4AD196CA18E007A1E0C /* MRSLMorselTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0667C4AC196CA18E007A1E0C /* MRSLMorselTableViewCell.m */; };
 		0669C5131871FD370093132F /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0669C5121871FD370093132F /* UIImage+Resize.m */; };
+		066A780819C2083300896C42 /* Launch_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 066A780619C2083300896C42 /* Launch_iPhone.xib */; };
+		066A780919C2083300896C42 /* Launch_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 066A780619C2083300896C42 /* Launch_iPhone.xib */; };
+		066A780A19C2083300896C42 /* Launch_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 066A780619C2083300896C42 /* Launch_iPhone.xib */; };
 		066E8C25191AAC7200991165 /* MRSLAPIService+Like.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB60191A99A90044AF3E /* MRSLAPIService+Like.m */; };
 		066E8C26191AAC7200991165 /* MRSLAPIService+Follow.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB5D191A93FA0044AF3E /* MRSLAPIService+Follow.m */; };
 		066E8C27191AAC7200991165 /* MRSLAPIService+Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB54191A92320044AF3E /* MRSLAPIService+Comment.m */; };
@@ -871,6 +874,7 @@
 		0667C4AC196CA18E007A1E0C /* MRSLMorselTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMorselTableViewCell.m; path = Source/Views/MRSLMorselTableViewCell.m; sourceTree = "<group>"; };
 		0669C5111871FD370093132F /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		0669C5121871FD370093132F /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		066A780719C2083300896C42 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Launch_iPhone.xib; sourceTree = "<group>"; };
 		066E8C30191AD81200991165 /* MRSLLandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLLandingViewController.h; sourceTree = "<group>"; };
 		066E8C31191AD81200991165 /* MRSLLandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLLandingViewController.m; sourceTree = "<group>"; };
 		066F5ABF185BCA3D00468210 /* _MRSLComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MRSLComment.h; path = Source/Models/Generated/_MRSLComment.h; sourceTree = "<group>"; };
@@ -1662,6 +1666,7 @@
 				408504A1193FEE48003AE38B /* Settings_iPhone.storyboard */,
 				06C4CD06192A6FD3004CD3B7 /* Social_iPhone.storyboard */,
 				065D0CCF19ABCA32009E6FC7 /* Templates_iPhone.storyboard */,
+				066A780619C2083300896C42 /* Launch_iPhone.xib */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -2779,6 +2784,7 @@
 				06F4461F19533A7100BE3014 /* Roboto-Bold.ttf in Resources */,
 				0660669B18522E7900E780FC /* InfoPlist.strings in Resources */,
 				40617246198303A50097CD17 /* Acknowledgements.html in Resources */,
+				066A780819C2083300896C42 /* Launch_iPhone.xib in Resources */,
 				065D0CF119AC01B4009E6FC7 /* Roboto-LightItalic.ttf in Resources */,
 				0637B67C19377B8D00358F25 /* Places_iPhone.storyboard in Resources */,
 				063BB6F218983CC00029DAF0 /* Feed_iPhone.storyboard in Resources */,
@@ -2823,6 +2829,7 @@
 				40617247198303A50097CD17 /* Acknowledgements.html in Resources */,
 				4085E3131970963200A3FC73 /* DBChooser.bundle in Resources */,
 				065D0CD219ABCA32009E6FC7 /* Templates_iPhone.storyboard in Resources */,
+				066A780919C2083300896C42 /* Launch_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2838,6 +2845,7 @@
 				40617248198303A50097CD17 /* Acknowledgements.html in Resources */,
 				4085E3141970963200A3FC73 /* DBChooser.bundle in Resources */,
 				065D0CB519A99739009E6FC7 /* templates.json in Resources */,
+				066A780A19C2083300896C42 /* Launch_iPhone.xib in Resources */,
 				4085E31D1970963300A3FC73 /* README in Resources */,
 				06C4DE95198987AF009B6406 /* api-users-sign-in-javierotero.json in Resources */,
 			);
@@ -3699,6 +3707,14 @@
 			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
+		066A780619C2083300896C42 /* Launch_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				066A780719C2083300896C42 /* Base */,
+			);
+			name = Launch_iPhone.xib;
+			sourceTree = "<group>";
+		};
 		0698CAB81852432D007AF442 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3796,7 +3812,6 @@
 			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_DISPLAY_NAME_SUFFIX = " integration";
 				BUNDLE_ID_SUFFIX = .integration;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3983,7 +3998,6 @@
 			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_DISPLAY_NAME_SUFFIX = " debug";
 				BUNDLE_ID_SUFFIX = .debug;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4015,7 +4029,6 @@
 			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_DISPLAY_NAME_SUFFIX = "";
 				BUNDLE_ID_SUFFIX = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
@@ -4249,7 +4262,6 @@
 			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_DISPLAY_NAME_SUFFIX = " specs";
 				BUNDLE_ID_SUFFIX = .specs;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4396,7 +4408,6 @@
 			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_DISPLAY_NAME_SUFFIX = " beta";
 				BUNDLE_ID_SUFFIX = .beta;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";
@@ -4543,7 +4554,6 @@
 			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_DISPLAY_NAME_SUFFIX = " alpha";
 				BUNDLE_ID_SUFFIX = .alpha;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Morsel Labs, Inc. (E4J3AT53LV)";

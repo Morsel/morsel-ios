@@ -11,7 +11,7 @@
 @implementation MRSLAlignedButton
 
 - (UIEdgeInsets)alignmentRectInsets {
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) return UIEdgeInsetsZero;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) return UIEdgeInsetsZero;
     return UIEdgeInsetsMake(0, -9.f, 0, 0);
 }
 

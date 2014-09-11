@@ -33,7 +33,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
     [self setTextColor:[UIColor morselDefaultTextColor]];
     [self setBackgroundColor:[UIColor morselDefaultTextFieldBackgroundColor]];
 
-    if ([UIDevice currentDeviceSystemVersionIsAtLeastIOS7]) {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         self.textContainerInset = UIEdgeInsetsMake(kPadding, kPadding, kPadding, kPadding);
     } else {
         //  top/bottom don't work correctly on iOS < 7
