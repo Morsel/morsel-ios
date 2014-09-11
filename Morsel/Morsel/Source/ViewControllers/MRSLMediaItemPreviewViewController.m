@@ -54,22 +54,6 @@ CaptureMediaViewControllerDelegate>
     self.previewMediaPageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
 
     [self setupControls];
-
-    if ([UIDevice has35InchScreen]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
-                                                                                        inSection:0]
-                                                    atScrollPosition:UICollectionViewScrollPositionCenteredVertically
-                                                            animated:NO];
-            [self updateControls];
-        });
-    } else {
-        [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
-                                                                                    inSection:0]
-                                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
-                                                        animated:NO];
-        [self updateControls];
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,13 +72,17 @@ CaptureMediaViewControllerDelegate>
                                                                   target:self
                                                                   action:nil];
     [self.navigationItem setLeftBarButtonItem:backButton];
+
+    [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
+                                                                                inSection:0]
+                                            atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                                    animated:NO];
+    [self updateControls];
 }
 
 - (void)setPreviewMedia:(NSMutableArray *)media andStartingIndex:(NSUInteger)index {
     self.currentIndex = index;
     self.previewMedia = media;
-
-    [self setupControls];
 }
 
 #pragma mark - Private Methods
@@ -125,7 +113,7 @@ CaptureMediaViewControllerDelegate>
     }
 
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
-    [self.previewMediaPageControl setCurrentPage:_currentIndex];
+    self.previewMediaPageControl.hidden = ([_previewMedia count] == 1);
     [self.previewMediaPageControl setY:320.f - ((([_previewMediaPageControl sizeForNumberOfPages:_previewMediaPageControl.numberOfPages].width) / 2) + 34.f)];
 
     [self.previewMediaCollectionView reloadData];
@@ -133,20 +121,7 @@ CaptureMediaViewControllerDelegate>
 
 - (void)updateControls {
     self.currentIndex = _previewMediaCollectionView.contentOffset.y / _previewMediaCollectionView.frame.size.height;
-
     if (_currentIndex >= [_previewMedia count] - 1) self.currentIndex = [_previewMedia count] - 1;
-
-    [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
-    [self.previewMediaPageControl setCurrentPage:_currentIndex];
-    self.previewMediaPageControl.hidden = ([_previewMedia count] == 1);
-    [self.previewMediaPageControl setY:320.f - ((([_previewMediaPageControl sizeForNumberOfPages:_previewMediaPageControl.numberOfPages].width) / 2) + 34.f)];
-
-    if (_isDisplayingItems) {
-        MRSLItem *currentVisibleItem = [_previewMedia objectAtIndex:_currentIndex];
-        BOOL currentItemIsCover = [currentVisibleItem isCoverItem];
-        self.coverSwitch.enabled = !currentItemIsCover;
-        [self.coverSwitch setOn:currentItemIsCover];
-    }
 }
 
 - (void)removeMediaItemAtCurrentIndex {
@@ -164,6 +139,18 @@ CaptureMediaViewControllerDelegate>
         [self closeImagePreview];
     } else {
         [self updateControls];
+    }
+}
+
+- (void)setCurrentIndex:(NSUInteger)currentIndex {
+    _currentIndex = currentIndex;
+    [self.previewMediaPageControl setCurrentPage:_currentIndex];
+
+    if (_isDisplayingItems) {
+        MRSLItem *currentVisibleItem = [_previewMedia objectAtIndex:_currentIndex];
+        BOOL currentItemIsCover = [currentVisibleItem isCoverItem];
+        self.coverSwitch.enabled = !currentItemIsCover;
+        [self.coverSwitch setOn:currentItemIsCover];
     }
 }
 
