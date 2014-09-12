@@ -121,7 +121,6 @@ CaptureMediaViewControllerDelegate>
 
 - (void)updateControls {
     self.currentIndex = _previewMediaCollectionView.contentOffset.y / _previewMediaCollectionView.frame.size.height;
-    if (_currentIndex >= [_previewMedia count] - 1) self.currentIndex = [_previewMedia count] - 1;
 }
 
 - (void)removeMediaItemAtCurrentIndex {
@@ -138,12 +137,13 @@ CaptureMediaViewControllerDelegate>
     if ([_previewMedia count] == 0) {
         [self closeImagePreview];
     } else {
+        [self setupControls];
         [self updateControls];
     }
 }
 
 - (void)setCurrentIndex:(NSUInteger)currentIndex {
-    _currentIndex = currentIndex;
+    _currentIndex = (currentIndex >= [_previewMedia count] - 1) ? [_previewMedia count] - 1 : currentIndex;
     [self.previewMediaPageControl setCurrentPage:_currentIndex];
 
     if (_isDisplayingItems) {
