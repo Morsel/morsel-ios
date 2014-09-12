@@ -85,8 +85,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title: Name your morsel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fKP-vy-xJJ" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="20" y="0.0" width="247" height="60"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name your morsel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fKP-vy-xJJ" customClass="MRSLRobotoRegularLabel">
+                                                    <rect key="frame" x="70" y="0.0" width="210" height="60"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gKC-uc-sr4" customClass="MRSLRobotoBoldLabel">
+                                                    <rect key="frame" x="20" y="0.0" width="50" height="60"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -105,6 +112,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="arrowImageView" destination="Xam-S2-7Ty" id="i3S-A9-ApP"/>
+                                            <outlet property="keyLabel" destination="gKC-uc-sr4" id="P8B-Zb-mBA"/>
                                             <outlet property="titleLabel" destination="fKP-vy-xJJ" id="u9F-bs-MXK"/>
                                         </connections>
                                     </tableViewCell>
