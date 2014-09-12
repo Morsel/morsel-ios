@@ -19,9 +19,12 @@ static const int kGuestUserID = -1;
 
 + (MRSLUser *)currentUser {
     NSNumber *currentUserID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
-    MRSLUser *currentUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                                    withValue:currentUserID
-                                                    inContext:[NSManagedObjectContext MR_defaultContext]];
+    MRSLUser *currentUser = nil;
+    if (currentUserID) {
+        currentUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                              withValue:currentUserID
+                                              inContext:[NSManagedObjectContext MR_defaultContext]];
+    }
     return currentUser;
 }
 
@@ -82,7 +85,7 @@ static const int kGuestUserID = -1;
 }
 
 + (MRSLUser *)createOrUpdateUserFromResponseObject:(id)userDictionary
-                                existingUser:(BOOL)existingUser {
+                                      existingUser:(BOOL)existingUser {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userID"] != nil) [_appDelegate resetDataStore];
     NSNumber *userID = @([userDictionary[@"id"] intValue]);
 
@@ -110,7 +113,7 @@ static const int kGuestUserID = -1;
     [user.managedObjectContext MR_saveToPersistentStoreAndWait];
 
     if (existingUser) [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
-                                                                          object:nil];
+                                                                          object:@YES];
 
     return user;
 }
@@ -123,6 +126,8 @@ static const int kGuestUserID = -1;
         user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
     }
     user.userID = @(kGuestUserID);
+
+    [user setThirdPartySettings];
 
     [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                               forKey:@"userID"];
@@ -172,25 +177,29 @@ static const int kGuestUserID = -1;
 - (void)setThirdPartySettings {
     if ([MRSLUser isCurrentUserGuest]) {
         [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_guest": @"true"}];
-        return;
-    } else {
+    } else if ([MRSLUser currentUser] && ![MRSLUser isCurrentUserGuest]) {
+        NSString *idString = [NSString stringWithFormat:@"%i", self.userIDValue];
+#if defined (ROLLBAR_ENVIRONMENT)
+        [[Rollbar currentConfiguration] setPersonId:idString
+                                           username:self.username
+                                              email:nil];
+#endif
+        [[Mixpanel sharedInstance] identify:idString];
+        NSMutableDictionary *userProperties = [NSMutableDictionary dictionaryWithDictionary:@{@"first_name": NSNullIfNil(self.first_name),
+                                                                                              @"last_name": NSNullIfNil(self.last_name),
+                                                                                              @"created_at": NSNullIfNil(self.creationDate),
+                                                                                              @"username": NSNullIfNil(self.username)}];
+        if (self.email) {
+            [userProperties setObject:self.email
+                               forKey:@"$email"];
+        }
+        [[Mixpanel sharedInstance].people set:userProperties];
+        [[Mixpanel sharedInstance].people increment:@"open_count"
+                                                 by:@(1)];
+        [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_staff": (self.staffValue) ? @"true" : @"false"}];
+        [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_pro": (self.professionalValue) ? @"true" : @"false"}];
         [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_guest": @"false"}];
     }
-    NSString *idString = [NSString stringWithFormat:@"%i", self.userIDValue];
-#if defined (ROLLBAR_ENVIRONMENT)
-    [[Rollbar currentConfiguration] setPersonId:idString
-                                       username:self.username
-                                          email:nil];
-#endif
-    [[Mixpanel sharedInstance] identify:idString];
-    [[Mixpanel sharedInstance].people set:@{@"first_name": NSNullIfNil(self.first_name),
-                                            @"last_name": NSNullIfNil(self.last_name),
-                                            @"created_at": NSNullIfNil(self.creationDate),
-                                            @"username": NSNullIfNil(self.username)}];
-    [[Mixpanel sharedInstance].people increment:@"open_count"
-                                             by:@(1)];
-    [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_staff": (self.staffValue) ? @"true" : @"false"}];
-    [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_pro": (self.professionalValue) ? @"true" : @"false"}];
 }
 
 - (void)API_updateImage {
