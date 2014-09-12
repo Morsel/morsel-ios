@@ -20,8 +20,6 @@
 
 @interface MRSLSocialServiceFacebook ()
 
-@property (copy, nonatomic) FBSessionStateHandler sessionStateHandlerBlock;
-
 @property (strong, nonatomic) NSArray *facebookAccounts;
 @property (strong, nonatomic) NSArray *friendUIDs;
 

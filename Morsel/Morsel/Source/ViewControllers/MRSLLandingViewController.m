@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *emailButton;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *guestButton;
+@property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 @property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @property (strong, nonatomic) MRSLSocialUser *socialUser;
@@ -47,6 +48,8 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self.navigationController setNavigationBarHidden:NO
                                              animated:NO];
+
+    self.dismissButton.hidden = !_shouldDisplayDismiss;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -79,10 +82,13 @@
     } else {
         __weak __typeof(self) weakSelf = self;
         [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-            if ([session isOpen]) {
-                [weakSelf connectFacebookAccountUsingActiveSession];
-            } else {
-                weakSelf.activityView.hidden = YES;
+            if (weakSelf) {
+                if ([session isOpen]) {
+                    [weakSelf connectFacebookAccountUsingActiveSession];
+                } else {
+                    weakSelf.activityView.hidden = YES;
+                    [MRSLSocialServiceFacebook sharedService].sessionStateHandlerBlock = nil;
+                }
             }
         }];
     }
@@ -130,66 +136,70 @@
 - (void)connectFacebookAccountUsingActiveSession {
     __weak __typeof(self) weakSelf = self;
     [[MRSLSocialServiceFacebook sharedService] getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
-        weakSelf.socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
-        [_appDelegate.apiService checkAuthentication:_socialUser.authentication
-                                              exists:^(BOOL exists, NSError *error) {
-                                                  if (exists) {
-                                                      // Log user in and party.
-                                                      [_appDelegate.apiService signInUserWithEmailOrUsername:nil
-                                                                                                 andPassword:nil
-                                                                                            orAuthentication:_socialUser.authentication
-                                                                                                     success:^(id responseObject) {
-                                                                                                         weakSelf.activityView.hidden = YES;
-                                                                                                     } failure:^(NSError *error) {
-                                                                                                         weakSelf.activityView.hidden = YES;
-                                                                                                     }];
-                                                  } else {
-                                                      // Facebook account not associated with any Morsel accounts. Check if email is.
-                                                      [_appDelegate.apiService checkEmail:_socialUser.email
-                                                                                   exists:^(BOOL exists, NSError *error) {
-                                                                                       weakSelf.activityView.hidden = YES;
-                                                                                       if (exists) {
-                                                                                           // If it does, present "connect to existing account" page. Pass Facebook user object
-                                                                                           UIAlertView *alert = [UIAlertView showAlertViewWithTitle:@"Email Account Found"
-                                                                                                                                            message:[NSString stringWithFormat:@"An account with email (%@) already exists. Please confirm your password to link your account with Facebook.", _socialUser.email]
-                                                                                                                                           delegate:weakSelf
-                                                                                                                                  cancelButtonTitle:@"Cancel"
-                                                                                                                                  otherButtonTitles:@"OK", nil];
-                                                                                           [alert setTag:MRSLSocialAlertViewTypeFacebook];
-                                                                                       } else {
-                                                                                           // If it doesn't, display sign up with prefilled Facebook user data
-                                                                                           [weakSelf performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
-                                                                                                                         sender:nil];
-                                                                                       }
-                                                                                   }];
-                                                  }
-                                              }];
+        if (weakSelf) {
+            weakSelf.socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
+            [_appDelegate.apiService checkAuthentication:_socialUser.authentication
+                                                  exists:^(BOOL exists, NSError *error) {
+                                                      if (exists) {
+                                                          // Log user in and party.
+                                                          [_appDelegate.apiService signInUserWithEmailOrUsername:nil
+                                                                                                     andPassword:nil
+                                                                                                orAuthentication:_socialUser.authentication
+                                                                                                         success:^(id responseObject) {
+                                                                                                             weakSelf.activityView.hidden = YES;
+                                                                                                         } failure:^(NSError *error) {
+                                                                                                             weakSelf.activityView.hidden = YES;
+                                                                                                         }];
+                                                      } else {
+                                                          // Facebook account not associated with any Morsel accounts. Check if email is.
+                                                          [_appDelegate.apiService checkEmail:_socialUser.email
+                                                                                       exists:^(BOOL exists, NSError *error) {
+                                                                                           weakSelf.activityView.hidden = YES;
+                                                                                           if (exists) {
+                                                                                               // If it does, present "connect to existing account" page. Pass Facebook user object
+                                                                                               UIAlertView *alert = [UIAlertView showAlertViewWithTitle:@"Email Account Found"
+                                                                                                                                                message:[NSString stringWithFormat:@"An account with email (%@) already exists. Please confirm your password to link your account with Facebook.", _socialUser.email]
+                                                                                                                                               delegate:weakSelf
+                                                                                                                                      cancelButtonTitle:@"Cancel"
+                                                                                                                                      otherButtonTitles:@"OK", nil];
+                                                                                               [alert setTag:MRSLSocialAlertViewTypeFacebook];
+                                                                                           } else {
+                                                                                               // If it doesn't, display sign up with prefilled Facebook user data
+                                                                                               [weakSelf performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
+                                                                                                                             sender:nil];
+                                                                                           }
+                                                                                       }];
+                                                      }
+                                                  }];
+        }
     }];
 }
 
 - (void)connectTwitterAccountUsingActiveSession {
     __weak __typeof(self) weakSelf = self;
     [[MRSLSocialServiceTwitter sharedService] getTwitterUserInformation:^(NSDictionary *userInfo, NSError *error) {
-        weakSelf.socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
-        [_appDelegate.apiService checkAuthentication:_socialUser.authentication
-                                              exists:^(BOOL exists, NSError *error) {
-                                                  if (exists) {
-                                                      // Log user in and party.
-                                                      [_appDelegate.apiService signInUserWithEmailOrUsername:nil
-                                                                                                 andPassword:nil
-                                                                                            orAuthentication:_socialUser.authentication
-                                                                                                     success:^(id responseObject) {
-                                                                                                         weakSelf.activityView.hidden = YES;
-                                                                                                     } failure:^(NSError *error) {
-                                                                                                         weakSelf.activityView.hidden = YES;
-                                                                                                     }];
-                                                  } else {
-                                                      weakSelf.activityView.hidden = YES;
-                                                      // If it doesn't, display sign up with prefilled Twitter user data
-                                                      [weakSelf performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
-                                                                                    sender:nil];
-                                                  }
-                                              }];
+        if (weakSelf) {
+            weakSelf.socialUser = [[MRSLSocialUser alloc] initWithUserInfo:userInfo];
+            [_appDelegate.apiService checkAuthentication:_socialUser.authentication
+                                                  exists:^(BOOL exists, NSError *error) {
+                                                      if (exists) {
+                                                          // Log user in and party.
+                                                          [_appDelegate.apiService signInUserWithEmailOrUsername:nil
+                                                                                                     andPassword:nil
+                                                                                                orAuthentication:_socialUser.authentication
+                                                                                                         success:^(id responseObject) {
+                                                                                                             weakSelf.activityView.hidden = YES;
+                                                                                                         } failure:^(NSError *error) {
+                                                                                                             weakSelf.activityView.hidden = YES;
+                                                                                                         }];
+                                                      } else {
+                                                          weakSelf.activityView.hidden = YES;
+                                                          // If it doesn't, display sign up with prefilled Twitter user data
+                                                          [weakSelf performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
+                                                                                        sender:nil];
+                                                      }
+                                                  }];
+        }
     }];
 }
 

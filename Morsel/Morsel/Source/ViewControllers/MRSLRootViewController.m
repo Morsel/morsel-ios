@@ -16,6 +16,7 @@
 
 #import "MRSLMenuViewController.h"
 #import "MRSLProfileViewController.h"
+#import "MRSLLandingViewController.h"
 #import "MRSLWebBrowserViewController.h"
 
 #import "MRSLUser.h"
@@ -312,7 +313,12 @@ MRSLMenuViewControllerDelegate>
         [[UIApplication sharedApplication] setStatusBarHidden:YES
                                                 withAnimation:UIStatusBarAnimationSlide];
     }
-    [self displaySignUpAnimated:YES];
+    UINavigationController *signUpNC = [[UIStoryboard loginStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardSignUpKey];
+    MRSLLandingViewController *landingVC = [[signUpNC viewControllers] firstObject];
+    landingVC.shouldDisplayDismiss = YES;
+    [[self topPresentingViewController] presentViewController:signUpNC
+                                                     animated:YES
+                                                   completion:nil];
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
                                                        forName:[[NSBundle mainBundle] bundleIdentifier]];
     [[NSUserDefaults standardUserDefaults] synchronize];

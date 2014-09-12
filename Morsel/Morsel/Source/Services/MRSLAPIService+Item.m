@@ -270,6 +270,7 @@
 
     int itemID = item.itemIDValue;
     NSManagedObjectContext *itemContext = item.managedObjectContext;
+    if (!itemContext) return;
     NSPredicate *itemPredicate = [NSPredicate predicateWithFormat:@"itemID == %i", itemID];
     [MRSLItem MR_deleteAllMatchingPredicate:itemPredicate
                                   inContext:itemContext];

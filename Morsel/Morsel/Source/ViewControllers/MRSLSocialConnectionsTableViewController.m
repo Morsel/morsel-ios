@@ -81,6 +81,7 @@
                     });
                     [weakSelf toggleSwitch:weakSelf.facebookSwitch
                               shouldEnable:NO];
+                    [MRSLSocialServiceFacebook sharedService].sessionStateHandlerBlock = nil;
                 }
             }
         }];

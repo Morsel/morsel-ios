@@ -87,6 +87,8 @@
                 parameterDictionary[key] = [[obj stringValue] dataUsingEncoding:NSUTF8StringEncoding];
             } else if ([obj isKindOfClass:[NSData class]]) {
                 parameterDictionary[key] = obj;
+            } else if ([obj isKindOfClass:[NSNull class]]) {
+                parameterDictionary[key] = [@"<null>" dataUsingEncoding:NSUTF8StringEncoding];
             } else {
                 DDLogDebug(@"Unsupported form parameter object will not be converted to NSData: %@", obj);
             }
