@@ -271,10 +271,12 @@ CaptureMediaViewControllerDelegate>
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"]) {
         MRSLItem *item = [_previewMedia objectAtIndex:_currentIndex];
-        [_appDelegate.apiService deleteItem:item
-                                    success:nil
-                                    failure:nil];
-        [self removeMediaItemAtCurrentIndex];
+        if (item) {
+            [_appDelegate.apiService deleteItem:item
+                                        success:nil
+                                        failure:nil];
+            [self removeMediaItemAtCurrentIndex];
+        }
     }
 }
 
