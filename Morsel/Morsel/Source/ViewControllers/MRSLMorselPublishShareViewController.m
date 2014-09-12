@@ -91,6 +91,7 @@
                     [weakSelf setOnSwitch:weakSelf.facebookSwitch
                                forNetwork:@"facebook"
                              shouldTurnOn:NO];
+                    [MRSLSocialServiceFacebook sharedService].sessionStateHandlerBlock = nil;
                 }
             }
         }];

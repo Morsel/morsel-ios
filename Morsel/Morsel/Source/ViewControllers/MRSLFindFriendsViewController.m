@@ -295,6 +295,7 @@ MRSLSegmentedButtonViewDelegate>
                         [self loadFacebookFriends];
                     } else if (error) {
                         //Display empty tell friends state
+                        [MRSLSocialServiceFacebook sharedService].sessionStateHandlerBlock = nil;
                     }
                 }];
             }

@@ -14,6 +14,8 @@
 
 @interface MRSLSocialServiceFacebook : NSObject
 
+@property (copy, nonatomic) FBSessionStateHandler sessionStateHandlerBlock;
+
 @property (strong, nonatomic) MRSLSocialAuthentication *socialAuthentication;
 
 + (instancetype)sharedService;
