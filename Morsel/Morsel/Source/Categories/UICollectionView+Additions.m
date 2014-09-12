@@ -41,4 +41,10 @@
     return [self numberOfSections] - 1;
 }
 
+- (NSIndexPath *)visibleIndexPath {
+    CGRect visibleRect = (CGRect){.origin = self.contentOffset, .size = self.bounds.size};
+    CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
+    return [self indexPathForItemAtPoint:visiblePoint];
+}
+
 @end

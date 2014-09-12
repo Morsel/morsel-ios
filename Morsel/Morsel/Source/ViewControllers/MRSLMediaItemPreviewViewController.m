@@ -120,7 +120,7 @@ CaptureMediaViewControllerDelegate>
 }
 
 - (void)updateControls {
-    self.currentIndex = _previewMediaCollectionView.contentOffset.y / _previewMediaCollectionView.frame.size.height;
+    self.currentIndex = [_previewMediaCollectionView visibleIndexPath].row;
 }
 
 - (void)removeMediaItemAtCurrentIndex {
