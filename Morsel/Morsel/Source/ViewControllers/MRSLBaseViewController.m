@@ -137,7 +137,7 @@
 
 - (IBAction)displayMorselAdd {
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Create morsel",
+                                 properties:@{@"_title": @"New morsel",
                                               @"_view": self.mp_eventView ?: @"menu"}];
     MRSLTemplateSelectionViewController *templateSelectionVC = [[UIStoryboard templatesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardTemplateSelectionViewControllerKey];
     [self.navigationController pushViewController:templateSelectionVC

@@ -39,6 +39,7 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mp_eventView = @"storyboard_selection";
     self.templateIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:@"templateIDs"] ?: [NSMutableArray array];
 
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) self.collectionView.contentInset = UIEdgeInsetsMake(20.f, 20.f, 20.f, 20.f);
@@ -128,6 +129,9 @@ NSFetchedResultsControllerDelegate>
     self.selectedIndexPath = indexPath;
     MRSLTemplate *morselTemplate = [_templates objectAtIndex:indexPath.row];
     if ([morselTemplate isCreateMorselType]) {
+        [[MRSLEventManager sharedManager] track:@"Tapped Quick Add"
+                                     properties:@{@"_title": NSNullIfNil(morselTemplate.title),
+                                                  @"_view": self.mp_eventView}];
         self.navigationItem.rightBarButtonItem.enabled = NO;
         __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService createMorselWithTemplate:morselTemplate
@@ -145,6 +149,10 @@ NSFetchedResultsControllerDelegate>
                                                       weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
                                                   }];
     } else {
+
+        [[MRSLEventManager sharedManager] track:@"Tapped Storyboard"
+                                     properties:@{@"_title": NSNullIfNil(morselTemplate.title),
+                                                  @"_view": self.mp_eventView}];
         [self performSegueWithIdentifier:MRSLStoryboardSegueTemplateInfoKey
                                   sender:nil];
     }

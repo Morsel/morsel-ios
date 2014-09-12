@@ -475,6 +475,12 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                                                      atScrollPosition:UITableViewScrollPositionTop
                                                                                              animated:YES];
                                             });
+                                            [[MRSLEventManager sharedManager] track:@"Tapped Add Item"
+                                                                         properties:@{@"_title": @"Add",
+                                                                                      @"_view": NSNullIfNil(weakSelf.mp_eventView),
+                                                                                      @"item_count": @([weakSelf.objects count]),
+                                                                                      @"morsel_id": NSNullIfNil(weakSelf.morsel.morselID),
+                                                                                      @"item_id": NSNullIfNil(item.itemID)}];
                                         }
                                     } failure:nil];
     } else if (indexPath.row < _totalUserCells) {
@@ -489,7 +495,7 @@ MRSLMorselEditItemTableViewCellDelegate>
         self.item = [_objects objectAtIndex:indexPath.row];
         if (!self.item.itemID) return;
         [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                     properties:@{@"_title": @"Thumbnail",
+                                     properties:@{@"_title": @"Item Detail",
                                                   @"_view": self.mp_eventView,
                                                   @"item_count": @([_objects count]),
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
