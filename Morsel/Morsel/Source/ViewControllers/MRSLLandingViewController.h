@@ -10,4 +10,6 @@
 
 @interface MRSLLandingViewController : MRSLBaseViewController
 
+@property (nonatomic) BOOL shouldDisplayDismiss;
+
 @end

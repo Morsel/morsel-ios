@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *emailButton;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *guestButton;
+@property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 @property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @property (strong, nonatomic) MRSLSocialUser *socialUser;
@@ -47,6 +48,8 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self.navigationController setNavigationBarHidden:NO
                                              animated:NO];
+
+    self.dismissButton.hidden = !_shouldDisplayDismiss;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -79,10 +82,12 @@
     } else {
         __weak __typeof(self) weakSelf = self;
         [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-            if ([session isOpen]) {
-                [weakSelf connectFacebookAccountUsingActiveSession];
-            } else {
-                weakSelf.activityView.hidden = YES;
+            if (weakSelf) {
+                if ([session isOpen]) {
+                    [weakSelf connectFacebookAccountUsingActiveSession];
+                } else {
+                    weakSelf.activityView.hidden = YES;
+                }
             }
         }];
     }
