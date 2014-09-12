@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseCollectionViewCell.h"
 
-@interface MRSLTagBaseCell : UICollectionViewCell
+@interface MRSLTagBaseCell : MRSLBaseCollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 

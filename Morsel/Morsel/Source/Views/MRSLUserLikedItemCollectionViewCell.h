@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseCollectionViewCell.h"
 
-@interface MRSLUserLikedItemCollectionViewCell : UICollectionViewCell
+@interface MRSLUserLikedItemCollectionViewCell : MRSLBaseCollectionViewCell
 
 - (void)setItem:(MRSLItem *)item
         andUser:(MRSLUser *)user;
