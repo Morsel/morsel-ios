@@ -1185,6 +1185,7 @@
 		4069CB23189B127E001790F3 /* MRSLAPIService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLAPIService.m; sourceTree = "<group>"; };
 		4069CB24189B127E001790F3 /* MRSLSocialService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSocialService.h; sourceTree = "<group>"; };
 		4069CB25189B127E001790F3 /* MRSLSocialService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSocialService.m; sourceTree = "<group>"; };
+		406D93EF19C3BB8E00DFA08E /* Morsel_1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Morsel_1.2.xcdatamodel; sourceTree = "<group>"; };
 		40780BB4198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSectionCollectionReusableView.h; path = Source/Views/MRSLSectionCollectionReusableView.h; sourceTree = "<group>"; };
 		40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSectionCollectionReusableView.m; path = Source/Views/MRSLSectionCollectionReusableView.m; sourceTree = "<group>"; };
 		407FDF44194807E4005FEEBF /* Rollbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rollbar.h; sourceTree = "<group>"; };
@@ -4742,9 +4743,10 @@
 			isa = XCVersionGroup;
 			children = (
 				065E06DD1992AB0000865D54 /* Morsel_1.1.xcdatamodel */,
+				406D93EF19C3BB8E00DFA08E /* Morsel_1.2.xcdatamodel */,
 				0698CA8B18523A8C007AF442 /* Morsel.xcdatamodel */,
 			);
-			currentVersion = 065E06DD1992AB0000865D54 /* Morsel_1.1.xcdatamodel */;
+			currentVersion = 406D93EF19C3BB8E00DFA08E /* Morsel_1.2.xcdatamodel */;
 			name = Morsel.xcdatamodeld;
 			path = Source/Models/Morsel.xcdatamodeld;
 			sourceTree = "<group>";

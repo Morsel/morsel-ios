@@ -82,7 +82,7 @@
 }
 
 - (IBAction)saveToClipboard {
-    NSString *morselShareURL = _item.morsel.url;
+    NSString *morselShareURL = _item.morsel.clipboard_mrsl ?: _item.morsel.url;
     UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
     [pasteBoard setString:morselShareURL];
     _shareStatusLabel.text = @"Copied share link to clipboard";
