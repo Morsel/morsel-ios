@@ -57,7 +57,7 @@
     if (_user) {
         [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                      properties:@{@"_title": @"Follow",
-                                                  @"user_id": _user.userID}];
+                                                  @"followed_user_id": _user.userID}];
 
         [_user setFollowingValue:!_user.followingValue];
         [self setFollowState];
