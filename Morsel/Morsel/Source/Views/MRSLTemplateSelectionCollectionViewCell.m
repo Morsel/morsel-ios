@@ -21,11 +21,6 @@
 
 #pragma mark - Instance Methods
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    if (![UIDevice has35InchScreen]) [self setRoundedCornerRadius:4.f];
-}
-
 - (void)setMorselTemplate:(MRSLTemplate *)morselTemplate {
     _morselTemplate = morselTemplate;
 
