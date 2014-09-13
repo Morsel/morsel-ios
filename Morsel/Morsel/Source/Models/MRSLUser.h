@@ -21,6 +21,7 @@
 + (BOOL)isCurrentUserGuest;
 
 - (BOOL)isCurrentUser;
+- (BOOL)isGuestUser;
 - (BOOL)isProfessional;
 - (NSString *)fullName;
 - (NSString *)displayName;

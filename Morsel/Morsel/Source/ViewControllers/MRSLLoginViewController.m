@@ -41,7 +41,9 @@
 
     self.scrollViewHeight = [self.loginScrollView getHeight];
     [self.loginScrollView setContentSize:CGSizeMake([self.loginScrollView getWidth], ([_signInButton getHeight] + [_signInButton getY] + 20.f))];
+}
 
+- (void)viewWillAppear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -51,14 +53,16 @@
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationSlide];
     [self.navigationController setNavigationBarHidden:YES
                                              animated:animated];
     [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)prefersStatusBarHidden {

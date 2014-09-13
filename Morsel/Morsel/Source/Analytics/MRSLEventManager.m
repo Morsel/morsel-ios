@@ -105,7 +105,8 @@
              @"morsels_published": @(self.morsels_published),
              @"morsels_shared_to_fb": @(self.morsels_shared_to_fb),
              @"morsels_shared_to_twitter": @(self.morsels_shared_to_twitter),
-             @"session_length": NSNullIfNil(sessionTimeFormatted)};
+             @"session_length": NSNullIfNil(sessionTimeFormatted),
+             @"user_id": NSNullIfNil(([MRSLUser isCurrentUserGuest] ? nil : [[MRSLUser currentUser] userID]))};
 }
 
 - (void)startSession {

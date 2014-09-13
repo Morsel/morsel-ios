@@ -225,6 +225,9 @@ UITextFieldDelegate>
                                                 [newUser API_updateImage];
                                             }
 
+                                            [[Mixpanel sharedInstance] createAlias:[responseObject[@"id"] stringValue]
+                                                                     forDistinctID:[Mixpanel sharedInstance].distinctId];
+                                            [[MRSLEventManager sharedManager] track:@"$signup"];
                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                 [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidLogInUserNotification
                                                                                                     object:nil];
@@ -240,9 +243,6 @@ UITextFieldDelegate>
                                                     });
                                                 }
                                             });
-                                            [[MRSLEventManager sharedManager] track:@"$signup"
-                                                                         properties:@{@"distinct_id": NSNullIfNil(responseObject[@"id"]),
-                                                                                      @"_view": self.mp_eventView}];
                                         } failure:^(NSError *error) {
                                             self.activityView.hidden = YES;
                                             [self.continueButton setEnabled:YES];

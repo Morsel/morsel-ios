@@ -193,6 +193,8 @@
             item.isUploading = @NO;
             item.didFailUpload = @YES;
         }];
+    } else {
+        [[Mixpanel sharedInstance] identify:[Mixpanel sharedInstance].distinctId];
     }
 }
 
