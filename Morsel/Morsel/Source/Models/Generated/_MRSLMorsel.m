@@ -4,6 +4,7 @@
 #import "_MRSLMorsel.h"
 
 const struct MRSLMorselAttributes MRSLMorselAttributes = {
+	.clipboard_mrsl = @"clipboard_mrsl",
 	.creationDate = @"creationDate",
 	.draft = @"draft",
 	.facebook_mrsl = @"facebook_mrsl",
@@ -100,6 +101,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 	return keyPaths;
 }
+
+
+
+
+@dynamic clipboard_mrsl;
+
+
 
 
 

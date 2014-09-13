@@ -5,6 +5,7 @@
 
 
 extern const struct MRSLMorselAttributes {
+	__unsafe_unretained NSString *clipboard_mrsl;
 	__unsafe_unretained NSString *creationDate;
 	__unsafe_unretained NSString *draft;
 	__unsafe_unretained NSString *facebook_mrsl;
@@ -53,6 +54,7 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+
 @interface MRSLMorselID : NSManagedObjectID {}
 @end
 
@@ -61,6 +63,16 @@ extern const struct MRSLMorselFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (MRSLMorselID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSString* clipboard_mrsl;
+
+
+
+//- (BOOL)validateClipboard_mrsl:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -292,6 +304,12 @@ extern const struct MRSLMorselFetchedProperties {
 @end
 
 @interface _MRSLMorsel (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSString*)primitiveClipboard_mrsl;
+- (void)setPrimitiveClipboard_mrsl:(NSString*)value;
+
+
 
 
 - (NSDate*)primitiveCreationDate;
