@@ -16,6 +16,17 @@
 
 @implementation MRSLMorselInfoTableViewCell
 
+#pragma mark - Public Methods
+
+- (void)alignLabels {
+    CGFloat keyHeight = [self.keyLabel getHeight];
+    [self.keyLabel sizeToFit];
+    [self.keyLabel setHeight:keyHeight];
+    [self.titleLabel setX:CGRectGetMaxX(self.keyLabel.frame) + 5.f];
+}
+
+#pragma mark - Private Methods
+
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
     [self setSelectedState:highlighted];
