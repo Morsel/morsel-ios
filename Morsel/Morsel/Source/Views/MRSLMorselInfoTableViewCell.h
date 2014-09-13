@@ -13,6 +13,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *keyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
-- (void)alignLabels;
-
 @end
