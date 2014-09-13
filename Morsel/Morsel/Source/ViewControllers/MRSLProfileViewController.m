@@ -332,6 +332,7 @@ MRSLStateViewDelegate>
         [(MRSLProfilePanelCollectionViewCell *)cell setUser:self.user];
         [(MRSLProfilePanelCollectionViewCell *)cell setDelegate:self];
     } else {
+        [cell removeBorder];
         if (count > 0) {
             [cell addBorderWithDirections:MRSLBorderSouth
                               borderColor:[UIColor whiteColor]];
@@ -359,9 +360,6 @@ MRSLStateViewDelegate>
                                                                  forIndexPath:indexPath];
                 [[(MRSLTagStatsNameCell *)cell nameLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] name]];
                 [[(MRSLTagStatsNameCell *)cell tagTypeLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] isCuisineType] ? @"Cuisines" : @"Specialties"];
-                if (indexPath.row != count) {
-                    [cell addDefaultBorderForDirections:MRSLBorderSouth];
-                }
             }
         }
     }
