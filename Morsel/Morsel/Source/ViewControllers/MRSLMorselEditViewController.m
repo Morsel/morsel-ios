@@ -435,6 +435,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell keyLabel] setText:@"Where:"];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:[_morsel.place name] ?: @"None"];
             }
+            [(MRSLMorselInfoTableViewCell *)tableViewCell  alignLabels];
         }
     } else {
         if ([[_objects objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
