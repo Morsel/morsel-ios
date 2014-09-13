@@ -45,7 +45,7 @@ UITableViewDelegate>
                                                  name:MRSLUserDidPublishMorselNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(presentFeed:)
+                                             selector:@selector(userLoggedIn)
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -210,6 +210,11 @@ UITableViewDelegate>
         [self selectRowWithKey:MRSLMenuFeedKey];
         self.shouldResetMenu = NO;
     }
+}
+
+- (void)userLoggedIn {
+    self.shouldResetMenu = YES;
+    [self presentFeed:nil];
 }
 
 - (void)presentFeed:(NSNotification *)notification {
