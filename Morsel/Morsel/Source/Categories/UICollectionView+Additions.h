@@ -21,4 +21,6 @@
 
 - (NSInteger)lastSection;
 
+- (NSIndexPath *)visibleIndexPath;
+
 @end
