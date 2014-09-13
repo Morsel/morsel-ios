@@ -339,11 +339,15 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 - (MRSLUserFollowTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLUser *user = [_users objectAtIndex:indexPath.row];
-    MRSLUserFollowTableViewCell *userFollowCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDUserFollowCellKey];
-    userFollowCell.user = user;
-    userFollowCell.pipeView.hidden = (indexPath.row == [_users count] - 1);
-    return userFollowCell;
+    if (indexPath.row >= [_users count]) {
+        return [[MRSLUserFollowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EmptyCell"];
+    } else {
+        MRSLUser *user = [_users objectAtIndex:indexPath.row];
+        MRSLUserFollowTableViewCell *userFollowCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDUserFollowCellKey];
+        userFollowCell.user = user;
+        userFollowCell.pipeView.hidden = (indexPath.row == [_users count] - 1);
+        return userFollowCell;
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
