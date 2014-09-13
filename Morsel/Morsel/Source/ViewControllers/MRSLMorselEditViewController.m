@@ -433,7 +433,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:(!_morsel || [_morsel hasPlaceholderTitle]) ? @"Name your morsel" : [_morsel title]];
             } else if (indexPath.row == 1) {
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell keyLabel] setText:@"Where:"];
-                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:[_morsel.place name] ?: @"None"];
+                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:[_morsel.place name] ?: @"None / Personal"];
             }
             [(MRSLMorselInfoTableViewCell *)tableViewCell  alignLabels];
         }
