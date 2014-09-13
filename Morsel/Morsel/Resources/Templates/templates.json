@@ -195,7 +195,7 @@
             "id": 19,
             "template_order": 19,
             "placeholder_sort_order": 1,
-            "placeholder_description": "Get a wide shot of the table and share a bit about what your celebrating.",
+            "placeholder_description": "Get a wide shot of the table and share a bit about what you're celebrating.",
             "placeholder_photos": {
                 "small": "template-event1-small",
                 "large": "template-event1-large"
@@ -204,7 +204,7 @@
             "id": 20,
             "template_order": 20,
             "placeholder_sort_order": 2,
-            "placeholder_description": "You can capture each dish, but the piece de resistance is essential!",
+            "placeholder_description": "You can capture each dish, but the pièce de résistance is essential!",
             "placeholder_photos": {
                 "small": "template-event2-small",
                 "large": "template-event2-large"
@@ -213,7 +213,7 @@
             "id": 21,
             "template_order": 21,
             "placeholder_sort_order": 3,
-            "placeholder_description": "Share another dish or drink and what make it special.",
+            "placeholder_description": "Share another dish or drink and what makes it special.",
             "placeholder_photos": {
                 "small": "template-event3-small",
                 "large": "template-event3-large"
