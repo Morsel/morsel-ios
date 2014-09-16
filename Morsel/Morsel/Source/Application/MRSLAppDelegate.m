@@ -168,7 +168,7 @@
 
 - (void)setupDatabase {
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel registerSuperPropertiesOnce:@{@"client_device": (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"ipad" : @"iphone"}];
+    [mixpanel registerSuperPropertiesOnce:@{@"client_device": [UIDevice currentDeviceIsIpad] ? @"ipad" : @"iphone"}];
     [mixpanel registerSuperProperties:@{@"client_version": [MRSLUtil appMajorMinorPatchString]}];
 
     [MagicalRecord initialize];
