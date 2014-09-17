@@ -28,8 +28,6 @@ UITextFieldDelegate>
 
 @property (nonatomic) BOOL userConnectedWithSocial;
 
-@property (nonatomic) CGFloat scrollViewHeight;
-
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet MRSLValidationStatusView *usernameStatusView;
 
@@ -94,19 +92,6 @@ UITextFieldDelegate>
     [self.lastNameField addDefaultBorderForDirections:MRSLBorderWest];
 
     [self.proCheckbox.titleLabel setText:@"I am a professional chef, sommelier, mixologist, etc."];
-
-    self.scrollViewHeight = [self.contentScrollView getHeight];
-    [self.contentScrollView setContentSize:CGSizeMake([self.contentScrollView getWidth], ([_continueButton getHeight] + [_continueButton getY] + 20.f))];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -258,23 +243,6 @@ UITextFieldDelegate>
     });
 }
 
-- (void)keyboardWillShow:(NSNotification *)notification {
-    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [self.contentScrollView setHeight:[self.view getHeight] - keyboardSize.height];
-                         [self.contentScrollView scrollRectToVisible:_passwordField.frame animated:YES];
-                     }];
-}
-
-- (void)keyboardWillHide {
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [self.contentScrollView setHeight:_scrollViewHeight];
-                     }];
-}
-
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -347,11 +315,7 @@ UITextFieldDelegate>
 #pragma mark - UITextFieldDelegate Methods
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    CGRect centeredFrame = textField.frame;
-    centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-
-    [self.contentScrollView scrollRectToVisible:centeredFrame
-                                       animated:YES];
+    [super textFieldDidBeginEditing:textField];
 
     if ([textField isEqual:_usernameField]) {
         self.usernameStatusView.hidden = YES;
@@ -359,6 +323,7 @@ UITextFieldDelegate>
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    [super textFieldDidEndEditing:textField];
     if ([textField isEqual:_usernameField]) {
         if ([_usernameField.text length] > 0) {
             __weak __typeof(self)weakSelf = self;
@@ -382,31 +347,6 @@ UITextFieldDelegate>
                                                      }];
         }
     }
-}
-
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if ([textField isEqual:_firstNameField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
-                                     properties:@{@"_title": @"First Name",
-                                                  @"_view": self.mp_eventView}];
-    } else if ([textField isEqual:_lastNameField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
-                                     properties:@{@"_title": @"Last Name",
-                                                  @"_view": self.mp_eventView}];
-    } else if ([textField isEqual:_usernameField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
-                                     properties:@{@"_title": @"Username",
-                                                  @"_view": self.mp_eventView}];
-    } else if ([textField isEqual:_emailField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
-                                     properties:@{@"_title": @"Email",
-                                                  @"_view": self.mp_eventView}];
-    } else if ([textField isEqual:_passwordField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
-                                     properties:@{@"_title": @"Password",
-                                                  @"_view": self.mp_eventView}];
-    }
-    return YES;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

@@ -20,6 +20,8 @@
 @property (strong, nonatomic) UIBarButtonItem *storedLeftItem;
 @property (strong, nonatomic) UIBarButtonItem *storedRightItem;
 
+@property (weak, nonatomic) UITextField *activeTextfield;
+
 @end
 
 @implementation MRSLBaseViewController
@@ -30,6 +32,43 @@
     [super viewDidLoad];
     self.mp_eventView = @"root";
 
+    if (self.contentView) {
+        NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.contentView
+                                                                          attribute:NSLayoutAttributeLeading
+                                                                          relatedBy:0
+                                                                             toItem:self.view
+                                                                          attribute:NSLayoutAttributeLeft
+                                                                         multiplier:1.f
+                                                                           constant:0];
+        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.contentView
+                                                                           attribute:NSLayoutAttributeTrailing
+                                                                           relatedBy:0
+                                                                              toItem:self.view
+                                                                           attribute:NSLayoutAttributeRight
+                                                                          multiplier:1.f
+                                                                            constant:0];
+        [self.view addConstraint:leftConstraint];
+        [self.view addConstraint:rightConstraint];
+    }
+
+    if (self.navigationController && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) self.navigationController.interactivePopGestureRecognizer.delegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.view endEditing:YES];
+    [self.view setBackgroundColor:[UIColor morselDefaultBackgroundColor]];
+    [self setupNavigationItems];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(modalWillDisplay:)
                                                  name:MRSLModalWillDisplayNotification
@@ -40,10 +79,10 @@
                                                object:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.view setBackgroundColor:[UIColor morselDefaultBackgroundColor]];
-    [self setupNavigationItems];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.view endEditing:YES];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setupNavigationItems {
@@ -176,6 +215,49 @@
 
 - (void)setupWithUserInfo:(NSDictionary *)userInfo {
     @throw @"setupWithUserInfo Not Implemented in subclass!";
+}
+
+#pragma mark - Keyboard Methods
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    NSDictionary* info = [notification userInfo];
+    CGRect kbRect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    kbRect = [self.view convertRect:kbRect
+                           fromView:nil];
+
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.f, 0.f, kbRect.size.height, 0.f);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= kbRect.size.height;
+    if (!CGRectContainsPoint(aRect, self.activeTextfield.frame.origin) ) {
+        [self.scrollView scrollRectToVisible:self.activeTextfield.frame
+                                    animated:YES];
+    }
+}
+
+- (void)keyboardWillHide {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+#pragma mark - UITextFieldDelegate Methods
+
+- (void)textFieldDidBeginEditing:(UITextField *)sender {
+    self.activeTextfield = sender;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)sender {
+    self.activeTextfield = nil;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
+                                 properties:@{@"_title": textField.placeholder ?: @"",
+                                              @"_view": self.mp_eventView}];
+    return YES;
 }
 
 #pragma mark - Utility Methods

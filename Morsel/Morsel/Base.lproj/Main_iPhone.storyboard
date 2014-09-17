@@ -289,7 +289,7 @@
                                 </connections>
                             </webView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="mHL-NU-VuD" customClass="MRSLActivityIndicatorView">
-                                <rect key="frame" x="150" y="220" width="20" height="20"/>
+                                <rect key="frame" x="150" y="242" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="6Jg-r4-ZFH"/>
                                     <constraint firstAttribute="height" constant="20" id="d94-mo-a6G"/>
@@ -353,6 +353,7 @@
                                     <constraint firstItem="Gtc-fs-F64" firstAttribute="leading" secondItem="Rua-3c-q02" secondAttribute="trailing" constant="31" id="pTm-h2-qzw"/>
                                     <constraint firstAttribute="bottom" secondItem="Gtc-fs-F64" secondAttribute="bottom" constant="7" id="siD-Ug-ztP"/>
                                     <constraint firstItem="Gtc-fs-F64" firstAttribute="top" secondItem="5xq-2a-B5C" secondAttribute="top" constant="7" id="uES-HR-zqA"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="uEg-K0-t68"/>
                                     <constraint firstItem="Rua-3c-q02" firstAttribute="top" secondItem="5xq-2a-B5C" secondAttribute="top" constant="7" id="wVN-BB-7UV"/>
                                     <constraint firstItem="Gtc-fs-F64" firstAttribute="leading" secondItem="Rua-3c-q02" secondAttribute="trailing" constant="31" id="wcJ-8c-Cv7"/>
                                 </constraints>
@@ -362,16 +363,17 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="9fg-ar-Mxr" secondAttribute="trailing" id="1O6-7T-a3p"/>
                             <constraint firstItem="5xq-2a-B5C" firstAttribute="leading" secondItem="MoZ-0R-f4j" secondAttribute="leading" id="5N2-1r-qE7"/>
-                            <constraint firstAttribute="trailing" secondItem="mHL-NU-VuD" secondAttribute="trailing" constant="150" id="5hh-pQ-uRu"/>
+                            <constraint firstAttribute="centerX" secondItem="mHL-NU-VuD" secondAttribute="centerX" id="5Rg-t7-9ue"/>
                             <constraint firstItem="9fg-ar-Mxr" firstAttribute="top" secondItem="f2j-Uy-QAi" secondAttribute="bottom" id="7iy-7s-ZGL"/>
+                            <constraint firstItem="5xq-2a-B5C" firstAttribute="leading" secondItem="MoZ-0R-f4j" secondAttribute="leading" id="9h6-lT-e9o"/>
                             <constraint firstItem="u3B-44-O98" firstAttribute="top" secondItem="5xq-2a-B5C" secondAttribute="bottom" id="ADK-q1-BXS"/>
                             <constraint firstItem="9fg-ar-Mxr" firstAttribute="leading" secondItem="MoZ-0R-f4j" secondAttribute="leading" id="Inn-DR-mQJ"/>
+                            <constraint firstAttribute="trailing" secondItem="5xq-2a-B5C" secondAttribute="trailing" id="KPs-3q-Yaa"/>
                             <constraint firstItem="5xq-2a-B5C" firstAttribute="top" secondItem="9fg-ar-Mxr" secondAttribute="bottom" id="M9g-QZ-Xb2"/>
-                            <constraint firstItem="5xq-2a-B5C" firstAttribute="top" secondItem="mHL-NU-VuD" secondAttribute="bottom" constant="220" id="V56-xb-c0L"/>
-                            <constraint firstItem="mHL-NU-VuD" firstAttribute="leading" secondItem="MoZ-0R-f4j" secondAttribute="leading" constant="150" id="WeZ-Px-kju"/>
+                            <constraint firstAttribute="centerY" secondItem="mHL-NU-VuD" secondAttribute="centerY" id="VlH-pc-Fvm"/>
                             <constraint firstAttribute="trailing" secondItem="5xq-2a-B5C" secondAttribute="trailing" id="cWr-7y-Jyp"/>
                             <constraint firstItem="5xq-2a-B5C" firstAttribute="top" secondItem="9fg-ar-Mxr" secondAttribute="bottom" id="ePB-2B-nti"/>
-                            <constraint firstItem="mHL-NU-VuD" firstAttribute="top" secondItem="f2j-Uy-QAi" secondAttribute="bottom" constant="220" id="mXC-0W-Cqw"/>
+                            <constraint firstItem="u3B-44-O98" firstAttribute="top" secondItem="5xq-2a-B5C" secondAttribute="bottom" id="fk8-Xa-a2d"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>

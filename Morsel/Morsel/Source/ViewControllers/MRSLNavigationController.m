@@ -24,6 +24,9 @@
                               withColor:[UIColor blackColor]];
 
     [navigationBar setTranslucent:NO];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

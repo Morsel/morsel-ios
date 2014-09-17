@@ -26,9 +26,25 @@
     self.mp_eventView = @"reset_password";
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES
+                                            withAnimation:UIStatusBarAnimationSlide];
+    [self.navigationController setNavigationBarHidden:YES
+                                             animated:animated];
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.usernameEmailField becomeFirstResponder];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationSlide;
 }
 
 #pragma mark - Action Methods

@@ -15,16 +15,12 @@
 #import "MRSLSocialUser.h"
 
 @interface MRSLLoginViewController ()
-<UITextFieldDelegate>
-
-@property (nonatomic) CGFloat scrollViewHeight;
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIView *activityView;
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIScrollView *loginScrollView;
 
 @end
 
@@ -38,31 +34,14 @@
     if (_socialUser) {
         self.emailTextField.text = _socialUser.email;
     }
-
-    self.scrollViewHeight = [self.loginScrollView getHeight];
-    [self.loginScrollView setContentSize:CGSizeMake([self.loginScrollView getWidth], ([_signInButton getHeight] + [_signInButton getY] + 20.f))];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationSlide];
     [self.navigationController setNavigationBarHidden:YES
                                              animated:animated];
     [super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -150,37 +129,7 @@
                                                    }];
 }
 
-- (void)keyboardWillShow:(NSNotification *)notification {
-    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [self.loginScrollView setHeight:[self.view getHeight] - keyboardSize.height];
-                         [self.loginScrollView scrollRectToVisible:_passwordTextField.frame animated:YES];
-                     }];
-}
-
-- (void)keyboardWillHide {
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [self.loginScrollView setHeight:_scrollViewHeight];
-                     }];
-}
-
 #pragma mark - UITextFieldDelegate Methods
-
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if ([textField isEqual:_emailTextField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
-                                     properties:@{@"_title": @"Email",
-                                                  @"_view": self.mp_eventView}];
-    } else if ([textField isEqual:_passwordTextField]) {
-        [[MRSLEventManager sharedManager] track:@"Tapped Textfield"
-                                     properties:@{@"_title": @"Password",
-                                                  @"_view": self.mp_eventView}];
-    }
-    return YES;
-}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if ([string isEqualToString:@"\n"]) {
