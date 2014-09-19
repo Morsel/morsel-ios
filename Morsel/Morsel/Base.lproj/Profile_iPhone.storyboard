@@ -335,7 +335,7 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="fJF-2g-kbu" customClass="MRSLRobotoSlabBoldLabel">
                                                     <rect key="frame" x="54" y="3" width="246" height="31"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="246" id="Mye-Fx-A1J"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" id="Mye-Fx-A1J"/>
                                                         <constraint firstAttribute="height" constant="31" id="m58-fI-Q5R"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -345,8 +345,8 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="m80-zB-Lnt" customClass="MRSLRobotoLightItalicLabel">
                                                     <rect key="frame" x="54" y="28" width="246" height="32"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="246" id="BPy-AR-6Sv"/>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="wS1-c5-8m6"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" id="BPy-AR-6Sv"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" id="wS1-c5-8m6"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
@@ -393,7 +393,7 @@
                                                     <rect key="frame" x="10" y="0.0" width="300" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="4sM-qp-bep"/>
-                                                        <constraint firstAttribute="width" constant="300" id="oit-1a-4Rg"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" id="oit-1a-4Rg"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="12"/>
                                                     <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
@@ -402,7 +402,7 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="nyx-nU-wkJ" customClass="MRSLRobotoLightLabel">
                                                     <rect key="frame" x="40" y="20" width="260" height="40"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="260" id="OiU-yT-xOV"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" id="OiU-yT-xOV"/>
                                                         <constraint firstAttribute="height" constant="40" id="r5h-O5-bHz"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>

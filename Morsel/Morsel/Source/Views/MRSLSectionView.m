@@ -30,8 +30,7 @@
 
 #pragma mark - Instance Methods
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         _label = [[MRSLRobotoSlabBoldLabel alloc] initWithFrame:CGRectMake(16.f, 0.f, 240.f, 34.f)

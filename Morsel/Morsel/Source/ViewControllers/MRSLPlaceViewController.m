@@ -311,16 +311,16 @@ MRSLSegmentedHeaderReusableViewDelegate>
 - (CGSize)configureSizeForCollectionView:(UICollectionView *)collectionView
                              atIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return CGSizeMake(320.f, 120.f);
+        return CGSizeMake(collectionView.frame.size.width, 120.f);
     } else {
         if ([self.segmentedPanelCollectionViewDataSource count] == 0) {
-            return CGSizeMake(320.f, 80.f);
+            return CGSizeMake(collectionView.frame.size.width, 80.f);
         } else {
             id object = [_segmentedPanelCollectionViewDataSource objectAtIndexPath:indexPath];
             if ([object isKindOfClass:[MRSLMorsel class]]) {
-                return CGSizeMake(106.f, 106.f);
+                return CGSizeMake((collectionView.frame.size.width / 3) - 1.f, (collectionView.frame.size.width / 3) - 1.f);
             } else {
-                return CGSizeMake(320.f, 80.f);
+                return CGSizeMake(collectionView.frame.size.width, 80.f);
             }
         }
     }
