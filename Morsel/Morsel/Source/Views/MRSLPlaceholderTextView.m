@@ -12,8 +12,8 @@ static CGFloat kPadding = MRSLDefaultPadding;
 
 @implementation MRSLPlaceholderTextView
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+- (void)layoutSubviews {
+    [super layoutSubviews];
 
     [self addDefaultBorderForDirections:(MRSLBorderNorth|MRSLBorderSouth)];
     [self setTextColor:[UIColor morselDefaultTextColor]];
