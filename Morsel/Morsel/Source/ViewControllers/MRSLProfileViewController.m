@@ -370,14 +370,14 @@ MRSLStateViewDelegate>
 - (CGSize)configureSizeForCollectionView:(UICollectionView *)collectionView
                              atIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return CGSizeMake(320.f, 124.f);
+        return CGSizeMake(collectionView.frame.size.width, 124.f);
     } else {
         if ([self.segmentedPanelCollectionViewDataSource count] == 0) {
-            return CGSizeMake(320.f, (_dataSourceTabType == MRSLDataSourceTypeTag) ? 500.f : 80.f);
+            return CGSizeMake(collectionView.frame.size.width, (_dataSourceTabType == MRSLDataSourceTypeTag) ? 500.f : 80.f);
         } else {
             id object = [_segmentedPanelCollectionViewDataSource objectAtIndexPath:indexPath];
             if ([object isKindOfClass:[MRSLMorsel class]]) {
-                return CGSizeMake(106.f, 106.f);
+                return CGSizeMake((collectionView.frame.size.width / 3) - 1.f, (collectionView.frame.size.width / 3) - 1.f);
             } else if ([object isKindOfClass:[MRSLTag class]]) {
                 BOOL shouldDisplayTypeHeader = (indexPath.row == 0);
                 if (indexPath.row > 0) {
@@ -385,9 +385,9 @@ MRSLStateViewDelegate>
                     MRSLTag *previousTag = [self.segmentedPanelCollectionViewDataSource objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section]];
                     shouldDisplayTypeHeader = ![previousTag.keyword.type isEqualToString:currentTag.keyword.type];
                 }
-                return CGSizeMake(320.f, (shouldDisplayTypeHeader) ? 64.f : 40.f);
+                return CGSizeMake(collectionView.frame.size.width, (shouldDisplayTypeHeader) ? 64.f : 40.f);
             } else {
-                return CGSizeMake(320.f, 80.f);
+                return CGSizeMake(collectionView.frame.size.width, 80.f);
             }
         }
     }
