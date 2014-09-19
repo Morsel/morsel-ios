@@ -377,7 +377,7 @@ MRSLStateViewDelegate>
         } else {
             id object = [_segmentedPanelCollectionViewDataSource objectAtIndexPath:indexPath];
             if ([object isKindOfClass:[MRSLMorsel class]]) {
-                return CGSizeMake((collectionView.frame.size.width / 3) - 1.f, (collectionView.frame.size.width / 3) - 1.f);
+                return CGSizeMake(MAX(106.f, (collectionView.frame.size.width / 3) - 1.f), MAX(106.f, (collectionView.frame.size.width / 3) - 1.f));
             } else if ([object isKindOfClass:[MRSLTag class]]) {
                 BOOL shouldDisplayTypeHeader = (indexPath.row == 0);
                 if (indexPath.row > 0) {

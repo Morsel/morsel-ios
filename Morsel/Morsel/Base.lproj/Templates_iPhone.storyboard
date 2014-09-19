@@ -14,12 +14,16 @@
                         <viewControllerLayoutGuide type="bottom" id="gR1-eu-hKM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="iZh-bx-kDP">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="f4m-cX-16Y" customClass="MRSLCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="f4m-cX-16Y" customClass="MRSLCollectionView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" id="cjx-MA-Fpt"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" id="jsX-3Y-CEI"/>
+                                </constraints>
                                 <inset key="insetFor6xAndEarlier" minX="-20" minY="0.0" maxX="-20" maxY="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="iM2-ep-Sbt">
                                     <size key="itemSize" width="130" height="120"/>
@@ -35,11 +39,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="130" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="template-icon" translatesAutoresizingMaskIntoConstraints="NO" id="av8-yn-dhr">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="template-icon" translatesAutoresizingMaskIntoConstraints="NO" id="av8-yn-dhr">
                                                     <rect key="frame" x="45" y="36" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="79D-Gk-syt"/>
+                                                        <constraint firstAttribute="height" constant="40" id="bVn-NK-Ngk"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="130" translatesAutoresizingMaskIntoConstraints="NO" id="obH-Og-3o3" customClass="MRSLRobotoLightLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="130" translatesAutoresizingMaskIntoConstraints="NO" id="obH-Og-3o3" customClass="MRSLRobotoLightLabel">
                                                     <rect key="frame" x="0.0" y="74" width="130" height="46"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" id="04K-Pd-cJI"/>
+                                                        <constraint firstAttribute="height" constant="46" id="aTe-NV-hzB"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -48,6 +60,13 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <color key="backgroundColor" red="0.90980392694473267" green="0.3803921639919281" blue="0.26666668057441711" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="obH-Og-3o3" secondAttribute="bottom" id="0aK-ax-xXc"/>
+                                            <constraint firstAttribute="centerY" secondItem="av8-yn-dhr" secondAttribute="centerY" constant="4" id="0yz-vQ-oeH"/>
+                                            <constraint firstAttribute="centerX" secondItem="av8-yn-dhr" secondAttribute="centerX" id="4ZJ-jx-g88"/>
+                                            <constraint firstAttribute="trailing" secondItem="obH-Og-3o3" secondAttribute="trailing" id="D6a-Ge-Q6S"/>
+                                            <constraint firstItem="obH-Og-3o3" firstAttribute="leading" secondItem="p5h-1u-dgI" secondAttribute="leading" id="oXP-q1-PJI"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="iconImageView" destination="av8-yn-dhr" id="ajQ-mJ-SCd"/>
                                             <outlet property="titleLabel" destination="obH-Og-3o3" id="EFv-5s-qng"/>
@@ -58,14 +77,22 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose from one of the following storyboards to get started:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="Lpl-yR-tK8" customClass="MRSLRobotoLightLabel">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose from one of the following storyboards to get started:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="Lpl-yR-tK8" customClass="MRSLRobotoLightLabel">
+                                            <rect key="frame" x="20" y="0.0" width="280" height="50"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="SB1-nI-REv"/>
+                                                <constraint firstAttribute="width" constant="280" id="msJ-nP-Lu5"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="Lpl-yR-tK8" firstAttribute="top" secondItem="xvY-nY-wMb" secondAttribute="top" id="bfW-Pu-PKF"/>
+                                        <constraint firstAttribute="centerX" secondItem="Lpl-yR-tK8" secondAttribute="centerX" id="om2-2C-Xgm"/>
+                                    </constraints>
                                 </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="qQb-Jm-20r" id="JMg-Qr-Kvb"/>
@@ -74,6 +101,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="f4m-cX-16Y" firstAttribute="top" secondItem="7Jy-02-fet" secondAttribute="bottom" id="8Iq-qS-gkw"/>
+                            <constraint firstAttribute="trailing" secondItem="f4m-cX-16Y" secondAttribute="trailing" id="AN2-zh-AnB"/>
+                            <constraint firstItem="gR1-eu-hKM" firstAttribute="top" secondItem="f4m-cX-16Y" secondAttribute="bottom" id="Shy-st-yni"/>
+                            <constraint firstItem="f4m-cX-16Y" firstAttribute="leading" secondItem="iZh-bx-kDP" secondAttribute="leading" id="xxo-RG-eB1"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="New morsel" id="vfE-it-W0r"/>
@@ -95,35 +128,36 @@
                         <viewControllerLayoutGuide type="bottom" id="qiC-9w-9XD"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ytx-Au-iSB">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="AHI-bJ-JHJ" customClass="MRSLRobotoLightLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Template description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="AHI-bJ-JHJ" customClass="MRSLRobotoLightLabel">
                                 <rect key="frame" x="20" y="10" width="280" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="bwa-DV-Q9O"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="eHy-jR-H8A"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="XeV-T5-o03" customClass="MRSLRobotoLightItalicLabel">
-                                <rect key="frame" x="20" y="49" width="280" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Pro tip" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="XeV-T5-o03" customClass="MRSLRobotoLightItalicLabel">
+                                <rect key="frame" x="20" y="49" width="280" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="2GG-zT-He3"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="8bn-x7-GvH"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uNB-BG-IhW" customClass="MRSLColoredBackgroundLightButton">
-                                <rect key="frame" x="20" y="20" width="280" height="40"/>
-                                <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="Create this morsel">
-                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="create:" destination="4HB-gF-5RL" eventType="touchUpInside" id="yO8-Gb-J7g"/>
-                                </connections>
-                            </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="34" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="swd-YI-yxA">
-                                <rect key="frame" x="0.0" y="78" width="320" height="426"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="34" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="swd-YI-yxA">
+                                <rect key="frame" x="0.0" y="144" width="320" height="272"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" id="JMy-LK-ITz"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" id="XJG-WZ-AfN"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_TemplateInfoCell" id="D4D-91-qit" customClass="MRSLTemplateItemInfoTableViewCell">
                                         <rect key="frame" x="0.0" y="34" width="320" height="60"/>
@@ -132,29 +166,62 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hMy-JU-ake" customClass="MRSLItemImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hMy-JU-ake" customClass="MRSLItemImageView">
                                                     <rect key="frame" x="32" y="5" width="50" height="50"/>
                                                     <gestureRecognizers/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="YXP-Ds-vV2"/>
+                                                        <constraint firstAttribute="width" constant="50" id="gNS-Mf-scz"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Placeholder" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="210" translatesAutoresizingMaskIntoConstraints="NO" id="1bV-uO-77b" customClass="MRSLRobotoLightItalicLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Placeholder" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="210" translatesAutoresizingMaskIntoConstraints="NO" id="1bV-uO-77b" customClass="MRSLRobotoLightItalicLabel">
                                                     <rect key="frame" x="90" y="5" width="210" height="50"/>
                                                     <gestureRecognizers/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="5hV-Wp-jor"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="210" id="ZsZ-JS-XpQ"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="32" translatesAutoresizingMaskIntoConstraints="NO" id="dHi-y3-Gv1" customClass="MRSLRobotoBoldLabel">
-                                                    <rect key="frame" x="0.0" y="-1" width="32" height="60"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="32" translatesAutoresizingMaskIntoConstraints="NO" id="dHi-y3-Gv1" customClass="MRSLRobotoBoldLabel">
+                                                    <rect key="frame" x="0.0" y="0.0" width="32" height="59"/>
                                                     <gestureRecognizers/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="32" id="FY2-cH-yNN"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="59" id="dsN-g8-6Jc"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S22-tk-ahG">
+                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S22-tk-ahG">
                                                     <rect key="frame" x="0.0" y="59" width="320" height="1"/>
                                                     <color key="backgroundColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="KTu-uh-tKK"/>
+                                                        <constraint firstAttribute="height" constant="1" id="rYE-Rj-pYi"/>
+                                                    </constraints>
                                                 </view>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hMy-JU-ake" firstAttribute="leading" secondItem="dHi-y3-Gv1" secondAttribute="trailing" id="3A1-or-TDL"/>
+                                                <constraint firstAttribute="trailing" secondItem="1bV-uO-77b" secondAttribute="trailing" constant="20" id="3rU-e8-KrJ"/>
+                                                <constraint firstItem="S22-tk-ahG" firstAttribute="top" secondItem="dHi-y3-Gv1" secondAttribute="bottom" id="4RX-ee-ZTY"/>
+                                                <constraint firstItem="dHi-y3-Gv1" firstAttribute="leading" secondItem="5Ek-cs-5sL" secondAttribute="leading" id="76J-1w-B4X"/>
+                                                <constraint firstItem="S22-tk-ahG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hMy-JU-ake" secondAttribute="bottom" constant="4" id="DQR-BI-yVY"/>
+                                                <constraint firstItem="S22-tk-ahG" firstAttribute="leading" secondItem="5Ek-cs-5sL" secondAttribute="leading" id="I2Z-ux-llc"/>
+                                                <constraint firstItem="1bV-uO-77b" firstAttribute="top" secondItem="5Ek-cs-5sL" secondAttribute="top" constant="5" id="Pcm-zG-fok"/>
+                                                <constraint firstItem="dHi-y3-Gv1" firstAttribute="top" secondItem="5Ek-cs-5sL" secondAttribute="top" id="R19-gy-Rd1"/>
+                                                <constraint firstItem="S22-tk-ahG" firstAttribute="top" secondItem="1bV-uO-77b" secondAttribute="bottom" constant="4" id="WMX-jo-anr"/>
+                                                <constraint firstItem="hMy-JU-ake" firstAttribute="leading" secondItem="dHi-y3-Gv1" secondAttribute="trailing" id="XOW-cU-xiw"/>
+                                                <constraint firstAttribute="trailing" secondItem="S22-tk-ahG" secondAttribute="trailing" id="YwS-i6-NrG"/>
+                                                <constraint firstItem="1bV-uO-77b" firstAttribute="leading" secondItem="hMy-JU-ake" secondAttribute="trailing" constant="8" id="bn9-lb-VoP"/>
+                                                <constraint firstItem="hMy-JU-ake" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5Ek-cs-5sL" secondAttribute="top" constant="5" id="fbz-c4-C46"/>
+                                                <constraint firstItem="1bV-uO-77b" firstAttribute="leading" secondItem="hMy-JU-ake" secondAttribute="trailing" constant="8" id="hXM-R7-DMc"/>
+                                                <constraint firstAttribute="bottom" secondItem="S22-tk-ahG" secondAttribute="bottom" id="iCp-Nq-hhS"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="1bV-uO-77b" id="Qzj-ej-3PW"/>
@@ -168,8 +235,39 @@
                                     <outlet property="delegate" destination="4HB-gF-5RL" id="QdH-gY-nY8"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uNB-BG-IhW" customClass="MRSLColoredBackgroundLightButton">
+                                <rect key="frame" x="20" y="82" width="280" height="40"/>
+                                <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="1Jh-7T-zxA"/>
+                                    <constraint firstAttribute="width" constant="280" id="imy-0o-ueS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="Create this morsel">
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="create:" destination="4HB-gF-5RL" eventType="touchUpInside" id="yO8-Gb-J7g"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="uNB-BG-IhW" firstAttribute="leading" secondItem="Ytx-Au-iSB" secondAttribute="leading" constant="20" id="0ay-9K-Bj9"/>
+                            <constraint firstAttribute="trailing" secondItem="AHI-bJ-JHJ" secondAttribute="trailing" constant="20" id="0du-vC-aSV"/>
+                            <constraint firstItem="qiC-9w-9XD" firstAttribute="top" secondItem="swd-YI-yxA" secondAttribute="bottom" id="4ed-Zy-1aM"/>
+                            <constraint firstItem="XeV-T5-o03" firstAttribute="top" secondItem="AHI-bJ-JHJ" secondAttribute="bottom" constant="18" id="9sg-G3-B8s"/>
+                            <constraint firstAttribute="trailing" secondItem="XeV-T5-o03" secondAttribute="trailing" constant="20" id="Buk-mi-aLK"/>
+                            <constraint firstItem="AHI-bJ-JHJ" firstAttribute="top" secondItem="rh8-eo-8Ay" secondAttribute="bottom" constant="10" id="D3H-Qd-Wuv"/>
+                            <constraint firstItem="swd-YI-yxA" firstAttribute="leading" secondItem="Ytx-Au-iSB" secondAttribute="leading" id="GCt-ec-pf3"/>
+                            <constraint firstItem="uNB-BG-IhW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="AHI-bJ-JHJ" secondAttribute="bottom" constant="18" id="J18-Co-Owh"/>
+                            <constraint firstItem="AHI-bJ-JHJ" firstAttribute="leading" secondItem="Ytx-Au-iSB" secondAttribute="leading" constant="20" id="QdV-4X-Ut8"/>
+                            <constraint firstItem="swd-YI-yxA" firstAttribute="top" secondItem="uNB-BG-IhW" secondAttribute="bottom" constant="22" id="Vd4-h7-O9T"/>
+                            <constraint firstItem="uNB-BG-IhW" firstAttribute="top" secondItem="XeV-T5-o03" secondAttribute="bottom" constant="18" id="YBx-E3-OPX"/>
+                            <constraint firstItem="XeV-T5-o03" firstAttribute="leading" secondItem="Ytx-Au-iSB" secondAttribute="leading" constant="20" id="fGx-NE-hZP"/>
+                            <constraint firstAttribute="trailing" secondItem="swd-YI-yxA" secondAttribute="trailing" id="h2y-D4-Pnq"/>
+                            <constraint firstAttribute="trailing" secondItem="uNB-BG-IhW" secondAttribute="trailing" constant="20" id="kxR-T6-3Y2"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="2nn-mm-jBM">
@@ -197,6 +295,7 @@
                 <navigationController storyboardIdentifier="sb_TemplateSelection" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="3nw-Ug-84v" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="3yk-XL-QZm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -241,7 +340,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="mpL-zc-10R"/>
+        <segue reference="MAX-qL-Xjj"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
 </document>

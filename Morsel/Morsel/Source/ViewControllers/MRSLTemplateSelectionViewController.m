@@ -21,6 +21,7 @@
 @interface MRSLTemplateSelectionViewController ()
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
+UICollectionViewDelegateFlowLayout,
 NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -121,6 +122,14 @@ NSFetchedResultsControllerDelegate>
                                                                                 withReuseIdentifier:@"ruid_TemplateHelperCell"
                                                                                        forIndexPath:indexPath];
     return reusableView;
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout Methods
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(MAX(130.f, floorf(self.view.bounds.size.width * .4f)), MAX(120.f, floorf(self.view.bounds.size.height * .22f)));
 }
 
 #pragma mark - UICollectionViewDelegate Methods
