@@ -17,12 +17,15 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wg3-jh-dBZ" customClass="MRSLSegmentedButtonView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wg3-jh-dBZ" customClass="MRSLSegmentedButtonView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eg0-VS-emV" customClass="MRSLSegmentButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eg0-VS-emV" customClass="MRSLSegmentButton">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="50"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="o05-dC-DdK"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="Following">
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -31,9 +34,12 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCm-Ow-giH" customClass="MRSLSegmentButton">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCm-Ow-giH" customClass="MRSLSegmentButton">
                                         <rect key="frame" x="160" y="0.0" width="160" height="50"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="lyT-B9-Qkx"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="My Activity">
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -44,17 +50,44 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Eg0-VS-emV" firstAttribute="leading" secondItem="Wg3-jh-dBZ" secondAttribute="leading" id="0he-54-NyW"/>
+                                    <constraint firstItem="Eg0-VS-emV" firstAttribute="width" secondItem="kCm-Ow-giH" secondAttribute="width" id="6vC-4y-xjn"/>
+                                    <constraint firstItem="kCm-Ow-giH" firstAttribute="leading" secondItem="Eg0-VS-emV" secondAttribute="trailing" id="CCP-1U-Mpv"/>
+                                    <constraint firstItem="Eg0-VS-emV" firstAttribute="top" secondItem="Wg3-jh-dBZ" secondAttribute="top" id="F8B-wE-Kdo"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="TC1-6V-IcY"/>
+                                    <constraint firstItem="kCm-Ow-giH" firstAttribute="leading" secondItem="Eg0-VS-emV" secondAttribute="trailing" id="UMK-4T-WS0"/>
+                                    <constraint firstAttribute="trailing" secondItem="kCm-Ow-giH" secondAttribute="trailing" id="dNv-vZ-xhw"/>
+                                    <constraint firstAttribute="bottom" secondItem="Eg0-VS-emV" secondAttribute="bottom" id="p3L-Sd-v7K"/>
+                                    <constraint firstAttribute="bottom" secondItem="kCm-Ow-giH" secondAttribute="bottom" id="rBL-aN-xLg"/>
+                                    <constraint firstItem="kCm-Ow-giH" firstAttribute="top" secondItem="Wg3-jh-dBZ" secondAttribute="top" id="tkO-5u-Nkj"/>
+                                    <constraint firstAttribute="height" constant="50" id="x4A-3e-1VD"/>
+                                </constraints>
                                 <connections>
                                     <outletCollection property="buttons" destination="Eg0-VS-emV" id="z1R-cz-eLg"/>
                                     <outletCollection property="buttons" destination="kCm-Ow-giH" id="zXM-bK-TBZ"/>
                                 </connections>
                             </view>
-                            <containerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JT8-9W-1ns">
-                                <rect key="frame" x="0.0" y="50" width="320" height="455"/>
+                            <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JT8-9W-1ns">
+                                <rect key="frame" x="0.0" y="50" width="320" height="454"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="j5p-jR-eZW"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="454" id="tt6-Ih-G4z"/>
+                                </constraints>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Wg3-jh-dBZ" firstAttribute="top" secondItem="7Gx-YN-OBc" secondAttribute="bottom" id="8d0-9v-ME2"/>
+                            <constraint firstItem="npO-wG-glq" firstAttribute="top" secondItem="JT8-9W-1ns" secondAttribute="bottom" id="BiI-Vc-GLC"/>
+                            <constraint firstAttribute="trailing" secondItem="Wg3-jh-dBZ" secondAttribute="trailing" id="EkR-cW-A8U"/>
+                            <constraint firstItem="Wg3-jh-dBZ" firstAttribute="leading" secondItem="HoH-VY-Met" secondAttribute="leading" id="L4n-z6-Dr3"/>
+                            <constraint firstItem="JT8-9W-1ns" firstAttribute="top" secondItem="Wg3-jh-dBZ" secondAttribute="bottom" id="Ras-8t-Azc"/>
+                            <constraint firstItem="JT8-9W-1ns" firstAttribute="leading" secondItem="HoH-VY-Met" secondAttribute="leading" id="SWP-Fg-Y5x"/>
+                            <constraint firstAttribute="trailing" secondItem="JT8-9W-1ns" secondAttribute="trailing" id="jIM-Ls-kIC"/>
+                            <constraint firstItem="JT8-9W-1ns" firstAttribute="top" secondItem="Wg3-jh-dBZ" secondAttribute="bottom" id="t34-fs-csT"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Activity" id="bJm-9K-5hM"/>

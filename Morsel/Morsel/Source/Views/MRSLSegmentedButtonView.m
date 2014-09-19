@@ -20,8 +20,8 @@
 
 #pragma mark - Instance Methods
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+- (void)layoutSubviews {
+    [super layoutSubviews];
 
     self.buttons =  [_buttons sortedArrayUsingComparator:^NSComparisonResult(UIButton *buttonA, UIButton *buttonB) {
         return [buttonA getX] > [buttonB getX];
