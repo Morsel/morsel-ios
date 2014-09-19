@@ -14,7 +14,7 @@
                         <viewControllerLayoutGuide type="bottom" id="npO-wG-glq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="HoH-VY-Met">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wg3-jh-dBZ" customClass="MRSLSegmentedButtonView">
@@ -69,11 +69,11 @@
                                 </connections>
                             </view>
                             <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JT8-9W-1ns">
-                                <rect key="frame" x="0.0" y="50" width="320" height="454"/>
+                                <rect key="frame" x="0.0" y="50" width="320" height="366"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="j5p-jR-eZW"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="454" id="tt6-Ih-G4z"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="366" id="tt6-Ih-G4z"/>
                                 </constraints>
                             </containerView>
                         </subviews>
@@ -106,6 +106,7 @@
                 <navigationController storyboardIdentifier="sb_Activity" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="JLz-Da-HxU" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="6xY-Za-VDl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

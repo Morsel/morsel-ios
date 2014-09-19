@@ -954,9 +954,10 @@
         <!--Navigation Controller-->
         <scene sceneID="dKL-2l-XjW">
             <objects>
-                <navigationController storyboardIdentifier="sb_SignUp" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="VgC-h7-Rc7" customClass="MRSLNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_SignUp" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="VgC-h7-Rc7" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="7Zs-VS-tCI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

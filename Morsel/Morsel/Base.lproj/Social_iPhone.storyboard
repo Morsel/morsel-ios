@@ -14,7 +14,7 @@
                         <viewControllerLayoutGuide type="bottom" id="INY-P6-JT5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="UYv-Ws-iiT">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mst-R4-V2q" customClass="MRSLSegmentedButtonView">
@@ -109,11 +109,11 @@
                                 </connections>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="34" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="V0x-fl-B4F" customClass="MRSLTableView">
-                                <rect key="frame" x="0.0" y="50" width="320" height="454"/>
+                                <rect key="frame" x="0.0" y="50" width="320" height="366"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="Coh-Cw-ee9"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="454" id="tMA-v8-ySv"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="366" id="tMA-v8-ySv"/>
                                 </constraints>
                                 <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Find people on Morsel" id="4yV-6W-3mq">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -238,14 +238,13 @@
         <!--Share Morsel-->
         <scene sceneID="otU-fg-aNO">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pZF-Df-Jbd" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sb_MRSLSocialComposeViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="VF2-j8-My0" customClass="MRSLSocialComposeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="l30-9H-deG"/>
                         <viewControllerLayoutGuide type="bottom" id="J5g-gi-vPe"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kQB-aV-sUh">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <userGuides>
                             <userLayoutGuide location="288" affinity="minY"/>
@@ -266,9 +265,9 @@
                                 </connections>
                             </textView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="140" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="25" translatesAutoresizingMaskIntoConstraints="NO" id="hcZ-rx-mog" customClass="MRSLRobotoLightLabel">
-                                <rect key="frame" x="286" y="218" width="25" height="21"/>
+                                <rect key="frame" x="286" y="218" width="25" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="ffQ-R6-5kV"/>
+                                    <constraint firstAttribute="height" constant="17" id="ffQ-R6-5kV"/>
                                     <constraint firstAttribute="width" constant="25" id="qPr-g9-EUy"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
@@ -280,11 +279,11 @@
                         <constraints>
                             <constraint firstItem="84v-cj-inm" firstAttribute="leading" secondItem="kQB-aV-sUh" secondAttribute="leading" id="2fJ-uq-AKj"/>
                             <constraint firstItem="84v-cj-inm" firstAttribute="top" secondItem="l30-9H-deG" secondAttribute="bottom" id="HQB-Vn-ZPG"/>
-                            <constraint firstItem="J5g-gi-vPe" firstAttribute="top" secondItem="84v-cj-inm" secondAttribute="bottom" constant="216" id="Hd6-rT-NwA"/>
+                            <constraint firstItem="J5g-gi-vPe" firstAttribute="top" secondItem="84v-cj-inm" secondAttribute="bottom" constant="128" id="Hd6-rT-NwA"/>
                             <constraint firstAttribute="trailing" secondItem="84v-cj-inm" secondAttribute="trailing" id="Tke-0X-eNr"/>
                             <constraint firstItem="hcZ-rx-mog" firstAttribute="top" relation="greaterThanOrEqual" secondItem="l30-9H-deG" secondAttribute="bottom" constant="218" id="Ut0-Uj-za4"/>
                             <constraint firstAttribute="trailing" secondItem="hcZ-rx-mog" secondAttribute="trailing" constant="9" id="ejO-OR-yfT"/>
-                            <constraint firstItem="J5g-gi-vPe" firstAttribute="top" secondItem="hcZ-rx-mog" secondAttribute="bottom" constant="265" id="icu-o5-YaM"/>
+                            <constraint firstItem="J5g-gi-vPe" firstAttribute="top" secondItem="hcZ-rx-mog" secondAttribute="bottom" constant="181" id="icu-o5-YaM"/>
                             <constraint firstItem="hcZ-rx-mog" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kQB-aV-sUh" secondAttribute="leading" constant="286" id="yed-uf-3SN"/>
                         </constraints>
                     </view>
@@ -304,16 +303,17 @@
                         <outlet property="textView" destination="84v-cj-inm" id="gIy-tq-znD"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pZF-Df-Jbd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="780" y="677"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JWU-QV-7Nn">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jyy-ru-Lzy" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="sb_SocialCompose" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="pzu-S3-QLc" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="dMD-bF-eoy">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -324,6 +324,7 @@
                         <segue destination="VF2-j8-My0" kind="relationship" relationship="rootViewController" id="5zE-fd-XKe"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jyy-ru-Lzy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="254" y="677"/>
         </scene>
@@ -333,6 +334,7 @@
                 <navigationController storyboardIdentifier="sb_FindFriends" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Hng-NZ-pHv" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="SSj-OY-g9t">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
