@@ -98,30 +98,31 @@ ELCImagePickerControllerDelegate>
 
     if ([UIDevice has35InchScreen]) self.topPanelView.hidden = YES;
 
-    MRSLCameraPreviewView *previewView = [[MRSLCameraPreviewView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.view.frame.size.width, 568.f)];
-    [self.view insertSubview:previewView atIndex:0];
-    self.previewView = previewView;
-
     self.assetsLibrary = [[ALAssetsLibrary alloc] init];
     self.capturedMediaItems = [NSMutableArray array];
     self.preferredFlashCaptureMode = AVCaptureFlashModeOff;
-
-    [self createSession];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
     [[UIApplication sharedApplication] setStatusBarHidden:YES
                                             withAnimation:UIStatusBarAnimationSlide];
-    [self beginCameraSession];
-
     if ([self isDeviceAuthorized]) {
         [self displayLatestCameraRollImage];
     }
 
+    if (self.previewView.session) [self beginCameraSession];
+
     // Hide importDropboxButton if Dropbox is not installed or the installed version of Dropbox is not supported
     [self.importDropboxButton setHidden:![MRSLUtil dropboxAvailable]];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    if (!self.previewView.session) {
+        [self createSession];
+        [self beginCameraSession];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -363,7 +364,7 @@ ELCImagePickerControllerDelegate>
 
     // Create the image picker
     ELCImagePickerController *imagePicker = [[ELCImagePickerController alloc] init];
-    imagePicker.maximumImagesCount = 10;
+    imagePicker.maximumImagesCount = 1;
     imagePicker.imagePickerDelegate = self;
 
     //Present modally

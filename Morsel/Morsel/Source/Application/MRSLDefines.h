@@ -196,6 +196,7 @@ static const int MRSLStatsTagViewTag = 9991;
 #define DEFAULT
 #define NSNullIfNil(obj) ((obj == nil) ? [NSNull null] : obj)
 #define MRSLIsNull(obj) ([obj isEqual:[NSNull null]])
+#define DEGREES_TO_RADIANS(d) (d * M_PI / 180)
 
 #pragma mark - Social
 

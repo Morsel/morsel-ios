@@ -51,7 +51,7 @@ CaptureMediaViewControllerDelegate>
     [self.previewMediaPageControl addTarget:self
                                      action:@selector(changePage:)
                            forControlEvents:UIControlEventValueChanged];
-    self.previewMediaPageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
+    self.previewMediaPageControl.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
 
     [self setupControls];
 }
@@ -114,8 +114,7 @@ CaptureMediaViewControllerDelegate>
 
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
     self.previewMediaPageControl.hidden = ([_previewMedia count] == 1);
-    [self.previewMediaPageControl setY:320.f - ((([_previewMediaPageControl sizeForNumberOfPages:_previewMediaPageControl.numberOfPages].width) / 2) + 34.f)];
-
+    
     [self.previewMediaCollectionView reloadData];
 }
 
@@ -263,7 +262,7 @@ CaptureMediaViewControllerDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(320.f, [UIDevice has35InchScreen] ? 372.f : 460.f);
+    return collectionView.frame.size;
 }
 
 #pragma mark - UIAlertViewDelegate
