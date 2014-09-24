@@ -43,7 +43,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self.morselTitleLabel setPreferredMaxLayoutWidth:[self getWidth]];
+    [self.morselTitleLabel removeStandardShadow];
     [self.morselTitleLabel addStandardShadow];
+    [self.shareCoverImageView removeBorder];
     [self.shareCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
 }
 

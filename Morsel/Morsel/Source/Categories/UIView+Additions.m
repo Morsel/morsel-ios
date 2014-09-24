@@ -130,6 +130,11 @@
 }
 
 - (void)removeBorder {
+    for (CALayer *layer in self.layer.sublayers) {
+        if ([layer isKindOfClass:[CAShapeLayer class]]) {
+            [layer removeFromSuperlayer];
+        }
+    }
     self.layer.borderWidth = 0.f;
     self.layer.borderColor = nil;
 }

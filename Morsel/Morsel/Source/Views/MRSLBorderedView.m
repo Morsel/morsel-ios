@@ -10,7 +10,8 @@
 
 @implementation MRSLBorderedView
 
-- (void)awakeFromNib {
+- (void)layoutSubviews {
+    [super layoutSubviews];
     if ([self.borderDirections rangeOfString:@"North"].location != NSNotFound) {
         [self addDefaultBorderForDirections:MRSLBorderNorth];
     }

@@ -20,7 +20,7 @@
 #pragma mark - Class Methods
 
 + (instancetype)sectionViewWithTitle:(NSString *)title {
-    MRSLSectionView *sectionView = [[MRSLSectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 34.f)];
+    MRSLSectionView *sectionView = [[MRSLSectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, [UIScreen mainScreen].bounds.size.width, 34.f)];
 
     if (title) [sectionView.label setText:title];
 
@@ -33,7 +33,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _label = [[MRSLRobotoSlabBoldLabel alloc] initWithFrame:CGRectMake(16.f, 0.f, 240.f, 34.f)
+        _label = [[MRSLRobotoSlabBoldLabel alloc] initWithFrame:CGRectMake(16.f, 0.f, [UIScreen mainScreen].bounds.size.width - 80.f, 34.f)
                                                     andFontSize:16.f];
 
         _label.textColor = [UIColor morselDark];

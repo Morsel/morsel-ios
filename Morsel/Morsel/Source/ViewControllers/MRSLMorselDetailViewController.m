@@ -239,7 +239,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(320.f, [UIDevice has35InchScreen] ? 416.f : 504.f);
+    return CGSizeMake([collectionView getWidth], [collectionView getHeight]);
 }
 
 #pragma mark - UIScrollViewDelegate

@@ -52,7 +52,13 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self.morselTitleLabel removeStandardShadow];
     [self.morselTitleLabel addStandardShadow];
+    [self.morselCoverImageView removeBorder];
     [self.morselCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
 }
 
