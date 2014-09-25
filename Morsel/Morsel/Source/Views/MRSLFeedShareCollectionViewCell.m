@@ -43,8 +43,17 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self.morselTitleLabel setPreferredMaxLayoutWidth:[self getWidth]];
+    [self.morselTitleLabel removeStandardShadow];
     [self.morselTitleLabel addStandardShadow];
-    [self.shareCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
+    [self.shareCoverImageView removeBorder];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.shareCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
+    });
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {

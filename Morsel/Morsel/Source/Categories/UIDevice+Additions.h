@@ -17,13 +17,19 @@
 typedef NS_ENUM(NSInteger, UIDeviceScreenSize) {
     UIDeviceScreenSize35Inch = 0,
     UIDeviceScreenSize4Inch,
+    UIDeviceScreenSize47Inch,
+    UIDeviceScreenSize55Inch,
     UIDeviceScreenSizePad
 };
 
 @interface UIDevice (Additions)
 
++ (BOOL)currentDeviceIsIphone;
 + (BOOL)currentDeviceIsIpad;
 + (BOOL)has35InchScreen;
++ (BOOL)has4InchScreen;
++ (BOOL)has47InchScreen;
++ (BOOL)has55InchScreen;
 
 - (UIDeviceScreenSize)screenSize;
 

@@ -38,6 +38,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 @property (nonatomic) BOOL loadedAll;
 @property (nonatomic) BOOL theNewMorselsAvailable;
 
+@property (nonatomic) CGFloat originalFeedWidth;
 @property (nonatomic) CGFloat previousContentOffset;
 @property (nonatomic) NSInteger theNewMorselsCount;
 
@@ -114,6 +115,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.originalFeedWidth = [self.view getWidth];
     MRSLUser *currentUser = [MRSLUser currentUser];
     if (!currentUser) return;
     [self resumeTimer];
@@ -470,12 +472,12 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake((indexPath.row == [self.feedMorsels count] - 1) ? 321.f : 320.f, [UIDevice has35InchScreen] ? 416.f : 504.f);
+    return CGSizeMake((indexPath.row == [self.feedMorsels count] - 1) ? self.originalFeedWidth + 1.f : self.originalFeedWidth, [collectionView getHeight]);
 }
 
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    return _loadingMore ? CGSizeMake(50.f, [UIDevice has35InchScreen] ? 416.f : 504.f) : CGSizeZero;
+    return _loadingMore ? CGSizeMake(50.f, [collectionView getHeight]) : CGSizeZero;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -485,11 +487,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
  */
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    [self.feedCollectionView setWidth:320.f];
+    [self.feedCollectionView setWidth:self.originalFeedWidth];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.feedCollectionView setWidth:320.f];
+    [self.feedCollectionView setWidth:self.originalFeedWidth];
     int currentPage = scrollView.contentOffset.x / scrollView.frame.size.width;
     if ((currentPage >= [_feedMorsels count] - 3 && !_loadingMore) || (currentPage == [_feedMorsels count] - 1)) {
         [self loadMore];
@@ -528,9 +530,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)resetCollectionViewWidth {
-    [self.feedCollectionView setWidth:321.f];
+    [self.feedCollectionView setWidth:self.originalFeedWidth + 1.f];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.feedCollectionView setWidth:320.f];
+        [self.feedCollectionView setWidth:self.originalFeedWidth];
     });
     if (![self.navigationController.navigationBar.topItem.titleView isKindOfClass:[MRSLTitleItemView class]]) return;
     [(MRSLTitleItemView *)self.navigationController.navigationBar.topItem.titleView setTitle:nil];

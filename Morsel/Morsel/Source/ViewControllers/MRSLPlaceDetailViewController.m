@@ -141,7 +141,7 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
 - (CGSize)configureSectionHeaderSizeForCollectionView:(UICollectionView *)collectionView
                                               section:(NSInteger)section {
     NSString *sectionName = [_detailSections objectAtIndex:section];
-    CGSize cellSize = CGSizeMake(320.f, MRSLSectionViewDefaultHeight);
+    CGSize cellSize = CGSizeMake(collectionView.frame.size.width, MRSLSectionViewDefaultHeight);
     if ([sectionName isEqualToString:@"Details"]) {
         cellSize.height = 0.f;
     }
@@ -150,13 +150,13 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
 
 - (CGSize)configureSectionFooterSizeForCollectionView:(UICollectionView *)collectionView
                                               section:(NSInteger)section {
-    return CGSizeMake(320.0f, ([collectionView lastSection] == section) ? 44.0f : 0.0f);
+    return CGSizeMake(collectionView.frame.size.width, ([collectionView lastSection] == section) ? 44.0f : 0.0f);
 }
 
 - (CGSize)configureCellSizeForCollectionView:(UICollectionView *)collectionView
                                    indexPath:(NSIndexPath *)indexPath {
     NSString *sectionName = [_detailSections objectAtIndex:[indexPath section]];
-    CGSize cellSize = CGSizeMake(320.f, 44.f);
+    CGSize cellSize = CGSizeMake(collectionView.frame.size.width, 44.f);
     if ([sectionName isEqualToString:@"Details"]) {
         cellSize.height = [self cellHeightForDetails];
     } else if ([sectionName isEqualToString:@"Hours"]) {
@@ -164,7 +164,7 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
         CGSize placeInfoSecondarySize = [placeInfo.secondaryInfo sizeWithFont:[UIFont robotoLightFontOfSize:14.f]
                                                             constrainedToSize:CGSizeMake(156.f, CGFLOAT_MAX)
                                                                 lineBreakMode:NSLineBreakByWordWrapping];
-        cellSize = CGSizeMake(320.f, (placeInfoSecondarySize.height <= 44.f) ? 44.f : placeInfoSecondarySize.height);
+        cellSize = CGSizeMake(collectionView.frame.size.width, (placeInfoSecondarySize.height <= 44.f) ? 44.f : placeInfoSecondarySize.height);
     }
     return cellSize;
 }

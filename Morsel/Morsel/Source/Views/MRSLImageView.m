@@ -35,8 +35,6 @@
     self.image = [self placeholderImage];
 
     self.activityIndicatorView = [MRSLActivityIndicatorView defaultActivityIndicatorView];
-    [_activityIndicatorView setX:([self getWidth] / 2) - ([_activityIndicatorView getWidth] / 2)];
-    [_activityIndicatorView setY:([self getHeight] / 2) - ([_activityIndicatorView getHeight] / 2)];
 
     [self addSubview:_activityIndicatorView];
 
@@ -45,6 +43,12 @@
                                                                      action:@selector(imageViewTapped:)];
         [self addGestureRecognizer:_tapRecognizer];
     }
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [_activityIndicatorView setX:([self getWidth] / 2) - ([_activityIndicatorView getWidth] / 2)];
+    [_activityIndicatorView setY:([self getHeight] / 2) - ([_activityIndicatorView getHeight] / 2)];
 }
 
 #pragma mark - Image Methods

@@ -21,6 +21,8 @@
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
+static CGFloat kTextAutolayoutPadding = 2.f;
+
 @interface MRSLFeedPageCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
@@ -30,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *likeCountButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentCountButton;
 @property (weak, nonatomic) IBOutlet UILabel *itemDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *readMoreLabel;
 @property (weak, nonatomic) IBOutlet UIButton *viewMoreButton;
 @property (weak, nonatomic) IBOutlet UIView *descriptionPanelView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
@@ -54,7 +57,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+}
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self.itemImageView removeBorder];
     [self.itemImageView addDefaultBorderForDirections:MRSLBorderSouth];
 }
 
@@ -65,24 +72,17 @@
 }
 
 - (void)populateContent {
+    [_itemDescriptionLabel setPreferredMaxLayoutWidth:[_itemDescriptionLabel getWidth]];
     _itemDescriptionLabel.text = _item.itemDescription;
 
     CGSize textSize = [_item.itemDescription sizeWithFont:_itemDescriptionLabel.font
                                         constrainedToSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
                                             lineBreakMode:NSLineBreakByWordWrapping];
-
-    CGFloat maxDescriptionHeight = [_descriptionPanelView getHeight] - ([UIDevice has35InchScreen] ? 15.0f : 20.f);
-    [_itemDescriptionLabel setY:0.f];
-    if (textSize.height < maxDescriptionHeight || [_item.itemDescription length] == 0) {
-        [_itemDescriptionLabel setHeight:textSize.height];
-        [_viewMoreButton setHidden:YES];
-        if (![UIDevice has35InchScreen]) {
-            [_itemDescriptionLabel setY:6.f];
-        }
-    } else {
-        [_itemDescriptionLabel setHeight:MAX(maxDescriptionHeight, 0)];
-        [_viewMoreButton setHidden:NO];
-    }
+    CGFloat floorHeight = floorf(textSize.height) + kTextAutolayoutPadding;
+    CGFloat textHeight = self.itemDescriptionLabel.bounds.size.height;
+    BOOL textTruncated = (floorHeight > textHeight);
+    [_readMoreLabel setHidden:!textTruncated];
+    [_viewMoreButton setHidden:!textTruncated];
 
     _profileImageView.user = _item.morsel.creator;
     _userNameLabel.text = [_item.morsel.creator fullName];
@@ -97,10 +97,6 @@
     UIImage *commentImage = [UIImage imageNamed:(_item.comment_countValue > 0) ? @"icon-comment-on" : @"icon-comment-off"];
     [_commentButton setImage:commentImage
                     forState:UIControlStateNormal];
-
-    if (![_viewMoreButton isHidden]) {
-        [_viewMoreButton setHeight:[_itemDescriptionLabel getY] + [_itemDescriptionLabel getHeight] + 14.f];
-    }
 
     [self setLikeButtonImageForMorsel:_item];
 

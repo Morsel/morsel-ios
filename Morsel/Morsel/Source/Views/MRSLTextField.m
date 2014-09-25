@@ -22,8 +22,8 @@ static CGFloat kPadding = MRSLDefaultPadding;
     return self;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+- (void)layoutSubviews {
+    [super layoutSubviews];
 
     [self addDefaultBorderForDirections:(MRSLBorderNorth|MRSLBorderSouth)];
 }

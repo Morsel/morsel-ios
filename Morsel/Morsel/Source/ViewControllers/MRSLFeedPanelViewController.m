@@ -60,8 +60,6 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
     [self.collectionView setScrollsToTop:YES];
-
-    [self.collectionView setHeight:([UIDevice has35InchScreen] ? 416.f : 504.f)];
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
@@ -100,7 +98,6 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (void)displayContent {
     if (_collectionView && _morsel) {
         self.pageControl.numberOfPages = [_morsel.items count] + (_morsel.publishedDate ? 2 : 1);
-        [self.pageControl setY:320.f - ((([_pageControl sizeForNumberOfPages:_pageControl.numberOfPages].width) / 2) + 34.f)];
         self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
 
         [self.collectionView reloadData];
@@ -145,6 +142,8 @@ MRSLFeedShareCollectionViewCellDelegate>
                                               @"_view": @"feed",
                                               @"item_id": NSNullIfNil(visibleItem.itemID)}];
     MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardModalDescriptionViewControllerKey];
+    [modalDescriptionVC.view setWidth:[self.view getWidth]];
+    [modalDescriptionVC.view setHeight:[self.view getHeight]];
     modalDescriptionVC.item = visibleItem;
     [self addChildViewController:modalDescriptionVC];
     [self.view addSubview:modalDescriptionVC.view];
@@ -205,6 +204,8 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
                                                   @"item_id": NSNullIfNil(visibleItem.itemID)}];
         MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardModalShareViewControllerKey];
+        [modalShareVC.view setWidth:[self.view getWidth]];
+        [modalShareVC.view setHeight:[self.view getHeight]];
         modalShareVC.item = visibleItem;
         [self addChildViewController:modalShareVC];
         [self.view addSubview:modalShareVC.view];
@@ -280,7 +281,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(320.f, [UIDevice has35InchScreen] ? 416.f : 504.f);
+    return CGSizeMake([collectionView getWidth], [collectionView getHeight]);
 }
 
 #pragma mark - UIScrollViewDelegate

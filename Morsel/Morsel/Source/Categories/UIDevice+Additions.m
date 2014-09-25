@@ -10,12 +10,28 @@
 
 @implementation UIDevice (Additions)
 
++ (BOOL)currentDeviceIsIphone {
+    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+}
+
 + (BOOL)currentDeviceIsIpad {
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
 }
 
 + (BOOL)has35InchScreen {
     return [[UIDevice currentDevice] screenSize] == UIDeviceScreenSize35Inch;
+}
+
++ (BOOL)has4InchScreen {
+    return [[UIDevice currentDevice] screenSize] == UIDeviceScreenSize4Inch;
+}
+
++ (BOOL)has47InchScreen {
+    return [[UIDevice currentDevice] screenSize] == UIDeviceScreenSize47Inch;
+}
+
++ (BOOL)has55InchScreen {
+    return [[UIDevice currentDevice] screenSize] == UIDeviceScreenSize55Inch;
 }
 
 - (UIDeviceScreenSize)screenSize
@@ -28,6 +44,10 @@
 
     if ([[UIScreen mainScreen] bounds].size.height == 568.f) {
         screen = UIDeviceScreenSize4Inch;
+    } else if ([[UIScreen mainScreen] bounds].size.height == 667.f) {
+        screen = UIDeviceScreenSize47Inch;
+    } else if ([[UIScreen mainScreen] bounds].size.height == 736.f) {
+        screen = UIDeviceScreenSize55Inch;
     }
 
     return screen;

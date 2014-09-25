@@ -101,6 +101,7 @@ extern NSString *const MRSLStoryboardCaptureMultipleMediaViewControllerKey;
 extern NSString *const MRSLStoryboardCaptureSingleMediaViewControllerKey;
 extern NSString *const MRSLStoryboardCommentsKey;
 extern NSString *const MRSLStoryboardFeedKey;
+extern NSString *const MRSLStoryboardFeedPanelKey;
 extern NSString *const MRSLStoryboardFeedPanelViewControllerKey;
 extern NSString *const MRSLStoryboardFindFriendsKey;
 extern NSString *const MRSLStoryboardFollowingPeopleKey;
@@ -127,6 +128,7 @@ extern NSString *const MRSLStoryboardProfileKey;
 extern NSString *const MRSLStoryboardProfileViewControllerKey;
 extern NSString *const MRSLStoryboardSettingsKey;
 extern NSString *const MRSLStoryboardSignUpKey;
+extern NSString *const MRSLStoryboardShareKey;
 extern NSString *const MRSLStoryboardSocialComposeKey;
 extern NSString *const MRSLStoryboardMorselDetailKey;
 extern NSString *const MRSLStoryboardMorselDetailViewControllerKey;
@@ -154,6 +156,7 @@ extern NSString *const MRSLStoryboardSegueSelectPlaceKey;
 extern NSString *const MRSLStoryboardSegueSetupProfessionalAccountKey;
 extern NSString *const MRSLStoryboardSegueSpecialtiesKey;
 extern NSString *const MRSLStoryboardSegueTemplateInfoKey;
+extern NSString *const MRSLStoryboardSegueKeywordFollowersKey;
 
 #pragma mark - Storyboard Reuse Identifier Constants
 

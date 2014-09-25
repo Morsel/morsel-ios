@@ -25,6 +25,11 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self.sectionView setWidth:[self getWidth]];
+}
+
 - (void)setTitle:(NSString *)title {
     [self.sectionView setTitle:title];
 }

@@ -61,7 +61,7 @@
 #endif
 
     parametersDictionary[@"client"] = @{
-                                        @"device": (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"ipad" : @"iphone",
+                                        @"device": [UIDevice currentDeviceIsIpad] ? @"ipad" : @"iphone",
                                         @"version": [NSString stringWithFormat:@"%@%@", [MRSLUtil appMajorMinorPatchString], releaseAppendedIdentifier],
                                         @"model": NSNullIfNil([MRSLUtil deviceModel]),
                                         @"os": NSNullIfNil([MRSLUtil deviceVersion]),

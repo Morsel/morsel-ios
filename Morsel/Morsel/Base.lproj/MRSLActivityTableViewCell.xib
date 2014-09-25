@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
@@ -14,33 +14,65 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="AcR-dD-8cE" customClass="MRSLProfileImageView">
+                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AcR-dD-8cE" customClass="MRSLProfileImageView">
                         <rect key="frame" x="10" y="15" width="50" height="50"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="Dbt-Jb-IsZ"/>
+                            <constraint firstAttribute="height" constant="50" id="rtY-4r-Jb1"/>
+                        </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="QVM-ns-aFP" customClass="MRSLProfileImageView">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QVM-ns-aFP" customClass="MRSLProfileImageView">
                         <rect key="frame" x="255" y="15" width="50" height="50"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="EIf-k8-s4U"/>
+                            <constraint firstAttribute="width" constant="50" id="QJu-rs-DZu"/>
+                        </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ecu-vs-LZa" customClass="MRSLItemImageView">
-                        <rect key="frame" x="240" y="0.0" width="80" height="80"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ecu-vs-LZa" customClass="MRSLItemImageView">
+                        <rect key="frame" x="240" y="0.0" width="80" height="79"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="79" id="5Fn-xH-w3R"/>
+                            <constraint firstAttribute="width" constant="80" id="OX8-kg-Z5J"/>
+                        </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turd Ferguson (turdferg) liked &quot;Morsel ipsum numis sequitor something something something" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DGj-Ni-L6s" customClass="MRSLRobotoSlabRegularLabel">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turd Ferguson (turdferg) liked &quot;Morsel ipsum numis sequitor something something something" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="DGj-Ni-L6s" customClass="MRSLRobotoSlabRegularLabel">
                         <rect key="frame" x="70" y="10" width="160" height="50"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="9Fm-PI-NFI"/>
+                            <constraint firstAttribute="height" constant="50" id="xKy-p3-eYb"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
                         <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 min ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sOY-UH-G1J" customClass="MRSLRobotoSlabRegularLabel">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 min ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="164" translatesAutoresizingMaskIntoConstraints="NO" id="sOY-UH-G1J" customClass="MRSLRobotoSlabRegularLabel">
                         <rect key="frame" x="68" y="58" width="164" height="22"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="Pg3-IV-naO"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="164" id="nkG-gF-hZE"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
                         <color key="textColor" red="0.71372549019999998" green="0.71372549019999998" blue="0.71372549019999998" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="ecu-vs-LZa" secondAttribute="bottom" id="Bka-au-KJ5"/>
+                    <constraint firstItem="AcR-dD-8cE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="01l-uF-pgS" secondAttribute="top" constant="15" id="CMS-Af-vpq"/>
+                    <constraint firstAttribute="trailing" secondItem="ecu-vs-LZa" secondAttribute="trailing" id="DNg-Ts-qSt"/>
+                    <constraint firstItem="QVM-ns-aFP" firstAttribute="top" relation="greaterThanOrEqual" secondItem="01l-uF-pgS" secondAttribute="top" constant="15" id="EcG-Sb-0zy"/>
+                    <constraint firstItem="DGj-Ni-L6s" firstAttribute="leading" secondItem="AcR-dD-8cE" secondAttribute="trailing" constant="10" id="IhE-Hb-sRw"/>
+                    <constraint firstItem="ecu-vs-LZa" firstAttribute="top" secondItem="01l-uF-pgS" secondAttribute="top" id="OWK-NX-qv8"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="AcR-dD-8cE" secondAttribute="bottom" constant="14" id="Prt-5D-v5b"/>
+                    <constraint firstItem="DGj-Ni-L6s" firstAttribute="top" secondItem="01l-uF-pgS" secondAttribute="top" constant="10" id="Rf5-kP-Jqf"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="QVM-ns-aFP" secondAttribute="bottom" constant="14" id="Zxb-Kq-O1f"/>
+                    <constraint firstAttribute="trailing" secondItem="QVM-ns-aFP" secondAttribute="trailing" constant="15" id="anU-OU-bdY"/>
+                    <constraint firstItem="sOY-UH-G1J" firstAttribute="leading" secondItem="AcR-dD-8cE" secondAttribute="trailing" constant="8" id="gUY-qb-XrV"/>
+                    <constraint firstItem="ecu-vs-LZa" firstAttribute="leading" secondItem="sOY-UH-G1J" secondAttribute="trailing" constant="8" id="nr2-9e-B69"/>
+                    <constraint firstItem="AcR-dD-8cE" firstAttribute="leading" secondItem="01l-uF-pgS" secondAttribute="leading" constant="10" id="o9K-Qn-vFE"/>
+                    <constraint firstItem="sOY-UH-G1J" firstAttribute="top" secondItem="01l-uF-pgS" secondAttribute="top" constant="58" id="tUw-1Q-f5D"/>
+                    <constraint firstItem="ecu-vs-LZa" firstAttribute="leading" secondItem="DGj-Ni-L6s" secondAttribute="trailing" constant="10" id="uKs-XY-US3"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="descriptionLabel" destination="DGj-Ni-L6s" id="T2S-E4-9z5"/>
@@ -49,11 +81,7 @@
                 <outlet property="senderProfileImageView" destination="AcR-dD-8cE" id="upk-IS-8R3"/>
                 <outlet property="timeAgoLabel" destination="sOY-UH-G1J" id="5Hh-yi-vcf"/>
             </connections>
+            <point key="canvasLocation" x="139" y="156"/>
         </tableViewCell>
     </objects>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

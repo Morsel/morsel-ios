@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="JLz-Da-HxU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JLz-Da-HxU">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -8,18 +9,23 @@
         <scene sceneID="UPV-wP-zzx">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLNotificationsRootViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="IzJ-YF-bgp" customClass="MRSLActivityViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7Gx-YN-OBc"/>
+                        <viewControllerLayoutGuide type="bottom" id="npO-wG-glq"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="HoH-VY-Met">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="Wg3-jh-dBZ" customClass="MRSLSegmentedButtonView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wg3-jh-dBZ" customClass="MRSLSegmentedButtonView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="Eg0-VS-emV" customClass="MRSLSegmentButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eg0-VS-emV" customClass="MRSLSegmentButton">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="o05-dC-DdK"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="Following">
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -28,10 +34,12 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="kCm-Ow-giH" customClass="MRSLSegmentButton">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kCm-Ow-giH" customClass="MRSLSegmentButton">
                                         <rect key="frame" x="160" y="0.0" width="160" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="lyT-B9-Qkx"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="My Activity">
                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -42,18 +50,44 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Eg0-VS-emV" firstAttribute="leading" secondItem="Wg3-jh-dBZ" secondAttribute="leading" id="0he-54-NyW"/>
+                                    <constraint firstItem="Eg0-VS-emV" firstAttribute="width" secondItem="kCm-Ow-giH" secondAttribute="width" id="6vC-4y-xjn"/>
+                                    <constraint firstItem="kCm-Ow-giH" firstAttribute="leading" secondItem="Eg0-VS-emV" secondAttribute="trailing" id="CCP-1U-Mpv"/>
+                                    <constraint firstItem="Eg0-VS-emV" firstAttribute="top" secondItem="Wg3-jh-dBZ" secondAttribute="top" id="F8B-wE-Kdo"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="TC1-6V-IcY"/>
+                                    <constraint firstItem="kCm-Ow-giH" firstAttribute="leading" secondItem="Eg0-VS-emV" secondAttribute="trailing" id="UMK-4T-WS0"/>
+                                    <constraint firstAttribute="trailing" secondItem="kCm-Ow-giH" secondAttribute="trailing" id="dNv-vZ-xhw"/>
+                                    <constraint firstAttribute="bottom" secondItem="Eg0-VS-emV" secondAttribute="bottom" id="p3L-Sd-v7K"/>
+                                    <constraint firstAttribute="bottom" secondItem="kCm-Ow-giH" secondAttribute="bottom" id="rBL-aN-xLg"/>
+                                    <constraint firstItem="kCm-Ow-giH" firstAttribute="top" secondItem="Wg3-jh-dBZ" secondAttribute="top" id="tkO-5u-Nkj"/>
+                                    <constraint firstAttribute="height" constant="50" id="x4A-3e-1VD"/>
+                                </constraints>
                                 <connections>
                                     <outletCollection property="buttons" destination="Eg0-VS-emV" id="z1R-cz-eLg"/>
                                     <outletCollection property="buttons" destination="kCm-Ow-giH" id="zXM-bK-TBZ"/>
                                 </connections>
                             </view>
-                            <containerView contentMode="scaleToFill" id="JT8-9W-1ns">
-                                <rect key="frame" x="0.0" y="50" width="320" height="455"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JT8-9W-1ns">
+                                <rect key="frame" x="0.0" y="50" width="320" height="366"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="j5p-jR-eZW"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="366" id="tt6-Ih-G4z"/>
+                                </constraints>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Wg3-jh-dBZ" firstAttribute="top" secondItem="7Gx-YN-OBc" secondAttribute="bottom" id="8d0-9v-ME2"/>
+                            <constraint firstItem="npO-wG-glq" firstAttribute="top" secondItem="JT8-9W-1ns" secondAttribute="bottom" id="BiI-Vc-GLC"/>
+                            <constraint firstAttribute="trailing" secondItem="Wg3-jh-dBZ" secondAttribute="trailing" id="EkR-cW-A8U"/>
+                            <constraint firstItem="Wg3-jh-dBZ" firstAttribute="leading" secondItem="HoH-VY-Met" secondAttribute="leading" id="L4n-z6-Dr3"/>
+                            <constraint firstItem="JT8-9W-1ns" firstAttribute="top" secondItem="Wg3-jh-dBZ" secondAttribute="bottom" id="Ras-8t-Azc"/>
+                            <constraint firstItem="JT8-9W-1ns" firstAttribute="leading" secondItem="HoH-VY-Met" secondAttribute="leading" id="SWP-Fg-Y5x"/>
+                            <constraint firstAttribute="trailing" secondItem="JT8-9W-1ns" secondAttribute="trailing" id="jIM-Ls-kIC"/>
+                            <constraint firstItem="JT8-9W-1ns" firstAttribute="top" secondItem="Wg3-jh-dBZ" secondAttribute="bottom" id="t34-fs-csT"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Activity" id="bJm-9K-5hM"/>
@@ -64,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XjR-Ud-wp7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1262" y="110"/>
+            <point key="canvasLocation" x="2366.25" y="116.19718309859154"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="j7F-eb-Rx8">
@@ -72,6 +106,7 @@
                 <navigationController storyboardIdentifier="sb_Activity" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="JLz-Da-HxU" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="6xY-Za-VDl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -83,7 +118,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pex-b3-MMT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="812" y="110"/>
+            <point key="canvasLocation" x="1522.5" y="116.19718309859154"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="P5x-CS-Vvv">
@@ -102,14 +137,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vr5-yE-a84" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="812" y="-578"/>
+            <point key="canvasLocation" x="1522.5" y="-610.56338028169012"/>
         </scene>
         <!--Notifications-->
         <scene sceneID="lUy-S3-4lP">
             <objects>
                 <tableViewController storyboardIdentifier="sb_MRSLNotificationsTableViewController" id="4iP-IK-cLb" customClass="MRSLNotificationsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="yec-tq-gEt">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -121,13 +156,8 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YbU-1S-J8O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1262" y="-578"/>
+            <point key="canvasLocation" x="2366.25" y="-610.56338028169012"/>
         </scene>
     </scenes>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
     <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
 </document>

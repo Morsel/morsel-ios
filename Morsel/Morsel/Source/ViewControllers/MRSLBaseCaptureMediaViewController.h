@@ -31,12 +31,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *toggleCameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *importDropboxButton;
 @property (weak, nonatomic) IBOutlet UIImageView *cameraRollImageView;
+@property (weak, nonatomic) IBOutlet MRSLCameraPreviewView *previewView;
 
 @property (strong, nonatomic) NSMutableArray *capturedMediaItems;
 
 @property (strong, nonatomic) NSString *mp_action;
-
-@property (weak, nonatomic) MRSLCameraPreviewView *previewView;
 
 - (void)beginCameraSession;
 - (void)endCameraSession;

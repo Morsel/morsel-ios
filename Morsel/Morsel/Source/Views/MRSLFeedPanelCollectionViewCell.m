@@ -24,6 +24,7 @@
     _owningViewController = owningViewController;
     if (!_feedPanelViewController) {
         MRSLFeedPanelViewController *feedPanelVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardFeedPanelViewControllerKey];
+        [feedPanelVC.view setFrame:CGRectMake(0.f, 0.f, [self getWidth], [self getHeight])];
         feedPanelVC.delegate = self;
         [self.owningViewController addChildViewController:feedPanelVC];
         [self addSubview:feedPanelVC.view];

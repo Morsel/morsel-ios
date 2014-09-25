@@ -101,6 +101,7 @@ NSString *const MRSLStoryboardCaptureMultipleMediaViewControllerKey = @"sb_MRSLC
 NSString *const MRSLStoryboardCaptureSingleMediaViewControllerKey = @"sb_MRSLCaptureSingleMediaViewController";
 NSString *const MRSLStoryboardCommentsKey = @"sb_Comments";
 NSString *const MRSLStoryboardFeedKey = @"sb_Feed";
+NSString *const MRSLStoryboardFeedPanelKey = @"sb_FeedPanel";
 NSString *const MRSLStoryboardFeedPanelViewControllerKey = @"sb_MRSLFeedPanelViewController";
 NSString *const MRSLStoryboardFindFriendsKey = @"sb_FindFriends";
 NSString *const MRSLStoryboardFollowingPeopleKey = @"sb_FollowingPeople";
@@ -127,6 +128,7 @@ NSString *const MRSLStoryboardProfileKey = @"sb_Profile";
 NSString *const MRSLStoryboardProfileViewControllerKey = @"sb_MRSLProfileViewController";
 NSString *const MRSLStoryboardSettingsKey = @"sb_Settings";
 NSString *const MRSLStoryboardSignUpKey = @"sb_SignUp";
+NSString *const MRSLStoryboardShareKey = @"sb_Share";
 NSString *const MRSLStoryboardSocialComposeKey = @"sb_SocialCompose" ;
 NSString *const MRSLStoryboardMorselDetailKey = @"sb_MorselDetail";
 NSString *const MRSLStoryboardMorselDetailViewControllerKey = @"sb_MRSLMorselDetailViewController";
@@ -153,6 +155,7 @@ NSString *const MRSLStoryboardSegueSelectPlaceKey = @"seg_SelectPlace";
 NSString *const MRSLStoryboardSegueSetupProfessionalAccountKey = @"seg_SetupProfessionalAccount";
 NSString *const MRSLStoryboardSegueSpecialtiesKey = @"seg_Specialties";
 NSString *const MRSLStoryboardSegueTemplateInfoKey = @"seg_DisplayTemplateInfo";
+NSString *const MRSLStoryboardSegueKeywordFollowersKey = @"seg_DisplayKeywordFollowers";
 
 #pragma mark - Storyboard Reuse Identifier Constants
 

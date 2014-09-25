@@ -24,12 +24,12 @@
 
 #pragma mark - Instance Methods
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+- (void)layoutSubviews {
+    [super layoutSubviews];
     self.optionNameLabel.textColor = [UIColor morselPrimary];
     self.optionNameLabel.font = [UIFont robotoRegularFontOfSize:_optionNameLabel.font.pointSize];
     [self addBorderWithDirections:MRSLBorderSouth
-                      borderColor:[[self defaultBackgroundColor] colorWithAlphaComponent:0.8f]];
+                      borderColor:[[self defaultBackgroundColor] colorWithAlphaComponent:.8f]];
 }
 
 - (void)setBadgeCount:(NSInteger)badgeCount {
@@ -46,16 +46,16 @@
 }
 
 - (UIColor *)defaultBackgroundColor {
-    return [UIColor colorWithWhite:1.0f
-                             alpha:0.4f];
+    return [UIColor colorWithWhite:1.f
+                             alpha:.4f];
 }
 
 - (UIColor *)defaultHighlightedBackgroundColor {
-    return [[UIColor morselMedium] colorWithAlphaComponent:0.1f];
+    return [[UIColor morselMedium] colorWithAlphaComponent:.1f];
 }
 
 - (UIColor *)defaultSelectedBackgroundColor {
-    return [[UIColor morselPrimaryLight] colorWithAlphaComponent:0.1f];
+    return [[UIColor morselPrimaryLight] colorWithAlphaComponent:.1f];
 }
 
 @end

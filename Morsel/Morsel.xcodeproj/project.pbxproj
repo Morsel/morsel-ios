@@ -3834,7 +3834,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SOCIAL_DISPLAY_NAME = "Morsel Staging";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TW_CALLBACK = "tw-morsel-staging";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4021,7 +4021,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SOCIAL_DISPLAY_NAME = "Morsel Staging";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TW_CALLBACK = "tw-morsel-staging";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4057,7 +4057,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SOCIAL_DISPLAY_NAME = Morsel;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TW_CALLBACK = "tw-morsel";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4287,7 +4287,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SOCIAL_DISPLAY_NAME = "Morsel Staging";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TW_CALLBACK = "tw-morsel-staging";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4438,7 +4438,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SOCIAL_DISPLAY_NAME = Morsel;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TW_CALLBACK = "tw-morsel";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4585,7 +4585,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SOCIAL_DISPLAY_NAME = "Morsel Staging";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TW_CALLBACK = "tw-morsel-staging";
 				WRAPPER_EXTENSION = app;
 			};

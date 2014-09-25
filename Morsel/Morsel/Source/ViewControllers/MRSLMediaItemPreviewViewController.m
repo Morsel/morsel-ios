@@ -28,6 +28,8 @@ CaptureMediaViewControllerDelegate>
 
 @property (nonatomic) BOOL isDisplayingItems;
 
+@property (nonatomic) CGSize collectionViewSize;
+
 @property (weak, nonatomic) IBOutlet UICollectionView *previewMediaCollectionView;
 @property (weak, nonatomic) IBOutlet UIPageControl *previewMediaPageControl;
 @property (weak, nonatomic) IBOutlet MRSLToolbar *toolbar;
@@ -51,18 +53,13 @@ CaptureMediaViewControllerDelegate>
     [self.previewMediaPageControl addTarget:self
                                      action:@selector(changePage:)
                            forControlEvents:UIControlEventValueChanged];
-    self.previewMediaPageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
+    self.previewMediaPageControl.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
 
     [self setupControls];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if ([_previewMedia count] > 0) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.previewMediaCollectionView reloadData];
-        });
-    }
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done"
                                                                                 style:UIBarButtonItemStyleDone
                                                                                target:self
@@ -72,6 +69,16 @@ CaptureMediaViewControllerDelegate>
                                                                   target:self
                                                                   action:nil];
     [self.navigationItem setLeftBarButtonItem:backButton];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.collectionViewSize = self.previewMediaCollectionView.frame.size;
+    if ([_previewMedia count] > 0) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.previewMediaCollectionView reloadData];
+        });
+    }
 
     [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
                                                                                 inSection:0]
@@ -114,9 +121,6 @@ CaptureMediaViewControllerDelegate>
 
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
     self.previewMediaPageControl.hidden = ([_previewMedia count] == 1);
-    [self.previewMediaPageControl setY:320.f - ((([_previewMediaPageControl sizeForNumberOfPages:_previewMediaPageControl.numberOfPages].width) / 2) + 34.f)];
-
-    [self.previewMediaCollectionView reloadData];
 }
 
 - (void)updateControls {
@@ -263,7 +267,7 @@ CaptureMediaViewControllerDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(320.f, [UIDevice has35InchScreen] ? 372.f : 460.f);
+    return self.collectionViewSize;
 }
 
 #pragma mark - UIAlertViewDelegate

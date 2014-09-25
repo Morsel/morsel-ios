@@ -22,7 +22,6 @@
 #import "MRSLUser.h"
 
 static const CGFloat kOffscreenSwipeThreshold = 10.f;
-static const CGFloat MRSLMenuViewWidth = 270.f;
 
 @interface MRSLRootViewController ()
 <MFMailComposeViewControllerDelegate,
@@ -33,6 +32,8 @@ MRSLMenuViewControllerDelegate>
 @property (nonatomic) BOOL shouldAllowMenuToOpen;
 @property (nonatomic) BOOL shouldCheckForUser;
 @property (nonatomic) BOOL keyboardOpen;
+
+@property (nonatomic) CGFloat menuMaxX;
 
 @property (weak, nonatomic) IBOutlet UIView *menuContainerView;
 @property (weak, nonatomic) IBOutlet UIView *rootContainerView;
@@ -128,6 +129,11 @@ MRSLMenuViewControllerDelegate>
                                                                                     action:@selector(userPanning:)];
     panRecognizer.delegate = self;
     [self.view addGestureRecognizer:panRecognizer];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.menuMaxX = MAX(270.f, [self.view getWidth] - 50.f);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -347,7 +353,7 @@ MRSLMenuViewControllerDelegate>
                           delay:0.f
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         [self.rootContainerView setTransform:CGAffineTransformMakeTranslation((self.isMenuOpen ? 0.f : MRSLMenuViewWidth), 0.0f)];
+                         [self.rootContainerView setX:(self.isMenuOpen ? 0.f : self.menuMaxX)];
                      } completion:nil];
     [self.rootContainerView setUserInteractionEnabled:self.isMenuOpen];
     [self enableScrollViewsInView:self.rootContainerView shouldEnable:self.isMenuOpen];
@@ -384,7 +390,7 @@ MRSLMenuViewControllerDelegate>
     self.currentTouchPoint = [panGestureRecognizer locationInView:self.view];
     CGFloat panX = _currentTouchPoint.x;
 
-    [self.rootContainerView setTransform:CGAffineTransformMakeTranslation((panX > 0 && panX <= MRSLMenuViewWidth) ? panX : ((panX <= 0) ? 0 : MRSLMenuViewWidth), 0.0f)];
+    [self.rootContainerView setX:(panX > 0 && panX <= self.menuMaxX) ? panX : ((panX <= 0) ? 0 : self.menuMaxX)];
 }
 
 - (void)handlePanGestureEndedWithRecognizer:(UIPanGestureRecognizer *)panGestureRecognizer {
@@ -398,7 +404,7 @@ MRSLMenuViewControllerDelegate>
                           delay:0.f
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         [self.rootContainerView setTransform:CGAffineTransformMakeTranslation((shouldOpen ? MRSLMenuViewWidth : 0.f), 0.0f)];
+                         [self.rootContainerView setX:(shouldOpen ? self.menuMaxX : 0.f)];
                      } completion:^(BOOL finished) {
                          _currentTouchPoint = CGPointZero;
                          [self.rootContainerView setUserInteractionEnabled:!shouldOpen];
@@ -558,7 +564,7 @@ MRSLMenuViewControllerDelegate>
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     //  Ignore the gesture when the menu is open since the User is most likely interacting w/ the Menu items
-    if ((self.isMenuOpen && [touch locationInView:self.view].x < MRSLMenuViewWidth) || !_shouldAllowMenuToOpen) {
+    if ((self.isMenuOpen && [touch locationInView:self.view].x < self.menuMaxX) || !_shouldAllowMenuToOpen) {
         return NO;
     } else {
         return [touch locationInView:self.rootContainerView].x < kOffscreenSwipeThreshold || self.isMenuOpen;

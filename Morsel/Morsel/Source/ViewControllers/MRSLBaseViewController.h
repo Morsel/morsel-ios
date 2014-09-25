@@ -9,9 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @interface MRSLBaseViewController : UIViewController
+<UIGestureRecognizerDelegate,
+UITextFieldDelegate>
 
 @property (strong, nonatomic) NSString *mp_eventView;
 @property (strong, nonatomic) NSDictionary *userInfo;
+
+@property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 - (void)setupNavigationItems;
 

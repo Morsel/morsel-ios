@@ -19,8 +19,8 @@
 
 @implementation MRSLModalDescriptionViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.descriptionTextView.text = _item.itemDescription;
 }
 

@@ -44,30 +44,13 @@ UITableViewDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    CGSize descriptionSize = (_morselTemplate.templateDescription) ? [_morselTemplate.templateDescription sizeWithFont:_descriptionLabel.font
-                                                                                                     constrainedToSize:CGSizeMake([_descriptionLabel getWidth], CGFLOAT_MAX)
-                                                                                                         lineBreakMode:NSLineBreakByWordWrapping] : CGSizeZero;
-    CGSize proTipSize = (_morselTemplate.tip) ? [[NSString stringWithFormat:@"Pro Tip: %@", _morselTemplate.tip] sizeWithFont:_proTipLabel.font
-                                                                                                            constrainedToSize:CGSizeMake([_proTipLabel getWidth], CGFLOAT_MAX)
-                                                                                                                lineBreakMode:NSLineBreakByWordWrapping] : CGSizeZero;
+
+    [self.descriptionLabel setPreferredMaxLayoutWidth:self.view.frame.size.width - 40.f];
+    [self.proTipLabel setPreferredMaxLayoutWidth:self.view.frame.size.width - 40.f];
 
     self.title = _morselTemplate.title ?: @"Storyboard";
     self.descriptionLabel.text = _morselTemplate.templateDescription ?: @"";
     self.proTipLabel.text = _morselTemplate.tip ? [NSString stringWithFormat:@"Pro Tip: %@", _morselTemplate.tip] : @"";
-
-    [self.descriptionLabel setHeight:descriptionSize.height];
-    [self.proTipLabel setHeight:proTipSize.height];
-
-    [self.proTipLabel setY:[_descriptionLabel getHeight] + [_descriptionLabel getY] + MRSLDefaultPadding];
-
-    if (_isDisplayingHelp) {
-        [self.tableView setY:CGRectGetMaxY(_proTipLabel.frame) + MRSLDefaultPadding];
-    } else {
-        [self.createButton setY:CGRectGetMaxY(_proTipLabel.frame) + MRSLDefaultPadding];
-        [self.tableView setY:CGRectGetMaxY(_createButton.frame) + MRSLDefaultPadding];
-    }
-
-    [self.tableView setHeight:[self.view getHeight] - [self.tableView getY]];
 
     [self.tableView reloadData];
 
