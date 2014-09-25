@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="mgU-9x-CbA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mgU-9x-CbA">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Profile-->
@@ -14,11 +15,11 @@
                         <viewControllerLayoutGuide type="bottom" id="c6f-yf-OaN"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6iG-bC-U3X">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nOm-Tm-KKG" customClass="MRSLCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="Ren-C9-zd8"/>
@@ -42,7 +43,8 @@
                                                     <rect key="frame" x="0.0" y="-98" width="320" height="320"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="1wD-8g-7XJ"/>
-                                                        <constraint firstAttribute="height" constant="320" id="8JY-n8-ALj"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="320" id="8JY-n8-ALj"/>
+                                                        <constraint firstAttribute="width" secondItem="c5j-fW-c0X" secondAttribute="height" multiplier="1:1" id="RRC-Me-yB5"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iPc-fM-Bv4">
@@ -148,10 +150,9 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="iPc-fM-Bv4" secondAttribute="trailing" id="9Gd-Jf-Sym"/>
                                             <constraint firstAttribute="trailing" secondItem="c5j-fW-c0X" secondAttribute="trailing" id="S0c-mU-Ouu"/>
-                                            <constraint firstItem="c5j-fW-c0X" firstAttribute="top" secondItem="64H-u5-Yl9" secondAttribute="top" constant="-98" id="bRs-av-iU1"/>
-                                            <constraint firstAttribute="bottom" secondItem="c5j-fW-c0X" secondAttribute="bottom" constant="-98" id="eV9-mz-TLt"/>
                                             <constraint firstAttribute="bottom" secondItem="iPc-fM-Bv4" secondAttribute="bottom" id="fDF-26-8OM"/>
                                             <constraint firstItem="c5j-fW-c0X" firstAttribute="leading" secondItem="64H-u5-Yl9" secondAttribute="leading" id="hqd-WZ-MpW"/>
+                                            <constraint firstAttribute="centerY" secondItem="c5j-fW-c0X" secondAttribute="centerY" id="kTw-xe-5dt"/>
                                             <constraint firstItem="iPc-fM-Bv4" firstAttribute="leading" secondItem="64H-u5-Yl9" secondAttribute="leading" id="qPo-lp-ROV"/>
                                             <constraint firstItem="iPc-fM-Bv4" firstAttribute="top" secondItem="64H-u5-Yl9" secondAttribute="top" id="uJX-D3-6Iu"/>
                                         </constraints>
@@ -386,7 +387,7 @@
                                                     <color key="backgroundColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="3z6-VK-hRa"/>
-                                                        <constraint firstAttribute="width" constant="320" id="gcY-Yn-iay"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="gcY-Yn-iay"/>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="E0R-0X-uen" customClass="MRSLRobotoSlabBoldLabel">
@@ -432,14 +433,14 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_HeaderCell" id="Tfj-fk-nYN" customClass="MRSLSegmentedHeaderReusableView">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xxz-jt-jtY" customClass="MRSLSegmentedButtonView">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                             <subviews>
                                                 <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6U3-l6-BIZ" customClass="MRSLSegmentButton">
-                                                    <rect key="frame" x="240" y="0.0" width="80" height="50"/>
+                                                    <rect key="frame" x="450" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="vX1-3f-Yd6"/>
@@ -453,7 +454,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kgx-e9-Kqf" customClass="MRSLSegmentButton">
-                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="2ag-vU-tRi"/>
@@ -467,7 +468,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
                                                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMw-Rh-Pbg" customClass="MRSLSegmentButton">
-                                                    <rect key="frame" x="80" y="0.0" width="80" height="50"/>
+                                                    <rect key="frame" x="150" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="1IY-kW-8O4"/>
@@ -481,7 +482,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
                                                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5rI-9f-lU1" customClass="MRSLSegmentButton">
-                                                    <rect key="frame" x="160" y="0.0" width="80" height="50"/>
+                                                    <rect key="frame" x="300" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="dat-Ns-LiF"/>
@@ -564,17 +565,16 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="followButton" destination="D9H-eS-9AV" id="t7C-NC-wWG"/>
                         <outlet property="profileCollectionView" destination="nOm-Tm-KKG" id="RBq-7I-Q43"/>
-                        <segue destination="cTM-Ai-v5D" kind="push" identifier="seg_FollowList" id="Mat-q5-4Vl"/>
-                        <segue destination="1RQ-g2-pHX" kind="push" identifier="seg_DisplayKeywordFollowers" id="deb-aO-ZjR"/>
+                        <segue destination="cTM-Ai-v5D" kind="show" identifier="seg_FollowList" id="Mat-q5-4Vl"/>
+                        <segue destination="1RQ-g2-pHX" kind="show" identifier="seg_DisplayKeywordFollowers" id="deb-aO-ZjR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DG6-lV-ROE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1297" y="96"/>
+            <point key="canvasLocation" x="2431.875" y="101.40845070422534"/>
         </scene>
         <!--Profile-->
         <scene sceneID="mBO-ua-4aU">
@@ -582,7 +582,6 @@
                 <navigationController storyboardIdentifier="sb_Profile" autoresizesArchivedViewToFullSize="NO" title="Profile" automaticallyAdjustsScrollViewInsets="NO" id="mgU-9x-CbA" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="FCa-cq-4iJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -595,7 +594,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DgQ-TP-RM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="747" y="96"/>
+            <point key="canvasLocation" x="1400.625" y="101.40845070422534"/>
         </scene>
         <!--Morsel Detail View Controller-->
         <scene sceneID="OCm-X4-GhK">
@@ -606,11 +605,11 @@
                         <viewControllerLayoutGuide type="bottom" id="WGH-cp-Yhq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fGp-mF-IfK">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jVK-mb-Gjh" customClass="MRSLCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="O4K-Tv-5xm"/>
@@ -693,14 +692,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TyD-W3-D2u" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1840" y="1596"/>
+            <point key="canvasLocation" x="3450" y="1685.9154929577464"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="A0T-6o-kWN">
             <objects>
                 <navigationController storyboardIdentifier="sb_FollowingPeople" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" definesPresentationContext="YES" id="c5m-pg-ZfQ" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Pxz-PS-9bQ">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
@@ -711,7 +709,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XiM-Ot-b8H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1297" y="836"/>
+            <point key="canvasLocation" x="2431.875" y="883.09859154929575"/>
         </scene>
         <!--Followers-->
         <scene sceneID="lZs-9L-01G">
@@ -722,11 +720,11 @@
                         <viewControllerLayoutGuide type="bottom" id="7bL-zP-eMO"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fmh-bv-mbb">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="pwC-dN-jEb" customClass="MRSLTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="416" id="glC-mL-9vj"/>
@@ -748,7 +746,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="Ftm-aW-7ck" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="58" y="10" width="160" height="20"/>
+                                                    <rect key="frame" x="58" y="10" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="QFF-uZ-IM2"/>
                                                         <constraint firstAttribute="height" constant="20" id="vrS-5D-fJj"/>
@@ -758,7 +756,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="Meh-Iy-7ry" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="58" y="30" width="160" height="20"/>
+                                                    <rect key="frame" x="58" y="30" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="jya-JH-KLU"/>
                                                         <constraint firstAttribute="height" constant="20" id="lq9-B9-uSM"/>
@@ -768,7 +766,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qva-ha-THE" customClass="MRSLFollowButton">
-                                                    <rect key="frame" x="238" y="15" width="72" height="30"/>
+                                                    <rect key="frame" x="518" y="15" width="72" height="30"/>
                                                     <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="9En-x2-IZX"/>
@@ -781,10 +779,10 @@
                                                     </state>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMi-gR-ELJ">
-                                                    <rect key="frame" x="20" y="59" width="280" height="1"/>
+                                                    <rect key="frame" x="20" y="59" width="560" height="1"/>
                                                     <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="280" id="1bP-H2-vHS"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="1bP-H2-vHS"/>
                                                         <constraint firstAttribute="height" constant="1" id="T6P-ev-ZDC"/>
                                                     </constraints>
                                                 </view>
@@ -838,7 +836,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ekm-cd-5WP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1840" y="836"/>
+            <point key="canvasLocation" x="3450" y="883.09859154929575"/>
         </scene>
         <!--Followers-->
         <scene sceneID="2cp-Er-GNy">
@@ -849,11 +847,11 @@
                         <viewControllerLayoutGuide type="bottom" id="3O1-8e-zIh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="daP-WO-Dde">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dN5-Vy-V49" customClass="MRSLTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="1ga-wa-0DW"/>
@@ -875,7 +873,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="alG-O3-xGc" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="58" y="10" width="160" height="20"/>
+                                                    <rect key="frame" x="58" y="10" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="BTq-AT-PUV"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="Dpk-td-YSK"/>
@@ -885,7 +883,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="q1a-2a-iwc" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="58" y="30" width="160" height="20"/>
+                                                    <rect key="frame" x="58" y="30" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="2WO-zz-qxv"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="wAI-US-uUs"/>
@@ -895,7 +893,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sLs-DQ-ZbR" customClass="MRSLFollowButton">
-                                                    <rect key="frame" x="238" y="15" width="72" height="30"/>
+                                                    <rect key="frame" x="518" y="15" width="72" height="30"/>
                                                     <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="72" id="BNt-Zk-v54"/>
@@ -908,10 +906,10 @@
                                                     </state>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IrG-bj-585">
-                                                    <rect key="frame" x="20" y="59" width="280" height="1"/>
+                                                    <rect key="frame" x="20" y="59" width="560" height="1"/>
                                                     <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="280" id="XEO-8c-DOO"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="XEO-8c-DOO"/>
                                                         <constraint firstAttribute="height" constant="1" id="hEY-MF-3L1"/>
                                                     </constraints>
                                                 </view>
@@ -964,7 +962,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ubg-DQ-VVe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1840" y="96"/>
+            <point key="canvasLocation" x="3450" y="101.40845070422534"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MAm-BU-cdH">
@@ -972,7 +970,6 @@
                 <navigationController storyboardIdentifier="sb_MorselDetail" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="jVf-MD-7pH" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Emf-kj-fzi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -985,18 +982,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MIK-cl-SnQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1297" y="1596"/>
+            <point key="canvasLocation" x="2431.875" y="1685.9154929577464"/>
         </scene>
     </scenes>
     <resources>
         <image name="icon-flag-white" width="20" height="20"/>
         <image name="icon-place" width="30" height="30"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Mat-q5-4Vl"/>
     </inferredMetricsTieBreakers>

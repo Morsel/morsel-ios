@@ -28,6 +28,8 @@ CaptureMediaViewControllerDelegate>
 
 @property (nonatomic) BOOL isDisplayingItems;
 
+@property (nonatomic) CGSize collectionViewSize;
+
 @property (weak, nonatomic) IBOutlet UICollectionView *previewMediaCollectionView;
 @property (weak, nonatomic) IBOutlet UIPageControl *previewMediaPageControl;
 @property (weak, nonatomic) IBOutlet MRSLToolbar *toolbar;
@@ -58,11 +60,6 @@ CaptureMediaViewControllerDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if ([_previewMedia count] > 0) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.previewMediaCollectionView reloadData];
-        });
-    }
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done"
                                                                                 style:UIBarButtonItemStyleDone
                                                                                target:self
@@ -72,6 +69,16 @@ CaptureMediaViewControllerDelegate>
                                                                   target:self
                                                                   action:nil];
     [self.navigationItem setLeftBarButtonItem:backButton];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.collectionViewSize = self.previewMediaCollectionView.frame.size;
+    if ([_previewMedia count] > 0) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.previewMediaCollectionView reloadData];
+        });
+    }
 
     [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex
                                                                                 inSection:0]
@@ -114,8 +121,6 @@ CaptureMediaViewControllerDelegate>
 
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
     self.previewMediaPageControl.hidden = ([_previewMedia count] == 1);
-    
-    [self.previewMediaCollectionView reloadData];
 }
 
 - (void)updateControls {
@@ -262,7 +267,7 @@ CaptureMediaViewControllerDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return collectionView.frame.size;
+    return self.collectionViewSize;
 }
 
 #pragma mark - UIAlertViewDelegate

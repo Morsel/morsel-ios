@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="VgC-h7-Rc7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VgC-h7-Rc7">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
@@ -14,14 +14,14 @@
                         <viewControllerLayoutGuide type="bottom" id="ek9-un-oZ2"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="lQq-B9-C5Y">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GJu-DY-Bdd">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2eP-S9-soZ" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mPp-Tx-Fjn" customClass="MRSLProfileImageView">
                                                 <rect key="frame" x="10" y="77" width="80" height="80"/>
@@ -50,14 +50,14 @@
                                                 </connections>
                                             </button>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-splash-logo-morsel" translatesAutoresizingMaskIntoConstraints="NO" id="iuW-Z7-kFY">
-                                                <rect key="frame" x="69" y="8" width="182" height="54"/>
+                                                <rect key="frame" x="209" y="8" width="182" height="54"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="182" id="XMq-wM-QkZ"/>
                                                     <constraint firstAttribute="height" constant="54" id="qyh-tH-uWe"/>
                                                 </constraints>
                                             </imageView>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bq9-Hv-jgI" customClass="MRSLTextField">
-                                                <rect key="frame" x="100" y="77" width="220" height="40"/>
+                                                <rect key="frame" x="100" y="77" width="500" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="ASt-IQ-l2p"/>
@@ -71,7 +71,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gmV-Fn-CVe" customClass="MRSLTextField">
-                                                <rect key="frame" x="100" y="116" width="220" height="40"/>
+                                                <rect key="frame" x="100" y="116" width="500" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="220" id="1u4-v8-WpH"/>
@@ -85,7 +85,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uDU-aw-TSn" customClass="MRSLTextField">
-                                                <rect key="frame" x="0.0" y="182" width="320" height="40"/>
+                                                <rect key="frame" x="0.0" y="242" width="600" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="GQF-cU-BG9"/>
@@ -99,7 +99,7 @@
                                                 </connections>
                                             </textField>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d9V-14-boL" customClass="MRSLValidationStatusView">
-                                                <rect key="frame" x="220" y="192" width="91" height="20"/>
+                                                <rect key="frame" x="500" y="252" width="91" height="20"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Unavailable" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="70" translatesAutoresizingMaskIntoConstraints="NO" id="Apu-W5-OZz">
                                                         <rect key="frame" x="20" y="0.0" width="70" height="20"/>
@@ -123,7 +123,7 @@
                                                 </connections>
                                             </view>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bGg-M7-toW" customClass="MRSLTextField">
-                                                <rect key="frame" x="0.0" y="221" width="320" height="40"/>
+                                                <rect key="frame" x="0.0" y="281" width="600" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="Hx9-sw-Vos"/>
@@ -137,7 +137,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rty-sg-r6C" customClass="MRSLTextField">
-                                                <rect key="frame" x="0.0" y="260" width="320" height="40"/>
+                                                <rect key="frame" x="0.0" y="320" width="600" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="fsQ-5e-azI"/>
@@ -151,7 +151,7 @@
                                                 </connections>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SDr-zQ-YVH" customClass="MRSLCheckbox">
-                                                <rect key="frame" x="20" y="310" width="280" height="30"/>
+                                                <rect key="frame" x="160" y="370" width="280" height="30"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="EOt-ML-YUG"/>
@@ -159,7 +159,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="kIG-dR-QZY">
-                                                <rect key="frame" x="20" y="334" width="280" height="60"/>
+                                                <rect key="frame" x="160" y="394" width="280" height="60"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="280" id="0Q3-k4-ue8"/>
                                                     <constraint firstAttribute="height" constant="60" id="zNh-Pe-Bj7"/>
@@ -211,7 +211,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uG8-wY-2oL">
-                                                <rect key="frame" x="69" y="350" width="122" height="44"/>
+                                                <rect key="frame" x="209" y="410" width="122" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="122" id="K6N-PS-rDq"/>
                                                     <constraint firstAttribute="height" constant="44" id="iCZ-lt-3zK"/>
@@ -225,7 +225,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="On6-Wh-bB0">
-                                                <rect key="frame" x="190" y="350" width="110" height="44"/>
+                                                <rect key="frame" x="330" y="410" width="110" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="110" id="gS8-or-1sN"/>
                                                     <constraint firstAttribute="height" constant="44" id="nWv-QJ-KXh"/>
@@ -239,7 +239,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8wV-eE-wJu" customClass="MRSLColoredBackgroundLightButton">
-                                                <rect key="frame" x="20" y="395" width="280" height="40"/>
+                                                <rect key="frame" x="20" y="455" width="560" height="40"/>
                                                 <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="YQR-fx-myK"/>
@@ -319,7 +319,7 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZTf-rQ-c4D">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="h9q-G0-DGF">
                                         <rect key="frame" x="150" y="230" width="20" height="20"/>
@@ -372,7 +372,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kil-Fr-R8D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="826" y="-353"/>
+            <point key="canvasLocation" x="1548.75" y="-441.25"/>
         </scene>
         <!--Landing View Controller-->
         <scene sceneID="sj9-y0-Ejj">
@@ -383,24 +383,24 @@
                         <viewControllerLayoutGuide type="bottom" id="3SO-vu-Jhk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="s2E-HS-UQp">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="graphic-white-pattern-background" translatesAutoresizingMaskIntoConstraints="NO" id="KVp-ve-MdM">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-splash-dish" translatesAutoresizingMaskIntoConstraints="NO" id="zlN-y8-X4q">
-                                <rect key="frame" x="34" y="0.0" width="252" height="114"/>
+                                <rect key="frame" x="174" y="0.0" width="252" height="114"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="252" id="IXI-y3-n8c"/>
                                     <constraint firstAttribute="height" constant="114" id="dMC-uA-S63"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTe-8N-0rF" customClass="MRSLLightButton">
-                                <rect key="frame" x="116" y="373" width="184" height="44"/>
+                                <rect key="frame" x="304" y="493" width="276" height="44"/>
                                 <accessibility key="accessibilityConfiguration" label="Log in"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="184" id="arr-OH-KuR"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="arr-OH-KuR"/>
                                     <constraint firstAttribute="height" constant="44" id="lHF-gl-k7U"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="15"/>
@@ -413,7 +413,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pra-DU-2aQ" customClass="MRSLLightButton">
-                                <rect key="frame" x="20" y="373" width="88" height="44"/>
+                                <rect key="frame" x="20" y="493" width="276" height="44"/>
                                 <accessibility key="accessibilityConfiguration" label="Log in"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ffy-lI-83y"/>
@@ -425,11 +425,11 @@
                                     <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="skl-I2-cK7" kind="push" identifier="seg_DisplayLogin" id="4bB-vQ-gMr"/>
+                                    <segue destination="skl-I2-cK7" kind="show" identifier="seg_DisplayLogin" id="4bB-vQ-gMr"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nJh-qG-Ak3">
-                                <rect key="frame" x="20" y="113" width="280" height="114"/>
+                                <rect key="frame" x="160" y="173" width="280" height="114"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="graphic-morsel-identity-large" translatesAutoresizingMaskIntoConstraints="NO" id="N7E-ql-Fu6">
                                         <rect key="frame" x="49" y="2" width="182" height="54"/>
@@ -448,7 +448,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z9T-66-ia5" customClass="MRSLColoredBackgroundLightButton">
-                                <rect key="frame" x="20" y="229" width="280" height="40"/>
+                                <rect key="frame" x="20" y="349" width="560" height="40"/>
                                 <color key="backgroundColor" red="0.23137254900000001" green="0.34901960780000002" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="8Dm-7z-FJb"/>
@@ -466,7 +466,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUE-Ap-rSk" customClass="MRSLColoredBackgroundLightButton">
-                                <rect key="frame" x="20" y="277" width="280" height="40"/>
+                                <rect key="frame" x="20" y="397" width="560" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.67450980392156867" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="9b9-da-8iG"/>
@@ -484,7 +484,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C2d-h8-JWo" customClass="MRSLColoredBackgroundLightButton">
-                                <rect key="frame" x="20" y="325" width="280" height="40"/>
+                                <rect key="frame" x="20" y="445" width="560" height="40"/>
                                 <color key="backgroundColor" red="0.54912707270408156" green="0.54912707270408156" blue="0.54912707270408156" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="9uV-lO-rPp"/>
@@ -518,7 +518,7 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vX1-UD-SAI">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="zDm-y7-8PO">
                                         <rect key="frame" x="150" y="230" width="20" height="20"/>
@@ -549,6 +549,7 @@
                             <constraint firstItem="X3X-Wk-IMD" firstAttribute="leading" secondItem="s2E-HS-UQp" secondAttribute="leading" id="KS1-iB-pUH"/>
                             <constraint firstAttribute="trailing" secondItem="vX1-UD-SAI" secondAttribute="trailing" id="NIh-Xg-zAW"/>
                             <constraint firstItem="aTe-8N-0rF" firstAttribute="leading" secondItem="pra-DU-2aQ" secondAttribute="trailing" constant="8" id="NVs-mx-c0h"/>
+                            <constraint firstItem="aTe-8N-0rF" firstAttribute="width" secondItem="pra-DU-2aQ" secondAttribute="width" priority="999" id="XpS-5w-GT0"/>
                             <constraint firstItem="3SO-vu-Jhk" firstAttribute="top" secondItem="C2d-h8-JWo" secondAttribute="bottom" constant="115" id="YaX-F1-Skt"/>
                             <constraint firstAttribute="trailing" secondItem="GUE-Ap-rSk" secondAttribute="trailing" constant="20" id="Z6H-ww-bBb"/>
                             <constraint firstItem="C2d-h8-JWo" firstAttribute="leading" secondItem="s2E-HS-UQp" secondAttribute="leading" constant="20" id="ZMr-I2-bgN"/>
@@ -579,12 +580,12 @@
                         <outlet property="guestButton" destination="aTe-8N-0rF" id="ebm-Nr-snD"/>
                         <outlet property="loginButton" destination="pra-DU-2aQ" id="KwS-aG-O0D"/>
                         <outlet property="twitterButton" destination="GUE-Ap-rSk" id="lNE-vw-9Bp"/>
-                        <segue destination="8OR-HZ-uNV" kind="push" identifier="seg_DisplaySignUp" id="Uyf-lT-gSw"/>
+                        <segue destination="8OR-HZ-uNV" kind="show" identifier="seg_DisplaySignUp" id="Uyf-lT-gSw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCa-44-WCw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="289" y="25"/>
+            <point key="canvasLocation" x="541.875" y="31.25"/>
         </scene>
         <!--Login-->
         <scene sceneID="3sP-bp-OQN">
@@ -595,17 +596,17 @@
                         <viewControllerLayoutGuide type="bottom" id="JTZ-ex-NbE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="gDj-IS-Zw6">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddp-IH-8rt">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vDt-1e-zP2" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CbT-0J-dIf">
-                                                <rect key="frame" x="20" y="113" width="280" height="114"/>
+                                                <rect key="frame" x="160" y="173" width="280" height="114"/>
                                                 <subviews>
                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="graphic-morsel-identity-large" translatesAutoresizingMaskIntoConstraints="NO" id="BgR-Cg-ULH">
                                                         <rect key="frame" x="49" y="2" width="182" height="54"/>
@@ -624,7 +625,7 @@
                                                 </constraints>
                                             </view>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username or email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dv3-QC-U4K" customClass="MRSLTextField">
-                                                <rect key="frame" x="0.0" y="267" width="320" height="40"/>
+                                                <rect key="frame" x="0.0" y="387" width="600" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" label="Username or email"/>
                                                 <constraints>
@@ -639,7 +640,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IQ8-Ay-q7t" customClass="MRSLTextField">
-                                                <rect key="frame" x="0.0" y="307" width="320" height="40"/>
+                                                <rect key="frame" x="0.0" y="427" width="600" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" label="Password"/>
                                                 <constraints>
@@ -654,7 +655,7 @@
                                                 </connections>
                                             </textField>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot your password?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="JQB-EB-GEf">
-                                                <rect key="frame" x="20" y="358" width="280" height="27"/>
+                                                <rect key="frame" x="20" y="478" width="280" height="27"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="27" id="Ue9-N4-MNe"/>
                                                     <constraint firstAttribute="width" constant="280" id="gDj-rN-ZMd"/>
@@ -664,7 +665,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oSS-cF-Gqv">
-                                                <rect key="frame" x="0.0" y="358" width="320" height="38"/>
+                                                <rect key="frame" x="0.0" y="478" width="600" height="38"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="SRQ-xU-5KI"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="gTR-8E-hTU"/>
@@ -674,11 +675,11 @@
                                                     <color key="titleColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="byW-pU-aAz" kind="push" identifier="seg_DisplayResetPassword" id="Wtf-Vd-KdO"/>
+                                                    <segue destination="byW-pU-aAz" kind="show" identifier="seg_DisplayResetPassword" id="Wtf-Vd-KdO"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E54-sO-Ley" customClass="MRSLColoredBackgroundLightButton">
-                                                <rect key="frame" x="20" y="404" width="280" height="40"/>
+                                                <rect key="frame" x="20" y="524" width="560" height="40"/>
                                                 <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <accessibility key="accessibilityConfiguration" label="Log in"/>
                                                 <constraints>
@@ -727,7 +728,7 @@
                                 </constraints>
                             </scrollView>
                             <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="graphic-splash-dish" translatesAutoresizingMaskIntoConstraints="NO" id="L3H-nl-Uou">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="114"/>
+                                <rect key="frame" x="140" y="0.0" width="320" height="114"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="kbA-7b-IsJ"/>
                                     <constraint firstAttribute="height" constant="114" id="p5g-4w-xjr"/>
@@ -745,10 +746,10 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2VY-r2-37M">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="9Tk-AR-BYy">
-                                        <rect key="frame" x="150" y="230" width="20" height="20"/>
+                                        <rect key="frame" x="290" y="290" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="BKi-DY-bau"/>
                                             <constraint firstAttribute="width" constant="20" id="SiF-aJ-1ZG"/>
@@ -806,7 +807,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zMC-Ds-5tp" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="ZF8-IQ-v2I" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="826" y="425"/>
+            <point key="canvasLocation" x="1548.75" y="531.25"/>
         </scene>
         <!--Reset Password View Controller-->
         <scene sceneID="vGW-oV-SUO">
@@ -817,17 +818,17 @@
                         <viewControllerLayoutGuide type="bottom" id="Dg5-eH-EmE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kiV-wL-ATg">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAR-iU-mLE">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dWA-Ls-N2P" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1cu-eq-LDQ">
-                                                <rect key="frame" x="20" y="113" width="280" height="114"/>
+                                                <rect key="frame" x="160" y="173" width="280" height="114"/>
                                                 <subviews>
                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="graphic-morsel-identity-large" translatesAutoresizingMaskIntoConstraints="NO" id="o40-fs-Ru2">
                                                         <rect key="frame" x="49" y="2" width="182" height="54"/>
@@ -846,7 +847,7 @@
                                                 </constraints>
                                             </view>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="929-kg-C8d" customClass="MRSLTextField">
-                                                <rect key="frame" x="0.0" y="267" width="320" height="40"/>
+                                                <rect key="frame" x="0.0" y="387" width="600" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" label="Email"/>
                                                 <constraints>
@@ -861,7 +862,7 @@
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BQU-Lo-ahB" customClass="MRSLColoredBackgroundLightButton">
-                                                <rect key="frame" x="20" y="326" width="280" height="40"/>
+                                                <rect key="frame" x="20" y="446" width="560" height="40"/>
                                                 <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <accessibility key="accessibilityConfiguration" label="Log in"/>
                                                 <constraints>
@@ -881,7 +882,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password reset instructions sent successfully! Please check your inbox." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="Sl2-yX-bPO" customClass="MRSLRobotoLightLabel">
-                                                <rect key="frame" x="20" y="271" width="280" height="90"/>
+                                                <rect key="frame" x="160" y="331" width="280" height="90"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="90" id="kV0-Bx-emo"/>
                                                     <constraint firstAttribute="width" constant="280" id="o9V-6D-T3G"/>
@@ -955,7 +956,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aa4-TQ-mLP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1266" y="425"/>
+            <point key="canvasLocation" x="2373.75" y="531.25"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dKL-2l-XjW">
@@ -963,7 +964,6 @@
                 <navigationController storyboardIdentifier="sb_SignUp" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="VgC-h7-Rc7" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="7Zs-VS-tCI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -976,7 +976,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A73-9c-mFT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-257" y="25"/>
+            <point key="canvasLocation" x="-481.875" y="31.25"/>
         </scene>
     </scenes>
     <resources>
@@ -990,10 +990,5 @@
         <image name="icon-social-facebook-mark" width="22" height="22"/>
         <image name="icon-social-twitter-mark" width="22" height="22"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
-    </simulatedMetricsContainer>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
 </document>

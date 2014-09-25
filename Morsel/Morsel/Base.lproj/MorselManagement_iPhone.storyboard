@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qdQ-No-x4G">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="qdQ-No-x4G">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
@@ -8,21 +8,20 @@
         <!--Morsel title-->
         <scene sceneID="QQh-X0-9F7">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="67f-mN-7Se" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sb_MRSLMorselAddTitleViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="xiT-us-aqg" customClass="MRSLMorselAddTitleViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Uek-jZ-nE5"/>
                         <viewControllerLayoutGuide type="bottom" id="oYm-jw-MQU"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="J8g-XC-y2C">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <userGuides>
                             <userLayoutGuide location="288" affinity="minY"/>
                         </userGuides>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cj7-6P-KJa" customClass="MRSLPlaceholderTextView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="288"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="408"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="2lr-ex-vfA"/>
@@ -36,7 +35,7 @@
                                 </connections>
                             </textView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="25" translatesAutoresizingMaskIntoConstraints="NO" id="ZMV-hk-sWf" customClass="MRSLRobotoLightLabel">
-                                <rect key="frame" x="286" y="260" width="25" height="21"/>
+                                <rect key="frame" x="566" y="260" width="25" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="25" id="S2k-pW-0jh"/>
                                     <constraint firstAttribute="height" constant="21" id="Vpq-4a-l4q"/>
@@ -46,7 +45,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Give your morsel a title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="285" translatesAutoresizingMaskIntoConstraints="NO" id="t8B-6y-9k7" customClass="MRSLRobotoLightItalicLabel">
-                                <rect key="frame" x="15" y="6" width="285" height="21"/>
+                                <rect key="frame" x="15" y="6" width="565" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="6Y3-Bz-DW0"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="285" id="EtA-Na-tAv"/>
@@ -86,24 +85,24 @@
                         <outlet property="titlePlaceholderLabel" destination="t8B-6y-9k7" id="Mys-GZ-XJH"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="67f-mN-7Se" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1706" y="73"/>
+            <point key="canvasLocation" x="3198.75" y="77.112676056338017"/>
         </scene>
         <!--Morsel checklist-->
         <scene sceneID="ZCc-aS-vaj">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="w1S-uu-Wpb" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sb_MRSLMorselEditViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="QmE-5e-DXK" customClass="MRSLMorselEditViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nBW-JV-tmu"/>
                         <viewControllerLayoutGuide type="bottom" id="6SO-Et-0xG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fRZ-uk-Q9W">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="WDj-WI-oTC" customClass="MRSLReorderTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" id="2FL-wj-HRc"/>
@@ -118,7 +117,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name your morsel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="204" translatesAutoresizingMaskIntoConstraints="NO" id="fKP-vy-xJJ" customClass="MRSLRobotoRegularLabel">
-                                                    <rect key="frame" x="76" y="0.0" width="204" height="60"/>
+                                                    <rect key="frame" x="76" y="0.0" width="484" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" id="deo-ky-65t"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="wD9-xp-vbr"/>
@@ -138,14 +137,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="icon-arrow-accessory-red" translatesAutoresizingMaskIntoConstraints="NO" id="Xam-S2-7Ty">
-                                                    <rect key="frame" x="284" y="22" width="16" height="16"/>
+                                                    <rect key="frame" x="564" y="22" width="16" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="16" id="3Ln-Ig-HbT"/>
                                                         <constraint firstAttribute="height" constant="16" id="sd7-99-Xqd"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBA-bG-9Ke">
-                                                    <rect key="frame" x="0.0" y="59" width="320" height="1"/>
+                                                    <rect key="frame" x="0.0" y="59" width="600" height="1"/>
                                                     <color key="backgroundColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="QOB-Gq-pMW"/>
@@ -212,7 +211,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to edit" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="198" translatesAutoresizingMaskIntoConstraints="NO" id="mXu-TV-bff" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="78" y="0.0" width="198" height="60"/>
+                                                    <rect key="frame" x="78" y="0.0" width="478" height="60"/>
                                                     <gestureRecognizers/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="198" id="BIs-xU-Yn7"/>
@@ -223,14 +222,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-reorder-gray" translatesAutoresizingMaskIntoConstraints="NO" id="lDI-N9-uoN">
-                                                    <rect key="frame" x="281" y="22" width="20" height="18"/>
+                                                    <rect key="frame" x="561" y="22" width="20" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="WFa-1A-sPI"/>
                                                         <constraint firstAttribute="height" constant="18" id="xQM-ah-1G5"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="APa-Dj-xc4">
-                                                    <rect key="frame" x="0.0" y="59" width="320" height="1"/>
+                                                    <rect key="frame" x="0.0" y="59" width="600" height="1"/>
                                                     <color key="backgroundColor" red="0.88627451658248901" green="0.86666667461395264" blue="0.84313726425170898" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="04p-7Z-Gkj"/>
@@ -238,7 +237,7 @@
                                                     </constraints>
                                                 </view>
                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DUg-e1-fHe">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UPLOAD FAILED" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mW6-qm-LOD" customClass="MRSLRobotoLightLabel">
                                                             <rect key="frame" x="87" y="18" width="146" height="24"/>
@@ -311,7 +310,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-add" translatesAutoresizingMaskIntoConstraints="NO" id="R54-i7-I14">
-                                                    <rect key="frame" x="149" y="20" width="21" height="21"/>
+                                                    <rect key="frame" x="290" y="20" width="21" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="95k-3E-j5b"/>
                                                         <constraint firstAttribute="width" constant="21" id="dV9-7a-fq6"/>
@@ -340,7 +339,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aia-yn-ZCi" customClass="MRSLToolbar">
-                                <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Cs-yE-Ky3" customClass="MRSLLightButton">
                                         <rect key="frame" x="0.0" y="0.0" width="120" height="44"/>
@@ -368,7 +367,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tqm-Gk-lAi" customClass="MRSLLightButton">
-                                        <rect key="frame" x="190" y="0.0" width="130" height="44"/>
+                                        <rect key="frame" x="470" y="0.0" width="130" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="UID-4s-Rcu"/>
                                             <constraint firstAttribute="width" constant="130" id="aYY-PW-Rcx"/>
@@ -426,29 +425,29 @@
                     <connections>
                         <outlet property="morselItemsTableView" destination="WDj-WI-oTC" id="gbI-7n-2gF"/>
                         <outlet property="toolbarView" destination="aia-yn-ZCi" id="j7e-ok-Qb9"/>
-                        <segue destination="xiT-us-aqg" kind="push" identifier="seg_EditMorselTitle" id="9dR-Ov-8Wd"/>
-                        <segue destination="Skl-OL-Y5W" kind="push" identifier="seg_SelectPlace" id="f8m-py-vMH"/>
-                        <segue destination="Wym-zL-icT" kind="push" identifier="seg_PublishShareMorsel" id="IKb-DN-gAL"/>
+                        <segue destination="xiT-us-aqg" kind="show" identifier="seg_EditMorselTitle" id="9dR-Ov-8Wd"/>
+                        <segue destination="Skl-OL-Y5W" kind="show" identifier="seg_SelectPlace" id="f8m-py-vMH"/>
+                        <segue destination="Wym-zL-icT" kind="show" identifier="seg_PublishShareMorsel" id="IKb-DN-gAL"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w1S-uu-Wpb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1163" y="845"/>
+            <point key="canvasLocation" x="2180.625" y="892.60563380281678"/>
         </scene>
         <!--Place-->
         <scene sceneID="fHN-I5-fAE">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="H5u-9B-UwB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sb_MRSLMorselPublishPlaceViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Skl-OL-Y5W" customClass="MRSLMorselPublishPlaceViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VEQ-og-Uh4"/>
                         <viewControllerLayoutGuide type="bottom" id="LS2-Lh-efN"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NWb-hk-CW8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="n1G-03-9UO" customClass="MRSLTableView">
-                                <rect key="frame" x="0.0" y="66" width="320" height="350"/>
+                                <rect key="frame" x="0.0" y="66" width="600" height="470"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="350" id="CVK-ua-xqP"/>
@@ -463,19 +462,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restaurant name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="208" translatesAutoresizingMaskIntoConstraints="NO" id="1Cj-jE-w16" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="54" y="3" width="208" height="31"/>
+                                                    <rect key="frame" x="54" y="3" width="488" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="31" id="7Va-5h-mXX"/>
-                                                        <constraint firstAttribute="width" constant="208" id="uJM-QM-fgc"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="208" id="uJM-QM-fgc"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City, State" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="208" translatesAutoresizingMaskIntoConstraints="NO" id="m4q-p6-qcZ" customClass="MRSLRobotoLightItalicLabel">
-                                                    <rect key="frame" x="54" y="28" width="208" height="32"/>
+                                                    <rect key="frame" x="54" y="28" width="488" height="32"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="208" id="UgL-HN-OUZ"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="208" id="UgL-HN-OUZ"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="Xkh-of-eui"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -490,14 +489,14 @@
                                                     </constraints>
                                                 </imageView>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-circle-check-gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ila-MO-Ji4">
-                                                    <rect key="frame" x="270" y="15" width="30" height="30"/>
+                                                    <rect key="frame" x="550" y="15" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="DXg-sQ-483"/>
                                                         <constraint firstAttribute="height" constant="30" id="aLJ-JY-bHS"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0yV-9D-cgX">
-                                                    <rect key="frame" x="0.0" y="59" width="320" height="1"/>
+                                                    <rect key="frame" x="0.0" y="59" width="600" height="1"/>
                                                     <color key="backgroundColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="KY0-Qu-fAo"/>
@@ -540,7 +539,7 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="None / Personal" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="208" translatesAutoresizingMaskIntoConstraints="NO" id="XWx-58-FRQ" customClass="MRSLRobotoSlabBoldLabel">
                                                     <rect key="frame" x="54" y="14" width="208" height="31"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="208" id="G2c-Xu-NhY"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="208" id="G2c-Xu-NhY"/>
                                                         <constraint firstAttribute="height" constant="31" id="Zcn-NX-G67"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -548,7 +547,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-circle-check-gray" translatesAutoresizingMaskIntoConstraints="NO" id="hNl-rz-r3g">
-                                                    <rect key="frame" x="270" y="15" width="30" height="30"/>
+                                                    <rect key="frame" x="550" y="15" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="6sr-Lc-aDt"/>
                                                         <constraint firstAttribute="width" constant="30" id="UhZ-Rh-2Y7"/>
@@ -575,7 +574,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="215" translatesAutoresizingMaskIntoConstraints="NO" id="JWU-89-UCF" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="52" y="-10" width="215" height="80"/>
+                                                    <rect key="frame" x="193" y="-10" width="215" height="80"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="80" id="2U2-Lp-PZx"/>
                                                         <constraint firstAttribute="width" constant="215" id="u7J-3a-La2"/>
@@ -613,7 +612,7 @@
                                 </connections>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select the place associated with your morsel:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="eQC-za-w1l" customClass="MRSLRobotoLightLabel">
-                                <rect key="frame" x="20" y="11" width="280" height="47"/>
+                                <rect key="frame" x="20" y="11" width="560" height="47"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="47" id="NdE-jG-uxa"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="pg1-fq-Aau"/>
@@ -647,27 +646,27 @@
                         <outlet property="placeTableView" destination="n1G-03-9UO" id="6Bv-xX-sSa"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H5u-9B-UwB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1706" y="845"/>
+            <point key="canvasLocation" x="3198.75" y="892.60563380281678"/>
         </scene>
         <!--Share-->
         <scene sceneID="5Nl-ac-03G">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mby-0n-c1B" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Wym-zL-icT" customClass="MRSLMorselPublishShareViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XNZ-jY-hpg"/>
                         <viewControllerLayoutGuide type="bottom" id="21K-gO-VYN"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="nHD-vo-ZRa">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vDF-YP-3bI" customClass="MRSLBorderedView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post to Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" translatesAutoresizingMaskIntoConstraints="NO" id="akR-8b-Rtk" customClass="MRSLRobotoLightLabel">
-                                        <rect key="frame" x="46" y="6" width="180" height="31"/>
+                                        <rect key="frame" x="46" y="6" width="460" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="8Rn-gc-Aoz"/>
                                             <constraint firstAttribute="height" constant="31" id="CFf-JL-Cs8"/>
@@ -677,7 +676,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vsa-xq-CBe">
-                                        <rect key="frame" x="251" y="6" width="51" height="31"/>
+                                        <rect key="frame" x="531" y="6" width="51" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="49" id="5uc-TV-Cpd"/>
                                             <constraint firstAttribute="height" constant="31" id="8LH-Oh-lxB"/>
@@ -713,10 +712,10 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6AX-43-may" customClass="MRSLBorderedView">
-                                <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="44"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post to Twitter" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" translatesAutoresizingMaskIntoConstraints="NO" id="OgJ-pX-VXT" customClass="MRSLRobotoLightLabel">
-                                        <rect key="frame" x="46" y="6" width="180" height="31"/>
+                                        <rect key="frame" x="46" y="6" width="460" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="LCS-wt-W1y"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="ZNU-WO-aGp"/>
@@ -726,7 +725,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="InD-TT-X9i">
-                                        <rect key="frame" x="251" y="6" width="51" height="31"/>
+                                        <rect key="frame" x="531" y="6" width="51" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="49" id="fyR-st-7KG"/>
                                             <constraint firstAttribute="height" constant="31" id="lZQ-gT-XzX"/>
@@ -762,10 +761,10 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ri4-D1-9T4" userLabel="Post to Instagram" customClass="MRSLBorderedView">
-                                <rect key="frame" x="0.0" y="112" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="112" width="600" height="44"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open in Instagram" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="197" translatesAutoresizingMaskIntoConstraints="NO" id="k7D-rK-IeT" customClass="MRSLRobotoLightLabel">
-                                        <rect key="frame" x="46" y="6" width="197" height="31"/>
+                                        <rect key="frame" x="46" y="6" width="477" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="NAk-BK-uAb"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="197" id="qPp-Jo-APw"/>
@@ -775,7 +774,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5wu-60-YHh">
-                                        <rect key="frame" x="251" y="6" width="51" height="31"/>
+                                        <rect key="frame" x="531" y="6" width="51" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="49" id="Pqs-vp-0pQ"/>
                                             <constraint firstAttribute="height" constant="31" id="Y2c-3e-55E"/>
@@ -811,7 +810,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Morsel cannot post to Instagram automatically. We will open the Instagram app and pre-load this morsel's cover photo for you." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="QzI-hd-RVD" customClass="MRSLRobotoLightLabel">
-                                <rect key="frame" x="10" y="151" width="300" height="72"/>
+                                <rect key="frame" x="150" y="151" width="300" height="72"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="eOn-Gf-k1j"/>
                                     <constraint firstAttribute="height" constant="72" id="vJr-L9-cx9"/>
@@ -854,24 +853,24 @@
                         <outlet property="twitterSwitch" destination="InD-TT-X9i" id="DV5-nW-nC0"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mby-0n-c1B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1706" y="1656"/>
+            <point key="canvasLocation" x="3198.75" y="1749.2957746478871"/>
         </scene>
         <!--Drafts-->
         <scene sceneID="cXI-Ne-8d0">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hHp-Ex-3E1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sb_MRSLMorselListViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="PPq-8K-Z8o" customClass="MRSLMorselListViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TtS-E3-9Ks"/>
                         <viewControllerLayoutGuide type="bottom" id="Wc9-41-oEx"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="88q-yL-AGc">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Mcj-aG-oZF" customClass="MRSLTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" id="G3E-Mn-YcU"/>
@@ -893,7 +892,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" translatesAutoresizingMaskIntoConstraints="NO" id="x5R-qI-7h8" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="80" y="14" width="180" height="21"/>
+                                                    <rect key="frame" x="80" y="14" width="460" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="8IY-uM-t9Q"/>
                                                         <constraint firstAttribute="height" constant="21" id="d1A-Qt-ISi"/>
@@ -903,7 +902,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="50" translatesAutoresizingMaskIntoConstraints="NO" id="b69-pH-f2b" customClass="MRSLRobotoLightItalicLabel">
-                                                    <rect key="frame" x="80" y="36" width="50" height="10"/>
+                                                    <rect key="frame" x="80" y="36" width="330" height="10"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="BlA-Lk-cue"/>
                                                         <constraint firstAttribute="height" constant="10" id="Ydw-wJ-piY"/>
@@ -913,14 +912,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="icon-arrow-accessory-red" translatesAutoresizingMaskIntoConstraints="NO" id="r6i-4X-pdh">
-                                                    <rect key="frame" x="284" y="22" width="16" height="16"/>
+                                                    <rect key="frame" x="564" y="22" width="16" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="ddm-85-wYr"/>
                                                         <constraint firstAttribute="width" constant="16" id="w6T-BW-HKQ"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ch7-PN-mWf">
-                                                    <rect key="frame" x="0.0" y="58" width="320" height="1"/>
+                                                    <rect key="frame" x="0.0" y="58" width="600" height="1"/>
                                                     <color key="backgroundColor" red="0.88627451660000001" green="0.86666667460000002" blue="0.84313726430000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="FUo-bn-WAb"/>
@@ -959,10 +958,10 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BNJ-gQ-5mV" customClass="MRSLToolbar">
-                                <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSL-uX-uZ4" customClass="MRSLLightButton">
-                                        <rect key="frame" x="160" y="0.0" width="160" height="44"/>
+                                        <rect key="frame" x="440" y="0.0" width="160" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="3R4-LP-cDq"/>
                                             <constraint firstAttribute="width" constant="160" id="pDS-2B-qfX"/>
@@ -1015,8 +1014,9 @@
                         <outlet property="tableView" destination="Mcj-aG-oZF" id="OeF-1K-c4N"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hHp-Ex-3E1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1163" y="1656"/>
+            <point key="canvasLocation" x="2180.625" y="1749.2957746478871"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jav-JW-FJW">
@@ -1024,7 +1024,6 @@
                 <navigationController storyboardIdentifier="sb_MorselAdd" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="qdQ-No-x4G" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="w65-Jf-YEv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1037,7 +1036,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zDI-UC-Acx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1163" y="73"/>
+            <point key="canvasLocation" x="2180.625" y="77.112676056338017"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ahi-Js-Ifj">
@@ -1045,7 +1044,6 @@
                 <navigationController storyboardIdentifier="sb_MorselEdit" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="D6k-iU-p9j" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="xgy-ht-IsU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1058,14 +1056,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ap3-88-zdI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="637" y="845"/>
+            <point key="canvasLocation" x="1194.375" y="892.60563380281678"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zBS-X7-V1c">
             <objects>
                 <navigationController storyboardIdentifier="sb_MorselList" automaticallyAdjustsScrollViewInsets="NO" id="wuX-Og-EDs" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="iVn-Od-BME">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1078,7 +1075,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JQC-iP-ODD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="637" y="1656"/>
+            <point key="canvasLocation" x="1194.375" y="1749.2957746478871"/>
         </scene>
     </scenes>
     <resources>
@@ -1093,11 +1090,6 @@
         <image name="icon-social-instagram-mark-dark" width="22" height="22"/>
         <image name="icon-social-twitter-mark-dark" width="22" height="22"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="9dR-Ov-8Wd"/>
     </inferredMetricsTieBreakers>

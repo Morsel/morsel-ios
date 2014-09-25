@@ -130,9 +130,13 @@
 }
 
 - (void)removeBorder {
-    for (CALayer *layer in self.layer.sublayers) {
-        if ([layer isKindOfClass:[CAShapeLayer class]]) {
-            [layer removeFromSuperlayer];
+    NSUInteger sublayerCount = [self.layer.sublayers count] - 1;
+    for (NSUInteger i = sublayerCount ; i > 0 ; i--) {
+        CALayer *subLayer = [self.layer.sublayers objectAtIndex:i];
+        if ([subLayer isKindOfClass:[CAShapeLayer class]]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [subLayer removeFromSuperlayer];
+            });
         }
     }
     self.layer.borderWidth = 0.f;

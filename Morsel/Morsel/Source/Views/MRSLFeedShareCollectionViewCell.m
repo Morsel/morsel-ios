@@ -51,7 +51,9 @@
     [self.morselTitleLabel removeStandardShadow];
     [self.morselTitleLabel addStandardShadow];
     [self.shareCoverImageView removeBorder];
-    [self.shareCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.shareCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
+    });
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {

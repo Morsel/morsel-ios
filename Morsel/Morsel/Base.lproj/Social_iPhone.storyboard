@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="pzu-S3-QLc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pzu-S3-QLc">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
@@ -14,14 +14,14 @@
                         <viewControllerLayoutGuide type="bottom" id="INY-P6-JT5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="UYv-Ws-iiT">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mst-R4-V2q" customClass="MRSLSegmentedButtonView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SI8-J0-vZX" customClass="MRSLSegmentButton">
-                                        <rect key="frame" x="0.0" y="0.0" width="140" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="420" height="50"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="K6l-L4-UmN"/>
@@ -36,7 +36,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Opv-m0-pqQ" customClass="MRSLSegmentButton">
-                                        <rect key="frame" x="140" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="420" y="0.0" width="60" height="50"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="443-gG-Epd"/>
@@ -51,7 +51,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kJ8-DP-MWA" customClass="MRSLSegmentButton">
-                                        <rect key="frame" x="200" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="480" y="0.0" width="60" height="50"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="j5d-UT-ksj"/>
@@ -66,7 +66,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4CE-7a-Ssl" customClass="MRSLSegmentButton">
-                                        <rect key="frame" x="260" y="0.0" width="60" height="50"/>
+                                        <rect key="frame" x="540" y="0.0" width="60" height="50"/>
                                         <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="8wf-u8-GsH"/>
@@ -109,14 +109,14 @@
                                 </connections>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="34" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="V0x-fl-B4F" customClass="MRSLTableView">
-                                <rect key="frame" x="0.0" y="50" width="320" height="366"/>
+                                <rect key="frame" x="0.0" y="50" width="600" height="486"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="Coh-Cw-ee9"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="366" id="tMA-v8-ySv"/>
                                 </constraints>
                                 <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Find people on Morsel" id="4yV-6W-3mq">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -139,7 +139,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="c4r-Og-dCI" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="58" y="10" width="160" height="20"/>
+                                                    <rect key="frame" x="58" y="10" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="C2j-bl-QNq"/>
                                                         <constraint firstAttribute="height" constant="20" id="s1S-WL-fq4"/>
@@ -149,7 +149,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="00s-Ie-foU" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="58" y="30" width="160" height="20"/>
+                                                    <rect key="frame" x="58" y="30" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="UPP-8Z-p4m"/>
                                                         <constraint firstAttribute="height" constant="20" id="vKu-4j-nwn"/>
@@ -159,7 +159,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmS-Ee-dKo" customClass="MRSLFollowButton">
-                                                    <rect key="frame" x="238" y="15" width="72" height="30"/>
+                                                    <rect key="frame" x="518" y="15" width="72" height="30"/>
                                                     <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="Qcf-Dv-A1s"/>
@@ -172,7 +172,7 @@
                                                     </state>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="idn-Bs-EX6">
-                                                    <rect key="frame" x="20" y="59" width="270" height="1"/>
+                                                    <rect key="frame" x="20" y="59" width="550" height="1"/>
                                                     <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="7Ar-Ih-Iad"/>
@@ -233,7 +233,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UZt-YZ-QF3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="780" y="-33"/>
+            <point key="canvasLocation" x="1462.5" y="-34.859154929577464"/>
         </scene>
         <!--Share Morsel-->
         <scene sceneID="otU-fg-aNO">
@@ -305,7 +305,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pZF-Df-Jbd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="780" y="677"/>
+            <point key="canvasLocation" x="1462.5" y="715.14084507042253"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JWU-QV-7Nn">
@@ -326,7 +326,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jyy-ru-Lzy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="254" y="677"/>
+            <point key="canvasLocation" x="476.25" y="715.14084507042253"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zba-Cv-Cmx">
@@ -334,7 +334,6 @@
                 <navigationController storyboardIdentifier="sb_FindFriends" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Hng-NZ-pHv" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="SSj-OY-g9t">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -347,7 +346,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ypm-P6-ANe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="254" y="-33"/>
+            <point key="canvasLocation" x="476.25" y="-34.859154929577464"/>
         </scene>
     </scenes>
     <resources>
@@ -355,9 +354,4 @@
         <image name="icon-social-instagram-mark-dark" width="22" height="22"/>
         <image name="icon-social-twitter-mark-dark" width="22" height="22"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>
