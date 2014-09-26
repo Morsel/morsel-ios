@@ -46,6 +46,8 @@ UITextViewDelegate>
         [self textViewDidChange:_morselTitleTextView];
     }
 
+    [self.doneBarButtonItem setEnabled:NO];
+
     self.title = @"Morsel title";
 }
 
@@ -82,9 +84,8 @@ UITextViewDelegate>
 }
 
 - (IBAction)done:(id)sender {
-    if (_isPerformingRequest) return;
+    if (_isPerformingRequest || ![self isDirty]) return;
     self.isPerformingRequest = YES;
-    [self.doneBarButtonItem setEnabled:NO];
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Done",
                                               @"_view": self.mp_eventView}];
@@ -147,7 +148,7 @@ UITextViewDelegate>
 
 - (void)textViewDidChange:(UITextView *)textView {
     NSUInteger textLength = textView.text.length;
-    _doneBarButtonItem.enabled = !(textLength == 0);
+    _doneBarButtonItem.enabled = [self isDirty];
     _titlePlaceholderLabel.hidden = !(textLength == 0);
     if (textLength < 40) {
         [_titleCountLimitLabel setTextColor:[UIColor morselValidColor]];

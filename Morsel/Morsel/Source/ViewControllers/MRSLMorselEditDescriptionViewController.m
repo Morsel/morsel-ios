@@ -57,10 +57,14 @@ UITextViewDelegate>
     return _item;
 }
 
+- (BOOL)isDirty {
+    return ![_item.itemDescription ?: @"" isEqualToString:self.itemDescriptionTextView.text];
+}
+
 #pragma mark - Action Methods
 
 - (void)goBack {
-    if (![_item.itemDescription ?: @"" isEqualToString:self.itemDescriptionTextView.text]) {
+    if ([self isDirty]) {
         [UIAlertView showAlertViewWithTitle:@"Discard Changes?"
                                     message:@"If you go back, you'll lose all your changes. Are you sure you want to do this?"
                                    delegate:self
@@ -92,8 +96,7 @@ UITextViewDelegate>
 #pragma mark - UITextViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView {
-    NSUInteger textLength = textView.text.length;
-    _doneBarButtonItem.enabled = !(textLength == 0);
+    _doneBarButtonItem.enabled = [self isDirty];
 }
 
 #pragma mark - UIAlertViewDelegate
