@@ -106,6 +106,9 @@
 		064685EC19D5CA51003FDBE5 /* MRSLExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064685EB19D5CA51003FDBE5 /* MRSLExploreViewController.m */; };
 		064685ED19D5CA51003FDBE5 /* MRSLExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064685EB19D5CA51003FDBE5 /* MRSLExploreViewController.m */; };
 		064685EE19D5CA51003FDBE5 /* MRSLExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064685EB19D5CA51003FDBE5 /* MRSLExploreViewController.m */; };
+		064685F219D5CF8F003FDBE5 /* MRSLAPIService+Explore.m in Sources */ = {isa = PBXBuildFile; fileRef = 064685F119D5CF8F003FDBE5 /* MRSLAPIService+Explore.m */; };
+		064685F319D5CF8F003FDBE5 /* MRSLAPIService+Explore.m in Sources */ = {isa = PBXBuildFile; fileRef = 064685F119D5CF8F003FDBE5 /* MRSLAPIService+Explore.m */; };
+		064685F419D5CF8F003FDBE5 /* MRSLAPIService+Explore.m in Sources */ = {isa = PBXBuildFile; fileRef = 064685F119D5CF8F003FDBE5 /* MRSLAPIService+Explore.m */; };
 		064A0F5818A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */; };
 		0657357E19240C58000D2761 /* MRSLSocialAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 0657357D19240C58000D2761 /* MRSLSocialAuthentication.m */; };
 		06584C5418C7C37300D9035A /* MRSLMediaItemThumbnailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06584C5318C7C37300D9035A /* MRSLMediaItemThumbnailViewController.m */; };
@@ -822,6 +825,8 @@
 		064566F318C50BDD00C9CCBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Activity.storyboard; sourceTree = "<group>"; };
 		064685EA19D5CA51003FDBE5 /* MRSLExploreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLExploreViewController.h; sourceTree = "<group>"; };
 		064685EB19D5CA51003FDBE5 /* MRSLExploreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLExploreViewController.m; sourceTree = "<group>"; };
+		064685F019D5CF8F003FDBE5 /* MRSLAPIService+Explore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLAPIService+Explore.h"; sourceTree = "<group>"; };
+		064685F119D5CF8F003FDBE5 /* MRSLAPIService+Explore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLAPIService+Explore.m"; sourceTree = "<group>"; };
 		064A0F5618A3FAE700C6ADF7 /* MRSLServiceErrorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLServiceErrorInfo.h; sourceTree = "<group>"; };
 		064A0F5718A3FAE700C6ADF7 /* MRSLServiceErrorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLServiceErrorInfo.m; sourceTree = "<group>"; };
 		0657357C19240C58000D2761 /* MRSLSocialAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSocialAuthentication.h; path = Source/Models/MRSLSocialAuthentication.h; sourceTree = "<group>"; };
@@ -2353,12 +2358,16 @@
 			children = (
 				4069CB20189B127E001790F3 /* MRSLAPIClient.h */,
 				4069CB21189B127E001790F3 /* MRSLAPIClient.m */,
+				4069CB22189B127E001790F3 /* MRSLAPIService.h */,
+				4069CB23189B127E001790F3 /* MRSLAPIService.m */,
 				06DAFB47191A91750044AF3E /* MRSLAPIService+Activity.h */,
 				06DAFB48191A91750044AF3E /* MRSLAPIService+Activity.m */,
 				06DAFB44191A914C0044AF3E /* MRSLAPIService+Authentication.h */,
 				06DAFB45191A914C0044AF3E /* MRSLAPIService+Authentication.m */,
 				06DAFB53191A92320044AF3E /* MRSLAPIService+Comment.h */,
 				06DAFB54191A92320044AF3E /* MRSLAPIService+Comment.m */,
+				064685F019D5CF8F003FDBE5 /* MRSLAPIService+Explore.h */,
+				064685F119D5CF8F003FDBE5 /* MRSLAPIService+Explore.m */,
 				06DAFB50191A920F0044AF3E /* MRSLAPIService+Feed.h */,
 				06DAFB51191A920F0044AF3E /* MRSLAPIService+Feed.m */,
 				06DAFB5C191A93FA0044AF3E /* MRSLAPIService+Follow.h */,
@@ -2389,8 +2398,6 @@
 				06DAFB5A191A93D20044AF3E /* MRSLAPIService+Tag.m */,
 				065D0CB619A9991C009E6FC7 /* MRSLAPIService+Templates.h */,
 				065D0CB719A9991C009E6FC7 /* MRSLAPIService+Templates.m */,
-				4069CB22189B127E001790F3 /* MRSLAPIService.h */,
-				4069CB23189B127E001790F3 /* MRSLAPIService.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -3151,6 +3158,7 @@
 				060C97A519B7B08D006AAC43 /* UIButton+Additions.m in Sources */,
 				0637B67919377B5300358F25 /* MRSLPlacesAddViewController.m in Sources */,
 				407FDF5E194807E4005FEEBF /* RollbarLogger.m in Sources */,
+				064685F219D5CF8F003FDBE5 /* MRSLAPIService+Explore.m in Sources */,
 				06256C6E196DC07000E32630 /* MRSLMenuItem.m in Sources */,
 				4062A4F6196EF2F100394EFA /* MRSLIconStateView.m in Sources */,
 				06E7B9E718B2C66A00833427 /* MRSLEventManager.m in Sources */,
@@ -3349,6 +3357,7 @@
 				4061724C198308310097CD17 /* MRSLPlaceholderTextView.m in Sources */,
 				065D0CD819ABCC25009E6FC7 /* MRSLTemplateSelectionViewController.m in Sources */,
 				069AE51A18B80FDF002F63D5 /* MRSLBaseCaptureMediaViewController.m in Sources */,
+				064685F319D5CF8F003FDBE5 /* MRSLAPIService+Explore.m in Sources */,
 				400350A418EBA79A00C97DDC /* MRSLProfileViewController.m in Sources */,
 				403B5BF41959F882001F33D2 /* MRSLCheckbox.m in Sources */,
 				403B5BF9195A041D001F33D2 /* MRSLProfessionalSettingsTableViewController.m in Sources */,
@@ -3602,6 +3611,7 @@
 				06C4DE6C19897E14009B6406 /* MRSLFollowButton.m in Sources */,
 				06C4DE6D19897E14009B6406 /* MRSLLightButton.m in Sources */,
 				065D0CD919ABCC25009E6FC7 /* MRSLTemplateSelectionViewController.m in Sources */,
+				064685F419D5CF8F003FDBE5 /* MRSLAPIService+Explore.m in Sources */,
 				06C4DE6E19897E14009B6406 /* MRSLRegularButton.m in Sources */,
 				06C4DE6F19897E14009B6406 /* MRSLSegmentedButtonView.m in Sources */,
 				06C4DE7019897E14009B6406 /* MRSLProfileImageView.m in Sources */,
