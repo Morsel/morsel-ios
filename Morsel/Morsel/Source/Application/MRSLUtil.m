@@ -49,7 +49,7 @@
     NSRange whiteSpaceRange = [username rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
     if (whiteSpaceRange.location != NSNotFound) [errors addObject:@"cannot contain spaces"];
 
-    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"[a-zA-Z][A-Za-z0-9_]+$"] evaluateWithObject:username]) [errors addObject:@"must start with a letter and can only contain alphanumeric characters and underscores"];
+    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"[a-zA-Z]([A-Za-z0-9_]*)$"] evaluateWithObject:username]) [errors addObject:@"must start with a letter and can only contain alphanumeric characters and underscores"];
 
     return ([errors count] > 0) ? errors : nil;
 }
