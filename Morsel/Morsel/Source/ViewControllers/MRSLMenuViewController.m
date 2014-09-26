@@ -93,10 +93,12 @@ UITableViewDelegate>
     MRSLMenuItem *itemDrafts = [[MRSLMenuItem alloc] initWithName:@"Drafts"
                                                               key:MRSLMenuDraftsKey
                                                              icon:@"icon-menu-morseldrafts"];
-
     MRSLMenuItem *itemFeed = [[MRSLMenuItem alloc] initWithName:@"Feed"
                                                             key:MRSLMenuFeedKey
                                                            icon:@"icon-menu-feed"];
+    MRSLMenuItem *itemExplore = [[MRSLMenuItem alloc] initWithName:@"Explore"
+                                                            key:MRSLMenuExploreKey
+                                                           icon:@"icon-menu-explore"];
     MRSLMenuItem *itemNotifications = [[MRSLMenuItem alloc] initWithName:@"Notifications"
                                                                      key:MRSLMenuNotificationsKey
                                                                     icon:@"icon-menu-notifications"];
@@ -121,6 +123,7 @@ UITableViewDelegate>
                              @"name": @"",
                              @"options": @[
                                      itemFeed,
+                                     itemExplore,
                                      itemNotifications,
                                      itemActivity,
                                      itemFindFriends,

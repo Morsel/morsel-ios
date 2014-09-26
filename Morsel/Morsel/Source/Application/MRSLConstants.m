@@ -59,6 +59,7 @@ NSString *const MRSLMenuProfileKey = @"profile";
 NSString *const MRSLMenuAddKey = @"morseladd";
 NSString *const MRSLMenuDraftsKey = @"morseldrafts";
 NSString *const MRSLMenuFeedKey = @"feed";
+NSString *const MRSLMenuExploreKey = @"explore";
 NSString *const MRSLMenuNotificationsKey = @"notifications";
 NSString *const MRSLMenuPlacesKey = @"places";
 NSString *const MRSLMenuActivityKey = @"activity";
@@ -81,18 +82,19 @@ NSString *const MRSLItemImageSmallKey = @"_50x50";
 
 #pragma mark - Storyboard Constants
 
-NSString *const MRSLStoryboardiPhoneActivityKey = @"Activity_iPhone";
-NSString *const MRSLStoryboardiPhoneFeedKey = @"Feed_iPhone";
-NSString *const MRSLStoryboardiPhoneLoginKey = @"Login_iPhone";
-NSString *const MRSLStoryboardiPhoneMainKey = @"Main_iPhone";
-NSString *const MRSLStoryboardiPhoneMediaManagementKey = @"MediaManagement_iPhone";
-NSString *const MRSLStoryboardiPhoneMorselManagementKey = @"MorselManagement_iPhone";
-NSString *const MRSLStoryboardiPhonePlacesKey = @"Places_iPhone";
-NSString *const MRSLStoryboardiPhoneProfileKey = @"Profile_iPhone";
-NSString *const MRSLStoryboardiPhoneSettingsKey = @"Settings_iPhone";
-NSString *const MRSLStoryboardiPhoneSocialKey = @"Social_iPhone";
+NSString *const MRSLStoryboardiPhoneActivityKey = @"Activity";
+NSString *const MRSLStoryboardiPhoneExploreKey = @"Explore";
+NSString *const MRSLStoryboardiPhoneFeedKey = @"Feed";
+NSString *const MRSLStoryboardiPhoneLoginKey = @"Login";
+NSString *const MRSLStoryboardiPhoneMainKey = @"Main";
+NSString *const MRSLStoryboardiPhoneMediaManagementKey = @"MediaManagement";
+NSString *const MRSLStoryboardiPhoneMorselManagementKey = @"MorselManagement";
+NSString *const MRSLStoryboardiPhonePlacesKey = @"Places";
+NSString *const MRSLStoryboardiPhoneProfileKey = @"Profile";
+NSString *const MRSLStoryboardiPhoneSettingsKey = @"Settings";
+NSString *const MRSLStoryboardiPhoneSocialKey = @"Social";
 NSString *const MRSLStoryboardiPhoneSpecsKey = @"Specs_iPhone";
-NSString *const MRSLStoryboardiPhoneTemplatesKey = @"Templates_iPhone";
+NSString *const MRSLStoryboardiPhoneTemplatesKey = @"Templates";
 
 #pragma mark - Storyboard Identifier Constants
 
@@ -100,6 +102,7 @@ NSString *const MRSLStoryboardActivityKey = @"sb_Activity";
 NSString *const MRSLStoryboardCaptureMultipleMediaViewControllerKey = @"sb_MRSLCaptureMultipleMediaViewController";
 NSString *const MRSLStoryboardCaptureSingleMediaViewControllerKey = @"sb_MRSLCaptureSingleMediaViewController";
 NSString *const MRSLStoryboardCommentsKey = @"sb_Comments";
+NSString *const MRSLStoryboardExploreKey = @"sb_Explore";
 NSString *const MRSLStoryboardFeedKey = @"sb_Feed";
 NSString *const MRSLStoryboardFeedPanelKey = @"sb_FeedPanel";
 NSString *const MRSLStoryboardFeedPanelViewControllerKey = @"sb_MRSLFeedPanelViewController";

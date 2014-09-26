@@ -464,6 +464,14 @@ MRSLMenuViewControllerDelegate>
             }
             break;
         }
+        CASE(MRSLMenuExploreKey) {
+            [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                         properties:@{@"_title": @"Explore",
+                                                      @"_view": @"menu"}];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardExploreKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneExploreKey];
+            break;
+        }
         CASE(MRSLMenuNotificationsKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                          properties:@{@"_title": @"Notifications",
