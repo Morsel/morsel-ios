@@ -329,6 +329,8 @@ UITextFieldDelegate>
             __weak __typeof(self)weakSelf = self;
             _usernameStatusView.hidden = NO;
             _usernameStatusView.statusLabel.hidden = NO;
+            _usernameStatusView.statusLabel.text = @"Checking";
+            _usernameStatusView.statusLabel.textColor = [UIColor morselValidColor];
             [_usernameStatusView.activityIndicator startAnimating];
             [_appDelegate.apiService checkUsernameAvailability:_usernameField.text
                                                      validated:^(BOOL isAvailable, NSError *error) {
