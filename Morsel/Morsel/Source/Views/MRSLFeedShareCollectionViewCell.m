@@ -47,7 +47,8 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self.morselTitleLabel setPreferredMaxLayoutWidth:[self getWidth]];
+    [self.morselTitleLabel setPreferredMaxLayoutWidth:[self.morselTitleLabel getWidth]];
+    [self.userBioLabel setPreferredMaxLayoutWidth:[self.userBioLabel getWidth]];
     [self.morselTitleLabel removeStandardShadow];
     [self.morselTitleLabel addStandardShadow];
     [self.shareCoverImageView removeBorder];

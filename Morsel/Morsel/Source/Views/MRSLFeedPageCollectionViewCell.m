@@ -21,8 +21,6 @@
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
-static CGFloat kTextAutolayoutPadding = 2.f;
-
 @interface MRSLFeedPageCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
@@ -63,6 +61,7 @@ static CGFloat kTextAutolayoutPadding = 2.f;
     [super layoutSubviews];
     [self.itemImageView removeBorder];
     [self.itemImageView addDefaultBorderForDirections:MRSLBorderSouth];
+    if (_item) [self populateContent];
 }
 
 - (void)setItem:(MRSLItem *)item {
@@ -78,7 +77,7 @@ static CGFloat kTextAutolayoutPadding = 2.f;
     CGSize textSize = [_item.itemDescription sizeWithFont:_itemDescriptionLabel.font
                                         constrainedToSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
                                             lineBreakMode:NSLineBreakByWordWrapping];
-    CGFloat floorHeight = floorf(textSize.height) + kTextAutolayoutPadding;
+    CGFloat floorHeight = floorf(textSize.height);
     CGFloat textHeight = self.itemDescriptionLabel.bounds.size.height;
     BOOL textTruncated = (floorHeight > textHeight);
     [_readMoreLabel setHidden:!textTruncated];
