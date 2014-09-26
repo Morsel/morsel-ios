@@ -64,7 +64,7 @@
 		<string>RobotoSlab-Bold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>Launch_iPhone</string>
+	<string>Launch</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

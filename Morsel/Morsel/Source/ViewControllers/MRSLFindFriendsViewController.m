@@ -71,8 +71,8 @@ MRSLSegmentedButtonViewDelegate>
     [self.tableView setEmptyStateTitle:@"No people found."];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
 
     [self setupFetchRequest];
     [self populateContent];

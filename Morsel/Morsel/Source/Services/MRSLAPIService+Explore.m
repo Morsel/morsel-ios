@@ -1,24 +1,22 @@
 //
-//  MRSLAPIService+Feed.m
+//  MRSLAPIService+Explore.m
 //  Morsel
 //
-//  Created by Javier Otero on 5/5/14.
+//  Created by Javier Otero on 9/26/14.
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLAPIService+Feed.h"
+#import "MRSLAPIService+Explore.h"
 
 #import "MRSLAPIClient.h"
 
-@implementation MRSLAPIService (Feed)
+@implementation MRSLAPIService (Explore)
 
-#pragma mark - Feed Services
-
-- (void)getFeedWithMaxID:(NSNumber *)maxOrNil
-               orSinceID:(NSNumber *)sinceOrNil
-                andCount:(NSNumber *)countOrNil
-                 success:(MRSLAPIArrayBlock)successOrNil
-                 failure:(MRSLFailureBlock)failureOrNil {
+- (void)getExploreWithMaxID:(NSNumber *)maxOrNil
+                  orSinceID:(NSNumber *)sinceOrNil
+                   andCount:(NSNumber *)countOrNil
+                    success:(MRSLAPIArrayBlock)successOrNil
+                    failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -31,7 +29,7 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] GET:@"feed"
+    [[MRSLAPIClient sharedClient] GET:@"feed_all"
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
