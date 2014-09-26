@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hhS-Tr-n28">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -306,7 +305,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xEc-eJ-t8K" customClass="MRSLTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="476"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" id="PGV-3l-RE2"/>
@@ -455,22 +454,22 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0hy-eg-G0Q" customClass="MRSLToolbar">
-                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="476" width="600" height="60"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wyp-8d-VK5" customClass="MRSLPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6" width="530" height="32"/>
+                                        <rect key="frame" x="11" y="6" width="530" height="48"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="V09-aO-f6n"/>
-                                            <constraint firstAttribute="height" constant="32" id="rft-9V-s2t"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="rft-9V-s2t"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qsN-e5-wzJ">
-                                        <rect key="frame" x="549" y="7" width="46" height="30"/>
+                                        <rect key="frame" x="549" y="7" width="46" height="46"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="DpZ-3n-YrE"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="DpZ-3n-YrE"/>
                                             <constraint firstAttribute="width" constant="46" id="SQB-st-6LM"/>
                                         </constraints>
                                         <state key="normal" title="Add">
@@ -482,16 +481,17 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.93957270408163263" green="0.93957270408163263" blue="0.93957270408163263" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="wyp-8d-VK5" firstAttribute="top" secondItem="0hy-eg-G0Q" secondAttribute="top" constant="6" id="1zQ-Se-GTJ"/>
-                                    <constraint firstAttribute="height" constant="44" id="6ix-dd-Ck1"/>
+                                    <constraint firstAttribute="height" constant="60" id="6ix-dd-Ck1"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="Pvn-kK-a0C"/>
                                     <constraint firstAttribute="bottom" secondItem="wyp-8d-VK5" secondAttribute="bottom" constant="6" id="Zyb-gz-dma"/>
                                     <constraint firstItem="qsN-e5-wzJ" firstAttribute="leading" secondItem="wyp-8d-VK5" secondAttribute="trailing" constant="8" id="egm-jF-xCa"/>
                                     <constraint firstAttribute="trailing" secondItem="qsN-e5-wzJ" secondAttribute="trailing" constant="5" id="g7U-gO-PRV"/>
                                     <constraint firstItem="wyp-8d-VK5" firstAttribute="leading" secondItem="0hy-eg-G0Q" secondAttribute="leading" constant="11" id="lfJ-VY-18z"/>
                                     <constraint firstAttribute="bottom" secondItem="qsN-e5-wzJ" secondAttribute="bottom" constant="7" id="r0Y-BY-eFY"/>
+                                    <constraint firstItem="qsN-e5-wzJ" firstAttribute="top" secondItem="0hy-eg-G0Q" secondAttribute="top" constant="7" id="wy3-qe-C3h"/>
                                 </constraints>
                             </view>
                         </subviews>
