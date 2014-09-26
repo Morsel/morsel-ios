@@ -75,6 +75,12 @@ UITableViewDelegate>
 
 #pragma mark - Action Methods
 
+- (IBAction)addPlace {
+    MRSLPlacesAddViewController *placesAddVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlacesAddViewControllerKey];
+    [self.navigationController pushViewController:placesAddVC
+                                         animated:YES];
+}
+
 - (void)goBack {
     if ([self isDirty]) {
         [UIAlertView showAlertViewWithTitle:@"Warning"
@@ -202,9 +208,7 @@ UITableViewDelegate>
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = nil;
-    if ([self.places count] == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDEmptyCellKey];
-    } else if (indexPath.row > [_places count] - 1 && [_places count] > 0) {
+    if (indexPath.row > [_places count] - 1 || [_places count] == 0) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_CheckmarkCell"];
         [[(MRSLCheckmarkTextTableViewCell *)cell titleLabel] setText:@"None / Personal"];
     } else {
@@ -218,15 +222,7 @@ UITableViewDelegate>
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.places count] == 0) {
-        MRSLPlacesAddViewController *placesAddVC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlacesAddViewControllerKey];
-        [self.navigationController pushViewController:placesAddVC
-                                             animated:YES];
-    } else if (_selectedPlaceRow == indexPath.row) {
-        _selectedPlaceRow = -1;
-        [tableView deselectRowAtIndexPath:indexPath
-                                 animated:YES];
-    } else if (indexPath.row > [_places count] - 1 && [_places count] > 0) {
+    if ((indexPath.row > [_places count] - 1 && [_places count] > 0) || ([_places count] == 0)) {
         self.selectedPlaceRow = -1;
     } else {
         _selectedPlaceRow = indexPath.row;
