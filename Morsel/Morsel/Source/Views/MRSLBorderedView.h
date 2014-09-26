@@ -11,6 +11,6 @@
 @interface MRSLBorderedView : UIView
 
 //  User Defined NSString in IB. Can be any combo of: North|South|East|West
-@property (nonatomic, assign) NSString *borderDirections;
+@property (strong, nonatomic) NSString *borderDirection;
 
 @end
