@@ -16,7 +16,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
     [super layoutSubviews];
 
     [self removeBorder];
-    [self addDefaultBorderForDirections:(MRSLBorderNorth|MRSLBorderSouth)];
+    [self addDefaultBorderForDirections:(MRSLBorderAll)];
     [self setTextColor:[UIColor morselDefaultTextColor]];
     [self setBackgroundColor:[UIColor morselDefaultTextFieldBackgroundColor]];
     [self setPlaceholderColor:[UIColor morselDefaultPlaceholderTextColor]];

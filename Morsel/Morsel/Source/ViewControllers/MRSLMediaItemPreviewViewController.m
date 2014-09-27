@@ -108,8 +108,8 @@ CaptureMediaViewControllerDelegate>
     self.isDisplayingItems = [firstMediaItem isKindOfClass:[MRSLItem class]];
 
     if (_isDisplayingItems) {
-        self.title = @"Morsel checklist";
-        self.mp_eventView = @"morsel_checklist";
+        self.title = @"Edit";
+        self.mp_eventView = @"morsel_edit";
         self.cellIdentifier = MRSLStoryboardRUIDItemPreviewCellKey;
     } else {
         self.title = @"Image preview";

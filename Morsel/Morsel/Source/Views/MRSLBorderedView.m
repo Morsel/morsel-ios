@@ -10,19 +10,34 @@
 
 @implementation MRSLBorderedView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    if (![self.borderDirection isKindOfClass:[NSString class]]) self.borderDirection = nil;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
-    if ([self.borderDirections rangeOfString:@"North"].location != NSNotFound) {
+    if (![self.borderDirection isKindOfClass:[NSString class]]) return;
+    if ([self.borderDirection rangeOfString:@"North"].location != NSNotFound) {
         [self addDefaultBorderForDirections:MRSLBorderNorth];
     }
-    if ([self.borderDirections rangeOfString:@"South"].location != NSNotFound) {
+    if ([self.borderDirection rangeOfString:@"South"].location != NSNotFound) {
         [self addDefaultBorderForDirections:MRSLBorderSouth];
     }
-    if ([self.borderDirections rangeOfString:@"East"].location != NSNotFound) {
+    if ([self.borderDirection rangeOfString:@"East"].location != NSNotFound) {
         [self addDefaultBorderForDirections:MRSLBorderEast];
     }
-    if ([self.borderDirections rangeOfString:@"West"].location != NSNotFound) {
+    if ([self.borderDirection rangeOfString:@"West"].location != NSNotFound) {
         [self addDefaultBorderForDirections:MRSLBorderWest];
+    }
+}
+
+- (void)setValue:(id)value
+          forKey:(NSString *)key {
+    if ([key isEqualToString:@"borderDirections"]) {
+        self.borderDirection = value;
+    } else {
+        [super setValue:value forKey:key];
     }
 }
 

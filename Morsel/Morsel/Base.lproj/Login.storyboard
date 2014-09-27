@@ -400,7 +400,7 @@
                                 <rect key="frame" x="304" y="493" width="276" height="44"/>
                                 <accessibility key="accessibilityConfiguration" label="Log in"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="arr-OH-KuR"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="arr-OH-KuR"/>
                                     <constraint firstAttribute="height" constant="44" id="lHF-gl-k7U"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="15"/>

@@ -15,11 +15,16 @@
 @implementation MRSLToolbar
 
 - (void)awakeFromNib {
-    [self addDefaultBorderForDirections:MRSLBorderNorth];
+    [super awakeFromNib];
     [self addShadowWithOpacity:0.2f
                      andRadius:0.5f
                      withColor:[UIColor blackColor]];
     [self setBackgroundColor:[UIColor morselDefaultToolbarBackgroundColor]];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self addDefaultBorderForDirections:MRSLBorderNorth];
 }
 
 #pragma mark - Action Methods

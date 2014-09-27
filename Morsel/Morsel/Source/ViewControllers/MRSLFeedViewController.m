@@ -287,6 +287,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [standardUserDefaults synchronize];
 
     UIButton *onboardingButton = [[UIButton alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [[onboardingButton imageView] setContentMode: UIViewContentModeScaleAspectFit];
     [onboardingButton setBackgroundImage:[UIImage imageNamed:@"graphic-onboarding"]
                                 forState:UIControlStateNormal];
     [onboardingButton setAdjustsImageWhenDisabled:NO];

@@ -306,7 +306,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xEc-eJ-t8K" customClass="MRSLTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="476"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" id="PGV-3l-RE2"/>
@@ -455,22 +455,22 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0hy-eg-G0Q" customClass="MRSLToolbar">
-                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="476" width="600" height="60"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wyp-8d-VK5" customClass="MRSLPlaceholderTextView">
-                                        <rect key="frame" x="11" y="6" width="530" height="32"/>
+                                        <rect key="frame" x="11" y="6" width="530" height="48"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="V09-aO-f6n"/>
-                                            <constraint firstAttribute="height" constant="32" id="rft-9V-s2t"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="rft-9V-s2t"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qsN-e5-wzJ">
-                                        <rect key="frame" x="549" y="7" width="46" height="30"/>
+                                        <rect key="frame" x="549" y="7" width="46" height="46"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="DpZ-3n-YrE"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="DpZ-3n-YrE"/>
                                             <constraint firstAttribute="width" constant="46" id="SQB-st-6LM"/>
                                         </constraints>
                                         <state key="normal" title="Add">
@@ -482,16 +482,17 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.93957270408163263" green="0.93957270408163263" blue="0.93957270408163263" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="wyp-8d-VK5" firstAttribute="top" secondItem="0hy-eg-G0Q" secondAttribute="top" constant="6" id="1zQ-Se-GTJ"/>
-                                    <constraint firstAttribute="height" constant="44" id="6ix-dd-Ck1"/>
+                                    <constraint firstAttribute="height" constant="60" id="6ix-dd-Ck1"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="Pvn-kK-a0C"/>
                                     <constraint firstAttribute="bottom" secondItem="wyp-8d-VK5" secondAttribute="bottom" constant="6" id="Zyb-gz-dma"/>
                                     <constraint firstItem="qsN-e5-wzJ" firstAttribute="leading" secondItem="wyp-8d-VK5" secondAttribute="trailing" constant="8" id="egm-jF-xCa"/>
                                     <constraint firstAttribute="trailing" secondItem="qsN-e5-wzJ" secondAttribute="trailing" constant="5" id="g7U-gO-PRV"/>
                                     <constraint firstItem="wyp-8d-VK5" firstAttribute="leading" secondItem="0hy-eg-G0Q" secondAttribute="leading" constant="11" id="lfJ-VY-18z"/>
                                     <constraint firstAttribute="bottom" secondItem="qsN-e5-wzJ" secondAttribute="bottom" constant="7" id="r0Y-BY-eFY"/>
+                                    <constraint firstItem="qsN-e5-wzJ" firstAttribute="top" secondItem="0hy-eg-G0Q" secondAttribute="top" constant="7" id="wy3-qe-C3h"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -688,11 +689,12 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9CG-rY-HR6" userLabel="Cover View">
                                                             <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mwH-gO-QpV" userLabel="Cover Photo" customClass="MRSLItemImageView">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mwH-gO-QpV" userLabel="Cover Photo" customClass="MRSLItemImageView">
                                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="8So-1e-8PX"/>
-                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="320" id="MFa-2C-MtC"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" id="8So-1e-8PX"/>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" id="MFa-2C-MtC"/>
+                                                                        <constraint firstAttribute="width" secondItem="mwH-gO-QpV" secondAttribute="height" multiplier="1:1" priority="999" id="cd4-zc-oVO"/>
                                                                     </constraints>
                                                                 </imageView>
                                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z6-qS-Vop" userLabel="Edit Button">
@@ -980,12 +982,12 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aSu-lF-h7V">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uS4-3Z-65k" customClass="MRSLItemImageView">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uS4-3Z-65k" customClass="MRSLItemImageView">
                                                             <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="DQM-gw-RN6"/>
-                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="320" id="mgI-j3-Vf0"/>
-                                                                <constraint firstAttribute="width" secondItem="uS4-3Z-65k" secondAttribute="height" multiplier="1:1" id="ziH-kB-ZzG"/>
+                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" id="DQM-gw-RN6"/>
+                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" id="mgI-j3-Vf0"/>
+                                                                <constraint firstAttribute="width" secondItem="uS4-3Z-65k" secondAttribute="height" multiplier="1:1" priority="999" id="ziH-kB-ZzG"/>
                                                             </constraints>
                                                         </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oxp-fG-Gml" customClass="MRSLToolbar">
@@ -1161,9 +1163,9 @@
                                                             <rect key="frame" x="0.0" y="320" width="320" height="124"/>
                                                             <subviews>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="jwf-Tb-poV" customClass="MRSLRobotoLightLabel">
-                                                                    <rect key="frame" x="10" y="0.0" width="300" height="20"/>
+                                                                    <rect key="frame" x="10" y="2" width="300" height="18"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="Ery-43-MhT"/>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="18" id="Ery-43-MhT"/>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="K57-zM-pjU"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
@@ -1197,11 +1199,10 @@
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="LBz-5V-8XV" firstAttribute="leading" secondItem="rNx-VR-FSJ" secondAttribute="leading" constant="10" id="DAz-cn-t3h"/>
-                                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="jwf-Tb-poV" secondAttribute="bottom" id="DfT-5k-m39"/>
                                                                 <constraint firstItem="Krp-fh-zKt" firstAttribute="top" relation="greaterThanOrEqual" secondItem="jwf-Tb-poV" secondAttribute="bottom" priority="998" id="RHJ-3s-jA1"/>
-                                                                <constraint firstItem="jwf-Tb-poV" firstAttribute="top" secondItem="rNx-VR-FSJ" secondAttribute="top" priority="999" id="UPd-eV-Ql8"/>
+                                                                <constraint firstItem="jwf-Tb-poV" firstAttribute="top" secondItem="rNx-VR-FSJ" secondAttribute="top" constant="2" id="UPd-eV-Ql8"/>
                                                                 <constraint firstItem="jwf-Tb-poV" firstAttribute="leading" secondItem="rNx-VR-FSJ" secondAttribute="leading" constant="10" id="dc8-cn-w3b"/>
-                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="fdS-nj-3BS"/>
+                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="fdS-nj-3BS"/>
                                                                 <constraint firstAttribute="bottom" secondItem="LBz-5V-8XV" secondAttribute="bottom" id="m0C-NA-8jv"/>
                                                                 <constraint firstItem="Krp-fh-zKt" firstAttribute="leading" secondItem="rNx-VR-FSJ" secondAttribute="leading" constant="10" id="ofB-iY-gjK"/>
                                                                 <constraint firstItem="LBz-5V-8XV" firstAttribute="top" secondItem="rNx-VR-FSJ" secondAttribute="top" id="opl-2D-Qpi"/>
@@ -1384,13 +1385,14 @@
                                                             <color key="textColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="192" translatesAutoresizingMaskIntoConstraints="NO" id="b8w-yn-1iI" userLabel="Bio Label" customClass="MRSLRobotoLightLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" preferredMaxLayoutWidth="192" translatesAutoresizingMaskIntoConstraints="NO" id="b8w-yn-1iI" userLabel="Bio Label" customClass="MRSLRobotoLightLabel">
                                                             <rect key="frame" x="106" y="144" width="192" height="26"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="26" id="eD5-fe-ras"/>
+                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="26" id="eD5-fe-ras"/>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="192" id="lqC-N7-3kB"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
+                                                            <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                                                             <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -1464,6 +1466,7 @@
                                                         <constraint firstAttribute="trailing" secondItem="v8u-Ou-kBl" secondAttribute="trailing" id="n7g-Ik-XWq"/>
                                                         <constraint firstAttribute="trailing" secondItem="b8w-yn-1iI" secondAttribute="trailing" constant="22" id="rsa-oA-B7e"/>
                                                         <constraint firstItem="SZa-bC-Vw6" firstAttribute="leading" secondItem="KiZ-Sb-l25" secondAttribute="leading" constant="20" id="rw9-29-fOj"/>
+                                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="b8w-yn-1iI" secondAttribute="bottom" constant="54" id="xEG-dv-rxX"/>
                                                         <constraint firstAttribute="trailing" secondItem="fSO-Pt-bNZ" secondAttribute="trailing" constant="20" id="xQ5-yO-bPo"/>
                                                         <constraint firstAttribute="trailing" secondItem="QtH-b6-Ktf" secondAttribute="trailing" id="xdq-CN-DI0"/>
                                                         <constraint firstAttribute="centerX" secondItem="O0F-QI-eYa" secondAttribute="centerX" constant="-25" id="zN6-Yx-C1g"/>
