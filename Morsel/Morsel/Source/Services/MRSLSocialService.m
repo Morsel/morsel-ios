@@ -140,12 +140,6 @@
             } else {
                 if (cancelBlockOrNil) cancelBlockOrNil();
             }
-            if (SYSTEM_VERSION_LESS_THAN(@"7.0")
-                && [serviceType isEqualToString:SLServiceTypeTwitter]) {
-                // Corrects an issue where Twitter compose sheet is not correctly dismissing in iOS 6. Known Apple bug that was resolved in iOS 7.
-                [viewController dismissViewControllerAnimated:YES
-                                                   completion:nil];
-            }
         }];
     } else {
         [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"Please add a %@ account to this device", (serviceType == SLServiceTypeFacebook) ? @"Facebook" : @"Twitter"]

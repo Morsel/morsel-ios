@@ -12,26 +12,11 @@
 
 + (void)setupTheme {
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
             [[UINavigationBar appearance] setBarTintColor:[UIColor morselDefaultNavigationBarBackgroundColor]];
             [[UINavigationBar appearance] setTintColor:[UIColor morselPrimary]];
             [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"graphic-navigation-bar-background"]
                                                forBarMetrics:UIBarMetricsDefault];
             [[UINavigationBar appearance] setBackgroundColor:[UIColor morselDefaultNavigationBarBackgroundColor]];
-        } else {
-            [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init]
-                                               forBarMetrics:UIBarMetricsDefault];
-            [[UINavigationBar appearance] setBackgroundColor:[UIColor morselDefaultNavigationBarBackgroundColor]];
-            [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage alloc] init]
-                                                              forState:UIControlStateNormal
-                                                            barMetrics:UIBarMetricsDefault];
-            [[UIBarButtonItem appearance] setBackgroundImage:[[UIImage alloc] init]
-                                                    forState:UIControlStateNormal
-                                                  barMetrics:UIBarMetricsDefault];
-            [[UISearchBar appearance] setBackgroundImage:[UIImage imageNamed:@"graphic-searchbar"]];
-            [[UISearchBar appearance] setSearchFieldBackgroundImage:[UIImage imageNamed:@"graphic-searchbar-field"]
-                                                           forState:UIControlStateNormal];
-        }
 
         [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
         [[UINavigationBar appearance] setTitleTextAttributes:@{

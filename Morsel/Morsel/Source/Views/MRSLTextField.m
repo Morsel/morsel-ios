@@ -30,10 +30,8 @@ static CGFloat kPadding = MRSLDefaultPadding;
 
 - (void)drawPlaceholderInRect:(CGRect)rect {
     [[UIColor morselDefaultPlaceholderTextColor] setFill];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        // Pushing down placeholder to align with textfield user added text. This only works with 14 point font.
-        rect.origin.y += 10.f;
-    }
+    // Pushing down placeholder to align with textfield user added text. This only works with 14 point font.
+    rect.origin.y += 10.f;
     [[self placeholder] drawInRect:rect
                           withFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
 }

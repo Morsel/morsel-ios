@@ -25,10 +25,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        [self.view setY:[self.view getY] - 22.f];
-        [self.view setHeight:[self.view getHeight] + 22.f];
-    }
     if (!_tapRecognizer) {
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                      action:@selector(dismiss:)];
