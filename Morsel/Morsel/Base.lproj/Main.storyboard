@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qbi-Wx-vRl">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -99,12 +98,6 @@
                                     <outlet property="delegate" destination="j5D-UW-Qw6" id="4XR-ok-QOF"/>
                                 </connections>
                             </tableView>
-                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" image="graphic-menu-shadow" translatesAutoresizingMaskIntoConstraints="NO" id="tST-Zf-vf5">
-                                <rect key="frame" x="0.0" y="44" width="600" height="12"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="12" id="exT-VU-Noa"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WB5-qf-sKu">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <state key="normal">
@@ -182,14 +175,11 @@
                             <constraint firstItem="jbX-Cn-uhG" firstAttribute="top" secondItem="fIo-qb-XFU" secondAttribute="bottom" id="Cy2-HI-NCG"/>
                             <constraint firstItem="0so-g2-jYj" firstAttribute="top" secondItem="fIo-qb-XFU" secondAttribute="bottom" id="E1O-Km-hLM"/>
                             <constraint firstAttribute="trailing" secondItem="0so-g2-jYj" secondAttribute="trailing" id="L7T-p2-f2T"/>
-                            <constraint firstAttribute="trailing" secondItem="tST-Zf-vf5" secondAttribute="trailing" id="PTG-IM-wHW"/>
                             <constraint firstAttribute="trailing" secondItem="jbX-Cn-uhG" secondAttribute="trailing" id="Qav-hC-L3x"/>
                             <constraint firstItem="jbX-Cn-uhG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="S40-Tv-IXG" secondAttribute="leading" constant="270" id="RgN-cF-4Cu"/>
                             <constraint firstItem="uJh-oT-ZOe" firstAttribute="top" secondItem="jbX-Cn-uhG" secondAttribute="bottom" id="Ssh-Xh-bJH"/>
-                            <constraint firstItem="tST-Zf-vf5" firstAttribute="top" secondItem="0so-g2-jYj" secondAttribute="bottom" id="VuI-fX-7bh"/>
                             <constraint firstItem="J97-SJ-llG" firstAttribute="leading" secondItem="S40-Tv-IXG" secondAttribute="leading" id="Wuu-Z8-ejG"/>
                             <constraint firstItem="0so-g2-jYj" firstAttribute="leading" secondItem="S40-Tv-IXG" secondAttribute="leading" id="XzC-ha-wiF"/>
-                            <constraint firstItem="tST-Zf-vf5" firstAttribute="leading" secondItem="S40-Tv-IXG" secondAttribute="leading" id="Yr3-81-gJ8"/>
                             <constraint firstItem="Bg3-nq-fU5" firstAttribute="leading" secondItem="S40-Tv-IXG" secondAttribute="leading" id="kDD-Nc-PJb"/>
                             <constraint firstItem="J97-SJ-llG" firstAttribute="top" secondItem="0so-g2-jYj" secondAttribute="bottom" id="mGZ-ff-8wk"/>
                             <constraint firstItem="uJh-oT-ZOe" firstAttribute="top" secondItem="J97-SJ-llG" secondAttribute="bottom" id="qs1-pN-rCM"/>
@@ -199,6 +189,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="menuBar" destination="0so-g2-jYj" id="axp-9y-OMs"/>
                         <outlet property="menuTableView" destination="J97-SJ-llG" id="q86-EC-Hqk"/>
                         <outlet property="profileImageView" destination="VwH-Hl-jnS" id="Iir-FG-R9j"/>
                         <outlet property="profileLabel" destination="vab-pu-sYb" id="cUV-xp-19W"/>
@@ -413,7 +404,6 @@
     </scenes>
     <resources>
         <image name="graphic-menu-background" width="320" height="568"/>
-        <image name="graphic-menu-shadow" width="320" height="12"/>
         <image name="graphic-menu-shadow-tall" width="5" height="568"/>
         <image name="icon-arrow-next" width="30" height="30"/>
         <image name="icon-arrow-next-red" width="30" height="30"/>

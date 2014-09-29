@@ -117,12 +117,13 @@
         <!--Navigation Controller-->
         <scene sceneID="kNl-mf-JSo">
             <objects>
-                <navigationController storyboardIdentifier="sb_Explore" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="0vS-io-eEq" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_Explore" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="0vS-io-eEq" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cB7-bM-C0U">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="cB7-bM-C0U">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
