@@ -33,7 +33,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
     // Pushing down placeholder to align with textfield user added text. This only works with 14 point font.
     rect.origin.y += 10.f;
     [[self placeholder] drawInRect:rect
-                          withFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
+                    withAttributes:@{NSFontAttributeName : [UIFont robotoLightFontOfSize:self.font.pointSize]}];
 }
 
 - (CGRect)textRectForBounds:(CGRect)bounds {

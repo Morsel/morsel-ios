@@ -41,9 +41,6 @@
     } else {
         self.placeCityStateLabel.text = [_place fullAddress];
     }
-    CGSize subSize = [_placeCityStateLabel.text sizeWithFont:_placeCityStateLabel.font constrainedToSize:CGSizeMake([_placeCityStateLabel getWidth], CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-    [self.placeCityStateLabel setHeight:subSize.height];
-    [self.placeCityStateLabel setY:[_placeNameLabel getY] + [_placeNameLabel getHeight]];
 }
 
 @end

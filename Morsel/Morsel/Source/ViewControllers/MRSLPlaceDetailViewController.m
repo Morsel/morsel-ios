@@ -66,8 +66,8 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
                                                                                     } supplementaryBlock:^UICollectionReusableView *(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
                                                                                         if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
                                                                                             MRSLSectionCollectionReusableView *sectionCollectionReusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                              withReuseIdentifier:MRSLStoryboardRUIDSectionHeaderKey
-                                                                                                                                                                     forIndexPath:indexPath];
+                                                                                                                                                                                                  withReuseIdentifier:MRSLStoryboardRUIDSectionHeaderKey
+                                                                                                                                                                                                         forIndexPath:indexPath];
                                                                                             [sectionCollectionReusableView setTitle:[weakSelf.detailSections objectAtIndex:[indexPath section]]];
                                                                                             return sectionCollectionReusableView;
                                                                                         } else if ([kind isEqualToString:UICollectionElementKindSectionFooter] && [collectionView isLastItemForIndexPath:indexPath]) {
@@ -160,11 +160,14 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
     if ([sectionName isEqualToString:@"Details"]) {
         cellSize.height = [self cellHeightForDetails];
     } else if ([sectionName isEqualToString:@"Hours"]) {
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
         MRSLPlaceInfo *placeInfo = [_hoursInfo objectAtIndex:indexPath.row];
-        CGSize placeInfoSecondarySize = [placeInfo.secondaryInfo sizeWithFont:[UIFont robotoLightFontOfSize:14.f]
-                                                            constrainedToSize:CGSizeMake(156.f, CGFLOAT_MAX)
-                                                                lineBreakMode:NSLineBreakByWordWrapping];
-        cellSize = CGSizeMake(collectionView.frame.size.width, (placeInfoSecondarySize.height <= 44.f) ? 44.f : placeInfoSecondarySize.height);
+        CGRect placeInfoSecondaryRect = [placeInfo.secondaryInfo boundingRectWithSize:CGSizeMake(156.f, CGFLOAT_MAX)
+                                                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                                                           attributes:@{NSFontAttributeName : [UIFont robotoLightFontOfSize:14.f], NSParagraphStyleAttributeName: paragraphStyle}
+                                                                              context:nil];
+        cellSize = CGSizeMake(collectionView.frame.size.width, (placeInfoSecondaryRect.size.height <= 44.f) ? 44.f : placeInfoSecondaryRect.size.height);
     }
     return cellSize;
 }

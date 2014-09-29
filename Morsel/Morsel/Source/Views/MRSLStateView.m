@@ -77,11 +77,15 @@ static CGFloat kButtonHeight = 40.0f;
 
 - (void)setTitle:(NSString *)title {
     [self.titleLabel setText:title];
-    CGSize fittedTextSize = [title sizeWithFont:_titleLabel.font
-                              constrainedToSize:CGSizeMake(CGFLOAT_MAX, [_titleLabel getHeight])
-                                  lineBreakMode:NSLineBreakByWordWrapping];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
 
-    [_titleLabel setWidth:ceilf(fittedTextSize.width)];
+    CGRect textRect = [title boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, CGFLOAT_MAX)
+                                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                                       attributes:@{NSFontAttributeName: _titleLabel.font,
+                                                                    NSParagraphStyleAttributeName: paragraphStyle}
+                                                          context:nil];
+    [_titleLabel setWidth:ceilf(textRect.size.width)];
     [_titleLabel setCenter:CGPointMake(CGRectGetWidth(_containerView.frame) * 0.5f, _titleLabel.center.y)];
 }
 

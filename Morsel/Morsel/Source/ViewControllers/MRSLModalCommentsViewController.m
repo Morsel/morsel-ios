@@ -78,7 +78,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     if (_fetchedResultsController) return;
 
     [self setupFetchRequest];
@@ -253,13 +253,16 @@ NSFetchedResultsControllerDelegate>
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_previousCommentsAvailable && indexPath.row == 0) return 44;
     MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
-    CGSize bodySize = [comment.commentDescription sizeWithFont:[UIFont robotoLightFontOfSize:12.f]
-                                             constrainedToSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
-                                                 lineBreakMode:NSLineBreakByWordWrapping];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    CGRect bodyRect = [comment.commentDescription boundingRectWithSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
+                                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                                            attributes:@{NSFontAttributeName: [UIFont robotoLightFontOfSize:12.f], NSParagraphStyleAttributeName: paragraphStyle}
+                                                               context:nil];
     CGFloat defaultCellSize = 70.f;
 
-    if (bodySize.height > MRSLDefaultCommentLabelHeight) {
-        defaultCellSize = defaultCellSize + (bodySize.height - MRSLDefaultCommentLabelHeight);
+    if (bodyRect.size.height > MRSLDefaultCommentLabelHeight) {
+        defaultCellSize = defaultCellSize + (bodyRect.size.height - MRSLDefaultCommentLabelHeight);
     }
     return defaultCellSize;
 }

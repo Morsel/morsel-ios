@@ -74,10 +74,14 @@
     [_itemDescriptionLabel setPreferredMaxLayoutWidth:[_itemDescriptionLabel getWidth]];
     _itemDescriptionLabel.text = _item.itemDescription;
 
-    CGSize textSize = [_item.itemDescription sizeWithFont:_itemDescriptionLabel.font
-                                        constrainedToSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
-                                            lineBreakMode:NSLineBreakByWordWrapping];
-    CGFloat floorHeight = floorf(textSize.height);
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+
+    CGRect textRect = [_item.itemDescription boundingRectWithSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
+                                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                                       attributes:@{NSFontAttributeName: _itemDescriptionLabel.font, NSParagraphStyleAttributeName: paragraphStyle}
+                                                          context:nil];
+    CGFloat floorHeight = floorf(textRect.size.height);
     CGFloat textHeight = self.itemDescriptionLabel.bounds.size.height;
     BOOL textTruncated = (floorHeight > textHeight);
     [_readMoreLabel setHidden:!textTruncated];
