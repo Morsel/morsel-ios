@@ -97,10 +97,15 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [self.navigationController setNavigationBarHidden:NO
                                              animated:animated];
     [super viewWillAppear:animated];
+}
 
-    [self loadObjectIDs];
-    [self setupCollectionViewDataSource];
-    [self refreshContent];
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    if (!self.segmentedPanelCollectionViewDataSource) {
+        [self loadObjectIDs];
+        [self setupCollectionViewDataSource];
+        [self refreshContent];
+    }
 }
 
 #pragma mark - Action Methods

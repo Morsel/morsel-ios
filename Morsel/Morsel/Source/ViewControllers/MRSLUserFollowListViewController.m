@@ -68,7 +68,11 @@ NSFetchedResultsControllerDelegate>
                                       animated:YES];
         self.selectedIndexPath = nil;
     }
+}
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    if (self.fetchedResultsController) return;
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];

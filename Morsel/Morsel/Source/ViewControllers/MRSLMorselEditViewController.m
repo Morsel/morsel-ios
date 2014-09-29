@@ -93,9 +93,8 @@ MRSLMorselEditItemTableViewCellDelegate>
     [self.morsel downloadCoverPhotoIfNilWithCompletion:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.loading = YES;
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     [self displayMorsel];
 }
 
@@ -127,6 +126,8 @@ MRSLMorselEditItemTableViewCellDelegate>
     self.morsel = [self getOrLoadMorselIfExists];
     [self showNextButton];
     [self displayMorselStatus];
+    if (self.itemsFetchedResultsController) return;
+    self.loading = YES;
     [self setupFetchRequest];
     [self populateContent];
 }

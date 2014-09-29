@@ -84,6 +84,10 @@ NSFetchedResultsControllerDelegate>
                                                   animated:YES];
         self.selectedIndexPath = nil;
     }
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
 
     if (_morselsFetchedResultsController) return;
     [self reloadContent];

@@ -21,7 +21,7 @@
 #import "MRSLUser.h"
 
 static const CGFloat MRSLDefaultCommentLabelHeight = 14.f;
-static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
+static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
 
 @interface MRSLModalCommentsViewController ()
 <UITableViewDataSource,
@@ -76,9 +76,8 @@ NSFetchedResultsControllerDelegate>
     self.commentInputTextView.placeholder = @"Write a comment...";
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     if (_fetchedResultsController) return;
 
     [self setupFetchRequest];
@@ -255,7 +254,7 @@ NSFetchedResultsControllerDelegate>
     MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    CGRect bodyRect = [comment.commentDescription boundingRectWithSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
+    CGRect bodyRect = [comment.commentDescription boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - MRSLDefaultCommentLabelPadding, CGFLOAT_MAX)
                                                                options:NSStringDrawingUsesLineFragmentOrigin
                                                             attributes:@{NSFontAttributeName: [UIFont robotoLightFontOfSize:12.f], NSParagraphStyleAttributeName: paragraphStyle}
                                                                context:nil];
