@@ -55,44 +55,56 @@
 }
 
 - (void)importFromDropbox {
+    __weak __typeof(self) weakSelf = self;
     [[DBChooser defaultChooser] openChooserForLinkType:DBChooserLinkTypeDirect
                                     fromViewController:self completion:^(NSArray *results) {
-                                        if ([results count]) {
-                                            // Process results from Chooser
-                                            __weak __typeof(self) weakSelf = self;
-                                            DBChooserResult *result = [results firstObject];
-                                            if (result) {
-#warning Display activity blocker with label
-                                                [SDWebImageDownloader.sharedDownloader downloadImageWithURL:result.link
-                                                                                                    options:0
-                                                                                                   progress:nil
-                                                                                                  completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                                                                                      if (weakSelf) {
-                                                                                                          if (image && finished) {
-                                                                                                              RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image
-                                                                                                                                                                                                 cropMode:RSKImageCropModeSquare
-                                                                                                                                                                                                 cropSize:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)];
-                                                                                                              imageCropVC.delegate = self;
-                                                                                                              [weakSelf presentViewController:imageCropVC
-                                                                                                                                     animated:YES
-                                                                                                                                   completion:nil];
-                                                                                                          } else if (error) {
-                                                                                                              [UIAlertView showAlertViewWithTitle:@"Error"
-                                                                                                                                          message:@"Unable to download photo from Dropbox! Please try again."
-                                                                                                                                         delegate:nil
-                                                                                                                                cancelButtonTitle:@"OK"
-                                                                                                                                otherButtonTitles:nil];
+                                        if (weakSelf) {
+                                            if ([results count]) {
+                                                // Process results from Chooser
+                                                DBChooserResult *result = [results firstObject];
+                                                if (result) {
+                                                    [weakSelf.view showActivityViewWithMode:RNActivityViewModeIndeterminate
+                                                                                      label:@"Downloading image"
+                                                                                detailLabel:nil];
+                                                    [SDWebImageDownloader.sharedDownloader downloadImageWithURL:result.link
+                                                                                                        options:0
+                                                                                                       progress:nil
+                                                                                                      completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                                                                                          if (weakSelf) {
+                                                                                                              dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                                                  [weakSelf.view hideActivityView];
+                                                                                                              });
+                                                                                                              if (image && finished) {
+                                                                                                                  [weakSelf showCropperForImage:image];
+                                                                                                              } else if (error) {
+                                                                                                                  [UIAlertView showAlertViewWithTitle:@"Error"
+                                                                                                                                              message:@"Unable to download photo from Dropbox! Please try again."
+                                                                                                                                             delegate:nil
+                                                                                                                                    cancelButtonTitle:@"OK"
+                                                                                                                                    otherButtonTitles:nil];
+                                                                                                              }
                                                                                                           }
-                                                                                                      }
-                                                                                                  }];
+                                                                                                      }];
+                                                }
                                             }
                                         }
                                     }];
 }
 
+- (void)showCropperForImage:(UIImage *)image {
+    RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image
+                                                                                       cropMode:RSKImageCropModeSquare
+                                                                                       cropSize:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)];
+    imageCropVC.delegate = self;
+    [self presentViewController:imageCropVC
+                       animated:NO
+                     completion:nil];
+}
+
 #pragma mark - RSKImageCropViewControllerDelegate
 
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage {
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage {
     MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
     mediaItem.mediaFullImage = croppedImage;
     [self processMediaItem:mediaItem];
@@ -127,7 +139,6 @@
             imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         }
 
-        imagePicker.allowsEditing = YES;
         imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
         imagePicker.delegate = self;
 
@@ -140,20 +151,14 @@
 #pragma mark - UIImagePickerControllerDelegate Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
-        MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
-        mediaItem.mediaFullImage = info[UIImagePickerControllerEditedImage];
-        [self processMediaItem:mediaItem];
-        [self.assetsLibrary saveImage:mediaItem.mediaFullImage
-                              toAlbum:@"Morsel"
-                           completion:nil
-                              failure:nil];
-    }
-
-    [self dismissViewControllerAnimated:YES
+    [self dismissViewControllerAnimated:NO
                              completion:nil];
-
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+
+    if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
+        UIImage *selectedImage = info[UIImagePickerControllerOriginalImage];
+        [self showCropperForImage:selectedImage];
+    }
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

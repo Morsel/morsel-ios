@@ -18,7 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UIView *activityView;
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 
@@ -91,7 +90,9 @@
     }
 
     [self.signInButton setEnabled:NO];
-    [self.activityView setHidden:NO];
+    [self.view showActivityViewWithMode:RNActivityViewModeIndeterminate
+                                  label:@"Logging in"
+                            detailLabel:nil];
 
     // Just making sure that any social connections enabled are either permanently or temporarily cleared.
     // After login, app will use authentications from backend to re-establish them
@@ -120,7 +121,7 @@
                                                                                                               failure:nil];
                                                        }
                                                    } failure:^(NSError *error) {
-                                                       [weakSelf.activityView setHidden:YES];
+                                                       [weakSelf.view hideActivityView];
                                                        [weakSelf.signInButton setEnabled:YES];
 
                                                        MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];

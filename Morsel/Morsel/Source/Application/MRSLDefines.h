@@ -10,6 +10,7 @@
 
 #import <CocoaLumberjack/DDLog.h>
 #import <Mixpanel/Mixpanel.h>
+#import <RNActivityView/UIView+RNActivityView.h>
 
 #pragma mark - Blocks
 
