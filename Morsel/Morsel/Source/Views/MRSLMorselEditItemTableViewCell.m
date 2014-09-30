@@ -104,25 +104,7 @@
                                         } failure:nil];
     } else {
         //  If presignedUpload returned, use it, otherwise fallback to old upload method
-        if (_item.presignedUpload) {
-            [_appDelegate.s3Service uploadImageData:_item.itemPhotoFull
-                                 forPresignedUpload:_item.presignedUpload
-                                            success:^(NSDictionary *responseDictionary) {
-                                                [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
-                                                                                forItem:weakSelf.item
-                                                                                success:nil
-                                                                                failure:nil];
-                                            } failure:^(NSError *error) {
-                                                //  S3 upload failed, fallback to API upload
-                                                [_appDelegate.apiService updateItemImage:weakSelf.item
-                                                                                 success:nil
-                                                                                 failure:nil];
-                                            }];
-        } else {
-            [_appDelegate.apiService updateItemImage:_item
-                                             success:nil
-                                             failure:nil];
-        }
+        [_item API_updateImage];
     }
 }
 

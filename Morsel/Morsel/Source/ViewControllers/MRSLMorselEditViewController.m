@@ -13,15 +13,14 @@
 #import "MRSLAPIService+Item.h"
 #import "MRSLAPIService+Morsel.h"
 
-#import "MRSLCaptureMultipleMediaViewController.h"
 #import "MRSLMediaItemPreviewViewController.h"
 #import "MRSLReorderTableView.h"
 #import "MRSLToolbar.h"
-#import "MRSLMorselAddTitleViewController.h"
+#import "MRSLMorselEditTitleViewController.h"
 #import "MRSLMorselEditItemTableViewCell.h"
 #import "MRSLMorselInfoTableViewCell.h"
 #import "MRSLMorselPublishShareViewController.h"
-#import "MRSLMorselPublishPlaceViewController.h"
+#import "MRSLMorselEditPlaceViewController.h"
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLTemplateInfoViewController.h"
 
@@ -39,13 +38,11 @@ UIActionSheetDelegate,
 UIAlertViewDelegate,
 UITableViewDataSource,
 UITableViewDelegate,
-CaptureMediaViewControllerDelegate,
 MRSLToolbarViewDelegate,
 MRSLMorselEditItemTableViewCellDelegate>
 
 @property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL isEditing;
-@property (nonatomic, getter = isCapturing) BOOL capturing;
 
 @property (nonatomic) int previous_sort_order;
 
@@ -82,12 +79,6 @@ MRSLMorselEditItemTableViewCellDelegate>
     self.totalUserCells = [[MRSLUser currentUser] isProfessional] ? 2 : 1;
     self.totalCells = _totalUserCells + [_objects count];
 
-    //  Reusing `capturing` here to prevent code in - displayMorsel from enabling the empty state before loading
-    self.capturing = YES;
-    [self displayMorsel];
-    self.capturing = NO;
-    [self updateMorselStatus];
-
     [self.morselItemsTableView setEmptyStateTitle:@"This morsel has no items."];
 
     [self.morsel downloadCoverPhotoIfNilWithCompletion:nil];
@@ -96,14 +87,6 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [self displayMorsel];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (_shouldPresentMediaCapture && !_wasNewMorsel) {
-        self.wasNewMorsel = YES;
-        [self presentMediaCapture];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -115,7 +98,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - Private Methods
 
 - (void)setLoading:(BOOL)loading {
-    if ([self isCapturing] && !loading) return;
+    if (!loading) return;
 
     _loading = loading;
 
@@ -179,15 +162,6 @@ MRSLMorselEditItemTableViewCellDelegate>
     [self displayMorselStatus];
 }
 
-- (void)presentMediaCapture {
-    self.capturing = YES;
-    MRSLCaptureMultipleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCaptureMultipleMediaViewControllerKey];
-    captureMediaVC.delegate = self;
-    [self presentViewController:captureMediaVC
-                       animated:YES
-                     completion:nil];
-}
-
 - (void)showNextButton {
     self.morsel = [self getOrLoadMorselIfExists];
     if (_morsel.draftValue) {
@@ -229,27 +203,18 @@ MRSLMorselEditItemTableViewCellDelegate>
         self.isEditing = NO;
     }
     if ([segue.identifier isEqualToString:MRSLStoryboardSegueEditMorselTitleKey]) {
-        MRSLMorselAddTitleViewController *morselAddTitleVC = [segue destinationViewController];
-        morselAddTitleVC.isUserEditingTitle = YES;
-        morselAddTitleVC.morselID = _morsel.morselID;
+        MRSLMorselEditTitleViewController *morselEditTitleVC = [segue destinationViewController];
+        morselEditTitleVC.morselID = _morsel.morselID;
     } else if ([segue.identifier isEqualToString:MRSLStoryboardSeguePublishShareMorselKey]) {
         MRSLMorselPublishShareViewController *morselPublishVC = [segue destinationViewController];
         morselPublishVC.morsel = _morsel;
     } else if ([segue.identifier isEqualToString:MRSLStoryboardSegueSelectPlaceKey]) {
-        MRSLMorselPublishPlaceViewController *morselPlaceVC = [segue destinationViewController];
+        MRSLMorselEditPlaceViewController *morselPlaceVC = [segue destinationViewController];
         morselPlaceVC.morsel = _morsel;
     }
 }
 
 #pragma mark - Action Methods
-
-- (void)goBack {
-    if (_wasNewMorsel) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
 
 - (void)displayPublishMorsel {
     self.morsel = [self getOrLoadMorselIfExists];
@@ -516,67 +481,6 @@ MRSLMorselEditItemTableViewCellDelegate>
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     DDLogDebug(@"NSFetchedResultsController detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
     [self populateContent];
-}
-
-#pragma mark - CaptureMediaViewControllerDelegate
-
-- (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSArray *)capturedMedia {
-    self.morsel = [self getOrLoadMorselIfExists];
-    self.loading = [capturedMedia count] > 0;
-    __weak __typeof(self) weakSelf = self;
-    DDLogDebug(@"Received %lu Media Items. Should now create Morsels for each!", (unsigned long)[capturedMedia count]);
-    int idx = 0;
-    for (MRSLMediaItem *mediaItem in capturedMedia) {
-        NSUInteger itemIndex = (idx + 1);
-        if ([self.objects count] > 0) {
-            MRSLItem *lastItem = [self.objects lastObject];
-            itemIndex = (lastItem.sort_orderValue + (idx + 1));
-        }
-        DDLogDebug(@"Item INDEX: %lu", (unsigned long)itemIndex);
-
-        [mediaItem processMediaToDataWithSuccess:^(NSData *fullImageData, NSData *thumbImageData) {
-            weakSelf.capturing = NO;
-            __block NSManagedObjectContext *workContext = nil;
-            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                workContext = localContext;
-                MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                               withValue:weakSelf.morselID
-                                                               inContext:localContext];
-                if (morsel) {
-                    MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
-                    item.sort_order = @(itemIndex);
-                    item.itemPhotoFull = fullImageData;
-                    item.itemPhotoThumb = thumbImageData;
-                    item.isUploading = @YES;
-                    item.morsel = morsel;
-                    [morsel addItemsObject:item];
-                    [_appDelegate.apiService createItem:item
-                                                success:^(id responseObject) {
-                                                    if ([responseObject isKindOfClass:[MRSLItem class]]) {
-                                                        MRSLItem *itemToUploadWithImage = (MRSLItem *)responseObject;
-                                                        [weakSelf getOrLoadMorselIfExists].lastUpdatedDate = [NSDate date];
-                                                        [weakSelf displayMorselStatus];
-                                                        [itemToUploadWithImage API_updateImage];
-                                                    }
-                                                } failure:nil];
-                } else {
-                    DDLogError(@"Morsel item add failure. Cannot add item to nil Morsel with ID: %@", weakSelf.morselID);
-                    [UIAlertView showAlertViewForErrorString:[NSString stringWithFormat:@"There was a problem adding your photo%@ to this Morsel. Please try again.", ([capturedMedia count] > 1) ? @"s" : @""]
-                                                    delegate:nil];
-                }
-            } completion:^(BOOL success, NSError *error) {
-                if (success) [workContext reset];
-            }];
-        }];
-
-        idx++;
-    }
-    capturedMedia = nil;
-}
-
-- (void)captureMediaViewControllerDidCancel {
-    self.capturing = NO;
-    self.loading = NO;
 }
 
 #pragma mark - MRSLToolbarViewDelegate

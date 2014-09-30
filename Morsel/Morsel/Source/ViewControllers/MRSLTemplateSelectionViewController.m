@@ -148,7 +148,6 @@ NSFetchedResultsControllerDelegate>
                                                       if ([responseObject isKindOfClass:[MRSLMorsel class]]) {
                                                           MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];
                                                           editMorselVC.morselID = [(MRSLMorsel *)responseObject morselID];
-                                                          editMorselVC.wasNewMorsel = YES;
                                                           [weakSelf.navigationController pushViewController:editMorselVC
                                                                                                    animated:YES];
                                                       }

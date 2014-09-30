@@ -11,6 +11,7 @@
 #import <GCPlaceholderTextView/GCPlaceholderTextView.h>
 
 #import "MRSLAPIService+Profile.h"
+#import "MRSLBaseViewController+Additions.h"
 
 #import "MRSLActivityIndicatorView.h"
 #import "MRSLProfileImageView.h"
@@ -18,10 +19,7 @@
 #import "MRSLUser.h"
 
 @interface MRSLProfileEditFieldsViewController ()
-<UIActionSheetDelegate,
-UIImagePickerControllerDelegate,
-UINavigationControllerDelegate,
-UITextFieldDelegate,
+<UITextFieldDelegate,
 UITextViewDelegate,
 UIAlertViewDelegate>
 
@@ -59,7 +57,7 @@ UIAlertViewDelegate>
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
@@ -79,7 +77,7 @@ UIAlertViewDelegate>
 
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
+
     [UIView animateWithDuration:.2f
                      animations:^{
                          [self.contentScrollView setHeight:[self.view getHeight] - keyboardSize.height];
@@ -97,7 +95,7 @@ UIAlertViewDelegate>
 
 - (void)goBack {
     [self.view endEditing:YES];
-    
+
     if ([self isDirty]) {
         [UIAlertView showAlertViewWithTitle:@"Warning"
                                     message:@"You have unsaved changes, are you sure you want to discard them?"
@@ -197,21 +195,38 @@ UIAlertViewDelegate>
                                  properties:@{@"_title": @"Change Photo",
                                               @"_view": self.mp_eventView}];
 
-    [self.view endEditing:YES];
-
-    UIActionSheet *profileActionSheet = [[UIActionSheet alloc] initWithTitle:@"Change Profile Photo"
-                                                                    delegate:self
-                                                           cancelButtonTitle:nil
-                                                      destructiveButtonTitle:nil
-                                                           otherButtonTitles:@"Take Photo", @"Select from Library", nil];
-
-    [profileActionSheet setCancelButtonIndex:[profileActionSheet addButtonWithTitle:@"Cancel"]];
-
-    [profileActionSheet showInView:self.containingView ?: self.view];
+    [self displayMediaActionSheetWithTitle:@"Change profile photo"
+                 withPreferredDeviceCamera:UIImagePickerControllerCameraDeviceFront];
 }
 
 - (IBAction)textChanged:(id)sender {
     [[self.navigationItem rightBarButtonItem] setEnabled:[self isDirty]];
+}
+
+#pragma mark - Media Methods
+
+- (void)processMediaItem:(MRSLMediaItem *)mediaItem {
+    [self.profileImageView addAndRenderImage:mediaItem.mediaFullImage
+                                    complete:nil];
+    [self.activityIndicatorView startAnimating];
+
+    __weak __typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        UIImage *profileImageFull = [mediaItem.mediaFullImage thumbnailImage:mediaItem.mediaFullImage.size.width
+                                                        interpolationQuality:kCGInterpolationHigh];
+        UIImage *profileImageLarge = [profileImageFull thumbnailImage:MRSLUserProfileImageLargeDimensionSize
+                                                 interpolationQuality:kCGInterpolationHigh];
+        UIImage *profileImageThumb = [profileImageFull thumbnailImage:MRSLUserProfileImageThumbDimensionSize
+                                                 interpolationQuality:kCGInterpolationHigh];
+        weakSelf.user.profilePhotoLarge = UIImageJPEGRepresentation(profileImageLarge, 1.f);
+        weakSelf.user.profilePhotoThumb = UIImageJPEGRepresentation(profileImageThumb, 1.f);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.user.profilePhotoFull = UIImageJPEGRepresentation(profileImageFull, 1.f);
+            [weakSelf.activityIndicatorView stopAnimating];
+            weakSelf.photoChanged = YES;
+            [[weakSelf.navigationItem rightBarButtonItem] setEnabled:[self isDirty]];
+        });
+    });
 }
 
 #pragma mark - UITextFieldDelegate
@@ -239,70 +254,6 @@ UIAlertViewDelegate>
         return NO;
     }
     return YES;
-}
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) return;
-
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take Photo"]) {
-        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-    } else {
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-
-    imagePicker.allowsEditing = YES;
-    imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
-    imagePicker.delegate = self;
-
-    [self presentViewController:imagePicker
-                       animated:YES
-                     completion:nil];
-}
-
-#pragma mark - UIImagePickerControllerDelegate Methods
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
-        UIImage *originalProfileImage = info[UIImagePickerControllerEditedImage];
-        [self.profileImageView addAndRenderImage:originalProfileImage
-                                        complete:nil];
-        [self.activityIndicatorView startAnimating];
-
-        __weak __typeof(self) weakSelf = self;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            UIImage *profileImageFull = [originalProfileImage thumbnailImage:originalProfileImage.size.width
-                                                        interpolationQuality:kCGInterpolationHigh];
-            UIImage *profileImageLarge = [profileImageFull thumbnailImage:MRSLUserProfileImageLargeDimensionSize
-                                                     interpolationQuality:kCGInterpolationHigh];
-            UIImage *profileImageThumb = [profileImageFull thumbnailImage:MRSLUserProfileImageThumbDimensionSize
-                                                     interpolationQuality:kCGInterpolationHigh];
-            weakSelf.user.profilePhotoLarge = UIImageJPEGRepresentation(profileImageLarge, 1.f);
-            weakSelf.user.profilePhotoThumb = UIImageJPEGRepresentation(profileImageThumb, 1.f);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                weakSelf.user.profilePhotoFull = UIImageJPEGRepresentation(profileImageFull, 1.f);
-                [weakSelf.activityIndicatorView stopAnimating];
-                weakSelf.photoChanged = YES;
-                [[weakSelf.navigationItem rightBarButtonItem] setEnabled:[self isDirty]];
-            });
-        });
-    }
-
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 #pragma mark - UIAlertViewDelegate

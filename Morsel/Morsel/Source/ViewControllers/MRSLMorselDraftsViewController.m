@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLMorselListViewController.h"
+#import "MRSLMorselDraftsViewController.h"
 
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Templates.h"
@@ -20,7 +20,7 @@
 #import "MRSLUser.h"
 #import "MRSLTemplate.h"
 
-@interface MRSLMorselListViewController ()
+@interface MRSLMorselDraftsViewController ()
 <UITableViewDataSource,
 UITableViewDelegate,
 NSFetchedResultsControllerDelegate>
@@ -39,7 +39,7 @@ NSFetchedResultsControllerDelegate>
 
 @end
 
-@implementation MRSLMorselListViewController
+@implementation MRSLMorselDraftsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -258,7 +258,6 @@ NSFetchedResultsControllerDelegate>
                                               @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
     MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];
     editMorselVC.morselID = morsel.morselID;
-    editMorselVC.shouldPresentMediaCapture = NO;
 
     [self.navigationController pushViewController:editMorselVC
                                          animated:YES];
