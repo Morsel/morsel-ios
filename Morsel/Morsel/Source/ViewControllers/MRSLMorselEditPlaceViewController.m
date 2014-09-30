@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLMorselPublishPlaceViewController.h"
+#import "MRSLMorselEditPlaceViewController.h"
 
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Place.h"
@@ -21,7 +21,7 @@
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
 
-@interface MRSLMorselPublishPlaceViewController ()
+@interface MRSLMorselEditPlaceViewController ()
 <NSFetchedResultsControllerDelegate,
 UIAlertViewDelegate,
 UITableViewDataSource,
@@ -39,7 +39,7 @@ UITableViewDelegate>
 
 @end
 
-@implementation MRSLMorselPublishPlaceViewController
+@implementation MRSLMorselEditPlaceViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

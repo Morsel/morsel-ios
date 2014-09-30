@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class ALAssetsLibrary;
+
 @interface MRSLBaseViewController : UIViewController
 <UIGestureRecognizerDelegate,
 UITextFieldDelegate>
+
+@property (nonatomic) UIImagePickerControllerCameraDevice preferredDeviceCamera;
+
+// Asset and Image Management
+@property (strong, nonatomic) ALAssetsLibrary *assetsLibrary;
 
 @property (strong, nonatomic) NSString *mp_eventView;
 @property (strong, nonatomic) NSDictionary *userInfo;

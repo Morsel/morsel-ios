@@ -30,7 +30,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *guestButton;
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
-@property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @property (strong, nonatomic) MRSLSocialUser *socialUser;
 
@@ -76,7 +75,9 @@
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Connect with Facebook",
                                               @"_view": self.mp_eventView}];
-    self.activityView.hidden = NO;
+    [self.view showActivityViewWithMode:RNActivityViewModeIndeterminate
+                                  label:@"Connecting to Facebook"
+                            detailLabel:nil];
     if ([FBSession.activeSession isOpen]) {
         [self connectFacebookAccountUsingActiveSession];
     } else {
@@ -86,7 +87,7 @@
                 if ([session isOpen]) {
                     [weakSelf connectFacebookAccountUsingActiveSession];
                 } else {
-                    weakSelf.activityView.hidden = YES;
+                    [weakSelf.view hideActivityView];
                     [MRSLSocialServiceFacebook sharedService].sessionStateHandlerBlock = nil;
                 }
             }
@@ -98,7 +99,9 @@
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Connect with Twitter",
                                               @"_view": self.mp_eventView}];
-    self.activityView.hidden = NO;
+    [self.view showActivityViewWithMode:RNActivityViewModeIndeterminate
+                                  label:@"Connecting to Twitter"
+                            detailLabel:nil];
     if ([MRSLSocialServiceTwitter sharedService].oauth1Client.accessToken) {
         [self connectTwitterAccountUsingActiveSession];
     } else {
@@ -107,10 +110,10 @@
             if (success) {
                 [weakSelf connectTwitterAccountUsingActiveSession];
             } else {
-                weakSelf.activityView.hidden = YES;
+                [weakSelf.view hideActivityView];
             }
         } failure:^(NSError *error) {
-            weakSelf.activityView.hidden = YES;
+            [weakSelf.view hideActivityView];
             if (error) [UIAlertView showAlertViewForError:error
                                                  delegate:nil];
         }];
@@ -146,15 +149,15 @@
                                                                                                      andPassword:nil
                                                                                                 orAuthentication:_socialUser.authentication
                                                                                                          success:^(id responseObject) {
-                                                                                                             weakSelf.activityView.hidden = YES;
+                                                                                                             [weakSelf.view hideActivityView];
                                                                                                          } failure:^(NSError *error) {
-                                                                                                             weakSelf.activityView.hidden = YES;
+                                                                                                             [weakSelf.view hideActivityView];
                                                                                                          }];
                                                       } else {
                                                           // Facebook account not associated with any Morsel accounts. Check if email is.
                                                           [_appDelegate.apiService checkEmail:_socialUser.email
                                                                                        exists:^(BOOL exists, NSError *error) {
-                                                                                           weakSelf.activityView.hidden = YES;
+                                                                                           [weakSelf.view hideActivityView];
                                                                                            if (exists) {
                                                                                                // If it does, present "connect to existing account" page. Pass Facebook user object
                                                                                                UIAlertView *alert = [UIAlertView showAlertViewWithTitle:@"Email Account Found"
@@ -188,12 +191,12 @@
                                                                                                      andPassword:nil
                                                                                                 orAuthentication:_socialUser.authentication
                                                                                                          success:^(id responseObject) {
-                                                                                                             weakSelf.activityView.hidden = YES;
+                                                                                                             [weakSelf.view hideActivityView];
                                                                                                          } failure:^(NSError *error) {
-                                                                                                             weakSelf.activityView.hidden = YES;
+                                                                                                             [weakSelf.view hideActivityView];
                                                                                                          }];
                                                       } else {
-                                                          weakSelf.activityView.hidden = YES;
+                                                          [weakSelf.view hideActivityView];
                                                           // If it doesn't, display sign up with prefilled Twitter user data
                                                           [weakSelf performSegueWithIdentifier:MRSLStoryboardSegueDisplaySignUpKey
                                                                                         sender:nil];

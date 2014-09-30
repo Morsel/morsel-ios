@@ -10,6 +10,7 @@
 
 #import <CocoaLumberjack/DDLog.h>
 #import <Mixpanel/Mixpanel.h>
+#import <RNActivityView/UIView+RNActivityView.h>
 
 #pragma mark - Blocks
 
@@ -92,24 +93,12 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
-// It is assumed the standard image to be passed through will be 5 MP (approx. 1920 x 2560 resolution).
-// All calculations for captured image cropping, scaling, and centering will hinge on these numbers
-
-static const CGFloat standardCameraDimensionPortraitMultiplier = 6.f;
-static const CGFloat standardCameraDimensionLandscapeMultiplier = 4.f;
-static const CGFloat minimumCameraMaxDimension = 1920.f;
-static const CGFloat xCenteringLandscapeContent = 320.f;
-static const CGFloat yCameraImagePreviewOffset = 78.f;
-static const CGFloat croppedImageHeightOffset = 106.f;
 static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;
 static const CGFloat MRSLUserProfileImageThumbDimensionSize = 40.f;
 static const CGFloat MRSLItemImageFullDimensionSize = 640.f;
 static const CGFloat MRSLItemImageLargeDimensionSize = 220.f;
 static const CGFloat MRSLItemImageThumbDimensionSize = 50.f;
 static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
-static const int MRSLMaximumMorselsToDisplayInMorselAdd = 5;
-static const int MRSLMaximumMorselsToDisplayInMorselPreview = 12;
-static const int MRSLStatsTagViewTag = 9991;
 
 #pragma mark - Build Specific
 

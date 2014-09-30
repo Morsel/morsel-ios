@@ -10,8 +10,8 @@
 
 #import "MRSLAPIService+Item.h"
 #import "MRSLAPIService+Morsel.h"
+#import "MRSLBaseViewController+Additions.h"
 
-#import "MRSLCaptureSingleMediaViewController.h"
 #import "MRSLImagePreviewCollectionViewCell.h"
 #import "MRSLMorselEditDescriptionViewController.h"
 #import "MRSLToolbar.h"
@@ -24,9 +24,7 @@
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
-CaptureMediaViewControllerDelegate>
-
-@property (nonatomic) BOOL isDisplayingItems;
+UIImagePickerControllerDelegate>
 
 @property (nonatomic) CGSize collectionViewSize;
 
@@ -104,20 +102,9 @@ CaptureMediaViewControllerDelegate>
 }
 
 - (void)setupControls {
-    id firstMediaItem = [_previewMedia firstObject];
-    self.isDisplayingItems = [firstMediaItem isKindOfClass:[MRSLItem class]];
-
-    if (_isDisplayingItems) {
-        self.title = @"Edit";
-        self.mp_eventView = @"morsel_edit";
-        self.cellIdentifier = MRSLStoryboardRUIDItemPreviewCellKey;
-    } else {
-        self.title = @"Image preview";
-        self.mp_eventView = @"image_preview";
-        self.coverSwitch.hidden = YES;
-        self.coverLabel.hidden = YES;
-        self.cellIdentifier = MRSLStoryboardRUIDMediaPreviewCellKey;
-    }
+    self.title = @"Edit";
+    self.mp_eventView = @"morsel_edit";
+    self.cellIdentifier = MRSLStoryboardRUIDItemPreviewCellKey;
 
     [self.previewMediaPageControl setNumberOfPages:[_previewMedia count]];
     self.previewMediaPageControl.hidden = ([_previewMedia count] == 1);
@@ -150,12 +137,10 @@ CaptureMediaViewControllerDelegate>
     _currentIndex = (currentIndex >= [_previewMedia count] - 1) ? [_previewMedia count] - 1 : currentIndex;
     [self.previewMediaPageControl setCurrentPage:_currentIndex];
 
-    if (_isDisplayingItems) {
-        MRSLItem *currentVisibleItem = [_previewMedia objectAtIndex:_currentIndex];
-        BOOL currentItemIsCover = [currentVisibleItem isCoverItem];
-        self.coverSwitch.enabled = !currentItemIsCover;
-        [self.coverSwitch setOn:currentItemIsCover];
-    }
+    MRSLItem *currentVisibleItem = [_previewMedia objectAtIndex:_currentIndex];
+    BOOL currentItemIsCover = [currentVisibleItem isCoverItem];
+    self.coverSwitch.enabled = !currentItemIsCover;
+    [self.coverSwitch setOn:currentItemIsCover];
 }
 
 #pragma mark - Segue Methods
@@ -204,11 +189,8 @@ CaptureMediaViewControllerDelegate>
 }
 
 - (IBAction)retakePhoto {
-    MRSLCaptureSingleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCaptureSingleMediaViewControllerKey];
-    captureMediaVC.delegate = self;
-    [self presentViewController:captureMediaVC
-                       animated:YES
-                     completion:nil];
+    [self displayMediaActionSheetWithTitle:nil
+                 withPreferredDeviceCamera:UIImagePickerControllerCameraDeviceRear];
 }
 
 - (IBAction)deleteMedia {
@@ -228,6 +210,23 @@ CaptureMediaViewControllerDelegate>
     [self.previewMediaCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:pageControl.currentPage inSection:0]
                                             atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                                     animated:YES];
+}
+
+#pragma mark - Media Methods
+
+- (void)userSelectedMediaItem:(MRSLMediaItem *)mediaItem {
+    MRSLItem *item = [_previewMedia objectAtIndex:_currentIndex];
+    __weak __typeof(self) weakSelf = self;
+    [mediaItem processMediaToDataWithSuccess:^(NSData *fullImageData, NSData *thumbImageData) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            item.itemPhotoFull = fullImageData;
+            item.itemPhotoThumb = thumbImageData;
+            item.itemPhotoURL = nil;
+            [item API_updateImage];
+            [item.managedObjectContext MR_saveToPersistentStoreAndWait];
+            [weakSelf.previewMediaCollectionView reloadData];
+        });
+    }];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -282,24 +281,6 @@ CaptureMediaViewControllerDelegate>
             [self removeMediaItemAtCurrentIndex];
         }
     }
-}
-
-#pragma mark - CaptureMediaViewControllerDelegate
-
-- (void)captureMediaViewControllerDidFinishCapturingMediaItems:(NSMutableArray *)capturedMedia {
-    MRSLMediaItem *mediaItem = [capturedMedia firstObject];
-    MRSLItem *item = [_previewMedia objectAtIndex:_currentIndex];
-    __weak __typeof(self) weakSelf = self;
-    [mediaItem processMediaToDataWithSuccess:^(NSData *fullImageData, NSData *thumbImageData) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            item.itemPhotoFull = fullImageData;
-            item.itemPhotoThumb = thumbImageData;
-            item.itemPhotoURL = nil;
-            [item API_updateImage];
-            [item.managedObjectContext MR_saveToPersistentStoreAndWait];
-            [weakSelf.previewMediaCollectionView reloadData];
-        });
-    }];
 }
 
 #pragma mark - Dealloc

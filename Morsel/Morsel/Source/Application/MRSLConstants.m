@@ -99,8 +99,6 @@ NSString *const MRSLStoryboardiPhoneTemplatesKey = @"Templates";
 #pragma mark - Storyboard Identifier Constants
 
 NSString *const MRSLStoryboardActivityKey = @"sb_Activity";
-NSString *const MRSLStoryboardCaptureMultipleMediaViewControllerKey = @"sb_MRSLCaptureMultipleMediaViewController";
-NSString *const MRSLStoryboardCaptureSingleMediaViewControllerKey = @"sb_MRSLCaptureSingleMediaViewController";
 NSString *const MRSLStoryboardCommentsKey = @"sb_Comments";
 NSString *const MRSLStoryboardExploreKey = @"sb_Explore";
 NSString *const MRSLStoryboardFeedKey = @"sb_Feed";
@@ -145,7 +143,6 @@ NSString *const MRSLStoryboardTemplateInfoKey = @"sb_TemplateInfo";
 
 NSString *const MRSLStoryboardSegueAccountSettingsKey = @"seg_AccountSettings";
 NSString *const MRSLStoryboardSegueCuisinesKey = @"seg_Cuisines";
-NSString *const MRSLStoryboardSegueDisplayImagePreviewKey = @"seg_DisplayImagePreview";
 NSString *const MRSLStoryboardSegueDisplayLoginKey = @"seg_DisplayLogin";
 NSString *const MRSLStoryboardSegueDisplayResetPasswordKey = @"seg_DisplayResetPassword";
 NSString *const MRSLStoryboardSegueDisplaySignUpKey = @"seg_DisplaySignUp";
@@ -180,8 +177,6 @@ NSString *const MRSLStoryboardRUIDKeywordCellKey = @"ruid_KeywordCell";
 NSString *const MRSLStoryboardRUIDLoadingCellKey = @"ruid_LoadingCell";
 NSString *const MRSLStoryboardRUIDLocationDisabledCellKey = @"ruid_LocationDisabledCell";
 NSString *const MRSLStoryboardRUIDItemPreviewCellKey = @"ruid_ItemPreviewCell";
-NSString *const MRSLStoryboardRUIDMediaItemCellKey = @"ruid_MediaItemCell";
-NSString *const MRSLStoryboardRUIDMediaPreviewCellKey = @"ruid_MediaPreviewCell";
 NSString *const MRSLStoryboardRUIDMenuOptionCellKey = @"ruid_MenuOptionCell";
 NSString *const MRSLStoryboardRUIDMoreCharactersCellKey = @"ruid_MoreCharactersCell";
 NSString *const MRSLStoryboardRUIDMorselCellKey = @"ruid_MorselCell";

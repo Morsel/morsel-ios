@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLMorselListViewController : MRSLBaseViewController
+@interface MRSLMorselDraftsViewController : MRSLBaseViewController
 
 @end

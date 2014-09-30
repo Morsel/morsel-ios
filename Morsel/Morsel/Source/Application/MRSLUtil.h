@@ -16,9 +16,6 @@
 + (BOOL)validateUsername:(NSString *)username;
 + (NSArray *)validationErrorsForUsername:(NSString *)username;
 
-+ (BOOL)imageIsLandscape:(UIImage *)image;
-+ (CGFloat)cameraDimensionScaleFromImage:(UIImage *)image;
-
 + (BOOL)dropboxAvailable;
 
 + (Class)classForDataSourceType:(MRSLDataSourceType)dataSourceTabType;

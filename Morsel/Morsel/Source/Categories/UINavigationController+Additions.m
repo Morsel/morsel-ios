@@ -9,7 +9,7 @@
 #import "UINavigationController+Additions.h"
 
 #import "MRSLMorselEditViewController.h"
-#import "MRSLMorselListViewController.h"
+#import "MRSLMorselDraftsViewController.h"
 
 @implementation UINavigationController (Additions)
 
@@ -17,7 +17,7 @@
     __block BOOL isOnMorselAddFlow = YES;
 
     for (UIViewController *viewController in self.viewControllers) {
-        if ([viewController isKindOfClass:[MRSLMorselListViewController class]]) {
+        if ([viewController isKindOfClass:[MRSLMorselDraftsViewController class]]) {
             isOnMorselAddFlow = NO;
             break;
         }

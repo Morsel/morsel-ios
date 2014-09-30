@@ -99,8 +99,6 @@ extern NSString *const MRSLStoryboardiPhoneTemplatesKey;
 #pragma mark - Storyboard Identifier Constants
 
 extern NSString *const MRSLStoryboardActivityKey;
-extern NSString *const MRSLStoryboardCaptureMultipleMediaViewControllerKey;
-extern NSString *const MRSLStoryboardCaptureSingleMediaViewControllerKey;
 extern NSString *const MRSLStoryboardCommentsKey;
 extern NSString *const MRSLStoryboardExploreKey;
 extern NSString *const MRSLStoryboardFeedKey;
@@ -145,7 +143,6 @@ extern NSString *const MRSLStoryboardTemplateInfoKey;
 
 extern NSString *const MRSLStoryboardSegueAccountSettingsKey;
 extern NSString *const MRSLStoryboardSegueCuisinesKey;
-extern NSString *const MRSLStoryboardSegueDisplayImagePreviewKey;
 extern NSString *const MRSLStoryboardSegueDisplayLoginKey;
 extern NSString *const MRSLStoryboardSegueDisplayResetPasswordKey;
 extern NSString *const MRSLStoryboardSegueDisplaySignUpKey;
@@ -181,8 +178,6 @@ extern NSString *const MRSLStoryboardRUIDKeywordCellKey;
 extern NSString *const MRSLStoryboardRUIDLoadingCellKey;
 extern NSString *const MRSLStoryboardRUIDLocationDisabledCellKey;
 extern NSString *const MRSLStoryboardRUIDItemPreviewCellKey;
-extern NSString *const MRSLStoryboardRUIDMediaItemCellKey;
-extern NSString *const MRSLStoryboardRUIDMediaPreviewCellKey;
 extern NSString *const MRSLStoryboardRUIDMenuOptionCellKey;
 extern NSString *const MRSLStoryboardRUIDMoreCharactersCellKey;
 extern NSString *const MRSLStoryboardRUIDMorselCellKey;

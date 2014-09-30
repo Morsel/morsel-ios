@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLMorselAddTitleViewController : MRSLBaseViewController
-
-@property (nonatomic) BOOL isUserEditingTitle;
+@interface MRSLMorselEditTitleViewController : MRSLBaseViewController
 
 @property (strong, nonatomic) NSNumber *morselID;
 

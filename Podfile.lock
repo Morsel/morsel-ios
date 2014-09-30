@@ -32,7 +32,6 @@ PODS:
   - CocoaLumberjack/Core (1.6.5.1)
   - CocoaLumberjack/Extensions (1.6.5.1):
     - CocoaLumberjack/Core
-  - ELCImagePickerController (0.2.0)
   - Facebook-iOS-SDK (3.17.0):
     - Bolts
   - GCPlaceholderTextView (1.0.1)
@@ -42,13 +41,8 @@ PODS:
   - Kiwi-KIF/XCTest (1.0.1):
     - KIF (~> 2.0.0)
     - Kiwi/XCTest (~> 2.2.3)
-  - Kiwi/ARC (2.2.4)
   - Kiwi/ARC (HEAD based on 2.2.4)
-  - Kiwi/NonARC (2.2.4)
   - Kiwi/NonARC (HEAD based on 2.2.4)
-  - Kiwi/XCTest (2.2.4):
-    - Kiwi/ARC
-    - Kiwi/NonARC
   - Kiwi/XCTest (HEAD based on 2.2.4):
     - Kiwi/ARC
     - Kiwi/NonARC
@@ -64,6 +58,8 @@ PODS:
   - OAuthCore (0.0.1):
     - NSData+Base64
   - OHHTTPStubs (3.1.4)
+  - RNActivityView (0.0.2)
+  - RSKImageCropper (0.3.0)
   - SDWebImage (3.7.1):
     - SDWebImage/Core
   - SDWebImage/Core (3.7.1)
@@ -76,7 +72,6 @@ DEPENDENCIES:
   - AFOAuth2Client (from `https://github.com/Morsel/AFOAuth2Client`)
   - ALAssetsLibrary-CustomPhotoAlbum (= 1.1.5)
   - CocoaLumberjack (= 1.6.5.1)
-  - ELCImagePickerController (= 0.2)
   - Facebook-iOS-SDK (= 3.17)
   - GCPlaceholderTextView (= 1.0.1)
   - GPUImage (from `git@github.com:BradLarson/GPUImage.git`, tag `0.1.5`)
@@ -91,6 +86,8 @@ DEPENDENCIES:
   - NXOAuth2Client (= 1.2.6)
   - OAuthCore (= 0.0.1)
   - OHHTTPStubs (= 3.1.4)
+  - RNActivityView (~> 0.0)
+  - RSKImageCropper (~> 0.3)
   - SDWebImage (from `https://github.com/Morsel/SDWebImage`)
   - VCRURLConnection (from `git@github.com:dstnbrkr/VCRURLConnection.git`, commit `aa0b0fcf0e112da363e9c63d6215b216ff604614`)
   - XMLDictionary (= 1.4)
@@ -119,7 +116,6 @@ SPEC CHECKSUMS:
   ALAssetsLibrary-CustomPhotoAlbum: 785e1852efacd51235dd8dd19a8a467196fdeafa
   Bolts: 2635e8698a630774689441047f3465d78c48d485
   CocoaLumberjack: baf4a09a3bcbdfea3363556a90104e026d3504e2
-  ELCImagePickerController: 4dc83bb6ce995f4964b0080d77ad5a01141e6db2
   Facebook-iOS-SDK: f20274d809f112ba540842e2b6cbe50128d51b7b
   GCPlaceholderTextView: d48f3558c8d71daaae65679275075592ca13e1c8
   GPUImage: f9b32e12350792a630e596ffc7b050bea3662670
@@ -136,6 +132,8 @@ SPEC CHECKSUMS:
   NXOAuth2Client: f9a3efde1cce92c92fd1518070caf305bd363ef4
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   OHHTTPStubs: 398901e787d9b62ce539a8a3df0b81431a98236a
+  RNActivityView: 4f2f07f7e93792326d09dc8407c2c6e89e3c0147
+  RSKImageCropper: 38002f13db12cd5d13925872d932c7aee328149b
   SDWebImage: ff5239e81afa8f9cc29552712cac071183529f66
   VCRURLConnection: 5cc98951bd44186e19f33b77dd9c714da2f74208
   XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc

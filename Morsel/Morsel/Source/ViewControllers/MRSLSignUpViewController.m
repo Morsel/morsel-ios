@@ -31,7 +31,6 @@ UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet MRSLValidationStatusView *usernameStatusView;
 
-@property (weak, nonatomic) IBOutlet UIView *activityView;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
@@ -177,7 +176,9 @@ UITextFieldDelegate>
 
     [_continueButton setEnabled:NO];
 
-    self.activityView.hidden = NO;
+    [self.view showActivityViewWithMode:RNActivityViewModeIndeterminate
+                                  label:@"Signing up"
+                            detailLabel:nil];
 
     MRSLUser *user = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
     user.first_name = _firstNameField.text;
@@ -229,8 +230,8 @@ UITextFieldDelegate>
                                                 }
                                             });
                                         } failure:^(NSError *error) {
-                                            self.activityView.hidden = YES;
-                                            [self.continueButton setEnabled:YES];
+                                            [weakSelf.view hideActivityView];
+                                            [weakSelf.continueButton setEnabled:YES];
 
                                             MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
 
@@ -373,7 +374,7 @@ UITextFieldDelegate>
     } else {
         CGRect centeredFrame = textField.frame;
         centeredFrame.origin.y = textField.frame.origin.y - (self.contentScrollView.frame.size.height / 2);
-        
+
         [self.contentScrollView scrollRectToVisible:centeredFrame
                                            animated:YES];
         if ([textField isEqual:_usernameField]) {

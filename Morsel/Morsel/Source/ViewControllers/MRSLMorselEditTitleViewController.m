@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLMorselAddTitleViewController.h"
+#import "MRSLMorselEditTitleViewController.h"
 
 #import <GCPlaceholderTextView/GCPlaceholderTextView.h>
 
@@ -16,7 +16,7 @@
 
 #import "MRSLMorsel.h"
 
-@interface MRSLMorselAddTitleViewController ()
+@interface MRSLMorselEditTitleViewController ()
 <UIAlertViewDelegate,
 UITextViewDelegate>
 
@@ -32,7 +32,7 @@ UITextViewDelegate>
 
 @end
 
-@implementation MRSLMorselAddTitleViewController
+@implementation MRSLMorselEditTitleViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -89,7 +89,6 @@ UITextViewDelegate>
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Done",
                                               @"_view": self.mp_eventView}];
-    if (_isUserEditingTitle) {
         MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
         if (morsel) {
             if (![morsel.title isEqualToString:self.morselTitleTextView.text]) {
@@ -112,30 +111,6 @@ UITextViewDelegate>
             [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel title! Please try again."
                                             delegate:nil];
         }
-    } else {
-        MRSLMorsel *morsel = [MRSLMorsel MR_createEntity];
-        morsel.draft = @YES;
-        morsel.title = self.morselTitleTextView.text;
-
-        __weak __typeof(self) weakSelf = self;
-        [_appDelegate.apiService createMorsel:morsel
-                                      success:^(id responseObject) {
-                                          [MRSLEventManager sharedManager].new_morsels_created++;
-                                          MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];
-                                          editMorselVC.shouldPresentMediaCapture = YES;
-                                          editMorselVC.morselID = morsel.morselID;
-                                          [weakSelf.navigationController pushViewController:editMorselVC
-                                                                                   animated:YES];
-                                      } failure:^(NSError *error) {
-                                          [UIAlertView showAlertViewForErrorString:@"Unable to create Morsel! Please try again."
-                                                                          delegate:nil];
-                                          [morsel MR_deleteEntity];
-                                          dispatch_async(dispatch_get_main_queue(), ^{
-                                              [weakSelf.doneBarButtonItem setEnabled:YES];
-                                              weakSelf.isPerformingRequest = NO;
-                                          });
-                                      }];
-    }
 }
 
 #pragma mark - Private Methods
