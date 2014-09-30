@@ -115,16 +115,18 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.originalFeedWidth = [self.view getWidth];
-    MRSLUser *currentUser = [MRSLUser currentUser];
-    if (!currentUser) return;
+    if (![MRSLUser currentUser]) return;
     [self resumeTimer];
+    if (_feedFetchedResultsController) self.feedFetchedResultsController.delegate = self;
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     if (self.recentlyPublishedMorselID) {
         [self displayPublishedMorsel];
     }
-    if (_feedFetchedResultsController) {
-        self.feedFetchedResultsController.delegate = self;
-    } else {
+    if (!_feedFetchedResultsController) {
+        self.originalFeedWidth = [self.view getWidth];
         [self setupFetchRequest];
         [self populateContent];
         [self refreshContent];

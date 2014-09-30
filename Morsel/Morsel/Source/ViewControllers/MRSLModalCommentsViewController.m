@@ -21,7 +21,7 @@
 #import "MRSLUser.h"
 
 static const CGFloat MRSLDefaultCommentLabelHeight = 14.f;
-static const CGFloat MRSLDefaultCommentLabelWidth = 192.f;
+static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
 
 @interface MRSLModalCommentsViewController ()
 <UITableViewDataSource,
@@ -76,9 +76,8 @@ NSFetchedResultsControllerDelegate>
     self.commentInputTextView.placeholder = @"Write a comment...";
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     if (_fetchedResultsController) return;
 
     [self setupFetchRequest];
@@ -253,13 +252,16 @@ NSFetchedResultsControllerDelegate>
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_previousCommentsAvailable && indexPath.row == 0) return 44;
     MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
-    CGSize bodySize = [comment.commentDescription sizeWithFont:[UIFont robotoLightFontOfSize:12.f]
-                                             constrainedToSize:CGSizeMake(MRSLDefaultCommentLabelWidth, CGFLOAT_MAX)
-                                                 lineBreakMode:NSLineBreakByWordWrapping];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    CGRect bodyRect = [comment.commentDescription boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - MRSLDefaultCommentLabelPadding, CGFLOAT_MAX)
+                                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                                            attributes:@{NSFontAttributeName: [UIFont robotoLightFontOfSize:12.f], NSParagraphStyleAttributeName: paragraphStyle}
+                                                               context:nil];
     CGFloat defaultCellSize = 70.f;
 
-    if (bodySize.height > MRSLDefaultCommentLabelHeight) {
-        defaultCellSize = defaultCellSize + (bodySize.height - MRSLDefaultCommentLabelHeight);
+    if (bodyRect.size.height > MRSLDefaultCommentLabelHeight) {
+        defaultCellSize = defaultCellSize + (bodyRect.size.height - MRSLDefaultCommentLabelHeight);
     }
     return defaultCellSize;
 }

@@ -27,6 +27,7 @@ UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *menuTableView;
+@property (weak, nonatomic) IBOutlet UIView *menuBar;
 
 @property (strong, nonatomic) NSArray *menuOptions;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
@@ -84,6 +85,12 @@ UITableViewDelegate>
     });
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self.menuBar addBorderWithDirections:MRSLBorderSouth
+                              borderColor:[UIColor morselDefaultBorderColor]];
+}
+
 #pragma mark - Private Methods
 
 - (void)setupMenuOptions {
@@ -97,8 +104,8 @@ UITableViewDelegate>
                                                             key:MRSLMenuFeedKey
                                                            icon:@"icon-menu-feed"];
     MRSLMenuItem *itemExplore = [[MRSLMenuItem alloc] initWithName:@"Explore"
-                                                            key:MRSLMenuExploreKey
-                                                           icon:@"icon-menu-explore"];
+                                                               key:MRSLMenuExploreKey
+                                                              icon:@"icon-menu-explore"];
     MRSLMenuItem *itemNotifications = [[MRSLMenuItem alloc] initWithName:@"Notifications"
                                                                      key:MRSLMenuNotificationsKey
                                                                     icon:@"icon-menu-notifications"];

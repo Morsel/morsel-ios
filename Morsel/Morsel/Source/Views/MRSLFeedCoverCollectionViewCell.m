@@ -20,8 +20,6 @@
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
 
-static const CGFloat MRSLPlaceHeightLimit = 34.f;
-
 @interface MRSLFeedCoverCollectionViewCell ()
 <MRSLItemImageViewDelegate>
 
@@ -115,17 +113,6 @@ static const CGFloat MRSLPlaceHeightLimit = 34.f;
         if (_morsel.place) {
             _placeNameLabel.text = _morsel.place.name;
             _placeCityStateLabel.text = [NSString stringWithFormat:@"%@, %@", _morsel.place.city, _morsel.place.state];
-
-            CGSize textSize = [_placeNameLabel.text sizeWithFont:_placeNameLabel.font
-                                               constrainedToSize:CGSizeMake([_placeNameLabel getWidth], CGFLOAT_MAX)
-                                                   lineBreakMode:NSLineBreakByWordWrapping];
-
-            if (textSize.height > MRSLPlaceHeightLimit) {
-                [_placeNameLabel setHeight:MRSLPlaceHeightLimit];
-            } else {
-                [_placeNameLabel setHeight:textSize.height];
-            }
-            [_placeNameLabel setY:[_placeCityStateLabel getY] - ([_placeNameLabel getHeight] - 5.f)];
         }
 
         if (!_morsel.publishedDate) {

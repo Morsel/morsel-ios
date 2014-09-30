@@ -22,16 +22,9 @@
 
 - (void)setTemplateItem:(MRSLTemplateItem *)templateItem {
     _templateItem = templateItem;
-
-    CGSize descriptionSize = templateItem.placeholder_description ? [templateItem.placeholder_description sizeWithFont:_descriptionLabel.font
-                                                                                                     constrainedToSize:CGSizeMake(_descriptionLabel.frame.size.width, CGFLOAT_MAX)
-                                                                                                         lineBreakMode:NSLineBreakByWordWrapping] : CGSizeZero;
-
     self.positionLabel.text =[NSString stringWithFormat:@"%i", templateItem.placeholder_sort_orderValue];
     self.descriptionLabel.text = templateItem.placeholder_description;
     self.templateImageView.image = [UIImage imageNamed:templateItem.placeholder_photo_small];
-
-    [self.descriptionLabel setHeight:descriptionSize.height];
 }
 
 @end

@@ -43,7 +43,6 @@ NSFetchedResultsControllerDelegate>
     [super viewDidLoad];
     self.mp_eventView = @"Explore";
     [self.collectionView setEmptyStateTitle:@"Nothing to explore"];
-    [self.collectionView toggleLoading:YES];
 
     self.morsels = [NSMutableArray array];
     self.morselIDs = [NSMutableArray array];
@@ -58,6 +57,7 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     if (_fetchedResultsController) return;
+    [self.collectionView toggleLoading:YES];
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];

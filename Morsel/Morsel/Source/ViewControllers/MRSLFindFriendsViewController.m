@@ -73,7 +73,7 @@ MRSLSegmentedButtonViewDelegate>
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-
+    if (_fetchedResultsController) return;
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];

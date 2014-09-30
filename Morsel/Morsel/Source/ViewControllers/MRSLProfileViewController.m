@@ -115,10 +115,17 @@ MRSLStateViewDelegate>
     [self.navigationController setNavigationBarHidden:NO
                                              animated:animated];
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    if (self.segmentedPanelCollectionViewDataSource) return;
 
     [self setupCollectionViewDataSource];
     [self populateUserInformation];
     [self refreshContent];
+
 }
 
 #pragma mark - Action Methods

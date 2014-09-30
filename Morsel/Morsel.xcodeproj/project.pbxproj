@@ -3873,7 +3873,7 @@
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
 				INSTA_CALLBACK = "insta-morsel-staging";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -4060,7 +4060,7 @@
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
 				INSTA_CALLBACK = "insta-morsel-staging";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -4096,7 +4096,7 @@
 				);
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
 				INSTA_CALLBACK = "insta-morsel";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -4326,7 +4326,7 @@
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
 				INSTA_CALLBACK = "insta-morsel-staging";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -4478,6 +4478,7 @@
 				);
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
 				INSTA_CALLBACK = "insta-morsel";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -4625,6 +4626,7 @@
 				);
 				INFOPLIST_FILE = "Morsel/Morsel-Info.plist";
 				INSTA_CALLBACK = "insta-morsel-staging";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

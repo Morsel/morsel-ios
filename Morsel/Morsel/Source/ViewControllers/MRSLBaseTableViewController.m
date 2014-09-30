@@ -70,14 +70,17 @@ NSFetchedResultsControllerDelegate>
     
     [self setupNavigationItems];
     [self.view setBackgroundColor:[UIColor morselDefaultBackgroundColor]];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
 
     if (_selectedIndexPath) {
         [self.tableView deselectRowAtIndexPath:_selectedIndexPath animated:YES];
         self.selectedIndexPath = nil;
     }
 
-    if (self.dataSource) {
-        [self resetFetchedResultsController];
+    if (self.dataSource && !_fetchedResultsController) {
         [self populateContent];
         [self refreshContent];
     }

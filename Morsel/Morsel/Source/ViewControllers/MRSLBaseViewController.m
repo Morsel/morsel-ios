@@ -51,7 +51,7 @@
         [self.view addConstraint:rightConstraint];
     }
 
-    if (self.navigationController && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    if (self.navigationController) self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
