@@ -973,19 +973,36 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oxp-fG-Gml" customClass="MRSLToolbar">
                                                     <rect key="frame" x="0.0" y="444" width="320" height="60"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IT0-2u-AAW">
-                                                            <rect key="frame" x="265" y="0.0" width="55" height="40"/>
-                                                            <accessibility key="accessibilityConfiguration" label="Like"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EdH-OK-Aiw" customClass="MRSLBoldButton">
+                                                            <rect key="frame" x="266" y="31" width="54" height="29"/>
+                                                            <accessibility key="accessibilityConfiguration" label=""/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="55" id="VpI-4Y-QqI"/>
-                                                                <constraint firstAttribute="height" constant="40" id="wFY-rU-dZO"/>
+                                                                <constraint firstAttribute="width" constant="54" id="8GL-Yn-3v2"/>
+                                                                <constraint firstAttribute="height" constant="29" id="rWT-rM-Hkw"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <state key="normal" image="icon-like-off">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                                            <state key="normal" title="4">
+                                                                <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <connections>
-                                                                <action selector="toggleLike" destination="LWX-ds-AvT" eventType="touchUpInside" id="cMl-ux-xxg"/>
+                                                                <action selector="displayLikers" destination="CdJ-7I-0rO" eventType="touchUpInside" id="yRB-9K-zij"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bel-yZ-cwq" customClass="MRSLBoldButton">
+                                                            <rect key="frame" x="213" y="31" width="54" height="29"/>
+                                                            <accessibility key="accessibilityConfiguration" label=""/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="29" id="0tt-Zm-tDw"/>
+                                                                <constraint firstAttribute="width" constant="54" id="el5-aX-dEn"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                                            <state key="normal" title="8">
+                                                                <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="displayComments" destination="CdJ-7I-0rO" eventType="touchUpInside" id="w2P-85-8b5"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2A-Vy-JTW">
@@ -1003,36 +1020,19 @@
                                                                 <action selector="displayComments" destination="CdJ-7I-0rO" eventType="touchUpInside" id="9II-B9-AQM"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EdH-OK-Aiw" customClass="MRSLBoldButton">
-                                                            <rect key="frame" x="265" y="41" width="55" height="19"/>
-                                                            <accessibility key="accessibilityConfiguration" label=""/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IT0-2u-AAW">
+                                                            <rect key="frame" x="265" y="0.0" width="55" height="40"/>
+                                                            <accessibility key="accessibilityConfiguration" label="Like"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="55" id="8GL-Yn-3v2"/>
-                                                                <constraint firstAttribute="height" constant="19" id="rWT-rM-Hkw"/>
+                                                                <constraint firstAttribute="width" constant="55" id="VpI-4Y-QqI"/>
+                                                                <constraint firstAttribute="height" constant="40" id="wFY-rU-dZO"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
-                                                            <state key="normal" title="4">
-                                                                <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <state key="normal" image="icon-like-off">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <connections>
-                                                                <action selector="displayLikers" destination="CdJ-7I-0rO" eventType="touchUpInside" id="yRB-9K-zij"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bel-yZ-cwq" customClass="MRSLBoldButton">
-                                                            <rect key="frame" x="213" y="41" width="54" height="19"/>
-                                                            <accessibility key="accessibilityConfiguration" label=""/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="19" id="0tt-Zm-tDw"/>
-                                                                <constraint firstAttribute="width" constant="54" id="el5-aX-dEn"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="12"/>
-                                                            <state key="normal" title="8">
-                                                                <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="displayComments" destination="CdJ-7I-0rO" eventType="touchUpInside" id="w2P-85-8b5"/>
+                                                                <action selector="toggleLike" destination="LWX-ds-AvT" eventType="touchUpInside" id="cMl-ux-xxg"/>
                                                             </connections>
                                                         </button>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RG9-9W-6YB">
@@ -1506,7 +1506,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="de2-Gb-Jll" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1378.125" y="180.63380281690141"/>
+            <point key="canvasLocation" x="1378" y="180"/>
         </scene>
         <!--Home-->
         <scene sceneID="PDw-fc-RSM">
