@@ -100,10 +100,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeTimer)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(displayOnboarding)
-                                                 name:MRSLAppShouldDisplayOnboardingNotification
-                                               object:nil];
 
     //  Don't want the default empty string to show up in between states
     [self.feedCollectionView setEmptyStateTitle:@""];
@@ -277,42 +273,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
         [self.feedCollectionView reloadData];
         if ([_feedMorsels count] > 0) self.loading = NO;
     });
-}
-
-- (void)displayOnboarding {
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    if ([standardUserDefaults boolForKey:@"didViewOnboarding"]) return;
-
-    [standardUserDefaults setBool:YES
-                           forKey:@"didViewOnboarding"];
-    [standardUserDefaults synchronize];
-
-    UIButton *onboardingButton = [[UIButton alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [[onboardingButton imageView] setContentMode:UIViewContentModeScaleAspectFit];
-    onboardingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
-    onboardingButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
-    [onboardingButton setImage:[UIImage imageNamed:@"graphic-onboarding"]
-                      forState:UIControlStateNormal];
-    [onboardingButton setAdjustsImageWhenDisabled:NO];
-    [onboardingButton setAdjustsImageWhenHighlighted:NO];
-    [onboardingButton setAlpha:0.f];
-    __weak __typeof(onboardingButton)weakOnboardingButton = onboardingButton;
-    [onboardingButton setAction:kUIButtonBlockTouchUpInside
-                      withBlock:^{
-                          __strong __typeof(weakOnboardingButton)strongOnboardingButton = weakOnboardingButton;
-                          if (strongOnboardingButton) {
-                              [strongOnboardingButton setEnabled:NO];
-                              [UIView animateWithDefaultDurationAnimations:^{
-                                  [strongOnboardingButton setAlpha:0.f];
-                              } completion:^(BOOL finished) {
-                                  [strongOnboardingButton removeFromSuperview];
-                              }];
-                          }
-    }];
-    [self.view.window addSubview:onboardingButton];
-    [UIView animateWithDefaultDurationAnimations:^{
-        [onboardingButton setAlpha:1.0f];
-    }];
 }
 
 #pragma mark - Section Methods

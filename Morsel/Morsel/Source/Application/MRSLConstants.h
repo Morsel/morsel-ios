@@ -80,7 +80,7 @@ extern NSString *const MRSLItemImageLargeKey;
 extern NSString *const MRSLItemImageSmallRetinaKey;
 extern NSString *const MRSLItemImageSmallKey;
 
-#pragma mark - Storyboard iPhone Constants
+#pragma mark - Storyboard Constants
 
 extern NSString *const MRSLStoryboardiPhoneActivityKey;
 extern NSString *const MRSLStoryboardiPhoneExploreKey;
@@ -89,6 +89,7 @@ extern NSString *const MRSLStoryboardiPhoneLoginKey;
 extern NSString *const MRSLStoryboardiPhoneMainKey;
 extern NSString *const MRSLStoryboardiPhoneMediaManagementKey;
 extern NSString *const MRSLStoryboardiPhoneMorselManagementKey;
+extern NSString *const MRSLStoryboardiPhoneOnboardingKey;
 extern NSString *const MRSLStoryboardiPhonePlacesKey;
 extern NSString *const MRSLStoryboardiPhoneProfileKey;
 extern NSString *const MRSLStoryboardiPhoneSettingsKey;
@@ -138,6 +139,7 @@ extern NSString *const MRSLStoryboardTemplateSelectionKey;
 extern NSString *const MRSLStoryboardTemplateSelectionViewControllerKey;
 extern NSString *const MRSLStoryboardTemplateInfoViewControllerKey;
 extern NSString *const MRSLStoryboardTemplateInfoKey;
+extern NSString *const MRSLStoryboardOnboardingFeedKey;
 
 #pragma mark - Storyboard Segue Constants
 
