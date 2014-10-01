@@ -19,6 +19,7 @@
 + (UIStoryboard *)mainStoryboard;
 + (UIStoryboard *)mediaManagementStoryboard;
 + (UIStoryboard *)morselManagementStoryboard;
++ (UIStoryboard *)onboardingStoryboard;
 + (UIStoryboard *)placesStoryboard;
 + (UIStoryboard *)profileStoryboard;
 + (UIStoryboard *)settingsStoryboard;

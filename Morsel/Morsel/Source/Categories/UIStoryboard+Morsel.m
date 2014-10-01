@@ -47,6 +47,11 @@
                                      bundle:nil];
 }
 
++ (UIStoryboard *)onboardingStoryboard {
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneOnboardingKey
+                                     bundle:nil];
+}
+
 + (UIStoryboard *)placesStoryboard {
     return [UIStoryboard storyboardWithName:MRSLStoryboardiPhonePlacesKey
                                      bundle:nil];

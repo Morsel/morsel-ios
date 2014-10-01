@@ -117,6 +117,10 @@ MRSLMenuViewControllerDelegate>
                                                  name:MRSLAppShouldDisplayMenuBarNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displayOnboarding)
+                                                 name:MRSLAppShouldDisplayOnboardingNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
@@ -358,6 +362,24 @@ MRSLMenuViewControllerDelegate>
     [self.rootContainerView setUserInteractionEnabled:self.isMenuOpen];
     [self enableScrollViewsInView:self.rootContainerView shouldEnable:self.isMenuOpen];
     self.menuOpen = !self.isMenuOpen;
+}
+
+- (void)displayOnboarding {
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if ([standardUserDefaults boolForKey:@"didViewOnboarding"]) return;
+
+    [standardUserDefaults setBool:YES
+                           forKey:@"didViewOnboarding"];
+    [standardUserDefaults synchronize];
+
+    UIViewController *feedOnboardVC = [[UIStoryboard onboardingStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardOnboardingFeedKey];
+    [feedOnboardVC.view setAlpha:0.f];
+    [feedOnboardVC willMoveToParentViewController:self];
+    [self addChildViewController:feedOnboardVC];
+    [self.view addSubview:feedOnboardVC.view];
+    [UIView animateWithDefaultDurationAnimations:^{
+        [feedOnboardVC.view setAlpha:1.f];
+    }];
 }
 
 - (void)displayNavigationControllerEmbeddedViewControllerWithName:(NSString *)identifierName

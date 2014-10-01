@@ -89,6 +89,7 @@ NSString *const MRSLStoryboardiPhoneLoginKey = @"Login";
 NSString *const MRSLStoryboardiPhoneMainKey = @"Main";
 NSString *const MRSLStoryboardiPhoneMediaManagementKey = @"MediaManagement";
 NSString *const MRSLStoryboardiPhoneMorselManagementKey = @"MorselManagement";
+NSString *const MRSLStoryboardiPhoneOnboardingKey = @"Onboarding";
 NSString *const MRSLStoryboardiPhonePlacesKey = @"Places";
 NSString *const MRSLStoryboardiPhoneProfileKey = @"Profile";
 NSString *const MRSLStoryboardiPhoneSettingsKey = @"Settings";
@@ -138,6 +139,7 @@ NSString *const MRSLStoryboardTemplateSelectionKey = @"sb_TemplateSelection";
 NSString *const MRSLStoryboardTemplateSelectionViewControllerKey = @"sb_MRSLTemplateSelectionViewController";
 NSString *const MRSLStoryboardTemplateInfoViewControllerKey = @"sb_MRSLTemplateInfoViewController";
 NSString *const MRSLStoryboardTemplateInfoKey = @"sb_TemplateInfo";
+NSString *const MRSLStoryboardOnboardingFeedKey = @"sb_OnboardingFeed";
 
 #pragma mark - Storyboard Segue Constants
 
