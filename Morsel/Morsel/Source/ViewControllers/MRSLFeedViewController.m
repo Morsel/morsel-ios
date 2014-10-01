@@ -115,22 +115,24 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.originalFeedWidth = [UIScreen mainScreen].bounds.size.width;
     if (![MRSLUser currentUser]) return;
     [self resumeTimer];
     if (_feedFetchedResultsController) self.feedFetchedResultsController.delegate = self;
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    if (self.recentlyPublishedMorselID) {
-        [self displayPublishedMorsel];
-    }
-    if (!_feedFetchedResultsController) {
-        self.originalFeedWidth = [self.view getWidth];
+    if (!_feedFetchedResultsController && !_recentlyPublishedMorselID) {
         [self setupFetchRequest];
         [self populateContent];
         [self refreshContent];
         [self resetCollectionViewWidth];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.recentlyPublishedMorselID) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self displayPublishedMorsel];
+        });
     }
 }
 
@@ -212,9 +214,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [self setupFetchRequest];
     [self populateContent];
     self.loading = NO;
-    [_feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-                                atScrollPosition:UICollectionViewScrollPositionNone
-                                        animated:NO];
     self.recentlyPublishedMorselID = nil;
     [[NSUserDefaults standardUserDefaults] setInteger:-1
                                                forKey:@"recentlyPublishedMorselID"];
@@ -289,12 +288,14 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [standardUserDefaults synchronize];
 
     UIButton *onboardingButton = [[UIButton alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [[onboardingButton imageView] setContentMode: UIViewContentModeScaleAspectFit];
-    [onboardingButton setBackgroundImage:[UIImage imageNamed:@"graphic-onboarding"]
-                                forState:UIControlStateNormal];
+    [[onboardingButton imageView] setContentMode:UIViewContentModeScaleAspectFit];
+    onboardingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    onboardingButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    [onboardingButton setImage:[UIImage imageNamed:@"graphic-onboarding"]
+                      forState:UIControlStateNormal];
     [onboardingButton setAdjustsImageWhenDisabled:NO];
     [onboardingButton setAdjustsImageWhenHighlighted:NO];
-    [onboardingButton setAlpha:0.0f];
+    [onboardingButton setAlpha:0.f];
     __weak __typeof(onboardingButton)weakOnboardingButton = onboardingButton;
     [onboardingButton setAction:kUIButtonBlockTouchUpInside
                       withBlock:^{

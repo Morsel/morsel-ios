@@ -57,11 +57,21 @@
                                                object:nil];
 }
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self.itemImageView removeBorder];
-    [self.itemImageView addDefaultBorderForDirections:MRSLBorderSouth];
     if (_item) [self populateContent];
+    __weak __typeof(self) weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (weakSelf) {
+            [weakSelf.itemImageView removeBorder];
+            [weakSelf.itemImageView addDefaultBorderForDirections:MRSLBorderSouth];
+        }
+    });
 }
 
 - (void)setItem:(MRSLItem *)item {

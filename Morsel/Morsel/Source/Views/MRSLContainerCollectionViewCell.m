@@ -16,6 +16,11 @@
 
 @implementation MRSLContainerCollectionViewCell
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 - (void)addViewController:(UIViewController *)viewController {
     [_viewController.view removeFromSuperview];
     self.viewController = viewController;

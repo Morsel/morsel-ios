@@ -19,6 +19,11 @@
 
 @implementation MRSLFeedPanelCollectionViewCell
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 - (void)setOwningViewController:(UIViewController *)owningViewController
                        withMorsel:(MRSLMorsel *)morsel {
     _owningViewController = owningViewController;

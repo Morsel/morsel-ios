@@ -34,6 +34,11 @@
     if (self.retakePhotoButton) [self.retakePhotoButton setRoundedCornerRadius:[self.retakePhotoButton getWidth] / 2];
 }
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 - (void)setMediaPreviewItem:(id)mediaPreviewItem {
     _mediaPreviewItem = mediaPreviewItem;
     if ([mediaPreviewItem isKindOfClass:[MRSLItem class]]) {

@@ -29,6 +29,11 @@
     [_morselTitleLabel addStandardShadow];
 }
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 - (void)setMorsel:(MRSLMorsel *)morsel {
     if (_morsel != morsel) {
         _morsel = morsel;
