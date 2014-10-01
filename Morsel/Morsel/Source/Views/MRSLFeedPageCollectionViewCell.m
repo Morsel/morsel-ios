@@ -55,6 +55,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                action:@selector(toggleLike)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.itemImageView addGestureRecognizer:doubleTap];
 }
 
 - (void)setBounds:(CGRect)bounds {
@@ -102,12 +106,13 @@
     _editButton.hidden = ![_item.morsel.creator isCurrentUser];
     _reportButton.hidden = !_editButton.hidden;
 
-    [_likeCountButton setTitle:[NSString stringWithFormat:@"%i", _item.like_countValue]
+    [_likeCountButton setEnabled:(_item.like_countValue > 0)];
+    [_likeCountButton setTitle:[NSString stringWithFormat:@"%@", (_item.like_countValue == 0) ? @"" : _item.like_count]
                       forState:UIControlStateNormal];
-    [_commentCountButton setTitle:[NSString stringWithFormat:@"%i", _item.comment_countValue]
+    [_commentCountButton setTitle:[NSString stringWithFormat:@"%@", (_item.comment_countValue == 0) ? @"" : _item.comment_count]
                          forState:UIControlStateNormal];
 
-    UIImage *commentImage = [UIImage imageNamed:(_item.comment_countValue > 0) ? @"icon-comment-on" : @"icon-comment-off"];
+    UIImage *commentImage = [UIImage imageNamed:@"icon-comment-off"];
     [_commentButton setImage:commentImage
                     forState:UIControlStateNormal];
 

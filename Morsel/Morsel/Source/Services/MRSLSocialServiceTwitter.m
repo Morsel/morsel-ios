@@ -265,7 +265,7 @@
     NSUInteger actionSheetTag = 0;
 
     for (ACAccount *account in accounts) {
-        [buttonTitles addObject:account.username];
+        if (account.username) [buttonTitles addObject:account.username];
     }
     self.twitterAccounts = [accountStore accountsWithAccountType:[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter]];
     actionSheetTag = CreateMorselActionSheetTwitterAccounts;

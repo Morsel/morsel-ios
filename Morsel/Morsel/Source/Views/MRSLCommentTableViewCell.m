@@ -32,11 +32,15 @@
 
 #pragma mark - Instance Methods
 
-- (void)setComment:(MRSLComment *)comment {
-    [self reset];
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
 
-    _comment = comment;
+- (void)layoutSubviews {
+    [super layoutSubviews];
     if (_comment) {
+        [self reset];
         _profileImageView.user = _comment.creator;
         _userNameLabel.text = _comment.creator.fullName;
         _commentBodyLabel.text = _comment.commentDescription;
