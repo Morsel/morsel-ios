@@ -115,22 +115,24 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.originalFeedWidth = [UIScreen mainScreen].bounds.size.width;
     if (![MRSLUser currentUser]) return;
     [self resumeTimer];
     if (_feedFetchedResultsController) self.feedFetchedResultsController.delegate = self;
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    if (self.recentlyPublishedMorselID) {
-        [self displayPublishedMorsel];
-    }
-    if (!_feedFetchedResultsController) {
-        self.originalFeedWidth = [self.view getWidth];
+    if (!_feedFetchedResultsController && !_recentlyPublishedMorselID) {
         [self setupFetchRequest];
         [self populateContent];
         [self refreshContent];
         [self resetCollectionViewWidth];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.recentlyPublishedMorselID) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self displayPublishedMorsel];
+        });
     }
 }
 
@@ -212,9 +214,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [self setupFetchRequest];
     [self populateContent];
     self.loading = NO;
-    [_feedCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-                                atScrollPosition:UICollectionViewScrollPositionNone
-                                        animated:NO];
     self.recentlyPublishedMorselID = nil;
     [[NSUserDefaults standardUserDefaults] setInteger:-1
                                                forKey:@"recentlyPublishedMorselID"];
