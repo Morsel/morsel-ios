@@ -18,6 +18,7 @@ UITextFieldDelegate>
 
 // Asset and Image Management
 @property (strong, nonatomic) ALAssetsLibrary *assetsLibrary;
+@property (nonatomic, strong) UIPopoverController *popOver;
 
 @property (strong, nonatomic) NSString *mp_eventView;
 @property (strong, nonatomic) NSDictionary *userInfo;

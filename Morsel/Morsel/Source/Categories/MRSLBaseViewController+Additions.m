@@ -96,9 +96,11 @@
                                                                                        cropMode:RSKImageCropModeSquare
                                                                                        cropSize:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)];
     imageCropVC.delegate = self;
-    [self presentViewController:imageCropVC
-                       animated:NO
-                     completion:nil];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self presentViewController:imageCropVC
+                           animated:NO
+                         completion:nil];
+    }];
 }
 
 #pragma mark - RSKImageCropViewControllerDelegate
@@ -142,17 +144,39 @@
         imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
         imagePicker.delegate = self;
 
-        [self presentViewController:imagePicker
-                           animated:YES
-                         completion:nil];
+        if ([UIDevice currentDeviceIsIpad]) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                if (imagePicker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+                    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+                    [popover presentPopoverFromRect:CGRectMake(self.view.center.x, self.view.center.y, 1.f, 1.f)
+                                             inView:self.view
+                           permittedArrowDirections:UIPopoverArrowDirectionAny
+                                           animated:YES];
+                    self.popOver = popover;
+                } else {
+                    [self presentViewController:imagePicker
+                                       animated:YES
+                                     completion:nil];
+                }
+            }];
+        } else {
+            [self presentViewController:imagePicker
+                               animated:YES
+                             completion:nil];
+        }
     }
 }
 
 #pragma mark - UIImagePickerControllerDelegate Methods
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [self dismissViewControllerAnimated:NO
-                             completion:nil];
+- (void)imagePickerController:(UIImagePickerController *)picker
+didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    if ([UIDevice currentDeviceIsIpad] && !self.presentedViewController) {
+        [self.popOver dismissPopoverAnimated:NO];
+    } else {
+        [self dismissViewControllerAnimated:NO
+                                 completion:nil];
+    }
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
     if ([info[UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
@@ -162,8 +186,12 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
+    if ([UIDevice currentDeviceIsIpad] && !self.presentedViewController) {
+        [self.popOver dismissPopoverAnimated:NO];
+    } else {
+        [self dismissViewControllerAnimated:NO
+                                 completion:nil];
+    }
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
