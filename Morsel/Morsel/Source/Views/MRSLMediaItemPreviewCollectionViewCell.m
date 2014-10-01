@@ -18,6 +18,11 @@
 
 @implementation MRSLMediaItemPreviewCollectionViewCell
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 - (void)setMediaItem:(MRSLMediaItem *)mediaItem {
     if (_mediaItem != mediaItem || !self.mediaImage.image) {
         [self reset];

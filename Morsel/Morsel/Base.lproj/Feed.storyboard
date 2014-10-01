@@ -937,6 +937,7 @@
                                             <constraint firstItem="3Ny-3d-HWN" firstAttribute="leading" secondItem="eGX-qm-lW0" secondAttribute="trailing" constant="2" id="Zc8-jN-pNb"/>
                                             <constraint firstItem="3Ny-3d-HWN" firstAttribute="leading" secondItem="eGX-qm-lW0" secondAttribute="trailing" constant="2" id="mhH-lZ-Fsz"/>
                                             <constraint firstItem="3Ny-3d-HWN" firstAttribute="top" secondItem="9CG-rY-HR6" secondAttribute="bottom" constant="2" id="ts8-8J-JgI"/>
+                                            <constraint firstItem="eGX-qm-lW0" firstAttribute="width" secondItem="3Ny-3d-HWN" secondAttribute="width" constant="12" id="zfC-cC-VXf"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="clockImageView" destination="M2u-Ck-pax" id="mVY-yb-NdR"/>

@@ -56,6 +56,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 @property (strong, nonatomic) NSMutableArray *objects;
 @property (strong, nonatomic) NSArray *items;
 @property (strong, nonatomic) NSIndexPath *sourceIndexPath;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 @property (weak, nonatomic) IBOutlet MRSLToolbar *toolbarView;
 
@@ -86,6 +87,16 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    [self displayMorsel];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (_selectedIndexPath) {
+        [self.morselItemsTableView deselectRowAtIndexPath:_selectedIndexPath
+                                                 animated:YES];
+        self.selectedIndexPath = nil;
+    }
     [self displayMorsel];
 }
 
@@ -420,6 +431,7 @@ MRSLMorselEditItemTableViewCellDelegate>
 #pragma mark - UITableViewDelegate Methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
     if (indexPath.row > _totalCells - 1) {
         NSUInteger itemIndex = 1;
         if ([self.objects count] > 0) {

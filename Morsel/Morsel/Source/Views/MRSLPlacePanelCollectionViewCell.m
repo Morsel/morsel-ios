@@ -28,6 +28,11 @@
     [self setBackgroundColor:[UIColor morselDefaultCellBackgroundColor]];
 }
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 - (void)setPlace:(MRSLPlace *)place {
     if (_place != place) {
         _place = place;

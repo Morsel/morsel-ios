@@ -20,6 +20,11 @@
     [self setBackgroundColor:(selected) ? [self defaultSelectedBackgroundColor] : [self defaultBackgroundColor]];
 }
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 #pragma mark - Private Methods
 
 - (UIColor *)defaultBackgroundColor {

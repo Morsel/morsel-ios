@@ -289,12 +289,14 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [standardUserDefaults synchronize];
 
     UIButton *onboardingButton = [[UIButton alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [[onboardingButton imageView] setContentMode: UIViewContentModeScaleAspectFit];
-    [onboardingButton setBackgroundImage:[UIImage imageNamed:@"graphic-onboarding"]
-                                forState:UIControlStateNormal];
+    [[onboardingButton imageView] setContentMode:UIViewContentModeScaleAspectFit];
+    onboardingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    onboardingButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    [onboardingButton setImage:[UIImage imageNamed:@"graphic-onboarding"]
+                      forState:UIControlStateNormal];
     [onboardingButton setAdjustsImageWhenDisabled:NO];
     [onboardingButton setAdjustsImageWhenHighlighted:NO];
-    [onboardingButton setAlpha:0.0f];
+    [onboardingButton setAlpha:0.f];
     __weak __typeof(onboardingButton)weakOnboardingButton = onboardingButton;
     [onboardingButton setAction:kUIButtonBlockTouchUpInside
                       withBlock:^{

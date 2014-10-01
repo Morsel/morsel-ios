@@ -35,6 +35,11 @@
     self.blurProfileImageView.shouldBlur = YES;
 }
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 - (void)setUser:(MRSLUser *)user {
     _user = user;
 
