@@ -24,8 +24,8 @@
                               withColor:[UIColor blackColor]];
 
     [navigationBar setTranslucent:NO];
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.interactivePopGestureRecognizer.enabled = YES;
     }
 }
 

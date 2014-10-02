@@ -35,12 +35,11 @@
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
-    if (_morsel != morsel) {
-        _morsel = morsel;
-
+    _morsel = morsel;
+    dispatch_async(dispatch_get_main_queue(), ^{
         _itemImageView.item = [morsel coverItem];
         _morselTitleLabel.text = morsel.title;
-    }
+    });
 }
 
 @end

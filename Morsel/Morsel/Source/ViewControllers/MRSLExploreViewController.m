@@ -54,8 +54,8 @@ NSFetchedResultsControllerDelegate>
     [self.collectionView addSubview:_refreshControl];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     if (_fetchedResultsController) return;
     [self.collectionView toggleLoading:YES];
     [self setupFetchRequest];
