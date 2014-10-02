@@ -68,13 +68,15 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    if (_item) [self populateContent];
-    __weak __typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (weakSelf) {
-            [weakSelf.itemImageView removeBorder];
-            [weakSelf.itemImageView addDefaultBorderForDirections:MRSLBorderSouth];
-        }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (_item) [self populateContent];
+        __weak __typeof(self) weakSelf = self;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (weakSelf) {
+                [weakSelf.itemImageView removeBorder];
+                [weakSelf.itemImageView addDefaultBorderForDirections:MRSLBorderSouth];
+            }
+        });
     });
 }
 

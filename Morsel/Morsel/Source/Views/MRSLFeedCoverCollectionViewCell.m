@@ -59,16 +59,18 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self.placeNameLabel setPreferredMaxLayoutWidth:[self.placeNameLabel getWidth]];
-    [self.userNameLabel setPreferredMaxLayoutWidth:[self.userNameLabel getWidth]];
-    [self.morselTitleLabel removeStandardShadow];
-    [self.morselTitleLabel addStandardShadow];
-    __weak __typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (weakSelf) {
-            [weakSelf.morselCoverImageView removeBorder];
-            [weakSelf.morselCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
-        }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.placeNameLabel setPreferredMaxLayoutWidth:[self.placeNameLabel getWidth]];
+        [self.userNameLabel setPreferredMaxLayoutWidth:[self.userNameLabel getWidth]];
+        [self.morselTitleLabel removeStandardShadow];
+        [self.morselTitleLabel addStandardShadow];
+        __weak __typeof(self) weakSelf = self;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (weakSelf) {
+                [weakSelf.morselCoverImageView removeBorder];
+                [weakSelf.morselCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
+            }
+        });
     });
 }
 
