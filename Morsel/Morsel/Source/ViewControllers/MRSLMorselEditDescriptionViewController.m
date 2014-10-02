@@ -40,6 +40,10 @@ UITextViewDelegate>
 
     self.itemDescriptionTextView.text = _item.itemDescription;
     self.itemDescriptionTextView.placeholder = @"What's interesting about this?";
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self.itemDescriptionTextView becomeFirstResponder];
 }
 
