@@ -59,6 +59,8 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    [self.placeNameLabel setPreferredMaxLayoutWidth:[self.placeNameLabel getWidth]];
+    [self.userNameLabel setPreferredMaxLayoutWidth:[self.userNameLabel getWidth]];
     [self.morselTitleLabel removeStandardShadow];
     [self.morselTitleLabel addStandardShadow];
     __weak __typeof(self) weakSelf = self;
