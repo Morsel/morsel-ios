@@ -516,6 +516,7 @@
                         <outlet property="commentInputTextView" destination="wyp-8d-VK5" id="3ey-5A-jR0"/>
                         <outlet property="commentInputView" destination="0hy-eg-G0Q" id="xjh-eS-yNL"/>
                         <outlet property="commentsTableView" destination="xEc-eJ-t8K" id="zIk-xU-lhV"/>
+                        <outlet property="toolbarBottomLayoutGuide" destination="bNB-3h-N5A" id="tqb-8w-6h3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VlJ-4d-zDj" userLabel="First Responder" sceneMemberID="firstResponder"/>

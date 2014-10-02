@@ -28,14 +28,12 @@ UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *lastNameField;
 @property (weak, nonatomic) IBOutlet UIButton *editPhotoButton;
 @property (weak, nonatomic) IBOutlet MRSLActivityIndicatorView *activityIndicatorView;
-@property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *bioTextView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
 @property (strong, nonatomic) IBOutletCollection(UITextField) NSArray *requiredFields;
 
-@property (nonatomic) CGFloat scrollViewHeight;
 @property (nonatomic) BOOL photoChanged;
 
 @end
@@ -49,19 +47,8 @@ UIAlertViewDelegate>
 
     if (!_user) self.user = [MRSLUser currentUser];
 
-    self.scrollViewHeight = [_contentScrollView getHeight];
     self.bioTextView.placeholder = @"Tell us about yourself";
-    [self.contentScrollView setContentSize:CGSizeMake([_contentScrollView getWidth], (CGRectGetMaxY(_bioTextView.frame) + 20.f))];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
     _photoChanged = NO;
     [self populateContent];
     [[self.navigationItem rightBarButtonItem] setEnabled:[self isDirty]];
@@ -73,22 +60,6 @@ UIAlertViewDelegate>
     self.firstNameField.text = _user.first_name;
     self.lastNameField.text = _user.last_name;
     self.bioTextView.text = _user.bio;
-}
-
-- (void)keyboardWillShow:(NSNotification *)notification {
-    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [self.contentScrollView setHeight:[self.view getHeight] - keyboardSize.height];
-                     }];
-}
-
-- (void)keyboardWillHide {
-    [UIView animateWithDuration:.2f
-                     animations:^{
-                         [self.contentScrollView setHeight:_scrollViewHeight];
-                     }];
 }
 
 #pragma mark - Action Methods
