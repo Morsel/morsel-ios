@@ -43,15 +43,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
-}
-
-- (void)setBounds:(CGRect)bounds {
-    [super setBounds:bounds];
-    self.contentView.frame = bounds;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.morselTitleLabel setPreferredMaxLayoutWidth:[self.morselTitleLabel getWidth]];
         [self.userBioLabel setPreferredMaxLayoutWidth:[self.userBioLabel getWidth]];
@@ -65,6 +56,11 @@
             }
         });
     });
+}
+
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {

@@ -12,8 +12,8 @@ static CGFloat kPadding = MRSLDefaultPadding;
 
 @implementation MRSLPlaceholderTextView
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)awakeFromNib {
+    [super awakeFromNib];
 
     [self removeBorder];
     [self addDefaultBorderForDirections:(MRSLBorderAll)];

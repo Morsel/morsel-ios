@@ -59,15 +59,7 @@
                                                                                 action:@selector(toggleLike)];
     doubleTap.numberOfTapsRequired = 2;
     [self.itemImageView addGestureRecognizer:doubleTap];
-}
 
-- (void)setBounds:(CGRect)bounds {
-    [super setBounds:bounds];
-    self.contentView.frame = bounds;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
     dispatch_async(dispatch_get_main_queue(), ^{
         if (_item) [self populateContent];
         __weak __typeof(self) weakSelf = self;
@@ -80,54 +72,62 @@
     });
 }
 
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    self.contentView.frame = bounds;
+}
+
 - (void)setItem:(MRSLItem *)item {
     _item = item;
-    _itemImageView.item = _item;
     [self populateContent];
 }
 
 - (void)populateContent {
-    [_itemDescriptionLabel setPreferredMaxLayoutWidth:[_itemDescriptionLabel getWidth]];
-    _itemDescriptionLabel.text = _item.itemDescription;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _itemImageView.item = _item;
 
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        [_itemDescriptionLabel setPreferredMaxLayoutWidth:[_itemDescriptionLabel getWidth]];
+        _itemDescriptionLabel.text = _item.itemDescription;
 
-    CGRect textRect = [_item.itemDescription boundingRectWithSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
-                                                          options:NSStringDrawingUsesLineFragmentOrigin
-                                                       attributes:@{NSFontAttributeName: _itemDescriptionLabel.font, NSParagraphStyleAttributeName: paragraphStyle}
-                                                          context:nil];
-    CGFloat floorHeight = floorf(textRect.size.height);
-    CGFloat textHeight = self.itemDescriptionLabel.bounds.size.height;
-    BOOL textTruncated = (floorHeight > textHeight);
-    [_readMoreLabel setHidden:!textTruncated];
-    [_viewMoreButton setHidden:!textTruncated];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
 
-    _profileImageView.user = _item.morsel.creator;
-    _userNameLabel.text = [_item.morsel.creator fullName];
-    _editButton.hidden = ![_item.morsel.creator isCurrentUser];
-    _reportButton.hidden = !_editButton.hidden;
+        CGRect textRect = [_item.itemDescription boundingRectWithSize:CGSizeMake([_itemDescriptionLabel getWidth], CGFLOAT_MAX)
+                                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                                           attributes:@{NSFontAttributeName: _itemDescriptionLabel.font, NSParagraphStyleAttributeName: paragraphStyle}
+                                                              context:nil];
+        CGFloat floorHeight = floorf(textRect.size.height);
+        CGFloat textHeight = self.itemDescriptionLabel.bounds.size.height;
+        BOOL textTruncated = (floorHeight > textHeight);
+        [_readMoreLabel setHidden:!textTruncated];
+        [_viewMoreButton setHidden:!textTruncated];
 
-    [_likeCountButton setEnabled:(_item.like_countValue > 0)];
-    [_likeCountButton setTitle:[NSString stringWithFormat:@"%@", (_item.like_countValue == 0) ? @"" : _item.like_count]
-                      forState:UIControlStateNormal];
-    [_commentCountButton setTitle:[NSString stringWithFormat:@"%@", (_item.comment_countValue == 0) ? @"" : _item.comment_count]
-                         forState:UIControlStateNormal];
+        _profileImageView.user = _item.morsel.creator;
+        _userNameLabel.text = [_item.morsel.creator fullName];
+        _editButton.hidden = ![_item.morsel.creator isCurrentUser];
+        _reportButton.hidden = !_editButton.hidden;
 
-    UIImage *commentImage = [UIImage imageNamed:@"icon-comment-off"];
-    [_commentButton setImage:commentImage
-                    forState:UIControlStateNormal];
+        [_likeCountButton setEnabled:(_item.like_countValue > 0)];
+        [_likeCountButton setTitle:[NSString stringWithFormat:@"%@", (_item.like_countValue == 0) ? @"" : _item.like_count]
+                          forState:UIControlStateNormal];
+        [_commentCountButton setTitle:[NSString stringWithFormat:@"%@", (_item.comment_countValue == 0) ? @"" : _item.comment_count]
+                             forState:UIControlStateNormal];
 
-    [self setLikeButtonImageForMorsel:_item];
+        UIImage *commentImage = [UIImage imageNamed:@"icon-comment-off"];
+        [_commentButton setImage:commentImage
+                        forState:UIControlStateNormal];
 
-    if (![_item.morsel publishedDate]) {
-        self.commentButton.enabled = NO;
-        self.likeButton.enabled = NO;
-        self.commentCountButton.enabled = NO;
-        self.likeCountButton.enabled = NO;
-        self.profileImageView.userInteractionEnabled = NO;
-        self.editButton.hidden = YES;
-    }
+        [self setLikeButtonImageForMorsel:_item];
+
+        if (![_item.morsel publishedDate]) {
+            self.commentButton.enabled = NO;
+            self.likeButton.enabled = NO;
+            self.commentCountButton.enabled = NO;
+            self.likeCountButton.enabled = NO;
+            self.profileImageView.userInteractionEnabled = NO;
+            self.editButton.hidden = YES;
+        }
+    });
 }
 
 #pragma mark - Notification Methods
