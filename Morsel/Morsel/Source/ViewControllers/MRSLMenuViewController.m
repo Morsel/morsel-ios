@@ -210,8 +210,8 @@ UITableViewDelegate>
 }
 
 - (void)prepareMenuForReset {
-    NSIndexPath *feedIndexPath = [self indexPathForKey:MRSLMenuFeedKey];
-    self.shouldResetMenu = self.selectedIndexPath ? (self.selectedIndexPath.row != feedIndexPath.row) : YES;
+    self.shouldResetMenu = self.selectedIndexPath ? (self.selectedIndexPath.row != [self indexPathForKey:MRSLMenuFeedKey].row &&
+                                                     self.selectedIndexPath.row != [self indexPathForKey:MRSLMenuExploreKey].row) : YES;
 }
 
 - (void)displayGuestInformation {
