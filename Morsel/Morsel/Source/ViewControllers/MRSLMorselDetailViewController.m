@@ -87,7 +87,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     self.isPreview = (_morsel.publishedDate == nil);
 
-    if (_isExplore) self.feedCollectionView.alwaysBounceHorizontal = NO;
+    if (_isExplore || _isPreview) self.feedCollectionView.alwaysBounceHorizontal = NO;
     if (_isPreview) self.navigationItem.rightBarButtonItem = nil;
     self.morselIDs = (!_isPreview && !_isExplore) ? ([[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array]) : [NSMutableArray array];
 
