@@ -221,7 +221,7 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification {
     NSDictionary* info = [notification userInfo];
-    CGRect kbRect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    CGRect kbRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     kbRect = [self.view convertRect:kbRect
                            fromView:nil];
 

@@ -82,7 +82,7 @@ sectionFooterSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionFooterSizeBlo
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
                                  atIndexPath:(NSIndexPath *)indexPath {
-    return (_supplementaryConfigureBlock) ? _supplementaryConfigureBlock(collectionView, kind, indexPath) : nil;
+    return (_supplementaryConfigureBlock) ? _supplementaryConfigureBlock(collectionView, kind, indexPath) : [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:MRSLStoryboardRUIDSectionHeaderKey forIndexPath:indexPath];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout

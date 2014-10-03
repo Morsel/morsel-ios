@@ -52,6 +52,12 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
     if ([_hoursInfo count] > 0) [_detailSections addObject:@"Hours"];
     if ([_diningInfo count] > 0) [_detailSections addObject:@"Dining"];
     if ([_directionsInfo count] > 0) [_detailSections addObject:@"Directions"];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    if (self.collectionViewDataSource) return;
 
     [self.collectionView registerClass:[MRSLSectionCollectionReusableView class]
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
@@ -70,12 +76,10 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
                                                                                                                                                                                                          forIndexPath:indexPath];
                                                                                             [sectionCollectionReusableView setTitle:[weakSelf.detailSections objectAtIndex:[indexPath section]]];
                                                                                             return sectionCollectionReusableView;
-                                                                                        } else if ([kind isEqualToString:UICollectionElementKindSectionFooter] && [collectionView isLastItemForIndexPath:indexPath]) {
+                                                                                        } else {
                                                                                             return [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                                                                                       withReuseIdentifier:MRSLStoryboardRUIDSectionFooterKey
                                                                                                                                              forIndexPath:indexPath];
-                                                                                        } else {
-                                                                                            return nil;
                                                                                         }
                                                                                     } sectionHeaderSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
                                                                                         return [weakSelf configureSectionHeaderSizeForCollectionView:collectionView

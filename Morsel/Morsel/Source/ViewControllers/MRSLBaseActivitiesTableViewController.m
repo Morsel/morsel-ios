@@ -129,7 +129,7 @@
         MRSLPlace *placeSubject = activity.placeSubject;
         [self displayPlace:placeSubject];
     } else if ([activity hasUserSubject]) {
-        MRSLUser *userSubject = activity.userSubject;
+        MRSLUser *userSubject = [activity.userSubject isCurrentUser] ? activity.creator : activity.userSubject;
         [self displayUser:userSubject];
     }
 }

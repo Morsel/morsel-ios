@@ -37,6 +37,8 @@ NSFetchedResultsControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *commentInputView;
 @property (weak, nonatomic) IBOutlet MRSLPlaceholderTextView *commentInputTextView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarBottomLayoutGuide;
+
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSArray *comments;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -220,25 +222,21 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - Notification Methods
 
 - (void)keyboardWillShow:(NSNotification *)notification {
-    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    CGFloat baselineY = self.view.frame.size.height - keyboardSize.height;
-    [UIView animateWithDuration:.35f
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    self.toolbarBottomLayoutGuide.constant = keyboardSize.height;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.35f
                      animations:^{
-                         [_commentInputView setY:baselineY - [_commentInputView getHeight]];
-                         [_commentsTableView setHeight:[_commentInputView getY] - [_commentsTableView getY]];
-                         if (_commentsTableView.contentSize.height > [_commentsTableView getHeight]) {
-                             CGPoint bottomOffset = CGPointMake(0, _commentsTableView.contentSize.height - _commentsTableView.bounds.size.height);
-                             [_commentsTableView setContentOffset:bottomOffset
-                                                         animated:NO];
-                         }
+                         [self.view layoutIfNeeded];
                      }];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
-    [UIView animateWithDuration:.2f
+    self.toolbarBottomLayoutGuide.constant = 0.f;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.2f
                      animations:^{
-                         [_commentInputView setY:self.view.frame.size.height - [_commentInputView getHeight]];
-                         [_commentsTableView setHeight:[_commentInputView getY] - [_commentsTableView getY]];
+                         [self.view layoutIfNeeded];
                      }];
 }
 

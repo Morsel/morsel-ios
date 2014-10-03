@@ -440,7 +440,7 @@ MRSLMenuViewControllerDelegate>
 
 - (void)menuViewControllerDidSelectMenuOption:(NSString *)menuOption {
     if (self.isMenuOpen) [self toggleMenu];
-    if (menuOption != nil && ![menuOption isEqualToString:MRSLMenuFeedKey] && [MRSLUser isCurrentUserGuest]) {
+    if (menuOption != nil && ![menuOption isEqualToString:MRSLMenuFeedKey] && ![menuOption isEqualToString:MRSLMenuExploreKey] && [MRSLUser isCurrentUserGuest]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayLandingNotification
                                                             object:nil];
         return;

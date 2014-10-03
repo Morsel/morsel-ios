@@ -12,15 +12,20 @@ static CGFloat kPadding = MRSLDefaultPadding;
 
 @implementation MRSLPlaceholderTextView
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
-    [self removeBorder];
-    [self addDefaultBorderForDirections:(MRSLBorderAll)];
+- (void)awakeFromNib {
+    [super awakeFromNib];
     [self setTextColor:[UIColor morselDefaultTextColor]];
     [self setBackgroundColor:[UIColor morselDefaultTextFieldBackgroundColor]];
     [self setPlaceholderColor:[UIColor morselDefaultPlaceholderTextColor]];
     self.textContainerInset = UIEdgeInsetsMake(kPadding, kPadding, kPadding, kPadding);
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self removeBorder];
+        [self addDefaultBorderForDirections:(MRSLBorderAll)];
+    });
 }
 
 @end

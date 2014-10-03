@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jtb-qR-yHr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A379a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jtb-qR-yHr">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -592,7 +593,6 @@ Access it later from Settings.</string>
                     <connections>
                         <outlet property="activityIndicatorView" destination="r2Y-zc-DGc" id="QCB-FW-nEO"/>
                         <outlet property="bioTextView" destination="UJ4-CW-KOI" id="HiI-fY-Ucp"/>
-                        <outlet property="contentScrollView" destination="ILj-2y-ZPS" id="toz-F3-PI2"/>
                         <outlet property="contentView" destination="bcX-YZ-m07" id="fC0-dW-rf0"/>
                         <outlet property="editPhotoButton" destination="JOr-pj-gVb" id="vyW-cy-QQd"/>
                         <outlet property="firstNameField" destination="nRm-GF-XOC" id="PD6-zA-y5h"/>

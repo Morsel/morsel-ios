@@ -80,11 +80,11 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)setupFetchRequest {
-    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"publishedDate"
-                                                              ascending:NO
-                                                          withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs]
-                                                                groupBy:nil
-                                                               delegate:self];
+    self.fetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"feedItemID"
+                                                          ascending:NO
+                                                      withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs]
+                                                            groupBy:nil
+                                                           delegate:self];
 }
 
 - (void)populateContent {
@@ -102,26 +102,26 @@ NSFetchedResultsControllerDelegate>
     self.loading = YES;
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getExploreWithMaxID:nil
-                                    orSinceID:nil
-                                     andCount:@(19)
-                                      success:^(NSArray *responseArray) {
-                                          if (weakSelf) {
-                                              if ([responseArray count] > 0) {
-                                                  weakSelf.morselIDs = [responseArray mutableCopy];
-                                                  [weakSelf setupFetchRequest];
-                                                  [weakSelf populateContent];
-                                              }
-                                              weakSelf.loading = NO;
-                                          }
-                                      } failure:^(NSError *error) {
-                                          if (weakSelf) {
-                                              [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                           properties:@{@"_view": self.mp_eventView,
-                                                                                        @"message" : NSNullIfNil(error.description),
-                                                                                        @"action" : @"refresh"}];
-                                              weakSelf.loading = NO;
-                                          }
-                                      }];
+                                       orSinceID:nil
+                                        andCount:@(18)
+                                         success:^(NSArray *responseArray) {
+                                             if (weakSelf) {
+                                                 if ([responseArray count] > 0) {
+                                                     weakSelf.morselIDs = [responseArray mutableCopy];
+                                                     [weakSelf setupFetchRequest];
+                                                     [weakSelf populateContent];
+                                                 }
+                                                 weakSelf.loading = NO;
+                                             }
+                                         } failure:^(NSError *error) {
+                                             if (weakSelf) {
+                                                 [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
+                                                                              properties:@{@"_view": self.mp_eventView,
+                                                                                           @"message" : NSNullIfNil(error.description),
+                                                                                           @"action" : @"refresh"}];
+                                                 weakSelf.loading = NO;
+                                             }
+                                         }];
 }
 
 - (void)loadMore {
@@ -132,29 +132,29 @@ NSFetchedResultsControllerDelegate>
                                                        withValue:[_morselIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getExploreWithMaxID:@([lastMorsel feedItemIDValue] - 1)
-                                    orSinceID:nil
-                                     andCount:@(19)
-                                      success:^(NSArray *responseArray) {
-                                          if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                          DDLogDebug(@"%lu feed items added", (unsigned long)[responseArray count]);
-                                          if (weakSelf) {
-                                              weakSelf.loadingMore = NO;
-                                              if ([responseArray count] > 0) {
-                                                  [weakSelf.morselIDs addObjectsFromArray:responseArray];
-                                                  dispatch_async(dispatch_get_main_queue(), ^{
-                                                      [weakSelf setupFetchRequest];
-                                                      [weakSelf populateContent];
-                                                      weakSelf.loading = NO;
-                                                  });
-                                              }
-                                          }
-                                      } failure:^(NSError *error) {
-                                          if (weakSelf) weakSelf.loadingMore = NO;
-                                          [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
-                                                                       properties:@{@"_view": self.mp_eventView,
-                                                                                    @"message" : NSNullIfNil(error.description),
-                                                                                    @"action" : @"load_more"}];
-                                      }];
+                                       orSinceID:nil
+                                        andCount:@(7)
+                                         success:^(NSArray *responseArray) {
+                                             if ([responseArray count] == 0) weakSelf.loadedAll = YES;
+                                             DDLogDebug(@"%lu feed items added", (unsigned long)[responseArray count]);
+                                             if (weakSelf) {
+                                                 weakSelf.loadingMore = NO;
+                                                 if ([responseArray count] > 0) {
+                                                     [weakSelf.morselIDs addObjectsFromArray:responseArray];
+                                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                                         [weakSelf setupFetchRequest];
+                                                         [weakSelf populateContent];
+                                                         weakSelf.loading = NO;
+                                                     });
+                                                 }
+                                             }
+                                         } failure:^(NSError *error) {
+                                             if (weakSelf) weakSelf.loadingMore = NO;
+                                             [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
+                                                                          properties:@{@"_view": self.mp_eventView,
+                                                                                       @"message" : NSNullIfNil(error.description),
+                                                                                       @"action" : @"load_more"}];
+                                         }];
 }
 
 #pragma mark - UICollectionView Data Source
@@ -192,6 +192,7 @@ NSFetchedResultsControllerDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [self.morsels objectAtIndex:indexPath.row];
     MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
+    userMorselsFeedVC.isExplore = YES;
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
     [self.navigationController pushViewController:userMorselsFeedVC

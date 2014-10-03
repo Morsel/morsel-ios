@@ -19,10 +19,10 @@
 @interface MRSLImagePreviewCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *previewImageView;
-@property (weak, nonatomic) IBOutlet MRSLPlaceholderTextView *descriptionField;
 @property (weak, nonatomic) IBOutlet UIButton *descriptionButton;
 @property (weak, nonatomic) IBOutlet UIButton *retakePhotoButton;
 @property (weak, nonatomic) IBOutlet UILabel *placeholderDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 
 @end
 
@@ -30,8 +30,12 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.descriptionField.placeholder = @"Tap to add text";
     if (self.retakePhotoButton) [self.retakePhotoButton setRoundedCornerRadius:[self.retakePhotoButton getWidth] / 2];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self.descriptionLabel setPreferredMaxLayoutWidth:[self.descriptionLabel getWidth]];
 }
 
 - (void)setBounds:(CGRect)bounds {
@@ -41,25 +45,18 @@
 
 - (void)setMediaPreviewItem:(id)mediaPreviewItem {
     _mediaPreviewItem = mediaPreviewItem;
-    if ([mediaPreviewItem isKindOfClass:[MRSLItem class]]) {
-        self.descriptionButton.hidden = NO;
-        self.descriptionField.hidden = NO;
-        MRSLItem *item = (MRSLItem *)mediaPreviewItem;
-        self.previewImageView.item = item;
-        self.descriptionField.text = item.itemDescription;
-        self.placeholderDescriptionLabel.text = item.placeholder_description ?: @"Additional photo";
-    } else if ([mediaPreviewItem isKindOfClass:[MRSLMediaItem class]]) {
-        self.descriptionButton.hidden = YES;
-        self.descriptionField.hidden = YES;
-        MRSLMediaItem *mediaItem = (MRSLMediaItem *)mediaPreviewItem;
-        self.previewImageView.image = mediaItem.mediaFullImage;
-    }
-}
 
-- (void)dealloc {
-    self.descriptionField.delegate = nil;
-    self.descriptionField.placeholder = nil;
-    self.descriptionField.placeholderColor = nil;
+    MRSLItem *item = (MRSLItem *)mediaPreviewItem;
+    self.previewImageView.item = item;
+
+    if (!item.itemDescription || [item.description length] == 0) {
+        self.descriptionLabel.text = @"Tap to add text";
+        [self.descriptionLabel setFont:[UIFont robotoLightItalicFontOfSize:14.f]];
+    } else {
+        self.descriptionLabel.text = item.itemDescription;
+        [self.descriptionLabel setFont:[UIFont robotoLightFontOfSize:14.f]];
+    }
+    self.placeholderDescriptionLabel.text = item.placeholder_description ?: @"Additional photo";
 }
 
 @end
