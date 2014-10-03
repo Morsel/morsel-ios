@@ -87,8 +87,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     self.isPreview = (_morsel.publishedDate == nil);
 
+    if (_isExplore) self.feedCollectionView.alwaysBounceHorizontal = NO;
     if (_isPreview) self.navigationItem.rightBarButtonItem = nil;
-    self.morselIDs = (!_isPreview) ? ([[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array]) : [NSMutableArray array];
+    self.morselIDs = (!_isPreview && !_isExplore) ? ([[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]] ?: [NSMutableArray array]) : [NSMutableArray array];
 
     self.morsels = [NSMutableArray array];
 
@@ -155,7 +156,13 @@ MRSLFeedPanelCollectionViewCellDelegate>
         [self.morselIDs addObject:_morsel.morselID];
         self.user = self.morsel.creator;
     }
-    self.title = (!_isPreview) ? [NSString stringWithFormat:@"%@'s morsels", _user.username] : @"Preview";
+    if (_isPreview) {
+        self.title = @"Preview";
+    } else if (_isExplore) {
+        self.title = self.morsel.title;
+    } else {
+        self.title = [NSString stringWithFormat:@"%@'s morsels", _user.username];
+    }
     NSError *fetchError = nil;
     [_feedFetchedResultsController performFetch:&fetchError];
     self.morsels = [[_feedFetchedResultsController fetchedObjects] mutableCopy];
@@ -179,7 +186,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 #pragma mark - Section Methods
 
 - (void)loadMore {
-    if (_loadingMore || !_user || _loadedAll || _isPreview) return;
+    if (_loadingMore || !_user || _loadedAll || _isPreview || _isExplore) return;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more user morsels");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID

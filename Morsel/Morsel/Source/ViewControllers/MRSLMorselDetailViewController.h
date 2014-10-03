@@ -10,6 +10,8 @@
 
 @interface MRSLMorselDetailViewController : MRSLBaseViewController
 
+@property (nonatomic) BOOL isExplore;
+
 @property (weak, nonatomic) MRSLUser *user;
 @property (weak, nonatomic) MRSLMorsel *morsel;
 

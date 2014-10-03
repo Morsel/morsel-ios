@@ -54,8 +54,8 @@ NSFetchedResultsControllerDelegate>
     [self.collectionView addSubview:_refreshControl];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     if (_fetchedResultsController) return;
     [self.collectionView toggleLoading:YES];
     [self setupFetchRequest];
@@ -192,6 +192,7 @@ NSFetchedResultsControllerDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [self.morsels objectAtIndex:indexPath.row];
     MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
+    userMorselsFeedVC.isExplore = YES;
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
     [self.navigationController pushViewController:userMorselsFeedVC
