@@ -15,6 +15,7 @@
 @property (nonatomic) int comments_added;
 @property (nonatomic) int likes_given;
 @property (nonatomic) int users_followed;
+@property (nonatomic) int users_tagged;
 @property (nonatomic) int places_followed;
 @property (nonatomic) int new_morsels_created;
 @property (nonatomic) int morsels_published;

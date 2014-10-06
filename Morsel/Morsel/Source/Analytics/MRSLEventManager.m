@@ -100,6 +100,7 @@
              @"comments_added": @(self.comments_added),
              @"likes_given": @(self.likes_given),
              @"users_followed": @(self.users_followed),
+             @"users_tagged": @(self.users_tagged),
              @"places_followed": @(self.places_followed),
              @"new_morsels_created": @(self.new_morsels_created),
              @"morsels_published": @(self.morsels_published),
@@ -117,6 +118,7 @@
     self.comments_added = 0;
     self.likes_given = 0;
     self.users_followed = 0;
+    self.users_tagged = 0;
     self.places_followed = 0;
     self.new_morsels_created = 0;
     self.morsels_published = 0;

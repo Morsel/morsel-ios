@@ -147,7 +147,7 @@ NSFetchedResultsControllerDelegate>
 - (void)loadMore {
     if (_loadingMore || !_item || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
-    DDLogDebug(@"Loading more item comments");
+    DDLogDebug(@"Loading more");
     MRSLComment *lastComment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
                                                           withValue:[_commentIDs lastObject]];
     __weak __typeof (self) weakSelf = self;

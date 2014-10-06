@@ -108,14 +108,20 @@
 }
 
 - (void)showMorselForActivity:(MRSLActivity *)activity {
-    MRSLItem *itemSubject = activity.itemSubject;
+    MRSLMorsel *activityMorsel = nil;
 
-    if (itemSubject.morsel) {
-        [self displayUserFeedWithMorsel:itemSubject.morsel];
-    } else if (itemSubject.morsel_id) {
+    if ([activity hasMorselSubject]) {
+        activityMorsel = activity.morselSubject;
+    } else if ([activity hasItemSubject]) {
+        activityMorsel = activity.itemSubject.morsel;
+    }
+
+    if (activityMorsel) {
+        [self displayUserFeedWithMorsel:activityMorsel];
+    } else if (activity.itemSubject.morsel_id || activity.subjectID) {
         __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService getMorsel:nil
-                                  orWithID:itemSubject.morsel_id
+                                  orWithID:activity.itemSubject.morsel_id ?: activity.subjectID
                                    success:^(id responseObject) {
                                        if ([responseObject isKindOfClass:[MRSLMorsel class]]) {
                                            [weakSelf displayUserFeedWithMorsel:responseObject];
@@ -169,9 +175,11 @@
                                               @"subject_type": NSNullIfNil(activity.subjectType),
                                               @"subject_id": NSNullIfNil(activity.subjectID)}];
 
-    if ([activity.actionType isEqualToString:@"Follow"]) {
+    if ([activity isFollowAction]) {
         [self showReceiverForActivity:activity];
-    } else if ([activity.actionType isEqualToString:@"Comment"] || [activity.actionType isEqualToString:@"Like"]) {
+    } else if ([activity isCommentAction] || [activity isLikeAction]) {
+        [self showMorselForActivity:activity];
+    } else if ([activity isMorselUserTagAction]) {
         [self showMorselForActivity:activity];
     }
 }

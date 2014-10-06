@@ -25,6 +25,7 @@ extern const struct MRSLMorselAttributes {
 } MRSLMorselAttributes;
 
 extern const struct MRSLMorselRelationships {
+	__unsafe_unretained NSString *activitiesAsSubject;
 	__unsafe_unretained NSString *creator;
 	__unsafe_unretained NSString *items;
 	__unsafe_unretained NSString *place;
@@ -33,6 +34,7 @@ extern const struct MRSLMorselRelationships {
 extern const struct MRSLMorselFetchedProperties {
 } MRSLMorselFetchedProperties;
 
+@class MRSLActivity;
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLPlace;
@@ -270,6 +272,13 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSSet *activitiesAsSubject;
+
+- (NSMutableSet*)activitiesAsSubjectSet;
+
+
+
+
 @property (nonatomic, strong) MRSLUser *creator;
 
 //- (BOOL)validateCreator:(id*)value_ error:(NSError**)error_;
@@ -295,6 +304,11 @@ extern const struct MRSLMorselFetchedProperties {
 @end
 
 @interface _MRSLMorsel (CoreDataGeneratedAccessors)
+
+- (void)addActivitiesAsSubject:(NSSet*)value_;
+- (void)removeActivitiesAsSubject:(NSSet*)value_;
+- (void)addActivitiesAsSubjectObject:(MRSLActivity*)value_;
+- (void)removeActivitiesAsSubjectObject:(MRSLActivity*)value_;
 
 - (void)addItems:(NSSet*)value_;
 - (void)removeItems:(NSSet*)value_;
@@ -430,6 +444,11 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)setPrimitiveUrl:(NSString*)value;
 
 
+
+
+
+- (NSMutableSet*)primitiveActivitiesAsSubject;
+- (void)setPrimitiveActivitiesAsSubject:(NSMutableSet*)value;
 
 
 

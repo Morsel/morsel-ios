@@ -19,8 +19,10 @@
 #import "MRSLMorselEditTitleViewController.h"
 #import "MRSLMorselEditItemTableViewCell.h"
 #import "MRSLMorselInfoTableViewCell.h"
+#import "MRSLMorselTaggedUsersTableViewCell.h"
 #import "MRSLMorselPublishShareViewController.h"
 #import "MRSLMorselEditPlaceViewController.h"
+#import "MRSLMorselEditEligibleUsersViewController.h"
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLTemplateInfoViewController.h"
 
@@ -77,7 +79,7 @@ MRSLMorselEditItemTableViewCellDelegate>
     self.isEditing = NO;
 
     self.objects = [NSMutableArray array];
-    self.totalUserCells = [[MRSLUser currentUser] isProfessional] ? 2 : 1;
+    self.totalUserCells = [[MRSLUser currentUser] isProfessional] ? 3 : 2;
     self.totalCells = _totalUserCells + [_objects count];
 
     [self.morselItemsTableView setEmptyStateTitle:@"This morsel has no items."];
@@ -222,6 +224,9 @@ MRSLMorselEditItemTableViewCellDelegate>
     } else if ([segue.identifier isEqualToString:MRSLStoryboardSegueSelectPlaceKey]) {
         MRSLMorselEditPlaceViewController *morselPlaceVC = [segue destinationViewController];
         morselPlaceVC.morsel = _morsel;
+    } else if ([segue.identifier isEqualToString:MRSLStoryboardSegueEligibleUsersKey]) {
+        MRSLMorselEditEligibleUsersViewController *eligibleUsersVC = [segue destinationViewController];
+        eligibleUsersVC.morsel = _morsel;
     }
 }
 
@@ -403,14 +408,17 @@ MRSLMorselEditItemTableViewCellDelegate>
         if ([[_objects objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
             tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDEmptyCellKey];
         } else {
-            tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselInfoCell];
-
             if (indexPath.row == 0) {
+                tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselInfoCell];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell keyLabel] setText:@"Title:"];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:(!_morsel || [_morsel hasPlaceholderTitle]) ? @"Name your morsel" : [_morsel title]];
-            } else if (indexPath.row == 1) {
+            } else if (indexPath.row == 1 && [[MRSLUser currentUser] isProfessional]) {
+                tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselInfoCell];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell keyLabel] setText:@"Where:"];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:[_morsel.place name] ?: @"None / Personal"];
+            } else {
+                tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselTaggedUsersCellKey];
+                [(MRSLMorselTaggedUsersTableViewCell *)tableViewCell setMorsel:self.morsel];
             }
         }
     } else {
@@ -465,8 +473,11 @@ MRSLMorselEditItemTableViewCellDelegate>
         if (indexPath.row == 0) {
             [self performSegueWithIdentifier:MRSLStoryboardSegueEditMorselTitleKey
                                       sender:nil];
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 1 && [[MRSLUser currentUser] isProfessional]) {
             [self performSegueWithIdentifier:MRSLStoryboardSegueSelectPlaceKey
+                                      sender:nil];
+        } else {
+            [self performSegueWithIdentifier:MRSLStoryboardSegueEligibleUsersKey
                                       sender:nil];
         }
     } else {

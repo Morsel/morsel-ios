@@ -14,6 +14,7 @@
 #import "MRSLProfileImageView.h"
 
 #import "MRSLActivity.h"
+#import "MRSLMorsel.h"
 #import "MRSLNotification.h"
 #import "MRSLUser.h"
 
@@ -47,6 +48,11 @@
         self.receiverProfileImageView.hidden = NO;
 
         self.receiverProfileImageView.user = activity.userSubject;
+    } else if ([activity hasMorselSubject]) {
+        self.itemImageView.hidden = NO;
+        self.itemImageView.item = [activity.morselSubject coverItem];
+        self.receiverProfileImageView.hidden = YES;
+        self.receiverProfileImageView.user = nil;
     } else {
         self.itemImageView.hidden = NO;
         self.itemImageView.item = activity.itemSubject;
