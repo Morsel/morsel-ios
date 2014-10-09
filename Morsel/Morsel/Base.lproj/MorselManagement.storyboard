@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A379a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="qdQ-No-x4G">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -115,23 +116,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name your morsel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="204" translatesAutoresizingMaskIntoConstraints="NO" id="fKP-vy-xJJ" customClass="MRSLRobotoRegularLabel">
-                                                    <rect key="frame" x="76" y="0.0" width="484" height="60"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="56" translatesAutoresizingMaskIntoConstraints="NO" id="gKC-uc-sr4" customClass="MRSLRobotoSlabBoldLabel">
+                                                    <rect key="frame" x="20" y="4" width="82" height="12"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" id="deo-ky-65t"/>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="wD9-xp-vbr"/>
+                                                        <constraint firstAttribute="height" constant="12" id="TGl-3o-zFD"/>
+                                                        <constraint firstAttribute="width" constant="82" id="vHu-jB-2EK"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
-                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="56" translatesAutoresizingMaskIntoConstraints="NO" id="gKC-uc-sr4" customClass="MRSLRobotoBoldLabel">
-                                                    <rect key="frame" x="12" y="0.0" width="56" height="60"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="56" id="3nt-Fk-pP0"/>
-                                                        <constraint firstAttribute="height" constant="60" id="Wp5-Uk-UNi"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="10"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -150,19 +141,25 @@
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="fdU-9x-s5L"/>
                                                     </constraints>
                                                 </view>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name your morsel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="204" translatesAutoresizingMaskIntoConstraints="NO" id="fKP-vy-xJJ" customClass="MRSLRobotoLightLabel">
+                                                    <rect key="frame" x="20" y="17" width="536" height="26"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="gKC-uc-sr4" firstAttribute="leading" secondItem="UrW-2O-LjT" secondAttribute="leading" constant="12" id="1hm-21-MUl"/>
-                                                <constraint firstItem="Xam-S2-7Ty" firstAttribute="leading" secondItem="fKP-vy-xJJ" secondAttribute="trailing" constant="4" id="B6v-0a-gKJ"/>
+                                                <constraint firstItem="fKP-vy-xJJ" firstAttribute="top" secondItem="gKC-uc-sr4" secondAttribute="bottom" constant="1" id="0fd-R9-mdv"/>
+                                                <constraint firstItem="gKC-uc-sr4" firstAttribute="leading" secondItem="UrW-2O-LjT" secondAttribute="leading" constant="20" id="5FO-a5-wca"/>
+                                                <constraint firstItem="Xam-S2-7Ty" firstAttribute="leading" secondItem="fKP-vy-xJJ" secondAttribute="trailing" constant="8" id="9QA-Xb-woI"/>
                                                 <constraint firstAttribute="trailing" secondItem="Xam-S2-7Ty" secondAttribute="trailing" constant="20" id="Dxb-yO-8D0"/>
-                                                <constraint firstAttribute="bottom" secondItem="fKP-vy-xJJ" secondAttribute="bottom" id="FGR-Ed-Gc4"/>
-                                                <constraint firstItem="gKC-uc-sr4" firstAttribute="top" secondItem="UrW-2O-LjT" secondAttribute="top" id="K3G-Jq-Lal"/>
+                                                <constraint firstItem="gKC-uc-sr4" firstAttribute="top" secondItem="UrW-2O-LjT" secondAttribute="top" constant="4" id="Hfx-wg-Cki"/>
                                                 <constraint firstAttribute="trailing" secondItem="EBA-bG-9Ke" secondAttribute="trailing" id="MWD-lm-YbA"/>
+                                                <constraint firstItem="fKP-vy-xJJ" firstAttribute="leading" secondItem="UrW-2O-LjT" secondAttribute="leading" constant="20" id="Xtd-LN-4ge"/>
                                                 <constraint firstItem="EBA-bG-9Ke" firstAttribute="leading" secondItem="UrW-2O-LjT" secondAttribute="leading" id="cMr-m6-oy0"/>
                                                 <constraint firstAttribute="bottom" secondItem="EBA-bG-9Ke" secondAttribute="bottom" id="ep2-qT-3Ut"/>
+                                                <constraint firstAttribute="bottom" secondItem="fKP-vy-xJJ" secondAttribute="bottom" constant="17" id="noN-2R-lQ6"/>
                                                 <constraint firstItem="Xam-S2-7Ty" firstAttribute="top" secondItem="UrW-2O-LjT" secondAttribute="top" constant="22" id="pRM-Cs-Zh2"/>
-                                                <constraint firstItem="fKP-vy-xJJ" firstAttribute="leading" secondItem="gKC-uc-sr4" secondAttribute="trailing" constant="8" id="syr-xO-pI9"/>
-                                                <constraint firstItem="fKP-vy-xJJ" firstAttribute="top" secondItem="UrW-2O-LjT" secondAttribute="top" id="zjm-qD-fBI"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -184,28 +181,12 @@
                                                         <constraint firstAttribute="height" constant="16" id="iCK-j4-ZkN"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="People:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="56" translatesAutoresizingMaskIntoConstraints="NO" id="Pkf-f5-zS4" customClass="MRSLRobotoBoldLabel">
-                                                    <rect key="frame" x="12" y="0.0" width="56" height="60"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="60" id="CwK-Gf-Y0D"/>
-                                                        <constraint firstAttribute="width" constant="56" id="nVp-1V-CuB"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
-                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zmH-44-G8G">
-                                                    <rect key="frame" x="76" y="0.0" width="480" height="60"/>
+                                                    <rect key="frame" x="20" y="17" width="536" height="43"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="60" id="OZU-Rd-qo1"/>
-                                                    </constraints>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="204" translatesAutoresizingMaskIntoConstraints="NO" id="dW2-QF-ANo" customClass="MRSLRobotoRegularLabel">
-                                                    <rect key="frame" x="76" y="0.0" width="484" height="60"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="60" id="uyy-MM-Xfy"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="20" y="17" width="536" height="26"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -217,21 +198,32 @@
                                                         <constraint firstAttribute="height" constant="1" id="xct-5o-KHe"/>
                                                     </constraints>
                                                 </view>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tagged People" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="56" translatesAutoresizingMaskIntoConstraints="NO" id="UD0-Xr-PMg" customClass="MRSLRobotoSlabBoldLabel">
+                                                    <rect key="frame" x="20" y="4" width="180" height="12"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="12" id="XcQ-gg-be2"/>
+                                                        <constraint firstAttribute="width" constant="180" id="raw-Up-nz8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="10"/>
+                                                    <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="moE-e0-kFO" firstAttribute="leading" secondItem="dW2-QF-ANo" secondAttribute="trailing" constant="4" id="03o-j2-UOF"/>
+                                                <constraint firstItem="zmH-44-G8G" firstAttribute="top" secondItem="UD0-Xr-PMg" secondAttribute="bottom" constant="1" id="4Gq-Zo-Y2a"/>
+                                                <constraint firstItem="dW2-QF-ANo" firstAttribute="leading" secondItem="pvo-VG-dr6" secondAttribute="leading" constant="20" id="5Tj-ke-NYV"/>
+                                                <constraint firstAttribute="bottom" secondItem="dW2-QF-ANo" secondAttribute="bottom" constant="17" id="BAg-Ts-zc9"/>
                                                 <constraint firstAttribute="trailing" secondItem="moE-e0-kFO" secondAttribute="trailing" constant="20" id="CPg-rN-B62"/>
-                                                <constraint firstItem="zmH-44-G8G" firstAttribute="leading" secondItem="Pkf-f5-zS4" secondAttribute="trailing" constant="8" id="DDG-84-iNc"/>
-                                                <constraint firstItem="dW2-QF-ANo" firstAttribute="top" secondItem="pvo-VG-dr6" secondAttribute="top" id="ESM-nq-Ggs"/>
-                                                <constraint firstItem="Pkf-f5-zS4" firstAttribute="top" secondItem="pvo-VG-dr6" secondAttribute="top" id="GK0-4l-FYC"/>
+                                                <constraint firstAttribute="bottom" secondItem="zmH-44-G8G" secondAttribute="bottom" id="GYQ-A5-4Ww"/>
                                                 <constraint firstAttribute="trailing" secondItem="pgL-bm-h67" secondAttribute="trailing" id="Gsc-bP-Xxv"/>
-                                                <constraint firstItem="moE-e0-kFO" firstAttribute="leading" secondItem="zmH-44-G8G" secondAttribute="trailing" constant="8" id="HVA-HK-Qma"/>
+                                                <constraint firstItem="moE-e0-kFO" firstAttribute="leading" secondItem="dW2-QF-ANo" secondAttribute="trailing" constant="8" id="LBr-rV-9yC"/>
                                                 <constraint firstItem="pgL-bm-h67" firstAttribute="leading" secondItem="pvo-VG-dr6" secondAttribute="leading" id="PSe-Kt-Vzz"/>
-                                                <constraint firstItem="Pkf-f5-zS4" firstAttribute="leading" secondItem="pvo-VG-dr6" secondAttribute="leading" constant="12" id="S0d-tA-hRv"/>
+                                                <constraint firstItem="UD0-Xr-PMg" firstAttribute="top" secondItem="pvo-VG-dr6" secondAttribute="top" constant="4" id="UYQ-C2-ERi"/>
+                                                <constraint firstItem="UD0-Xr-PMg" firstAttribute="leading" secondItem="pvo-VG-dr6" secondAttribute="leading" constant="20" id="aFB-VL-sn0"/>
                                                 <constraint firstAttribute="bottom" secondItem="pgL-bm-h67" secondAttribute="bottom" id="mnR-2B-KXY"/>
-                                                <constraint firstItem="dW2-QF-ANo" firstAttribute="leading" secondItem="Pkf-f5-zS4" secondAttribute="trailing" constant="8" id="odc-NV-U8S"/>
-                                                <constraint firstAttribute="bottom" secondItem="zmH-44-G8G" secondAttribute="bottom" id="ofj-t4-soA"/>
-                                                <constraint firstItem="zmH-44-G8G" firstAttribute="top" secondItem="pvo-VG-dr6" secondAttribute="top" id="qKE-Cd-Uc6"/>
+                                                <constraint firstItem="zmH-44-G8G" firstAttribute="leading" secondItem="pvo-VG-dr6" secondAttribute="leading" constant="20" id="rHb-1D-iks"/>
+                                                <constraint firstItem="dW2-QF-ANo" firstAttribute="top" secondItem="UD0-Xr-PMg" secondAttribute="bottom" constant="1" id="s7s-Rn-W8W"/>
+                                                <constraint firstItem="moE-e0-kFO" firstAttribute="leading" secondItem="zmH-44-G8G" secondAttribute="trailing" constant="8" id="sPl-DP-78x"/>
                                                 <constraint firstItem="moE-e0-kFO" firstAttribute="top" secondItem="pvo-VG-dr6" secondAttribute="top" constant="22" id="zd2-nV-MsJ"/>
                                             </constraints>
                                         </tableViewCellContentView>

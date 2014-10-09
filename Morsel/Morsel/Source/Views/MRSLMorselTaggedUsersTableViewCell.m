@@ -89,17 +89,17 @@
         for (NSNumber *userID in _taggedUserIDs) {
             MRSLUser *taggedUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID withValue:userID];
             if (taggedUser) {
-                if (userCount >= 3) {
-                    MRSLRobotoLightLabel *remainingTagUsersLabel = [[MRSLRobotoLightLabel alloc] initWithFrame:CGRectMake(userSpacing, 10.f, 40.f, 40.f)];
+                if (userCount >= 4) {
+                    MRSLRobotoLightLabel *remainingTagUsersLabel = [[MRSLRobotoLightLabel alloc] initWithFrame:CGRectMake(userSpacing, 0.f, 40.f, 40.f)];
                     remainingTagUsersLabel.textAlignment = NSTextAlignmentCenter;
                     remainingTagUsersLabel.textColor = [UIColor whiteColor];
                     remainingTagUsersLabel.backgroundColor = [UIColor morselPrimary];
                     [remainingTagUsersLabel setRoundedCornerRadius:20.f];
-                    remainingTagUsersLabel.text = [NSString stringWithFormat:@"+%lu", ([_taggedUserIDs count] - userCount)];
+                    remainingTagUsersLabel.text = [NSString stringWithFormat:@"+%u", ([_taggedUserIDs count] - userCount)];
                     [self.usersContainerView addSubview:remainingTagUsersLabel];
                     break;
                 } else {
-                    MRSLProfileImageView *profileImageView = [[MRSLProfileImageView alloc] initWithFrame:CGRectMake(userSpacing, 10.f, 40.f, 40.f)];
+                    MRSLProfileImageView *profileImageView = [[MRSLProfileImageView alloc] initWithFrame:CGRectMake(userSpacing, 0.f, 40.f, 40.f)];
                     profileImageView.user = taggedUser;
                     [self.usersContainerView addSubview:profileImageView];
                     userSpacing += 45.f;
