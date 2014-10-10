@@ -24,6 +24,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 };
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
+	.activitiesAsSubject = @"activitiesAsSubject",
 	.creator = @"creator",
 	.items = @"items",
 	.place = @"place",
@@ -375,6 +376,19 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+
+@dynamic activitiesAsSubject;
+
+	
+- (NSMutableSet*)activitiesAsSubjectSet {
+	[self willAccessValueForKey:@"activitiesAsSubject"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"activitiesAsSubject"];
+  
+	[self didAccessValueForKey:@"activitiesAsSubject"];
+	return result;
+}
+	
 
 @dynamic creator;
 

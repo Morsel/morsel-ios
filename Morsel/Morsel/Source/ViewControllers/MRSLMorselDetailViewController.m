@@ -188,7 +188,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)loadMore {
     if (_loadingMore || !_user || _loadedAll || _isPreview || _isExplore) return;
     self.loadingMore = YES;
-    DDLogDebug(@"Loading more user morsels");
+    DDLogDebug(@"Loading more");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                        withValue:[_morselIDs lastObject]];
     __weak __typeof (self) weakSelf = self;

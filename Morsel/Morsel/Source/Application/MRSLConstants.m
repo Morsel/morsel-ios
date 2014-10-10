@@ -158,6 +158,7 @@ NSString *const MRSLStoryboardSegueSetupProfessionalAccountKey = @"seg_SetupProf
 NSString *const MRSLStoryboardSegueSpecialtiesKey = @"seg_Specialties";
 NSString *const MRSLStoryboardSegueTemplateInfoKey = @"seg_DisplayTemplateInfo";
 NSString *const MRSLStoryboardSegueKeywordFollowersKey = @"seg_DisplayKeywordFollowers";
+NSString *const MRSLStoryboardSegueEligibleUsersKey = @"seg_DisplayEligibleUsers";
 
 #pragma mark - Storyboard Reuse Identifier Constants
 
@@ -184,6 +185,7 @@ NSString *const MRSLStoryboardRUIDMoreCharactersCellKey = @"ruid_MoreCharactersC
 NSString *const MRSLStoryboardRUIDMorselCellKey = @"ruid_MorselCell";
 NSString *const MRSLStoryboardRUIDMorselItemCellKey = @"ruid_MorselItemCell";
 NSString *const MRSLStoryboardRUIDMorselPreviewCellKey = @"ruid_MorselPreviewCell";
+NSString *const MRSLStoryboardRUIDMorselTaggedUsersCellKey = @"ruid_MorselTaggedUsersCell";
 NSString *const MRSLStoryboardRUIDActivityTableViewCellKey = @"ruid_MRSLActivityTableViewCell";
 NSString *const MRSLStoryboardRUIDToggleKeywordTableViewCellKey = @"ruid_ToggleKeywordTableViewCell";
 NSString *const MRSLStoryboardRUIDNoResultsCellKey = @"ruid_NoResultsCell";
@@ -194,6 +196,7 @@ NSString *const MRSLStoryboardRUIDPreviousLoadingKey = @"ruid_PreviousLoading";
 NSString *const MRSLStoryboardRUIDSectionFooterKey = @"ruid_SectionFooter";
 NSString *const MRSLStoryboardRUIDUserCellKey = @"ruid_UserCell";
 NSString *const MRSLStoryboardRUIDUserFollowCellKey = @"ruid_UserFollowCell";
+NSString *const MRSLStoryboardRUIDUserEligibleCellKey = @"ruid_UserEligibleCell";
 NSString *const MRSLStoryboardRUIDUserLikedItemCellKey = @"ruid_UserLikedItemCell";
 NSString *const MRSLStoryboardRUIDTemplateCell = @"ruid_TemplateCell";
 NSString *const MRSLStoryboardRUIDTemplateInfoCell = @"ruid_TemplateInfoCell";

@@ -28,6 +28,7 @@ const struct MRSLUserAttributes MRSLUserAttributes = {
 	.profilePhotoThumb = @"profilePhotoThumb",
 	.profilePhotoURL = @"profilePhotoURL",
 	.staff = @"staff",
+	.tagged = @"tagged",
 	.title = @"title",
 	.twitter_username = @"twitter_username",
 	.userID = @"userID",
@@ -130,6 +131,11 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 	}
 	if ([key isEqualToString:@"staffValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"staff"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"taggedValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"tagged"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -535,6 +541,32 @@ const struct MRSLUserFetchedProperties MRSLUserFetchedProperties = {
 
 - (void)setPrimitiveStaffValue:(BOOL)value_ {
 	[self setPrimitiveStaff:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic tagged;
+
+
+
+- (BOOL)taggedValue {
+	NSNumber *result = [self tagged];
+	return [result boolValue];
+}
+
+- (void)setTaggedValue:(BOOL)value_ {
+	[self setTagged:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveTaggedValue {
+	NSNumber *result = [self primitiveTagged];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveTaggedValue:(BOOL)value_ {
+	[self setPrimitiveTagged:[NSNumber numberWithBool:value_]];
 }
 
 
