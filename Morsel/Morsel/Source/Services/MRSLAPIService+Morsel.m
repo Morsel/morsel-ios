@@ -351,6 +351,7 @@
 }
 
 - (void)getEligibleTaggedUsersForMorsel:(MRSLMorsel *)morsel
+                             usingQuery:(NSString *)queryOrNil
                               withMaxID:(NSNumber *)maxOrNil
                               orSinceID:(NSNumber *)sinceOrNil
                                andCount:(NSNumber *)countOrNil
@@ -367,6 +368,11 @@
         parameters[@"since_id"] = sinceOrNil;
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
+
+    if ([queryOrNil length] > 2) {
+        parameters[@"query"] = queryOrNil;
+    }
+
     [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i/eligible_tagged_users", morsel.morselIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {

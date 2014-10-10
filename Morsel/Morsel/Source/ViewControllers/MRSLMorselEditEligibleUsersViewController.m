@@ -19,18 +19,22 @@
 @interface MRSLMorselEditEligibleUsersViewController ()
 <UITableViewDataSource,
 UITableViewDelegate,
-NSFetchedResultsControllerDelegate>
+NSFetchedResultsControllerDelegate,
+UISearchBarDelegate>
 
 @property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSArray *eligibleUsers;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSMutableArray *userIDs;
+
+@property (strong, nonatomic) NSTimer *searchTimer;
 
 @end
 
@@ -54,7 +58,6 @@ NSFetchedResultsControllerDelegate>
 
     [self.tableView addSubview:_refreshControl];
     self.tableView.alwaysBounceVertical = YES;
-    [self.tableView setEmptyStateTitle:@"No one to tag."];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -94,14 +97,15 @@ NSFetchedResultsControllerDelegate>
     [_fetchedResultsController performFetch:&fetchError];
     self.eligibleUsers = [_fetchedResultsController fetchedObjects];
     [self.tableView reloadData];
+    [self.tableView setEmptyStateTitle:(_searchBar.text.length > 0) ? @"No results" : @"No one to tag"];
 }
 
 - (void)refreshContent {
-    if (_loading) return;
     self.loadedAll = NO;
     self.loading = YES;
     __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService getEligibleTaggedUsersForMorsel:_morsel
+                                                  usingQuery:_searchBar.text
                                                    withMaxID:nil
                                                    orSinceID:nil
                                                     andCount:nil
@@ -129,6 +133,7 @@ NSFetchedResultsControllerDelegate>
                                                           withValue:[_userIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getEligibleTaggedUsersForMorsel:_morsel
+                                                  usingQuery:_searchBar.text
                                                    withMaxID:@([lastUser userIDValue] - 1)
                                                    orSinceID:nil
                                                     andCount:@(10)
@@ -195,6 +200,11 @@ NSFetchedResultsControllerDelegate>
     if (maximumOffset - currentOffset <= 10.f) {
         [self loadMore];
     }
+    if (self.searchBar.isFirstResponder) {
+        [self.searchBar resignFirstResponder];
+        [self.searchBar setShowsCancelButton:NO
+                                    animated:YES];
+    }
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate Methods
@@ -202,6 +212,56 @@ NSFetchedResultsControllerDelegate>
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu comments.", (unsigned long)[[controller fetchedObjects] count]);
     [self populateContent];
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)suspendTimer {
+    if (_searchTimer) {
+        [_searchTimer invalidate];
+        self.searchTimer = nil;
+    }
+}
+
+- (void)resumeTimer {
+    [self suspendTimer];
+    if (!_searchTimer) {
+        self.searchTimer = [NSTimer timerWithTimeInterval:.1f
+                                                   target:self
+                                                 selector:@selector(refreshContent)
+                                                 userInfo:nil
+                                                  repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:_searchTimer
+                                     forMode:NSRunLoopCommonModes];
+    }
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self setupFetchRequest];
+    [self populateContent];
+    [self resumeTimer];
+}
+
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ([text isEqualToString:@"\n"]) {
+        [searchBar setShowsCancelButton:NO
+                               animated:YES];
+        [searchBar resignFirstResponder];
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:NO
+                           animated:YES];
+    [self.view endEditing:YES];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:YES
+                           animated:YES];
 }
 
 @end

@@ -943,6 +943,14 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="HCB-PU-MwF" customClass="MRSLTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Search" id="BAB-Dj-evM">
+                                    <rect key="frame" x="0.0" y="246" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="t2X-wZ-2qF" id="fjn-2S-ytL"/>
+                                    </connections>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_UserEligibleCell" id="uK5-tL-ZcS" customClass="MRSLEligibleUserTableViewCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="60"/>
@@ -1038,6 +1046,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Tag People" id="PYX-H9-5j6"/>
                     <connections>
+                        <outlet property="searchBar" destination="BAB-Dj-evM" id="Hb0-eo-lqf"/>
                         <outlet property="tableView" destination="HCB-PU-MwF" id="D9X-Zj-rK8"/>
                     </connections>
                 </viewController>

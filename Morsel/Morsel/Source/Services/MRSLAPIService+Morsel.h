@@ -65,6 +65,7 @@
                         failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getEligibleTaggedUsersForMorsel:(MRSLMorsel *)morsel
+                             usingQuery:(NSString *)queryOrNil
                               withMaxID:(NSNumber *)maxOrNil
                               orSinceID:(NSNumber *)sinceOrNil
                                andCount:(NSNumber *)countOrNil
