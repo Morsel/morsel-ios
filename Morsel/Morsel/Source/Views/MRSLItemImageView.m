@@ -42,7 +42,7 @@
 }
 
 - (MRSLImageSizeType)imageSizeType {
-    return ([self getWidth] >= MRSLItemImageLargeDimensionSize) ? MRSLImageSizeTypeLarge : MRSLImageSizeTypeSmall;
+    return ([self getWidth] >= MRSLImageLargeThreshold) ? MRSLImageSizeTypeLarge : MRSLImageSizeTypeSmall;
 }
 
 - (UIImage *)placeholderImage {

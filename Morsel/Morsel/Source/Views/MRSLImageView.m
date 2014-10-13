@@ -166,7 +166,7 @@
 }
 
 - (MRSLImageSizeType)imageSizeType {
-    return ([self getWidth] > MRSLItemImageThumbDimensionSize) ? MRSLImageSizeTypeLarge : MRSLImageSizeTypeSmall;
+    return ([self getWidth] > MRSLImageLargeThreshold) ? MRSLImageSizeTypeLarge : MRSLImageSizeTypeSmall;
 }
 
 #pragma mark - Private Methods

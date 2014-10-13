@@ -100,16 +100,16 @@
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
     if (!self.itemPhotoURL) return nil;
 
-    BOOL isRetina = ([UIScreen mainScreen].scale == 2.f);
+    BOOL isRetinaOrIpad = ([UIScreen mainScreen].scale == 2.f || [UIDevice currentDeviceIsIpad]);
 
     NSString *typeSizeString = nil;
 
     switch (type) {
         case MRSLImageSizeTypeLarge:
-            typeSizeString = (isRetina) ? MRSLItemImageLargeRetinaKey : MRSLItemImageLargeKey;
+            typeSizeString = (isRetinaOrIpad) ? MRSLItemImageLargeRetinaKey : MRSLItemImageLargeKey;
             break;
         case MRSLImageSizeTypeSmall:
-            typeSizeString = (isRetina) ? MRSLItemImageSmallRetinaKey : MRSLItemImageSmallKey;
+            typeSizeString = (isRetinaOrIpad) ? MRSLItemImageSmallRetinaKey : MRSLItemImageSmallKey;
             break;
         case MRSLImageSizeTypeFull:
             typeSizeString = MRSLItemImageLargeRetinaKey;
@@ -159,7 +159,7 @@
 }
 
 - (NSData *)localImageLarge {
-    return self.itemPhotoFull;
+    return self.itemPhotoLarge;
 }
 
 - (NSData *)localImageSmall {
@@ -181,6 +181,7 @@
             DDLogDebug(@"Duplicate local failed item found without server id. Removing before import of updated item.");
             if (localItem.itemPhotoFull) {
                 self.itemPhotoFull = [localItem.itemPhotoFull copy] ?: nil;
+                self.itemPhotoLarge = [localItem.itemPhotoLarge copy] ?: nil;
                 self.itemPhotoThumb = [localItem.itemPhotoThumb copy] ?: nil;
             }
             [localItem.morsel removeItemsObject:localItem];

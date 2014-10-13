@@ -11,6 +11,7 @@
 @interface MRSLMediaItem : NSObject
 
 @property (strong, nonatomic) UIImage *mediaFullImage;
+@property (strong, nonatomic) UIImage *mediaLargeImage;
 @property (strong, nonatomic) UIImage *mediaThumbImage;
 
 - (void)processMediaToDataWithSuccess:(MRSLMediaItemProcessingSuccessBlock)successOrNil;
