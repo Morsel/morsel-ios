@@ -34,7 +34,7 @@ typedef void (^ MRSLSocialCancelBlock)();
 typedef void (^ MRSLDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^ MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock)(NSArray *objectIDs, NSError *error);
 typedef void (^ MRSLRemoteRequestBlock)(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock);
-typedef void (^ MRSLMediaItemProcessingSuccessBlock)(NSData *fullImageData, NSData *thumbImageData);
+typedef void (^ MRSLMediaItemProcessingSuccessBlock)(NSData *fullImageData, NSData *largeImageData, NSData *thumbImageData);
 
 #pragma mark - Enum
 
@@ -94,10 +94,11 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
+static const CGFloat MRSLImageLargeThreshold = 220.f;
+static const CGFloat MRSLImageFullDimensionSize = 640.f;
 static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;
 static const CGFloat MRSLUserProfileImageThumbDimensionSize = 40.f;
-static const CGFloat MRSLItemImageFullDimensionSize = 640.f;
-static const CGFloat MRSLItemImageLargeDimensionSize = 220.f;
+static const CGFloat MRSLItemImageLargeDimensionSize = 640.f;
 static const CGFloat MRSLItemImageThumbDimensionSize = 50.f;
 static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 

@@ -37,15 +37,32 @@
 - (void)processMediaItem:(MRSLMediaItem *)mediaItem {
     // Override allowed
     __block UIImage *fullSizeImage = mediaItem.mediaFullImage;
-    DDLogDebug(@"Source Process Image Dimensions: (w:%f, h:%f)", fullSizeImage.size.width, fullSizeImage.size.height);
+    [self.view showActivityViewWithMode:RNActivityViewModeIndeterminate
+                                  label:@"Processing image"
+                            detailLabel:nil];
     __weak __typeof(self) weakSelf = self;
     dispatch_queue_t queue = dispatch_queue_create("com.eatmorsel.capture-image-processing", NULL);
     dispatch_queue_t main = dispatch_get_main_queue();
     dispatch_async(queue, ^{
-        mediaItem.mediaThumbImage = [fullSizeImage thumbnailImage:MRSLItemImageThumbDimensionSize
-                                             interpolationQuality:kCGInterpolationHigh];
-        dispatch_async(main, ^{
-            if (weakSelf) [weakSelf userSelectedMediaItem:mediaItem];
+        mediaItem.mediaFullImage = [fullSizeImage thumbnailImage:MIN(MRSLImageFullDimensionSize, mediaItem.mediaFullImage.size.width)
+                                            interpolationQuality:kCGInterpolationHigh];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_async(queue, ^{
+                mediaItem.mediaLargeImage = [fullSizeImage thumbnailImage:MRSLItemImageLargeDimensionSize
+                                                     interpolationQuality:kCGInterpolationHigh];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    dispatch_async(queue, ^{
+                        mediaItem.mediaThumbImage = [fullSizeImage thumbnailImage:MRSLItemImageThumbDimensionSize
+                                                             interpolationQuality:kCGInterpolationHigh];
+                        dispatch_async(main, ^{
+                            if (weakSelf) {
+                                [weakSelf.view hideActivityView];
+                                [weakSelf userSelectedMediaItem:mediaItem];
+                            }
+                        });
+                    });
+                });
+            });
         });
     });
 }
@@ -94,7 +111,7 @@
 - (void)showCropperForImage:(UIImage *)image {
     RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image
                                                                                        cropMode:RSKImageCropModeSquare
-                                                                                       cropSize:CGSizeMake(MRSLItemImageFullDimensionSize, MRSLItemImageFullDimensionSize)];
+                                                                                       cropSize:CGSizeMake(MRSLItemImageLargeDimensionSize, MRSLItemImageLargeDimensionSize)];
     imageCropVC.delegate = self;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self presentViewController:imageCropVC

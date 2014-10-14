@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A379a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jtb-qR-yHr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jtb-qR-yHr">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
@@ -455,14 +455,6 @@ Access it later from Settings.</string>
                                                     <userDefinedRuntimeAttribute type="nil" keyPath="addRoundedCorners"/>
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
-                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="r2Y-zc-DGc" customClass="MRSLActivityIndicatorView">
-                                                <rect key="frame" x="46" y="46" width="20" height="20"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="7a8-f0-165"/>
-                                                    <constraint firstAttribute="width" constant="20" id="bgX-mz-tve"/>
-                                                </constraints>
-                                                <color key="color" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            </activityIndicatorView>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" preferredMaxLayoutWidth="187" translatesAutoresizingMaskIntoConstraints="NO" id="ryx-Sc-daf" customClass="MRSLRobotoSlabBoldLabel">
                                                 <rect key="frame" x="113" y="20" width="467" height="35"/>
                                                 <constraints>
@@ -536,11 +528,9 @@ Access it later from Settings.</string>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="35m-dI-2LW" firstAttribute="top" secondItem="JOr-pj-gVb" secondAttribute="bottom" constant="57" id="0ez-KM-0V6"/>
-                                            <constraint firstItem="r2Y-zc-DGc" firstAttribute="top" secondItem="bcX-YZ-m07" secondAttribute="top" constant="46" id="68Q-Pb-tN6"/>
                                             <constraint firstItem="nRm-GF-XOC" firstAttribute="leading" secondItem="bcX-YZ-m07" secondAttribute="leading" id="8J4-oJ-PVR"/>
                                             <constraint firstItem="35m-dI-2LW" firstAttribute="leading" secondItem="bcX-YZ-m07" secondAttribute="leading" id="BA6-np-Mnc"/>
                                             <constraint firstItem="UJ4-CW-KOI" firstAttribute="leading" secondItem="bcX-YZ-m07" secondAttribute="leading" id="EZO-Zz-gXr"/>
-                                            <constraint firstItem="r2Y-zc-DGc" firstAttribute="leading" secondItem="bcX-YZ-m07" secondAttribute="leading" constant="46" id="IsT-sn-YQH"/>
                                             <constraint firstItem="nRm-GF-XOC" firstAttribute="top" secondItem="JOr-pj-gVb" secondAttribute="bottom" constant="18" id="QGS-bm-vzK"/>
                                             <constraint firstAttribute="trailing" secondItem="nRm-GF-XOC" secondAttribute="trailing" id="Qcn-6i-AHg"/>
                                             <constraint firstAttribute="trailing" secondItem="35m-dI-2LW" secondAttribute="trailing" id="YGd-eG-TTB"/>
@@ -590,7 +580,6 @@ Access it later from Settings.</string>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="activityIndicatorView" destination="r2Y-zc-DGc" id="QCB-FW-nEO"/>
                         <outlet property="bioTextView" destination="UJ4-CW-KOI" id="HiI-fY-Ucp"/>
                         <outlet property="contentView" destination="bcX-YZ-m07" id="fC0-dW-rf0"/>
                         <outlet property="editPhotoButton" destination="JOr-pj-gVb" id="vyW-cy-QQd"/>

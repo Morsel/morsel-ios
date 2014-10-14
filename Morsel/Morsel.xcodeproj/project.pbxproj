@@ -169,6 +169,7 @@
 		066066A418522E7900E780FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 066066A218522E7900E780FC /* Main.storyboard */; };
 		066066AC18522E7900E780FC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 066066AB18522E7900E780FC /* Images.xcassets */; };
 		0661F7ED19703E9100248E6A /* MRSLToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0661F7EC19703E9100248E6A /* MRSLToolbar.m */; };
+		0667316A19EC85DC00750D97 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0667316919EC85DC00750D97 /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0667C4AD196CA18E007A1E0C /* MRSLMorselTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0667C4AC196CA18E007A1E0C /* MRSLMorselTableViewCell.m */; };
 		0669C5131871FD370093132F /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0669C5121871FD370093132F /* UIImage+Resize.m */; };
 		066A780819C2083300896C42 /* Launch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 066A780619C2083300896C42 /* Launch.xib */; };
@@ -886,6 +887,7 @@
 		066066AB18522E7900E780FC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		0661F7EB19703E9100248E6A /* MRSLToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLToolbar.h; path = Source/Views/MRSLToolbar.h; sourceTree = "<group>"; };
 		0661F7EC19703E9100248E6A /* MRSLToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLToolbar.m; path = Source/Views/MRSLToolbar.m; sourceTree = "<group>"; };
+		0667316919EC85DC00750D97 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		0667C4AB196CA18E007A1E0C /* MRSLMorselTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLMorselTableViewCell.h; path = Source/Views/MRSLMorselTableViewCell.h; sourceTree = "<group>"; };
 		0667C4AC196CA18E007A1E0C /* MRSLMorselTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMorselTableViewCell.m; path = Source/Views/MRSLMorselTableViewCell.m; sourceTree = "<group>"; };
 		0669C5111871FD370093132F /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
@@ -987,6 +989,7 @@
 		069CF77619423985004D769A /* MRSLRegularButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLRegularButton.m; path = Source/Views/MRSLRegularButton.m; sourceTree = "<group>"; };
 		069D281018D22A43000EBF7E /* MRSLItemImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLItemImageView.h; path = Source/Views/MRSLItemImageView.h; sourceTree = "<group>"; };
 		069D281118D22A43000EBF7E /* MRSLItemImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLItemImageView.m; path = Source/Views/MRSLItemImageView.m; sourceTree = "<group>"; };
+		06B4448319ED8D8E00E6FDBE /* Morsel_1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Morsel_1.3.xcdatamodel; sourceTree = "<group>"; };
 		06B877DF193BD24600160707 /* MRSLPlaceCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLPlaceCollectionViewCell.h; path = Source/Views/MRSLPlaceCollectionViewCell.h; sourceTree = "<group>"; };
 		06B877E0193BD24600160707 /* MRSLPlaceCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLPlaceCollectionViewCell.m; path = Source/Views/MRSLPlaceCollectionViewCell.m; sourceTree = "<group>"; };
 		06B877E2193BD43200160707 /* MRSLPlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLPlaceViewController.h; sourceTree = "<group>"; };
@@ -1288,6 +1291,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0667316A19EC85DC00750D97 /* Photos.framework in Frameworks */,
 				4085E3151970963200A3FC73 /* DBChooser.framework in Frameworks */,
 				06B8781C193CD7E900160707 /* MapKit.framework in Frameworks */,
 				407FDF6D194807E4005FEEBF /* CrashReporter.framework in Frameworks */,
@@ -1868,6 +1872,7 @@
 		0660668F18522E7900E780FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0667316919EC85DC00750D97 /* Photos.framework */,
 				06B8781B193CD7E900160707 /* MapKit.framework */,
 				4D39BCA7E9BC46D8914312A8 /* libPods.a */,
 				85BAA024FEB848BEB18EFEBB /* libPods-Morsel-Integration.a */,
@@ -4818,6 +4823,7 @@
 			isa = XCVersionGroup;
 			children = (
 				064B034F19E326CE00AD3FE3 /* Morsel_1.4.xcdatamodel */,
+				06B4448319ED8D8E00E6FDBE /* Morsel_1.3.xcdatamodel */,
 				065E06DD1992AB0000865D54 /* Morsel_1.1.xcdatamodel */,
 				406D93EF19C3BB8E00DFA08E /* Morsel_1.2.xcdatamodel */,
 				0698CA8B18523A8C007AF442 /* Morsel.xcdatamodel */,

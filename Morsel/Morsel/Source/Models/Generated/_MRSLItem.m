@@ -12,6 +12,7 @@ const struct MRSLItemAttributes MRSLItemAttributes = {
 	.itemDescription = @"itemDescription",
 	.itemID = @"itemID",
 	.itemPhotoFull = @"itemPhotoFull",
+	.itemPhotoLarge = @"itemPhotoLarge",
 	.itemPhotoThumb = @"itemPhotoThumb",
 	.itemPhotoURL = @"itemPhotoURL",
 	.lastUpdatedDate = @"lastUpdatedDate",
@@ -272,6 +273,13 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 
 @dynamic itemPhotoFull;
+
+
+
+
+
+
+@dynamic itemPhotoLarge;
 
 
 
