@@ -1,5 +1,6 @@
 #import "MRSLActivity.h"
 #import "MRSLItem.h"
+#import "MRSLMorsel.h"
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
 
@@ -28,6 +29,8 @@
         [self importPlaceSubject:data[@"subject"]];
     else if ([data[@"subject_type"] isEqualToString:@"User"])
         [self importUserSubject:data[@"subject"]];
+    else if ([data[@"subject_type"] isEqualToString:@"Morsel"])
+        [self importMorselSubject:data[@"subject"]];
 
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
@@ -37,6 +40,10 @@
 
 - (BOOL)hasItemSubject {
     return [self.subjectType isEqualToString:@"Item"];
+}
+
+- (BOOL)hasMorselSubject {
+    return [self.subjectType isEqualToString:@"Morsel"];
 }
 
 - (BOOL)hasPlaceSubject {
@@ -55,6 +62,10 @@
     return [self.actionType isEqualToString:@"Follow"];
 }
 
+- (BOOL)isMorselUserTagAction {
+    return [self.actionType isEqualToString:@"MorselUserTag"];
+}
+
 - (BOOL)isLikeAction {
     return [self.actionType isEqualToString:@"Like"];
 }
@@ -68,6 +79,8 @@
         return @"commented on";
     } else if ([self isFollowAction]) {
         return @"followed";
+    } else if ([self isMorselUserTagAction]) {
+        return @"tagged you in";
     } else {
         return [NSString stringWithFormat:@"%@ed", [self.actionType lowercaseString]];
     }
@@ -117,6 +130,18 @@
     }
 }
 
+- (void)importMorselSubject:(NSDictionary *)subjectDictionary {
+    if (![subjectDictionary isEqual:[NSNull null]]) {
+        MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                 withValue:subjectDictionary[@"id"]
+                                                 inContext:self.managedObjectContext];
+        if (!morsel) morsel = [MRSLMorsel MR_createInContext:self.managedObjectContext];
+        [morsel MR_importValuesForKeysWithObject:subjectDictionary];
+        [self setMorselSubject:morsel];
+        [morsel addActivitiesAsSubjectObject:self];
+    }
+}
+
 - (NSString *)subjectDisplayName {
     if ([self hasItemSubject]) {
         return [self.itemSubject displayName];
@@ -128,6 +153,8 @@
         } else {
             return [self.userSubject username] ?: @"someone";
         }
+    } else if ([self hasMorselSubject]) {
+        return self.morselSubject.title;
     } else {
         return nil;
     }

@@ -171,7 +171,7 @@ MRSLSegmentedButtonViewDelegate>
 - (void)loadMore {
     if (_loadingMore || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
-    DDLogDebug(@"Loading more users");
+    DDLogDebug(@"Loading more");
     MRSLUser *lastUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                  withValue:[_userIDs lastObject]];
     __weak __typeof (self) weakSelf = self;

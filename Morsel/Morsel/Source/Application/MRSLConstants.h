@@ -159,6 +159,7 @@ extern NSString *const MRSLStoryboardSegueSetupProfessionalAccountKey;
 extern NSString *const MRSLStoryboardSegueSpecialtiesKey;
 extern NSString *const MRSLStoryboardSegueTemplateInfoKey;
 extern NSString *const MRSLStoryboardSegueKeywordFollowersKey;
+extern NSString *const MRSLStoryboardSegueEligibleUsersKey;
 
 #pragma mark - Storyboard Reuse Identifier Constants
 
@@ -185,6 +186,7 @@ extern NSString *const MRSLStoryboardRUIDMoreCharactersCellKey;
 extern NSString *const MRSLStoryboardRUIDMorselCellKey;
 extern NSString *const MRSLStoryboardRUIDMorselItemCellKey;
 extern NSString *const MRSLStoryboardRUIDMorselPreviewCellKey;
+extern NSString *const MRSLStoryboardRUIDMorselTaggedUsersCellKey;
 extern NSString *const MRSLStoryboardRUIDActivityTableViewCellKey;
 extern NSString *const MRSLStoryboardRUIDToggleKeywordTableViewCellKey;
 extern NSString *const MRSLStoryboardRUIDNoResultsCellKey;
@@ -196,6 +198,7 @@ extern NSString *const MRSLStoryboardRUIDSectionFooterKey;
 extern NSString *const MRSLStoryboardRUIDSectionHeaderKey;
 extern NSString *const MRSLStoryboardRUIDUserCellKey;
 extern NSString *const MRSLStoryboardRUIDUserFollowCellKey;
+extern NSString *const MRSLStoryboardRUIDUserEligibleCellKey;
 extern NSString *const MRSLStoryboardRUIDUserLikedItemCellKey;
 extern NSString *const MRSLStoryboardRUIDTemplateCell;
 extern NSString *const MRSLStoryboardRUIDTemplateInfoCell;

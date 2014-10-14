@@ -14,6 +14,7 @@ const struct MRSLActivityAttributes MRSLActivityAttributes = {
 const struct MRSLActivityRelationships MRSLActivityRelationships = {
 	.creator = @"creator",
 	.itemSubject = @"itemSubject",
+	.morselSubject = @"morselSubject",
 	.notification = @"notification",
 	.placeSubject = @"placeSubject",
 	.userSubject = @"userSubject",
@@ -143,6 +144,10 @@ const struct MRSLActivityFetchedProperties MRSLActivityFetchedProperties = {
 	
 
 @dynamic itemSubject;
+
+	
+
+@dynamic morselSubject;
 
 	
 

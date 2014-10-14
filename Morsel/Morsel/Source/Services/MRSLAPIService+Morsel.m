@@ -270,4 +270,123 @@
                               }];
 }
 
+- (void)tagUser:(MRSLUser *)user
+       toMorsel:(MRSLMorsel *)morsel
+      shouldTag:(BOOL)shouldTag
+         didTag:(MRSLAPITagBlock)tagBlockOrNil
+           failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    if (shouldTag) {
+        [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"morsels/%i/tagged_users/%i", morsel.morselIDValue, user.userIDValue]
+                                                      withMethod:MRSLAPIMethodTypePOST
+                                                  formParameters:[self parametersToDataWithDictionary:parameters]
+                                                      parameters:nil
+                                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                             if (tagBlockOrNil) tagBlockOrNil(YES);
+                                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                             MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                             if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"user: already tagged"]) {
+                                                                 if (tagBlockOrNil) tagBlockOrNil(YES);
+                                                             } else {
+                                                                 [self reportFailure:failureOrNil
+                                                                        forOperation:operation
+                                                                           withError:error
+                                                                            inMethod:NSStringFromSelector(_cmd)];
+                                                             }
+                                                         }];
+    } else {
+        [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"morsels/%i/tagged_users/%i", morsel.morselIDValue, user.userIDValue]
+                                                      withMethod:MRSLAPIMethodTypeDELETE
+                                                  formParameters:[self parametersToDataWithDictionary:parameters]
+                                                      parameters:nil
+                                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                             if (tagBlockOrNil) tagBlockOrNil(NO);
+                                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                             MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                             if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"user: not tagged"]) {
+                                                                 if (tagBlockOrNil) tagBlockOrNil(NO);
+                                                             } else {
+                                                                 [self reportFailure:failureOrNil
+                                                                        forOperation:operation
+                                                                           withError:error
+                                                                            inMethod:NSStringFromSelector(_cmd)];
+                                                             }
+                                                         }];
+    }
+}
+
+- (void)getTaggedUsersForMorsel:(MRSLMorsel *)morsel
+                      withMaxID:(NSNumber *)maxOrNil
+                      orSinceID:(NSNumber *)sinceOrNil
+                       andCount:(NSNumber *)countOrNil
+                        success:(MRSLAPIArrayBlock)successOrNil
+                        failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    if (maxOrNil && sinceOrNil) {
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
+    } else if (maxOrNil && !sinceOrNil) {
+        parameters[@"max_id"] = maxOrNil;
+    } else if (!maxOrNil && sinceOrNil) {
+        parameters[@"since_id"] = sinceOrNil;
+    }
+    if (countOrNil) parameters[@"count"] = countOrNil;
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i/tagged_users", morsel.morselIDValue]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                  [self importManagedObjectClass:[MRSLUser class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
+                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                  [self reportFailure:failureOrNil
+                                         forOperation:operation
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
+- (void)getEligibleTaggedUsersForMorsel:(MRSLMorsel *)morsel
+                             usingQuery:(NSString *)queryOrNil
+                              withMaxID:(NSNumber *)maxOrNil
+                              orSinceID:(NSNumber *)sinceOrNil
+                               andCount:(NSNumber *)countOrNil
+                                success:(MRSLAPIArrayBlock)successOrNil
+                                failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    if (maxOrNil && sinceOrNil) {
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
+    } else if (maxOrNil && !sinceOrNil) {
+        parameters[@"max_id"] = maxOrNil;
+    } else if (!maxOrNil && sinceOrNil) {
+        parameters[@"since_id"] = sinceOrNil;
+    }
+    if (countOrNil) parameters[@"count"] = countOrNil;
+
+    if ([queryOrNil length] > 2) {
+        parameters[@"query"] = queryOrNil;
+    }
+
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"morsels/%i/eligible_tagged_users", morsel.morselIDValue]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                  [self importManagedObjectClass:[MRSLUser class]
+                                                  withDictionary:responseObject
+                                                         success:successOrNil
+                                                         failure:failureOrNil];
+                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                  [self reportFailure:failureOrNil
+                                         forOperation:operation
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
+}
+
 @end

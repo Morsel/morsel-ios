@@ -20,6 +20,7 @@ typedef void (^ MRSLSuccessOrFailureBlock)(BOOL success, NSError *error);
 typedef void (^ MRSLAPIArrayBlock)(NSArray *responseArray);
 typedef void (^ MRSLAPILikeBlock)(BOOL doesLike);
 typedef void (^ MRSLAPIFollowBlock)(BOOL doesFollow);
+typedef void (^ MRSLAPITagBlock)(BOOL didTag);
 typedef void (^ MRSLAPISuccessBlock)(id responseObject);
 typedef void (^ MRSLAPIExistsBlock)(BOOL exists, NSError *error);
 typedef void (^ MRSLAPIValidationBlock)(BOOL isAvailable, NSError *error);

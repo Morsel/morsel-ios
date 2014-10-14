@@ -29,6 +29,7 @@ extern const struct MRSLUserAttributes {
 	__unsafe_unretained NSString *profilePhotoThumb;
 	__unsafe_unretained NSString *profilePhotoURL;
 	__unsafe_unretained NSString *staff;
+	__unsafe_unretained NSString *tagged;
 	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *twitter_username;
 	__unsafe_unretained NSString *userID;
@@ -55,6 +56,7 @@ extern const struct MRSLUserFetchedProperties {
 @class MRSLPlace;
 @class MRSLPresignedUpload;
 @class MRSLTag;
+
 
 
 
@@ -386,6 +388,20 @@ extern const struct MRSLUserFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* tagged;
+
+
+
+@property BOOL taggedValue;
+- (BOOL)taggedValue;
+- (void)setTaggedValue:(BOOL)value_;
+
+//- (BOOL)validateTagged:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* title;
 
 
@@ -695,6 +711,15 @@ extern const struct MRSLUserFetchedProperties {
 
 - (BOOL)primitiveStaffValue;
 - (void)setPrimitiveStaffValue:(BOOL)value_;
+
+
+
+
+- (NSNumber*)primitiveTagged;
+- (void)setPrimitiveTagged:(NSNumber*)value;
+
+- (BOOL)primitiveTaggedValue;
+- (void)setPrimitiveTaggedValue:(BOOL)value_;
 
 
 
