@@ -13,6 +13,7 @@ extern const struct MRSLItemAttributes {
 	__unsafe_unretained NSString *itemDescription;
 	__unsafe_unretained NSString *itemID;
 	__unsafe_unretained NSString *itemPhotoFull;
+	__unsafe_unretained NSString *itemPhotoLarge;
 	__unsafe_unretained NSString *itemPhotoThumb;
 	__unsafe_unretained NSString *itemPhotoURL;
 	__unsafe_unretained NSString *lastUpdatedDate;
@@ -44,6 +45,7 @@ extern const struct MRSLItemFetchedProperties {
 @class MRSLComment;
 @class MRSLMorsel;
 @class MRSLPresignedUpload;
+
 
 
 
@@ -177,6 +179,16 @@ extern const struct MRSLItemFetchedProperties {
 
 
 //- (BOOL)validateItemPhotoFull:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSData* itemPhotoLarge;
+
+
+
+//- (BOOL)validateItemPhotoLarge:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -463,6 +475,12 @@ extern const struct MRSLItemFetchedProperties {
 
 - (NSData*)primitiveItemPhotoFull;
 - (void)setPrimitiveItemPhotoFull:(NSData*)value;
+
+
+
+
+- (NSData*)primitiveItemPhotoLarge;
+- (void)setPrimitiveItemPhotoLarge:(NSData*)value;
 
 
 

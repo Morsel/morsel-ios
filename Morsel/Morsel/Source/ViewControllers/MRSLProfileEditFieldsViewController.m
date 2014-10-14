@@ -27,7 +27,6 @@ UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *firstNameField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameField;
 @property (weak, nonatomic) IBOutlet UIButton *editPhotoButton;
-@property (weak, nonatomic) IBOutlet MRSLActivityIndicatorView *activityIndicatorView;
 
 @property (weak, nonatomic) IBOutlet GCPlaceholderTextView *bioTextView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
@@ -179,23 +178,44 @@ UIAlertViewDelegate>
 - (void)processMediaItem:(MRSLMediaItem *)mediaItem {
     [self.profileImageView addAndRenderImage:mediaItem.mediaFullImage
                                     complete:nil];
-    [self.activityIndicatorView startAnimating];
 
+    __block UIImage *fullSizeImage = mediaItem.mediaFullImage;
+    [self.view showActivityViewWithMode:RNActivityViewModeIndeterminate
+                                  label:@"Processing image"
+                            detailLabel:nil];
     __weak __typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        UIImage *profileImageFull = [mediaItem.mediaFullImage thumbnailImage:mediaItem.mediaFullImage.size.width
-                                                        interpolationQuality:kCGInterpolationHigh];
-        UIImage *profileImageLarge = [profileImageFull thumbnailImage:MRSLUserProfileImageLargeDimensionSize
-                                                 interpolationQuality:kCGInterpolationHigh];
-        UIImage *profileImageThumb = [profileImageFull thumbnailImage:MRSLUserProfileImageThumbDimensionSize
-                                                 interpolationQuality:kCGInterpolationHigh];
-        weakSelf.user.profilePhotoLarge = UIImageJPEGRepresentation(profileImageLarge, 1.f);
-        weakSelf.user.profilePhotoThumb = UIImageJPEGRepresentation(profileImageThumb, 1.f);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.user.profilePhotoFull = UIImageJPEGRepresentation(profileImageFull, 1.f);
-            [weakSelf.activityIndicatorView stopAnimating];
-            weakSelf.photoChanged = YES;
-            [[weakSelf.navigationItem rightBarButtonItem] setEnabled:[self isDirty]];
+    dispatch_queue_t queue = dispatch_queue_create("com.eatmorsel.profile-image-processing", NULL);
+    dispatch_queue_t main = dispatch_get_main_queue();
+    dispatch_async(queue, ^{
+        mediaItem.mediaFullImage = [fullSizeImage thumbnailImage:MIN(MRSLImageFullDimensionSize, mediaItem.mediaFullImage.size.width)
+                                            interpolationQuality:kCGInterpolationHigh];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_async(queue, ^{
+                mediaItem.mediaLargeImage = [fullSizeImage thumbnailImage:MRSLUserProfileImageLargeDimensionSize
+                                                     interpolationQuality:kCGInterpolationHigh];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    dispatch_async(queue, ^{
+                        mediaItem.mediaThumbImage = [fullSizeImage thumbnailImage:MRSLUserProfileImageThumbDimensionSize
+                                                             interpolationQuality:kCGInterpolationHigh];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            dispatch_async(queue, ^{
+                                [mediaItem processMediaToDataWithSuccess:^(NSData *fullImageData, NSData *largeImageData, NSData *thumbImageData) {
+                                    if (weakSelf) {
+                                        dispatch_async(main, ^{
+                                            weakSelf.user.profilePhotoFull = fullImageData;
+                                            weakSelf.user.profilePhotoLarge = largeImageData;
+                                            weakSelf.user.profilePhotoThumb = thumbImageData;
+                                            [weakSelf.view hideActivityView];
+                                            weakSelf.photoChanged = YES;
+                                            [[weakSelf.navigationItem rightBarButtonItem] setEnabled:[self isDirty]];
+                                        });
+                                    }
+                                }];
+                            });
+                        });
+                    });
+                });
+            });
         });
     });
 }

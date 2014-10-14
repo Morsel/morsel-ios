@@ -217,9 +217,10 @@ UIImagePickerControllerDelegate>
 - (void)userSelectedMediaItem:(MRSLMediaItem *)mediaItem {
     MRSLItem *item = [_previewMedia objectAtIndex:_currentIndex];
     __weak __typeof(self) weakSelf = self;
-    [mediaItem processMediaToDataWithSuccess:^(NSData *fullImageData, NSData *thumbImageData) {
+    [mediaItem processMediaToDataWithSuccess:^(NSData *fullImageData, NSData *largeImageData, NSData *thumbImageData) {
         dispatch_async(dispatch_get_main_queue(), ^{
             item.itemPhotoFull = fullImageData;
+            item.itemPhotoLarge = largeImageData;
             item.itemPhotoThumb = thumbImageData;
             item.itemPhotoURL = nil;
             [item API_updateImage];

@@ -24,8 +24,8 @@ PODS:
     - AFNetworking (>= 2.0.3)
   - AFOAuth2Client (0.1.1):
     - AFNetworking (>= 2.0.3)
-  - ALAssetsLibrary-CustomPhotoAlbum (1.1.5)
-  - Bolts (1.1.2)
+  - ALAssetsLibrary-CustomPhotoAlbum (1.2.0)
+  - Bolts (1.1.3)
   - CocoaLumberjack (1.6.5.1):
     - CocoaLumberjack/Core
     - CocoaLumberjack/Extensions
@@ -41,8 +41,13 @@ PODS:
   - Kiwi-KIF/XCTest (1.0.1):
     - KIF (~> 2.0.0)
     - Kiwi/XCTest (~> 2.2.3)
+  - Kiwi/ARC (2.2.4)
   - Kiwi/ARC (HEAD based on 2.2.4)
+  - Kiwi/NonARC (2.2.4)
   - Kiwi/NonARC (HEAD based on 2.2.4)
+  - Kiwi/XCTest (2.2.4):
+    - Kiwi/ARC
+    - Kiwi/NonARC
   - Kiwi/XCTest (HEAD based on 2.2.4):
     - Kiwi/ARC
     - Kiwi/NonARC
@@ -58,7 +63,7 @@ PODS:
   - OAuthCore (0.0.1):
     - NSData+Base64
   - OHHTTPStubs (3.1.4)
-  - RNActivityView (0.0.2)
+  - RNActivityView (0.0.4)
   - RSKImageCropper (0.3.0)
   - SDWebImage (3.7.1):
     - SDWebImage/Core
@@ -70,7 +75,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.4)
   - AFOAuth1Client (from `https://github.com/Morsel/AFOAuth1Client`)
   - AFOAuth2Client (from `https://github.com/Morsel/AFOAuth2Client`)
-  - ALAssetsLibrary-CustomPhotoAlbum (= 1.1.5)
+  - ALAssetsLibrary-CustomPhotoAlbum (~> 1.2)
   - CocoaLumberjack (= 1.6.5.1)
   - Facebook-iOS-SDK (= 3.17)
   - GCPlaceholderTextView (= 1.0.1)
@@ -87,7 +92,7 @@ DEPENDENCIES:
   - OAuthCore (= 0.0.1)
   - OHHTTPStubs (= 3.1.4)
   - RNActivityView (~> 0.0)
-  - RSKImageCropper (~> 0.3)
+  - RSKImageCropper (from `https://github.com/Morsel/RSKImageCropper`)
   - SDWebImage (from `https://github.com/Morsel/SDWebImage`)
   - VCRURLConnection (from `git@github.com:dstnbrkr/VCRURLConnection.git`, commit `aa0b0fcf0e112da363e9c63d6215b216ff604614`)
   - XMLDictionary (= 1.4)
@@ -103,6 +108,8 @@ EXTERNAL SOURCES:
   M13Checkbox:
     :commit: 8c3a6f167e0f602dd47928492ef3777e604be66b
     :git: git@github.com:Marxon13/M13Checkbox.git
+  RSKImageCropper:
+    :git: https://github.com/Morsel/RSKImageCropper
   SDWebImage:
     :git: https://github.com/Morsel/SDWebImage
   VCRURLConnection:
@@ -113,8 +120,8 @@ SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   AFOAuth1Client: 59d3463209e4dcd93c0652e73a841a25862afbd0
   AFOAuth2Client: 9c2f21896a7cca9107c033296fcd6c019f181bae
-  ALAssetsLibrary-CustomPhotoAlbum: 785e1852efacd51235dd8dd19a8a467196fdeafa
-  Bolts: 2635e8698a630774689441047f3465d78c48d485
+  ALAssetsLibrary-CustomPhotoAlbum: 6c6e0dd2a8923de69aedd55c0ad5351fd500e685
+  Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: baf4a09a3bcbdfea3363556a90104e026d3504e2
   Facebook-iOS-SDK: f20274d809f112ba540842e2b6cbe50128d51b7b
   GCPlaceholderTextView: d48f3558c8d71daaae65679275075592ca13e1c8
@@ -132,8 +139,8 @@ SPEC CHECKSUMS:
   NXOAuth2Client: f9a3efde1cce92c92fd1518070caf305bd363ef4
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
   OHHTTPStubs: 398901e787d9b62ce539a8a3df0b81431a98236a
-  RNActivityView: 4f2f07f7e93792326d09dc8407c2c6e89e3c0147
-  RSKImageCropper: 38002f13db12cd5d13925872d932c7aee328149b
+  RNActivityView: 473483482ef24f08a5eb6b98c8f04fd3a6a4f971
+  RSKImageCropper: c8ba980263dda9c08714445bb0ee4b2cb6aa5eb6
   SDWebImage: ff5239e81afa8f9cc29552712cac071183529f66
   VCRURLConnection: 5cc98951bd44186e19f33b77dd9c714da2f74208
   XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc

@@ -265,16 +265,16 @@ static const int kGuestUserID = -1;
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
     if (!self.profilePhotoURL) return nil;
 
-    BOOL isRetina = ([UIScreen mainScreen].scale == 2.f);
+    BOOL isRetinaOrIpad = ([UIScreen mainScreen].scale == 2.f || [UIDevice currentDeviceIsIpad]);
 
     NSString *typeSizeString = nil;
 
     switch (type) {
         case MRSLImageSizeTypeSmall:
-            typeSizeString = (isRetina) ? MRSLProfileImageLargeRetinaKey : MRSLProfileImageLargeKey;
+            typeSizeString = (isRetinaOrIpad) ? MRSLProfileImageLargeRetinaKey : MRSLProfileImageLargeKey;
             break;
         case MRSLImageSizeTypeLarge:
-            typeSizeString = (isRetina) ? MRSLProfileImageSmallRetinaKey : MRSLProfileImageSmallKey;
+            typeSizeString = (isRetinaOrIpad) ? MRSLProfileImageSmallRetinaKey : MRSLProfileImageSmallKey;
             break;
         default:
             DDLogError(@"Unsupported Profile Image Size Type Requested!");
