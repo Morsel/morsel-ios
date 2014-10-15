@@ -9,6 +9,7 @@
 #import "MRSLAppDelegate.h"
 #import "MRSLAppDelegate+SetupAppearance.h"
 #import "MRSLAppDelegate+CustomURLSchemes.h"
+#import "MRSLAppDelegate+Notifications.h"
 
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import <AFOAuth1Client/AFOAuth1Client.h>
@@ -76,9 +77,20 @@
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(MRSL_registerRemoteNotifications)
+                                                 name:MRSLRegisterRemoteNotificationsNotification
+                                               object:nil];
     return YES;
 }
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [self MRSL_uploadDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    DDLogError(@"Error in registration. Error: %@", error);
+}
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
     [[SDImageCache sharedImageCache] clearMemory];
 }

@@ -43,6 +43,8 @@ NSString *const MRSLAppShouldDisplayWebBrowserNotification = @"MRSLAppShouldDisp
 NSString *const MRSLAppShouldDisplayEmailComposerNotification = @"MRSLAppShouldDisplayEmailComposerNotification";
 NSString *const MRSLAppShouldCallPhoneNumberNotification = @"MRSLAppShouldCallPhoneNumberNotification";
 
+NSString *const MRSLRegisterRemoteNotificationsNotification = @"MRSLRegisterRemoteNotificationsNotification";
+
 #pragma mark - Social Constants
 
 NSString *const MRSLTwitterCredentialsKey = @"MRSLTwitterCredentialsKey";
