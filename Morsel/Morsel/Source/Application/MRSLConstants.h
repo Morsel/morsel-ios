@@ -43,6 +43,8 @@ extern NSString *const MRSLAppShouldDisplayWebBrowserNotification;
 extern NSString *const MRSLAppShouldDisplayEmailComposerNotification;
 extern NSString *const MRSLAppShouldCallPhoneNumberNotification;
 
+extern NSString *const MRSLRegisterRemoteNotificationsNotification;
+
 #pragma mark - Social Constants
 
 extern NSString *const MRSLTwitterCredentialsKey;
