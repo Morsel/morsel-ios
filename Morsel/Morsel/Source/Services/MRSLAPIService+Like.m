@@ -51,13 +51,14 @@
 }
 
 - (void)getItemLikes:(MRSLItem *)item
+       orMorselLikes:(MRSLMorsel *)morsel
              success:(MRSLAPIArrayBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
 
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i/likers", item.itemIDValue]
+    [[MRSLAPIClient sharedClient] GET:(morsel) ? [NSString stringWithFormat:@"morsels/%i/likers", morsel.morselIDValue] : [NSString stringWithFormat:@"items/%i/likers", item.itemIDValue]
                            parameters:parameters
                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                   DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -81,6 +82,7 @@
 }
 
 - (void)likeItem:(MRSLItem *)item
+    orLikeMorsel:(MRSLMorsel *)morsel
       shouldLike:(BOOL)shouldLike
          didLike:(MRSLAPILikeBlock)likeBlockOrNil
          failure:(MRSLFailureBlock)failureOrNil {
@@ -88,8 +90,12 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (shouldLike) {
-        item.like_count = @(item.like_countValue + 1);
-        [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
+        if (morsel) {
+            morsel.like_count = @(morsel.like_countValue + 1);
+        } else if (item) {
+            item.like_count = @(item.like_countValue + 1);
+        }
+        [[MRSLAPIClient sharedClient] multipartFormRequestString:(morsel) ? [NSString stringWithFormat:@"morsels/%i/like", morsel.morselIDValue] : [NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
                                                       withMethod:MRSLAPIMethodTypePOST
                                                   formParameters:[self parametersToDataWithDictionary:parameters]
                                                       parameters:nil
@@ -97,7 +103,7 @@
                                                              if (likeBlockOrNil) likeBlockOrNil(YES);
                                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                              MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                                             if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"item: already liked"]) {
+                                                             if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] containsString:@"already liked"]) {
                                                                  if (likeBlockOrNil) likeBlockOrNil(YES);
                                                              } else {
                                                                  [self reportFailure:failureOrNil
@@ -107,8 +113,12 @@
                                                              }
                                                          }];
     } else {
-        item.like_count = @(item.like_countValue - 1);
-        [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
+        if (morsel) {
+            morsel.like_count = @(morsel.like_countValue - 1);
+        } else if (item) {
+            item.like_count = @(item.like_countValue - 1);
+        }
+        [[MRSLAPIClient sharedClient] multipartFormRequestString:(morsel) ? [NSString stringWithFormat:@"morsels/%i/like", morsel.morselIDValue] : [NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
                                                       withMethod:MRSLAPIMethodTypeDELETE
                                                   formParameters:[self parametersToDataWithDictionary:parameters]
                                                       parameters:nil
@@ -116,7 +126,7 @@
                                                              if (likeBlockOrNil) likeBlockOrNil(NO);
                                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                              MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                                             if ([operation.response statusCode] == 200  || [[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"item: not liked"]) {
+                                                             if ([operation.response statusCode] == 200  || [[serviceErrorInfo.errorInfo lowercaseString] containsString:@"not liked"]) {
                                                                  if (likeBlockOrNil) likeBlockOrNil(NO);
                                                              } else {
                                                                  [self reportFailure:failureOrNil

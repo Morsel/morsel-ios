@@ -11,7 +11,6 @@
 @protocol MRSLFeedPanelViewControllerDelegate <NSObject>
 
 @optional
-- (void)feedPanelViewControllerDidSelectPreviousMorsel;
 - (void)feedPanelViewControllerDidSelectNextMorsel;
 
 @end

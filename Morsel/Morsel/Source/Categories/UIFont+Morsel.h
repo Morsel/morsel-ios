@@ -17,4 +17,6 @@
 + (UIFont *)robotoRegularFontOfSize:(CGFloat)fontSize;
 + (UIFont *)robotoBoldFontOfSize:(CGFloat)fontSize;
 
++ (UIFont *)preferredRobotoFontForTextStyle:(NSString *)textStyle;
+
 @end

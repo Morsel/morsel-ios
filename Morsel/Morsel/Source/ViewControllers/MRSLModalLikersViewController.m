@@ -31,7 +31,8 @@ UITableViewDelegate>
     self.likers = [NSMutableArray array];
 
     __weak __typeof(self) weakSelf = self;
-    [_appDelegate.apiService getItemLikes:_item
+    [_appDelegate.apiService getItemLikes:nil
+                            orMorselLikes:_morsel
                                       success:^(NSArray *responseArray) {
                                           if (weakSelf) {
                                               [weakSelf.likers addObjectsFromArray:responseArray];

@@ -43,12 +43,6 @@
 
 #pragma mark - MRSLFeedPanelViewControllerDelegate
 
-- (void)feedPanelViewControllerDidSelectPreviousMorsel {
-    if ([self.delegate respondsToSelector:@selector(feedPanelCollectionViewCellDidSelectPreviousMorsel)]) {
-        [self.delegate feedPanelCollectionViewCellDidSelectPreviousMorsel];
-    }
-}
-
 - (void)feedPanelViewControllerDidSelectNextMorsel {
     if ([self.delegate respondsToSelector:@selector(feedPanelCollectionViewCellDidSelectNextMorsel)]) {
         [self.delegate feedPanelCollectionViewCellDidSelectNextMorsel];

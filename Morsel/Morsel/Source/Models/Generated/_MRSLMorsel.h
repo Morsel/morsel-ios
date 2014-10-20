@@ -11,15 +11,17 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *facebook_mrsl;
 	__unsafe_unretained NSString *feedItemFeatured;
 	__unsafe_unretained NSString *feedItemID;
+	__unsafe_unretained NSString *has_tagged_users;
 	__unsafe_unretained NSString *lastUpdatedDate;
+	__unsafe_unretained NSString *like_count;
+	__unsafe_unretained NSString *liked;
 	__unsafe_unretained NSString *morselID;
 	__unsafe_unretained NSString *morselPhotoURL;
 	__unsafe_unretained NSString *primary_item_id;
 	__unsafe_unretained NSString *publishedDate;
+	__unsafe_unretained NSString *tagged;
 	__unsafe_unretained NSString *template_id;
 	__unsafe_unretained NSString *title;
-	__unsafe_unretained NSString *total_comment_count;
-	__unsafe_unretained NSString *total_like_count;
 	__unsafe_unretained NSString *twitter_mrsl;
 	__unsafe_unretained NSString *url;
 } MRSLMorselAttributes;
@@ -38,6 +40,8 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLPlace;
+
+
 
 
 
@@ -142,11 +146,53 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* has_tagged_users;
+
+
+
+@property BOOL has_tagged_usersValue;
+- (BOOL)has_tagged_usersValue;
+- (void)setHas_tagged_usersValue:(BOOL)value_;
+
+//- (BOOL)validateHas_tagged_users:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSDate* lastUpdatedDate;
 
 
 
 //- (BOOL)validateLastUpdatedDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* like_count;
+
+
+
+@property int32_t like_countValue;
+- (int32_t)like_countValue;
+- (void)setLike_countValue:(int32_t)value_;
+
+//- (BOOL)validateLike_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* liked;
+
+
+
+@property BOOL likedValue;
+- (BOOL)likedValue;
+- (void)setLikedValue:(BOOL)value_;
+
+//- (BOOL)validateLiked:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -200,6 +246,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* tagged;
+
+
+
+@property BOOL taggedValue;
+- (BOOL)taggedValue;
+- (void)setTaggedValue:(BOOL)value_;
+
+//- (BOOL)validateTagged:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* template_id;
 
 
@@ -219,34 +279,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* total_comment_count;
-
-
-
-@property int32_t total_comment_countValue;
-- (int32_t)total_comment_countValue;
-- (void)setTotal_comment_countValue:(int32_t)value_;
-
-//- (BOOL)validateTotal_comment_count:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* total_like_count;
-
-
-
-@property int32_t total_like_countValue;
-- (int32_t)total_like_countValue;
-- (void)setTotal_like_countValue:(int32_t)value_;
-
-//- (BOOL)validateTotal_like_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -365,8 +397,35 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSNumber*)primitiveHas_tagged_users;
+- (void)setPrimitiveHas_tagged_users:(NSNumber*)value;
+
+- (BOOL)primitiveHas_tagged_usersValue;
+- (void)setPrimitiveHas_tagged_usersValue:(BOOL)value_;
+
+
+
+
 - (NSDate*)primitiveLastUpdatedDate;
 - (void)setPrimitiveLastUpdatedDate:(NSDate*)value;
+
+
+
+
+- (NSNumber*)primitiveLike_count;
+- (void)setPrimitiveLike_count:(NSNumber*)value;
+
+- (int32_t)primitiveLike_countValue;
+- (void)setPrimitiveLike_countValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitiveLiked;
+- (void)setPrimitiveLiked:(NSNumber*)value;
+
+- (BOOL)primitiveLikedValue;
+- (void)setPrimitiveLikedValue:(BOOL)value_;
 
 
 
@@ -401,6 +460,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSNumber*)primitiveTagged;
+- (void)setPrimitiveTagged:(NSNumber*)value;
+
+- (BOOL)primitiveTaggedValue;
+- (void)setPrimitiveTaggedValue:(BOOL)value_;
+
+
+
+
 - (NSNumber*)primitiveTemplate_id;
 - (void)setPrimitiveTemplate_id:(NSNumber*)value;
 
@@ -412,24 +480,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;
-
-
-
-
-- (NSNumber*)primitiveTotal_comment_count;
-- (void)setPrimitiveTotal_comment_count:(NSNumber*)value;
-
-- (int32_t)primitiveTotal_comment_countValue;
-- (void)setPrimitiveTotal_comment_countValue:(int32_t)value_;
-
-
-
-
-- (NSNumber*)primitiveTotal_like_count;
-- (void)setPrimitiveTotal_like_count:(NSNumber*)value;
-
-- (int32_t)primitiveTotal_like_countValue;
-- (void)setPrimitiveTotal_like_countValue:(int32_t)value_;
 
 
 

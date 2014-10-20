@@ -17,8 +17,8 @@
 
 @interface MRSLBaseViewController ()
 
-@property (strong, nonatomic) UIBarButtonItem *storedLeftItem;
-@property (strong, nonatomic) UIBarButtonItem *storedRightItem;
+@property (strong, nonatomic) NSArray *storedLeftItems;
+@property (strong, nonatomic) NSArray *storedRightItems;
 
 @property (weak, nonatomic) UITextField *activeTextfield;
 
@@ -116,8 +116,8 @@
 #pragma mark - Notification Methods
 
 - (void)modalWillDisplay:(NSNotification *)notification {
-    self.storedLeftItem = self.navigationItem.leftBarButtonItem;
-    self.storedRightItem = self.navigationItem.rightBarButtonItem;
+    self.storedLeftItems = self.navigationItem.leftBarButtonItems;
+    self.storedRightItems = self.navigationItem.rightBarButtonItems;
 
     /*
      Ignoring warning because the dismiss: selector does exist within the notification.object
@@ -135,15 +135,15 @@
                                                                    style:UIBarButtonItemStyleBordered
                                                                   target:self
                                                                   action:nil];
-    [self.navigationItem setLeftBarButtonItem:backButton];
-    [self.navigationItem setRightBarButtonItem:closeButton];
+    [self.navigationItem setLeftBarButtonItems:@[backButton]];
+    [self.navigationItem setRightBarButtonItems:@[closeButton]];
 }
 
 - (void)modalWillDismiss:(NSNotification *)notification {
-    [self.navigationItem setLeftBarButtonItem:_storedLeftItem];
-    [self.navigationItem setRightBarButtonItem:_storedRightItem];
-    self.storedLeftItem = nil;
-    self.storedRightItem = nil;
+    [self.navigationItem setLeftBarButtonItems:_storedLeftItems];
+    [self.navigationItem setRightBarButtonItems:_storedRightItems];
+    self.storedLeftItems = nil;
+    self.storedRightItems = nil;
 }
 
 #pragma mark - Action Methods
@@ -279,8 +279,8 @@
 - (void)reset {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self resetChildViewControllers];
-    self.storedLeftItem = nil;
-    self.storedRightItem = nil;
+    self.storedLeftItems = nil;
+    self.storedRightItems = nil;
     if (self.navigationItem) {
         [self.navigationItem setLeftBarButtonItem:nil];
         [self.navigationItem setRightBarButtonItem:nil];

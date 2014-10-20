@@ -13,12 +13,12 @@
 #import "MRSLFeedShareCollectionViewCell.h"
 #import "MRSLSocialService.h"
 #import "MRSLModalCommentsViewController.h"
-#import "MRSLModalDescriptionViewController.h"
 #import "MRSLModalLikersViewController.h"
 #import "MRSLModalShareViewController.h"
 #import "MRSLMorselEditViewController.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLTitleItemView.h"
+#import "MRSLItemImageView.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -28,7 +28,6 @@
 <UIActionSheetDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-MRSLFeedCoverCollectionViewCellDelegate,
 MRSLFeedShareCollectionViewCellDelegate>
 
 @property (nonatomic) BOOL isPresentingMorselLayout;
@@ -41,10 +40,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 @property (nonatomic) MRSLScrollDirection scrollDirection;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
-
-@property (weak, nonatomic) MRSLMorsel *reportedMorsel;
-@property (weak, nonatomic) MRSLItem *reportedItem;
+@property (weak, nonatomic) IBOutlet MRSLItemImageView *coverImageView;
 
 @end
 
@@ -55,6 +51,8 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isViewingCover = YES;
+    [self.collectionView setBackgroundColor:[UIColor clearColor]];
+    self.coverImageView.shouldBlur = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
@@ -97,9 +95,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)displayContent {
     if (_collectionView && _morsel) {
-        self.pageControl.numberOfPages = [_morsel.items count] + (_morsel.publishedDate ? 2 : 1);
-        self.pageControl.transform = CGAffineTransformMakeRotation(M_PI / 2);
-
+        self.coverImageView.item = [_morsel coverItem];
         [self.collectionView reloadData];
         [self resetCollectionViewContentOffset:NO];
     }
@@ -135,20 +131,6 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 #pragma mark - Action Methods
 
-- (IBAction)viewMore {
-    MRSLItem *visibleItem = [self visibleItem];
-    [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"View More Description",
-                                              @"_view": @"feed",
-                                              @"item_id": NSNullIfNil(visibleItem.itemID)}];
-    MRSLModalDescriptionViewController *modalDescriptionVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardModalDescriptionViewControllerKey];
-    [modalDescriptionVC.view setWidth:[self.view getWidth]];
-    [modalDescriptionVC.view setHeight:[self.view getHeight]];
-    modalDescriptionVC.item = visibleItem;
-    [self addChildViewController:modalDescriptionVC];
-    [self.view addSubview:modalDescriptionVC.view];
-}
-
 - (IBAction)displayComments {
     MRSLItem *visibleItem = [self visibleItem];
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
@@ -182,7 +164,7 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                   @"like_count": NSNullIfNil(visibleItem.like_count)}];
         UINavigationController *likesNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardLikesKey];
         MRSLModalLikersViewController *modalLikersVC = [[likesNC viewControllers] firstObject];
-        modalLikersVC.item = visibleItem;
+        modalLikersVC.morsel = self.morsel;
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
                                                             object:likesNC];
     }
@@ -228,15 +210,6 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                             object:nil];
         return;
     }
-    self.reportedItem = nil;
-    self.reportedMorsel = nil;
-
-    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath.row == 0 || indexPath.row == [_morsel.items count]) {
-        self.reportedMorsel = self.morsel;
-    } else {
-        self.reportedItem = [self visibleItem];
-    }
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
                                                     cancelButtonTitle:nil
@@ -258,7 +231,6 @@ MRSLFeedShareCollectionViewCellDelegate>
         MRSLFeedCoverCollectionViewCell *morselCoverCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDFeedCoverCellKey
                                                                                                      forIndexPath:indexPath];
         morselCoverCell.morsel = _morsel;
-        morselCoverCell.delegate = self;
         morselCoverCell.homeFeedItem = [[self parentViewController] isKindOfClass:NSClassFromString(@"MRSLFeedViewController")];
         cell = morselCoverCell;
     } else if (indexPath.row == [_morsel.items count] + 1) {
@@ -281,15 +253,15 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake([collectionView getWidth], [collectionView getHeight]);
+    CGFloat cellHeight = (indexPath.row == 0 || indexPath.row == [_morsel.items count] + 1) ? 250.f : [collectionView getHeight];
+#warning Implement logic to determine actual estimated height of these cells
+    return CGSizeMake([collectionView getWidth], cellHeight);
 }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
-    CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
-    self.pageControl.currentPage = (translation.y > 0) ? ceilf(currentPage) : floorf(currentPage);
     if (_previousContentOffset > scrollView.contentOffset.y) {
         self.scrollDirection = MRSLScrollDirectionDown;
     } else if (_previousContentOffset < scrollView.contentOffset.y) {
@@ -311,17 +283,6 @@ MRSLFeedShareCollectionViewCellDelegate>
     }
 }
 
-#pragma mark - MRSLFeedCoverCollectionViewCellDelegate
-
-- (void)feedCoverCollectionViewCellDidSelectMorsel:(MRSLItem *)item {
-    NSInteger itemRow = [_morsel.itemsArray indexOfObject:item] + 1;
-    if (itemRow < [self.collectionView numberOfItemsInAllSections]) {
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:itemRow inSection:0]
-                                    atScrollPosition:UICollectionViewScrollPositionTop
-                                            animated:YES];
-    }
-}
-
 #pragma mark - MRSLFeedShareCollectionViewCellDelegate
 
 - (void)feedShareCollectionViewCellDidSelectShareFacebook {
@@ -338,15 +299,6 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                      cancel:nil];
 }
 
-- (void)feedShareCollectionViewCellDidSelectPreviousMorsel {
-    if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectPreviousMorsel)]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self resetCollectionViewContentOffset:YES];
-        });
-        [self.delegate feedPanelViewControllerDidSelectPreviousMorsel];
-    }
-}
-
 - (void)feedShareCollectionViewCellDidSelectNextMorsel {
     if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectNextMorsel)]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -360,7 +312,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Report inappropriate"]) {
-        [self.reportedMorsel ?: self.reportedItem API_reportWithSuccess:^(BOOL success) {
+        [self.morsel API_reportWithSuccess:^(BOOL success) {
             [UIAlertView showOKAlertViewWithTitle:@"Report Successful"
                                           message:@"Thank you for the feedback!"];
         } failure:^(NSError *error) {

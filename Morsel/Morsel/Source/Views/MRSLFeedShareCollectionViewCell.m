@@ -19,17 +19,15 @@
 #import "MRSLUser.h"
 
 @interface MRSLFeedShareCollectionViewCell ()
+<UITextViewDelegate>
 
-@property (weak, nonatomic) IBOutlet MRSLItemImageView *shareCoverImageView;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userBioLabel;
-@property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
+@property (weak, nonatomic) IBOutlet UITextView *userInfoTextView;
+@property (weak, nonatomic) IBOutlet UITextView *nextInfoTextView;
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextMorselButton;
-@property (weak, nonatomic) IBOutlet UIButton *previousMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *reportButton;
 
 @end
@@ -40,22 +38,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.morselTitleLabel setPreferredMaxLayoutWidth:[self.morselTitleLabel getWidth]];
-        [self.userBioLabel setPreferredMaxLayoutWidth:[self.userBioLabel getWidth]];
-        [self.morselTitleLabel removeStandardShadow];
-        [self.morselTitleLabel addStandardShadow];
-        __weak __typeof(self) weakSelf = self;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (weakSelf) {
-                [weakSelf.shareCoverImageView removeBorder];
-                [weakSelf.shareCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
-            }
-        });
-    });
 }
 
 - (void)setBounds:(CGRect)bounds {
@@ -73,16 +59,56 @@
 #pragma mark - Private Methods
 
 - (void)populateContent {
-    _shareCoverImageView.item = [_morsel coverItem];
-    _morselTitleLabel.text = _morsel.title;
     _profileImageView.user = _morsel.creator;
-    _userNameLabel.text = _morsel.creator.fullName;
-    _userBioLabel.text = _morsel.creator.bio;
+
+    NSString *fullName = [_morsel.creator fullName];
+    NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ \n%@", fullName, _morsel.creator.bio]
+                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleBody]}];
+    [infoAttributedString addAttribute:NSLinkAttributeName
+                                 value:@"profile://display"
+                                 range:[[infoAttributedString string] rangeOfString:fullName]];
+    [infoAttributedString addAttribute:NSFontAttributeName
+                                 value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleHeadline]
+                                 range:[[infoAttributedString string] rangeOfString:fullName]];
+    self.userInfoTextView.attributedText = infoAttributedString;
+
+    NSString *nextMorsel = @"View next morsel";
+#warning Get next morsel name
+    NSString *morselName = @"";
+    NSMutableAttributedString *nextInfoAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n%@", nextMorsel, morselName]];
+    [nextInfoAttributedString addAttribute:NSLinkAttributeName
+                                     value:@"next://display"
+                                     range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
+    [nextInfoAttributedString addAttribute:NSFontAttributeName
+                                     value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                     range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
+    [nextInfoAttributedString addAttribute:NSLinkAttributeName
+                                     value:@"next://display"
+                                     range:[[nextInfoAttributedString string] rangeOfString:morselName]];
+    [nextInfoAttributedString addAttribute:NSFontAttributeName
+                                     value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]
+                                     range:[[nextInfoAttributedString string] rangeOfString:morselName]];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setAlignment:NSTextAlignmentRight];
+    [nextInfoAttributedString addAttribute:NSParagraphStyleAttributeName
+                                     value:paragraphStyle
+                                     range:NSMakeRange(0, nextInfoAttributedString.length)];
+    self.nextInfoTextView.attributedText = nextInfoAttributedString;
 
     _reportButton.hidden = [_morsel.creator isCurrentUser];
+}
 
-    [_userBioLabel sizeToFit];
-    [_userBioLabel setWidth:192.f];
+#pragma mark - UITextView Delegate
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([[URL scheme] isEqualToString:@"profile"]) {
+        [self displayProfile];
+        return NO;
+    } else if ([[URL scheme] isEqualToString:@"next"]) {
+        [self displayNextMorsel:nil];
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark - Notification Methods
@@ -113,16 +139,6 @@
     profileVC.user = _morsel.creator;
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
                                                         object:profileNC];
-}
-
-- (IBAction)displayPreviousMorsel:(id)sender {
-    [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Prev Morsel",
-                                              @"_view": @"feed",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
-    if ([self.delegate respondsToSelector:@selector(feedShareCollectionViewCellDidSelectPreviousMorsel)]) {
-        [self.delegate feedShareCollectionViewCellDidSelectPreviousMorsel];
-    }
 }
 
 - (IBAction)displayNextMorsel:(id)sender {

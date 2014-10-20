@@ -13,7 +13,6 @@
 @protocol MRSLFeedPanelCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)feedPanelCollectionViewCellDidSelectPreviousMorsel;
 - (void)feedPanelCollectionViewCellDidSelectNextMorsel;
 
 @end

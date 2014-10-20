@@ -13,7 +13,6 @@
 @optional
 - (void)feedShareCollectionViewCellDidSelectShareFacebook;
 - (void)feedShareCollectionViewCellDidSelectShareTwitter;
-- (void)feedShareCollectionViewCellDidSelectPreviousMorsel;
 - (void)feedShareCollectionViewCellDidSelectNextMorsel;
 
 @end

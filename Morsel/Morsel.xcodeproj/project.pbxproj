@@ -113,6 +113,9 @@
 		064B035719E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064B035619E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m */; };
 		064B035819E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064B035619E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m */; };
 		064B035919E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064B035619E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m */; };
+		0651205F19F59A2A00E71924 /* MRSLStandardTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651205E19F59A2A00E71924 /* MRSLStandardTextView.m */; };
+		0651206019F59A2A00E71924 /* MRSLStandardTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651205E19F59A2A00E71924 /* MRSLStandardTextView.m */; };
+		0651206119F59A2A00E71924 /* MRSLStandardTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651205E19F59A2A00E71924 /* MRSLStandardTextView.m */; };
 		0657357E19240C58000D2761 /* MRSLSocialAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 0657357D19240C58000D2761 /* MRSLSocialAuthentication.m */; };
 		06584C5818C7CB6A00D9035A /* MRSLMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 06584C5718C7CB6A00D9035A /* MRSLMediaItem.m */; };
 		06584C5B18C7CE8F00D9035A /* MRSLMediaItemPreviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06584C5A18C7CE8F00D9035A /* MRSLMediaItemPreviewCollectionViewCell.m */; };
@@ -196,6 +199,9 @@
 		0676B49218996241001D7483 /* MRSLBoldButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B49118996241001D7483 /* MRSLBoldButton.m */; };
 		0676B4A0189985E1001D7483 /* MRSLRobotoRegularLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B49F189985E1001D7483 /* MRSLRobotoRegularLabel.m */; };
 		0680411318A42AF5000B7E71 /* NSManagedObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0680411218A42AF5000B7E71 /* NSManagedObject+Additions.m */; };
+		068165C419F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068165C319F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m */; };
+		068165C519F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068165C319F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m */; };
+		068165C619F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068165C319F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m */; };
 		06845049192F9DB100B38870 /* MRSLProfilePanelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06845048192F9DB100B38870 /* MRSLProfilePanelCollectionViewCell.m */; };
 		0684504C192F9F6A00B38870 /* MRSLSegmentedHeaderReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0684504B192F9F6A00B38870 /* MRSLSegmentedHeaderReusableView.m */; };
 		06845050192FC30A00B38870 /* MRSLStickyHeaderCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0684504F192FC30A00B38870 /* MRSLStickyHeaderCollectionViewLayout.m */; };
@@ -255,7 +261,6 @@
 		06B8781A193CCEC700160707 /* MRSLPlaceDetailBaseCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B87819193CCEC700160707 /* MRSLPlaceDetailBaseCollectionViewCell.m */; };
 		06B8781C193CD7E900160707 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B8781B193CD7E900160707 /* MapKit.framework */; };
 		06BE842B18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BE842A18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m */; };
-		06C38C3B18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C3A18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m */; };
 		06C38C3E18EA5CE90072CF8E /* MRSLModalCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */; };
 		06C38C4118EA5D370072CF8E /* MRSLModalLikersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4018EA5D370072CF8E /* MRSLModalLikersViewController.m */; };
 		06C38C4418EA5D910072CF8E /* MRSLBaseModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4318EA5D910072CF8E /* MRSLBaseModalViewController.m */; };
@@ -357,7 +362,6 @@
 		06C4DE1719897E14009B6406 /* MRSLNotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062A4FA196F233000394EFA /* MRSLNotificationsTableViewController.m */; };
 		06C4DE1819897E14009B6406 /* MRSLFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0698CA9318523BBE007AF442 /* MRSLFeedViewController.m */; };
 		06C4DE1919897E14009B6406 /* MRSLFeedPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F1848618E0BF7B00DBA468 /* MRSLFeedPanelViewController.m */; };
-		06C4DE1A19897E14009B6406 /* MRSLModalDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C3A18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m */; };
 		06C4DE1B19897E14009B6406 /* MRSLModalCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */; };
 		06C4DE1C19897E14009B6406 /* MRSLModalLikersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4018EA5D370072CF8E /* MRSLModalLikersViewController.m */; };
 		06C4DE1D19897E14009B6406 /* MRSLModalShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061142A018F2766A00FA38BC /* MRSLModalShareViewController.m */; };
@@ -834,6 +838,8 @@
 		064B035119E33C4200AD3FE3 /* MRSLMorselTaggedUsersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMorselTaggedUsersTableViewCell.m; path = Source/Views/MRSLMorselTaggedUsersTableViewCell.m; sourceTree = "<group>"; };
 		064B035519E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselEditEligibleUsersViewController.h; sourceTree = "<group>"; };
 		064B035619E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselEditEligibleUsersViewController.m; sourceTree = "<group>"; };
+		0651205D19F59A2A00E71924 /* MRSLStandardTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLStandardTextView.h; path = Source/Views/MRSLStandardTextView.h; sourceTree = "<group>"; };
+		0651205E19F59A2A00E71924 /* MRSLStandardTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLStandardTextView.m; path = Source/Views/MRSLStandardTextView.m; sourceTree = "<group>"; };
 		0657357C19240C58000D2761 /* MRSLSocialAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSocialAuthentication.h; path = Source/Models/MRSLSocialAuthentication.h; sourceTree = "<group>"; };
 		0657357D19240C58000D2761 /* MRSLSocialAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSocialAuthentication.m; path = Source/Models/MRSLSocialAuthentication.m; sourceTree = "<group>"; };
 		06584C5618C7CB6A00D9035A /* MRSLMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLMediaItem.h; path = Source/Models/MRSLMediaItem.h; sourceTree = "<group>"; };
@@ -913,6 +919,8 @@
 		0676B49F189985E1001D7483 /* MRSLRobotoRegularLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLRobotoRegularLabel.m; path = Source/Views/MRSLRobotoRegularLabel.m; sourceTree = "<group>"; };
 		0680411118A42AF5000B7E71 /* NSManagedObject+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+Additions.h"; sourceTree = "<group>"; };
 		0680411218A42AF5000B7E71 /* NSManagedObject+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Additions.m"; sourceTree = "<group>"; };
+		068165C219F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselTaggedUsersViewController.h; sourceTree = "<group>"; };
+		068165C319F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselTaggedUsersViewController.m; sourceTree = "<group>"; };
 		06845047192F9DB100B38870 /* MRSLProfilePanelCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLProfilePanelCollectionViewCell.h; path = Source/Views/MRSLProfilePanelCollectionViewCell.h; sourceTree = "<group>"; };
 		06845048192F9DB100B38870 /* MRSLProfilePanelCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLProfilePanelCollectionViewCell.m; path = Source/Views/MRSLProfilePanelCollectionViewCell.m; sourceTree = "<group>"; };
 		0684504A192F9F6A00B38870 /* MRSLSegmentedHeaderReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSegmentedHeaderReusableView.h; path = Source/Views/MRSLSegmentedHeaderReusableView.h; sourceTree = "<group>"; };
@@ -1021,8 +1029,6 @@
 		06B8781B193CD7E900160707 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		06BE842918EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLFeedShareCollectionViewCell.h; path = Source/Views/MRSLFeedShareCollectionViewCell.h; sourceTree = "<group>"; };
 		06BE842A18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLFeedShareCollectionViewCell.m; path = Source/Views/MRSLFeedShareCollectionViewCell.m; sourceTree = "<group>"; };
-		06C38C3918EA5A4C0072CF8E /* MRSLModalDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalDescriptionViewController.h; sourceTree = "<group>"; };
-		06C38C3A18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLModalDescriptionViewController.m; sourceTree = "<group>"; };
 		06C38C3C18EA5CE90072CF8E /* MRSLModalCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalCommentsViewController.h; sourceTree = "<group>"; };
 		06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLModalCommentsViewController.m; sourceTree = "<group>"; };
 		06C38C3F18EA5D370072CF8E /* MRSLModalLikersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalLikersViewController.h; sourceTree = "<group>"; };
@@ -1132,8 +1138,11 @@
 		06FE510D19118E4D003A6D7D /* MRSLTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLTag.m; path = Source/Models/MRSLTag.m; sourceTree = "<group>"; };
 		06FE510F19118E57003A6D7D /* _MRSLTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MRSLTag.h; path = Source/Models/Generated/_MRSLTag.h; sourceTree = "<group>"; };
 		06FE511019118E57003A6D7D /* _MRSLTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MRSLTag.m; path = Source/Models/Generated/_MRSLTag.m; sourceTree = "<group>"; };
-		25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.xcconfig"; path = "../Pods/Pods-Morsel-Integration.xcconfig"; sourceTree = "<group>"; };
+		0C0FAC131599CB1F7DBCF028 /* Pods-Morsel-Specs.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Specs.beta.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Specs/Pods-Morsel-Specs.beta.xcconfig"; sourceTree = "<group>"; };
+		138EDC9C54A102F26EF80F5D /* Pods-Morsel-Integration.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Integration/Pods-Morsel-Integration.debug.xcconfig"; sourceTree = "<group>"; };
+		1C4A9046F78E96ECF2BC0D78 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		263EA238B9F09AADB9678806 /* Pods-Morsel-Integration.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.integration.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Integration/Pods-Morsel-Integration.integration.xcconfig"; sourceTree = "<group>"; };
+		2796E5F203DDF9F5485DE825 /* Pods-Morsel-Specs.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Specs.alpha.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Specs/Pods-Morsel-Specs.alpha.xcconfig"; sourceTree = "<group>"; };
 		4003509118EB578C00C97DDC /* MRSLCollectionViewArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCollectionViewArrayDataSource.h; sourceTree = "<group>"; };
 		4003509218EB578C00C97DDC /* MRSLCollectionViewArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCollectionViewArrayDataSource.m; sourceTree = "<group>"; };
 		4003509718EB5CED00C97DDC /* MRSLActivityCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLActivityCollectionViewCell.h; path = Source/Views/MRSLActivityCollectionViewCell.h; sourceTree = "<group>"; };
@@ -1280,9 +1289,21 @@
 		40DC742E19549DA2005CFECF /* MRSLBaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLBaseTableViewCell.m; path = Source/Views/MRSLBaseTableViewCell.m; sourceTree = "<group>"; };
 		40F637D4193E987A003AD040 /* NSMutableString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Additions.h"; sourceTree = "<group>"; };
 		40F637D5193E987A003AD040 /* NSMutableString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Additions.m"; sourceTree = "<group>"; };
+		45DFCD9767BEF63F3E4BE92F /* Pods.specs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.specs.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.specs.xcconfig"; sourceTree = "<group>"; };
 		4D39BCA7E9BC46D8914312A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		575D819C4C23490BCD6970FE /* Pods-Morsel-Specs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Specs.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Specs/Pods-Morsel-Specs.debug.xcconfig"; sourceTree = "<group>"; };
+		58238E0CF8BBCD6752AE34D1 /* Pods.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.beta.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.beta.xcconfig"; sourceTree = "<group>"; };
+		61BA2B3C755F55B6F8A58C93 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		7FB249B71673D03FFA2A723C /* Pods-Morsel-Specs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Specs.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Specs/Pods-Morsel-Specs.release.xcconfig"; sourceTree = "<group>"; };
+		809CFE4476C086BEFB7DABA1 /* Pods-Morsel-Specs.specs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Specs.specs.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Specs/Pods-Morsel-Specs.specs.xcconfig"; sourceTree = "<group>"; };
+		819C394E81578AFAE19A6D8A /* Pods.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.integration.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.integration.xcconfig"; sourceTree = "<group>"; };
 		85BAA024FEB848BEB18EFEBB /* libPods-Morsel-Integration.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Morsel-Integration.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Specs.xcconfig"; path = "../Pods/Pods-Morsel-Specs.xcconfig"; sourceTree = "<group>"; };
+		9640117545BD868C90EA9581 /* Pods-Morsel-Specs.integration.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Specs.integration.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Specs/Pods-Morsel-Specs.integration.xcconfig"; sourceTree = "<group>"; };
+		A431EAF00B3497FBC6052C34 /* Pods-Morsel-Integration.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.beta.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Integration/Pods-Morsel-Integration.beta.xcconfig"; sourceTree = "<group>"; };
+		A82EE335026641A47782E017 /* Pods-Morsel-Integration.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.alpha.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Integration/Pods-Morsel-Integration.alpha.xcconfig"; sourceTree = "<group>"; };
+		C5D0D07C41CBB78767E3B2DA /* Pods-Morsel-Integration.specs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.specs.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Integration/Pods-Morsel-Integration.specs.xcconfig"; sourceTree = "<group>"; };
+		E5D886621F5C42627B40D8EB /* Pods.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.alpha.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.alpha.xcconfig"; sourceTree = "<group>"; };
+		F0D57EFD97B068D262FFA139 /* Pods-Morsel-Integration.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Morsel-Integration.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Morsel-Integration/Pods-Morsel-Integration.release.xcconfig"; sourceTree = "<group>"; };
 		F25ECEABED4243EAB69138D9 /* libPods-Morsel-Specs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Morsel-Specs.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1342,18 +1363,18 @@
 		0609B83A1894AA08005A11A4 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				0698CA9218523BBE007AF442 /* MRSLFeedViewController.h */,
-				0698CA9318523BBE007AF442 /* MRSLFeedViewController.m */,
 				06F1848518E0BF7B00DBA468 /* MRSLFeedPanelViewController.h */,
 				06F1848618E0BF7B00DBA468 /* MRSLFeedPanelViewController.m */,
-				06C38C3918EA5A4C0072CF8E /* MRSLModalDescriptionViewController.h */,
-				06C38C3A18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m */,
+				0698CA9218523BBE007AF442 /* MRSLFeedViewController.h */,
+				0698CA9318523BBE007AF442 /* MRSLFeedViewController.m */,
 				06C38C3C18EA5CE90072CF8E /* MRSLModalCommentsViewController.h */,
 				06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */,
 				06C38C3F18EA5D370072CF8E /* MRSLModalLikersViewController.h */,
 				06C38C4018EA5D370072CF8E /* MRSLModalLikersViewController.m */,
 				0611429F18F2766A00FA38BC /* MRSLModalShareViewController.h */,
 				061142A018F2766A00FA38BC /* MRSLModalShareViewController.m */,
+				068165C219F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.h */,
+				068165C319F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -1851,11 +1872,9 @@
 				0698CACB18524359007AF442 /* Morsel-Integration */,
 				0698CAB51852432D007AF442 /* Morsel-Specs */,
 				407FDEE51948052E005FEEBF /* Vendor */,
-				35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */,
-				C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */,
-				25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */,
 				0660668F18522E7900E780FC /* Frameworks */,
 				0660668E18522E7900E780FC /* Products */,
+				5D2AFA57B3DB97A7AACABC6E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2134,6 +2153,8 @@
 				068602B218920D31000CD576 /* MRSLRobotoSlabRegularLabel.m */,
 				068602A91891C590000CD576 /* MRSLStandardLabel.h */,
 				068602AA1891C590000CD576 /* MRSLStandardLabel.m */,
+				0651205D19F59A2A00E71924 /* MRSLStandardTextView.h */,
+				0651205E19F59A2A00E71924 /* MRSLStandardTextView.m */,
 				068602971891A6C5000CD576 /* MRSLTextField.h */,
 				068602981891A6C5000CD576 /* MRSLTextField.m */,
 			);
@@ -2717,6 +2738,31 @@
 			name = States;
 			sourceTree = "<group>";
 		};
+		5D2AFA57B3DB97A7AACABC6E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1C4A9046F78E96ECF2BC0D78 /* Pods.debug.xcconfig */,
+				45DFCD9767BEF63F3E4BE92F /* Pods.specs.xcconfig */,
+				819C394E81578AFAE19A6D8A /* Pods.integration.xcconfig */,
+				61BA2B3C755F55B6F8A58C93 /* Pods.release.xcconfig */,
+				58238E0CF8BBCD6752AE34D1 /* Pods.beta.xcconfig */,
+				E5D886621F5C42627B40D8EB /* Pods.alpha.xcconfig */,
+				138EDC9C54A102F26EF80F5D /* Pods-Morsel-Integration.debug.xcconfig */,
+				C5D0D07C41CBB78767E3B2DA /* Pods-Morsel-Integration.specs.xcconfig */,
+				263EA238B9F09AADB9678806 /* Pods-Morsel-Integration.integration.xcconfig */,
+				F0D57EFD97B068D262FFA139 /* Pods-Morsel-Integration.release.xcconfig */,
+				A431EAF00B3497FBC6052C34 /* Pods-Morsel-Integration.beta.xcconfig */,
+				A82EE335026641A47782E017 /* Pods-Morsel-Integration.alpha.xcconfig */,
+				575D819C4C23490BCD6970FE /* Pods-Morsel-Specs.debug.xcconfig */,
+				809CFE4476C086BEFB7DABA1 /* Pods-Morsel-Specs.specs.xcconfig */,
+				9640117545BD868C90EA9581 /* Pods-Morsel-Specs.integration.xcconfig */,
+				7FB249B71673D03FFA2A723C /* Pods-Morsel-Specs.release.xcconfig */,
+				0C0FAC131599CB1F7DBCF028 /* Pods-Morsel-Specs.beta.xcconfig */,
+				2796E5F203DDF9F5485DE825 /* Pods-Morsel-Specs.alpha.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2979,7 +3025,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Pods-Morsel-Specs-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-Morsel-Specs/Pods-Morsel-Specs-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2D110345279C4A75AB205E62 /* Copy Pods Resources */ = {
@@ -2994,7 +3040,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5361A47E7D614D63B40E5478 /* Check Pods Manifest.lock */ = {
@@ -3024,7 +3070,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Pods-Morsel-Integration-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-Morsel-Integration/Pods-Morsel-Integration-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E173818B69074B2A8591BDD8 /* Check Pods Manifest.lock */ = {
@@ -3085,6 +3131,7 @@
 				06FE510819117CF7003A6D7D /* _MRSLKeyword.m in Sources */,
 				4069CB2C189B127E001790F3 /* MRSLSocialService.m in Sources */,
 				061DF44418E36CDE00D1CA80 /* NSMutableArray+Additions.m in Sources */,
+				068165C419F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m in Sources */,
 				0693C25118F6C0D10026D6B3 /* _MRSLItem.m in Sources */,
 				06C4CD0C192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m in Sources */,
 				06B8780E193CBB3E00160707 /* MRSLPlaceDetailContactCollectionViewCell.m in Sources */,
@@ -3132,7 +3179,6 @@
 				061B4EA9195CC4DD00BC4C76 /* MRSLProfileEditFieldsViewController.m in Sources */,
 				062AB99718C5970400742955 /* MRSLMorselEditTitleViewController.m in Sources */,
 				06DFA95319AD29F700936BEB /* MRSLCheckmarkTextTableViewCell.m in Sources */,
-				06C38C3B18EA5A4C0072CF8E /* MRSLModalDescriptionViewController.m in Sources */,
 				407FDF67194807E4005FEEBF /* RollbarThread.m in Sources */,
 				06225C86192BB618000721C1 /* MRSLFindFriendsViewController.m in Sources */,
 				0684BFF019E5B3420083AEA5 /* MRSLEligibleUserTableViewCell.m in Sources */,
@@ -3309,6 +3355,7 @@
 				06F446171952227A00BE3014 /* MRSLBadgeLabelView.m in Sources */,
 				06DAFB58191A925C0044AF3E /* MRSLAPIService+Keyword.m in Sources */,
 				405A36AA18EC9D16006F1D98 /* MRSLActivityViewController.m in Sources */,
+				0651205F19F59A2A00E71924 /* MRSLStandardTextView.m in Sources */,
 				06DAFB40191A8F640044AF3E /* MRSLAPIService+Registration.m in Sources */,
 				065D0CB819A9991C009E6FC7 /* MRSLAPIService+Templates.m in Sources */,
 				0698298719188A5C005DBA3D /* MRSLToggleKeywordTableViewCell.m in Sources */,
@@ -3364,6 +3411,7 @@
 				4003509A18EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m in Sources */,
 				4068303A19804B0E00C293D1 /* UIImagePickerController+StatusBarHidden.m in Sources */,
 				065D0CC819A9A059009E6FC7 /* MRSLTemplateItem.m in Sources */,
+				068165C519F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m in Sources */,
 				068E278018BBFBB50020CA84 /* MRSLUser.m in Sources */,
 				068E278418BBFBB50020CA84 /* _MRSLComment.m in Sources */,
 				4040D49D18E627ED008A39E5 /* _MRSLActivity.m in Sources */,
@@ -3381,6 +3429,7 @@
 				068E278C18BBFBB50020CA84 /* _MRSLUser.m in Sources */,
 				4061724C198308310097CD17 /* MRSLPlaceholderTextView.m in Sources */,
 				065D0CD819ABCC25009E6FC7 /* MRSLTemplateSelectionViewController.m in Sources */,
+				0651206019F59A2A00E71924 /* MRSLStandardTextView.m in Sources */,
 				064685F319D5CF8F003FDBE5 /* MRSLAPIService+Explore.m in Sources */,
 				400350A418EBA79A00C97DDC /* MRSLProfileViewController.m in Sources */,
 				403B5BF41959F882001F33D2 /* MRSLCheckbox.m in Sources */,
@@ -3457,6 +3506,7 @@
 				06C4DDCB19897E14009B6406 /* UIImage+Color.m in Sources */,
 				065D0CEF19ABE7E7009E6FC7 /* MRSLTemplateItemInfoTableViewCell.m in Sources */,
 				065D0CBF19A99A97009E6FC7 /* MRSLTemplate.m in Sources */,
+				068165C619F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m in Sources */,
 				0621C2EA19AD0AC000340C48 /* BVReorderTableView.m in Sources */,
 				06C4DDCC19897E14009B6406 /* UIImage+Resize.m in Sources */,
 				06C4DDCD19897E14009B6406 /* UIImagePickerController+StatusBarHidden.m in Sources */,
@@ -3547,7 +3597,6 @@
 				06C4DE1719897E14009B6406 /* MRSLNotificationsTableViewController.m in Sources */,
 				06C4DE1819897E14009B6406 /* MRSLFeedViewController.m in Sources */,
 				06C4DE1919897E14009B6406 /* MRSLFeedPanelViewController.m in Sources */,
-				06C4DE1A19897E14009B6406 /* MRSLModalDescriptionViewController.m in Sources */,
 				06C4DE1B19897E14009B6406 /* MRSLModalCommentsViewController.m in Sources */,
 				06C4DE1C19897E14009B6406 /* MRSLModalLikersViewController.m in Sources */,
 				06C4DE1D19897E14009B6406 /* MRSLModalShareViewController.m in Sources */,
@@ -3568,6 +3617,7 @@
 				06C4DE3119897E14009B6406 /* MRSLProfessionalSettingsTableViewController.m in Sources */,
 				06C4DE3219897E14009B6406 /* MRSLSettingsTableViewController.m in Sources */,
 				06C4DE3319897E14009B6406 /* MRSLSettingsViewController.m in Sources */,
+				0651206119F59A2A00E71924 /* MRSLStandardTextView.m in Sources */,
 				06C4DE3419897E14009B6406 /* MRSLFindFriendsViewController.m in Sources */,
 				06C4DE3519897E14009B6406 /* MRSLSocialComposeViewController.m in Sources */,
 				06C4DE3619897E14009B6406 /* MRSLKeywordUsersViewController.m in Sources */,
@@ -3888,7 +3938,7 @@
 		};
 		062A71C618C153C80011F108 /* Integration */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
+			baseConfigurationReference = 819C394E81578AFAE19A6D8A /* Pods.integration.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3927,7 +3977,7 @@
 		};
 		062A71C818C153C80011F108 /* Integration */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
+			baseConfigurationReference = 9640117545BD868C90EA9581 /* Pods-Morsel-Specs.integration.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3940,6 +3990,38 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth1Client\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/ALAssetsLibrary-CustomPhotoAlbum\"",
+					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FacebookSDK\"",
+					"\"${PODS_ROOT}/Headers/Public/GCPlaceholderTextView\"",
+					"\"${PODS_ROOT}/Headers/Public/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/Public/JLRoutes\"",
+					"\"${PODS_ROOT}/Headers/Public/KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi-KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/M13Checkbox\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Mixpanel\"",
+					"\"${PODS_ROOT}/Headers/Public/NSData+Base64\"",
+					"\"${PODS_ROOT}/Headers/Public/NSDate+TimeAgo\"",
+					"\"${PODS_ROOT}/Headers/Public/NXOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/NullSafe\"",
+					"\"${PODS_ROOT}/Headers/Public/OAuthCore\"",
+					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
+					"\"${PODS_ROOT}/Headers/Public/RNActivityView\"",
+					"\"${PODS_ROOT}/Headers/Public/RSKImageCropper\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/VCRURLConnection\"",
+					"\"${PODS_ROOT}/Headers/Public/XMLDictionary\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "Morsel-Specs/Morsel-Specs-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -3949,7 +4031,7 @@
 		};
 		062A71C918C153C80011F108 /* Integration */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
+			baseConfigurationReference = 263EA238B9F09AADB9678806 /* Pods-Morsel-Integration.integration.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -3991,6 +4073,7 @@
 					"\"${PODS_ROOT}/Headers/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/VCRURLConnection\"",
 					"\"${PODS_ROOT}/Headers/XMLDictionary\"",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Morsel-Integration/Morsel-Integration-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4075,7 +4158,7 @@
 		};
 		066066C318522E7900E780FC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
+			baseConfigurationReference = 1C4A9046F78E96ECF2BC0D78 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4107,7 +4190,7 @@
 		};
 		066066C418522E7900E780FC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
+			baseConfigurationReference = 61BA2B3C755F55B6F8A58C93 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4157,7 +4240,7 @@
 		};
 		0698CAC11852432D007AF442 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
+			baseConfigurationReference = 575D819C4C23490BCD6970FE /* Pods-Morsel-Specs.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4170,6 +4253,38 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth1Client\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/ALAssetsLibrary-CustomPhotoAlbum\"",
+					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FacebookSDK\"",
+					"\"${PODS_ROOT}/Headers/Public/GCPlaceholderTextView\"",
+					"\"${PODS_ROOT}/Headers/Public/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/Public/JLRoutes\"",
+					"\"${PODS_ROOT}/Headers/Public/KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi-KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/M13Checkbox\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Mixpanel\"",
+					"\"${PODS_ROOT}/Headers/Public/NSData+Base64\"",
+					"\"${PODS_ROOT}/Headers/Public/NSDate+TimeAgo\"",
+					"\"${PODS_ROOT}/Headers/Public/NXOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/NullSafe\"",
+					"\"${PODS_ROOT}/Headers/Public/OAuthCore\"",
+					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
+					"\"${PODS_ROOT}/Headers/Public/RNActivityView\"",
+					"\"${PODS_ROOT}/Headers/Public/RSKImageCropper\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/VCRURLConnection\"",
+					"\"${PODS_ROOT}/Headers/Public/XMLDictionary\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "Morsel-Specs/Morsel-Specs-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -4179,7 +4294,7 @@
 		};
 		0698CAC21852432D007AF442 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
+			baseConfigurationReference = 7FB249B71673D03FFA2A723C /* Pods-Morsel-Specs.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4190,6 +4305,38 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth1Client\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/ALAssetsLibrary-CustomPhotoAlbum\"",
+					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FacebookSDK\"",
+					"\"${PODS_ROOT}/Headers/Public/GCPlaceholderTextView\"",
+					"\"${PODS_ROOT}/Headers/Public/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/Public/JLRoutes\"",
+					"\"${PODS_ROOT}/Headers/Public/KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi-KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/M13Checkbox\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Mixpanel\"",
+					"\"${PODS_ROOT}/Headers/Public/NSData+Base64\"",
+					"\"${PODS_ROOT}/Headers/Public/NSDate+TimeAgo\"",
+					"\"${PODS_ROOT}/Headers/Public/NXOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/NullSafe\"",
+					"\"${PODS_ROOT}/Headers/Public/OAuthCore\"",
+					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
+					"\"${PODS_ROOT}/Headers/Public/RNActivityView\"",
+					"\"${PODS_ROOT}/Headers/Public/RSKImageCropper\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/VCRURLConnection\"",
+					"\"${PODS_ROOT}/Headers/Public/XMLDictionary\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "Morsel-Specs/Morsel-Specs-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -4199,7 +4346,7 @@
 		};
 		0698CAD718524359007AF442 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
+			baseConfigurationReference = 138EDC9C54A102F26EF80F5D /* Pods-Morsel-Integration.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -4241,6 +4388,7 @@
 					"\"${PODS_ROOT}/Headers/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/VCRURLConnection\"",
 					"\"${PODS_ROOT}/Headers/XMLDictionary\"",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Morsel-Integration/Morsel-Integration-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4251,7 +4399,7 @@
 		};
 		0698CAD818524359007AF442 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
+			baseConfigurationReference = F0D57EFD97B068D262FFA139 /* Pods-Morsel-Integration.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4291,6 +4439,7 @@
 					"\"${PODS_ROOT}/Headers/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/VCRURLConnection\"",
 					"\"${PODS_ROOT}/Headers/XMLDictionary\"",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Morsel-Integration/Morsel-Integration-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4341,7 +4490,7 @@
 		};
 		06F567DA18BBB8070067FCD4 /* Specs */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
+			baseConfigurationReference = 45DFCD9767BEF63F3E4BE92F /* Pods.specs.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4380,7 +4529,7 @@
 		};
 		06F567DC18BBB8070067FCD4 /* Specs */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
+			baseConfigurationReference = 809CFE4476C086BEFB7DABA1 /* Pods-Morsel-Specs.specs.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4393,6 +4542,38 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth1Client\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/ALAssetsLibrary-CustomPhotoAlbum\"",
+					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FacebookSDK\"",
+					"\"${PODS_ROOT}/Headers/Public/GCPlaceholderTextView\"",
+					"\"${PODS_ROOT}/Headers/Public/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/Public/JLRoutes\"",
+					"\"${PODS_ROOT}/Headers/Public/KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi-KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/M13Checkbox\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Mixpanel\"",
+					"\"${PODS_ROOT}/Headers/Public/NSData+Base64\"",
+					"\"${PODS_ROOT}/Headers/Public/NSDate+TimeAgo\"",
+					"\"${PODS_ROOT}/Headers/Public/NXOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/NullSafe\"",
+					"\"${PODS_ROOT}/Headers/Public/OAuthCore\"",
+					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
+					"\"${PODS_ROOT}/Headers/Public/RNActivityView\"",
+					"\"${PODS_ROOT}/Headers/Public/RSKImageCropper\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/VCRURLConnection\"",
+					"\"${PODS_ROOT}/Headers/Public/XMLDictionary\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "Morsel-Specs/Morsel-Specs-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -4402,7 +4583,7 @@
 		};
 		06F567DD18BBB8070067FCD4 /* Specs */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
+			baseConfigurationReference = C5D0D07C41CBB78767E3B2DA /* Pods-Morsel-Integration.specs.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -4444,6 +4625,7 @@
 					"\"${PODS_ROOT}/Headers/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/VCRURLConnection\"",
 					"\"${PODS_ROOT}/Headers/XMLDictionary\"",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Morsel-Integration/Morsel-Integration-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4488,7 +4670,7 @@
 		};
 		40ED5B18185F68B10096C9D7 /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
+			baseConfigurationReference = 58238E0CF8BBCD6752AE34D1 /* Pods.beta.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4525,7 +4707,7 @@
 		};
 		40ED5B19185F68B10096C9D7 /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
+			baseConfigurationReference = 0C0FAC131599CB1F7DBCF028 /* Pods-Morsel-Specs.beta.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4536,6 +4718,38 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth1Client\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/ALAssetsLibrary-CustomPhotoAlbum\"",
+					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FacebookSDK\"",
+					"\"${PODS_ROOT}/Headers/Public/GCPlaceholderTextView\"",
+					"\"${PODS_ROOT}/Headers/Public/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/Public/JLRoutes\"",
+					"\"${PODS_ROOT}/Headers/Public/KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi-KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/M13Checkbox\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Mixpanel\"",
+					"\"${PODS_ROOT}/Headers/Public/NSData+Base64\"",
+					"\"${PODS_ROOT}/Headers/Public/NSDate+TimeAgo\"",
+					"\"${PODS_ROOT}/Headers/Public/NXOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/NullSafe\"",
+					"\"${PODS_ROOT}/Headers/Public/OAuthCore\"",
+					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
+					"\"${PODS_ROOT}/Headers/Public/RNActivityView\"",
+					"\"${PODS_ROOT}/Headers/Public/RSKImageCropper\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/VCRURLConnection\"",
+					"\"${PODS_ROOT}/Headers/Public/XMLDictionary\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "Morsel-Specs/Morsel-Specs-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -4552,7 +4766,7 @@
 		};
 		40ED5B1B185F68B10096C9D7 /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
+			baseConfigurationReference = A431EAF00B3497FBC6052C34 /* Pods-Morsel-Integration.beta.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4592,6 +4806,7 @@
 					"\"${PODS_ROOT}/Headers/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/VCRURLConnection\"",
 					"\"${PODS_ROOT}/Headers/XMLDictionary\"",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Morsel-Integration/Morsel-Integration-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4636,7 +4851,7 @@
 		};
 		40ED5B1D185F68C30096C9D7 /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25F2A6F3033245FE9EA4ADD0 /* Pods.xcconfig */;
+			baseConfigurationReference = E5D886621F5C42627B40D8EB /* Pods.alpha.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4673,7 +4888,7 @@
 		};
 		40ED5B1E185F68C30096C9D7 /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1501DB3125E466884A8007F /* Pods-Morsel-Specs.xcconfig */;
+			baseConfigurationReference = 2796E5F203DDF9F5485DE825 /* Pods-Morsel-Specs.alpha.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4684,6 +4899,38 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth1Client\"",
+					"\"${PODS_ROOT}/Headers/Public/AFOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/ALAssetsLibrary-CustomPhotoAlbum\"",
+					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK\"",
+					"\"${PODS_ROOT}/Headers/Public/Facebook-iOS-SDK/FacebookSDK\"",
+					"\"${PODS_ROOT}/Headers/Public/GCPlaceholderTextView\"",
+					"\"${PODS_ROOT}/Headers/Public/GPUImage\"",
+					"\"${PODS_ROOT}/Headers/Public/JLRoutes\"",
+					"\"${PODS_ROOT}/Headers/Public/KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi\"",
+					"\"${PODS_ROOT}/Headers/Public/Kiwi-KIF\"",
+					"\"${PODS_ROOT}/Headers/Public/M13Checkbox\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Mixpanel\"",
+					"\"${PODS_ROOT}/Headers/Public/NSData+Base64\"",
+					"\"${PODS_ROOT}/Headers/Public/NSDate+TimeAgo\"",
+					"\"${PODS_ROOT}/Headers/Public/NXOAuth2Client\"",
+					"\"${PODS_ROOT}/Headers/Public/NullSafe\"",
+					"\"${PODS_ROOT}/Headers/Public/OAuthCore\"",
+					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
+					"\"${PODS_ROOT}/Headers/Public/RNActivityView\"",
+					"\"${PODS_ROOT}/Headers/Public/RSKImageCropper\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/VCRURLConnection\"",
+					"\"${PODS_ROOT}/Headers/Public/XMLDictionary\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "Morsel-Specs/Morsel-Specs-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -4700,7 +4947,7 @@
 		};
 		40ED5B20185F68C30096C9D7 /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35E2D41179244AC5B8C0F58D /* Pods-Morsel-Integration.xcconfig */;
+			baseConfigurationReference = A82EE335026641A47782E017 /* Pods-Morsel-Integration.alpha.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Morsel.app/Morsel";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4740,6 +4987,7 @@
 					"\"${PODS_ROOT}/Headers/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/VCRURLConnection\"",
 					"\"${PODS_ROOT}/Headers/XMLDictionary\"",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Morsel-Integration/Morsel-Integration-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";

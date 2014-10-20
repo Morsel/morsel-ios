@@ -273,17 +273,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 #pragma mark - MRSLFeedPanelCollectionViewCellDelegate
 
-- (void)feedPanelCollectionViewCellDidSelectPreviousMorsel {
-    NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath.row != 0) {
-        NSIndexPath *previousIndexPath = [NSIndexPath indexPathForRow:indexPath.row - 1
-                                                            inSection:0];
-        [self.feedCollectionView scrollToItemAtIndexPath:previousIndexPath
-                                        atScrollPosition:UICollectionViewScrollPositionNone
-                                                animated:YES];
-    }
-}
-
 - (void)feedPanelCollectionViewCellDidSelectNextMorsel {
     NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
     if (indexPath.row + 1 < [_morsels count]) {
