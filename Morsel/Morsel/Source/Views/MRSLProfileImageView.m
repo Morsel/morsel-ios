@@ -12,28 +12,20 @@
 
 #import "MRSLUser.h"
 
+@interface MRSLProfileImageView ()
+
+@property (nonatomic) BOOL viewPrepared;
+
+@end
+
 @implementation MRSLProfileImageView
 
 #pragma mark - Instance Methods
 
-- (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setUp];
-    }
-    return self;
-}
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self setUp];
-    }
-    return self;
-}
-
 - (void)setUser:(MRSLUser *)user {
     _user = user;
     [self setImageObject:_user];
+    [self setUp];
 }
 
 - (void)addAndRenderImage:(UIImage *)image
@@ -68,6 +60,8 @@
 #pragma mark - Private Methods
 
 - (void)setUp {
+    if (self.viewPrepared) return;
+    self.viewPrepared = YES;
     if (!self.shouldBlur) {
         UIImageView *whiteCircleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:([self getWidth] <= MRSLProfileThumbDimensionThreshold) ? @"effect-circle-white-large" : @"effect-circle-white-small"]];
         whiteCircleImageView.frame = CGRectMake(0.f, 0.f, [self getWidth], [self getHeight]);
