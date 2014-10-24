@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qbi-Wx-vRl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qbi-Wx-vRl">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Menu View Controller-->
@@ -305,7 +306,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gtc-fs-F64">
-                                        <rect key="frame" x="74" y="7" width="30" height="30"/>
+                                        <rect key="frame" x="73" y="7" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="q3b-H7-U3E"/>
                                             <constraint firstAttribute="width" constant="30" id="ybK-Qh-2L8"/>
@@ -332,21 +333,37 @@
                                             <action selector="refreshBrowser" destination="QVc-Xt-m1k" eventType="touchUpInside" id="imh-nR-ITd"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0K-in-wUr">
+                                        <rect key="frame" x="500" y="7" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="5uy-jm-kW5"/>
+                                            <constraint firstAttribute="width" constant="30" id="KU2-jB-huE"/>
+                                        </constraints>
+                                        <state key="normal" image="icon-share">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled" image="icon-refresh"/>
+                                        <connections>
+                                            <action selector="displayOptions" destination="QVc-Xt-m1k" eventType="touchUpInside" id="mQJ-ys-V2K"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="pNi-gW-xwT" firstAttribute="leading" secondItem="a0K-in-wUr" secondAttribute="trailing" constant="23" id="1xv-4c-dSP"/>
+                                    <constraint firstAttribute="bottom" secondItem="a0K-in-wUr" secondAttribute="bottom" constant="7" id="DUV-uQ-EbT"/>
                                     <constraint firstAttribute="bottom" secondItem="pNi-gW-xwT" secondAttribute="bottom" constant="7" id="Nfw-0Q-Vpl"/>
                                     <constraint firstAttribute="bottom" secondItem="Rua-3c-q02" secondAttribute="bottom" constant="7" id="QjV-k4-YbQ"/>
                                     <constraint firstItem="Rua-3c-q02" firstAttribute="leading" secondItem="5xq-2a-B5C" secondAttribute="leading" constant="13" id="kHc-MN-LNM"/>
                                     <constraint firstAttribute="height" constant="44" id="m5j-fV-Kl3"/>
                                     <constraint firstItem="pNi-gW-xwT" firstAttribute="top" secondItem="5xq-2a-B5C" secondAttribute="top" constant="7" id="mEN-m1-aZJ"/>
                                     <constraint firstAttribute="trailing" secondItem="pNi-gW-xwT" secondAttribute="trailing" constant="17" id="mPG-3K-NoS"/>
-                                    <constraint firstItem="Gtc-fs-F64" firstAttribute="leading" secondItem="Rua-3c-q02" secondAttribute="trailing" constant="31" id="pTm-h2-qzw"/>
+                                    <constraint firstItem="Gtc-fs-F64" firstAttribute="leading" secondItem="Rua-3c-q02" secondAttribute="trailing" constant="30" id="pTm-h2-qzw"/>
                                     <constraint firstAttribute="bottom" secondItem="Gtc-fs-F64" secondAttribute="bottom" constant="7" id="siD-Ug-ztP"/>
                                     <constraint firstItem="Gtc-fs-F64" firstAttribute="top" secondItem="5xq-2a-B5C" secondAttribute="top" constant="7" id="uES-HR-zqA"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="uEg-K0-t68"/>
                                     <constraint firstItem="Rua-3c-q02" firstAttribute="top" secondItem="5xq-2a-B5C" secondAttribute="top" constant="7" id="wVN-BB-7UV"/>
-                                    <constraint firstItem="Gtc-fs-F64" firstAttribute="leading" secondItem="Rua-3c-q02" secondAttribute="trailing" constant="31" id="wcJ-8c-Cv7"/>
+                                    <constraint firstItem="Gtc-fs-F64" firstAttribute="leading" secondItem="Rua-3c-q02" secondAttribute="trailing" constant="30" id="wcJ-8c-Cv7"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -411,6 +428,7 @@
         <image name="icon-arrow-previous-red" width="30" height="30"/>
         <image name="icon-refresh" width="30" height="30"/>
         <image name="icon-refresh-red" width="60" height="60"/>
+        <image name="icon-share" width="24" height="24"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
 </document>
