@@ -22,6 +22,7 @@
 #import "MRSLUser.h"
 
 @interface MRSLFeedPageCollectionViewCell ()
+<UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -81,7 +82,11 @@
 #pragma mark - UITextView Delegate
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
-#warning Handle web links in app browser. Also make sure other data sources work.
+    if ([[URL scheme] containsString:@"http"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"",
+                                                                                                                       @"url": URL}];
+        return NO;
+    }
     return YES;
 }
 
