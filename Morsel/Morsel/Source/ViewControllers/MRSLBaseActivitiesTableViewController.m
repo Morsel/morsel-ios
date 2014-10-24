@@ -89,6 +89,7 @@
     MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
+    userMorselsFeedVC.isExplore = YES;
     [self.navigationController pushViewController:userMorselsFeedVC
                                          animated:YES];
 }
