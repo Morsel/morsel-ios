@@ -362,6 +362,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                                   [weakSelf.morselIDs saveFeedIDArray];
                                                   [weakSelf setupFetchRequest];
                                                   [weakSelf populateContent];
+                                                  MRSLMorsel *firstMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                                                                      withValue:[weakSelf.morselIDs firstObject]];
+                                                  if (firstMorsel) [weakSelf setLikeButtonImageForMorsel:firstMorsel];
                                               }
                                               weakSelf.loading = NO;
                                           }
@@ -571,6 +574,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.feedCollectionView setWidth:self.originalFeedWidth];
     });
+    NSIndexPath *indexPath = [[_feedCollectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath && indexPath.row < [_feedMorsels count]) {
+        MRSLMorsel *visibleMorsel = [_feedMorsels objectAtIndex:indexPath.row];
+        [self setLikeButtonImageForMorsel:visibleMorsel];
+    }
     if (![self.navigationController.navigationBar.topItem.titleView isKindOfClass:[MRSLTitleItemView class]]) return;
     [(MRSLTitleItemView *)self.navigationController.navigationBar.topItem.titleView setTitle:nil];
 }
