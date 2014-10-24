@@ -8,6 +8,8 @@
 
 #import "MRSLFeedPanelViewController.h"
 
+#import "MRSLAPIService+Morsel.h"
+
 #import "MRSLFeedCoverCollectionViewCell.h"
 #import "MRSLFeedPageCollectionViewCell.h"
 #import "MRSLFeedShareCollectionViewCell.h"
@@ -215,6 +217,11 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                     cancelButtonTitle:nil
                                                destructiveButtonTitle:@"Report inappropriate"
                                                     otherButtonTitles:nil];
+
+    if (self.morsel.taggedValue) {
+        [actionSheet addButtonWithTitle:@"Remove tag"];
+    }
+
     [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
     [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
 }
@@ -331,6 +338,17 @@ MRSLFeedShareCollectionViewCellDelegate>
                                           message:@"Thank you for the feedback!"];
         } failure:^(NSError *error) {
             [UIAlertView showOKAlertViewWithTitle:@"Report Failed"
+                                          message:@"Please try again"];
+        }];
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Remove tag"]) {
+        __weak __typeof(self)weakSelf = self;
+        [_appDelegate.apiService tagUser:[MRSLUser currentUser]
+                                toMorsel:self.morsel
+                               shouldTag:NO
+                                  didTag:^(BOOL didTag) {
+                                      weakSelf.morsel.tagged = @(didTag);
+        } failure:^(NSError *error) {
+            [UIAlertView showOKAlertViewWithTitle:@"Unable to remove tag"
                                           message:@"Please try again"];
         }];
     }
