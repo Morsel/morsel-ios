@@ -4,13 +4,19 @@
 
 @interface MRSLMorsel : _MRSLMorsel <MRSLReportable>
 
-- (NSDate *)latestUpdatedDate;
-- (NSArray *)itemsArray;
-- (MRSLItem *)coverItem;
-- (NSString *)firstItemDescription;
 - (BOOL)hasCreatorInfo;
 - (BOOL)hasPlaceholderTitle;
+
+- (CGFloat)coverInformationHeight;
+
+- (NSDate *)latestUpdatedDate;
+- (NSArray *)itemsArray;
+- (NSString *)firstItemDescription;
 - (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil;
+
+- (MRSLItem *)coverItem;
+
+- (void)getCoverInformation:(MRSLAttributedStringBlock)attributedStringBlock;
 
 - (void)reloadTemplateDataIfNecessaryWithSuccess:(MRSLSuccessBlock)successOrNil
                                          failure:(MRSLFailureBlock)failureOrNil;

@@ -253,8 +253,21 @@ MRSLFeedShareCollectionViewCellDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat cellHeight = (indexPath.row == 0 || indexPath.row == [_morsel.items count] + 1) ? 250.f : [collectionView getHeight];
-#warning Implement logic to determine actual estimated height of these cells
+    CGFloat cellHeight = 0.f;
+    if (indexPath.row == 0) {
+        // Estimate height for cover
+        CGFloat coverElementsHeight = MAX(150.f, floorf([UIScreen mainScreen].bounds.size.height * .3)) + 30.f;
+        cellHeight = coverElementsHeight + [self.morsel coverInformationHeight];
+    } else if (indexPath.row == [_morsel.items count] + 1) {
+        // Estimate height for share page
+        CGFloat shareElementsHeight = 175.f;
+        cellHeight = shareElementsHeight + [self.morsel.creator profileInformationHeight];
+    } else {
+        // Estimate height for item page
+        MRSLItem *item = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
+        CGFloat pageElementsHeight = [UIScreen mainScreen].bounds.size.width + 64.f;
+        cellHeight = pageElementsHeight + [item descriptionHeight];
+    }
     return CGSizeMake([collectionView getWidth], cellHeight);
 }
 
@@ -326,11 +339,6 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    self.collectionView.delegate = nil;
-    self.collectionView.dataSource = nil;
-    [self.collectionView removeFromSuperview];
-    self.collectionView = nil;
-    self.morsel = nil;
 }
 
 @end

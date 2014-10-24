@@ -7,14 +7,16 @@
 
 + (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context;
 
+- (BOOL)isCoverItem;
+- (BOOL)isTemplatePlaceholderItem;
+
+- (CGFloat)descriptionHeight;
+
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type;
 
 - (NSString *)socialMessage;
 
 - (NSString *)displayName;
-
-- (BOOL)isCoverItem;
-- (BOOL)isTemplatePlaceholderItem;
 
 - (void)API_updateImage;
 

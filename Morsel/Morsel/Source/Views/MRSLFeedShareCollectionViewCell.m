@@ -8,12 +8,15 @@
 
 #import "MRSLFeedShareCollectionViewCell.h"
 
+#import "MRSLAPIService+Profile.h"
+
 #import "MRSLProfileViewController.h"
 
 #import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLSocialService.h"
 
+#import "MRSLFollowButton.h"
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
@@ -21,7 +24,10 @@
 @interface MRSLFeedShareCollectionViewCell ()
 <UITextViewDelegate>
 
+@property (nonatomic) int morselID;
+
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet MRSLFollowButton *followButton;
 
 @property (weak, nonatomic) IBOutlet UITextView *userInfoTextView;
 @property (weak, nonatomic) IBOutlet UITextView *nextInfoTextView;
@@ -61,16 +67,20 @@
 - (void)populateContent {
     _profileImageView.user = _morsel.creator;
 
-    NSString *fullName = [_morsel.creator fullName];
-    NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ \n%@", fullName, _morsel.creator.bio]
-                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleBody]}];
-    [infoAttributedString addAttribute:NSLinkAttributeName
-                                 value:@"profile://display"
-                                 range:[[infoAttributedString string] rangeOfString:fullName]];
-    [infoAttributedString addAttribute:NSFontAttributeName
-                                 value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleHeadline]
-                                 range:[[infoAttributedString string] rangeOfString:fullName]];
-    self.userInfoTextView.attributedText = infoAttributedString;
+    _reportButton.hidden = [_morsel.creator isCurrentUser];
+    _followButton.hidden = YES;
+    if (!_reportButton.hidden) {
+        self.morselID = self.morsel.morselIDValue;
+        __weak __typeof(self)weakSelf = self;
+        [_appDelegate.apiService getUserProfile:_morsel.creator
+                                        success:^(id responseObject) {
+                                            if (weakSelf && weakSelf.morselID == weakSelf.morsel.morselIDValue) {
+                                                weakSelf.followButton.user = weakSelf.morsel.creator;
+                                            }
+                                        } failure:nil];
+    }
+
+    self.userInfoTextView.attributedText = [_morsel.creator profileInformation];
 
     NSString *nextMorsel = @"View next morsel";
 #warning Get next morsel name
@@ -94,8 +104,6 @@
                                      value:paragraphStyle
                                      range:NSMakeRange(0, nextInfoAttributedString.length)];
     self.nextInfoTextView.attributedText = nextInfoAttributedString;
-
-    _reportButton.hidden = [_morsel.creator isCurrentUser];
 }
 
 #pragma mark - UITextView Delegate

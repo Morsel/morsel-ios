@@ -11,10 +11,39 @@ static const int kGuestUserID = -1;
 
 @implementation MRSLUser
 
-#pragma mark - Class Methods
+#pragma mark - Additions
 
 + (NSString *)API_identifier {
     return MRSLUserAttributes.userID;
+}
+
+- (NSString *)jsonKeyName {
+    return @"user";
+}
+
+- (NSDictionary *)objectToJSON {
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
+    if (self.first_name) objectInfoJSON[@"first_name"] = self.first_name;
+    if (self.last_name) objectInfoJSON[@"last_name"] = self.last_name;
+    if (self.bio) objectInfoJSON[@"bio"] = self.bio;
+    if (self.professionalValue) objectInfoJSON[@"professional"] = self.professional;
+    return objectInfoJSON;
+}
+
+#pragma mark - Class Methods
+
++ (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID {
+    return ([MRSLUser currentUser].userIDValue == creatorID);
+}
+
++ (BOOL)isCurrentUserGuest {
+    return [[self currentUser] isGuestUser];
+}
+
++ (NSString *)apiTokenForCurrentUser {
+    MRSLUser *currentUser = [MRSLUser currentUser];
+
+    return [NSString stringWithFormat:@"%i:%@", currentUser.userIDValue, currentUser.auth_token];
 }
 
 + (MRSLUser *)currentUser {
@@ -26,62 +55,6 @@ static const int kGuestUserID = -1;
                                               inContext:[NSManagedObjectContext MR_defaultContext]];
     }
     return currentUser;
-}
-
-+ (NSString *)apiTokenForCurrentUser {
-    MRSLUser *currentUser = [MRSLUser currentUser];
-
-    return [NSString stringWithFormat:@"%i:%@", currentUser.userIDValue, currentUser.auth_token];
-}
-
-+ (BOOL)currentUserOwnsMorselWithCreatorID:(int)creatorID {
-    return ([MRSLUser currentUser].userIDValue == creatorID);
-}
-
-+ (void)incrementCurrentUserDraftCount {
-    MRSLUser *currentUser = [MRSLUser currentUser];
-    currentUser.draft_count = @(MAX(currentUser.draft_countValue + 1, 0));
-    [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
-}
-
-+ (void)decrementCurrentUserDraftCount {
-    MRSLUser *currentUser = [MRSLUser currentUser];
-    currentUser.draft_count = @(MAX(currentUser.draft_countValue - 1, 0));
-    [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
-}
-
-+ (void)API_refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil
-                                  failure:(MRSLFailureBlock)failureOrNil {
-    if ([MRSLUser isCurrentUserGuest]) return;
-    MRSLUser *currentUser = [MRSLUser currentUser];
-    if (!currentUser) return;
-
-    [_appDelegate.apiService getUserProfile:currentUser
-                                    success:userSuccessOrNil
-                                    failure:failureOrNil];
-}
-
-+ (void)API_updateNotificationsAmount:(MRSLAPICountBlock)amountOrNil
-                              failure:(MRSLFailureBlock)failureOrNil {
-    if ([MRSLUser isCurrentUserGuest]) return;
-#ifdef __IPHONE_8_0
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        UIUserNotificationSettings *currentNotificationSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-        if (currentNotificationSettings.types != UIUserNotificationTypeBadge) {
-            UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge
-                                                                                                 categories:nil];
-            [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
-            return;
-        }
-    }
-#endif
-    if (![MRSLUser currentUser]) {
-        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-        return;
-    }
-    [_appDelegate.apiService getUnreadCountWithSuccess:^(int countValue) {
-        if (amountOrNil) amountOrNil(countValue);
-    } failure:failureOrNil];
 }
 
 + (MRSLUser *)createOrUpdateUserFromResponseObject:(id)userDictionary
@@ -145,10 +118,6 @@ static const int kGuestUserID = -1;
                                                      failure:nil];
 }
 
-+ (BOOL)isCurrentUserGuest {
-    return [[self currentUser] isGuestUser];
-}
-
 + (void)resetThirdPartySettings {
 #if defined (ROLLBAR_ENVIRONMENT)
     [[Rollbar currentConfiguration] setPersonId:nil
@@ -157,6 +126,52 @@ static const int kGuestUserID = -1;
 #endif
     [[Mixpanel sharedInstance] identify:nil];
     [[Mixpanel sharedInstance].people set:@{}];
+}
+
++ (void)incrementCurrentUserDraftCount {
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    currentUser.draft_count = @(MAX(currentUser.draft_countValue + 1, 0));
+    [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
+}
+
++ (void)decrementCurrentUserDraftCount {
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    currentUser.draft_count = @(MAX(currentUser.draft_countValue - 1, 0));
+    [currentUser.managedObjectContext MR_saveOnlySelfAndWait];
+}
+
++ (void)API_updateNotificationsAmount:(MRSLAPICountBlock)amountOrNil
+                              failure:(MRSLFailureBlock)failureOrNil {
+    if ([MRSLUser isCurrentUserGuest]) return;
+#ifdef __IPHONE_8_0
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        UIUserNotificationSettings *currentNotificationSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+        if (currentNotificationSettings.types != UIUserNotificationTypeBadge) {
+            UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge
+                                                                                                 categories:nil];
+            [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+            return;
+        }
+    }
+#endif
+    if (![MRSLUser currentUser]) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        return;
+    }
+    [_appDelegate.apiService getUnreadCountWithSuccess:^(int countValue) {
+        if (amountOrNil) amountOrNil(countValue);
+    } failure:failureOrNil];
+}
+
++ (void)API_refreshCurrentUserWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil
+                                  failure:(MRSLFailureBlock)failureOrNil {
+    if ([MRSLUser isCurrentUserGuest]) return;
+    MRSLUser *currentUser = [MRSLUser currentUser];
+    if (!currentUser) return;
+
+    [_appDelegate.apiService getUserProfile:currentUser
+                                    success:userSuccessOrNil
+                                    failure:failureOrNil];
 }
 
 #pragma mark - Instance Methods
@@ -172,6 +187,53 @@ static const int kGuestUserID = -1;
 
 - (BOOL)isProfessional {
     return self.professionalValue;
+}
+
+- (CGFloat)profileInformationHeight {
+    CGFloat infoHeight = 0.f;
+    NSMutableAttributedString *attributedInfo = [self profileInformation];
+    CGRect infoRect = [attributedInfo boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                             context:nil];
+    infoHeight = infoRect.size.height + 20.f;
+    return MAX(75.f, infoHeight);
+}
+
+- (NSString *)fullName {
+    return ([self isGuestUser]) ? @"Guest" : ([NSString stringWithFormat:@"%@ %@", self.first_name ? : @"", self.last_name ? : @""]);
+}
+
+- (NSString *)displayName {
+    return [NSString stringWithFormat:@"%@ (%@)", [self fullName], [self username]];
+}
+
+- (NSString *)fullNameOrTwitterHandle {
+    return (self.twitter_username) ? [NSString stringWithFormat:@"@%@", self.twitter_username] : self.fullName;
+}
+
+- (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
+    if (!self.profilePhotoURL) return nil;
+
+    BOOL isRetinaOrIpad = ([UIScreen mainScreen].scale == 2.f || [UIDevice currentDeviceIsIpad]);
+
+    NSString *typeSizeString = nil;
+
+    switch (type) {
+        case MRSLImageSizeTypeSmall:
+            typeSizeString = (isRetinaOrIpad) ? MRSLProfileImageLargeRetinaKey : MRSLProfileImageLargeKey;
+            break;
+        case MRSLImageSizeTypeLarge:
+            typeSizeString = (isRetinaOrIpad) ? MRSLProfileImageSmallRetinaKey : MRSLProfileImageSmallKey;
+            break;
+        default:
+            DDLogError(@"Unsupported Profile Image Size Type Requested!");
+            return nil;
+            break;
+    }
+
+    NSString *adjustedURLForType = [self.profilePhotoURL stringByReplacingOccurrencesOfString:MRSLImageSizeKey
+                                                                                   withString:typeSizeString];
+    return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
 }
 
 - (void)setThirdPartySettings {
@@ -201,6 +263,49 @@ static const int kGuestUserID = -1;
         [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_guest": @"false"}];
     }
 }
+
+- (NSMutableAttributedString *)profileInformation {
+    NSString *fullName = [self fullName];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ \n%@", fullName, self.bio ?: @""]
+                                                                                         attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleBody]}];
+    [attributedString addAttribute:NSLinkAttributeName
+                             value:@"profile://display"
+                             range:[[attributedString string] rangeOfString:fullName]];
+    [attributedString addAttribute:NSFontAttributeName
+                             value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleHeadline]
+                             range:[[attributedString string] rangeOfString:fullName]];
+    return attributedString;
+}
+
+#pragma mark - MRSLImageRequestable
+
+- (NSData *)localImageLarge {
+    return self.profilePhotoLarge;
+}
+
+- (NSData *)localImageSmall {
+    return self.profilePhotoThumb;
+}
+
+- (NSString *)imageURL {
+    return self.profilePhotoURL;
+}
+
+#pragma mark - MRSLReportable
+
+- (NSString *)reportableUrlString {
+    return [NSString stringWithFormat:@"users/%i/report", self.userIDValue];
+}
+
+- (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil {
+    if ([MRSLUser isCurrentUserGuest]) return;
+    [_appDelegate.apiService sendReportable:self
+                                    success:successOrNil
+                                    failure:failureOrNil];
+}
+
+#pragma mark - API
 
 - (void)API_updateImage {
     self.isUploading = @YES;
@@ -250,67 +355,6 @@ static const int kGuestUserID = -1;
                                     }];
 }
 
-- (NSString *)fullName {
-    return ([self isGuestUser]) ? @"Guest" : ([NSString stringWithFormat:@"%@ %@", self.first_name ? : @"", self.last_name ? : @""]);
-}
-
-- (NSString *)displayName {
-    return [NSString stringWithFormat:@"%@ (%@)", [self fullName], [self username]];
-}
-
-- (NSString *)fullNameOrTwitterHandle {
-    return (self.twitter_username) ? [NSString stringWithFormat:@"@%@", self.twitter_username] : self.fullName;
-}
-
-- (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
-    if (!self.profilePhotoURL) return nil;
-
-    BOOL isRetinaOrIpad = ([UIScreen mainScreen].scale == 2.f || [UIDevice currentDeviceIsIpad]);
-
-    NSString *typeSizeString = nil;
-
-    switch (type) {
-        case MRSLImageSizeTypeSmall:
-            typeSizeString = (isRetinaOrIpad) ? MRSLProfileImageLargeRetinaKey : MRSLProfileImageLargeKey;
-            break;
-        case MRSLImageSizeTypeLarge:
-            typeSizeString = (isRetinaOrIpad) ? MRSLProfileImageSmallRetinaKey : MRSLProfileImageSmallKey;
-            break;
-        default:
-            DDLogError(@"Unsupported Profile Image Size Type Requested!");
-            return nil;
-            break;
-    }
-
-    NSString *adjustedURLForType = [self.profilePhotoURL stringByReplacingOccurrencesOfString:MRSLImageSizeKey
-                                                                                   withString:typeSizeString];
-    return [NSURLRequest requestWithURL:[NSURL URLWithString:adjustedURLForType]];
-}
-
-- (NSData *)localImageLarge {
-    return self.profilePhotoLarge;
-}
-
-- (NSData *)localImageSmall {
-    return self.profilePhotoThumb;
-}
-
-- (NSString *)imageURL {
-    return self.profilePhotoURL;
-}
-
-- (NSString *)reportableUrlString {
-    return [NSString stringWithFormat:@"users/%i/report", self.userIDValue];
-}
-
-- (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
-                      failure:(MRSLFailureBlock)failureOrNil {
-    if ([MRSLUser isCurrentUserGuest]) return;
-    [_appDelegate.apiService sendReportable:self
-                                    success:successOrNil
-                                    failure:failureOrNil];
-}
-
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
@@ -330,19 +374,6 @@ static const int kGuestUserID = -1;
     }
 
     if (self.photo_processingValue || self.profilePhotoURL) self.isUploading = @NO;
-}
-
-- (NSString *)jsonKeyName {
-    return @"user";
-}
-
-- (NSDictionary *)objectToJSON {
-    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
-    if (self.first_name) objectInfoJSON[@"first_name"] = self.first_name;
-    if (self.last_name) objectInfoJSON[@"last_name"] = self.last_name;
-    if (self.bio) objectInfoJSON[@"bio"] = self.bio;
-    if (self.professionalValue) objectInfoJSON[@"professional"] = self.professional;
-    return objectInfoJSON;
 }
 
 @end
