@@ -8,12 +8,14 @@
 
 #import "MRSLFeedCoverCollectionViewCell.h"
 
+#import "MRSLAPIService+Morsel.h"
 #import "NSDate+TimeAgoMinimized.h"
 
 #import "MRSLItemImageView.h"
 #import "MRSLPlaceViewController.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLProfileViewController.h"
+#import "MRSLMorselTaggedUsersViewController.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -21,22 +23,20 @@
 #import "MRSLUser.h"
 
 @interface MRSLFeedCoverCollectionViewCell ()
-<MRSLItemImageViewDelegate>
+<UITextViewDelegate>
+
+@property (nonatomic) int morselID;
+@property (strong, nonatomic) NSAttributedString *coverAttributedString;
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
-@property (weak, nonatomic) IBOutlet UIButton *reportButton;
-@property (weak, nonatomic) IBOutlet UIButton *placeButton;
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *placeNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *placeCityStateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *featuredImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *clockImageView;
+
+@property (weak, nonatomic) IBOutlet UIButton *likeCountButton;
+@property (weak, nonatomic) IBOutlet UIButton *featuredButton;
+@property (weak, nonatomic) IBOutlet UITextView *infoTextView;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
-@property (weak, nonatomic) IBOutlet MRSLItemImageView *morselCoverImageView;
-@property (weak, nonatomic) IBOutlet MRSLItemImageView *moreItemImageView;
 
 @end
 
@@ -47,21 +47,15 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 
+    self.morselID = -1;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.placeNameLabel setPreferredMaxLayoutWidth:[self.placeNameLabel getWidth]];
-        [self.userNameLabel setPreferredMaxLayoutWidth:[self.userNameLabel getWidth]];
-        [self.morselTitleLabel removeStandardShadow];
         [self.morselTitleLabel addStandardShadow];
-        __weak __typeof(self) weakSelf = self;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (weakSelf) {
-                [weakSelf.morselCoverImageView removeBorder];
-                [weakSelf.morselCoverImageView addDefaultBorderForDirections:MRSLBorderSouth];
-            }
-        });
+        [self.timeAgoLabel addStandardShadow];
+        [self.likeCountButton addStandardShadow];
     });
 }
 
@@ -77,16 +71,19 @@
 
 #pragma mark - Action Methods
 
-- (IBAction)displayProfile {
-    if (!_morsel.creator) return;
-    UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileKey];
-    MRSLProfileViewController *profileVC = [[profileNC viewControllers] firstObject];
-    profileVC.user = _morsel.creator;
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
-                                                        object:profileNC];
+- (void)displayProfileWithID:(NSNumber *)userID {
+    MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                             withValue:userID];
+    if (user) {
+        UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileKey];
+        MRSLProfileViewController *profileVC = [[profileNC viewControllers] firstObject];
+        profileVC.user = user;
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                            object:profileNC];
+    }
 }
 
-- (IBAction)displayPlace {
+- (void)displayPlace {
     if (!_morsel.place) return;
     UINavigationController *placeNC = [[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlaceKey];
     MRSLPlaceViewController *placeVC = [[placeNC viewControllers] firstObject];
@@ -99,40 +96,55 @@
 
 - (void)populateContent {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.morselCoverImageView.item = [self.morsel coverItem];
-
-        self.featuredImageView.hidden = !([self isHomeFeedItem] && _morsel.feedItemFeaturedValue);
+        self.featuredButton.hidden = !([self isHomeFeedItem] && _morsel.feedItemFeaturedValue);
         self.morselTitleLabel.text = _morsel.title;
         self.profileImageView.user = _morsel.creator;
         self.timeAgoLabel.text = [_morsel.publishedDate timeAgoMinimized];
+        [self.likeCountButton setTitle:[NSString stringWithFormat:@"%@ likes", _morsel.like_count]
+                              forState:UIControlStateNormal];
+        self.editButton.hidden = ![_morsel.creator isCurrentUser];
 
-        self.userNameLabel.text = [_morsel.creator fullName];
-
-        _editButton.hidden = ![_morsel.creator isCurrentUser];
-        _reportButton.hidden = !_editButton.hidden;
-
-        MRSLItem *firstItem = [self.morsel.itemsArray firstObject];
-        self.moreItemImageView.grayScale = YES;
-        self.moreItemImageView.item = firstItem;
-        self.moreItemImageView.delegate = self;
-
-        _placeNameLabel.hidden = (!_morsel.place);
-        _placeCityStateLabel.hidden = (!_morsel.place);
-        _placeButton.enabled = (_morsel.place != nil);
-
-        if (_morsel.place) {
-            _placeNameLabel.text = _morsel.place.name;
-            _placeCityStateLabel.text = [NSString stringWithFormat:@"%@, %@", _morsel.place.city, _morsel.place.state];
+        if (self.morsel.morselIDValue == self.morselID && self.coverAttributedString) {
+            self.infoTextView.attributedText = self.coverAttributedString;
+        } else {
+            self.morselID = self.morsel.morselIDValue;
+            __weak __typeof(self) weakSelf = self;
+            [self.morsel getCoverInformation:^(NSAttributedString *attributedString, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.infoTextView.attributedText = attributedString;
+                    weakSelf.coverAttributedString = attributedString;
+                });
+            }];
         }
 
         if (!_morsel.publishedDate) {
             self.timeAgoLabel.hidden = YES;
-            self.clockImageView.hidden = YES;
             self.profileImageView.userInteractionEnabled = NO;
             self.editButton.hidden = YES;
-            self.placeButton.enabled = NO;
         }
     });
+}
+
+#pragma mark - UITextView Delegate
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([[URL scheme] isEqualToString:@"profile"]) {
+        [self displayProfileWithID:_morsel.creator.userID];
+        return NO;
+    } else if ([[URL scheme] isEqualToString:@"place"]) {
+        [self displayPlace];
+        return NO;
+    } else if ([[URL scheme] isEqualToString:@"more"]) {
+        UINavigationController *taggedNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardTaggedUsersKey];
+        MRSLMorselTaggedUsersViewController *taggedUsersVC = [[taggedNC viewControllers] firstObject];
+        taggedUsersVC.morsel = self.morsel;
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                            object:taggedNC];
+    } else if ([[URL scheme] isEqualToString:@"user"]) {
+        NSNumber *userID = @([[URL host] intValue]);
+        [self displayProfileWithID:userID];
+    }
+    return YES;
 }
 
 #pragma mark - Notification Methods
@@ -155,23 +167,9 @@
     }];
 }
 
-#pragma mark - MRSLItemImageViewDelegate
-
-- (void)itemImageViewDidSelectItem:(MRSLItem *)item {
-    [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Morsel Thumbnail",
-                                              @"_view": @"feed",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                              @"item_id": NSNullIfNil(item.itemID)}];
-    if ([self.delegate respondsToSelector:@selector(feedCoverCollectionViewCellDidSelectMorsel:)]) {
-        [self.delegate feedCoverCollectionViewCellDidSelectMorsel:item];
-    }
-}
-
 #pragma mark - Dealloc
 
 - (void)dealloc {
-    self.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

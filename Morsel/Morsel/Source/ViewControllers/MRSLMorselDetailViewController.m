@@ -11,6 +11,7 @@
 #import <SDWebImage/SDWebImageManager.h>
 
 #import "MRSLAPIService+Morsel.h"
+#import "MRSLAPIService+Like.h"
 #import "NSMutableArray+Additions.h"
 
 #import "MRSLFeedPanelViewController.h"
@@ -42,6 +43,9 @@ MRSLFeedPanelCollectionViewCellDelegate>
 @property (strong, nonatomic) NSFetchedResultsController *feedFetchedResultsController;
 @property (strong, nonatomic) NSMutableArray *morsels;
 @property (strong, nonatomic) NSMutableArray *morselIDs;
+@property (strong, nonatomic) UIBarButtonItem *likeBarButtonItem;
+@property (strong, nonatomic) UIBarButtonItem *space;
+@property (strong, nonatomic) UIBarButtonItem *shareBarButtonItem;
 
 @property (strong, nonatomic) MRSLUser *currentUser;
 
@@ -83,7 +87,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                    }];
     }
 
-    self.mp_eventView = @"user_feed";
+    self.mp_eventView = @"morsel_detail";
 
     self.isPreview = (_morsel.publishedDate == nil);
 
@@ -99,6 +103,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showControls)
                                                  name:MRSLModalWillDismissNotification
                                                object:nil];
+    if (!_isPreview) [self setupFeedNavigationItems];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -132,7 +137,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 #pragma mark - Action Methods
 
-- (IBAction)displayMorselShare {
+- (void)displayMorselShare {
     NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
     if (indexPath) {
         MRSLFeedPanelCollectionViewCell *visibleFeedPanel = (MRSLFeedPanelCollectionViewCell *)[self.feedCollectionView cellForItemAtIndexPath:indexPath];
@@ -140,7 +145,71 @@ MRSLFeedPanelCollectionViewCellDelegate>
     }
 }
 
+- (IBAction)toggleLike {
+    if ([MRSLUser isCurrentUserGuest]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayLandingNotification
+                                                            object:nil];
+        return;
+    }
+    NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath) {
+        MRSLMorsel *morsel = [self.morsels objectAtIndex:indexPath.row];
+
+        self.likeBarButtonItem.enabled = NO;
+        if (!morsel.managedObjectContext) return;
+        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                     properties:@{@"_title": @"Like Icon",
+                                                  @"_view": self.mp_eventView,
+                                                  @"morsel_id": morsel.morselID}];
+
+        [morsel setLikedValue:!morsel.likedValue];
+        [self setLikeButtonImageForMorsel:morsel];
+
+        __weak __typeof(self) weakSelf = self;
+        [_appDelegate.apiService likeItem:nil
+                             orLikeMorsel:morsel
+                               shouldLike:morsel.likedValue
+                                  didLike:^(BOOL doesLike) {
+                                      if (morsel.likedValue) [MRSLEventManager sharedManager].likes_given++;
+                                      weakSelf.likeBarButtonItem.enabled = YES;
+                                  } failure: ^(NSError * error) {
+                                      weakSelf.likeBarButtonItem.enabled = YES;
+                                      [morsel setLikedValue:!morsel.likedValue];
+                                      [morsel setLike_countValue:morsel.like_countValue - 1];
+                                      [weakSelf setLikeButtonImageForMorsel:morsel];
+                                  }];
+    }
+}
+
+- (void)setLikeButtonImageForMorsel:(MRSLMorsel *)morsel {
+    UIImage *likeImage = [UIImage imageNamed:morsel.likedValue ? @"icon-like-on" : @"icon-like-off"];
+    [self.likeBarButtonItem setImage:likeImage];
+    self.likeBarButtonItem.enabled = YES;
+}
+
 #pragma mark - Private Methods
+
+- (void)setupFeedNavigationItems {
+    self.likeBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-like-off"]
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(toggleLike)];
+    self.likeBarButtonItem.width = 20.f;
+
+    self.space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                               target:nil
+                                                               action:nil];
+    self.space.width = -12;
+
+    self.shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-share"]
+                                                               style:UIBarButtonItemStylePlain
+                                                              target:self
+                                                              action:@selector(displayMorselShare)];
+
+    NSArray *buttons = @[self.space, self.shareBarButtonItem, self.likeBarButtonItem];
+
+    self.navigationItem.rightBarButtonItems = buttons;
+}
 
 - (void)setupFetchRequest {
     self.feedFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
@@ -159,10 +228,19 @@ MRSLFeedPanelCollectionViewCellDelegate>
     if (_isPreview) {
         self.title = @"Preview";
     } else if (_isExplore) {
-        self.title = self.morsel.title;
+        if (!self.morsel) {
+            NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
+            if (indexPath) {
+                MRSLMorsel *morsel = [self.morsels objectAtIndex:indexPath.row];
+                self.title = morsel.title;
+            }
+        } else {
+            self.title = self.morsel.title;
+        }
     } else {
-        self.title = [NSString stringWithFormat:@"%@'s morsels", _user.username];
+        self.title = [NSString stringWithFormat:@"%@", _user.username];
     }
+    if (self.morsel) [self setLikeButtonImageForMorsel:self.morsel];
     NSError *fetchError = nil;
     [_feedFetchedResultsController performFetch:&fetchError];
     self.morsels = [[_feedFetchedResultsController fetchedObjects] mutableCopy];
@@ -234,7 +312,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
     MRSLFeedPanelCollectionViewCell *morselPanelCell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier
                                                                                                  forIndexPath:indexPath];
     [morselPanelCell setOwningViewController:self
-                                  withMorsel:morsel];
+                                  withMorsel:morsel
+                               andNextMorsel:nil];
     NSMutableIndexSet *morselIndices = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(indexPath.row, MIN(indexPath.row + 3, ([_morsels count] - 1) - indexPath.row))];
     [[MRSLMediaManager sharedManager] queueCoverMediaForMorsels:[_morsels objectsAtIndexes:morselIndices]];
     morselPanelCell.delegate = self;
@@ -264,6 +343,22 @@ MRSLFeedPanelCollectionViewCellDelegate>
     self.previousContentOffset = scrollView.contentOffset.x;
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self handleScrollComplete];
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    [self handleScrollComplete];
+}
+
+- (void)handleScrollComplete {
+    NSIndexPath *indexPath = [[_feedCollectionView indexPathsForVisibleItems] firstObject];
+    if (indexPath && indexPath.row < [_morsels count]) {
+        MRSLMorsel *visibleMorsel = [_morsels objectAtIndex:indexPath.row];
+        [self setLikeButtonImageForMorsel:visibleMorsel];
+    }
+}
+
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
@@ -272,17 +367,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 #pragma mark - MRSLFeedPanelCollectionViewCellDelegate
-
-- (void)feedPanelCollectionViewCellDidSelectPreviousMorsel {
-    NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
-    if (indexPath.row != 0) {
-        NSIndexPath *previousIndexPath = [NSIndexPath indexPathForRow:indexPath.row - 1
-                                                            inSection:0];
-        [self.feedCollectionView scrollToItemAtIndexPath:previousIndexPath
-                                        atScrollPosition:UICollectionViewScrollPositionNone
-                                                animated:YES];
-    }
-}
 
 - (void)feedPanelCollectionViewCellDidSelectNextMorsel {
     NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
@@ -293,16 +377,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                         atScrollPosition:UICollectionViewScrollPositionNone
                                                 animated:YES];
     }
-}
-
-#pragma mark - Dealloc
-
-- (void)reset {
-    [super reset];
-    self.feedCollectionView.delegate = nil;
-    self.feedCollectionView.dataSource = nil;
-    [self.feedCollectionView removeFromSuperview];
-    self.feedCollectionView = nil;
 }
 
 @end

@@ -39,5 +39,42 @@
     return [UIFont fontWithName:@"Roboto-Bold"
                            size:fontSize];
 }
+#warning Support content size changes, listen for notification
++ (UIFont *)preferredRobotoFontForTextStyle:(NSString *)textStyle {
+    CGFloat fontSize = 16.f;
+    NSString *contentSize = [UIApplication sharedApplication].preferredContentSizeCategory;
+
+    if ([contentSize isEqualToString:UIContentSizeCategoryExtraSmall]) {
+        fontSize = 8.f;
+    } else if ([contentSize isEqualToString:UIContentSizeCategorySmall]) {
+        fontSize = 9.f;
+    } else if ([contentSize isEqualToString:UIContentSizeCategoryMedium]) {
+        fontSize = 10.f;
+    } else if ([contentSize isEqualToString:UIContentSizeCategoryLarge]) {
+        fontSize = 12.f;
+    } else if ([contentSize isEqualToString:UIContentSizeCategoryExtraLarge]) {
+        fontSize = 14.f;
+    } else if ([contentSize isEqualToString:UIContentSizeCategoryExtraExtraLarge]) {
+        fontSize = 16.f;
+    } else if ([contentSize isEqualToString:UIContentSizeCategoryExtraExtraExtraLarge]) {
+        fontSize = 20.f;
+    }
+
+    // choose the font weight
+    if ([textStyle isEqualToString:UIFontTextStyleHeadline]) {
+        fontSize += 2.f;
+        return [UIFont robotoSlabBoldFontOfSize:fontSize];
+    } else if ([textStyle isEqualToString:UIFontTextStyleSubheadline]) {
+        return [UIFont robotoSlabBoldFontOfSize:fontSize];
+    } else if ([textStyle isEqualToString:UIFontTextStyleCaption1]) {
+        fontSize -= 2.f;
+        return [UIFont robotoSlabRegularFontOfSize:fontSize];
+    }  else if ([textStyle isEqualToString:UIFontTextStyleCaption2]) {
+        fontSize -= 2.f;
+        return [UIFont robotoSlabRegularFontOfSize:fontSize];
+    } else {
+        return [UIFont robotoSlabRegularFontOfSize:fontSize];
+    }
+}
 
 @end

@@ -95,7 +95,7 @@
                     remainingTagUsersLabel.textColor = [UIColor whiteColor];
                     remainingTagUsersLabel.backgroundColor = [UIColor morselPrimary];
                     [remainingTagUsersLabel setRoundedCornerRadius:20.f];
-                    remainingTagUsersLabel.text = [NSString stringWithFormat:@"+%u", ([_taggedUserIDs count] - userCount)];
+                    remainingTagUsersLabel.text = [NSString stringWithFormat:@"+%i", (int)([_taggedUserIDs count] - userCount)];
                     [self.usersContainerView addSubview:remainingTagUsersLabel];
                     break;
                 } else {

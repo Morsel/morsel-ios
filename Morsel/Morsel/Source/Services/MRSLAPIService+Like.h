@@ -20,12 +20,14 @@
                      failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getItemLikes:(MRSLItem *)item
+       orMorselLikes:(MRSLMorsel *)morsel
              success:(MRSLAPIArrayBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)likeItem:(MRSLItem *)item
+    orLikeMorsel:(MRSLMorsel *)morsel
       shouldLike:(BOOL)shouldLike
-         didLike:(MRSLAPILikeBlock)didLikeOrNil
+         didLike:(MRSLAPILikeBlock)likeBlockOrNil
          failure:(MRSLFailureBlock)failureOrNil;
 
 @end

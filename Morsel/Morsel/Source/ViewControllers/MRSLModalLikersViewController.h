@@ -6,12 +6,10 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "MRSLBaseModalViewController.h"
 
 @interface MRSLModalLikersViewController : MRSLBaseViewController
 
-@property (weak, nonatomic) MRSLItem *item;
+@property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end

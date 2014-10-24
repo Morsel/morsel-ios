@@ -26,6 +26,7 @@ typedef void (^ MRSLAPIExistsBlock)(BOOL exists, NSError *error);
 typedef void (^ MRSLAPIValidationBlock)(BOOL isAvailable, NSError *error);
 typedef void (^ MRSLAPICountBlock)(int countValue);
 typedef void (^ MRSLImageProcessingBlock)(BOOL success);
+typedef void (^ MRSLAttributedStringBlock)(NSAttributedString *attributedString, NSError *error);
 typedef void (^ MRSLSocialSuccessBlock)(BOOL success);
 typedef void (^ MRSLSocialFailureBlock)(NSError *error);
 typedef void (^ MRSLSocialUserInfoBlock)(NSDictionary *userInfo, NSError *error);
@@ -94,6 +95,7 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
+static const CGFloat MRSLCellDefaultPadding = 20.f;
 static const CGFloat MRSLImageLargeThreshold = 220.f;
 static const CGFloat MRSLImageFullDimensionSize = 640.f;
 static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;

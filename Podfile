@@ -13,18 +13,17 @@ pod 'NSDate+TimeAgo', '1.0.2'
 pod 'OAuthCore', '0.0.1'
 pod 'Mixpanel', '2.3.1'
 pod 'ALAssetsLibrary-CustomPhotoAlbum', '~> 1.2'
-pod 'SDWebImage', :git => 'https://github.com/Morsel/SDWebImage'
 pod 'JLRoutes', '1.5'
 pod 'Facebook-iOS-SDK', '3.17'
-pod 'AFOAuth1Client', :git => 'https://github.com/Morsel/AFOAuth1Client'
-pod 'AFOAuth2Client', :git => 'https://github.com/Morsel/AFOAuth2Client'
 pod 'NXOAuth2Client', '1.2.6'
 pod 'XMLDictionary', '1.4'
-pod 'RSKImageCropper', :git => 'https://github.com/Morsel/RSKImageCropper'
 pod 'RNActivityView', '~> 0.0'
+pod 'GPUImage', '~> 0.1'
 
-# Note: 0.1.5 contains a fix for a common crash but has not been released as a cocoapod yet, so point to GitHub instead.
-pod 'GPUImage', :git => 'git@github.com:BradLarson/GPUImage.git', :tag => '0.1.5'
+pod 'SDWebImage', :git => 'https://github.com/Morsel/SDWebImage'
+pod 'AFOAuth1Client', :git => 'https://github.com/Morsel/AFOAuth1Client'
+pod 'AFOAuth2Client', :git => 'https://github.com/Morsel/AFOAuth2Client'
+pod 'RSKImageCropper', :git => 'https://github.com/Morsel/RSKImageCropper'
 
 # M13Checkbox's podspec on cocoapods incorrectly says iOS7 as the minimum
 pod 'M13Checkbox', :git => 'git@github.com:Marxon13/M13Checkbox.git', :commit => '8c3a6f167e0f602dd47928492ef3777e604be66b'

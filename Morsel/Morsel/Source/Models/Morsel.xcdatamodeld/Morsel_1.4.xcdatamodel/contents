@@ -143,7 +143,10 @@
         </attribute>
         <attribute name="feedItemFeatured" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="feedItemID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="has_tagged_users" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="morselID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="id"/>
@@ -152,10 +155,9 @@
         <attribute name="morselPhotoURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="primary_item_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="publishedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="tagged" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="template_id" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="total_comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="total_like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="twitter_mrsl" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="mrsl.twitter_mrsl"/>
@@ -474,7 +476,7 @@
         <element name="MRSLComment" positionX="7" positionY="0" width="128" height="118"/>
         <element name="MRSLItem" positionX="-243" positionY="0" width="128" height="465"/>
         <element name="MRSLKeyword" positionX="7" positionY="-130" width="128" height="103"/>
-        <element name="MRSLMorsel" positionX="-153" positionY="458" width="128" height="358"/>
+        <element name="MRSLMorsel" positionX="-153" positionY="458" width="128" height="390"/>
         <element name="MRSLNotification" positionX="9" positionY="405" width="128" height="165"/>
         <element name="MRSLPlace" positionX="628" positionY="240" width="128" height="553"/>
         <element name="MRSLPresignedUpload" positionX="-36" positionY="18" width="128" height="180"/>

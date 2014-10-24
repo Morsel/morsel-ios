@@ -9,7 +9,7 @@
 #import "MRSLImageView.h"
 #import "MRSLActivityIndicatorView.h"
 
-#import <GPUImage/GPUImageGaussianBlurFilter.h>
+#import <GPUImage/GPUImage.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #import "UIImage+Color.h"
@@ -57,9 +57,10 @@
     if (self.shouldBlur && image) {
         GPUImageGaussianBlurFilter *blurFilter = [[GPUImageGaussianBlurFilter alloc] init];
         blurFilter.blurPasses = 5.f;
+        self.imageProcessed = YES;
+        UIImage *processedImage = [blurFilter imageByFilteringImage:image];
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.image = [blurFilter imageByFilteringImage:image];
-            self.imageProcessed = YES;
+            self.image = processedImage;
         });
     } else {
         if (self.grayScale) {
