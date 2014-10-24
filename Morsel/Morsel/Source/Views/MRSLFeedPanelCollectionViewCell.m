@@ -25,7 +25,8 @@
 }
 
 - (void)setOwningViewController:(UIViewController *)owningViewController
-                       withMorsel:(MRSLMorsel *)morsel {
+                     withMorsel:(MRSLMorsel *)morsel
+                  andNextMorsel:(MRSLMorsel *)nextMorsel {
     _owningViewController = owningViewController;
     if (!_feedPanelViewController) {
         MRSLFeedPanelViewController *feedPanelVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardFeedPanelViewControllerKey];
@@ -39,6 +40,7 @@
         self.feedPanelViewController = feedPanelVC;
     }
     _feedPanelViewController.morsel = morsel;
+    _feedPanelViewController.nextMorsel = nextMorsel;
 }
 
 #pragma mark - MRSLFeedPanelViewControllerDelegate

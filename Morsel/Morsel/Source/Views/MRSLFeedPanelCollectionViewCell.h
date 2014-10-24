@@ -24,6 +24,7 @@
 @property (weak, nonatomic) MRSLFeedPanelViewController *feedPanelViewController;
 
 - (void)setOwningViewController:(UIViewController *)owningViewController
-                       withMorsel:(MRSLMorsel *)morsel;
+                     withMorsel:(MRSLMorsel *)morsel
+                  andNextMorsel:(MRSLMorsel *)nextMorsel;
 
 @end

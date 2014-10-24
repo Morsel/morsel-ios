@@ -69,6 +69,9 @@
 
     _reportButton.hidden = [_morsel.creator isCurrentUser];
     _followButton.hidden = YES;
+    _nextMorselButton.hidden = (!self.nextMorsel);
+    _nextInfoTextView.hidden = (!self.nextMorsel);
+
     if (!_reportButton.hidden) {
         self.morselID = self.morsel.morselIDValue;
         __weak __typeof(self)weakSelf = self;
@@ -82,28 +85,29 @@
 
     self.userInfoTextView.attributedText = [_morsel.creator profileInformation];
 
-    NSString *nextMorsel = @"View next morsel";
-#warning Get next morsel name
-    NSString *morselName = @"";
-    NSMutableAttributedString *nextInfoAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n%@", nextMorsel, morselName]];
-    [nextInfoAttributedString addAttribute:NSLinkAttributeName
-                                     value:@"next://display"
-                                     range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
-    [nextInfoAttributedString addAttribute:NSFontAttributeName
-                                     value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
-                                     range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
-    [nextInfoAttributedString addAttribute:NSLinkAttributeName
-                                     value:@"next://display"
-                                     range:[[nextInfoAttributedString string] rangeOfString:morselName]];
-    [nextInfoAttributedString addAttribute:NSFontAttributeName
-                                     value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]
-                                     range:[[nextInfoAttributedString string] rangeOfString:morselName]];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setAlignment:NSTextAlignmentRight];
-    [nextInfoAttributedString addAttribute:NSParagraphStyleAttributeName
-                                     value:paragraphStyle
-                                     range:NSMakeRange(0, nextInfoAttributedString.length)];
-    self.nextInfoTextView.attributedText = nextInfoAttributedString;
+    if (!_nextInfoTextView.hidden) {
+        NSString *nextMorsel = @"View next morsel";
+        NSString *morselName = self.nextMorsel.title ?: @"";
+        NSMutableAttributedString *nextInfoAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n%@", nextMorsel, morselName]];
+        [nextInfoAttributedString addAttribute:NSLinkAttributeName
+                                         value:@"next://display"
+                                         range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
+        [nextInfoAttributedString addAttribute:NSFontAttributeName
+                                         value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                         range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
+        [nextInfoAttributedString addAttribute:NSLinkAttributeName
+                                         value:@"next://display"
+                                         range:[[nextInfoAttributedString string] rangeOfString:morselName]];
+        [nextInfoAttributedString addAttribute:NSFontAttributeName
+                                         value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]
+                                         range:[[nextInfoAttributedString string] rangeOfString:morselName]];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setAlignment:NSTextAlignmentRight];
+        [nextInfoAttributedString addAttribute:NSParagraphStyleAttributeName
+                                         value:paragraphStyle
+                                         range:NSMakeRange(0, nextInfoAttributedString.length)];
+        self.nextInfoTextView.attributedText = nextInfoAttributedString;
+    }
 }
 
 #pragma mark - UITextView Delegate

@@ -486,11 +486,14 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MRSLMorsel *morsel = [_feedMorsels objectAtIndex:indexPath.row];
+    MRSLMorsel *nextMorsel = nil;
+    if (indexPath.row + 1 < [_feedMorsels count] - 1) nextMorsel = [_feedMorsels objectAtIndex:indexPath.row + 1];
     NSString *identifier = [NSString stringWithFormat:@"%@_%d", MRSLStoryboardRUIDFeedPanelCellKey, (int)(indexPath.row % 4)];
     MRSLFeedPanelCollectionViewCell *morselPanelCell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier
                                                                                                  forIndexPath:indexPath];
     [morselPanelCell setOwningViewController:self
-                                  withMorsel:morsel];
+                                  withMorsel:morsel
+                               andNextMorsel:nextMorsel];
     NSMutableIndexSet *morselIndices = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(indexPath.row, MIN(indexPath.row + 3, ([_feedMorsels count] - 1) - indexPath.row))];
     [[MRSLMediaManager sharedManager] queueCoverMediaForMorsels:[_feedMorsels objectsAtIndexes:morselIndices]];
     morselPanelCell.delegate = self;

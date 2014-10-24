@@ -236,6 +236,7 @@ MRSLFeedShareCollectionViewCellDelegate>
     } else if (indexPath.row == [_morsel.items count] + 1) {
         MRSLFeedShareCollectionViewCell *shareCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDFeedShareCellKey
                                                                                                forIndexPath:indexPath];
+        shareCell.nextMorsel = _nextMorsel;
         shareCell.morsel = _morsel;
         shareCell.delegate = self;
         cell = shareCell;
@@ -260,7 +261,7 @@ MRSLFeedShareCollectionViewCellDelegate>
         cellHeight = coverElementsHeight + [self.morsel coverInformationHeight];
     } else if (indexPath.row == [_morsel.items count] + 1) {
         // Estimate height for share page
-        CGFloat shareElementsHeight = 175.f;
+        CGFloat shareElementsHeight = 200.f;
         cellHeight = shareElementsHeight + [self.morsel.creator profileInformationHeight];
     } else {
         // Estimate height for item page

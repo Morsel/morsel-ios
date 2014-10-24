@@ -22,5 +22,6 @@
 @property (weak, nonatomic) id <MRSLFeedShareCollectionViewCellDelegate> delegate;
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLMorsel *nextMorsel;
 
 @end

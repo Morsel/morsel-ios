@@ -234,7 +234,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
     MRSLFeedPanelCollectionViewCell *morselPanelCell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier
                                                                                                  forIndexPath:indexPath];
     [morselPanelCell setOwningViewController:self
-                                  withMorsel:morsel];
+                                  withMorsel:morsel
+                               andNextMorsel:nil];
     NSMutableIndexSet *morselIndices = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(indexPath.row, MIN(indexPath.row + 3, ([_morsels count] - 1) - indexPath.row))];
     [[MRSLMediaManager sharedManager] queueCoverMediaForMorsels:[_morsels objectsAtIndexes:morselIndices]];
     morselPanelCell.delegate = self;
