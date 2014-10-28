@@ -25,7 +25,7 @@
     NSCharacterSet *angleBrackets = [NSCharacterSet characterSetWithCharactersInString:@"<>"];
     NSString *deviceTokenSansBrackets = [[deviceToken description] stringByTrimmingCharactersInSet:angleBrackets];
 
-    // TODO: Upload deviceTokenSansBrackets to API
+#warning Upload deviceTokenSansBrackets to API
 }
 
 @end

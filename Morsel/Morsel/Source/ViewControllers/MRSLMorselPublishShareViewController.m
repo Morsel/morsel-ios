@@ -25,6 +25,9 @@
 
 @property (nonatomic) int morselID;
 
+@property (weak, nonatomic) IBOutlet UIButton *facebookButton;
+@property (weak, nonatomic) IBOutlet UIButton *twitterButton;
+
 @property (weak, nonatomic) IBOutlet UISwitch *twitterSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *facebookSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *instagramSwitch;
@@ -39,11 +42,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mp_eventView = @"publish_morsel";
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appBecameActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
     _morsel = morsel;
     self.morselID = morsel.morselIDValue;
+}
+
+#pragma mark - Notification Methods
+
+- (void)appBecameActive {
+    self.twitterButton.enabled = YES;
+    self.facebookButton.enabled = YES;
 }
 
 #pragma mark - Action Methods
@@ -61,6 +76,8 @@
                                               @"share_to_twitter": _twitterSwitch.isOn ? @"true" : @"false",
                                               @"share_to_instagram": _instagramSwitch.isOn ? @"true" : @"false"}];
 
+#warning Double check toggled connections to make sure sessions are valid
+#warning Check to make sure authentications exist on backend
     __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService publishMorsel:_morsel
                                    success:^(id responseObject) {
@@ -76,70 +93,95 @@
                        willOpenInInstagram:_instagramSwitch.isOn];
 }
 
-- (IBAction)toggleFacebook:(UISwitch *)switchControl {
-    __weak __typeof(self) weakSelf = self;
-    _facebookSwitch.enabled = NO;
-    if (![FBSession.activeSession isOpen]) {
-        [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-            if (weakSelf) {
-                if (!error && [session isOpen]) {
-                    // This must be dispatched after, otherwise it will trigger before the app has resumed.
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [weakSelf checkForFacebookPublishPermissions];
-                    });
-                } else {
-                    [weakSelf setOnSwitch:weakSelf.facebookSwitch
-                               forNetwork:@"facebook"
-                             shouldTurnOn:NO];
-                    [MRSLSocialServiceFacebook sharedService].sessionStateHandlerBlock = nil;
+- (IBAction)toggleFacebook {
+    _facebookButton.enabled = NO;
+
+    if (!_facebookSwitch.isOn) {
+        if (![FBSession.activeSession isOpen]) {
+            __weak __typeof(self) weakSelf = self;
+            [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                if (weakSelf) {
+                    if (!error && [session isOpen]) {
+                        // This must be dispatched after, otherwise it will trigger before the app has resumed.
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [weakSelf checkForFacebookPublishPermissions];
+                        });
+                    } else {
+                        [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                    forNetwork:@"facebook"
+                                  shouldTurnOn:NO];
+                        [MRSLSocialServiceFacebook sharedService].sessionStateHandlerBlock = nil;
+                    }
                 }
-            }
+            }];
+        } else {
+            [self checkForFacebookPublishPermissions];
+        }
+    } else {
+        [self toggleSwitch:_facebookSwitch
+                forNetwork:@"facebook"
+              shouldTurnOn:NO];
+        self.facebookButton.enabled = YES;
+    }
+}
+
+- (IBAction)toggleTwitter {
+    _twitterButton.enabled = NO;
+    if (!_twitterSwitch.isOn) {
+        __weak __typeof(self) weakSelf = self;
+        [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:^(BOOL success) {
+            [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                        forNetwork:@"twitter"
+                      shouldTurnOn:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.twitterButton.enabled = YES;
+            });
+        } failure:^(NSError *error) {
+            [[MRSLSocialServiceTwitter sharedService] authenticateWithTwitterWithSuccess:^(BOOL success) {
+                if (success) {
+                    [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                                forNetwork:@"twitter"
+                              shouldTurnOn:YES];
+                } else {
+                    [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                                forNetwork:@"twitter"
+                              shouldTurnOn:NO];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.twitterButton.enabled = YES;
+                });
+            } failure:^(NSError *error) {
+                [weakSelf toggleSwitch:weakSelf.twitterSwitch
+                            forNetwork:@"twitter"
+                          shouldTurnOn:NO];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.twitterButton.enabled = YES;
+                });
+            }];
         }];
     } else {
-        [self checkForFacebookPublishPermissions];
+        [self toggleSwitch:_twitterSwitch
+                forNetwork:@"twitter"
+              shouldTurnOn:NO];
+        self.twitterButton.enabled = YES;
     }
 }
 
 - (IBAction)toggleInstagram:(UISwitch *)switchControl {
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://app"]]) {
-        [self setOnSwitch:_instagramSwitch
-               forNetwork:@"instagram"
-             shouldTurnOn:_instagramSwitch.isOn];
+        [self toggleSwitch:_instagramSwitch
+                forNetwork:@"instagram"
+              shouldTurnOn:_instagramSwitch.isOn];
     } else {
-        [self setOnSwitch:_instagramSwitch
-               forNetwork:@"instagram"
-             shouldTurnOn:NO];
+        [self toggleSwitch:_instagramSwitch
+                forNetwork:@"instagram"
+              shouldTurnOn:NO];
         [UIAlertView showAlertViewWithTitle:@"Instagram not found"
                                     message:@"Please install Instagram to share your morsel there"
                                    delegate:nil
                           cancelButtonTitle:@"Ok"
                           otherButtonTitles:nil];
     }
-}
-
-- (IBAction)toggleTwitter:(UISwitch *)switchControl {
-    _twitterSwitch.enabled = NO;
-
-    __weak __typeof(self) weakSelf = self;
-    [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:^(BOOL success) {
-        weakSelf.twitterSwitch.enabled = YES;
-    } failure:^(NSError *error) {
-        [[MRSLSocialServiceTwitter sharedService] authenticateWithTwitterWithSuccess:^(BOOL success) {
-            if (success) {
-                [weakSelf setOnSwitch:weakSelf.twitterSwitch
-                           forNetwork:@"twitter"
-                         shouldTurnOn:YES];
-            } else {
-                [weakSelf setOnSwitch:weakSelf.twitterSwitch
-                           forNetwork:@"twitter"
-                         shouldTurnOn:NO];
-            }
-        } failure:^(NSError *error) {
-            [weakSelf setOnSwitch:weakSelf.twitterSwitch
-                       forNetwork:@"twitter"
-                     shouldTurnOn:NO];
-        }];
-    }];
 }
 
 #pragma mark - Private Methods
@@ -152,19 +194,27 @@
                 [[MRSLSocialServiceFacebook sharedService] requestPublishPermissionsWithCompletion:^(FBSession *session, NSError *error) {
                     if ([FBSession.activeSession.permissions
                          indexOfObject:@"publish_actions"] != NSNotFound) {
-                        [weakSelf setOnSwitch:weakSelf.facebookSwitch
-                                   forNetwork:@"facebook"
-                                 shouldTurnOn:YES];
+                        [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                    forNetwork:@"facebook"
+                                  shouldTurnOn:YES];
                     } else {
-                        [weakSelf setOnSwitch:weakSelf.facebookSwitch
-                                   forNetwork:@"facebook"
-                                 shouldTurnOn:NO];
+                        [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                    forNetwork:@"facebook"
+                                  shouldTurnOn:NO];
                         [UIAlertView showOKAlertViewWithTitle:@"Publish Permission Required"
                                                       message:@"Morsel has not been granted authorization to post to Facebook on your behalf."];
                     }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        weakSelf.facebookButton.enabled = YES;
+                    });
                 }];
             } else {
-                weakSelf.facebookSwitch.enabled = YES;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.facebookButton.enabled = YES;
+                    [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                                forNetwork:@"facebook"
+                              shouldTurnOn:YES];
+                });
             }
         }
     }];
@@ -206,9 +256,9 @@
     });
 }
 
-- (void)setOnSwitch:(UISwitch *)socialSwitch
-         forNetwork:(NSString *)network
-       shouldTurnOn:(BOOL)shouldTurnOn {
+- (void)toggleSwitch:(UISwitch *)socialSwitch
+          forNetwork:(NSString *)network
+        shouldTurnOn:(BOOL)shouldTurnOn {
     dispatch_async(dispatch_get_main_queue(), ^{
         [socialSwitch setEnabled:YES];
         [socialSwitch setOn:shouldTurnOn
@@ -233,16 +283,6 @@
 - (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:nil];
-}
-
-#pragma mark - Dealloc
-
-- (void)reset {
-    [super reset];
-    if (self.documentInteractionController) {
-        self.documentInteractionController.delegate = nil;
-        self.documentInteractionController = nil;
-    }
 }
 
 @end
