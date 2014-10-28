@@ -24,6 +24,12 @@
 <UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic) int morselID;
+@property (nonatomic) int checksRequired;
+@property (nonatomic) int checksCompleted;
+
+@property (nonatomic) BOOL publishing;
+
+@property (strong, nonatomic) NSMutableArray *checksFailed;
 
 @property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 @property (weak, nonatomic) IBOutlet UIButton *twitterButton;
@@ -65,32 +71,16 @@
 
 - (IBAction)publishMorsel:(id)sender {
     _publishButton.enabled = NO;
-    _morsel.draft = @NO;
 
-    [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Publish",
-                                              @"_view": self.mp_eventView,
-                                              @"morsel_id": NSNullIfNil(self.morsel.morselID),
-                                              @"creator_id": NSNullIfNil(self.morsel.creator.userID),
-                                              @"share_to_facebook": _facebookSwitch.isOn ? @"true" : @"false",
-                                              @"share_to_twitter": _twitterSwitch.isOn ? @"true" : @"false",
-                                              @"share_to_instagram": _instagramSwitch.isOn ? @"true" : @"false"}];
+    self.checksFailed = [NSMutableArray array];
+    if (_facebookSwitch.isOn) self.checksRequired++;
+    if (_twitterSwitch.isOn) self.checksRequired++;
 
-#warning Double check toggled connections to make sure sessions are valid
-#warning Check to make sure authentications exist on backend
-    __weak __typeof(self) weakSelf = self;
-    [_appDelegate.apiService publishMorsel:_morsel
-                                   success:^(id responseObject) {
-                                       [MRSLEventManager sharedManager].morsels_published++;
-                                       if (weakSelf.instagramSwitch.isOn) [weakSelf prepareForInstagram];
-                                   } failure:^(NSError *error) {
-                                       weakSelf.publishButton.enabled = YES;
-                                       [UIAlertView showAlertViewForErrorString:@"Unable to publish morsel, please try again!"
-                                                                       delegate:nil];
-                                   }
-                            sendToFacebook:_facebookSwitch.isOn
-                             sendToTwitter:_twitterSwitch.isOn
-                       willOpenInInstagram:_instagramSwitch.isOn];
+    if (self.checksRequired > 0) {
+        [self performPublishPreflightCheck];
+    } else {
+        [self finalizePublish];
+    }
 }
 
 - (IBAction)toggleFacebook {
@@ -100,22 +90,31 @@
         if (![FBSession.activeSession isOpen]) {
             __weak __typeof(self) weakSelf = self;
             [[MRSLSocialServiceFacebook sharedService] openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-                if (weakSelf) {
+                __strong __typeof(weakSelf) strongSelf = weakSelf;
+                if (strongSelf) {
                     if (!error && [session isOpen]) {
                         // This must be dispatched after, otherwise it will trigger before the app has resumed.
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [weakSelf checkForFacebookPublishPermissions];
+                            [strongSelf checkForFacebookPublishPermissionsWithCompletion:^(BOOL success) {
+                                [strongSelf updateFacebookSwitch:success];
+                            }];
                         });
                     } else {
-                        [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                        [strongSelf toggleSwitch:strongSelf.facebookSwitch
                                     forNetwork:@"facebook"
                                   shouldTurnOn:NO];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            strongSelf.facebookButton.enabled = YES;
+                        });
                         [MRSLSocialServiceFacebook sharedService].sessionStateHandlerBlock = nil;
                     }
                 }
             }];
         } else {
-            [self checkForFacebookPublishPermissions];
+            __weak __typeof(self) weakSelf = self;
+            [self checkForFacebookPublishPermissionsWithCompletion:^(BOOL success) {
+                [weakSelf updateFacebookSwitch:success];
+            }];
         }
     } else {
         [self toggleSwitch:_facebookSwitch
@@ -132,7 +131,7 @@
         [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:^(BOOL success) {
             [weakSelf toggleSwitch:weakSelf.twitterSwitch
                         forNetwork:@"twitter"
-                      shouldTurnOn:YES];
+                      shouldTurnOn:success];
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakSelf.twitterButton.enabled = YES;
             });
@@ -186,7 +185,83 @@
 
 #pragma mark - Private Methods
 
-- (void)checkForFacebookPublishPermissions {
+- (void)performPublishPreflightCheck {
+    if (_facebookSwitch.isOn) {
+        __weak __typeof(self) weakSelf = self;
+        [[MRSLSocialServiceFacebook sharedService] checkForPublishPermissions:^(BOOL canPublish) {
+            __strong __typeof(weakSelf) strongSelf = weakSelf;
+            if (strongSelf) {
+                if (!canPublish) [strongSelf.checksFailed addObject:@"Facebook"];
+                [strongSelf verifyPublishPreflight];
+            }
+        }];
+    }
+    if (_twitterSwitch.isOn) {
+        __weak __typeof(self) weakSelf = self;
+        [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:^(BOOL success) {
+            if (!success) [weakSelf.checksFailed addObject:@"Twitter"];
+            [weakSelf verifyPublishPreflight];
+        } failure:^(NSError *error) {
+            [weakSelf.checksFailed addObject:@"Twitter"];
+            [weakSelf verifyPublishPreflight];
+        }];
+    }
+#warning Check to make sure authentications exist on backend
+}
+
+- (void)verifyPublishPreflight {
+    if (_publishing) return;
+
+    self.checksCompleted++;
+
+    BOOL readyToPublish = (self.checksCompleted == self.checksRequired);
+
+    if (readyToPublish && [self.checksFailed count] > 0) {
+        BOOL multipleFailures = ([self.checksFailed count] > 1);
+        [UIAlertView showOKAlertViewWithTitle:@"Publish Failed"
+                                      message:[NSString stringWithFormat:@"Your %@ session%@ appear%@ to be invalid. Please reconnect your account%@.", [self.checksFailed componentsJoinedByString:@" and "], multipleFailures ? @"s":@"", multipleFailures ? @"":@"s",  multipleFailures ? @"s":@""]];
+
+        [self.facebookSwitch setOn:NO
+                          animated:YES];
+        [self.twitterSwitch setOn:NO
+                         animated:YES];
+        self.publishing = NO;
+
+        self.publishButton.enabled = YES;
+    } else if (readyToPublish && [self.checksFailed count] == 0) {
+        [self finalizePublish];
+    }
+}
+
+- (void)finalizePublish {
+    self.publishing = YES;
+    _morsel.draft = @NO;
+
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Publish",
+                                              @"_view": self.mp_eventView,
+                                              @"morsel_id": NSNullIfNil(self.morsel.morselID),
+                                              @"creator_id": NSNullIfNil(self.morsel.creator.userID),
+                                              @"share_to_facebook": _facebookSwitch.isOn ? @"true" : @"false",
+                                              @"share_to_twitter": _twitterSwitch.isOn ? @"true" : @"false",
+                                              @"share_to_instagram": _instagramSwitch.isOn ? @"true" : @"false"}];
+
+    __weak __typeof(self) weakSelf = self;
+    [_appDelegate.apiService publishMorsel:_morsel
+                                   success:^(id responseObject) {
+                                       [MRSLEventManager sharedManager].morsels_published++;
+                                       if (weakSelf.instagramSwitch.isOn) [weakSelf prepareForInstagram];
+                                   } failure:^(NSError *error) {
+                                       weakSelf.publishButton.enabled = YES;
+                                       [UIAlertView showAlertViewForErrorString:@"Unable to publish morsel, please try again!"
+                                                                       delegate:nil];
+                                   }
+                            sendToFacebook:_facebookSwitch.isOn
+                             sendToTwitter:_twitterSwitch.isOn
+                       willOpenInInstagram:_instagramSwitch.isOn];
+}
+
+- (void)checkForFacebookPublishPermissionsWithCompletion:(MRSLSocialSuccessBlock)successOrNil {
     __weak __typeof(self) weakSelf = self;
     [[MRSLSocialServiceFacebook sharedService] checkForPublishPermissions:^(BOOL canPublish) {
         if (weakSelf) {
@@ -194,30 +269,33 @@
                 [[MRSLSocialServiceFacebook sharedService] requestPublishPermissionsWithCompletion:^(FBSession *session, NSError *error) {
                     if ([FBSession.activeSession.permissions
                          indexOfObject:@"publish_actions"] != NSNotFound) {
-                        [weakSelf toggleSwitch:weakSelf.facebookSwitch
-                                    forNetwork:@"facebook"
-                                  shouldTurnOn:YES];
+                        if (successOrNil) successOrNil(YES);
                     } else {
-                        [weakSelf toggleSwitch:weakSelf.facebookSwitch
-                                    forNetwork:@"facebook"
-                                  shouldTurnOn:NO];
-                        [UIAlertView showOKAlertViewWithTitle:@"Publish Permission Required"
-                                                      message:@"Morsel has not been granted authorization to post to Facebook on your behalf."];
+                        if (successOrNil) successOrNil(NO);
                     }
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        weakSelf.facebookButton.enabled = YES;
-                    });
                 }];
             } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    weakSelf.facebookButton.enabled = YES;
-                    [weakSelf toggleSwitch:weakSelf.facebookSwitch
-                                forNetwork:@"facebook"
-                              shouldTurnOn:YES];
-                });
+                if (successOrNil) successOrNil(YES);
             }
         }
     }];
+}
+
+- (void)updateFacebookSwitch:(BOOL)shouldEnable {
+    __weak __typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (weakSelf) {
+            weakSelf.facebookButton.enabled = shouldEnable;
+
+            [weakSelf toggleSwitch:weakSelf.facebookSwitch
+                        forNetwork:@"facebook"
+                      shouldTurnOn:shouldEnable];
+            if (!shouldEnable) {
+                [UIAlertView showOKAlertViewWithTitle:@"Publish Permission Required"
+                                              message:@"Morsel has not been granted authorization to post to Facebook on your behalf."];
+            }
+        }
+    });
 }
 
 - (void)prepareForInstagram {

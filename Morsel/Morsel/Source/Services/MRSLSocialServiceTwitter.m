@@ -96,7 +96,13 @@
     AFOAuth1Token *twitterToken = [AFOAuth1Token retrieveCredentialWithIdentifier:MRSLTwitterCredentialsKey];
     if (twitterToken && [self.socialAuthentication isValid]) {
         self.oauth1Client.accessToken = twitterToken;
-        if (successOrNil) successOrNil(YES);
+        [self getTwitterUserInformation:^(NSDictionary *userInfo, NSError *error) {
+            if (!error) {
+                if (successOrNil) successOrNil(YES);
+            } else {
+                if (failureOrNil) failureOrNil(nil);
+            }
+        }];
     } else {
         if (failureOrNil) failureOrNil(nil);
     }

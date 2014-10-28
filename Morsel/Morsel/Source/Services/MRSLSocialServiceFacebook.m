@@ -20,6 +20,8 @@
 
 @interface MRSLSocialServiceFacebook ()
 
+@property (nonatomic) BOOL clearingSocialAuthentication;
+
 @property (strong, nonatomic) NSArray *facebookAccounts;
 @property (strong, nonatomic) NSArray *friendUIDs;
 
@@ -78,6 +80,8 @@
                                           }
                                       }];
                                       if (canPublishOrNil) canPublishOrNil(canPublish);
+                                  } else {
+                                      if (canPublishOrNil) canPublishOrNil(NO);
                                   }
                               }];
     } else {
@@ -383,11 +387,16 @@
 }
 
 - (void)clearSocialAuthentication {
-    if ([_socialAuthentication isValid]) {
+    if ([_socialAuthentication isValid] && !_clearingSocialAuthentication) {
         DDLogDebug(@"Facebook clearing social authentication from backend");
+        self.clearingSocialAuthentication = YES;
+        __weak __typeof(self)weakSelf = self;
         [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
-                                                  success:nil
-                                                  failure:nil];
+                                                  success:^(id responseObject) {
+                                                      weakSelf.clearingSocialAuthentication = NO;
+                                                  } failure:^(NSError *error) {
+                                                      weakSelf.clearingSocialAuthentication = NO;
+                                                  }];
     }
 }
 
