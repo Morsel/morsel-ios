@@ -15,6 +15,7 @@
 #import "MRSLUser.h"
 
 @interface MRSLSocialServiceInstagram ()
+<UIAlertViewDelegate>
 
 @property (nonatomic) BOOL clearingSocialAuthentication;
 
@@ -199,14 +200,34 @@
     return _instagramCredentials.authorizationResponse[@"user"][@"username"];
 }
 
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLInstagramReconnectingAccountNotification
+                                                            object:nil];
+        [self authenticateWithInstagramWithSuccess:^(BOOL success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLInstagramReconnectedAccountNotification
+                                                                    object:nil];
+            });
+        } failure:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLInstagramReconnectAccountFailedNotification
+                                                                    object:nil];
+            });
+        }];
+    }
+}
+
 #pragma mark - Reset Methods
 
 - (void)displaySessionExpiredAlert {
     [UIAlertView showAlertViewWithTitle:@"Instagram session error"
-                                message:@"Your session is no longer valid. Please connect to Instagram again in Settings."
-                               delegate:nil
-                      cancelButtonTitle:@"OK"
-                      otherButtonTitles:nil];
+                                message:@"Your session is no longer valid. Would you like to reconnect your account?"
+                               delegate:self
+                      cancelButtonTitle:@"No"
+                      otherButtonTitles:@"Yes", nil];
 }
 
 - (void)clearSocialAuthentication {

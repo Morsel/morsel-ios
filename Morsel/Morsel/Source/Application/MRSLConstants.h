@@ -47,6 +47,18 @@ extern NSString *const MRSLRegisterRemoteNotificationsNotification;
 
 #pragma mark - Social Constants
 
+extern NSString *const MRSLFacebookReconnectingAccountNotification;
+extern NSString *const MRSLFacebookReconnectedAccountNotification;
+extern NSString *const MRSLFacebookReconnectAccountFailedNotification;
+
+extern NSString *const MRSLInstagramReconnectingAccountNotification;
+extern NSString *const MRSLInstagramReconnectedAccountNotification;
+extern NSString *const MRSLInstagramReconnectAccountFailedNotification;
+
+extern NSString *const MRSLTwitterReconnectingAccountNotification;
+extern NSString *const MRSLTwitterReconnectedAccountNotification;
+extern NSString *const MRSLTwitterReconnectAccountFailedNotification;
+
 extern NSString *const MRSLTwitterCredentialsKey;
 extern NSString *const MRSLInstagramAccountTypeKey;
 

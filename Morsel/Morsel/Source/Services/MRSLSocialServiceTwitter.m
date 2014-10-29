@@ -28,7 +28,8 @@
  */
 
 @interface MRSLSocialServiceTwitter ()
-<UIActionSheetDelegate>
+<UIActionSheetDelegate,
+UIAlertViewDelegate>
 
 @property (nonatomic) BOOL clearingSocialAuthentication;
 
@@ -274,46 +275,6 @@
     [manager.operationQueue addOperation:operation];
 }
 
-#pragma mark - Reset Methods
-
-- (void)displaySessionExpiredAlert {
-    [UIAlertView showAlertViewWithTitle:@"Twitter session error"
-                                message:@"Your session is no longer valid. Please connect to Twitter again in Settings."
-                               delegate:nil
-                      cancelButtonTitle:@"OK"
-                      otherButtonTitles:nil];
-}
-
-- (void)clearSocialAuthentication {
-    if (!_clearingSocialAuthentication) {
-        if (!self.socialAuthentication) {
-            [self reset];
-            return;
-        }
-        self.clearingSocialAuthentication = YES;
-        __weak __typeof(self) weakSelf = self;
-        [_socialAuthentication API_validateAuthentication:^(BOOL success) {
-            if (success) {
-                DDLogDebug(@"Twitter clearing social authentication from backend");
-
-                [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
-                                                          success:^(id responseObject) {
-                                                              weakSelf.clearingSocialAuthentication = NO;
-                                                          } failure:^(NSError *error) {
-                                                              weakSelf.clearingSocialAuthentication = NO;
-                                                          }];
-            }
-
-            [weakSelf reset];
-        }];
-    }
-}
-
-- (void)reset {
-    [AFOAuth1Token deleteCredentialWithIdentifier:MRSLTwitterCredentialsKey];
-    self.oauth1Client.accessToken = nil;
-    self.socialAuthentication = nil;
-}
 
 #pragma mark - iOS ACAccount Methods
 
@@ -406,7 +367,11 @@
     [accessTokenRequest setAccount:account];
 
     [accessTokenRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (urlResponse.statusCode == 401) {
+            [UIAlertView showOKAlertViewWithTitle:@"Unable to connect"
+                                          message:@"Please check your Twitter password in iOS Settings."];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
             block(responseData, urlResponse, error);
         });
     }];
@@ -435,9 +400,75 @@
                                                                           shouldCreate:YES];
                                             if (_twitterSuccessBlock) _twitterSuccessBlock(YES);
                                         } else {
-                                            if (_twitterFailureBlock) _twitterFailureBlock(error);
+                                            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                                                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                                                if (httpResponse.statusCode == 401) if (_twitterFailureBlock) _twitterFailureBlock(nil);
+                                            } else {
+                                                if (_twitterFailureBlock) _twitterFailureBlock(error);
+                                            }
                                         }
                                     }];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLTwitterReconnectingAccountNotification
+                                                            object:nil];
+        [self authenticateWithTwitterWithSuccess:^(BOOL success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLTwitterReconnectedAccountNotification
+                                                                    object:nil];
+            });
+        } failure:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLTwitterReconnectAccountFailedNotification
+                                                                    object:nil];
+            });
+        }];
+    }
+}
+
+#pragma mark - Reset Methods
+
+- (void)displaySessionExpiredAlert {
+    [UIAlertView showAlertViewWithTitle:@"Twitter session error"
+                                message:@"Your session is no longer valid. Would you like to reconnect your account?"
+                               delegate:self
+                      cancelButtonTitle:@"No"
+                      otherButtonTitles:@"Yes", nil];
+}
+
+- (void)clearSocialAuthentication {
+    if (!_clearingSocialAuthentication) {
+        if (!self.socialAuthentication) {
+            [self reset];
+            return;
+        }
+        self.clearingSocialAuthentication = YES;
+        __weak __typeof(self) weakSelf = self;
+        [_socialAuthentication API_validateAuthentication:^(BOOL success) {
+            if (success) {
+                DDLogDebug(@"Twitter clearing social authentication from backend");
+
+                [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
+                                                          success:^(id responseObject) {
+                                                              weakSelf.clearingSocialAuthentication = NO;
+                                                          } failure:^(NSError *error) {
+                                                              weakSelf.clearingSocialAuthentication = NO;
+                                                          }];
+            }
+
+            [weakSelf reset];
+        }];
+    }
+}
+
+- (void)reset {
+    [AFOAuth1Token deleteCredentialWithIdentifier:MRSLTwitterCredentialsKey];
+    self.oauth1Client.accessToken = nil;
+    self.socialAuthentication = nil;
 }
 
 @end

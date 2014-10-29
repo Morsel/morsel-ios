@@ -19,6 +19,7 @@
 #import "MRSLUser.h"
 
 @interface MRSLSocialServiceFacebook ()
+<UIAlertViewDelegate>
 
 @property (nonatomic) BOOL clearingSocialAuthentication;
 
@@ -371,10 +372,10 @@
                 // Handle session closures that happen outside of the app
             } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession) {
                 [UIAlertView showAlertViewWithTitle:alertTitle
-                                            message:@"Your session is no longer valid. Please connect to Facebook again in Settings."
-                                           delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
+                                            message:@"Your session is no longer valid. Would you like to reconnect your account?"
+                                           delegate:self
+                                  cancelButtonTitle:@"No"
+                                  otherButtonTitles:@"Yes", nil];
 
                 // Here we will handle all other errors with a generic error message.
                 // We recommend you check our Handling Errors guide for more information
@@ -395,6 +396,32 @@
         if (self.sessionStateHandlerBlock) self.sessionStateHandlerBlock(session, state, error);
     }
 }
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLFacebookReconnectingAccountNotification
+                                                            object:nil];
+        __weak __typeof(self) weakSelf = self;
+        [self openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+            if ([session isOpen]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLFacebookReconnectedAccountNotification
+                                                                        object:nil];
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLFacebookReconnectAccountFailedNotification
+                                                                        object:nil];
+                });
+            }
+            weakSelf.sessionStateHandlerBlock = nil;
+        }];
+    }
+}
+
+#pragma mark - Reset Methods
 
 - (void)clearSocialAuthentication {
     if (!_clearingSocialAuthentication) {

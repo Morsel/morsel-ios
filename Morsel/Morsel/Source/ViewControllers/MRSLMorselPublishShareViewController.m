@@ -53,6 +53,16 @@
                                              selector:@selector(appBecameActive)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reEnableFacebook)
+                                                 name:MRSLFacebookReconnectedAccountNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reEnableTwitter)
+                                                 name:MRSLTwitterReconnectedAccountNotification
+                                               object:nil];
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
@@ -65,6 +75,16 @@
 - (void)appBecameActive {
     self.twitterButton.enabled = YES;
     self.facebookButton.enabled = YES;
+}
+
+- (void)reEnableFacebook {
+    [self.facebookSwitch setOn:YES
+                      animated:YES];
+}
+
+- (void)reEnableTwitter {
+    [self.twitterSwitch setOn:YES
+                     animated:YES];
 }
 
 #pragma mark - Action Methods
@@ -101,8 +121,8 @@
                         });
                     } else {
                         [strongSelf toggleSwitch:strongSelf.facebookSwitch
-                                    forNetwork:@"facebook"
-                                  shouldTurnOn:NO];
+                                      forNetwork:@"facebook"
+                                    shouldTurnOn:NO];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             strongSelf.facebookButton.enabled = YES;
                         });
@@ -206,7 +226,6 @@
             [weakSelf verifyPublishPreflight];
         }];
     }
-#warning Check to make sure authentications exist on backend
 }
 
 - (void)verifyPublishPreflight {
@@ -218,15 +237,20 @@
     BOOL readyToPublish = (self.checksCompleted == self.checksRequired);
 
     if (readyToPublish && [self.checksFailed count] > 0) {
-        BOOL multipleFailures = ([self.checksFailed count] > 1);
-        [UIAlertView showOKAlertViewWithTitle:@"Publish Failed"
-                                      message:[NSString stringWithFormat:@"Your %@ session%@ appear%@ to be invalid. Please reconnect your account%@.", [self.checksFailed componentsJoinedByString:@" and "], multipleFailures ? @"s":@"", multipleFailures ? @"":@"s",  multipleFailures ? @"s":@""]];
 
-        [self.facebookSwitch setOn:NO
-                          animated:YES];
-        [self.twitterSwitch setOn:NO
-                         animated:YES];
+        if ([self.checksFailed containsObject:@"Facebook"]) {
+            [self.facebookSwitch setOn:NO
+                              animated:YES];
+        }
+        if ([self.checksFailed containsObject:@"Twitter"]) {
+            [self.twitterSwitch setOn:NO
+                             animated:YES];
+        }
         self.publishing = NO;
+
+#warning If fails, toggle off switch ONLY for network that had issue
+#warning Set flag that connection is attempting repair (the repair will be handled in the social network manager)
+#warning If repair is successful, toggle flag off and flip switch back on
 
         self.publishButton.enabled = YES;
     } else if (readyToPublish && [self.checksFailed count] == 0) {
