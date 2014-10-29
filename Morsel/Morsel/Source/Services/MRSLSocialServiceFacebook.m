@@ -66,24 +66,34 @@
 }
 
 - (void)checkForPublishPermissions:(MRSLSocialSuccessBlock)canPublishOrNil {
-    if ([[FBSession activeSession] isOpen] && [self.socialAuthentication isValid]) {
-        // Call permissions just to be extra sure, since it could possibly not be restored.
-        [FBRequestConnection startWithGraphPath:@"/me/permissions"
-                              completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                  if (!error){
-                                      __block BOOL canPublish = NO;
-                                      NSArray *permissionArray = result[@"data"];
-                                      [permissionArray enumerateObjectsUsingBlock:^(NSDictionary *permissionDictionary, NSUInteger idx, BOOL *stop) {
-                                          if ([permissionDictionary[@"permission"] isEqualToString:@"publish_actions"]) {
-                                              canPublish = YES;
-                                              *stop = YES;
+    if ([[FBSession activeSession] isOpen]) {
+        if (!self.socialAuthentication) {
+            if (canPublishOrNil) canPublishOrNil(NO);
+            return;
+        }
+        [self.socialAuthentication API_validateAuthentication:^(BOOL success) {
+            if (success) {
+                // Call permissions just to be extra sure, since it could possibly not be restored.
+                [FBRequestConnection startWithGraphPath:@"/me/permissions"
+                                      completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                          if (!error){
+                                              __block BOOL canPublish = NO;
+                                              NSArray *permissionArray = result[@"data"];
+                                              [permissionArray enumerateObjectsUsingBlock:^(NSDictionary *permissionDictionary, NSUInteger idx, BOOL *stop) {
+                                                  if ([permissionDictionary[@"permission"] isEqualToString:@"publish_actions"]) {
+                                                      canPublish = YES;
+                                                      *stop = YES;
+                                                  }
+                                              }];
+                                              if (canPublishOrNil) canPublishOrNil(canPublish);
+                                          } else {
+                                              if (canPublishOrNil) canPublishOrNil(NO);
                                           }
                                       }];
-                                      if (canPublishOrNil) canPublishOrNil(canPublish);
-                                  } else {
-                                      if (canPublishOrNil) canPublishOrNil(NO);
-                                  }
-                              }];
+            } else {
+                if (canPublishOrNil) canPublishOrNil(NO);
+            }
+        }];
     } else {
         if (canPublishOrNil) canPublishOrNil(NO);
     }
@@ -346,7 +356,7 @@
 
     if (error) {
         DDLogError(@"Facebook session error: %@", [error localizedDescription]);
-        NSString *alertTitle = @"Facebook Session Error";
+        NSString *alertTitle = @"Facebook session error";
         // If the error requires people using an app to make an action outside of the app in order to recover
         if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
             [UIAlertView showAlertViewWithTitle:alertTitle
@@ -387,16 +397,27 @@
 }
 
 - (void)clearSocialAuthentication {
-    if ([_socialAuthentication isValid] && !_clearingSocialAuthentication) {
-        DDLogDebug(@"Facebook clearing social authentication from backend");
+    if (!_clearingSocialAuthentication) {
+        if (!_socialAuthentication) {
+            [self reset];
+            return;
+        }
         self.clearingSocialAuthentication = YES;
-        __weak __typeof(self)weakSelf = self;
-        [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
-                                                  success:^(id responseObject) {
-                                                      weakSelf.clearingSocialAuthentication = NO;
-                                                  } failure:^(NSError *error) {
-                                                      weakSelf.clearingSocialAuthentication = NO;
-                                                  }];
+        __weak __typeof(self) weakSelf = self;
+        [_socialAuthentication API_validateAuthentication:^(BOOL success) {
+            if (success) {
+                DDLogDebug(@"Facebook clearing social authentication from backend");
+
+                [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
+                                                          success:^(id responseObject) {
+                                                              weakSelf.clearingSocialAuthentication = NO;
+                                                          } failure:^(NSError *error) {
+                                                              weakSelf.clearingSocialAuthentication = NO;
+                                                          }];
+            }
+
+            [weakSelf reset];
+        }];
     }
 }
 

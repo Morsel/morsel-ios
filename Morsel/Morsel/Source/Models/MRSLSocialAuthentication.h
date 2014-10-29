@@ -23,4 +23,6 @@
 
 - (BOOL)isValid;
 
+- (void)API_validateAuthentication:(MRSLSuccessBlock)validOrNil;
+
 @end

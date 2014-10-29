@@ -36,26 +36,49 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(displaySocialConnectionInformation)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+
+    [self displaySocialConnectionInformation];
+}
+
+- (void)displaySocialConnectionInformation {
     if ([FBSession.activeSession isOpen]) {
         self.facebookUsernameLabel.text = @"";
         __weak __typeof(self) weakSelf = self;
         [[MRSLSocialServiceFacebook sharedService] getFacebookUserInformation:^(NSDictionary *userInfo, NSError *error) {
-            weakSelf.facebookUsernameLabel.text = [NSString stringWithFormat:@"%@ %@", userInfo[@"first_name"], userInfo[@"last_name"]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.facebookUsernameLabel.text = [NSString stringWithFormat:@"%@ %@", userInfo[@"first_name"], userInfo[@"last_name"]];
+            });
         }];
     }
     self.facebookSwitch.on = [FBSession.activeSession isOpen];
     __weak __typeof(self) weakSelf = self;
     [[MRSLSocialServiceTwitter sharedService] checkForValidTwitterAuthenticationWithSuccess:^(BOOL success) {
-        weakSelf.twitterSwitch.on = success;
-        weakSelf.twitterUsernameLabel.text = [[MRSLSocialServiceTwitter sharedService] twitterUsername];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.twitterSwitch setOn:success
+                                 animated:NO];
+            weakSelf.twitterUsernameLabel.text = [[MRSLSocialServiceTwitter sharedService] twitterUsername];
+        });
     } failure:^(NSError *error) {
-        weakSelf.twitterSwitch.on = NO;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.twitterSwitch setOn:NO
+                                   animated:NO];
+        });
     }];
     [[MRSLSocialServiceInstagram sharedService] checkForValidInstagramAuthenticationWithSuccess:^(BOOL success) {
-        weakSelf.instagramSwitch.on = success;
-        weakSelf.instagramUsernameLabel.text = [[MRSLSocialServiceInstagram sharedService] instagramUsername];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.instagramSwitch setOn:success
+                                   animated:NO];
+            weakSelf.instagramUsernameLabel.text = [[MRSLSocialServiceInstagram sharedService] instagramUsername];
+        });
     } failure:^(NSError *error) {
-        weakSelf.instagramSwitch.on = NO;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.instagramSwitch setOn:NO
+                                   animated:NO];
+        });
     }];
     self.autoFollowSwitch.on = [MRSLUser currentUser].auto_followValue;
 }
@@ -190,7 +213,7 @@
                                       } failure:^(NSError *error) {
                                           weakSelf.autoFollowSwitch.enabled = YES;
                                           [weakSelf.autoFollowSwitch setOn:!shouldAutoFollow
-                                                          animated:NO];
+                                                                  animated:NO];
                                       }];
 }
 

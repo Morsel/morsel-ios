@@ -211,8 +211,9 @@
 
 - (void)verifyPublishPreflight {
     if (_publishing) return;
-
     self.checksCompleted++;
+
+    DDLogDebug(@"Publish preflight check %i out of %i completed with %i failures", self.checksCompleted, self.checksRequired, (int)[self.checksFailed count]);
 
     BOOL readyToPublish = (self.checksCompleted == self.checksRequired);
 
@@ -234,6 +235,7 @@
 }
 
 - (void)finalizePublish {
+    DDLogDebug(@"All checks passed. Publishing morsel!");
     self.publishing = YES;
     _morsel.draft = @NO;
 

@@ -53,7 +53,7 @@
                                                                                             @"short_lived": authentication.isTokenShortLived ? @"true" : @"false"}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    
+
     [[MRSLAPIClient sharedClient] multipartFormRequestString:@"authentications"
                                                   withMethod:MRSLAPIMethodTypePOST
                                               formParameters:[self parametersToDataWithDictionary:parameters]
@@ -68,6 +68,28 @@
                                                                    withError:error
                                                                     inMethod:NSStringFromSelector(_cmd)];
                                                      }];
+}
+
+- (void)getUserAuthentication:(MRSLSocialAuthentication *)authentication
+                      success:(MRSLAPISuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"authentications/%@", authentication.authenticationID]
+                           parameters:parameters
+                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                  if (operation.response.statusCode == 200) {
+                                      if (successOrNil) successOrNil(responseObject);
+                                  } else {
+                                      if (failureOrNil) failureOrNil(nil);
+                                  }
+                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                  [self reportFailure:failureOrNil
+                                         forOperation:operation
+                                            withError:error
+                                             inMethod:NSStringFromSelector(_cmd)];
+                              }];
 }
 
 - (void)getUserAuthenticationsWithSuccess:(MRSLAPISuccessBlock)successOrNil
@@ -148,10 +170,6 @@
 - (void)updateUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)successOrNil
                          failure:(MRSLFailureBlock)failureOrNil {
-    if (!authentication.authenticationID) {
-        DDLogError(@"Authentication for provider (%@) does not have an id. Cannot update.", authentication.provider);
-        return;
-    }
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"authentication": @{@"provider": NSNullIfNil(authentication.provider),
                                                                                             @"uid": NSNullIfNil(authentication.uid),
                                                                                             @"token": NSNullIfNil(authentication.token),
@@ -176,10 +194,6 @@
 - (void)deleteUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)successOrNil
                          failure:(MRSLFailureBlock)failureOrNil {
-    if (![authentication isValid]) {
-        DDLogError(@"Authentication for provider (%@) is not valid. Cannot delete.", authentication.provider);
-        return;
-    }
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];

@@ -21,6 +21,10 @@
                          success:(MRSLAPISuccessBlock)userSuccessOrNil
                          failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)getUserAuthentication:(MRSLSocialAuthentication *)authentication
+                      success:(MRSLAPISuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil;
+
 - (void)getUserAuthenticationsWithSuccess:(MRSLAPISuccessBlock)userSuccessOrNil
                                   failure:(MRSLFailureBlock)failureOrNil;
 
