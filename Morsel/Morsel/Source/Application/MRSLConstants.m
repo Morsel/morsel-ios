@@ -47,6 +47,18 @@ NSString *const MRSLRegisterRemoteNotificationsNotification = @"MRSLRegisterRemo
 
 #pragma mark - Social Constants
 
+NSString *const MRSLFacebookReconnectingAccountNotification = @"MRSLFacebookReconnectingAccountNotification";
+NSString *const MRSLFacebookReconnectedAccountNotification = @"MRSLFacebookReconnectedAccountNotification";
+NSString *const MRSLFacebookReconnectAccountFailedNotification = @"MRSLFacebookReconnectAccountFailedNotification";
+
+NSString *const MRSLInstagramReconnectingAccountNotification = @"MRSLInstagramReconnectingAccountNotification";
+NSString *const MRSLInstagramReconnectedAccountNotification = @"MRSLInstagramReconnectedAccountNotification";
+NSString *const MRSLInstagramReconnectAccountFailedNotification = @"MRSLInstagramReconnectAccountFailedNotification";
+
+NSString *const MRSLTwitterReconnectingAccountNotification = @"MRSLTwitterReconnectingAccountNotification";
+NSString *const MRSLTwitterReconnectedAccountNotification = @"MRSLTwitterReconnectedAccountNotification";
+NSString *const MRSLTwitterReconnectAccountFailedNotification = @"MRSLTwitterReconnectAccountFailedNotification";
+
 NSString *const MRSLTwitterCredentialsKey = @"MRSLTwitterCredentialsKey";
 NSString *const MRSLInstagramAccountTypeKey = @"MRSLInstagramAccountTypeKey";
 

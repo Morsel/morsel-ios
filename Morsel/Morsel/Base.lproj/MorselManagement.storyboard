@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A379a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="qdQ-No-x4G">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="qdQ-No-x4G">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Morsel title-->
@@ -765,9 +765,21 @@
                                             <constraint firstAttribute="width" constant="22" id="p7D-PR-zgs"/>
                                         </constraints>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6fQ-m8-bUD">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleFacebook" destination="Wym-zL-icT" eventType="touchUpInside" id="kEo-6B-RKe"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="6fQ-m8-bUD" secondAttribute="bottom" id="6bR-au-zjK"/>
+                                    <constraint firstItem="6fQ-m8-bUD" firstAttribute="leading" secondItem="vDF-YP-3bI" secondAttribute="leading" id="E9B-tc-nov"/>
                                     <constraint firstItem="akR-8b-Rtk" firstAttribute="leading" secondItem="zDb-LL-X4d" secondAttribute="trailing" constant="14" id="Kc9-Ad-vbl"/>
                                     <constraint firstItem="zDb-LL-X4d" firstAttribute="top" secondItem="vDF-YP-3bI" secondAttribute="top" constant="11" id="Ld1-mn-far"/>
                                     <constraint firstItem="vsa-xq-CBe" firstAttribute="top" secondItem="vDF-YP-3bI" secondAttribute="top" constant="6" id="Xdd-Cb-N5B"/>
@@ -776,6 +788,8 @@
                                     <constraint firstItem="akR-8b-Rtk" firstAttribute="top" secondItem="vDF-YP-3bI" secondAttribute="top" constant="6" id="bX6-ix-MVk"/>
                                     <constraint firstItem="vsa-xq-CBe" firstAttribute="leading" secondItem="akR-8b-Rtk" secondAttribute="trailing" constant="25" id="eOW-DN-dzH"/>
                                     <constraint firstAttribute="trailing" secondItem="vsa-xq-CBe" secondAttribute="trailing" constant="20" id="gKL-z2-bbB"/>
+                                    <constraint firstItem="6fQ-m8-bUD" firstAttribute="top" secondItem="vDF-YP-3bI" secondAttribute="top" id="ixV-Nj-W45"/>
+                                    <constraint firstAttribute="trailing" secondItem="6fQ-m8-bUD" secondAttribute="trailing" id="vP3-lW-zhe"/>
                                     <constraint firstItem="zDb-LL-X4d" firstAttribute="leading" secondItem="vDF-YP-3bI" secondAttribute="leading" constant="10" id="wlf-VB-RcZ"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -795,7 +809,7 @@
                                         <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="InD-TT-X9i">
+                                    <switch opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="InD-TT-X9i">
                                         <rect key="frame" x="531" y="6" width="51" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="49" id="fyR-st-7KG"/>
@@ -803,9 +817,6 @@
                                         </constraints>
                                         <color key="tintColor" red="0.91372549533843994" green="0.92941176891326904" blue="0.94117647409439087" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="onTintColor" red="0.31764706970000001" green="0.7254902124" blue="0.23529411850000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="toggleTwitter:" destination="Wym-zL-icT" eventType="valueChanged" id="7rN-jW-U2q"/>
-                                        </connections>
                                     </switch>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-social-twitter-mark-dark" translatesAutoresizingMaskIntoConstraints="NO" id="cAL-UP-q2F">
                                         <rect key="frame" x="10" y="11" width="22" height="22"/>
@@ -814,17 +825,32 @@
                                             <constraint firstAttribute="height" constant="22" id="UXb-w2-m3n"/>
                                         </constraints>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tgL-MX-9jX">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleTwitter" destination="Wym-zL-icT" eventType="touchUpInside" id="0SK-zY-0DS"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="OgJ-pX-VXT" firstAttribute="leading" secondItem="cAL-UP-q2F" secondAttribute="trailing" constant="14" id="2aW-Y3-oad"/>
+                                    <constraint firstAttribute="trailing" secondItem="tgL-MX-9jX" secondAttribute="trailing" id="571-A1-AOb"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="DAP-0B-6qs"/>
                                     <constraint firstItem="cAL-UP-q2F" firstAttribute="leading" secondItem="6AX-43-may" secondAttribute="leading" constant="10" id="GA5-x6-TqR"/>
                                     <constraint firstItem="InD-TT-X9i" firstAttribute="top" secondItem="6AX-43-may" secondAttribute="top" constant="6" id="GiR-r1-Zwg"/>
                                     <constraint firstItem="OgJ-pX-VXT" firstAttribute="top" secondItem="6AX-43-may" secondAttribute="top" constant="6" id="K1W-K3-Urd"/>
+                                    <constraint firstAttribute="bottom" secondItem="tgL-MX-9jX" secondAttribute="bottom" id="Ml0-7f-TmS"/>
                                     <constraint firstItem="InD-TT-X9i" firstAttribute="leading" secondItem="OgJ-pX-VXT" secondAttribute="trailing" constant="25" id="cC9-53-nU0"/>
                                     <constraint firstItem="cAL-UP-q2F" firstAttribute="top" secondItem="6AX-43-may" secondAttribute="top" constant="11" id="g8U-Gv-nQi"/>
                                     <constraint firstAttribute="trailing" secondItem="InD-TT-X9i" secondAttribute="trailing" constant="20" id="geH-nK-3Sm"/>
+                                    <constraint firstItem="tgL-MX-9jX" firstAttribute="leading" secondItem="6AX-43-may" secondAttribute="leading" id="pvd-9j-t5N"/>
+                                    <constraint firstItem="tgL-MX-9jX" firstAttribute="top" secondItem="6AX-43-may" secondAttribute="top" id="qNq-rj-KeA"/>
                                     <constraint firstAttribute="height" constant="44" id="wad-ny-ijo"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -918,9 +944,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="facebookButton" destination="6fQ-m8-bUD" id="PLp-3i-j7q"/>
                         <outlet property="facebookSwitch" destination="vsa-xq-CBe" id="u87-TT-aZv"/>
                         <outlet property="instagramSwitch" destination="5wu-60-YHh" id="wqM-gB-T9T"/>
                         <outlet property="publishButton" destination="p0i-WW-NEq" id="yzu-Aq-BeN"/>
+                        <outlet property="twitterButton" destination="tgL-MX-9jX" id="JuP-Yf-eoV"/>
                         <outlet property="twitterSwitch" destination="InD-TT-X9i" id="DV5-nW-nC0"/>
                     </connections>
                 </viewController>

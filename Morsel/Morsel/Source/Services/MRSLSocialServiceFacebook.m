@@ -19,6 +19,9 @@
 #import "MRSLUser.h"
 
 @interface MRSLSocialServiceFacebook ()
+<UIAlertViewDelegate>
+
+@property (nonatomic) BOOL clearingSocialAuthentication;
 
 @property (strong, nonatomic) NSArray *facebookAccounts;
 @property (strong, nonatomic) NSArray *friendUIDs;
@@ -64,22 +67,34 @@
 }
 
 - (void)checkForPublishPermissions:(MRSLSocialSuccessBlock)canPublishOrNil {
-    if ([[FBSession activeSession] isOpen] && [self.socialAuthentication isValid]) {
-        // Call permissions just to be extra sure, since it could possibly not be restored.
-        [FBRequestConnection startWithGraphPath:@"/me/permissions"
-                              completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                  if (!error){
-                                      __block BOOL canPublish = NO;
-                                      NSArray *permissionArray = result[@"data"];
-                                      [permissionArray enumerateObjectsUsingBlock:^(NSDictionary *permissionDictionary, NSUInteger idx, BOOL *stop) {
-                                          if ([permissionDictionary[@"permission"] isEqualToString:@"publish_actions"]) {
-                                              canPublish = YES;
-                                              *stop = YES;
+    if ([[FBSession activeSession] isOpen]) {
+        if (!self.socialAuthentication) {
+            if (canPublishOrNil) canPublishOrNil(NO);
+            return;
+        }
+        [self.socialAuthentication API_validateAuthentication:^(BOOL success) {
+            if (success) {
+                // Call permissions just to be extra sure, since it could possibly not be restored.
+                [FBRequestConnection startWithGraphPath:@"/me/permissions"
+                                      completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                          if (!error){
+                                              __block BOOL canPublish = NO;
+                                              NSArray *permissionArray = result[@"data"];
+                                              [permissionArray enumerateObjectsUsingBlock:^(NSDictionary *permissionDictionary, NSUInteger idx, BOOL *stop) {
+                                                  if ([permissionDictionary[@"permission"] isEqualToString:@"publish_actions"]) {
+                                                      canPublish = YES;
+                                                      *stop = YES;
+                                                  }
+                                              }];
+                                              if (canPublishOrNil) canPublishOrNil(canPublish);
+                                          } else {
+                                              if (canPublishOrNil) canPublishOrNil(NO);
                                           }
                                       }];
-                                      if (canPublishOrNil) canPublishOrNil(canPublish);
-                                  }
-                              }];
+            } else {
+                if (canPublishOrNil) canPublishOrNil(NO);
+            }
+        }];
     } else {
         if (canPublishOrNil) canPublishOrNil(NO);
     }
@@ -342,7 +357,7 @@
 
     if (error) {
         DDLogError(@"Facebook session error: %@", [error localizedDescription]);
-        NSString *alertTitle = @"Facebook Session Error";
+        NSString *alertTitle = @"Facebook session error";
         // If the error requires people using an app to make an action outside of the app in order to recover
         if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
             [UIAlertView showAlertViewWithTitle:alertTitle
@@ -357,10 +372,10 @@
                 // Handle session closures that happen outside of the app
             } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession) {
                 [UIAlertView showAlertViewWithTitle:alertTitle
-                                            message:@"Your session is no longer valid. Please connect to Facebook again in Settings."
-                                           delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
+                                            message:@"Your session is no longer valid. Would you like to reconnect your account?"
+                                           delegate:self
+                                  cancelButtonTitle:@"No"
+                                  otherButtonTitles:@"Yes", nil];
 
                 // Here we will handle all other errors with a generic error message.
                 // We recommend you check our Handling Errors guide for more information
@@ -382,12 +397,54 @@
     }
 }
 
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLFacebookReconnectingAccountNotification
+                                                            object:nil];
+        __weak __typeof(self) weakSelf = self;
+        [self openFacebookSessionWithSessionStateHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+            if ([session isOpen]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLFacebookReconnectedAccountNotification
+                                                                        object:nil];
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLFacebookReconnectAccountFailedNotification
+                                                                        object:nil];
+                });
+            }
+            weakSelf.sessionStateHandlerBlock = nil;
+        }];
+    }
+}
+
+#pragma mark - Reset Methods
+
 - (void)clearSocialAuthentication {
-    if ([_socialAuthentication isValid]) {
-        DDLogDebug(@"Facebook clearing social authentication from backend");
-        [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
-                                                  success:nil
-                                                  failure:nil];
+    if (!_clearingSocialAuthentication) {
+        if (!_socialAuthentication) {
+            [self reset];
+            return;
+        }
+        self.clearingSocialAuthentication = YES;
+        __weak __typeof(self) weakSelf = self;
+        [_socialAuthentication API_validateAuthentication:^(BOOL success) {
+            if (success) {
+                DDLogDebug(@"Facebook clearing social authentication from backend");
+
+                [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
+                                                          success:^(id responseObject) {
+                                                              weakSelf.clearingSocialAuthentication = NO;
+                                                          } failure:^(NSError *error) {
+                                                              weakSelf.clearingSocialAuthentication = NO;
+                                                          }];
+            }
+
+            [weakSelf reset];
+        }];
     }
 }
 
