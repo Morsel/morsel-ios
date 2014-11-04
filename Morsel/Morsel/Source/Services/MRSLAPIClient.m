@@ -34,6 +34,38 @@
 
 #pragma mark - Instance Methods
 
+- (void)registerOperation:(AFHTTPRequestOperation *)requestOperation {
+    for (AFHTTPRequestOperation *operation in self.operationQueue.operations) {
+        if ([[operation.request.URL absoluteString] isEqualToString:[requestOperation.request.URL absoluteString]]) {
+            DDLogDebug(@"Found duplicate operation. Cancelling previous with name: (%@)", [operation.request.URL absoluteString]);
+            [operation cancel];
+            break;
+        }
+    }
+    [[MRSLAPIClient sharedClient].operationQueue addOperation:requestOperation];
+}
+
+- (void)performRequest:(NSString *)urlString
+            parameters:(NSDictionary *)parameters
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))successOrNil
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failureOrNil {
+    AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+    [requestSerializer setValue:@"application/json"
+             forHTTPHeaderField:@"ACCEPT"];
+    NSError *error = nil;
+    NSMutableURLRequest *request = [requestSerializer requestWithMethod:@"GET"
+                                                              URLString:[[NSURL URLWithString:urlString relativeToURL:[self baseURL]] absoluteString]
+                                                             parameters:parameters
+                                                                  error:&error];
+    if (error) DDLogError(@"MRSLAPIClient: General request error: %@", error);
+    AFHTTPRequestOperation *operation = [[MRSLAPIClient sharedClient] HTTPRequestOperationWithRequest:request
+                                                                                              success:successOrNil
+                                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                                  if (failureOrNil && error.code != -999) failureOrNil(operation, error);
+                                                                                              }];
+    [self registerOperation:operation];
+}
+
 - (void)multipartFormRequestString:(NSString *)urlString
                         withMethod:(MRSLAPIMethodType)apiMethodType
                     formParameters:(NSDictionary *)formParameters
@@ -57,11 +89,13 @@
                                                                              withName:nil];
                                                            }
                                                                                error:&error];
+    if (error) DDLogError(@"MRSLAPIClient: Multipart form request error: %@", error);
     AFHTTPRequestOperation *operation = [[MRSLAPIClient sharedClient] HTTPRequestOperationWithRequest:request
                                                                                               success:successOrNil
-                                                                                              failure:failureOrNil];
+                                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                                  if (failureOrNil && error.code != -999) failureOrNil(operation, error);
+                                                                                              }];
     [[MRSLAPIClient sharedClient].operationQueue addOperation:operation];
-    if (error) DDLogError(@"MRSLAPIClient: Multipart form request error: %@", error);
 }
 
 - (void)appendParameters:(NSDictionary *)formParameters

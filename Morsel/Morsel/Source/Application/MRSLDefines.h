@@ -75,6 +75,7 @@ typedef NS_ENUM(NSUInteger, MRSLDataSortType) {
     MRSLDataSortTypeSortOrder,
     MRSLDataSortTypeLikedDate,
     MRSLDataSortTypeTagKeywordType,
+    MRSLDataSortTypePublishedDate,
     MRSLDataSortTypeNone
 };
 
@@ -95,6 +96,7 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
+static const CGFloat MRSLMorselTemplateDefaultID = -2.f;
 static const CGFloat MRSLCellDefaultPadding = 20.f;
 static const CGFloat MRSLImageLargeThreshold = 220.f;
 static const CGFloat MRSLImageFullDimensionSize = 640.f;

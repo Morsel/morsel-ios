@@ -41,9 +41,7 @@
 }
 
 - (BOOL)hasPlaceholderTitle {
-    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
-                                                               withValue:self.template_id];
-    return ([[self.title lowercaseString] isEqualToString:[[NSString stringWithFormat:@"%@ morsel", morselTemplate.title] lowercaseString]]) || [[self.title lowercaseString] isEqualToString:@"new morsel"] || ([self.title length] == 0);
+    return (([self.title length] == 0 || !self.title) && self.template_id);
 }
 
 - (CGFloat)coverInformationHeight {
@@ -80,6 +78,11 @@
     return [[self.items allObjects] sortedArrayUsingDescriptors:@[idSort]];
 }
 
+- (NSString *)placeholderTitle {
+    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
+                                                               withValue:self.template_id];
+    return [NSString stringWithFormat:@"%@ morsel", morselTemplate.title];
+}
 
 - (NSString *)firstItemDescription {
     return [self.itemsArray.firstObject itemDescription];

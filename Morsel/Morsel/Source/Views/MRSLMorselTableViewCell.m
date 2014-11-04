@@ -28,7 +28,7 @@
 
     _morsel = morsel;
 
-    self.morselTitleLabel.text = _morsel.title ?: @"No title";
+    self.morselTitleLabel.text = ([_morsel hasPlaceholderTitle]) ? [_morsel placeholderTitle] : _morsel.title;
 
     if ([_morsel.items count] > 0) {
         _morselThumbnailView.item = [_morsel coverItem];

@@ -22,8 +22,8 @@
 }
 
 - (void)MRSL_uploadDeviceToken:(NSData *)deviceToken {
-    NSCharacterSet *angleBrackets = [NSCharacterSet characterSetWithCharactersInString:@"<>"];
-    NSString *deviceTokenSansBrackets = [[deviceToken description] stringByTrimmingCharactersInSet:angleBrackets];
+    //NSCharacterSet *angleBrackets = [NSCharacterSet characterSetWithCharactersInString:@"<>"];
+    //NSString *deviceTokenSansBrackets = [[deviceToken description] stringByTrimmingCharactersInSet:angleBrackets];
 
 #warning Upload deviceTokenSansBrackets to API
 }

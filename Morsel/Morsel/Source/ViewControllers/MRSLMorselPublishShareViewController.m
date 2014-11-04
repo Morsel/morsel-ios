@@ -248,10 +248,6 @@
         }
         self.publishing = NO;
 
-#warning If fails, toggle off switch ONLY for network that had issue
-#warning Set flag that connection is attempting repair (the repair will be handled in the social network manager)
-#warning If repair is successful, toggle flag off and flip switch back on
-
         self.publishButton.enabled = YES;
     } else if (readyToPublish && [self.checksFailed count] == 0) {
         [self finalizePublish];

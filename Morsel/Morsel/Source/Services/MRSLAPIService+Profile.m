@@ -28,18 +28,18 @@
 
     NSString *userEndpoint = isCurrentUser ? @"users/me" : [NSString stringWithFormat:@"users/%i", user.userIDValue];
 
-    [[MRSLAPIClient sharedClient] GET:userEndpoint
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  [user MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                  if (successOrNil) successOrNil(responseObject);
-                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:userEndpoint
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                             [user MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                             if (successOrNil) successOrNil(responseObject);
+                                         } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)getUserProfile:(MRSLUser *)user

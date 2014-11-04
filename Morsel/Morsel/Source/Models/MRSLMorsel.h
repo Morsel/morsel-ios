@@ -11,6 +11,7 @@
 
 - (NSDate *)latestUpdatedDate;
 - (NSArray *)itemsArray;
+- (NSString *)placeholderTitle;
 - (NSString *)firstItemDescription;
 - (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil;
 

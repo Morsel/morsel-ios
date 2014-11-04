@@ -21,6 +21,9 @@
 
 - (void)getItemLikes:(MRSLItem *)item
        orMorselLikes:(MRSLMorsel *)morsel
+               maxID:(NSNumber *)maxOrNil
+           orSinceID:(NSNumber *)sinceOrNil
+            andCount:(NSNumber *)countOrNil
              success:(MRSLAPIArrayBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil;
 

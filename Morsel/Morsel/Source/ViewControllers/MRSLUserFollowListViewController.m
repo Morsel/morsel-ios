@@ -94,11 +94,11 @@ NSFetchedResultsControllerDelegate>
 
 - (void)setupFetchRequest {
     self.fetchedResultsController = [MRSLUser MR_fetchAllSortedBy:@"dateFollowed"
-                                                       ascending:NO
-                                                   withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", _userIDs]
-                                                         groupBy:nil
-                                                        delegate:self
-                                                       inContext:[NSManagedObjectContext MR_defaultContext]];
+                                                        ascending:NO
+                                                    withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", _userIDs]
+                                                          groupBy:nil
+                                                         delegate:self
+                                                        inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
 - (void)populateContent {
@@ -112,6 +112,7 @@ NSFetchedResultsControllerDelegate>
     if (_loading) return;
     self.loadedAll = NO;
     self.loading = YES;
+    self.fetchedResultsController.delegate = nil;
     __weak __typeof(self)weakSelf = self;
     if (_shouldDisplayFollowers) {
         [_appDelegate.apiService getUserFollowers:_user
@@ -152,10 +153,11 @@ NSFetchedResultsControllerDelegate>
 
 - (void)loadMore {
     if (_loadingMore || !_user || _loadedAll || [self isLoading]) return;
+    self.fetchedResultsController.delegate = nil;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more");
     MRSLUser *lastUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                              withValue:[_userIDs lastObject]];
+                                                 withValue:[_userIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
     if (_shouldDisplayFollowers) {
         [_appDelegate.apiService getUserFollowers:_user
