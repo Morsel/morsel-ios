@@ -36,49 +36,53 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/likeables", user.userIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  [self importLikeablesWithDictionary:responseObject
-                                                              success:successOrNil];
-                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"users/%i/likeables", user.userIDValue]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                             [self importLikeablesWithDictionary:responseObject
+                                                                         success:successOrNil];
+                                         } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)getItemLikes:(MRSLItem *)item
        orMorselLikes:(MRSLMorsel *)morsel
+               maxID:(NSNumber *)maxOrNil
+           orSinceID:(NSNumber *)sinceOrNil
+            andCount:(NSNumber *)countOrNil
              success:(MRSLAPIArrayBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
+    if (maxOrNil && sinceOrNil) {
+        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
+    } else if (maxOrNil && !sinceOrNil) {
+        parameters[@"max_id"] = maxOrNil;
+    } else if (!maxOrNil && sinceOrNil) {
+        parameters[@"since_id"] = sinceOrNil;
+    }
+    if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] GET:(morsel) ? [NSString stringWithFormat:@"morsels/%i/likers", morsel.morselIDValue] : [NSString stringWithFormat:@"items/%i/likers", item.itemIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  __block NSMutableArray *itemLikers = [NSMutableArray array];
-                                  NSArray *likerUsersArray = responseObject[@"data"];
-                                  [likerUsersArray enumerateObjectsUsingBlock:^(NSDictionary *userDictionary, NSUInteger idx, BOOL *stop) {
-
-                                      MRSLUser *user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                                                               withValue:userDictionary[@"id"]];
-                                      if (!user) user = [MRSLUser MR_createEntity];
-                                      [user MR_importValuesForKeysWithObject:userDictionary];
-                                      [itemLikers addObject:user];
-                                  }];
-                                  if (successOrNil) successOrNil(itemLikers);
-                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:(morsel) ? [NSString stringWithFormat:@"morsels/%i/likers", morsel.morselIDValue] : [NSString stringWithFormat:@"items/%i/likers", item.itemIDValue]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                             [self importManagedObjectClass:[MRSLUser class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)likeItem:(MRSLItem *)item

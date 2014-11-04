@@ -93,27 +93,27 @@
     int itemID = item.itemIDValue;
     __block MRSLItem *itemToGet = item;
 
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i", itemID]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"items/%i", itemID]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
-                                  if (!itemToGet || !itemToGet.managedObjectContext) {
-                                      itemToGet = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
-                                                                          withValue:@(itemID)];
-                                  }
-                                  if (itemToGet) {
-                                      [itemToGet MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                      if (successOrNil) successOrNil(itemToGet);
-                                  } else {
-                                      if (failureOrNil) failureOrNil(nil);
-                                  }
-                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+                                             if (!itemToGet || !itemToGet.managedObjectContext) {
+                                                 itemToGet = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                                                     withValue:@(itemID)];
+                                             }
+                                             if (itemToGet) {
+                                                 [itemToGet MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                 if (successOrNil) successOrNil(itemToGet);
+                                             } else {
+                                                 if (failureOrNil) failureOrNil(nil);
+                                             }
+                                         } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)getItem:(MRSLItem *)item

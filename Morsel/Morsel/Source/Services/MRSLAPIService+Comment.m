@@ -34,20 +34,20 @@
         parameters[@"since_id"] = sinceOrNil;
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"items/%i/comments", item.itemIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  [self importManagedObjectClass:[MRSLComment class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"items/%i/comments", item.itemIDValue]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                             [self importManagedObjectClass:[MRSLComment class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)addCommentWithDescription:(NSString *)description

@@ -26,6 +26,11 @@ typedef NS_ENUM(NSUInteger, MRSLAPIMethodType) {
 
 #pragma mark - Instance Methods
 
+- (void)performRequest:(NSString *)urlString
+            parameters:(NSDictionary *)parameters
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))successOrNil
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failureOrNil;
+
 - (void)multipartFormRequestString:(NSString *)urlString
                         withMethod:(MRSLAPIMethodType)apiMethodType
                     formParameters:(NSDictionary *)formParameters

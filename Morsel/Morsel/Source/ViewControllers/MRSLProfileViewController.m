@@ -322,6 +322,7 @@ MRSLStateViewDelegate>
     MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
+    userMorselsFeedVC.isExplore = YES;
     [self.navigationController pushViewController:userMorselsFeedVC
                                          animated:YES];
 }
@@ -483,7 +484,7 @@ MRSLStateViewDelegate>
             case MRSLDataSourceTypeMorsel:
                 [self.profileCollectionView setEmptyStateTitle:@"No morsels added"];
                 if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:@"Add a morsel"];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeCreationDate
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypePublishedDate
                                                                    ascending:NO];
                 break;
             case MRSLDataSourceTypePlace:

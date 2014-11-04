@@ -12,7 +12,7 @@
 
 #pragma mark - Morsel Services
 
-- (void)createMorsel:(MRSLMorsel *)morsel
+- (void)createMorselWithTemplateID:(NSNumber *)templateID
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil;
 

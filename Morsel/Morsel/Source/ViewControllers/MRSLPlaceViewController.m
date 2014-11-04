@@ -339,6 +339,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
         MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
         userMorselsFeedVC.morsel = morsel;
         userMorselsFeedVC.user = morsel.creator;
+        userMorselsFeedVC.isExplore = YES;
         [self.navigationController pushViewController:userMorselsFeedVC
                                              animated:YES];
     } else if ([item isKindOfClass:[MRSLUser class]]) {
@@ -374,7 +375,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
         switch (index) {
             case MRSLDataSourceTypeMorsel:
                 [self.collectionView setEmptyStateTitle:@"No morsels added"];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeCreationDate
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypePublishedDate
                                                                    ascending:NO];
                 break;
             case MRSLDataSourceTypePlace:

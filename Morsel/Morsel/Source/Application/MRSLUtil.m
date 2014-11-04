@@ -101,6 +101,9 @@
         case MRSLDataSortTypeTagKeywordType:
             return @"keyword.type,keyword.name";
             break;
+        case MRSLDataSortTypePublishedDate:
+            return @"publishedDate";
+            break;
         case MRSLDataSortTypeNone:
         default:
             return nil;

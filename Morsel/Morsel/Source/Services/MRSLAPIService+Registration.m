@@ -130,18 +130,18 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"username" : NSNullIfNil(username)}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-    [[MRSLAPIClient sharedClient] GET:@"users/validateusername"
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  if (validateOrNil) validateOrNil(YES, nil);
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                  if ([serviceErrorInfo.errorInfo rangeOfString:@"has already been taken"].location != NSNotFound) {
-                                      if (validateOrNil) validateOrNil(NO, error);
-                                  } else {
-                                      if (validateOrNil) validateOrNil(YES, error);
-                                  }
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:@"users/validateusername"
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             if (validateOrNil) validateOrNil(YES, nil);
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                             if ([serviceErrorInfo.errorInfo rangeOfString:@"has already been taken"].location != NSNotFound) {
+                                                 if (validateOrNil) validateOrNil(NO, error);
+                                             } else {
+                                                 if (validateOrNil) validateOrNil(YES, error);
+                                             }
+                                         }];
 }
 
 - (void)checkEmail:(NSString *)email
@@ -149,18 +149,18 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"email" : NSNullIfNil(email)}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-    [[MRSLAPIClient sharedClient] GET:@"users/validate_email"
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  if (existsOrNil) existsOrNil(NO, nil);
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                  if ([serviceErrorInfo.errorInfo rangeOfString:@"has already been taken"].location != NSNotFound) {
-                                      if (existsOrNil) existsOrNil(YES, error);
-                                  } else {
-                                      if (existsOrNil) existsOrNil(NO, error);
-                                  }
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:@"users/validate_email"
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             if (existsOrNil) existsOrNil(NO, nil);
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                             if ([serviceErrorInfo.errorInfo rangeOfString:@"has already been taken"].location != NSNotFound) {
+                                                 if (existsOrNil) existsOrNil(YES, error);
+                                             } else {
+                                                 if (existsOrNil) existsOrNil(NO, error);
+                                             }
+                                         }];
 }
 
 @end

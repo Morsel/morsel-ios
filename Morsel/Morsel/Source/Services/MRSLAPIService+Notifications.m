@@ -33,20 +33,20 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] GET:@"notifications"
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  [self importManagedObjectClass:[MRSLNotification class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:@"notifications"
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                             [self importManagedObjectClass:[MRSLNotification class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)getUnreadCountWithSuccess:(MRSLAPICountBlock)successOrNil
@@ -54,26 +54,26 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] GET:@"notifications/unread_count"
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  int unreadCount = [responseObject[@"data"][@"unread_count"] intValue];
-                                  dispatch_async(dispatch_get_main_queue(), ^{
-                                      [[NSUserDefaults standardUserDefaults] setObject:@(unreadCount)
-                                                                                forKey:@"MRSLUserUnreadCount"];
-                                      [[NSUserDefaults standardUserDefaults] synchronize];
-                                      [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidUpdateUnreadAmountNotification
-                                                                                          object:@(unreadCount)];
-                                      [UIApplication sharedApplication].applicationIconBadgeNumber = unreadCount;
-                                  });
-                                  if (successOrNil) return successOrNil(unreadCount);
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:@"notifications/unread_count"
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                             int unreadCount = [responseObject[@"data"][@"unread_count"] intValue];
+                                             dispatch_async(dispatch_get_main_queue(), ^{
+                                                 [[NSUserDefaults standardUserDefaults] setObject:@(unreadCount)
+                                                                                           forKey:@"MRSLUserUnreadCount"];
+                                                 [[NSUserDefaults standardUserDefaults] synchronize];
+                                                 [[NSNotificationCenter defaultCenter] postNotificationName:MRSLServiceDidUpdateUnreadAmountNotification
+                                                                                                     object:@(unreadCount)];
+                                                 [UIApplication sharedApplication].applicationIconBadgeNumber = unreadCount;
+                                             });
+                                             if (successOrNil) return successOrNil(unreadCount);
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)markAllNotificationsReadSinceNotification:(MRSLNotification *)notification
@@ -103,10 +103,10 @@
                                                          [MRSLUser API_updateNotificationsAmount:nil
                                                                                          failure:nil];
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                             [self reportFailure:failureOrNil
-                                                                    forOperation:operation
-                                                                       withError:error
-                                                                        inMethod:NSStringFromSelector(_cmd)];
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
                                                      }];
 }
 

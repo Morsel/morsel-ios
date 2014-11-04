@@ -198,7 +198,7 @@
                                                         <constraint firstAttribute="height" constant="1" id="xct-5o-KHe"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tagged People" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="56" translatesAutoresizingMaskIntoConstraints="NO" id="UD0-Xr-PMg" customClass="MRSLRobotoSlabBoldLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tagged people" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="56" translatesAutoresizingMaskIntoConstraints="NO" id="UD0-Xr-PMg" customClass="MRSLRobotoSlabBoldLabel">
                                                     <rect key="frame" x="20" y="4" width="180" height="12"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="12" id="XcQ-gg-be2"/>
