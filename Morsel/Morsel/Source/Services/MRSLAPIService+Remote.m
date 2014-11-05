@@ -1,0 +1,117 @@
+//
+//  MRSLAPIService+Remote.m
+//  Morsel
+//
+//  Created by Javier Otero on 11/5/14.
+//  Copyright (c) 2014 Morsel. All rights reserved.
+//
+
+#import "MRSLAPIService+Remote.h"
+
+#import "MRSLAPIClient.h"
+
+#import "MRSLRemoteDevice.h"
+
+@implementation MRSLAPIService (Remote)
+
+- (void)getUserDevicesWithSuccess:(MRSLAPIArrayBlock)successOrNil
+                          failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    [[MRSLAPIClient sharedClient] performRequest:@"users/devices"
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             [self importManagedObjectClass:[MRSLRemoteDevice class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
+}
+
+- (void)createUserDeviceWithToken:(NSString *)deviceToken
+                          success:(MRSLAPISuccessBlock)successOrNil
+                          failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"device" : @{@"name" : NSNullIfNil([[UIDevice currentDevice] name]),
+                                                                                     @"model" : NSNullIfNil([[UIDevice currentDevice] model]),
+                                                                                     @"token" : NSNullIfNil(deviceToken)}}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:@"users/devices"
+                                                  withMethod:MRSLAPIMethodTypePOST
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+#warning Save current device to NSUserDefaults. Add convenience class method to MRSLRemoteDevice to retrieve.
+                                                         MRSLRemoteDevice *remoteDevice = [MRSLRemoteDevice MR_findFirstByAttribute:MRSLRemoteDeviceAttributes.deviceID withValue:responseObject[@"data"][@"id"]];
+                                                         if (!remoteDevice) remoteDevice = [MRSLRemoteDevice MR_createEntity];
+                                                         [remoteDevice MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                         if (successOrNil) successOrNil(remoteDevice);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
+}
+
+- (void)updateUserDevice:(MRSLRemoteDevice *)remoteDevice
+                 success:(MRSLAPISuccessBlock)successOrNil
+                 failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:@[remoteDevice]
+                                              requiresAuthentication:YES];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"users/devices/%i", remoteDevice.deviceIDValue]
+                                                  withMethod:MRSLAPIMethodTypePUT
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         MRSLRemoteDevice *remoteDevice = [MRSLRemoteDevice MR_findFirstByAttribute:MRSLRemoteDeviceAttributes.deviceID withValue:responseObject[@"data"][@"id"]];
+                                                         if (!remoteDevice) remoteDevice = [MRSLRemoteDevice MR_createEntity];
+                                                         [remoteDevice MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                         if (successOrNil) successOrNil(remoteDevice);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
+}
+
+- (void)deleteUserDevice:(MRSLRemoteDevice *)remoteDevice
+                 success:(MRSLAPISuccessBlock)successOrNil
+                 failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"users/devices/%i", remoteDevice.deviceIDValue]
+                                                  withMethod:MRSLAPIMethodTypeDELETE
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         NSManagedObjectContext *managedObjectContext = remoteDevice.managedObjectContext;
+                                                         if (managedObjectContext) {
+                                                             int remoteDeviceID = remoteDevice.deviceIDValue;
+                                                             NSManagedObjectContext *remoteContext = remoteDevice.managedObjectContext;
+                                                             NSPredicate *remotePredicate = [NSPredicate predicateWithFormat:@"deviceID == %i", remoteDeviceID];
+                                                             [MRSLRemoteDevice MR_deleteAllMatchingPredicate:remotePredicate
+                                                                                                   inContext:remoteContext];
+                                                             [remoteContext MR_saveToPersistentStoreAndWait];
+                                                         }
+
+                                                         if (successOrNil) successOrNil(responseObject);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
+}
+
+@end

@@ -8,14 +8,8 @@
 
 #import "MRSLAPIService.h"
 
-#import "MRSLActivity.h"
-#import "MRSLComment.h"
 #import "MRSLItem.h"
-#import "MRSLNotification.h"
 #import "MRSLMorsel.h"
-#import "MRSLPlace.h"
-#import "MRSLKeyword.h"
-#import "MRSLTag.h"
 #import "MRSLUser.h"
 
 @interface MRSLAPIService ()

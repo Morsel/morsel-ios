@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1.4" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="14A388a" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="1.4" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A388a" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="MRSLActivity" representedClassName="MRSLActivity" syncable="YES">
         <attribute name="actionType" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -338,6 +338,38 @@
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="presignedUpload" inverseEntity="MRSLItem" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="presignedUpload" inverseEntity="MRSLUser" syncable="YES"/>
     </entity>
+    <entity name="MRSLRemoteDevice" representedClassName="MRSLRemoteDevice" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deviceID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="model" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notify_item_comment" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="notification_settings.notify_item_comment"/>
+            </userInfo>
+        </attribute>
+        <attribute name="notify_morsel_like" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="notification_settings.notify_morsel_like"/>
+            </userInfo>
+        </attribute>
+        <attribute name="notify_morsel_morsel_user_tag" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="notification_settings.notify_morsel_morsel_user_tag"/>
+            </userInfo>
+        </attribute>
+        <attribute name="notify_user_follow" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="notification_settings.notify_user_follow"/>
+            </userInfo>
+        </attribute>
+        <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="MRSLTag" representedClassName="MRSLTag" syncable="YES">
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -484,5 +516,6 @@
         <element name="MRSLTemplate" positionX="-36" positionY="18" width="128" height="133"/>
         <element name="MRSLTemplateItem" positionX="-27" positionY="27" width="128" height="135"/>
         <element name="MRSLUser" positionX="376" positionY="18" width="128" height="583"/>
+        <element name="MRSLRemoteDevice" positionX="-36" positionY="18" width="128" height="193"/>
     </elements>
 </model>
