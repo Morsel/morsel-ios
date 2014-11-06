@@ -22,6 +22,19 @@
     return objectInfoJSON;
 }
 
+#pragma mark - Class Methods
+
++ (MRSLRemoteDevice *)currentRemoteDevice {
+    NSNumber *currentRemoteDeviceID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceID"];
+    MRSLRemoteDevice *remoteDevice = nil;
+    if (currentRemoteDeviceID) {
+        remoteDevice = [MRSLRemoteDevice MR_findFirstByAttribute:MRSLRemoteDeviceAttributes.deviceID
+                                                       withValue:currentRemoteDeviceID
+                                                       inContext:[NSManagedObjectContext MR_defaultContext]];
+    }
+    return remoteDevice;
+}
+
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {

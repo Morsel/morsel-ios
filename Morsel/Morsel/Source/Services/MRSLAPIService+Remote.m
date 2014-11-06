@@ -48,10 +48,12 @@
                                               formParameters:[self parametersToDataWithDictionary:parameters]
                                                   parameters:nil
                                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-#warning Save current device to NSUserDefaults. Add convenience class method to MRSLRemoteDevice to retrieve.
                                                          MRSLRemoteDevice *remoteDevice = [MRSLRemoteDevice MR_findFirstByAttribute:MRSLRemoteDeviceAttributes.deviceID withValue:responseObject[@"data"][@"id"]];
                                                          if (!remoteDevice) remoteDevice = [MRSLRemoteDevice MR_createEntity];
                                                          [remoteDevice MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                         [[NSUserDefaults standardUserDefaults] setObject:remoteDevice.deviceID
+                                                                                                   forKey:@"deviceID"];
+                                                         [[NSUserDefaults standardUserDefaults] synchronize];
                                                          if (successOrNil) successOrNil(remoteDevice);
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                          [self reportFailure:failureOrNil

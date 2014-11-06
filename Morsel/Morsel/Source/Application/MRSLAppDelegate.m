@@ -171,6 +171,8 @@
         [self.apiService getUserAuthenticationsWithSuccess:nil
                                                    failure:nil];
     } failure:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLRegisterRemoteNotificationsNotification
+                                                        object:nil];
     [MRSLUser API_updateNotificationsAmount:nil
                                     failure:nil];
     [currentUser setThirdPartySettings];

@@ -2,4 +2,6 @@
 
 @interface MRSLRemoteDevice : _MRSLRemoteDevice {}
 
++ (MRSLRemoteDevice *)currentRemoteDevice;
+
 @end
