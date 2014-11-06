@@ -1,5 +1,7 @@
 #import "MRSLRemoteDevice.h"
 
+#import "MRSLAPIService+Remote.h"
+
 @implementation MRSLRemoteDevice
 
 #pragma mark - Additions
@@ -33,6 +35,15 @@
                                                        inContext:[NSManagedObjectContext MR_defaultContext]];
     }
     return remoteDevice;
+}
+
+#pragma mark - API
+
+- (void)API_deleteWithSuccess:(MRSLAPISuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil {
+    [_appDelegate.apiService deleteUserDevice:self
+                                      success:successOrNil
+                                      failure:failureOrNil];
 }
 
 #pragma mark - MagicalRecord

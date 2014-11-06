@@ -92,21 +92,25 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"users/devices/%i", remoteDevice.deviceIDValue]
+    int remoteDeviceID = remoteDevice.deviceIDValue;
+    NSManagedObjectContext *managedObjectContext = remoteDevice.managedObjectContext;
+    if (managedObjectContext) {
+        NSManagedObjectContext *remoteContext = remoteDevice.managedObjectContext;
+        NSPredicate *remotePredicate = [NSPredicate predicateWithFormat:@"deviceID == %i", remoteDeviceID];
+        [MRSLRemoteDevice MR_deleteAllMatchingPredicate:remotePredicate
+                                              inContext:remoteContext];
+        [remoteContext MR_saveToPersistentStoreAndWait];
+    }
+
+    [[NSUserDefaults standardUserDefaults] setObject:@(-1)
+                                              forKey:@"deviceID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"users/devices/%i", remoteDeviceID]
                                                   withMethod:MRSLAPIMethodTypeDELETE
                                               formParameters:[self parametersToDataWithDictionary:parameters]
                                                   parameters:nil
                                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                         NSManagedObjectContext *managedObjectContext = remoteDevice.managedObjectContext;
-                                                         if (managedObjectContext) {
-                                                             int remoteDeviceID = remoteDevice.deviceIDValue;
-                                                             NSManagedObjectContext *remoteContext = remoteDevice.managedObjectContext;
-                                                             NSPredicate *remotePredicate = [NSPredicate predicateWithFormat:@"deviceID == %i", remoteDeviceID];
-                                                             [MRSLRemoteDevice MR_deleteAllMatchingPredicate:remotePredicate
-                                                                                                   inContext:remoteContext];
-                                                             [remoteContext MR_saveToPersistentStoreAndWait];
-                                                         }
-
                                                          if (successOrNil) successOrNil(responseObject);
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                          [self reportFailure:failureOrNil

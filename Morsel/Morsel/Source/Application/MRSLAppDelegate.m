@@ -31,6 +31,7 @@
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
+#import "MRSLRemoteDevice.h"
 #import "MRSLUser.h"
 
 @interface MRSLAppDelegate ()
@@ -225,6 +226,8 @@
 }
 
 - (void)resetDataStore {
+    [[MRSLRemoteDevice currentRemoteDevice] API_deleteWithSuccess:nil
+                                                          failure:nil];
     [[Mixpanel sharedInstance] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
     [[MRSLS3Client sharedClient].operationQueue cancelAllOperations];

@@ -4,4 +4,7 @@
 
 + (MRSLRemoteDevice *)currentRemoteDevice;
 
+- (void)API_deleteWithSuccess:(MRSLAPISuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil;
+
 @end
