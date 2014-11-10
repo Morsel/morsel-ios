@@ -273,7 +273,7 @@ MRSLFeedShareCollectionViewCellDelegate>
     } else {
         // Estimate height for item page
         MRSLItem *item = [_morsel.itemsArray objectAtIndex:indexPath.row - 1];
-        CGFloat pageElementsHeight = [UIScreen mainScreen].bounds.size.width + 64.f;
+        CGFloat pageElementsHeight = [UIScreen mainScreen].bounds.size.width + MRSLAppStatusAndNavigationBarHeight;
         cellHeight = pageElementsHeight + [item descriptionHeight];
     }
     return CGSizeMake([collectionView getWidth], cellHeight);

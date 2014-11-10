@@ -58,6 +58,32 @@
     return 40.f;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if ([self.delegate respondsToSelector:@selector(tableView:titleForHeaderInSection:)]) {
+        return [self.delegate tableView:tableView
+                titleForHeaderInSection:section];
+    } else {
+        return nil;
+    }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if ([self.delegate respondsToSelector:@selector(tableView:viewForHeaderInSection:)]) {
+        return [self.delegate tableView:tableView
+                 viewForHeaderInSection:section];
+    } else {
+        return nil;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if ([self.delegate respondsToSelector:@selector(tableView:heightForHeaderInSection:)]) {
+        return [self.delegate tableView:tableView heightForHeaderInSection:section];
+    } else {
+        return 0.f;
+    }
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

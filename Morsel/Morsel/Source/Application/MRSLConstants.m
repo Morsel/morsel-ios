@@ -216,6 +216,7 @@ NSString *const MRSLStoryboardRUIDTemplateCell = @"ruid_TemplateCell";
 NSString *const MRSLStoryboardRUIDTemplateInfoCell = @"ruid_TemplateInfoCell";
 NSString *const MRSLStoryboardRUIDMorselAddCell = @"ruid_MorselAddCell";
 NSString *const MRSLStoryboardRUIDMorselInfoCell = @"ruid_MorselInfoCell";
+NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey = @"ruid_PushNotificationSettingCell";
 
 #pragma mark - Storyboard Source Identifiers
 /*

@@ -96,22 +96,22 @@ const struct MRSLRemoteDeviceFetchedProperties MRSLRemoteDeviceFetchedProperties
 
 
 
-- (int16_t)deviceIDValue {
+- (int32_t)deviceIDValue {
 	NSNumber *result = [self deviceID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setDeviceIDValue:(int16_t)value_ {
-	[self setDeviceID:[NSNumber numberWithShort:value_]];
+- (void)setDeviceIDValue:(int32_t)value_ {
+	[self setDeviceID:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveDeviceIDValue {
+- (int32_t)primitiveDeviceIDValue {
 	NSNumber *result = [self primitiveDeviceID];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveDeviceIDValue:(int16_t)value_ {
-	[self setPrimitiveDeviceID:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveDeviceIDValue:(int32_t)value_ {
+	[self setPrimitiveDeviceID:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -247,22 +247,22 @@ const struct MRSLRemoteDeviceFetchedProperties MRSLRemoteDeviceFetchedProperties
 
 
 
-- (int16_t)user_idValue {
+- (int32_t)user_idValue {
 	NSNumber *result = [self user_id];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setUser_idValue:(int16_t)value_ {
-	[self setUser_id:[NSNumber numberWithShort:value_]];
+- (void)setUser_idValue:(int32_t)value_ {
+	[self setUser_id:[NSNumber numberWithInt:value_]];
 }
 
-- (int16_t)primitiveUser_idValue {
+- (int32_t)primitiveUser_idValue {
 	NSNumber *result = [self primitiveUser_id];
-	return [result shortValue];
+	return [result intValue];
 }
 
-- (void)setPrimitiveUser_idValue:(int16_t)value_ {
-	[self setPrimitiveUser_id:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveUser_idValue:(int32_t)value_ {
+	[self setPrimitiveUser_id:[NSNumber numberWithInt:value_]];
 }
 
 

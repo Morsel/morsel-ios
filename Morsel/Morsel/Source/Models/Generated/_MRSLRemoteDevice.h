@@ -62,9 +62,9 @@ extern const struct MRSLRemoteDeviceFetchedProperties {
 
 
 
-@property int16_t deviceIDValue;
-- (int16_t)deviceIDValue;
-- (void)setDeviceIDValue:(int16_t)value_;
+@property int32_t deviceIDValue;
+- (int32_t)deviceIDValue;
+- (void)setDeviceIDValue:(int32_t)value_;
 
 //- (BOOL)validateDeviceID:(id*)value_ error:(NSError**)error_;
 
@@ -162,9 +162,9 @@ extern const struct MRSLRemoteDeviceFetchedProperties {
 
 
 
-@property int16_t user_idValue;
-- (int16_t)user_idValue;
-- (void)setUser_idValue:(int16_t)value_;
+@property int32_t user_idValue;
+- (int32_t)user_idValue;
+- (void)setUser_idValue:(int32_t)value_;
 
 //- (BOOL)validateUser_id:(id*)value_ error:(NSError**)error_;
 
@@ -191,8 +191,8 @@ extern const struct MRSLRemoteDeviceFetchedProperties {
 - (NSNumber*)primitiveDeviceID;
 - (void)setPrimitiveDeviceID:(NSNumber*)value;
 
-- (int16_t)primitiveDeviceIDValue;
-- (void)setPrimitiveDeviceIDValue:(int16_t)value_;
+- (int32_t)primitiveDeviceIDValue;
+- (void)setPrimitiveDeviceIDValue:(int32_t)value_;
 
 
 
@@ -254,8 +254,8 @@ extern const struct MRSLRemoteDeviceFetchedProperties {
 - (NSNumber*)primitiveUser_id;
 - (void)setPrimitiveUser_id:(NSNumber*)value;
 
-- (int16_t)primitiveUser_idValue;
-- (void)setPrimitiveUser_idValue:(int16_t)value_;
+- (int32_t)primitiveUser_idValue;
+- (void)setPrimitiveUser_idValue:(int32_t)value_;
 
 
 

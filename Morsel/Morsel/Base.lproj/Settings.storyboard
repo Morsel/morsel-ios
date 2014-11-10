@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jtb-qR-yHr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jtb-qR-yHr">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Roboto-Light.ttf">
             <string>Roboto-Light</string>
             <string>Roboto-Light</string>
             <string>Roboto-Light</string>
+            <string>Roboto-Light</string>
+            <string>Roboto-Light</string>
         </mutableArray>
     </customFonts>
     <scenes>
-        <!--Professional Settings-->
+        <!--Professional settings-->
         <scene sceneID="XTS-Gv-r6d">
             <objects>
                 <tableViewController storyboardIdentifier="sb_MRSLProfessionalSettingsTableViewController" id="zV5-Ic-A6h" customClass="MRSLProfessionalSettingsTableViewController" sceneMemberID="viewController">
@@ -38,14 +41,14 @@ Access it later from Settings.</string>
                         <sections>
                             <tableViewSection id="jbQ-3S-l6m">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Z2B-4D-RX4" style="IBUITableViewCellStyleDefault" id="5A8-hS-1OW" userLabel="Manage Places Cell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Z2B-4D-RX4" style="IBUITableViewCellStyleDefault" id="5A8-hS-1OW" userLabel="Manage Places Cell" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="60" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5A8-hS-1OW" id="oVp-9M-7Mh">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Manage Places" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="270" id="Z2B-4D-RX4">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Manage places" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="270" id="Z2B-4D-RX4">
                                                     <rect key="frame" x="15" y="0.0" width="270" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -62,14 +65,14 @@ Access it later from Settings.</string>
                             </tableViewSection>
                             <tableViewSection headerTitle="Tags" id="R53-Db-9dO">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="bg4-Fh-L7X" style="IBUITableViewCellStyleDefault" id="emI-af-gqh" userLabel="Manage Tags Cell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="bg4-Fh-L7X" style="IBUITableViewCellStyleDefault" id="emI-af-gqh" userLabel="Manage Tags Cell" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="126" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="emI-af-gqh" id="kee-mB-gTS">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Manage Cuisines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="270" id="bg4-Fh-L7X">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Manage cuisines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="270" id="bg4-Fh-L7X">
                                                     <rect key="frame" x="15" y="0.0" width="270" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -82,14 +85,14 @@ Access it later from Settings.</string>
                                             <segue destination="AWC-Hh-8l1" kind="show" identifier="seg_Cuisines" id="f8M-ze-kdI"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="rCc-97-N72" style="IBUITableViewCellStyleDefault" id="anD-oy-QFk" userLabel="Manage Tags Cell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="rCc-97-N72" style="IBUITableViewCellStyleDefault" id="anD-oy-QFk" userLabel="Manage Tags Cell" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="170" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="anD-oy-QFk" id="MIS-aP-VaW">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Manage Specialties" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="270" id="rCc-97-N72">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Manage specialties" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="270" id="rCc-97-N72">
                                                     <rect key="frame" x="15" y="0.0" width="270" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -110,7 +113,7 @@ Access it later from Settings.</string>
                             <outlet property="delegate" destination="zV5-Ic-A6h" id="ZhZ-Ea-6Z1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Professional Settings" id="S10-aS-LLN"/>
+                    <navigationItem key="navigationItem" title="Professional settings" id="S10-aS-LLN"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pAa-Ne-UfW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -170,13 +173,13 @@ Access it later from Settings.</string>
                             <rect key="frame" x="0.0" y="418" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" red="0.57647061349999995" green="0.64313727620000005" blue="0.56862747670000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <sections>
                             <tableViewSection id="H59-ba-Jzx">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="aBs-f8-WE1" style="IBUITableViewCellStyleDefault" id="PnP-3q-Uz0" userLabel="Edit Profile Cell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="aBs-f8-WE1" style="IBUITableViewCellStyleDefault" id="PnP-3q-Uz0" userLabel="Edit Profile Cell" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="44" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PnP-3q-Uz0" id="E7H-9c-EnM">
@@ -196,7 +199,7 @@ Access it later from Settings.</string>
                                             <segue destination="qw9-yF-Jf9" kind="show" identifier="seg_EditProfile" id="700-Vj-Cks"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="SoO-ZC-cr4" style="IBUITableViewCellStyleDefault" id="jaH-5Y-Eqq" userLabel="Social Connections Cell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="SoO-ZC-cr4" style="IBUITableViewCellStyleDefault" id="jaH-5Y-Eqq" userLabel="Social Connections Cell" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="88" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jaH-5Y-Eqq" id="bG2-G1-hT8">
@@ -216,7 +219,7 @@ Access it later from Settings.</string>
                                             <segue destination="QZP-QV-mgC" kind="show" identifier="seg_SocialConnections" id="Eiq-8I-Vrt"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="puJ-UQ-bdw" style="IBUITableViewCellStyleDefault" id="SX1-Oi-pTb" userLabel="Account Settings Cell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="puJ-UQ-bdw" style="IBUITableViewCellStyleDefault" id="SX1-Oi-pTb" userLabel="Account Settings Cell" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="132" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SX1-Oi-pTb" id="P1W-7G-CXh">
@@ -236,11 +239,31 @@ Access it later from Settings.</string>
                                             <segue destination="tcF-OD-auu" kind="show" identifier="seg_AccountSettings" id="Jhe-XK-6QL"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="e0j-1e-g3I" style="IBUITableViewCellStyleDefault" id="TQa-Vn-wp7" userLabel="Push Notifcations Cell" customClass="MRSLBaseTableViewCell">
+                                        <rect key="frame" x="0.0" y="132" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TQa-Vn-wp7" id="Bd8-z1-Ea4">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Push notification settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="270" id="e0j-1e-g3I">
+                                                    <rect key="frame" x="15" y="0.0" width="270" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="TUC-jD-II9" kind="show" id="8gY-w8-cyR"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="SZo-mx-NIN">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="LJG-Mh-CFU" style="IBUITableViewCellStyleDefault" id="OuB-BG-NpE" userLabel="Professional Settings Cell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="LJG-Mh-CFU" style="IBUITableViewCellStyleDefault" id="OuB-BG-NpE" userLabel="Professional Settings Cell" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OuB-BG-NpE" id="a4x-gZ-SYP">
@@ -264,7 +287,7 @@ Access it later from Settings.</string>
                             </tableViewSection>
                             <tableViewSection id="Unt-kR-RxD">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7r4-Vv-cXy" style="IBUITableViewCellStyleDefault" id="NsP-bS-Nco" userLabel="Professional Settings Cell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7r4-Vv-cXy" style="IBUITableViewCellStyleDefault" id="NsP-bS-Nco" userLabel="Professional Settings Cell" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="176" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NsP-bS-Nco" id="8LP-Ge-2k1">
@@ -288,7 +311,7 @@ Access it later from Settings.</string>
                             </tableViewSection>
                             <tableViewSection headerTitle="Support" id="kt7-bm-5r2">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="VSO-PB-wKR" style="IBUITableViewCellStyleDefault" id="UDW-tJ-d2g">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="VSO-PB-wKR" style="IBUITableViewCellStyleDefault" id="UDW-tJ-d2g" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UDW-tJ-d2g" id="6H4-zF-EMZ">
@@ -309,7 +332,7 @@ Access it later from Settings.</string>
                                             </connections>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="a85-Bz-QhX" style="IBUITableViewCellStyleDefault" id="4Oi-hI-nva">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="a85-Bz-QhX" style="IBUITableViewCellStyleDefault" id="4Oi-hI-nva" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="286" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4Oi-hI-nva" id="9Pc-gH-YyV">
@@ -330,7 +353,7 @@ Access it later from Settings.</string>
                                             </connections>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="GCY-Xa-Wwe" style="IBUITableViewCellStyleDefault" id="VdP-LQ-ssA">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="GCY-Xa-Wwe" style="IBUITableViewCellStyleDefault" id="VdP-LQ-ssA" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="330" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VdP-LQ-ssA" id="ksp-7A-oYG">
@@ -351,7 +374,7 @@ Access it later from Settings.</string>
                                             </connections>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="K1c-CQ-Nop" style="IBUITableViewCellStyleDefault" id="Tg2-Xf-vkn">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="K1c-CQ-Nop" style="IBUITableViewCellStyleDefault" id="Tg2-Xf-vkn" customClass="MRSLBaseTableViewCell">
                                         <rect key="frame" x="0.0" y="374" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tg2-Xf-vkn" id="qla-Hk-79d">
@@ -427,7 +450,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="-916.875" y="-12.676056338028168"/>
         </scene>
-        <!--Edit Profile-->
+        <!--Edit profile-->
         <scene sceneID="DrB-Mi-VBl">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLProfileEditFieldsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="qw9-yF-Jf9" customClass="MRSLProfileEditFieldsViewController" sceneMemberID="viewController">
@@ -436,7 +459,7 @@ Access it later from Settings.</string>
                         <viewControllerLayoutGuide type="bottom" id="l2Q-Rr-NTw"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ilg-z2-SGW">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="44" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ILj-2y-ZPS">
@@ -571,7 +594,7 @@ Access it later from Settings.</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Edit Profile" id="ai3-Ce-dym">
+                    <navigationItem key="navigationItem" title="Edit profile" id="ai3-Ce-dym">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="Sdx-a6-feW">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -596,7 +619,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="1820.625" y="21.12676056338028"/>
         </scene>
-        <!--Manage Places-->
+        <!--Manage places-->
         <scene sceneID="MpQ-aF-9vI">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLProfileEditPlacesViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="ZhL-PA-ZjH" customClass="MRSLProfileEditPlacesViewController" sceneMemberID="viewController">
@@ -785,7 +808,7 @@ Access it later from Settings.</string>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Manage Places" id="tiO-CK-YxZ"/>
+                    <navigationItem key="navigationItem" title="Manage places" id="tiO-CK-YxZ"/>
                     <connections>
                         <outlet property="collectionView" destination="cnn-Lf-XVS" id="yTj-8M-qjW"/>
                     </connections>
@@ -794,7 +817,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="2893.125" y="-1377.4647887323943"/>
         </scene>
-        <!--Account Settings-->
+        <!--Account settings-->
         <scene sceneID="KZK-uJ-gBZ">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLProfileCredentialsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="tcF-OD-auu" customClass="MRSLProfileCredentialsViewController" sceneMemberID="viewController">
@@ -827,12 +850,12 @@ Access it later from Settings.</string>
                                                 </connections>
                                             </textField>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For security purposes, please enter your current password to make any of the below changes" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="T8b-36-x25" customClass="MRSLRobotoLightLabel">
-                                                <rect key="frame" x="160" y="63" width="280" height="40"/>
+                                                <rect key="frame" x="140" y="63" width="320" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="gLp-Cj-whb"/>
-                                                    <constraint firstAttribute="width" constant="280" id="nTx-ve-dgS"/>
+                                                    <constraint firstAttribute="width" constant="320" id="nTx-ve-dgS"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="14"/>
                                                 <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -922,7 +945,7 @@ Access it later from Settings.</string>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Account Settings" id="mjd-ry-Fd0">
+                    <navigationItem key="navigationItem" title="Account settings" id="mjd-ry-Fd0">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="DGT-wP-ZES">
                             <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -943,7 +966,7 @@ Access it later from Settings.</string>
             </objects>
             <point key="canvasLocation" x="1820.625" y="719.36619718309851"/>
         </scene>
-        <!--Social Connections-->
+        <!--Social connections-->
         <scene sceneID="8qI-YS-nKN">
             <objects>
                 <tableViewController storyboardIdentifier="sb_MRSLSocialConnectionsTableViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="QZP-QV-mgC" customClass="MRSLSocialConnectionsTableViewController" sceneMemberID="viewController">
@@ -1104,7 +1127,7 @@ follow them for you.</string>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle=" " id="o4Y-7e-zSx">
+                            <tableViewSection headerTitle=" " id="o4Y-7e-zSx" userLabel="Table View Section">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="zw6-74-VYb">
                                         <rect key="frame" x="0.0" y="142" width="320" height="40"/>
@@ -1151,7 +1174,7 @@ follow them for you.</string>
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Social Connections" id="bNM-NY-33u"/>
+                    <navigationItem key="navigationItem" title="Social connections" id="bNM-NY-33u"/>
                     <connections>
                         <outlet property="autoFollowSwitch" destination="LwC-23-jma" id="Md4-tk-vQZ"/>
                         <outlet property="facebookSwitch" destination="1V0-CS-YLX" id="IaQ-ij-vJw"/>
@@ -1165,6 +1188,69 @@ follow them for you.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E2Y-hu-AlX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="813.75" y="719.36619718309851"/>
+        </scene>
+        <!--Push notification settings-->
+        <scene sceneID="8AE-HC-JYR">
+            <objects>
+                <tableViewController storyboardIdentifier="sb_MRSLPushNotificationSettingsViewController" autoresizesArchivedViewToFullSize="NO" title="Push notification settings" automaticallyAdjustsScrollViewInsets="NO" id="TUC-jD-II9" customClass="MRSLPushNotificationSettingsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VuA-h0-Oqy">
+                        <rect key="frame" x="0.0" y="44" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <label key="tableFooterView" hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Push notifications are not enabled. Please allow Morsel to send Notifications in your device Settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" id="T3Z-Uv-ax6" customClass="MRSLRobotoLightTableViewPlaceholderLabel">
+                            <rect key="frame" x="0.0" y="66" width="600" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="14"/>
+                            <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_PushNotificationSettingCell" id="Ov7-1b-Mo7" customClass="MRSLSwitchTableViewCell">
+                                <rect key="frame" x="0.0" y="142" width="320" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ov7-1b-Mo7" id="aSb-dT-1v8">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <switch userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G1K-l6-cUq">
+                                            <rect key="frame" x="531" y="4" width="51" height="31"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="49" id="1fq-yH-HNe"/>
+                                                <constraint firstAttribute="height" constant="31" id="PPS-OB-pgB"/>
+                                            </constraints>
+                                        </switch>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="G1K-l6-cUq" secondAttribute="trailing" constant="20" id="r5b-lr-jAr"/>
+                                        <constraint firstItem="G1K-l6-cUq" firstAttribute="top" secondItem="aSb-dT-1v8" secondAttribute="top" constant="4" id="weI-sp-ogA"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="cellSwitch" destination="G1K-l6-cUq" id="D1J-mh-P6e"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="TUC-jD-II9" id="nEd-WU-wXh"/>
+                            <outlet property="delegate" destination="TUC-jD-II9" id="c94-5F-Xgs"/>
+                        </connections>
+                    </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Push notification settings" id="uIz-09-EJf" userLabel="Push notification settings">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Dxa-3A-Ojk" userLabel="Save">
+                            <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="saveChanges:" destination="TUC-jD-II9" id="nSB-TG-A3n"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="emptyStateTitleView" destination="T3Z-Uv-ax6" id="dnN-sd-Cdr"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yGK-Rl-0Vp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1820" y="1447"/>
         </scene>
         <!--Toggle Keywords Table View Controller-->
         <scene sceneID="qIq-sj-0cT">

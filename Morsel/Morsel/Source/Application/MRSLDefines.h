@@ -96,6 +96,7 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
+static const CGFloat MRSLAppStatusAndNavigationBarHeight = 64.f;
 static const CGFloat MRSLMorselTemplateDefaultID = -2.f;
 static const CGFloat MRSLCellDefaultPadding = 20.f;
 static const CGFloat MRSLImageLargeThreshold = 220.f;
