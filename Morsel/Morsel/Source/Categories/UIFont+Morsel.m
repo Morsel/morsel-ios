@@ -15,6 +15,12 @@
                            size:fontSize];
 }
 
++ (UIFont *)robotoSlabItalicsFontOfSize:(CGFloat)fontSize {
+    //  Since there's no italics font for Roboto Slab, just use Regular. When fonts change in
+    //  the future this should be updated w/ the new italics font
+    return [UIFont robotoSlabRegularFontOfSize:fontSize];
+}
+
 + (UIFont *)robotoSlabRegularFontOfSize:(CGFloat)fontSize {
     return [UIFont fontWithName:@"RobotoSlab-Regular"
                            size:fontSize];

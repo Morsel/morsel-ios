@@ -232,6 +232,10 @@ int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;
 int LOG_LEVEL_DEF = LOG_LEVEL_ERROR;
 #endif
 
+#pragma mark - Misc. Constants
+
+NSString *const MRSLDefaultEmptyUserName = @"Morsel User";
+
 @implementation MRSLConstants
 
 @end

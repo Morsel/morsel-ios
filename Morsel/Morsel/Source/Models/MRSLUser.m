@@ -185,6 +185,10 @@ static const int kGuestUserID = -1;
     return (self.userIDValue == kGuestUserID);
 }
 
+- (BOOL)hasEmptyName {
+    return !self.first_name && !self.last_name;
+}
+
 - (BOOL)isProfessional {
     return self.professionalValue;
 }
@@ -200,7 +204,13 @@ static const int kGuestUserID = -1;
 }
 
 - (NSString *)fullName {
-    return ([self isGuestUser]) ? @"Guest" : ([NSString stringWithFormat:@"%@ %@", self.first_name ? : @"", self.last_name ? : @""]);
+    if ([self isGuestUser]) {
+        return @"Guest";
+    } else if ([self hasEmptyName]) {
+        return MRSLDefaultEmptyUserName;
+    } else {
+        return [NSString stringWithFormat:@"%@ %@", self.first_name ? : @"", self.last_name ? : @""];
+    }
 }
 
 - (NSString *)displayName {

@@ -11,6 +11,7 @@
 @interface UIFont (Morsel)
 
 + (UIFont *)robotoSlabBoldFontOfSize:(CGFloat)fontSize;
++ (UIFont *)robotoSlabItalicsFontOfSize:(CGFloat)fontSize;
 + (UIFont *)robotoSlabRegularFontOfSize:(CGFloat)fontSize;
 + (UIFont *)robotoLightFontOfSize:(CGFloat)fontSize;
 + (UIFont *)robotoLightItalicFontOfSize:(CGFloat)fontSize;
