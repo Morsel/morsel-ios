@@ -14,4 +14,8 @@
     [self setFont:[UIFont robotoBoldFontOfSize:self.font.pointSize]];
 }
 
+- (UIFont *)obliqueFont {
+    return [UIFont robotoSlabItalicsFontOfSize:self.font.pointSize];
+}
+
 @end

@@ -12,6 +12,7 @@
 
 #import "MRSLAPIService+Comment.h"
 
+#import "MRSLStandardLabel.h"
 #import "MRSLProfileImageView.h"
 
 #import "MRSLComment.h"
@@ -21,7 +22,7 @@
 <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet MRSLStandardLabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentBodyLabel;
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
@@ -43,6 +44,7 @@
         [self reset];
         _profileImageView.user = _comment.creator;
         _userNameLabel.text = _comment.creator.fullName;
+        [_userNameLabel setOblique:[_comment.creator hasEmptyName]];
         _commentBodyLabel.text = _comment.commentDescription;
         _timeAgoLabel.text = [_comment.creationDate timeAgo];
 

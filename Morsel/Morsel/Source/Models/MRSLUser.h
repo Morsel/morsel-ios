@@ -26,6 +26,7 @@
 
 - (BOOL)isCurrentUser;
 - (BOOL)isGuestUser;
+- (BOOL)hasEmptyName;
 - (BOOL)isProfessional;
 
 - (CGFloat)profileInformationHeight;

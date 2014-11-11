@@ -224,6 +224,11 @@ extern NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey;
 
 extern int LOG_LEVEL_DEF;
 
+#pragma mark - Misc. Constants
+
+extern NSString *const MRSLDefaultEmptyUserName;
+
+
 @interface MRSLConstants : NSObject
 
 @end
