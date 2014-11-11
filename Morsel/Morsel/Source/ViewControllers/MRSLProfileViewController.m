@@ -52,6 +52,7 @@ MRSLStateViewDelegate>
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 @property (nonatomic) BOOL shouldShowFollowers;
+@property (nonatomic) BOOL queuedToDisplayFollowers;
 
 @property (nonatomic) MRSLDataSourceType dataSourceTabType;
 
@@ -96,6 +97,9 @@ MRSLStateViewDelegate>
                                             [UIAlertView showAlertViewForErrorString:@"Unable to load user profile."
                                                                             delegate:nil];
                                         }];
+        if ([self.userInfo[@"action"] isEqualToString:@"followers"]) {
+            self.queuedToDisplayFollowers = YES;
+        }
     }
 
     if (!_user) self.user = [MRSLUser currentUser];
@@ -115,6 +119,17 @@ MRSLStateViewDelegate>
     [self.navigationController setNavigationBarHidden:NO
                                              animated:animated];
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    if (self.queuedToDisplayFollowers && self.userInfo) {
+        self.queuedToDisplayFollowers = NO;
+        self.shouldShowFollowers = YES;
+        [self performSegueWithIdentifier:MRSLStoryboardSegueFollowListKey
+                                  sender:nil];
+    }
 }
 
 - (void)viewDidLayoutSubviews {

@@ -9,6 +9,8 @@
 
 - (CGFloat)coverInformationHeight;
 
+- (NSInteger)indexOfItem:(MRSLItem *)item;
+
 - (NSDate *)latestUpdatedDate;
 - (NSArray *)itemsArray;
 - (NSString *)placeholderTitle;

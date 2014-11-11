@@ -133,6 +133,14 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 #pragma mark - Action Methods
 
+- (void)scrollToMorselItem:(MRSLItem *)item {
+    NSUInteger indexOfItem = [self.morsel indexOfItem:item] + 1;
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:indexOfItem
+                                                                    inSection:0]
+                                atScrollPosition:UICollectionViewScrollPositionNone
+                                        animated:NO];
+}
+
 - (IBAction)displayComments {
     MRSLItem *visibleItem = [self visibleItem];
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
@@ -347,10 +355,10 @@ MRSLFeedShareCollectionViewCellDelegate>
                                shouldTag:NO
                                   didTag:^(BOOL didTag) {
                                       weakSelf.morsel.tagged = @(didTag);
-        } failure:^(NSError *error) {
-            [UIAlertView showOKAlertViewWithTitle:@"Unable to remove tag"
-                                          message:@"Please try again"];
-        }];
+                                  } failure:^(NSError *error) {
+                                      [UIAlertView showOKAlertViewWithTitle:@"Unable to remove tag"
+                                                                    message:@"Please try again"];
+                                  }];
     }
 }
 

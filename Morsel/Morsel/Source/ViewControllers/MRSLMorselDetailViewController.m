@@ -19,7 +19,11 @@
 #import "MRSLMediaManager.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLMorselEditViewController.h"
+#import "MRSLMorselTaggedUsersViewController.h"
+#import "MRSLModalLikersViewController.h"
+#import "MRSLModalCommentsViewController.h"
 
+#import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
@@ -33,6 +37,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 @property (nonatomic) BOOL isPreview;
+@property (nonatomic) BOOL queuedToDisplayTaggedUsers;
+@property (nonatomic) BOOL queuedToDisplayLikers;
+@property (nonatomic) BOOL queuedToDisplayComments;
+
+@property (nonatomic) NSNumber *queuedItemID;
 
 @property (nonatomic) CGFloat previousContentOffset;
 
@@ -57,7 +66,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)setupWithUserInfo:(NSDictionary *)userInfo {
     self.userInfo = userInfo;
-
 }
 
 - (void)viewDidLoad {
@@ -85,6 +93,14 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                        [UIAlertView showAlertViewForErrorString:@"Unable to load morsel."
                                                                        delegate:nil];
                                    }];
+        if ([self.userInfo[@"action"] isEqualToString:@"user_tags"]) {
+            self.queuedToDisplayTaggedUsers = YES;
+        } else if ([self.userInfo[@"action"] isEqualToString:@"likers"]) {
+            self.queuedToDisplayLikers = YES;
+        } else if ([self.userInfo[@"action"] isEqualToString:@"comments"]) {
+            self.queuedItemID = self.userInfo[@"item_id"];
+            self.queuedToDisplayComments = (self.queuedItemID != nil);
+        }
     }
 
     self.mp_eventView = @"morsel_detail";
@@ -112,6 +128,47 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
     [self setupFetchRequest];
     [self populateContent];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                                   withValue:self.userInfo[@"morsel_id"]];
+    if (self.queuedToDisplayTaggedUsers) {
+        self.queuedToDisplayTaggedUsers = NO;
+        if (morsel) {
+            UINavigationController *taggedNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardTaggedUsersKey];
+            MRSLMorselTaggedUsersViewController *taggedUsersVC = [[taggedNC viewControllers] firstObject];
+            taggedUsersVC.morsel = morsel;
+            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                                object:taggedNC];
+        }
+    } else if (self.queuedToDisplayLikers) {
+        self.queuedToDisplayLikers = NO;
+        if (morsel) {
+            UINavigationController *likesNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardLikesKey];
+            MRSLModalLikersViewController *modalLikersVC = [[likesNC viewControllers] firstObject];
+            modalLikersVC.morsel = morsel;
+            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                                object:likesNC];
+        }
+    } else if (self.queuedToDisplayComments) {
+        self.queuedToDisplayComments = NO;
+        MRSLItem *morselItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                       withValue:self.queuedItemID];
+        if (morselItem) {
+            UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCommentsKey];
+            MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
+            modalCommentsVC.item = morselItem;
+            [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                                object:commentNC];
+            NSIndexPath *indexPath = [[self.feedCollectionView indexPathsForVisibleItems] firstObject];
+            if (indexPath) {
+                MRSLFeedPanelCollectionViewCell *visibleFeedPanel = (MRSLFeedPanelCollectionViewCell *)[self.feedCollectionView cellForItemAtIndexPath:indexPath];
+                [visibleFeedPanel.feedPanelViewController scrollToMorselItem:morselItem];
+            }
+        }
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

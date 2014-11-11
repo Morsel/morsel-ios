@@ -91,7 +91,6 @@
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     DDLogError(@"Error registering for remote notifications. Error: %@", error);
-#warning Figure out what should happen here
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {

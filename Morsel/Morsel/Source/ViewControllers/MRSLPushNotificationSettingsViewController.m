@@ -48,6 +48,9 @@
         self.enableForLikes = self.currentRemoteDevice.notify_morsel_likeValue;
         self.enableForMorselUserTags = self.currentRemoteDevice.notify_morsel_morsel_user_tagValue;
         self.enableForFollows = self.currentRemoteDevice.notify_user_followValue;
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLRegisterRemoteNotificationsNotification
+                                                            object:nil];
     }
 
     [self updateContent];

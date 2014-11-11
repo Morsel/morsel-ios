@@ -59,6 +59,14 @@
     return MAX(75.f, coverInfoHeight);
 }
 
+- (NSInteger)indexOfItem:(MRSLItem *)item {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"itemID == %@", item.itemID];
+    NSArray *filteredArray = [[self itemsArray] filteredArrayUsingPredicate:predicate];
+    id firstFoundObject = nil;
+    firstFoundObject =  filteredArray.count > 0 ? filteredArray.firstObject : nil;
+    return (firstFoundObject) ? [self.itemsArray indexOfObject:firstFoundObject] : 0;
+}
+
 - (NSDate *)latestUpdatedDate {
     __block NSDate *latestUpdated = self.lastUpdatedDate;
 

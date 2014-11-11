@@ -22,6 +22,8 @@
 @property (weak, nonatomic) MRSLMorsel *morsel;
 @property (weak, nonatomic) MRSLMorsel *nextMorsel;
 
+- (void)scrollToMorselItem:(MRSLItem *)item;
+
 - (IBAction)displayLikers;
 - (IBAction)displayShare;
 
