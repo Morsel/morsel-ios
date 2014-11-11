@@ -14,6 +14,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.lastUpdatedDate = @"lastUpdatedDate",
 	.like_count = @"like_count",
 	.liked = @"liked",
+	.likedDate = @"likedDate",
 	.morselID = @"morselID",
 	.morselPhotoURL = @"morselPhotoURL",
 	.primary_item_id = @"primary_item_id",
@@ -297,6 +298,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 - (void)setPrimitiveLikedValue:(BOOL)value_ {
 	[self setPrimitiveLiked:[NSNumber numberWithBool:value_]];
 }
+
+
+
+
+
+@dynamic likedDate;
+
 
 
 

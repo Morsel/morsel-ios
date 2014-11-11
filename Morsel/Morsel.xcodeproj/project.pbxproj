@@ -106,7 +106,7 @@
 		063F857918FF9007000B136B /* MRSLRobotoLightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 063F857818FF9007000B136B /* MRSLRobotoLightTextView.m */; };
 		064090EF192D40EF0048EE7A /* MRSLAPIService+Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 064090EE192D40EF0048EE7A /* MRSLAPIService+Search.m */; };
 		0640FF32187DB89300BE2F0D /* MRSLSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0640FF31187DB89300BE2F0D /* MRSLSignUpViewController.m */; };
-		0641E48B19193BE300ABDCB8 /* MRSLUserLikedItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0641E48A19193BE300ABDCB8 /* MRSLUserLikedItemCollectionViewCell.m */; };
+		0641E48B19193BE300ABDCB8 /* MRSLUserLikedMorselCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0641E48A19193BE300ABDCB8 /* MRSLUserLikedMorselCollectionViewCell.m */; };
 		0642572519DB418B00F8AD90 /* MRSLBaseViewController+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0642572419DB418B00F8AD90 /* MRSLBaseViewController+Additions.m */; };
 		064566F418C50BDD00C9CCBF /* Activity.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064566F218C50BDD00C9CCBF /* Activity.storyboard */; };
 		064685EC19D5CA51003FDBE5 /* MRSLExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064685EB19D5CA51003FDBE5 /* MRSLExploreViewController.m */; };
@@ -414,7 +414,7 @@
 		06C4DE3F19897E14009B6406 /* MRSLWebBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06340918191BDFE500C67FB8 /* MRSLWebBrowserViewController.m */; };
 		06C4DE4019897E14009B6406 /* MRSLActivityCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4003509818EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m */; };
 		06C4DE4119897E14009B6406 /* MRSLActivityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40348F24195363F900BDDC15 /* MRSLActivityTableViewCell.m */; };
-		06C4DE4219897E14009B6406 /* MRSLUserLikedItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0641E48A19193BE300ABDCB8 /* MRSLUserLikedItemCollectionViewCell.m */; };
+		06C4DE4219897E14009B6406 /* MRSLUserLikedMorselCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0641E48A19193BE300ABDCB8 /* MRSLUserLikedMorselCollectionViewCell.m */; };
 		06C4DE4319897E14009B6406 /* MRSLCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5B04185BCFD600468210 /* MRSLCommentTableViewCell.m */; };
 		06C4DE4419897E14009B6406 /* MRSLFeedCoverCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F1847D18E0B6BB00DBA468 /* MRSLFeedCoverCollectionViewCell.m */; };
 		06C4DE4519897E14009B6406 /* MRSLFeedPageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F1848018E0B6D200DBA468 /* MRSLFeedPageCollectionViewCell.m */; };
@@ -849,8 +849,8 @@
 		064090EE192D40EF0048EE7A /* MRSLAPIService+Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLAPIService+Search.m"; sourceTree = "<group>"; };
 		0640FF30187DB89300BE2F0D /* MRSLSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSignUpViewController.h; sourceTree = "<group>"; };
 		0640FF31187DB89300BE2F0D /* MRSLSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSignUpViewController.m; sourceTree = "<group>"; };
-		0641E48919193BE300ABDCB8 /* MRSLUserLikedItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLUserLikedItemCollectionViewCell.h; path = Source/Views/MRSLUserLikedItemCollectionViewCell.h; sourceTree = "<group>"; };
-		0641E48A19193BE300ABDCB8 /* MRSLUserLikedItemCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLUserLikedItemCollectionViewCell.m; path = Source/Views/MRSLUserLikedItemCollectionViewCell.m; sourceTree = "<group>"; };
+		0641E48919193BE300ABDCB8 /* MRSLUserLikedMorselCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLUserLikedMorselCollectionViewCell.h; path = Source/Views/MRSLUserLikedMorselCollectionViewCell.h; sourceTree = "<group>"; };
+		0641E48A19193BE300ABDCB8 /* MRSLUserLikedMorselCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLUserLikedMorselCollectionViewCell.m; path = Source/Views/MRSLUserLikedMorselCollectionViewCell.m; sourceTree = "<group>"; };
 		0642572319DB418B00F8AD90 /* MRSLBaseViewController+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLBaseViewController+Additions.h"; sourceTree = "<group>"; };
 		0642572419DB418B00F8AD90 /* MRSLBaseViewController+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLBaseViewController+Additions.m"; sourceTree = "<group>"; };
 		064566F318C50BDD00C9CCBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Activity.storyboard; sourceTree = "<group>"; };
@@ -2644,8 +2644,8 @@
 				4003509818EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m */,
 				40348F23195363F900BDDC15 /* MRSLActivityTableViewCell.h */,
 				40348F24195363F900BDDC15 /* MRSLActivityTableViewCell.m */,
-				0641E48919193BE300ABDCB8 /* MRSLUserLikedItemCollectionViewCell.h */,
-				0641E48A19193BE300ABDCB8 /* MRSLUserLikedItemCollectionViewCell.m */,
+				0641E48919193BE300ABDCB8 /* MRSLUserLikedMorselCollectionViewCell.h */,
+				0641E48A19193BE300ABDCB8 /* MRSLUserLikedMorselCollectionViewCell.m */,
 			);
 			name = Activity;
 			sourceTree = "<group>";
@@ -3250,7 +3250,7 @@
 				065D0CCC19A9A06E009E6FC7 /* _MRSLTemplateItem.m in Sources */,
 				0621C2E319AD0A1300340C48 /* UITableViewCell+Additions.m in Sources */,
 				0669C5131871FD370093132F /* UIImage+Resize.m in Sources */,
-				0641E48B19193BE300ABDCB8 /* MRSLUserLikedItemCollectionViewCell.m in Sources */,
+				0641E48B19193BE300ABDCB8 /* MRSLUserLikedMorselCollectionViewCell.m in Sources */,
 				0621C2D919AC4AB000340C48 /* MRSLReorderTableView.m in Sources */,
 				06CDA74A199A910C004786F0 /* MRSLMenuBarButtonItem.m in Sources */,
 				062AB98B18C53DE800742955 /* MRSLAppDelegate+SetupAppearance.m in Sources */,
@@ -3708,7 +3708,7 @@
 				064B035419E33C4200AD3FE3 /* MRSLMorselTaggedUsersTableViewCell.m in Sources */,
 				065D0CBA19A9991C009E6FC7 /* MRSLAPIService+Templates.m in Sources */,
 				0621C2E519AD0A1300340C48 /* UITableViewCell+Additions.m in Sources */,
-				06C4DE4219897E14009B6406 /* MRSLUserLikedItemCollectionViewCell.m in Sources */,
+				06C4DE4219897E14009B6406 /* MRSLUserLikedMorselCollectionViewCell.m in Sources */,
 				06C4DE4319897E14009B6406 /* MRSLCommentTableViewCell.m in Sources */,
 				06C4DE4419897E14009B6406 /* MRSLFeedCoverCollectionViewCell.m in Sources */,
 				06C4DE4519897E14009B6406 /* MRSLFeedPageCollectionViewCell.m in Sources */,

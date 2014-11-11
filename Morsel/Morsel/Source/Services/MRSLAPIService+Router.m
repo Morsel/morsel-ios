@@ -32,13 +32,13 @@
                                                success:successOrNil
                                                failure:failureOrNil];
             break;
-        case MRSLDataSourceTypeActivityItem:
-            [_appDelegate.apiService getLikedItemsForUser:user
-                                                    maxID:maxOrNil
-                                                orSinceID:sinceOrNil
-                                                 andCount:countOrNil
-                                                  success:successOrNil
-                                                  failure:failureOrNil];
+        case MRSLDataSourceTypeLikedMorsel:
+            [_appDelegate.apiService getLikedMorselsForUser:user
+                                                      maxID:maxOrNil
+                                                  orSinceID:sinceOrNil
+                                                   andCount:countOrNil
+                                                    success:successOrNil
+                                                    failure:failureOrNil];
             break;
         case MRSLDataSourceTypePlace:
             [_appDelegate.apiService getPlacesForUser:user

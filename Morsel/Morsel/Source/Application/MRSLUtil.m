@@ -61,10 +61,8 @@
 + (Class)classForDataSourceType:(MRSLDataSourceType)dataSourceTabType {
     switch (dataSourceTabType) {
         case MRSLDataSourceTypeMorsel:
+        case MRSLDataSourceTypeLikedMorsel:
             return [MRSLMorsel class];
-            break;
-        case MRSLDataSourceTypeActivityItem:
-            return [MRSLItem class];
             break;
         case MRSLDataSourceTypePlace:
             return [MRSLPlace class];
@@ -114,10 +112,8 @@
 + (NSString *)stringForDataSourceType:(MRSLDataSourceType)dataSourceTabType {
     switch (dataSourceTabType) {
         case MRSLDataSourceTypeMorsel:
+        case MRSLDataSourceTypeLikedMorsel:
             return @"morsel";
-            break;
-        case MRSLDataSourceTypeActivityItem:
-            return @"item";
             break;
         case MRSLDataSourceTypePlace:
             return @"place";

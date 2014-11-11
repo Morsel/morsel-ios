@@ -83,7 +83,7 @@ typedef NS_ENUM(NSUInteger, MRSLDataSourceType) {
     MRSLDataSourceTypeMorsel,
     MRSLDataSourceTypePlace,
     MRSLDataSourceTypeTag,
-    MRSLDataSourceTypeActivityItem,
+    MRSLDataSourceTypeLikedMorsel,
     MRSLDataSourceTypeUser
 };
 

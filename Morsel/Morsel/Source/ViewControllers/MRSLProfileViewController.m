@@ -26,7 +26,7 @@
 #import "MRSLStateView.h"
 #import "MRSLCollectionView.h"
 #import "MRSLContainerCollectionViewCell.h"
-#import "MRSLUserLikedItemCollectionViewCell.h"
+#import "MRSLUserLikedMorselCollectionViewCell.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
 #import "MRSLPlaceCollectionViewCell.h"
 #import "MRSLProfilePanelCollectionViewCell.h"
@@ -269,7 +269,11 @@ MRSLStateViewDelegate>
 }
 
 - (NSString *)objectIDsKey {
-    return [NSString stringWithFormat:@"%@_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
+    if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
+        return [NSString stringWithFormat:@"%@_liked_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
+    } else {
+        return [NSString stringWithFormat:@"%@_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
+    }
 }
 
 - (void)refreshContent {
@@ -360,16 +364,18 @@ MRSLStateViewDelegate>
             [cell addBorderWithDirections:MRSLBorderSouth
                               borderColor:[UIColor whiteColor]];
             if ([item isKindOfClass:[MRSLMorsel class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMorselPreviewCellKey
-                                                                 forIndexPath:indexPath];
-                [(MRSLMorselPreviewCollectionViewCell *)cell setMorsel:item];
-            } else if ([item isKindOfClass:[MRSLItem class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDUserLikedItemCellKey
-                                                                 forIndexPath:indexPath];
-                [(MRSLUserLikedItemCollectionViewCell *)cell setItem:item
-                                                             andUser:_user];
-                if (indexPath.row != count) {
-                    [cell addDefaultBorderForDirections:MRSLBorderSouth];
+                if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
+                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDUserLikedMorselCellKey
+                                                                     forIndexPath:indexPath];
+                    [(MRSLUserLikedMorselCollectionViewCell *)cell setMorsel:item
+                                                                     andUser:_user];
+                    if (indexPath.row != count) {
+                        [cell addDefaultBorderForDirections:MRSLBorderSouth];
+                    }
+                } else {
+                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMorselPreviewCellKey
+                                                                     forIndexPath:indexPath];
+                    [(MRSLMorselPreviewCollectionViewCell *)cell setMorsel:item];
                 }
             } else if ([item isKindOfClass:[MRSLPlace class]]) {
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPlaceCellKey
@@ -400,7 +406,11 @@ MRSLStateViewDelegate>
         } else {
             id object = [_segmentedPanelCollectionViewDataSource objectAtIndexPath:indexPath];
             if ([object isKindOfClass:[MRSLMorsel class]]) {
-                return CGSizeMake(MAX(106.f, (collectionView.frame.size.width / 3) - 1.f), MAX(106.f, (collectionView.frame.size.width / 3) - 1.f));
+                if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
+                    return CGSizeMake(collectionView.frame.size.width, 80.f);
+                } else {
+                    return CGSizeMake(MAX(106.f, (collectionView.frame.size.width / 3) - 1.f), MAX(106.f, (collectionView.frame.size.width / 3) - 1.f));
+                }
             } else if ([object isKindOfClass:[MRSLTag class]]) {
                 BOOL shouldDisplayTypeHeader = (indexPath.row == 0);
                 if (indexPath.row > 0) {
@@ -490,7 +500,7 @@ MRSLStateViewDelegate>
         self.dataSourceTabType = index;
 
         switch (index) {
-            case MRSLDataSourceTypeActivityItem:
+            case MRSLDataSourceTypeLikedMorsel:
                 [self.profileCollectionView setEmptyStateTitle:@"No activity yet"];
                 if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:nil];
                 [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeLikedDate

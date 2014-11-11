@@ -213,7 +213,7 @@ extern NSString *const MRSLStoryboardRUIDSectionHeaderKey;
 extern NSString *const MRSLStoryboardRUIDUserCellKey;
 extern NSString *const MRSLStoryboardRUIDUserFollowCellKey;
 extern NSString *const MRSLStoryboardRUIDUserEligibleCellKey;
-extern NSString *const MRSLStoryboardRUIDUserLikedItemCellKey;
+extern NSString *const MRSLStoryboardRUIDUserLikedMorselCellKey;
 extern NSString *const MRSLStoryboardRUIDTemplateCell;
 extern NSString *const MRSLStoryboardRUIDTemplateInfoCell;
 extern NSString *const MRSLStoryboardRUIDMorselAddCell;

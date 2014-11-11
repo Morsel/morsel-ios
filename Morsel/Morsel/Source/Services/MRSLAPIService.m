@@ -153,26 +153,21 @@
 - (void)importLikeablesWithDictionary:(NSDictionary *)responseDictionary
                               success:(MRSLAPIArrayBlock)successOrNil {
     if ([responseDictionary[@"data"] isKindOfClass:[NSArray class]]) {
-        __block NSMutableArray *itemIDs = [NSMutableArray array];
+        __block NSMutableArray *morselIDs = [NSMutableArray array];
         NSArray *likeablesArray = responseDictionary[@"data"];
         __block NSManagedObjectContext *workContext = nil;
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
             workContext = localContext;
-            [likeablesArray enumerateObjectsUsingBlock:^(NSDictionary *itemDictionary, NSUInteger idx, BOOL *stop) {
+            [likeablesArray enumerateObjectsUsingBlock:^(NSDictionary *likeableDictionary, NSUInteger idx, BOOL *stop) {
                 MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                               withValue:itemDictionary[@"morsel"][@"id"]
+                                                               withValue:likeableDictionary[@"id"]
                                                                inContext:localContext];
                 if (!morsel) morsel = [MRSLMorsel MR_createInContext:localContext];
-                [morsel MR_importValuesForKeysWithObject:itemDictionary[@"morsel"]];
-                MRSLItem *item = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
-                                                         withValue:itemDictionary[@"id"]
-                                                         inContext:localContext];
-                if (!item) item = [MRSLItem MR_createInContext:localContext];
-                [item MR_importValuesForKeysWithObject:itemDictionary];
-                [itemIDs addObject:itemDictionary[@"id"]];
+                [morsel MR_importValuesForKeysWithObject:likeableDictionary];
+                [morselIDs addObject:likeableDictionary[@"id"]];
             }];
         } completion:^(BOOL success, NSError *error) {
-            if (successOrNil) successOrNil(itemIDs);
+            if (successOrNil) successOrNil(morselIDs);
             if (success) [workContext reset];
         }];
     }
