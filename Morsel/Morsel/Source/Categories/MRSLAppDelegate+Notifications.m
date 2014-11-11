@@ -8,6 +8,8 @@
 
 #import "MRSLAppDelegate+Notifications.h"
 
+#import "MRSLAPIService+Remote.h"
+
 @implementation MRSLAppDelegate (Notifications)
 
 - (void)MRSL_registerRemoteNotifications {
@@ -22,10 +24,12 @@
 }
 
 - (void)MRSL_uploadDeviceToken:(NSData *)deviceToken {
-    //NSCharacterSet *angleBrackets = [NSCharacterSet characterSetWithCharactersInString:@"<>"];
-    //NSString *deviceTokenSansBrackets = [[deviceToken description] stringByTrimmingCharactersInSet:angleBrackets];
+    NSCharacterSet *angleBrackets = [NSCharacterSet characterSetWithCharactersInString:@"<>"];
+    NSString *deviceTokenSansBrackets = [[deviceToken description] stringByTrimmingCharactersInSet:angleBrackets];
 
-#warning Upload deviceTokenSansBrackets to API
+    [_appDelegate.apiService createUserDeviceWithToken:deviceTokenSansBrackets
+                                               success:nil
+                                               failure:nil];
 }
 
 @end

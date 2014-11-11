@@ -30,7 +30,11 @@ typedef UITableViewCell *(^MRSLCellConfigureBlock)(id item, UITableView *tableVi
 - (NSInteger)tableViewDataSourceNumberOfItemsInSection:(NSInteger)section;
 
 - (CGFloat)tableViewDataSource:(UITableView *)tableView
-   heightForItemAtIndexPath:(NSIndexPath *)indexPath;
+      heightForItemAtIndexPath:(NSIndexPath *)indexPath;
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section;
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
 
 - (void)tableViewDataSourceScrollViewDidScroll:(UIScrollView *)scrollView;
 

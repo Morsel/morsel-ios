@@ -31,6 +31,7 @@
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
+#import "MRSLRemoteDevice.h"
 #import "MRSLUser.h"
 
 @interface MRSLAppDelegate ()
@@ -89,8 +90,9 @@
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    DDLogError(@"Error in registration. Error: %@", error);
+    DDLogError(@"Error registering for remote notifications. Error: %@", error);
 }
+
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
     [[SDImageCache sharedImageCache] clearMemory];
 }
@@ -171,6 +173,8 @@
         [self.apiService getUserAuthenticationsWithSuccess:nil
                                                    failure:nil];
     } failure:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLRegisterRemoteNotificationsNotification
+                                                        object:nil];
     [MRSLUser API_updateNotificationsAmount:nil
                                     failure:nil];
     [currentUser setThirdPartySettings];
@@ -223,6 +227,8 @@
 }
 
 - (void)resetDataStore {
+    [[MRSLRemoteDevice currentRemoteDevice] API_deleteWithSuccess:nil
+                                                          failure:nil];
     [[Mixpanel sharedInstance] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
     [[MRSLS3Client sharedClient].operationQueue cancelAllOperations];

@@ -39,7 +39,7 @@
     return [UIFont fontWithName:@"Roboto-Bold"
                            size:fontSize];
 }
-#warning Support content size changes, listen for notification
+
 + (UIFont *)preferredRobotoFontForTextStyle:(NSString *)textStyle {
     CGFloat fontSize = 16.f;
     NSString *contentSize = [UIApplication sharedApplication].preferredContentSizeCategory;

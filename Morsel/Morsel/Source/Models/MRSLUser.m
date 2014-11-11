@@ -143,17 +143,6 @@ static const int kGuestUserID = -1;
 + (void)API_updateNotificationsAmount:(MRSLAPICountBlock)amountOrNil
                               failure:(MRSLFailureBlock)failureOrNil {
     if ([MRSLUser isCurrentUserGuest]) return;
-#ifdef __IPHONE_8_0
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        UIUserNotificationSettings *currentNotificationSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-        if (currentNotificationSettings.types != UIUserNotificationTypeBadge) {
-            UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge
-                                                                                                 categories:nil];
-            [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
-            return;
-        }
-    }
-#endif
     if (![MRSLUser currentUser]) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         return;

@@ -16,6 +16,11 @@
 
 @implementation MRSLBaseTableViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self.textLabel setFont:[UIFont robotoLightFontOfSize:self.textLabel.font.pointSize]];
+}
+
 - (UITableViewCellSelectionStyle)selectionStyle {
     return UITableViewCellSelectionStyleNone;
 }

@@ -218,6 +218,7 @@ extern NSString *const MRSLStoryboardRUIDTemplateCell;
 extern NSString *const MRSLStoryboardRUIDTemplateInfoCell;
 extern NSString *const MRSLStoryboardRUIDMorselAddCell;
 extern NSString *const MRSLStoryboardRUIDMorselInfoCell;
+extern NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey;
 
 #pragma mark - Debugging Constants
 
