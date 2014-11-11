@@ -16,9 +16,6 @@ const struct MRSLItemAttributes MRSLItemAttributes = {
 	.itemPhotoThumb = @"itemPhotoThumb",
 	.itemPhotoURL = @"itemPhotoURL",
 	.lastUpdatedDate = @"lastUpdatedDate",
-	.like_count = @"like_count",
-	.liked = @"liked",
-	.likedDate = @"likedDate",
 	.localUUID = @"localUUID",
 	.morsel_id = @"morsel_id",
 	.photo_processing = @"photo_processing",
@@ -88,16 +85,6 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 	}
 	if ([key isEqualToString:@"itemIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"itemID"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"like_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"likedValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"liked"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -301,65 +288,6 @@ const struct MRSLItemFetchedProperties MRSLItemFetchedProperties = {
 
 
 @dynamic lastUpdatedDate;
-
-
-
-
-
-
-@dynamic like_count;
-
-
-
-- (int32_t)like_countValue {
-	NSNumber *result = [self like_count];
-	return [result intValue];
-}
-
-- (void)setLike_countValue:(int32_t)value_ {
-	[self setLike_count:[NSNumber numberWithInt:value_]];
-}
-
-- (int32_t)primitiveLike_countValue {
-	NSNumber *result = [self primitiveLike_count];
-	return [result intValue];
-}
-
-- (void)setPrimitiveLike_countValue:(int32_t)value_ {
-	[self setPrimitiveLike_count:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
-@dynamic liked;
-
-
-
-- (BOOL)likedValue {
-	NSNumber *result = [self liked];
-	return [result boolValue];
-}
-
-- (void)setLikedValue:(BOOL)value_ {
-	[self setLiked:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveLikedValue {
-	NSNumber *result = [self primitiveLiked];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveLikedValue:(BOOL)value_ {
-	[self setPrimitiveLiked:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
-@dynamic likedDate;
 
 
 

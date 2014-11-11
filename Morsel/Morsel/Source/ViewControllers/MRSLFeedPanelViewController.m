@@ -165,13 +165,11 @@ MRSLFeedShareCollectionViewCellDelegate>
         }
     }];
     if (!alreadyDisplayed) {
-        MRSLItem *visibleItem = [self visibleItem];
         [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                      properties:@{@"_title": @"Likes",
                                                   @"_view": @"feed",
                                                   @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(visibleItem.itemID),
-                                                  @"like_count": NSNullIfNil(visibleItem.like_count)}];
+                                                  @"like_count": NSNullIfNil(_morsel.like_count)}];
         UINavigationController *likesNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardLikesKey];
         MRSLModalLikersViewController *modalLikersVC = [[likesNC viewControllers] firstObject];
         modalLikersVC.morsel = self.morsel;

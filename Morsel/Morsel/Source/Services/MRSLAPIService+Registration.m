@@ -130,7 +130,7 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"username" : NSNullIfNil(username)}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-    [[MRSLAPIClient sharedClient] performRequest:@"users/validateusername"
+    [[MRSLAPIClient sharedClient] performRequest:@"users/validate_username"
                                       parameters:parameters
                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                              if (validateOrNil) validateOrNil(YES, nil);

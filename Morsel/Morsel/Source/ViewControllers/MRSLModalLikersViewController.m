@@ -94,25 +94,24 @@ NSFetchedResultsControllerDelegate>
     self.loadedAll = NO;
     self.loading = YES;
     __weak __typeof(self) weakSelf = self;
-    [_appDelegate.apiService getItemLikes:nil
-                            orMorselLikes:_morsel
-                                    maxID:nil
-                                orSinceID:nil
-                                 andCount:nil
-                                  success:^(NSArray *responseArray) {
-                                      if (weakSelf) {
-                                          [weakSelf.refreshControl endRefreshing];
-                                          weakSelf.userIDs = [responseArray mutableCopy];
-                                          [weakSelf setupFetchRequest];
-                                          [weakSelf populateContent];
-                                          weakSelf.loading = NO;
-                                      }
-                                  } failure:^(NSError *error) {
-                                      if (weakSelf) {
-                                          [weakSelf.refreshControl endRefreshing];
-                                          weakSelf.loading = NO;
-                                      }
-                                  }];
+    [_appDelegate.apiService getMorselLikers:_morsel
+                                       maxID:nil
+                                   orSinceID:nil
+                                    andCount:nil
+                                     success:^(NSArray *responseArray) {
+                                         if (weakSelf) {
+                                             [weakSelf.refreshControl endRefreshing];
+                                             weakSelf.userIDs = [responseArray mutableCopy];
+                                             [weakSelf setupFetchRequest];
+                                             [weakSelf populateContent];
+                                             weakSelf.loading = NO;
+                                         }
+                                     } failure:^(NSError *error) {
+                                         if (weakSelf) {
+                                             [weakSelf.refreshControl endRefreshing];
+                                             weakSelf.loading = NO;
+                                         }
+                                     }];
 }
 
 - (void)loadMore {
@@ -122,27 +121,26 @@ NSFetchedResultsControllerDelegate>
     MRSLUser *lastUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                  withValue:[_userIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
-    [_appDelegate.apiService getItemLikes:nil
-                            orMorselLikes:_morsel
-                                    maxID:@([lastUser userIDValue] - 1)
-                                orSinceID:nil
-                                 andCount:nil
-                                  success:^(NSArray *responseArray) {
-                                      if (weakSelf) {
-                                          if ([responseArray count] == 0) {
-                                              weakSelf.loadedAll = YES;
-                                          } else {
-                                              [weakSelf.userIDs addObjectsFromArray:responseArray];
-                                              [weakSelf setupFetchRequest];
-                                              [weakSelf populateContent];
-                                          }
-                                          weakSelf.loadingMore = NO;
-                                      }
-                                  } failure:^(NSError *error) {
-                                      if (weakSelf) {
-                                          weakSelf.loadingMore = NO;
-                                      }
-                                  }];
+    [_appDelegate.apiService getMorselLikers:_morsel
+                                       maxID:@([lastUser userIDValue] - 1)
+                                   orSinceID:nil
+                                    andCount:nil
+                                     success:^(NSArray *responseArray) {
+                                         if (weakSelf) {
+                                             if ([responseArray count] == 0) {
+                                                 weakSelf.loadedAll = YES;
+                                             } else {
+                                                 [weakSelf.userIDs addObjectsFromArray:responseArray];
+                                                 [weakSelf setupFetchRequest];
+                                                 [weakSelf populateContent];
+                                             }
+                                             weakSelf.loadingMore = NO;
+                                         }
+                                     } failure:^(NSError *error) {
+                                         if (weakSelf) {
+                                             weakSelf.loadingMore = NO;
+                                         }
+                                     }];
 }
 
 #pragma mark - UITableViewDataSource

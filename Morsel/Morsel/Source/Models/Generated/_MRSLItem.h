@@ -17,9 +17,6 @@ extern const struct MRSLItemAttributes {
 	__unsafe_unretained NSString *itemPhotoThumb;
 	__unsafe_unretained NSString *itemPhotoURL;
 	__unsafe_unretained NSString *lastUpdatedDate;
-	__unsafe_unretained NSString *like_count;
-	__unsafe_unretained NSString *liked;
-	__unsafe_unretained NSString *likedDate;
 	__unsafe_unretained NSString *localUUID;
 	__unsafe_unretained NSString *morsel_id;
 	__unsafe_unretained NSString *photo_processing;
@@ -45,9 +42,6 @@ extern const struct MRSLItemFetchedProperties {
 @class MRSLComment;
 @class MRSLMorsel;
 @class MRSLPresignedUpload;
-
-
-
 
 
 
@@ -219,44 +213,6 @@ extern const struct MRSLItemFetchedProperties {
 
 
 //- (BOOL)validateLastUpdatedDate:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* like_count;
-
-
-
-@property int32_t like_countValue;
-- (int32_t)like_countValue;
-- (void)setLike_countValue:(int32_t)value_;
-
-//- (BOOL)validateLike_count:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* liked;
-
-
-
-@property BOOL likedValue;
-- (BOOL)likedValue;
-- (void)setLikedValue:(BOOL)value_;
-
-//- (BOOL)validateLiked:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSDate* likedDate;
-
-
-
-//- (BOOL)validateLikedDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -499,30 +455,6 @@ extern const struct MRSLItemFetchedProperties {
 
 - (NSDate*)primitiveLastUpdatedDate;
 - (void)setPrimitiveLastUpdatedDate:(NSDate*)value;
-
-
-
-
-- (NSNumber*)primitiveLike_count;
-- (void)setPrimitiveLike_count:(NSNumber*)value;
-
-- (int32_t)primitiveLike_countValue;
-- (void)setPrimitiveLike_countValue:(int32_t)value_;
-
-
-
-
-- (NSNumber*)primitiveLiked;
-- (void)setPrimitiveLiked:(NSNumber*)value;
-
-- (BOOL)primitiveLikedValue;
-- (void)setPrimitiveLikedValue:(BOOL)value_;
-
-
-
-
-- (NSDate*)primitiveLikedDate;
-- (void)setPrimitiveLikedDate:(NSDate*)value;
 
 
 

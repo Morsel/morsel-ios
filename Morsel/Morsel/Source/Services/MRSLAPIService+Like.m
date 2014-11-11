@@ -18,13 +18,13 @@
 
 #pragma mark - Like Services
 
-- (void)getLikedItemsForUser:(MRSLUser *)user
-                       maxID:(NSNumber *)maxOrNil
-                   orSinceID:(NSNumber *)sinceOrNil
-                    andCount:(NSNumber *)countOrNil
-                     success:(MRSLAPIArrayBlock)successOrNil
-                     failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"type": @"Item"}
+- (void)getLikedMorselsForUser:(MRSLUser *)user
+                         maxID:(NSNumber *)maxOrNil
+                     orSinceID:(NSNumber *)sinceOrNil
+                      andCount:(NSNumber *)countOrNil
+                       success:(MRSLAPIArrayBlock)successOrNil
+                       failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"type": @"Morsel"}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
     if (maxOrNil && sinceOrNil) {
@@ -49,14 +49,13 @@
                                                         inMethod:NSStringFromSelector(_cmd)];
                                          }];
 }
-#warning Change to user before_date
-- (void)getItemLikes:(MRSLItem *)item
-       orMorselLikes:(MRSLMorsel *)morsel
-               maxID:(NSNumber *)maxOrNil
-           orSinceID:(NSNumber *)sinceOrNil
-            andCount:(NSNumber *)countOrNil
-             success:(MRSLAPIArrayBlock)successOrNil
-             failure:(MRSLFailureBlock)failureOrNil {
+
+- (void)getMorselLikers:(MRSLMorsel *)morsel
+                  maxID:(NSNumber *)maxOrNil
+              orSinceID:(NSNumber *)sinceOrNil
+               andCount:(NSNumber *)countOrNil
+                success:(MRSLAPIArrayBlock)successOrNil
+                failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
@@ -69,7 +68,7 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] performRequest:(morsel) ? [NSString stringWithFormat:@"morsels/%i/likers", morsel.morselIDValue] : [NSString stringWithFormat:@"items/%i/likers", item.itemIDValue]
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"morsels/%i/likers", morsel.morselIDValue]
                                       parameters:parameters
                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                              DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -85,21 +84,16 @@
                                          }];
 }
 
-- (void)likeItem:(MRSLItem *)item
-    orLikeMorsel:(MRSLMorsel *)morsel
-      shouldLike:(BOOL)shouldLike
-         didLike:(MRSLAPILikeBlock)likeBlockOrNil
-         failure:(MRSLFailureBlock)failureOrNil {
+- (void)likeMorsel:(MRSLMorsel *)morsel
+        shouldLike:(BOOL)shouldLike
+           didLike:(MRSLAPILikeBlock)likeBlockOrNil
+           failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (shouldLike) {
-        if (morsel) {
-            morsel.like_count = @(morsel.like_countValue + 1);
-        } else if (item) {
-            item.like_count = @(item.like_countValue + 1);
-        }
-        [[MRSLAPIClient sharedClient] multipartFormRequestString:(morsel) ? [NSString stringWithFormat:@"morsels/%i/like", morsel.morselIDValue] : [NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
+        morsel.like_count = @(morsel.like_countValue + 1);
+        [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"morsels/%i/like", morsel.morselIDValue]
                                                       withMethod:MRSLAPIMethodTypePOST
                                                   formParameters:[self parametersToDataWithDictionary:parameters]
                                                       parameters:nil
@@ -117,12 +111,8 @@
                                                              }
                                                          }];
     } else {
-        if (morsel) {
-            morsel.like_count = @(morsel.like_countValue - 1);
-        } else if (item) {
-            item.like_count = @(item.like_countValue - 1);
-        }
-        [[MRSLAPIClient sharedClient] multipartFormRequestString:(morsel) ? [NSString stringWithFormat:@"morsels/%i/like", morsel.morselIDValue] : [NSString stringWithFormat:@"items/%i/like", item.itemIDValue]
+        morsel.like_count = @(morsel.like_countValue - 1);
+        [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"morsels/%i/like", morsel.morselIDValue]
                                                       withMethod:MRSLAPIMethodTypeDELETE
                                                   formParameters:[self parametersToDataWithDictionary:parameters]
                                                       parameters:nil

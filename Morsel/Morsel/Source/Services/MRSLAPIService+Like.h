@@ -12,25 +12,23 @@
 
 #pragma mark - Like Services
 
-- (void)getLikedItemsForUser:(MRSLUser *)user
-                       maxID:(NSNumber *)maxOrNil
-                   orSinceID:(NSNumber *)sinceOrNil
-                    andCount:(NSNumber *)countOrNil
-                     success:(MRSLAPIArrayBlock)successOrNil
-                     failure:(MRSLFailureBlock)failureOrNil;
+- (void)getLikedMorselsForUser:(MRSLUser *)user
+                         maxID:(NSNumber *)maxOrNil
+                     orSinceID:(NSNumber *)sinceOrNil
+                      andCount:(NSNumber *)countOrNil
+                       success:(MRSLAPIArrayBlock)successOrNil
+                       failure:(MRSLFailureBlock)failureOrNil;
 
-- (void)getItemLikes:(MRSLItem *)item
-       orMorselLikes:(MRSLMorsel *)morsel
-               maxID:(NSNumber *)maxOrNil
-           orSinceID:(NSNumber *)sinceOrNil
-            andCount:(NSNumber *)countOrNil
-             success:(MRSLAPIArrayBlock)successOrNil
-             failure:(MRSLFailureBlock)failureOrNil;
+- (void)getMorselLikers:(MRSLMorsel *)morsel
+                  maxID:(NSNumber *)maxOrNil
+              orSinceID:(NSNumber *)sinceOrNil
+               andCount:(NSNumber *)countOrNil
+                success:(MRSLAPIArrayBlock)successOrNil
+                failure:(MRSLFailureBlock)failureOrNil;
 
-- (void)likeItem:(MRSLItem *)item
-    orLikeMorsel:(MRSLMorsel *)morsel
-      shouldLike:(BOOL)shouldLike
-         didLike:(MRSLAPILikeBlock)likeBlockOrNil
-         failure:(MRSLFailureBlock)failureOrNil;
+- (void)likeMorsel:(MRSLMorsel *)morsel
+        shouldLike:(BOOL)shouldLike
+           didLike:(MRSLAPILikeBlock)likeBlockOrNil
+           failure:(MRSLFailureBlock)failureOrNil;
 
 @end

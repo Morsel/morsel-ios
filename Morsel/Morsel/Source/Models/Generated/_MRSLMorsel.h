@@ -15,6 +15,7 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *lastUpdatedDate;
 	__unsafe_unretained NSString *like_count;
 	__unsafe_unretained NSString *liked;
+	__unsafe_unretained NSString *likedDate;
 	__unsafe_unretained NSString *morselID;
 	__unsafe_unretained NSString *morselPhotoURL;
 	__unsafe_unretained NSString *primary_item_id;
@@ -40,6 +41,7 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLPlace;
+
 
 
 
@@ -193,6 +195,16 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)setLikedValue:(BOOL)value_;
 
 //- (BOOL)validateLiked:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* likedDate;
+
+
+
+//- (BOOL)validateLikedDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -426,6 +438,12 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (BOOL)primitiveLikedValue;
 - (void)setPrimitiveLikedValue:(BOOL)value_;
+
+
+
+
+- (NSDate*)primitiveLikedDate;
+- (void)setPrimitiveLikedDate:(NSDate*)value;
 
 
 

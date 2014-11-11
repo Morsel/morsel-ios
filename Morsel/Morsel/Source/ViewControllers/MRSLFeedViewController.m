@@ -251,8 +251,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
         [self setLikeButtonImageForMorsel:morsel];
 
         __weak __typeof(self) weakSelf = self;
-        [_appDelegate.apiService likeItem:nil
-                             orLikeMorsel:morsel
+        [_appDelegate.apiService likeMorsel:morsel
                                shouldLike:morsel.likedValue
                                   didLike:^(BOOL doesLike) {
                                       if (morsel.likedValue) [MRSLEventManager sharedManager].likes_given++;
