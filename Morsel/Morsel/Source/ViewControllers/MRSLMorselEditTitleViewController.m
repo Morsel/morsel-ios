@@ -91,12 +91,16 @@ UITextViewDelegate>
                                               @"_view": self.mp_eventView}];
         MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
         if (morsel) {
-            if (![morsel.title isEqualToString:self.morselTitleTextView.text]) {
-                morsel.title = self.morselTitleTextView.text;
+            NSString *trimmedTitle = [self.morselTitleTextView.text stringWithWhitespaceTrimmed];
+            if ([morsel.title isEqualToString:trimmedTitle]) {
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                morsel.title = trimmedTitle;
                 __weak __typeof(self) weakSelf = self;
                 [_appDelegate.apiService updateMorsel:morsel
                                               success:^(id responseObject) {
                                                   [weakSelf.navigationController popViewControllerAnimated:YES];
+                                                  weakSelf.isPerformingRequest = NO;
                                               } failure:^(NSError *error) {
                                                   morsel.title = weakSelf.previousTitle;
                                                   [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel title! Please try again."
