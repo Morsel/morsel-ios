@@ -197,10 +197,7 @@
               didSelectItem:(id)item {
     MRSLActivity *activity = nil;
 
-    if ([item isKindOfClass:[MRSLActivity class]]) {
-        activity = item;
-        if (activity.notification) [activity.notification API_markRead];
-    } else if ([item isKindOfClass:[MRSLNotification class]]) {
+    if ([item isKindOfClass:[MRSLNotification class]]) {
         [item API_markRead];
         activity = [item activity];
     }
