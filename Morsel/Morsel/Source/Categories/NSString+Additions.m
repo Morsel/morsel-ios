@@ -20,4 +20,8 @@
     return [self stringWithEncoding:NSUTF8StringEncoding];
 }
 
+- (NSString *)stringWithWhitespaceTrimmed {
+    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
 @end

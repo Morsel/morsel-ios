@@ -87,8 +87,10 @@ UITextViewDelegate>
                                               @"_view": self.mp_eventView,
                                               @"char_count": @([_itemDescriptionTextView.text length]),
                                               @"item_id": NSNullIfNil(_item.itemID)}];
-    if (![_item.itemDescription isEqualToString:self.itemDescriptionTextView.text]) {
-        _item.itemDescription = self.itemDescriptionTextView.text;
+    NSString *trimmedDescription = [self.itemDescriptionTextView.text stringWithWhitespaceTrimmed];
+
+    if (![_item.itemDescription isEqualToString:trimmedDescription]) {
+        _item.itemDescription = trimmedDescription;
         [_appDelegate.apiService updateItem:_item
                                   andMorsel:nil
                                     success:nil
