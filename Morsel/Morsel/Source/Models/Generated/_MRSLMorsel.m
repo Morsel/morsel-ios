@@ -10,7 +10,6 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.facebook_mrsl = @"facebook_mrsl",
 	.feedItemFeatured = @"feedItemFeatured",
 	.feedItemID = @"feedItemID",
-	.has_tagged_users = @"has_tagged_users",
 	.lastUpdatedDate = @"lastUpdatedDate",
 	.like_count = @"like_count",
 	.liked = @"liked",
@@ -20,6 +19,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.primary_item_id = @"primary_item_id",
 	.publishedDate = @"publishedDate",
 	.tagged = @"tagged",
+	.tagged_users_count = @"tagged_users_count",
 	.template_id = @"template_id",
 	.title = @"title",
 	.twitter_mrsl = @"twitter_mrsl",
@@ -77,11 +77,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"has_tagged_usersValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"has_tagged_users"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
 	if ([key isEqualToString:@"like_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -104,6 +99,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"taggedValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"tagged"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"tagged_users_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"tagged_users_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -212,32 +212,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 - (void)setPrimitiveFeedItemIDValue:(int32_t)value_ {
 	[self setPrimitiveFeedItemID:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
-@dynamic has_tagged_users;
-
-
-
-- (BOOL)has_tagged_usersValue {
-	NSNumber *result = [self has_tagged_users];
-	return [result boolValue];
-}
-
-- (void)setHas_tagged_usersValue:(BOOL)value_ {
-	[self setHas_tagged_users:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveHas_tagged_usersValue {
-	NSNumber *result = [self primitiveHas_tagged_users];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveHas_tagged_usersValue:(BOOL)value_ {
-	[self setPrimitiveHas_tagged_users:[NSNumber numberWithBool:value_]];
 }
 
 
@@ -396,6 +370,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 - (void)setPrimitiveTaggedValue:(BOOL)value_ {
 	[self setPrimitiveTagged:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic tagged_users_count;
+
+
+
+- (int32_t)tagged_users_countValue {
+	NSNumber *result = [self tagged_users_count];
+	return [result intValue];
+}
+
+- (void)setTagged_users_countValue:(int32_t)value_ {
+	[self setTagged_users_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveTagged_users_countValue {
+	NSNumber *result = [self primitiveTagged_users_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveTagged_users_countValue:(int32_t)value_ {
+	[self setPrimitiveTagged_users_count:[NSNumber numberWithInt:value_]];
 }
 
 
