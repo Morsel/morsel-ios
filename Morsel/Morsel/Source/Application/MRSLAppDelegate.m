@@ -82,7 +82,23 @@
                                              selector:@selector(MRSL_registerRemoteNotifications)
                                                  name:MRSLRegisterRemoteNotificationsNotification
                                                object:nil];
+
+    NSDictionary *remoteNotificationUserInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotificationUserInfo && [MRSLUser currentUser]) {
+#warning Create URL and pass to JLRoutes
+    }
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    UIApplicationState state = [application applicationState];
+    if (state == UIApplicationStateInactive ||
+        state == UIApplicationStateBackground) {
+#warning Create URL and pass to JLRoutes
+    } else {
+        [MRSLUser API_updateNotificationsAmount:nil
+                                        failure:nil];
+    }
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
