@@ -70,7 +70,7 @@
         self.descriptionTextView.text = self.item.itemDescription;
         self.descriptionTextView.font = [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleBody];
 
-        [_commentButton setTitle:[NSString stringWithFormat:@"%@", (_item.comment_countValue == 0) ? @"Make a comment" : [NSString stringWithFormat:@"%@ comment%@", _item.comment_count, (_item.comment_countValue > 1) ? @"s" : @""]]
+        [_commentButton setTitle:[NSString stringWithFormat:@"%@", (_item.comment_countValue == 0) ? @"Add comment" : [NSString stringWithFormat:@"%@ comment%@", _item.comment_count, (_item.comment_countValue > 1) ? @"s" : @""]]
                              forState:UIControlStateNormal];
 
         if (![_item.morsel publishedDate]) {

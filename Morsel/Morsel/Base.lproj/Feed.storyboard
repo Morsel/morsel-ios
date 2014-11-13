@@ -112,7 +112,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
                                 <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="New Morsels" image="icon-back">
+                                <state key="normal" title="New morsels" image="icon-back">
                                     <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -658,28 +658,21 @@
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z6-qS-Vop" userLabel="Edit Button" customClass="MRSLRegularButton">
-                                                            <rect key="frame" x="264" y="2" width="46" height="24"/>
-                                                            <accessibility key="accessibilityConfiguration" label="Edit"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="24" id="3Zu-sJ-WRZ"/>
-                                                                <constraint firstAttribute="width" constant="46" id="t9P-mO-hgX"/>
-                                                            </constraints>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBa-b7-DSO" userLabel="Like Count Button" customClass="MRSLRegularButton">
+                                                            <rect key="frame" x="197" y="0.0" width="123" height="27"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <inset key="titleEdgeInsets" minX="4" minY="2" maxX="0.0" maxY="0.0"/>
-                                                            <state key="normal" title="Edit" image="icon-edit">
+                                                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                                                            <state key="normal" title="2.7K Likes">
                                                                 <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <connections>
-                                                                <action selector="editMorsel" destination="CdJ-7I-0rO" eventType="touchUpInside" id="CxC-uO-Afj"/>
+                                                                <action selector="displayLikers" destination="CdJ-7I-0rO" eventType="touchUpInside" id="Rpw-pI-UBw"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="0Z6-qS-Vop" firstAttribute="top" secondItem="G95-yK-0PR" secondAttribute="top" constant="2" id="GJu-vt-veE"/>
-                                                        <constraint firstAttribute="trailing" secondItem="0Z6-qS-Vop" secondAttribute="trailing" constant="10" id="XVl-wh-wGY"/>
                                                         <constraint firstItem="LFA-9d-Dvr" firstAttribute="leading" secondItem="G95-yK-0PR" secondAttribute="leading" constant="10" id="a1G-jE-1Am"/>
                                                         <constraint firstItem="LFA-9d-Dvr" firstAttribute="top" secondItem="G95-yK-0PR" secondAttribute="top" constant="2" id="uWu-eo-tq0"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="yCu-kv-Sus"/>
@@ -695,8 +688,8 @@
                                                         <outlet property="delegate" destination="RLK-sr-0Vu" id="wqJ-Aa-AgX"/>
                                                     </connections>
                                                 </textView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 days ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="127" translatesAutoresizingMaskIntoConstraints="NO" id="dD2-3O-yZb" userLabel="Time Ago Label" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="185" y="0.0" width="131" height="23"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 days ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="127" translatesAutoresizingMaskIntoConstraints="NO" id="dD2-3O-yZb" userLabel="Time Ago Label" customClass="MRSLRobotoLightLabel">
+                                                    <rect key="frame" x="179" y="5" width="131" height="23"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="131" id="NSj-nR-Opd"/>
                                                         <constraint firstAttribute="height" constant="23" id="ciu-FI-Qgi"/>
@@ -711,20 +704,6 @@
                                                     <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBa-b7-DSO" userLabel="Like Count Button">
-                                                    <rect key="frame" x="193" y="120" width="123" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="9OV-Ai-sWg"/>
-                                                        <constraint firstAttribute="width" constant="123" id="hag-UH-udX"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="2.7K Likes">
-                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="displayLikers" destination="CdJ-7I-0rO" eventType="touchUpInside" id="Rpw-pI-UBw"/>
-                                                    </connections>
-                                                </button>
                                                 <imageView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ED5-Fu-yTT" userLabel="Profile Photo" customClass="MRSLProfileImageView">
                                                     <rect key="frame" x="132" y="114" width="56" height="56"/>
                                                     <gestureRecognizers/>
@@ -736,20 +715,39 @@
                                                         <userDefinedRuntimeAttribute type="nil" keyPath="addRoundedCorners"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z6-qS-Vop" userLabel="Edit Button" customClass="MRSLRegularButton">
+                                                    <rect key="frame" x="244" y="114" width="76" height="36"/>
+                                                    <accessibility key="accessibilityConfiguration" label="Edit"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="36" id="AYu-Gf-CCv"/>
+                                                        <constraint firstAttribute="width" constant="76" id="cJD-w6-SC4"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                                                    <inset key="titleEdgeInsets" minX="4" minY="2" maxX="0.0" maxY="0.0"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="0.0"/>
+                                                    <state key="normal" title="Edit" image="icon-edit">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="editMorsel" destination="CdJ-7I-0rO" eventType="touchUpInside" id="CxC-uO-Afj"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="0Z6-qS-Vop" secondAttribute="bottom" id="0pX-OQ-6XR"/>
                                             <constraint firstAttribute="bottom" secondItem="uIj-Vo-Ecn" secondAttribute="bottom" id="1Fv-JT-2F3"/>
-                                            <constraint firstItem="dD2-3O-yZb" firstAttribute="top" secondItem="RLK-sr-0Vu" secondAttribute="top" id="1ei-KC-IZt"/>
-                                            <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="cBa-b7-DSO" secondAttribute="bottom" id="3X0-gf-rVO"/>
-                                            <constraint firstAttribute="trailing" secondItem="dD2-3O-yZb" secondAttribute="trailing" constant="4" id="84e-xC-kAI"/>
+                                            <constraint firstItem="dD2-3O-yZb" firstAttribute="top" secondItem="RLK-sr-0Vu" secondAttribute="top" constant="5" id="1ei-KC-IZt"/>
+                                            <constraint firstAttribute="trailing" secondItem="dD2-3O-yZb" secondAttribute="trailing" constant="10" id="84e-xC-kAI"/>
                                             <constraint firstAttribute="centerX" secondItem="ED5-Fu-yTT" secondAttribute="centerX" id="8Qg-yR-uFM"/>
                                             <constraint firstAttribute="trailing" secondItem="aRh-Cj-twK" secondAttribute="trailing" id="F4l-6B-HdB"/>
-                                            <constraint firstAttribute="trailing" secondItem="cBa-b7-DSO" secondAttribute="trailing" constant="4" id="GgK-sm-wTS"/>
                                             <constraint firstAttribute="trailing" secondItem="uIj-Vo-Ecn" secondAttribute="trailing" constant="20" id="GzV-bP-mR5"/>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="ED5-Fu-yTT" secondAttribute="bottom" constant="-20" id="Inx-28-Ie8"/>
+                                            <constraint firstAttribute="trailing" secondItem="0Z6-qS-Vop" secondAttribute="trailing" id="Oo7-l2-1Hd"/>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="aRh-Cj-twK" secondAttribute="bottom" id="Tj5-q0-l6c"/>
                                             <constraint firstItem="OI1-yX-HLC" firstAttribute="top" secondItem="RLK-sr-0Vu" secondAttribute="top" id="UQg-9d-50y"/>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" relation="greaterThanOrEqual" secondItem="RLK-sr-0Vu" secondAttribute="topMargin" priority="999" constant="150" id="aM9-sf-SP9"/>
@@ -798,15 +796,15 @@
                                                         <outlet property="delegate" destination="LWX-ds-AvT" id="a1W-0k-T5s"/>
                                                     </connections>
                                                 </textView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dbg-un-sDm">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dbg-un-sDm" customClass="MRSLRegularButton">
                                                     <rect key="frame" x="20" y="320" width="280" height="40"/>
                                                     <accessibility key="accessibilityConfiguration" label="Comment"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="05B-4v-frV"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="Make a comment" image="icon-comment-off">
+                                                    <state key="normal" title="Add comment" image="icon-comment-off">
                                                         <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -815,10 +813,24 @@
                                                     </connections>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y68-Gf-YKi">
-                                                    <rect key="frame" x="0.0" y="494" width="320" height="1"/>
-                                                    <color key="backgroundColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <rect key="frame" x="0.0" y="479" width="140" height="1"/>
+                                                    <color key="backgroundColor" red="0.95294117647058818" green="0.94509803921568625" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="1" id="ryf-eO-Rya"/>
+                                                        <constraint firstAttribute="height" constant="1" id="ViR-cg-rSi"/>
+                                                    </constraints>
+                                                </view>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-morsel-identity-light" translatesAutoresizingMaskIntoConstraints="NO" id="MnW-4J-GPV">
+                                                    <rect key="frame" x="145" y="467" width="30" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="22" id="UHb-xq-nTn"/>
+                                                        <constraint firstAttribute="width" constant="30" id="wKM-x7-xT0"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RZ0-A7-cFb">
+                                                    <rect key="frame" x="180" y="479" width="140" height="1"/>
+                                                    <color key="backgroundColor" red="0.95294117647058818" green="0.94509803921568625" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="Lwz-Cr-sur"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -826,17 +838,22 @@
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="Y68-Gf-YKi" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" id="2b0-r9-oGD"/>
+                                            <constraint firstAttribute="bottom" secondItem="MnW-4J-GPV" secondAttribute="bottom" constant="15" id="3iL-aa-ZLT"/>
+                                            <constraint firstAttribute="bottom" secondItem="Y68-Gf-YKi" secondAttribute="bottom" constant="24" id="A6s-rg-vXW"/>
+                                            <constraint firstItem="Y68-Gf-YKi" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" id="Afo-Hr-Img"/>
+                                            <constraint firstItem="Y68-Gf-YKi" firstAttribute="trailing" secondItem="MnW-4J-GPV" secondAttribute="trailing" constant="-35" id="O8o-B7-3RH"/>
                                             <constraint firstAttribute="trailing" secondItem="uS4-3Z-65k" secondAttribute="trailing" id="V3T-dr-gKM"/>
                                             <constraint firstItem="AX6-bf-j8E" firstAttribute="top" secondItem="Dbg-un-sDm" secondAttribute="bottom" id="WrP-Qp-xIE"/>
                                             <constraint firstItem="uS4-3Z-65k" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" id="Z4P-nO-F5c"/>
-                                            <constraint firstAttribute="trailing" secondItem="Y68-Gf-YKi" secondAttribute="trailing" id="ZzC-Wh-lkf"/>
+                                            <constraint firstAttribute="trailing" secondItem="RZ0-A7-cFb" secondAttribute="trailing" id="ad9-Vx-9mQ"/>
                                             <constraint firstAttribute="trailing" secondItem="AX6-bf-j8E" secondAttribute="trailing" constant="20" id="cA6-5V-ciU"/>
                                             <constraint firstItem="Dbg-un-sDm" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" constant="20" id="fJA-Tm-UgV"/>
+                                            <constraint firstAttribute="bottom" secondItem="RZ0-A7-cFb" secondAttribute="bottom" constant="24" id="hby-IK-Zga"/>
                                             <constraint firstItem="AX6-bf-j8E" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" constant="20" id="kKM-RM-HxD"/>
                                             <constraint firstAttribute="trailing" secondItem="Dbg-un-sDm" secondAttribute="trailing" constant="20" id="lUD-MB-7U4"/>
+                                            <constraint firstAttribute="centerX" secondItem="MnW-4J-GPV" secondAttribute="centerX" id="sMU-lI-2r2"/>
                                             <constraint firstItem="uS4-3Z-65k" firstAttribute="top" secondItem="LWX-ds-AvT" secondAttribute="top" id="tcQ-sE-RGq"/>
-                                            <constraint firstAttribute="bottom" secondItem="Y68-Gf-YKi" secondAttribute="bottom" constant="9" id="wxC-4n-nA9"/>
+                                            <constraint firstItem="MnW-4J-GPV" firstAttribute="leading" secondItem="RZ0-A7-cFb" secondAttribute="leading" constant="-35" id="xIJ-qY-W3Q"/>
                                             <constraint firstItem="Dbg-un-sDm" firstAttribute="top" secondItem="uS4-3Z-65k" secondAttribute="bottom" id="z7l-L3-12A"/>
                                         </constraints>
                                         <connections>
@@ -852,74 +869,39 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share this morsel" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="QtH-b6-Ktf" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="0.0" y="18" width="320" height="28"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="28" id="Kp8-r9-7s6"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="18"/>
-                                                    <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ALz-RF-2kB" userLabel="Facebook Button">
-                                                    <rect key="frame" x="115" y="54" width="40" height="40"/>
-                                                    <color key="backgroundColor" red="0.23137254900000001" green="0.34901960780000002" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <accessibility key="accessibilityConfiguration" label="Facebook"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="40" id="PYm-Re-Zt7"/>
-                                                        <constraint firstAttribute="height" constant="40" id="WGG-hS-h3B"/>
-                                                    </constraints>
-                                                    <state key="normal" image="icon-social-facebook-mark">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="shareToFacebook" destination="AM7-9K-DqK" eventType="touchUpInside" id="HSf-2S-nLV"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O0F-QI-eYa" userLabel="Twitter Button">
-                                                    <rect key="frame" x="165" y="54" width="40" height="40"/>
-                                                    <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <accessibility key="accessibilityConfiguration" label="Twitter"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="TCU-l4-0hc"/>
-                                                        <constraint firstAttribute="width" constant="40" id="jgU-jX-IBE"/>
-                                                    </constraints>
-                                                    <state key="normal" image="icon-social-twitter-mark">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="shareToTwitter" destination="AM7-9K-DqK" eventType="touchUpInside" id="SkA-gX-uyK"/>
-                                                    </connections>
-                                                </button>
                                                 <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SZa-bC-Vw6" customClass="MRSLProfileImageView">
-                                                    <rect key="frame" x="36" y="105" width="40" height="40"/>
+                                                    <rect key="frame" x="132" y="65" width="56" height="56"/>
                                                     <gestureRecognizers/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="ekA-WF-Eoc"/>
-                                                        <constraint firstAttribute="width" constant="40" id="zTc-ND-4dm"/>
+                                                        <constraint firstAttribute="width" constant="56" id="bvd-P6-weo"/>
+                                                        <constraint firstAttribute="height" constant="56" id="jZN-CY-SA5"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JkO-06-06e" customClass="MRSLFollowButton">
-                                                    <rect key="frame" x="20" y="155" width="72" height="30"/>
-                                                    <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wP-Dj-988" customClass="MRSLColoredBackgroundLightButton">
+                                                    <rect key="frame" x="20" y="8" width="280" height="40"/>
+                                                    <color key="backgroundColor" red="0.90980392694473267" green="0.3803921639919281" blue="0.26666668057441711" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="72" id="gYr-h2-YMb"/>
-                                                        <constraint firstAttribute="height" constant="30" id="r1V-ln-TRB"/>
+                                                        <constraint firstAttribute="height" constant="40" id="Yjl-kq-eE7"/>
+                                                        <constraint firstAttribute="width" constant="280" id="yPr-Z1-nSd"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <state key="normal" title="Follow">
+                                                    <state key="normal" title="Share this morsel">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="displayShare" destination="CdJ-7I-0rO" eventType="touchUpInside" id="f35-KI-gxG"/>
+                                                    </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gw6-kg-9SE" userLabel="Flag Button">
-                                                    <rect key="frame" x="8" y="206" width="44" height="44"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gw6-kg-9SE" userLabel="Flag Button">
+                                                    <rect key="frame" x="0.0" y="200" width="70" height="50"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="44" id="Icl-XS-fe6"/>
-                                                        <constraint firstAttribute="width" constant="44" id="myR-nc-MTX"/>
+                                                        <constraint firstAttribute="height" constant="50" id="Icl-XS-fe6"/>
+                                                        <constraint firstAttribute="width" constant="70" id="myR-nc-MTX"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
-                                                    <state key="normal" image="icon-flag-dark">
+                                                    <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" image="icon-more">
                                                         <color key="titleColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -927,9 +909,12 @@
                                                         <action selector="reportContent" destination="CdJ-7I-0rO" eventType="touchUpInside" id="BdU-yg-f7R"/>
                                                     </connections>
                                                 </button>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wz-jv-Rga" userLabel="User Name Bio Text View" customClass="MRSLStandardTextView">
-                                                    <rect key="frame" x="106" y="111" width="200" height="37"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="8wz-jv-Rga" userLabel="User Name Bio Text View" customClass="MRSLStandardTextView">
+                                                    <rect key="frame" x="20" y="168" width="280" height="37"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="UOS-k1-kKA"/>
+                                                    </constraints>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -939,7 +924,7 @@
                                                     </connections>
                                                 </textView>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="next morsel" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="ORi-P1-DoF" userLabel="Next Morsel Text View" customClass="MRSLStandardTextView">
-                                                    <rect key="frame" x="80" y="200" width="200" height="50"/>
+                                                    <rect key="frame" x="70" y="200" width="210" height="50"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="paH-Ut-NgV"/>
@@ -952,7 +937,7 @@
                                                     </connections>
                                                 </textView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xMa-zz-OTs" userLabel="Next Button">
-                                                    <rect key="frame" x="80" y="200" width="240" height="50"/>
+                                                    <rect key="frame" x="106" y="200" width="214" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="RBO-dB-5mH"/>
                                                     </constraints>
@@ -966,43 +951,50 @@
                                                         <action selector="displayNextMorsel:" destination="AM7-9K-DqK" eventType="touchUpInside" id="8aT-jH-9rf"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JkO-06-06e" customClass="MRSLFollowButton">
+                                                    <rect key="frame" x="124" y="130" width="72" height="30"/>
+                                                    <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="FJj-zC-Y0I"/>
+                                                        <constraint firstAttribute="width" constant="72" id="n1M-48-ENi"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <state key="normal" title="Follow">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="QtH-b6-Ktf" firstAttribute="top" secondItem="AM7-9K-DqK" secondAttribute="top" constant="18" id="9Me-gQ-9bO"/>
-                                            <constraint firstAttribute="centerX" secondItem="O0F-QI-eYa" secondAttribute="centerX" constant="-25" id="9PM-RQ-V5F"/>
-                                            <constraint firstItem="JkO-06-06e" firstAttribute="top" secondItem="SZa-bC-Vw6" secondAttribute="bottom" constant="10" id="BP8-3D-DPG"/>
+                                            <constraint firstAttribute="centerX" secondItem="SZa-bC-Vw6" secondAttribute="centerX" id="9om-wN-rx4"/>
+                                            <constraint firstAttribute="centerX" secondItem="JkO-06-06e" secondAttribute="centerX" id="BnT-nf-MSr"/>
                                             <constraint firstAttribute="bottom" secondItem="gw6-kg-9SE" secondAttribute="bottom" id="IVo-08-NhU"/>
-                                            <constraint firstItem="ALz-RF-2kB" firstAttribute="top" secondItem="QtH-b6-Ktf" secondAttribute="bottom" constant="8" id="Jax-P9-RAv"/>
-                                            <constraint firstAttribute="centerX" secondItem="ALz-RF-2kB" secondAttribute="centerX" constant="25" id="LOC-aE-3u0"/>
                                             <constraint firstAttribute="bottom" secondItem="ORi-P1-DoF" secondAttribute="bottom" id="Mt5-4n-7bK"/>
-                                            <constraint firstAttribute="trailing" secondItem="QtH-b6-Ktf" secondAttribute="trailing" id="OMS-en-cNF"/>
-                                            <constraint firstAttribute="trailing" secondItem="8wz-jv-Rga" secondAttribute="trailing" constant="14" id="Pe2-lW-dkl"/>
-                                            <constraint firstItem="SZa-bC-Vw6" firstAttribute="top" secondItem="QtH-b6-Ktf" secondAttribute="bottom" constant="59" id="QDd-MR-m5y"/>
-                                            <constraint firstItem="gw6-kg-9SE" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" constant="8" id="RAP-vG-fsY"/>
-                                            <constraint firstItem="JkO-06-06e" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" constant="20" id="W2A-1P-99V"/>
-                                            <constraint firstItem="8wz-jv-Rga" firstAttribute="leading" secondItem="JkO-06-06e" secondAttribute="trailing" constant="14" id="a9e-ou-OEs"/>
+                                            <constraint firstItem="gw6-kg-9SE" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" id="RAP-vG-fsY"/>
+                                            <constraint firstItem="JkO-06-06e" firstAttribute="top" secondItem="6wP-Dj-988" secondAttribute="bottom" constant="82" id="SrT-Sn-QQm"/>
+                                            <constraint firstItem="6wP-Dj-988" firstAttribute="top" secondItem="AM7-9K-DqK" secondAttribute="top" constant="8" id="WtF-l9-pBr"/>
+                                            <constraint firstAttribute="centerX" secondItem="6wP-Dj-988" secondAttribute="centerX" id="awn-T2-cwe"/>
                                             <constraint firstAttribute="trailing" secondItem="xMa-zz-OTs" secondAttribute="trailing" id="fI7-sd-bHD"/>
-                                            <constraint firstItem="ORi-P1-DoF" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" constant="28" id="hIG-Ep-lYg"/>
+                                            <constraint firstItem="8wz-jv-Rga" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" constant="20" id="g7I-O3-ORN"/>
+                                            <constraint firstItem="ORi-P1-DoF" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" id="hIG-Ep-lYg"/>
                                             <constraint firstAttribute="trailing" secondItem="ORi-P1-DoF" secondAttribute="trailing" constant="40" id="hYY-eg-my8"/>
-                                            <constraint firstItem="QtH-b6-Ktf" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" id="img-vl-7GM"/>
-                                            <constraint firstItem="8wz-jv-Rga" firstAttribute="top" secondItem="O0F-QI-eYa" secondAttribute="bottom" constant="17" id="lmn-RL-2vB"/>
+                                            <constraint firstItem="SZa-bC-Vw6" firstAttribute="top" secondItem="6wP-Dj-988" secondAttribute="bottom" constant="17" id="pAk-tj-Qoc"/>
                                             <constraint firstAttribute="bottom" secondItem="xMa-zz-OTs" secondAttribute="bottom" id="qZO-yx-y8T"/>
-                                            <constraint firstItem="xMa-zz-OTs" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" constant="28" id="uVf-NN-moF"/>
-                                            <constraint firstItem="O0F-QI-eYa" firstAttribute="top" secondItem="QtH-b6-Ktf" secondAttribute="bottom" constant="8" id="wFL-SR-VWd"/>
-                                            <constraint firstItem="SZa-bC-Vw6" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" constant="36" id="zB7-Sz-D4Q"/>
+                                            <constraint firstItem="xMa-zz-OTs" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" constant="36" id="uVf-NN-moF"/>
+                                            <constraint firstItem="8wz-jv-Rga" firstAttribute="top" secondItem="SZa-bC-Vw6" secondAttribute="bottom" constant="47" id="x9u-ys-Z8Z"/>
+                                            <constraint firstAttribute="trailing" secondItem="8wz-jv-Rga" secondAttribute="trailing" constant="20" id="yev-Do-66x"/>
                                         </constraints>
                                         <size key="customSize" width="320" height="250"/>
                                         <connections>
-                                            <outlet property="facebookButton" destination="ALz-RF-2kB" id="4TO-Z1-6RX"/>
                                             <outlet property="followButton" destination="JkO-06-06e" id="zke-pd-bZW"/>
                                             <outlet property="nextInfoTextView" destination="ORi-P1-DoF" id="rPS-Qb-qsd"/>
                                             <outlet property="nextMorselButton" destination="xMa-zz-OTs" id="sZ4-Aw-WSG"/>
+                                            <outlet property="profileImageDescriptionSpacing" destination="x9u-ys-Z8Z" id="zt2-Vo-S4p"/>
                                             <outlet property="profileImageView" destination="SZa-bC-Vw6" id="ciu-zv-9FC"/>
                                             <outlet property="reportButton" destination="gw6-kg-9SE" id="fpc-E0-Snr"/>
-                                            <outlet property="twitterButton" destination="O0F-QI-eYa" id="ci6-SE-GWv"/>
                                             <outlet property="userInfoTextView" destination="8wz-jv-Rga" id="ra0-T7-sQa"/>
                                         </connections>
                                     </collectionViewCell>
@@ -1292,8 +1284,9 @@
         <image name="icon-delete" width="16" height="16"/>
         <image name="icon-edit" width="15" height="15"/>
         <image name="icon-featured" width="15" height="15"/>
-        <image name="icon-flag-dark" width="20" height="20"/>
         <image name="icon-mail" width="22" height="22"/>
+        <image name="icon-more" width="37" height="13"/>
+        <image name="icon-morsel-identity-light" width="30" height="22"/>
         <image name="icon-social-facebook-mark" width="22" height="22"/>
         <image name="icon-social-twitter-mark" width="22" height="22"/>
     </resources>

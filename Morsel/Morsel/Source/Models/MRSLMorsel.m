@@ -134,12 +134,12 @@
 - (NSMutableAttributedString *)coverInformationFromProperties {
     NSString *fullName = [self.creator fullName];
     NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"by %@", fullName]
-                                                                                             attributes:@{NSFontAttributeName : [UIFont robotoSlabRegularFontOfSize:10.f]}];
+                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
     [infoAttributedString addAttribute:NSLinkAttributeName
                                  value:@"profile://display"
                                  range:[[infoAttributedString string] rangeOfString:fullName]];
     [infoAttributedString addAttribute:NSFontAttributeName
-                                 value:[UIFont robotoSlabBoldFontOfSize:18.f]
+                                 value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleHeadline]
                                  range:[[infoAttributedString string] rangeOfString:fullName]];
 
     if (self.place) {

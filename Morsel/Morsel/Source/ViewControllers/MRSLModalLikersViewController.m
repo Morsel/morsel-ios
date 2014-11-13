@@ -27,6 +27,7 @@ NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSArray *likers;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -64,6 +65,15 @@ NSFetchedResultsControllerDelegate>
     [self setupFetchRequest];
     [self populateContent];
     [self refreshContent];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.tableView deselectRowAtIndexPath:_selectedIndexPath
+                                      animated:YES];
+        self.selectedIndexPath = nil;
+    }
 }
 
 #pragma mark - Private Methods
@@ -162,6 +172,7 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
     MRSLUser *user = [_likers objectAtIndex:indexPath.row];
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
     profileVC.user = user;
