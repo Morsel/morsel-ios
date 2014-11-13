@@ -62,6 +62,7 @@
         return;
     }
 
+    [self.view endEditing:YES];
     [self.resetButton setEnabled:NO];
 
     __weak __typeof(self) weakSelf = self;

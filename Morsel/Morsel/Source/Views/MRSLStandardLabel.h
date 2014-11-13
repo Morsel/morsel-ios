@@ -10,7 +10,10 @@
 
 @interface MRSLStandardLabel : UILabel
 
+@property (nonatomic, getter=isOblique) BOOL oblique;
+
 - (id)initWithFrame:(CGRect)frame andFontSize:(CGFloat)fontSize;
 - (void)setUp;
+- (UIFont *)obliqueFont;
 
 @end

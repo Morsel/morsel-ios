@@ -260,10 +260,6 @@
         self.itemPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
                                                                                     withString:@"IMAGE_SIZE"];
     }
-    if (![data[@"liked_at"] isEqual:[NSNull null]]) {
-        NSString *dateString = data[@"liked_at"];
-        self.likedDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
-    }
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];

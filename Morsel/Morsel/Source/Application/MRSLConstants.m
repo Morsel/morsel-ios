@@ -211,7 +211,7 @@ NSString *const MRSLStoryboardRUIDSectionFooterKey = @"ruid_SectionFooter";
 NSString *const MRSLStoryboardRUIDUserCellKey = @"ruid_UserCell";
 NSString *const MRSLStoryboardRUIDUserFollowCellKey = @"ruid_UserFollowCell";
 NSString *const MRSLStoryboardRUIDUserEligibleCellKey = @"ruid_UserEligibleCell";
-NSString *const MRSLStoryboardRUIDUserLikedItemCellKey = @"ruid_UserLikedItemCell";
+NSString *const MRSLStoryboardRUIDUserLikedMorselCellKey = @"ruid_UserLikedMorselCell";
 NSString *const MRSLStoryboardRUIDTemplateCell = @"ruid_TemplateCell";
 NSString *const MRSLStoryboardRUIDTemplateInfoCell = @"ruid_TemplateInfoCell";
 NSString *const MRSLStoryboardRUIDMorselAddCell = @"ruid_MorselAddCell";
@@ -232,6 +232,10 @@ int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;
 #else
 int LOG_LEVEL_DEF = LOG_LEVEL_ERROR;
 #endif
+
+#pragma mark - Misc. Constants
+
+NSString *const MRSLDefaultEmptyUserName = @"Morsel User";
 
 @implementation MRSLConstants
 

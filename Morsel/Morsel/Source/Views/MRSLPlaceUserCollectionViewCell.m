@@ -9,13 +9,14 @@
 #import "MRSLPlaceUserCollectionViewCell.h"
 
 #import "MRSLProfileImageView.h"
+#import "MRSLStandardLabel.h"
 
 #import "MRSLUser.h"
 
 @interface MRSLPlaceUserCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet MRSLStandardLabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *positionLabel;
 
 @end
@@ -36,6 +37,8 @@
     _user = user;
     self.profileImageView.user = _user;
     self.nameLabel.text = [_user fullName];
+    [_nameLabel setOblique:[_user hasEmptyName]];
+
     self.positionLabel.text = [_user title];
 }
 

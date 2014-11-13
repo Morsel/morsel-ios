@@ -44,10 +44,14 @@
     return (([self.title length] == 0 || !self.title) && self.template_id);
 }
 
+- (BOOL)hasTaggedUsers {
+    return self.tagged_users_countValue > 0;
+}
+
 - (CGFloat)coverInformationHeight {
     CGFloat coverInfoHeight = 0.f;
     NSMutableAttributedString *coverAttributedInfo = [self coverInformationFromProperties];
-    if (self.has_tagged_usersValue) {
+    if ([self hasTaggedUsers]) {
         NSMutableAttributedString *taggedAttributedString = [[NSMutableAttributedString alloc] initWithString:@"\n\nwith "
                                                                                                    attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
         [coverAttributedInfo appendAttributedString:taggedAttributedString];
@@ -161,7 +165,7 @@
 
 - (void)getCoverInformation:(MRSLAttributedStringBlock)attributedStringBlock {
     NSMutableAttributedString *infoAttributedString = [self coverInformationFromProperties];
-    if (self.has_tagged_usersValue) {
+    if ([self hasTaggedUsers]) {
         __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService getTaggedUsersForMorsel:self
                                                withMaxID:nil
@@ -304,6 +308,10 @@
     if (![data[@"updated_at"] isEqual:[NSNull null]]) {
         NSString *updateString = data[@"updated_at"];
         self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
+    }
+    if (![data[@"liked_at"] isEqual:[NSNull null]]) {
+        NSString *dateString = data[@"liked_at"];
+        self.likedDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
     if (![data[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = data[@"photos"];

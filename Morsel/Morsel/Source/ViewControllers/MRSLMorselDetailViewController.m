@@ -223,18 +223,17 @@ MRSLFeedPanelCollectionViewCellDelegate>
         [self setLikeButtonImageForMorsel:morsel];
 
         __weak __typeof(self) weakSelf = self;
-        [_appDelegate.apiService likeItem:nil
-                             orLikeMorsel:morsel
-                               shouldLike:morsel.likedValue
-                                  didLike:^(BOOL doesLike) {
-                                      if (morsel.likedValue) [MRSLEventManager sharedManager].likes_given++;
-                                      weakSelf.likeBarButtonItem.enabled = YES;
-                                  } failure: ^(NSError * error) {
-                                      weakSelf.likeBarButtonItem.enabled = YES;
-                                      [morsel setLikedValue:!morsel.likedValue];
-                                      [morsel setLike_countValue:morsel.like_countValue - 1];
-                                      [weakSelf setLikeButtonImageForMorsel:morsel];
-                                  }];
+        [_appDelegate.apiService likeMorsel:morsel
+                                 shouldLike:morsel.likedValue
+                                    didLike:^(BOOL doesLike) {
+                                        if (morsel.likedValue) [MRSLEventManager sharedManager].likes_given++;
+                                        weakSelf.likeBarButtonItem.enabled = YES;
+                                    } failure: ^(NSError * error) {
+                                        weakSelf.likeBarButtonItem.enabled = YES;
+                                        [morsel setLikedValue:!morsel.likedValue];
+                                        [morsel setLike_countValue:morsel.like_countValue - 1];
+                                        [weakSelf setLikeButtonImageForMorsel:morsel];
+                                    }];
     }
 }
 

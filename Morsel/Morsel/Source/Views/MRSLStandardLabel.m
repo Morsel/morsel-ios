@@ -43,4 +43,17 @@
     [self setFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
 }
 
+- (UIFont *)obliqueFont {
+    return [UIFont robotoLightItalicFontOfSize:self.font.pointSize];
+}
+
+- (void)setOblique:(BOOL)oblique {
+    _oblique = oblique;
+    if (oblique) {
+        [self setFont:[[self obliqueFont] fontWithSize:self.font.pointSize]];
+    } else {
+        [self setFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
+    }
+}
+
 @end

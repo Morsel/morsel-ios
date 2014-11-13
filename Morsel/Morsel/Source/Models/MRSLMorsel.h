@@ -6,6 +6,7 @@
 
 - (BOOL)hasCreatorInfo;
 - (BOOL)hasPlaceholderTitle;
+- (BOOL)hasTaggedUsers;
 
 - (CGFloat)coverInformationHeight;
 
