@@ -111,7 +111,7 @@
 }
 
 + (UIColor *)morselDefaultPlaceholderTextColor {
-    return [UIColor morselMedium];
+    return [UIColor morselLightOff];
 }
 
 + (UIColor *)morselDefaultToolbarBackgroundColor {

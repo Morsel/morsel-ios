@@ -79,7 +79,7 @@
     CGRect descriptionRect = [attributedString boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
                                                             options:NSStringDrawingUsesLineFragmentOrigin
                                                             context:nil];
-    return descriptionRect.size.height + MRSLCellDefaultPadding;
+    return descriptionRect.size.height + MRSLCellDefaultPadding + 15.f;
 }
 
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
