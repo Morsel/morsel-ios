@@ -8,8 +8,9 @@
 
 #import "MRSLFeedCoverCollectionViewCell.h"
 
+#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+
 #import "MRSLAPIService+Morsel.h"
-#import "NSDate+TimeAgoMinimized.h"
 
 #import "MRSLItemImageView.h"
 #import "MRSLPlaceViewController.h"
@@ -55,7 +56,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.morselTitleLabel addStandardShadow];
         [self.timeAgoLabel addStandardShadow];
-        [self.likeCountButton addStandardShadow];
+        [self.editButton addStandardShadow];
     });
 }
 
@@ -99,7 +100,7 @@
         self.featuredButton.hidden = !([self isHomeFeedItem] && _morsel.feedItemFeaturedValue);
         self.morselTitleLabel.text = _morsel.title;
         self.profileImageView.user = _morsel.creator;
-        self.timeAgoLabel.text = [_morsel.publishedDate timeAgoMinimized];
+        self.timeAgoLabel.text = [_morsel.publishedDate dateTimeAgo];
         [self.likeCountButton setTitle:[NSString stringWithFormat:@"%@ likes", _morsel.like_count]
                               forState:UIControlStateNormal];
         self.editButton.hidden = ![_morsel.creator isCurrentUser];
