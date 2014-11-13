@@ -48,6 +48,8 @@
                                              selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+    self.nextInfoTextView.textContainer.maximumNumberOfLines = 2;
+    self.nextInfoTextView.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
 }
 
 - (void)setBounds:(CGRect)bounds {
@@ -118,6 +120,8 @@
 }
 
 #pragma mark - UITextView Delegate
+
+
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
     if ([[URL scheme] isEqualToString:@"profile"]) {

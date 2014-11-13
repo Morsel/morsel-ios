@@ -924,7 +924,7 @@
                                                     </connections>
                                                 </textView>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="next morsel" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="ORi-P1-DoF" userLabel="Next Morsel Text View" customClass="MRSLStandardTextView">
-                                                    <rect key="frame" x="106" y="200" width="174" height="50"/>
+                                                    <rect key="frame" x="70" y="200" width="210" height="50"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="paH-Ut-NgV"/>
@@ -979,7 +979,7 @@
                                             <constraint firstAttribute="centerX" secondItem="6wP-Dj-988" secondAttribute="centerX" id="awn-T2-cwe"/>
                                             <constraint firstAttribute="trailing" secondItem="xMa-zz-OTs" secondAttribute="trailing" id="fI7-sd-bHD"/>
                                             <constraint firstItem="8wz-jv-Rga" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" constant="20" id="g7I-O3-ORN"/>
-                                            <constraint firstItem="ORi-P1-DoF" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" constant="36" id="hIG-Ep-lYg"/>
+                                            <constraint firstItem="ORi-P1-DoF" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" id="hIG-Ep-lYg"/>
                                             <constraint firstAttribute="trailing" secondItem="ORi-P1-DoF" secondAttribute="trailing" constant="40" id="hYY-eg-my8"/>
                                             <constraint firstItem="SZa-bC-Vw6" firstAttribute="top" secondItem="6wP-Dj-988" secondAttribute="bottom" constant="17" id="pAk-tj-Qoc"/>
                                             <constraint firstAttribute="bottom" secondItem="xMa-zz-OTs" secondAttribute="bottom" id="qZO-yx-y8T"/>
