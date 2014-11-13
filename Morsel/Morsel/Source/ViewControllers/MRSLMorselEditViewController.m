@@ -122,7 +122,12 @@ MRSLMorselEditItemTableViewCellDelegate>
     self.morsel = [self getOrLoadMorselIfExists];
     [self showNextButton];
     [self displayMorselStatus];
-    if (self.itemsFetchedResultsController) return;
+    if (self.itemsFetchedResultsController) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.morselItemsTableView reloadData];
+        });
+        return;
+    }
     self.loading = YES;
     [self setupFetchRequest];
     [self populateContent];
