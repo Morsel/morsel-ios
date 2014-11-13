@@ -11,8 +11,6 @@
 @protocol MRSLFeedShareCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)feedShareCollectionViewCellDidSelectShareFacebook;
-- (void)feedShareCollectionViewCellDidSelectShareTwitter;
 - (void)feedShareCollectionViewCellDidSelectNextMorsel;
 
 @end

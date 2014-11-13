@@ -312,20 +312,6 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 #pragma mark - MRSLFeedShareCollectionViewCellDelegate
 
-- (void)feedShareCollectionViewCellDidSelectShareFacebook {
-    [[MRSLSocialService sharedService] shareMorselToFacebook:_morsel
-                                            inViewController:self
-                                                     success:nil
-                                                      cancel:nil];
-}
-
-- (void)feedShareCollectionViewCellDidSelectShareTwitter {
-    [[MRSLSocialService sharedService] shareMorselToTwitter:_morsel
-                                           inViewController:self
-                                                    success:nil
-                                                     cancel:nil];
-}
-
 - (void)feedShareCollectionViewCellDidSelectNextMorsel {
     if ([self.delegate respondsToSelector:@selector(feedPanelViewControllerDidSelectNextMorsel)]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

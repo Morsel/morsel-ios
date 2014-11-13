@@ -52,7 +52,7 @@
     if (oblique) {
         [self setFont:[[self obliqueFont] fontWithSize:self.font.pointSize]];
     } else {
-        [self setFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
+        [self setUp];
     }
 }
 
