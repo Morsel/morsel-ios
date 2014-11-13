@@ -51,19 +51,19 @@
     NSString *contentSize = [UIApplication sharedApplication].preferredContentSizeCategory;
 
     if ([contentSize isEqualToString:UIContentSizeCategoryExtraSmall]) {
-        fontSize = 8.f;
-    } else if ([contentSize isEqualToString:UIContentSizeCategorySmall]) {
-        fontSize = 9.f;
-    } else if ([contentSize isEqualToString:UIContentSizeCategoryMedium]) {
         fontSize = 10.f;
-    } else if ([contentSize isEqualToString:UIContentSizeCategoryLarge]) {
+    } else if ([contentSize isEqualToString:UIContentSizeCategorySmall]) {
+        fontSize = 11.f;
+    } else if ([contentSize isEqualToString:UIContentSizeCategoryMedium]) {
         fontSize = 12.f;
-    } else if ([contentSize isEqualToString:UIContentSizeCategoryExtraLarge]) {
+    } else if ([contentSize isEqualToString:UIContentSizeCategoryLarge]) {
         fontSize = 14.f;
-    } else if ([contentSize isEqualToString:UIContentSizeCategoryExtraExtraLarge]) {
+    } else if ([contentSize isEqualToString:UIContentSizeCategoryExtraLarge]) {
         fontSize = 16.f;
+    } else if ([contentSize isEqualToString:UIContentSizeCategoryExtraExtraLarge]) {
+        fontSize = 18.f;
     } else if ([contentSize isEqualToString:UIContentSizeCategoryExtraExtraExtraLarge]) {
-        fontSize = 20.f;
+        fontSize = 22.f;
     }
 
     // choose the font weight
