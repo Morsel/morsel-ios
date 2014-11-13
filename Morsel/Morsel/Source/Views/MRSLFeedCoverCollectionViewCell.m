@@ -101,8 +101,9 @@
         self.morselTitleLabel.text = _morsel.title;
         self.profileImageView.user = _morsel.creator;
         self.timeAgoLabel.text = [_morsel.publishedDate dateTimeAgo];
-        [self.likeCountButton setTitle:[NSString stringWithFormat:@"%@ likes", _morsel.like_count]
+        [self.likeCountButton setTitle:[NSString stringWithFormat:@"%@ like%@", _morsel.like_count, (_morsel.like_countValue > 1) ? @"s" : @""]
                               forState:UIControlStateNormal];
+        self.likeCountButton.hidden = (_morsel.like_countValue == 0);
         self.editButton.hidden = ![_morsel.creator isCurrentUser];
 
         if (self.morsel.morselIDValue == self.morselID && self.coverAttributedString) {
