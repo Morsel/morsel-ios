@@ -82,7 +82,25 @@
                                              selector:@selector(MRSL_registerRemoteNotifications)
                                                  name:MRSLRegisterRemoteNotificationsNotification
                                                object:nil];
+
+    NSDictionary *remoteNotificationUserInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotificationUserInfo && [MRSLUser currentUser]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self handleRemoteNotification:remoteNotificationUserInfo];
+        });
+    }
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    UIApplicationState state = [application applicationState];
+    if (state == UIApplicationStateInactive ||
+        state == UIApplicationStateBackground) {
+        [self handleRemoteNotification:userInfo];
+    } else {
+        [MRSLUser API_updateNotificationsAmount:nil
+                                        failure:nil];
+    }
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -150,6 +168,14 @@
 }
 
 #pragma mark - Instance Methods
+
+- (void)handleRemoteNotification:(NSDictionary *)dictionary {
+    if (dictionary[@"route"]) {
+        NSURL *remoteRouteURL = [NSURL URLWithString:dictionary[@"route"]];
+        [self handleRouteForURL:remoteRouteURL
+              sourceApplication:nil];
+    }
+}
 
 - (void)setupMorselEnvironment {
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];

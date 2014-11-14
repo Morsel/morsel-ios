@@ -11,6 +11,7 @@ const struct MRSLRemoteDeviceAttributes MRSLRemoteDeviceAttributes = {
 	.notify_item_comment = @"notify_item_comment",
 	.notify_morsel_like = @"notify_morsel_like",
 	.notify_morsel_morsel_user_tag = @"notify_morsel_morsel_user_tag",
+	.notify_tagged_morsel_item_comment = @"notify_tagged_morsel_item_comment",
 	.notify_user_follow = @"notify_user_follow",
 	.token = @"token",
 	.user_id = @"user_id",
@@ -65,6 +66,11 @@ const struct MRSLRemoteDeviceFetchedProperties MRSLRemoteDeviceFetchedProperties
 	}
 	if ([key isEqualToString:@"notify_morsel_morsel_user_tagValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"notify_morsel_morsel_user_tag"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"notify_tagged_morsel_item_commentValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"notify_tagged_morsel_item_comment"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -204,6 +210,32 @@ const struct MRSLRemoteDeviceFetchedProperties MRSLRemoteDeviceFetchedProperties
 
 - (void)setPrimitiveNotify_morsel_morsel_user_tagValue:(BOOL)value_ {
 	[self setPrimitiveNotify_morsel_morsel_user_tag:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic notify_tagged_morsel_item_comment;
+
+
+
+- (BOOL)notify_tagged_morsel_item_commentValue {
+	NSNumber *result = [self notify_tagged_morsel_item_comment];
+	return [result boolValue];
+}
+
+- (void)setNotify_tagged_morsel_item_commentValue:(BOOL)value_ {
+	[self setNotify_tagged_morsel_item_comment:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveNotify_tagged_morsel_item_commentValue {
+	NSNumber *result = [self primitiveNotify_tagged_morsel_item_comment];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveNotify_tagged_morsel_item_commentValue:(BOOL)value_ {
+	[self setPrimitiveNotify_tagged_morsel_item_comment:[NSNumber numberWithBool:value_]];
 }
 
 

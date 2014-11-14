@@ -1193,7 +1193,7 @@ follow them for you.</string>
         <scene sceneID="8AE-HC-JYR">
             <objects>
                 <tableViewController storyboardIdentifier="sb_MRSLPushNotificationSettingsViewController" autoresizesArchivedViewToFullSize="NO" title="Push notification settings" automaticallyAdjustsScrollViewInsets="NO" id="TUC-jD-II9" customClass="MRSLPushNotificationSettingsViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VuA-h0-Oqy">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VuA-h0-Oqy" customClass="MRSLTableView">
                         <rect key="frame" x="0.0" y="44" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1213,19 +1213,30 @@ follow them for you.</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <switch userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G1K-l6-cUq">
-                                            <rect key="frame" x="531" y="4" width="51" height="31"/>
+                                            <rect key="frame" x="531" y="7" width="51" height="31"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="49" id="1fq-yH-HNe"/>
-                                                <constraint firstAttribute="height" constant="31" id="PPS-OB-pgB"/>
+                                                <constraint firstAttribute="width" constant="49" id="nbo-St-AJu"/>
+                                                <constraint firstAttribute="height" constant="31" id="zTY-Ci-NXN"/>
                                             </constraints>
                                         </switch>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="500" translatesAutoresizingMaskIntoConstraints="NO" id="5KL-XM-aHe" customClass="MRSLRobotoLightLabel">
+                                            <rect key="frame" x="20" y="0.0" width="500" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="G1K-l6-cUq" secondAttribute="trailing" constant="20" id="r5b-lr-jAr"/>
-                                        <constraint firstItem="G1K-l6-cUq" firstAttribute="top" secondItem="aSb-dT-1v8" secondAttribute="top" constant="4" id="weI-sp-ogA"/>
+                                        <constraint firstAttribute="bottom" secondItem="5KL-XM-aHe" secondAttribute="bottom" id="FCB-KW-OvN"/>
+                                        <constraint firstAttribute="centerY" secondItem="G1K-l6-cUq" secondAttribute="centerY" id="akw-Oh-M6B"/>
+                                        <constraint firstItem="G1K-l6-cUq" firstAttribute="leading" secondItem="5KL-XM-aHe" secondAttribute="trailing" constant="11" id="eC0-XC-EeO"/>
+                                        <constraint firstItem="5KL-XM-aHe" firstAttribute="leading" secondItem="aSb-dT-1v8" secondAttribute="leading" constant="20" id="huR-HL-2nf"/>
+                                        <constraint firstAttribute="trailing" secondItem="G1K-l6-cUq" secondAttribute="trailing" constant="20" id="keS-I0-OIc"/>
+                                        <constraint firstItem="5KL-XM-aHe" firstAttribute="top" secondItem="aSb-dT-1v8" secondAttribute="top" id="pXk-fy-UaD"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="cellLabel" destination="5KL-XM-aHe" id="V4W-Rr-dNj"/>
                                     <outlet property="cellSwitch" destination="G1K-l6-cUq" id="D1J-mh-P6e"/>
                                 </connections>
                             </tableViewCell>

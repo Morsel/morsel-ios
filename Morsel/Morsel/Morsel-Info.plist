@@ -47,13 +47,15 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201411111432</string>
+	<string>201411132223</string>
 	<key>FacebookAppID</key>
 	<string>${FB_APP_ID}</string>
 	<key>FacebookDisplayName</key>
 	<string>${SOCIAL_DISPLAY_NAME}</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location is required to find out where you are</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Light.ttf</string>
@@ -77,8 +79,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location is required to find out where you are</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>
