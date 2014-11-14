@@ -12,13 +12,14 @@
 
 #import "MRSLAPIService+Morsel.h"
 
+#import "MRSLActivityItemShareTextProvider.h"
+#import "MRSLActivityItemShareURLProvider.h"
 #import "MRSLFeedCoverCollectionViewCell.h"
 #import "MRSLFeedPageCollectionViewCell.h"
 #import "MRSLFeedShareCollectionViewCell.h"
 #import "MRSLSocialService.h"
 #import "MRSLModalCommentsViewController.h"
 #import "MRSLModalLikersViewController.h"
-#import "MRSLModalShareViewController.h"
 #import "MRSLMorselEditViewController.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLTitleItemView.h"
@@ -188,27 +189,20 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 - (IBAction)displayShare {
-    __block BOOL alreadyDisplayed = NO;
-    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *childVC, NSUInteger idx, BOOL *stop) {
-        if ([childVC isKindOfClass:[MRSLModalShareViewController class]]) {
-            alreadyDisplayed = YES;
-            *stop = YES;
-        }
-    }];
-    if (!alreadyDisplayed) {
-        MRSLItem *visibleItem = [self visibleItem];
-        [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                     properties:@{@"_title": @"Share Morsel",
-                                                  @"_view": @"feed",
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(visibleItem.itemID)}];
-        MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardModalShareViewControllerKey];
-        [modalShareVC.view setWidth:[self.view getWidth]];
-        [modalShareVC.view setHeight:[self.view getHeight]];
-        modalShareVC.item = visibleItem;
-        [self addChildViewController:modalShareVC];
-        [self.view addSubview:modalShareVC.view];
-    }
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Share Morsel",
+                                              @"_view": @"feed",
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    MRSLActivityItemShareTextProvider *textProvider = [[MRSLActivityItemShareTextProvider alloc] initWithPlaceholderItem:@""];
+    textProvider.morsel = self.morsel;
+    MRSLActivityItemShareURLProvider *urlProvider = [[MRSLActivityItemShareURLProvider alloc] initWithPlaceholderItem:@""];
+    urlProvider.morsel = self.morsel;
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[textProvider, urlProvider]
+                                                                                         applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypeSaveToCameraRoll, UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo, UIActivityTypePostToWeibo];
+    [self presentViewController:activityViewController
+                       animated:YES
+                     completion:nil];
 }
 
 

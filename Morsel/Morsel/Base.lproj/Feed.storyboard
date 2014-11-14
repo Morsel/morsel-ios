@@ -146,103 +146,6 @@
             </objects>
             <point key="canvasLocation" x="-538.125" y="180.63380281690141"/>
         </scene>
-        <!--Modal Share View Controller-->
-        <scene sceneID="os7-BO-oJl">
-            <objects>
-                <viewController storyboardIdentifier="sb_MRSLModalShareViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="G6l-ix-dMC" customClass="MRSLModalShareViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="EQo-yI-nBY"/>
-                        <viewControllerLayoutGuide type="bottom" id="TEb-tC-5ah"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="FNe-y1-Y5v">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Dm-LM-hAn">
-                                <rect key="frame" x="140" y="127" width="320" height="260"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="MRu-2x-RTN" customClass="MRSLRobotoLightLabel">
-                                        <rect key="frame" x="20" y="199" width="280" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" red="0.31764706970000001" green="0.7254902124" blue="0.23529411850000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HGX-4c-FKl" customClass="MRSLColoredBackgroundLightButton">
-                                        <rect key="frame" x="20" y="151" width="280" height="40"/>
-                                        <color key="backgroundColor" red="0.31764706970000001" green="0.7254902124" blue="0.23529411850000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Copy Link to Clipboard" image="icon-mail">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="saveToClipboard" destination="G6l-ix-dMC" eventType="touchUpInside" id="pmx-pW-fgf"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U98-FT-Lh1" customClass="MRSLColoredBackgroundLightButton">
-                                        <rect key="frame" x="20" y="101" width="280" height="40"/>
-                                        <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Share on Twitter" image="icon-social-twitter-mark">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="shareToTwitter" destination="G6l-ix-dMC" eventType="touchUpInside" id="a9j-D1-ymY"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLo-Y2-J9L" customClass="MRSLColoredBackgroundLightButton">
-                                        <rect key="frame" x="20" y="51" width="280" height="40"/>
-                                        <color key="backgroundColor" red="0.23137254900000001" green="0.34901960780000002" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Share on Facebook" image="icon-social-facebook-mark">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="shareToFacebook" destination="G6l-ix-dMC" eventType="touchUpInside" id="e6E-eV-jSt"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Share this morsel" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="A3W-9H-IlH" customClass="MRSLRobotoSlabBoldLabel">
-                                        <rect key="frame" x="20" y="0.0" width="280" height="35"/>
-                                        <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
-                                        <color key="textColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="260" id="UJI-ig-6E3"/>
-                                    <constraint firstAttribute="width" constant="320" id="vX9-CZ-2zi"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <accessibility key="accessibilityConfiguration" label="Share Morsel">
-                            <bool key="isElement" value="YES"/>
-                        </accessibility>
-                        <constraints>
-                            <constraint firstAttribute="centerY" secondItem="2Dm-LM-hAn" secondAttribute="centerY" constant="11" id="KnL-8x-hmZ"/>
-                            <constraint firstAttribute="centerX" secondItem="2Dm-LM-hAn" secondAttribute="centerX" id="Lu7-S5-Tq3"/>
-                        </constraints>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" id="36M-vp-dBO"/>
-                    <connections>
-                        <outlet property="facebookButton" destination="zLo-Y2-J9L" id="phf-qh-zLz"/>
-                        <outlet property="shareStatusLabel" destination="MRu-2x-RTN" id="C3f-Bz-z94"/>
-                        <outlet property="twitterButton" destination="U98-FT-Lh1" id="1h4-yf-sP9"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9nn-Sk-RGp" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1378.125" y="987.67605633802805"/>
-        </scene>
         <!--Comments-->
         <scene sceneID="M8P-6F-DwE">
             <objects>
@@ -1089,26 +992,6 @@
             <point key="canvasLocation" x="448.125" y="1784.1549295774646"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="SVu-PS-v33">
-            <objects>
-                <navigationController storyboardIdentifier="sb_Share" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Ptt-IW-Ofp" customClass="MRSLNavigationController" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="zbZ-p9-89z">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="G6l-ix-dMC" kind="relationship" relationship="rootViewController" id="d4H-c9-NcZ"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iMh-2U-Dik" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="425.625" y="987.67605633802805"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="X9G-7K-kt6">
             <objects>
                 <navigationController storyboardIdentifier="sb_FeedPanel" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="cdQ-Wv-Gc4" customClass="MRSLNavigationController" sceneMemberID="viewController">
@@ -1284,11 +1167,8 @@
         <image name="icon-delete" width="16" height="16"/>
         <image name="icon-edit" width="15" height="15"/>
         <image name="icon-featured" width="15" height="15"/>
-        <image name="icon-mail" width="22" height="22"/>
         <image name="icon-more" width="37" height="13"/>
         <image name="icon-morsel-identity-light" width="30" height="22"/>
-        <image name="icon-social-facebook-mark" width="22" height="22"/>
-        <image name="icon-social-twitter-mark" width="22" height="22"/>
     </resources>
     <color key="tintColor" red="0.90980392160000001" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
 </document>
