@@ -222,7 +222,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                   success:^(NSArray *responseArray) {
                                       [weakSelf.refreshControl endRefreshing];
                                       weakSelf.objectIDs = [responseArray mutableCopy];
-                                      [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                      [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
                                                                                 forKey:[NSString stringWithFormat:@"place_%@_%@IDs", weakSelf.place.placeID, [MRSLUtil stringForDataSourceType:weakSelf.dataSourceTabType]]];
                                       [weakSelf updateDataSourcePredicate];
                                       weakSelf.loading = NO;
@@ -247,7 +247,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                       if (weakSelf) {
                                           if ([responseArray count] > 0) {
                                               [weakSelf.objectIDs addObjectsFromArray:responseArray];
-                                              [[NSUserDefaults standardUserDefaults] setObject:weakSelf.objectIDs
+                                              [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
                                                                                         forKey:[NSString stringWithFormat:@"place_%@_%@IDs", weakSelf.place.placeID, [MRSLUtil stringForDataSourceType:weakSelf.dataSourceTabType]]];
                                               dispatch_async(dispatch_get_main_queue(), ^{
                                                   [weakSelf updateDataSourcePredicate];

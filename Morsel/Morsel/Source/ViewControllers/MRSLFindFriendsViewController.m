@@ -139,7 +139,7 @@ MRSLSegmentedButtonViewDelegate>
                                                       success:^(NSArray *responseArray) {
                                                           [weakSelf.refreshControl endRefreshing];
                                                           weakSelf.userIDs = [responseArray mutableCopy];
-                                                          [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                          [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                                     forKey:[self objectIDsKey]];
                                                           [weakSelf setupFetchRequest];
                                                           [weakSelf populateContent];
@@ -156,7 +156,7 @@ MRSLSegmentedButtonViewDelegate>
                                          success:^(NSArray *responseArray) {
                                              [weakSelf.refreshControl endRefreshing];
                                              weakSelf.userIDs = [responseArray mutableCopy];
-                                             [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                             [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                        forKey:[self objectIDsKey]];
                                              [weakSelf setupFetchRequest];
                                              [weakSelf populateContent];
@@ -187,7 +187,7 @@ MRSLSegmentedButtonViewDelegate>
                                                           if (weakSelf) {
                                                               if ([responseArray count] > 0) {
                                                                   [weakSelf.userIDs addObjectsFromArray:responseArray];
-                                                                  [[NSUserDefaults standardUserDefaults] setObject:weakSelf.userIDs
+                                                                  [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                                             forKey:[self objectIDsKey]];
                                                                   [weakSelf setupFetchRequest];
                                                                   dispatch_async(dispatch_get_main_queue(), ^{
@@ -210,7 +210,7 @@ MRSLSegmentedButtonViewDelegate>
                                              if (weakSelf) {
                                                  if ([responseArray count] > 0) {
                                                      [weakSelf.userIDs addObjectsFromArray:responseArray];
-                                                     [[NSUserDefaults standardUserDefaults] setObject:weakSelf.userIDs
+                                                     [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                                forKey:[self objectIDsKey]];
                                                      [weakSelf setupFetchRequest];
                                                      dispatch_async(dispatch_get_main_queue(), ^{

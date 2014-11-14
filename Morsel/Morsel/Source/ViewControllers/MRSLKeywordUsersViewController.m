@@ -96,7 +96,7 @@ NSFetchedResultsControllerDelegate>
                                          success:^(NSArray *responseArray) {
                                              [weakSelf.refreshControl endRefreshing];
                                              weakSelf.userIDs = [responseArray mutableCopy];
-                                             [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                             [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                        forKey:[NSString stringWithFormat:@"%i_userIDs", _keyword.keywordIDValue]];
                                              [weakSelf setupFetchRequest];
                                              [weakSelf populateContent];
@@ -108,7 +108,7 @@ NSFetchedResultsControllerDelegate>
                                            success:^(NSArray *responseArray) {
                                                [weakSelf.refreshControl endRefreshing];
                                                weakSelf.userIDs = [responseArray mutableCopy];
-                                               [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                               [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                          forKey:[NSString stringWithFormat:@"%i_userIDs", _keyword.keywordIDValue]];
                                                [weakSelf setupFetchRequest];
                                                [weakSelf populateContent];

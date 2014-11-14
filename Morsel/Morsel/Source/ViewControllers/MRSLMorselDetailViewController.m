@@ -337,7 +337,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                            if (weakSelf) {
                                                if ([responseArray count] > 0) {
                                                    [weakSelf.morselIDs addObjectsFromArray:responseArray];
-                                                   [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
+                                                   [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.morselIDs copy]
                                                                                              forKey:[NSString stringWithFormat:@"%@_morselIDs", _user.username]];
                                                    [weakSelf setupFetchRequest];
                                                    dispatch_async(dispatch_get_main_queue(), ^{

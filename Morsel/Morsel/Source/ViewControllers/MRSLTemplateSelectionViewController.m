@@ -81,7 +81,7 @@ NSFetchedResultsControllerDelegate>
     __weak __typeof(self)weakSelf = self;
     [_appDelegate.apiService getTemplatesWithSuccess:^(NSArray *responseArray) {
         weakSelf.templateIDs = [responseArray mutableCopy];
-        [[NSUserDefaults standardUserDefaults] setObject:responseArray
+        [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.templateIDs copy]
                                                   forKey:[NSString stringWithFormat:@"templateIDs"]];
         [weakSelf setupFetchRequest];
         [weakSelf populateContent];

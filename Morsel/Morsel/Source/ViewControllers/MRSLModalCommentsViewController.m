@@ -130,7 +130,7 @@ NSFetchedResultsControllerDelegate>
                                      if (weakSelf) {
                                          [weakSelf.refreshControl endRefreshing];
                                          weakSelf.commentIDs = [responseArray mutableCopy];
-                                         [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                         [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.commentIDs copy]
                                                                                    forKey:[NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue]];
                                          [weakSelf setupFetchRequest];
                                          [weakSelf populateContent];
@@ -161,7 +161,7 @@ NSFetchedResultsControllerDelegate>
                                              weakSelf.loadedAll = YES;
                                          } else {
                                              [weakSelf.commentIDs addObjectsFromArray:responseArray];
-                                             [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                             [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.commentIDs copy]
                                                                                        forKey:[NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue]];
                                              [weakSelf setupFetchRequest];
                                              [weakSelf populateContent];
