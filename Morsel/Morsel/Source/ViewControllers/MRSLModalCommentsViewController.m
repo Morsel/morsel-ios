@@ -75,7 +75,7 @@ NSFetchedResultsControllerDelegate>
     self.commentsTableView.alwaysBounceVertical = YES;
     [self.commentsTableView setEmptyStateTitle:@"No comments yet. Add one below."];
 
-    self.commentInputTextView.placeholder = @"Write a comment...";
+    self.commentInputTextView.placeholder = @"Add comment...";
 }
 
 - (void)viewDidLayoutSubviews {

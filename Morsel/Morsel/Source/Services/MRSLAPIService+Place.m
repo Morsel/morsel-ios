@@ -19,6 +19,7 @@
 
 - (void)searchPlacesWithQuery:(NSString *)query
                   andLocation:(CLLocation *)location
+                       orNear:(NSString *)near
                       success:(MRSLAPIArrayBlock)successOrNil
                       failure:(MRSLFailureBlock)failureOrNil {
     if ([query length] < 3) {
@@ -26,8 +27,17 @@
         if (failureOrNil) failureOrNil(nil);
         return;
     }
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"query": query,
-                                                                       @"lat_lon": [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude]}
+    
+    // if near passed, used instead of lat_lon
+    NSDictionary *locationDictionary = nil;
+    if ([near length] > 0) {
+        locationDictionary = @{@"query": query,
+                               @"near": near};
+    } else {
+        locationDictionary = @{@"query": query,
+                               @"lat_lon": [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude]};
+    }
+    NSMutableDictionary *parameters = [self parametersWithDictionary:locationDictionary
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 

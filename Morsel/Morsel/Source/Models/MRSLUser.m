@@ -186,9 +186,9 @@ static const int kGuestUserID = -1;
     CGFloat infoHeight = 0.f;
     NSMutableAttributedString *attributedInfo = [self profileInformation];
     CGRect infoRect = [attributedInfo boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
-                                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                                             context:nil];
-    infoHeight = infoRect.size.height + 20.f;
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                   context:nil];
+    infoHeight = infoRect.size.height + 40.f;
     return MAX(75.f, infoHeight);
 }
 
@@ -273,6 +273,12 @@ static const int kGuestUserID = -1;
     [attributedString addAttribute:NSFontAttributeName
                              value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleHeadline]
                              range:[[attributedString string] rangeOfString:fullName]];
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    [attributedString addAttribute:NSParagraphStyleAttributeName
+                             value:paragraphStyle
+                             range:NSMakeRange(0, attributedString.length)];
     return attributedString;
 }
 

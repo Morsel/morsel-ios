@@ -31,10 +31,10 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *userInfoTextView;
 @property (weak, nonatomic) IBOutlet UITextView *nextInfoTextView;
-@property (weak, nonatomic) IBOutlet UIButton *facebookButton;
-@property (weak, nonatomic) IBOutlet UIButton *twitterButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *reportButton;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *profileImageDescriptionSpacing;
 
 @end
 
@@ -48,6 +48,8 @@
                                              selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
+    self.nextInfoTextView.textContainer.maximumNumberOfLines = 2;
+    self.nextInfoTextView.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
 }
 
 - (void)setBounds:(CGRect)bounds {
@@ -72,13 +74,20 @@
     _nextMorselButton.hidden = (!self.nextMorsel);
     _nextInfoTextView.hidden = (!self.nextMorsel);
 
+    self.profileImageDescriptionSpacing.constant = self.followButton.hidden ? 0.f : 40.f;
+    [self setNeedsUpdateConstraints];
+
     if (!_reportButton.hidden) {
         self.morselID = self.morsel.morselIDValue;
         __weak __typeof(self)weakSelf = self;
         [_appDelegate.apiService getUserProfile:_morsel.creator
                                         success:^(id responseObject) {
-                                            if (weakSelf && weakSelf.morselID == weakSelf.morsel.morselIDValue) {
+                                            if (weakSelf && weakSelf.morselID == weakSelf.morsel.morselIDValue &&
+                                                !weakSelf.morsel.creator.followingValue) {
                                                 weakSelf.followButton.user = weakSelf.morsel.creator;
+
+                                                weakSelf.profileImageDescriptionSpacing.constant = weakSelf.followButton.hidden ? 0.f : 40.f;
+                                                [weakSelf setNeedsUpdateConstraints];
                                             }
                                         } failure:nil];
     }
@@ -111,6 +120,8 @@
 }
 
 #pragma mark - UITextView Delegate
+
+
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
     if ([[URL scheme] isEqualToString:@"profile"]) {
@@ -145,7 +156,7 @@
 
 #pragma mark - Action Methods
 
-- (IBAction)displayProfile {
+- (void)displayProfile {
     UINavigationController *profileNC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileKey];
     MRSLProfileViewController *profileVC = [[profileNC viewControllers] firstObject];
     profileVC.user = _morsel.creator;
@@ -160,18 +171,6 @@
                                               @"morsel_id": NSNullIfNil(_morsel.morselID)}];
     if ([self.delegate respondsToSelector:@selector(feedShareCollectionViewCellDidSelectNextMorsel)]) {
         [self.delegate feedShareCollectionViewCellDidSelectNextMorsel];
-    }
-}
-
-- (IBAction)shareToFacebook {
-    if ([self.delegate respondsToSelector:@selector(feedShareCollectionViewCellDidSelectShareFacebook)]) {
-        [self.delegate feedShareCollectionViewCellDidSelectShareFacebook];
-    }
-}
-
-- (IBAction)shareToTwitter {
-    if ([self.delegate respondsToSelector:@selector(feedShareCollectionViewCellDidSelectShareTwitter)]) {
-        [self.delegate feedShareCollectionViewCellDidSelectShareTwitter];
     }
 }
 
