@@ -86,6 +86,11 @@ UITextFieldDelegate>
     self.locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+
+    if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [_locationManager requestWhenInUseAuthorization];
+    }
+
     [_locationManager startUpdatingLocation];
 }
 
