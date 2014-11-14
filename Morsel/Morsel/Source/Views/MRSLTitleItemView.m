@@ -53,7 +53,7 @@
         [subview removeFromSuperview];
     }];
     UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-identity-nav"]];
-    [titleView setY:2.f];
+    [titleView setY:-2.f];
     [titleView setX:((self.frame.size.width / 2) - (titleView.frame.size.width / 2))];
     [self addSubview:titleView];
 

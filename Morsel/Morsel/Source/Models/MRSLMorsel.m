@@ -50,6 +50,15 @@
 
 - (CGFloat)coverInformationHeight {
     CGFloat coverInfoHeight = 0.f;
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    CGRect coverTitleRect =[self.title boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
+                             options:NSStringDrawingUsesLineFragmentOrigin
+                          attributes:@{NSFontAttributeName: [UIFont robotoSlabBoldFontOfSize:24.f],
+                                       NSParagraphStyleAttributeName: paragraphStyle}
+                             context:nil];
+
     NSMutableAttributedString *coverAttributedInfo = [self coverInformationFromProperties];
     if ([self hasTaggedUsers]) {
         NSMutableAttributedString *taggedAttributedString = [[NSMutableAttributedString alloc] initWithString:@"\n\nwith "
@@ -59,7 +68,7 @@
     CGRect coverInfoRect = [coverAttributedInfo boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
                                                              options:NSStringDrawingUsesLineFragmentOrigin
                                                              context:nil];
-    coverInfoHeight = coverInfoRect.size.height;
+    coverInfoHeight = coverInfoRect.size.height + coverTitleRect.size.height + MRSLCellDefaultCoverPadding;
     return MAX(75.f, coverInfoHeight);
 }
 

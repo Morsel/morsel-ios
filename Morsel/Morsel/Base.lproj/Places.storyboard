@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WcM-JU-AWy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WcM-JU-AWy">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -28,24 +28,16 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="86"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <searchBar contentMode="redraw" ambiguous="YES" misplaced="YES" searchBarStyle="minimal" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LWI-Eo-3dE">
+                                        <searchBar contentMode="redraw" searchBarStyle="minimal" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LWI-Eo-3dE">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="44" id="urA-oB-BEt"/>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="vmg-HA-Dgg"/>
-                                            </constraints>
                                             <textInputTraits key="textInputTraits"/>
                                             <connections>
                                                 <outlet property="delegate" destination="iGd-IA-Ilk" id="PoA-cI-TPG"/>
                                             </connections>
                                         </searchBar>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Near (zip code, city, etc. optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0aq-yt-0Cd" customClass="MRSLTextField">
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Near (zip code, city, etc. optional)" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="0aq-yt-0Cd" customClass="MRSLTextField">
                                             <rect key="frame" x="0.0" y="42" width="600" height="40"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="40" id="Gsm-96-hrZ"/>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="g2d-cv-OBi"/>
-                                            </constraints>
                                             <color key="textColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
@@ -55,6 +47,16 @@
                                         </textField>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="0aq-yt-0Cd" secondAttribute="trailing" id="0JR-gj-QL0"/>
+                                        <constraint firstAttribute="bottom" secondItem="LWI-Eo-3dE" secondAttribute="bottom" constant="42" id="Fsd-T4-XbF"/>
+                                        <constraint firstItem="LWI-Eo-3dE" firstAttribute="leading" secondItem="uzf-Dm-1j3" secondAttribute="leading" id="IBj-zK-Qut"/>
+                                        <constraint firstItem="0aq-yt-0Cd" firstAttribute="top" secondItem="uzf-Dm-1j3" secondAttribute="top" constant="42" id="Jwg-kL-7kK"/>
+                                        <constraint firstAttribute="trailing" secondItem="LWI-Eo-3dE" secondAttribute="trailing" id="Kdv-z0-FWp"/>
+                                        <constraint firstItem="LWI-Eo-3dE" firstAttribute="top" secondItem="uzf-Dm-1j3" secondAttribute="top" id="fz7-AG-Mbr"/>
+                                        <constraint firstItem="0aq-yt-0Cd" firstAttribute="leading" secondItem="uzf-Dm-1j3" secondAttribute="leading" id="hmf-vV-kFj"/>
+                                        <constraint firstAttribute="bottom" secondItem="0aq-yt-0Cd" secondAttribute="bottom" constant="4" id="yLQ-DL-BSu"/>
+                                    </constraints>
                                 </view>
                                 <imageView key="tableFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-foursquare-attribution" id="nzZ-WP-Ot7">
                                     <rect key="frame" x="0.0" y="519" width="600" height="61"/>

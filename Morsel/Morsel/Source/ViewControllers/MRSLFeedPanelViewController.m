@@ -8,15 +8,17 @@
 
 #import "MRSLFeedPanelViewController.h"
 
+#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+
 #import "MRSLAPIService+Morsel.h"
 
+#import "MRSLActivityItemShareTextProvider.h"
+#import "MRSLActivityItemShareURLProvider.h"
 #import "MRSLFeedCoverCollectionViewCell.h"
 #import "MRSLFeedPageCollectionViewCell.h"
 #import "MRSLFeedShareCollectionViewCell.h"
 #import "MRSLSocialService.h"
-#import "MRSLModalCommentsViewController.h"
 #import "MRSLModalLikersViewController.h"
-#import "MRSLModalShareViewController.h"
 #import "MRSLMorselEditViewController.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLTitleItemView.h"
@@ -41,8 +43,11 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 @property (nonatomic) MRSLScrollDirection scrollDirection;
 
+@property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *coverImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverLeftConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverRightConstraint;
 
 @end
 
@@ -55,6 +60,7 @@ MRSLFeedShareCollectionViewCellDelegate>
     self.isViewingCover = YES;
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
     self.coverImageView.shouldBlur = YES;
+    [self.timeAgoLabel addStandardShadow];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
@@ -100,6 +106,9 @@ MRSLFeedShareCollectionViewCellDelegate>
         self.coverImageView.item = [_morsel coverItem];
         [self.collectionView reloadData];
         [self resetCollectionViewContentOffset:NO];
+
+        self.timeAgoLabel.text = [_morsel.publishedDate dateTimeAgo];
+        self.timeAgoLabel.hidden = (!_morsel.publishedDate);
     }
 }
 
@@ -141,21 +150,6 @@ MRSLFeedShareCollectionViewCellDelegate>
                                         animated:NO];
 }
 
-- (IBAction)displayComments {
-    MRSLItem *visibleItem = [self visibleItem];
-    [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Comments",
-                                              @"_view": @"feed",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                              @"item_id": NSNullIfNil(visibleItem.itemID),
-                                              @"comment_count": NSNullIfNil(visibleItem.comment_count)}];
-    UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCommentsKey];
-    MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
-    modalCommentsVC.item = visibleItem;
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
-                                                        object:commentNC];
-}
-
 - (IBAction)displayLikers {
     __block BOOL alreadyDisplayed = NO;
     [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *childVC, NSUInteger idx, BOOL *stop) {
@@ -179,27 +173,20 @@ MRSLFeedShareCollectionViewCellDelegate>
 }
 
 - (IBAction)displayShare {
-    __block BOOL alreadyDisplayed = NO;
-    [self.childViewControllers enumerateObjectsUsingBlock:^(UIViewController *childVC, NSUInteger idx, BOOL *stop) {
-        if ([childVC isKindOfClass:[MRSLModalShareViewController class]]) {
-            alreadyDisplayed = YES;
-            *stop = YES;
-        }
-    }];
-    if (!alreadyDisplayed) {
-        MRSLItem *visibleItem = [self visibleItem];
-        [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                     properties:@{@"_title": @"Share Morsel",
-                                                  @"_view": @"feed",
-                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                                  @"item_id": NSNullIfNil(visibleItem.itemID)}];
-        MRSLModalShareViewController *modalShareVC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardModalShareViewControllerKey];
-        [modalShareVC.view setWidth:[self.view getWidth]];
-        [modalShareVC.view setHeight:[self.view getHeight]];
-        modalShareVC.item = visibleItem;
-        [self addChildViewController:modalShareVC];
-        [self.view addSubview:modalShareVC.view];
-    }
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Share Morsel",
+                                              @"_view": @"feed",
+                                              @"morsel_id": NSNullIfNil(_morsel.morselID)}];
+    MRSLActivityItemShareTextProvider *textProvider = [[MRSLActivityItemShareTextProvider alloc] initWithPlaceholderItem:@""];
+    textProvider.morsel = self.morsel;
+    MRSLActivityItemShareURLProvider *urlProvider = [[MRSLActivityItemShareURLProvider alloc] initWithPlaceholderItem:@""];
+    urlProvider.morsel = self.morsel;
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[textProvider, urlProvider]
+                                                                                         applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypeSaveToCameraRoll, UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo, UIActivityTypePostToWeibo];
+    [self presentViewController:activityViewController
+                       animated:YES
+                     completion:nil];
 }
 
 
@@ -289,6 +276,16 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
+    if (scrollView.contentOffset.y < 0) {
+        CGFloat percentOpen = MAX(0, (scrollView.contentOffset.y * -1) / 200);
+        //DDLogDebug(@"PERCENT OPEN: %f", percentOpen);
+        CGFloat constraintAddition = 250.f * percentOpen;
+        self.coverLeftConstraint.constant = -(constraintAddition);
+        self.coverRightConstraint.constant = -(constraintAddition);
+        [self.view setNeedsUpdateConstraints];
+    }
+    self.coverImageView.hidden = (scrollView.contentOffset.y > 375.f);
+    self.timeAgoLabel.hidden = (scrollView.contentOffset.y > MRSLCellDefaultCoverPadding);
     if (_previousContentOffset > scrollView.contentOffset.y) {
         self.scrollDirection = MRSLScrollDirectionDown;
     } else if (_previousContentOffset < scrollView.contentOffset.y) {

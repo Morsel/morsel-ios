@@ -14,6 +14,7 @@
 
 @property (nonatomic) BOOL grayScale;
 @property (nonatomic) BOOL shouldBlur;
+@property (nonatomic) BOOL shouldBlurMore;
 
 @property (strong, nonatomic) MRSLActivityIndicatorView *activityIndicatorView;
 @property (strong, nonatomic) id <MRSLImageRequestable> imageObject;
