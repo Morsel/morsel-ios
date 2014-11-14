@@ -151,7 +151,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)setObjectIDs:(NSArray *)objectIDs {
     _objectIDs = objectIDs;
-    [[NSUserDefaults standardUserDefaults] setObject:_objectIDs
+    [[NSUserDefaults standardUserDefaults] setObject:[_objectIDs copy]
                                               forKey:_objectIDsKey];
 }
 

@@ -291,7 +291,7 @@ MRSLStateViewDelegate>
                                      if (weakSelf) {
                                          [weakSelf.refreshControl endRefreshing];
                                          weakSelf.objectIDs = [responseArray mutableCopy];
-                                         [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                         [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
                                                                                    forKey:[weakSelf objectIDsKey]];
                                          [weakSelf updateDataSourcePredicate];
                                          weakSelf.loading = NO;
@@ -319,7 +319,7 @@ MRSLStateViewDelegate>
                                      if (weakSelf) {
                                          if ([responseArray count] > 0) {
                                              [weakSelf.objectIDs addObjectsFromArray:responseArray];
-                                             [[NSUserDefaults standardUserDefaults] setObject:weakSelf.objectIDs
+                                             [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
                                                                                        forKey:[self objectIDsKey]];
                                              dispatch_async(dispatch_get_main_queue(), ^{
                                                  [weakSelf updateDataSourcePredicate];

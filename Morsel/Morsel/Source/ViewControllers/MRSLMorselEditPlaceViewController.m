@@ -178,7 +178,7 @@ UITableViewDelegate>
                                       success:^(NSArray *responseArray) {
                                           [weakSelf.refreshControl endRefreshing];
                                           weakSelf.placeIDs = [responseArray mutableCopy];
-                                          [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                          [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.placeIDs copy]
                                                                                     forKey:[NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username]];
                                           [weakSelf setupFetchRequest];
                                           [weakSelf populateContent];

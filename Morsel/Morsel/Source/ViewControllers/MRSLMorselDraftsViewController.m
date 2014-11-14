@@ -144,7 +144,7 @@ NSFetchedResultsControllerDelegate>
                                        success:^(NSArray *responseArray) {
                                            [weakSelf.refreshControl endRefreshing];
                                            weakSelf.morselIDs = [responseArray mutableCopy];
-                                           [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                           [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.morselIDs copy]
                                                                                      forKey:@"currentuser_draft_morselIDs"];
                                            [weakSelf setupFetchRequest];
                                            [weakSelf populateContent];
@@ -173,7 +173,7 @@ NSFetchedResultsControllerDelegate>
                                            if (weakSelf) {
                                                if ([responseArray count] > 0) {
                                                    [weakSelf.morselIDs addObjectsFromArray:responseArray];
-                                                   [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
+                                                   [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.morselIDs copy]
                                                                                              forKey:@"currentuser_draft_morselIDs"];
                                                    [weakSelf setupFetchRequest];
                                                    dispatch_async(dispatch_get_main_queue(), ^{
