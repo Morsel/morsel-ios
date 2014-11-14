@@ -85,7 +85,9 @@
 
     NSDictionary *remoteNotificationUserInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
     if (remoteNotificationUserInfo && [MRSLUser currentUser]) {
-#warning Create URL and pass to JLRoutes
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self handleRemoteNotification:remoteNotificationUserInfo];
+        });
     }
     return YES;
 }
@@ -94,7 +96,7 @@
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateInactive ||
         state == UIApplicationStateBackground) {
-#warning Create URL and pass to JLRoutes
+        [self handleRemoteNotification:userInfo];
     } else {
         [MRSLUser API_updateNotificationsAmount:nil
                                         failure:nil];
@@ -166,6 +168,14 @@
 }
 
 #pragma mark - Instance Methods
+
+- (void)handleRemoteNotification:(NSDictionary *)dictionary {
+    if (dictionary[@"route"]) {
+        NSURL *remoteRouteURL = [NSURL URLWithString:dictionary[@"route"]];
+        [self handleRouteForURL:remoteRouteURL
+              sourceApplication:nil];
+    }
+}
 
 - (void)setupMorselEnvironment {
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
