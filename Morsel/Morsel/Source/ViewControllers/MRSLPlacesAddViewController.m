@@ -34,6 +34,7 @@ UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UITextField *nearTextField;
 
 @property (strong, nonatomic) MRSLFoursquarePlace *selectedFoursquarePlace;
 
@@ -58,7 +59,7 @@ UITextFieldDelegate>
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
+    if ([CLLocationManager authorizationStatus] < kCLAuthorizationStatusAuthorized) {
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
             [UIAlertView showAlertViewWithTitle:@"Location Permission"
                                         message:@"To improve your place search, we’d like to access your location. If you're ready to grant permission, press OK for the next prompt."
@@ -106,6 +107,7 @@ UITextFieldDelegate>
     __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService searchPlacesWithQuery:_searchBar.text
                                        andLocation:_userLocation
+                                            orNear:_nearTextField.text
                                            success:^(NSArray *responseArray) {
                                                if ([weakSelf.searchBar.text length] > 2) {
                                                    weakSelf.foursquarePlaces = responseArray;
@@ -253,6 +255,10 @@ UITextFieldDelegate>
         [textField resignFirstResponder];
         return NO;
     }
+
+    if (textField == _nearTextField) {
+        [self resumeTimer];
+    }
     return YES;
 }
 
@@ -297,7 +303,7 @@ UITextFieldDelegate>
 #pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    if (status == kCLAuthorizationStatusAuthorized) {
+    if (status >= kCLAuthorizationStatusAuthorized) {
         self.locationDisabled = NO;
         self.searchBar.userInteractionEnabled = YES;
         [self.tableView reloadData];
@@ -319,6 +325,7 @@ UITextFieldDelegate>
         }
     }
 }
+
 
 #pragma mark - Dealloc
 

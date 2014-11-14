@@ -16,6 +16,7 @@
 
 - (void)searchPlacesWithQuery:(NSString *)query
                   andLocation:(CLLocation *)location
+                       orNear:(NSString *)near
                       success:(MRSLAPIArrayBlock)successOrNil
                       failure:(MRSLFailureBlock)failureOrNil;
 
