@@ -18,7 +18,6 @@
 #import "MRSLFeedPageCollectionViewCell.h"
 #import "MRSLFeedShareCollectionViewCell.h"
 #import "MRSLSocialService.h"
-#import "MRSLModalCommentsViewController.h"
 #import "MRSLModalLikersViewController.h"
 #import "MRSLMorselEditViewController.h"
 #import "MRSLProfileImageView.h"
@@ -149,21 +148,6 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                                     inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionNone
                                         animated:NO];
-}
-
-- (IBAction)displayComments {
-    MRSLItem *visibleItem = [self visibleItem];
-    [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Comments",
-                                              @"_view": @"feed",
-                                              @"morsel_id": NSNullIfNil(_morsel.morselID),
-                                              @"item_id": NSNullIfNil(visibleItem.itemID),
-                                              @"comment_count": NSNullIfNil(visibleItem.comment_count)}];
-    UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCommentsKey];
-    MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
-    modalCommentsVC.item = visibleItem;
-    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
-                                                        object:commentNC];
 }
 
 - (IBAction)displayLikers {

@@ -12,6 +12,7 @@
 
 #import "MRSLAPIService+Like.h"
 
+#import "MRSLModalCommentsViewController.h"
 #import "MRSLProfileViewController.h"
 
 #import "MRSLItemImageView.h"
@@ -77,6 +78,16 @@
             self.commentButton.enabled = NO;
         }
     });
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)displayComments {
+    UINavigationController *commentNC = [[UIStoryboard feedStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCommentsKey];
+    MRSLModalCommentsViewController *modalCommentsVC = [[commentNC viewControllers] firstObject];
+    modalCommentsVC.item = self.item;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                        object:commentNC];
 }
 
 #pragma mark - UITextView Delegate

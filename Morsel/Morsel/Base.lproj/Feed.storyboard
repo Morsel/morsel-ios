@@ -699,7 +699,7 @@
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="displayComments" destination="CdJ-7I-0rO" eventType="touchUpInside" id="n0g-S4-ErN"/>
+                                                        <action selector="displayComments" destination="LWX-ds-AvT" eventType="touchUpInside" id="6EF-Qv-V9J"/>
                                                     </connections>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y68-Gf-YKi">
