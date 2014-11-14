@@ -8,6 +8,8 @@
 
 #import "MRSLFeedPanelViewController.h"
 
+#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+
 #import "MRSLAPIService+Morsel.h"
 
 #import "MRSLFeedCoverCollectionViewCell.h"
@@ -41,6 +43,7 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 @property (nonatomic) MRSLScrollDirection scrollDirection;
 
+@property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverLeftConstraint;
@@ -57,6 +60,7 @@ MRSLFeedShareCollectionViewCellDelegate>
     self.isViewingCover = YES;
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
     self.coverImageView.shouldBlur = YES;
+    [self.timeAgoLabel addStandardShadow];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateContent:)
                                                  name:NSManagedObjectContextObjectsDidChangeNotification
@@ -102,6 +106,9 @@ MRSLFeedShareCollectionViewCellDelegate>
         self.coverImageView.item = [_morsel coverItem];
         [self.collectionView reloadData];
         [self resetCollectionViewContentOffset:NO];
+
+        self.timeAgoLabel.text = [_morsel.publishedDate dateTimeAgo];
+        self.timeAgoLabel.hidden = (!_morsel.publishedDate);
     }
 }
 
@@ -300,6 +307,7 @@ MRSLFeedShareCollectionViewCellDelegate>
         [self.view setNeedsUpdateConstraints];
     }
     self.coverImageView.hidden = (scrollView.contentOffset.y > 375.f);
+    self.timeAgoLabel.hidden = (scrollView.contentOffset.y > MRSLCellDefaultCoverPadding);
     if (_previousContentOffset > scrollView.contentOffset.y) {
         self.scrollDirection = MRSLScrollDirectionDown;
     } else if (_previousContentOffset < scrollView.contentOffset.y) {

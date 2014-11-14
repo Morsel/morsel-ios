@@ -662,7 +662,7 @@
                                                             <rect key="frame" x="197" y="0.0" width="123" height="27"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                                            <state key="normal" title="2.7K Likes">
+                                                            <state key="normal">
                                                                 <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </state>
@@ -688,17 +688,7 @@
                                                         <outlet property="delegate" destination="RLK-sr-0Vu" id="wqJ-Aa-AgX"/>
                                                     </connections>
                                                 </textView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 days ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="127" translatesAutoresizingMaskIntoConstraints="NO" id="dD2-3O-yZb" userLabel="Time Ago Label" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="179" y="5" width="131" height="23"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="131" id="NSj-nR-Opd"/>
-                                                        <constraint firstAttribute="height" constant="23" id="ciu-FI-Qgi"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vegan Dinner: Second Course - Brussel Sprouts" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="OI1-yX-HLC" userLabel="Cover Text" customClass="MRSLRobotoSlabBoldLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="OI1-yX-HLC" userLabel="Cover Text" customClass="MRSLRobotoSlabBoldLabel">
                                                     <rect key="frame" x="30" y="0.0" width="260" height="150"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
                                                     <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -741,8 +731,6 @@
                                         <constraints>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="0Z6-qS-Vop" secondAttribute="bottom" id="0pX-OQ-6XR"/>
                                             <constraint firstAttribute="bottom" secondItem="uIj-Vo-Ecn" secondAttribute="bottom" id="1Fv-JT-2F3"/>
-                                            <constraint firstItem="dD2-3O-yZb" firstAttribute="top" secondItem="RLK-sr-0Vu" secondAttribute="top" constant="5" id="1ei-KC-IZt"/>
-                                            <constraint firstAttribute="trailing" secondItem="dD2-3O-yZb" secondAttribute="trailing" constant="10" id="84e-xC-kAI"/>
                                             <constraint firstAttribute="centerX" secondItem="ED5-Fu-yTT" secondAttribute="centerX" id="8Qg-yR-uFM"/>
                                             <constraint firstAttribute="trailing" secondItem="aRh-Cj-twK" secondAttribute="trailing" id="F4l-6B-HdB"/>
                                             <constraint firstAttribute="trailing" secondItem="uIj-Vo-Ecn" secondAttribute="trailing" constant="20" id="GzV-bP-mR5"/>
@@ -769,7 +757,6 @@
                                             <outlet property="likeCountButton" destination="cBa-b7-DSO" id="Agl-f5-uLt"/>
                                             <outlet property="morselTitleLabel" destination="OI1-yX-HLC" id="g5r-e5-y0P"/>
                                             <outlet property="profileImageView" destination="ED5-Fu-yTT" id="ZZs-NV-plK"/>
-                                            <outlet property="timeAgoLabel" destination="dD2-3O-yZb" id="Gl8-G1-9XI"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_FeedPageCell" id="LWX-ds-AvT" customClass="MRSLFeedPageCollectionViewCell">
@@ -923,7 +910,7 @@
                                                         <outlet property="delegate" destination="AM7-9K-DqK" id="r2R-OS-1pO"/>
                                                     </connections>
                                                 </textView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="next morsel" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="ORi-P1-DoF" userLabel="Next Morsel Text View" customClass="MRSLStandardTextView">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="ORi-P1-DoF" userLabel="Next Morsel Text View" customClass="MRSLStandardTextView">
                                                     <rect key="frame" x="70" y="200" width="210" height="50"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1004,6 +991,14 @@
                                     <outlet property="delegate" destination="CdJ-7I-0rO" id="uvm-89-7Ok"/>
                                 </connections>
                             </collectionView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="127" translatesAutoresizingMaskIntoConstraints="NO" id="dD2-3O-yZb" userLabel="Time Ago Label" customClass="MRSLRobotoLightLabel">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="ylE-mx-bAI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstItem="7wz-mg-5ut" firstAttribute="leading" secondItem="Kkj-oS-Bwv" secondAttribute="leading" id="E6J-So-sLi"/>
@@ -1011,9 +1006,11 @@
                             <constraint firstItem="7wz-mg-5ut" firstAttribute="height" secondItem="Kkj-oS-Bwv" secondAttribute="height" id="U79-M9-7Ry"/>
                             <constraint firstItem="7wz-mg-5ut" firstAttribute="width" secondItem="Kkj-oS-Bwv" secondAttribute="width" id="dEd-k0-QEM"/>
                             <constraint firstItem="mwH-gO-QpV" firstAttribute="leading" secondItem="Kkj-oS-Bwv" secondAttribute="leading" id="luF-nq-U3m"/>
+                            <constraint firstAttribute="trailing" secondItem="dD2-3O-yZb" secondAttribute="trailing" constant="10" id="mML-42-aA5"/>
                             <constraint firstItem="ry1-rQ-iAl" firstAttribute="top" secondItem="7wz-mg-5ut" secondAttribute="bottom" id="mrr-Ir-nVv"/>
                             <constraint firstAttribute="trailing" secondItem="mwH-gO-QpV" secondAttribute="trailing" id="nAe-f4-gLx"/>
                             <constraint firstAttribute="trailing" secondItem="7wz-mg-5ut" secondAttribute="trailing" id="qLT-Ur-6Qr"/>
+                            <constraint firstItem="dD2-3O-yZb" firstAttribute="top" secondItem="O0J-b0-GcX" secondAttribute="bottom" constant="5" id="uo9-Jr-Rqy"/>
                             <constraint firstItem="7wz-mg-5ut" firstAttribute="top" secondItem="O0J-b0-GcX" secondAttribute="bottom" id="utm-4I-2td"/>
                         </constraints>
                     </view>
@@ -1024,6 +1021,7 @@
                         <outlet property="coverImageView" destination="mwH-gO-QpV" id="sol-qg-X3L"/>
                         <outlet property="coverLeftConstraint" destination="luF-nq-U3m" id="3xr-bv-Keb"/>
                         <outlet property="coverRightConstraint" destination="nAe-f4-gLx" id="GOR-Bh-f2M"/>
+                        <outlet property="timeAgoLabel" destination="dD2-3O-yZb" id="pdt-46-Whk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="de2-Gb-Jll" userLabel="First Responder" sceneMemberID="firstResponder"/>
