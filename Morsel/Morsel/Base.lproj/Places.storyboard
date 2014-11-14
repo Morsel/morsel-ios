@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WcM-JU-AWy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WcM-JU-AWy">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Add Place-->
@@ -24,14 +24,38 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="416" id="1QR-ng-3i2"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="lws-Da-3hu"/>
                                 </constraints>
-                                <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" showsCancelButton="YES" id="drS-eW-8wf">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="iGd-IA-Ilk" id="kd6-vT-UUO"/>
-                                    </connections>
-                                </searchBar>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="uzf-Dm-1j3">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="86"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <searchBar contentMode="redraw" ambiguous="YES" misplaced="YES" searchBarStyle="minimal" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LWI-Eo-3dE">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="44" id="urA-oB-BEt"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="vmg-HA-Dgg"/>
+                                            </constraints>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="iGd-IA-Ilk" id="PoA-cI-TPG"/>
+                                            </connections>
+                                        </searchBar>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Near (zip code, city, etc. optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0aq-yt-0Cd" customClass="MRSLTextField">
+                                            <rect key="frame" x="0.0" y="42" width="600" height="40"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="Gsm-96-hrZ"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="g2d-cv-OBi"/>
+                                            </constraints>
+                                            <color key="textColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="iGd-IA-Ilk" id="NDx-dS-Uzr"/>
+                                            </connections>
+                                        </textField>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
                                 <imageView key="tableFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-foursquare-attribution" id="nzZ-WP-Ot7">
                                     <rect key="frame" x="0.0" y="519" width="600" height="61"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
@@ -244,13 +268,14 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Add Place" id="8gh-eM-um4"/>
                     <connections>
-                        <outlet property="searchBar" destination="drS-eW-8wf" id="4Tk-oJ-kOi"/>
+                        <outlet property="nearTextField" destination="0aq-yt-0Cd" id="GQk-tR-unU"/>
+                        <outlet property="searchBar" destination="LWI-Eo-3dE" id="YCT-Ji-SGk"/>
                         <outlet property="tableView" destination="REc-z7-wH5" id="20r-TJ-vIk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZQE-nl-dv1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3172.5" y="-151.05633802816899"/>
+            <point key="canvasLocation" x="3172" y="-152"/>
         </scene>
         <!--Place View Controller-->
         <scene sceneID="OoI-VH-kvn">
@@ -539,7 +564,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_HeaderCell" id="4gc-9u-Vuf" customClass="MRSLSegmentedHeaderReusableView">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2hi-aq-Xeh" customClass="MRSLSegmentedButtonView">
@@ -904,7 +929,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_SectionFooter" id="S7E-PV-4JY">
-                                    <rect key="frame" x="0.0" y="317" width="320" height="50"/>
+                                    <rect key="frame" x="0.0" y="317" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="graphic-foursquare-attribution" translatesAutoresizingMaskIntoConstraints="NO" id="VOz-ID-61E">
