@@ -26,6 +26,7 @@
 @property (nonatomic) BOOL enableForLikes;
 @property (nonatomic) BOOL enableForMorselUserTags;
 @property (nonatomic) BOOL enableForFollows;
+@property (nonatomic) BOOL enableForFollowupComments;
 
 @property (weak, nonatomic) MRSLRemoteDevice *currentRemoteDevice;
 
@@ -48,6 +49,7 @@
         self.enableForLikes = self.currentRemoteDevice.notify_morsel_likeValue;
         self.enableForMorselUserTags = self.currentRemoteDevice.notify_morsel_morsel_user_tagValue;
         self.enableForFollows = self.currentRemoteDevice.notify_user_followValue;
+        self.enableForFollowupComments = self.currentRemoteDevice.notify_tagged_morsel_item_commentValue;
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLRegisterRemoteNotificationsNotification
                                                             object:nil];
@@ -58,12 +60,10 @@
                                                     configureCellBlock:^UITableViewCell *(NSDictionary *notificationSettingDictionary, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
                                                         MRSLSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDPushNotificationSettingCellKey];
                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                            [cell.textLabel setText:notificationSettingDictionary[@"name"]];
+                                                            [cell.cellLabel setText:notificationSettingDictionary[@"name"]];
                                                             [cell.cellSwitch setOn:[notificationSettingDictionary[@"value"] boolValue]
                                                                           animated:YES];
                                                         });
-                                                        [cell addBorderWithDirections:MRSLBorderSouth
-                                                                          borderColor:[[UIColor morselDefaultBorderColor] colorWithAlphaComponent:.8f]];
                                                         return cell;
                                                     }];
     self.tableView.alwaysBounceVertical = ([self.notificationSettingsArray count] > 0);
@@ -111,6 +111,7 @@
     self.currentRemoteDevice.notify_morsel_like = @(self.enableForLikes);
     self.currentRemoteDevice.notify_morsel_morsel_user_tag = @(self.enableForMorselUserTags);
     self.currentRemoteDevice.notify_user_follow = @(self.enableForFollows);
+    self.currentRemoteDevice.notify_tagged_morsel_item_comment = @(self.enableForFollowupComments);
 
     [self.currentRemoteDevice API_updateWithSuccess:^(id responseObject) {
         if (weakSelf.currentRemoteDevice.managedObjectContext) [weakSelf.currentRemoteDevice.managedObjectContext MR_saveOnlySelfAndWait];
@@ -134,6 +135,8 @@
 
     self.notificationSettingsArray = (self.currentRemoteDevice) ? @[@{@"name": @"Comments on an item",
                                                                       @"value": @(_enableForComments)},
+                                                                    @{@"name": @"Comments on an item in a morsel you're tagged in",
+                                                                      @"value": @(_enableForFollowupComments)},
                                                                     @{@"name": @"Likes one of my morsels",
                                                                       @"value": @(_enableForLikes)},
                                                                     @{@"name": @"Tags me in a morsel",
@@ -165,6 +168,18 @@
 }
 
 #pragma mark - MRSLTableViewDataSourceDelegate
+
+- (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *notificationSettingName = [self.notificationSettingsArray objectAtIndex:indexPath.row][@"name"];
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    CGRect bodyRect = [notificationSettingName boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 80.f, CGFLOAT_MAX)
+                                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                                         attributes:@{NSFontAttributeName: [UIFont robotoLightFontOfSize:14.f], NSParagraphStyleAttributeName: paragraphStyle}
+                                                            context:nil];
+    return MAX(44.f, bodyRect.size.height);
+}
 
 - (void)tableViewDataSource:(UITableView *)tableView
    didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

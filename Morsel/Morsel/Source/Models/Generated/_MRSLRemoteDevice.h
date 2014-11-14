@@ -12,6 +12,7 @@ extern const struct MRSLRemoteDeviceAttributes {
 	__unsafe_unretained NSString *notify_item_comment;
 	__unsafe_unretained NSString *notify_morsel_like;
 	__unsafe_unretained NSString *notify_morsel_morsel_user_tag;
+	__unsafe_unretained NSString *notify_tagged_morsel_item_comment;
 	__unsafe_unretained NSString *notify_user_follow;
 	__unsafe_unretained NSString *token;
 	__unsafe_unretained NSString *user_id;
@@ -22,6 +23,7 @@ extern const struct MRSLRemoteDeviceRelationships {
 
 extern const struct MRSLRemoteDeviceFetchedProperties {
 } MRSLRemoteDeviceFetchedProperties;
+
 
 
 
@@ -134,6 +136,20 @@ extern const struct MRSLRemoteDeviceFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* notify_tagged_morsel_item_comment;
+
+
+
+@property BOOL notify_tagged_morsel_item_commentValue;
+- (BOOL)notify_tagged_morsel_item_commentValue;
+- (void)setNotify_tagged_morsel_item_commentValue:(BOOL)value_;
+
+//- (BOOL)validateNotify_tagged_morsel_item_comment:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* notify_user_follow;
 
 
@@ -232,6 +248,15 @@ extern const struct MRSLRemoteDeviceFetchedProperties {
 
 - (BOOL)primitiveNotify_morsel_morsel_user_tagValue;
 - (void)setPrimitiveNotify_morsel_morsel_user_tagValue:(BOOL)value_;
+
+
+
+
+- (NSNumber*)primitiveNotify_tagged_morsel_item_comment;
+- (void)setPrimitiveNotify_tagged_morsel_item_comment:(NSNumber*)value;
+
+- (BOOL)primitiveNotify_tagged_morsel_item_commentValue;
+- (void)setPrimitiveNotify_tagged_morsel_item_commentValue:(BOOL)value_;
 
 
 

@@ -10,6 +10,7 @@
 
 @interface MRSLSwitchTableViewCell : MRSLBaseTableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *cellLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *cellSwitch;
 
 @end

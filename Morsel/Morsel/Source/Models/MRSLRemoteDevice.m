@@ -21,6 +21,7 @@
     objectInfoJSON[@"notification_settings"][@"notify_morsel_like"] = self.notify_morsel_likeValue ? @"true" : @"false";
     objectInfoJSON[@"notification_settings"][@"notify_morsel_morsel_user_tag"] = self.notify_morsel_morsel_user_tagValue ? @"true" : @"false";
     objectInfoJSON[@"notification_settings"][@"notify_user_follow"] = self.notify_user_followValue ? @"true" : @"false";
+    objectInfoJSON[@"notification_settings"][@"notify_tagged_morsel_item_comment"] = self.notify_tagged_morsel_item_commentValue ? @"true" : @"false";
     return objectInfoJSON;
 }
 
