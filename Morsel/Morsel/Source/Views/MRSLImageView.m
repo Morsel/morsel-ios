@@ -55,11 +55,33 @@
 
 - (void)setItemImage:(UIImage *)image {
     if (self.shouldBlur && image) {
-        GPUImageGaussianBlurFilter *blurFilter = [[GPUImageGaussianBlurFilter alloc] init];
-        blurFilter.blurPasses = 5.f;
         self.imageProcessed = YES;
-        UIImage *processedImage = [blurFilter imageByFilteringImage:image];
+
+        GPUImageSaturationFilter *saturationFilter = [[GPUImageSaturationFilter alloc] init];
+        saturationFilter.saturation = 2.f;
+
+        GPUImageGaussianBlurPositionFilter *zoomBlurFilter = [[GPUImageGaussianBlurPositionFilter alloc] init];
+        zoomBlurFilter.blurSize = (self.shouldBlurMore) ? 15.f : 5.f;
+        zoomBlurFilter.blurRadius = (self.shouldBlurMore) ? 20.f : 2.f;
+
+        GPUImageGaussianBlurFilter *gaussianBlurFilter = [[GPUImageGaussianBlurFilter alloc] init];
+        gaussianBlurFilter.blurRadiusInPixels = (self.shouldBlurMore) ? 20.f : 2.f;
+        gaussianBlurFilter.blurPasses = (self.shouldBlurMore) ? 15.f : 5.f;
+
+        GPUImageFilterGroup *filterGroup = [[GPUImageFilterGroup alloc] init];
+
+        [filterGroup addFilter:saturationFilter];
+        [filterGroup addFilter:zoomBlurFilter];
+        [filterGroup addFilter:gaussianBlurFilter];
+
+        [saturationFilter addTarget:zoomBlurFilter];
+        [zoomBlurFilter addTarget:gaussianBlurFilter];
+
+        [filterGroup setInitialFilters:@[saturationFilter, zoomBlurFilter]];
+        [filterGroup setTerminalFilter:gaussianBlurFilter];
+
         dispatch_async(dispatch_get_main_queue(), ^{
+            UIImage *processedImage = [filterGroup imageByFilteringImage:image];
             self.image = processedImage;
         });
     } else {

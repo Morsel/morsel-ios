@@ -1022,6 +1022,8 @@
                     <connections>
                         <outlet property="collectionView" destination="7wz-mg-5ut" id="ENN-hh-hhj"/>
                         <outlet property="coverImageView" destination="mwH-gO-QpV" id="sol-qg-X3L"/>
+                        <outlet property="coverLeftConstraint" destination="luF-nq-U3m" id="3xr-bv-Keb"/>
+                        <outlet property="coverRightConstraint" destination="nAe-f4-gLx" id="GOR-Bh-f2M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="de2-Gb-Jll" userLabel="First Responder" sceneMemberID="firstResponder"/>

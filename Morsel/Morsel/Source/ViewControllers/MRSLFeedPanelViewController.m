@@ -43,6 +43,8 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *coverImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverLeftConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverRightConstraint;
 
 @end
 
@@ -289,6 +291,15 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat currentPage = scrollView.contentOffset.y / scrollView.frame.size.height;
+    if (scrollView.contentOffset.y < 0) {
+        CGFloat percentOpen = MAX(0, (scrollView.contentOffset.y * -1) / 200);
+        //DDLogDebug(@"PERCENT OPEN: %f", percentOpen);
+        CGFloat constraintAddition = 250.f * percentOpen;
+        self.coverLeftConstraint.constant = -(constraintAddition);
+        self.coverRightConstraint.constant = -(constraintAddition);
+        [self.view setNeedsUpdateConstraints];
+    }
+    self.coverImageView.hidden = (scrollView.contentOffset.y > 375.f);
     if (_previousContentOffset > scrollView.contentOffset.y) {
         self.scrollDirection = MRSLScrollDirectionDown;
     } else if (_previousContentOffset < scrollView.contentOffset.y) {

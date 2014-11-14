@@ -220,6 +220,7 @@
 #pragma mark - Keyboard Methods
 
 - (void)keyboardWillShow:(NSNotification *)notification {
+    if (!self.scrollView) return;
     NSDictionary* info = [notification userInfo];
     CGRect kbRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     kbRect = [self.view convertRect:kbRect
@@ -238,6 +239,7 @@
 }
 
 - (void)keyboardWillHide {
+    if (!self.scrollView) return;
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
