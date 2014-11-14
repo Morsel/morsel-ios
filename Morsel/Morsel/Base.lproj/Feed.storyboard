@@ -502,7 +502,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lfH-xO-Juh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1378.125" y="1784.1549295774646"/>
+            <point key="canvasLocation" x="1355" y="987"/>
         </scene>
         <!--Feed Panel View Controller-->
         <scene sceneID="ZA9-dB-AbX">
@@ -814,11 +814,8 @@
                                                     </connections>
                                                 </textView>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="ORi-P1-DoF" userLabel="Next Morsel Text View" customClass="MRSLStandardTextView">
-                                                    <rect key="frame" x="70" y="200" width="210" height="50"/>
+                                                    <rect key="frame" x="70" y="213" width="210" height="37"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="paH-Ut-NgV"/>
-                                                    </constraints>
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -859,18 +856,18 @@
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="ORi-P1-DoF" secondAttribute="bottom" id="1xx-Ky-NoK"/>
                                             <constraint firstAttribute="centerX" secondItem="SZa-bC-Vw6" secondAttribute="centerX" id="9om-wN-rx4"/>
                                             <constraint firstAttribute="centerX" secondItem="JkO-06-06e" secondAttribute="centerX" id="BnT-nf-MSr"/>
                                             <constraint firstAttribute="bottom" secondItem="gw6-kg-9SE" secondAttribute="bottom" id="IVo-08-NhU"/>
-                                            <constraint firstAttribute="bottom" secondItem="ORi-P1-DoF" secondAttribute="bottom" id="Mt5-4n-7bK"/>
                                             <constraint firstItem="gw6-kg-9SE" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" id="RAP-vG-fsY"/>
                                             <constraint firstItem="JkO-06-06e" firstAttribute="top" secondItem="6wP-Dj-988" secondAttribute="bottom" constant="82" id="SrT-Sn-QQm"/>
                                             <constraint firstItem="6wP-Dj-988" firstAttribute="top" secondItem="AM7-9K-DqK" secondAttribute="top" constant="8" id="WtF-l9-pBr"/>
                                             <constraint firstAttribute="centerX" secondItem="6wP-Dj-988" secondAttribute="centerX" id="awn-T2-cwe"/>
+                                            <constraint firstAttribute="trailing" secondItem="ORi-P1-DoF" secondAttribute="trailing" constant="40" id="bDE-QW-Bdc"/>
                                             <constraint firstAttribute="trailing" secondItem="xMa-zz-OTs" secondAttribute="trailing" id="fI7-sd-bHD"/>
                                             <constraint firstItem="8wz-jv-Rga" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" constant="20" id="g7I-O3-ORN"/>
-                                            <constraint firstItem="ORi-P1-DoF" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" id="hIG-Ep-lYg"/>
-                                            <constraint firstAttribute="trailing" secondItem="ORi-P1-DoF" secondAttribute="trailing" constant="40" id="hYY-eg-my8"/>
+                                            <constraint firstItem="ORi-P1-DoF" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" id="nN3-6F-rdZ"/>
                                             <constraint firstItem="SZa-bC-Vw6" firstAttribute="top" secondItem="6wP-Dj-988" secondAttribute="bottom" constant="17" id="pAk-tj-Qoc"/>
                                             <constraint firstAttribute="bottom" secondItem="xMa-zz-OTs" secondAttribute="bottom" id="qZO-yx-y8T"/>
                                             <constraint firstItem="xMa-zz-OTs" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" constant="36" id="uVf-NN-moF"/>
@@ -989,7 +986,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yuw-Ue-riN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="448.125" y="1784.1549295774646"/>
+            <point key="canvasLocation" x="425" y="987"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="X9G-7K-kt6">
@@ -1137,7 +1134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yvX-FP-G4u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1378" y="2524"/>
+            <point key="canvasLocation" x="1355" y="1727"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="aFP-SC-lhW">
@@ -1156,7 +1153,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uiC-JS-gOg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="448" y="2524"/>
+            <point key="canvasLocation" x="425" y="1727"/>
         </scene>
     </scenes>
     <resources>
