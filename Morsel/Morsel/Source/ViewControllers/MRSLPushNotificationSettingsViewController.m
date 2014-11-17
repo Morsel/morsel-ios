@@ -133,9 +133,9 @@
 - (void)updateContent {
     self.currentRemoteDevice = [MRSLRemoteDevice currentRemoteDevice];
 
-    self.notificationSettingsArray = (self.currentRemoteDevice) ? @[@{@"name": @"Comments on an item",
+    self.notificationSettingsArray = (self.currentRemoteDevice) ? @[@{@"name": @"Comments on my morsel",
                                                                       @"value": @(_enableForComments)},
-                                                                    @{@"name": @"Comments on an item in a morsel you're tagged in",
+                                                                    @{@"name": @"Comments on a morsel I'm tagged in",
                                                                       @"value": @(_enableForFollowupComments)},
                                                                     @{@"name": @"Likes one of my morsels",
                                                                       @"value": @(_enableForLikes)},

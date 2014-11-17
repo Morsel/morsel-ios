@@ -268,7 +268,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)setupFetchRequest {
-    self.feedFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+    self.feedFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"publishedDate"
                                                               ascending:NO
                                                           withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs]
                                                                 groupBy:nil
