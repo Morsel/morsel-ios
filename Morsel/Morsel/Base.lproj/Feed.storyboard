@@ -561,8 +561,11 @@
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBa-b7-DSO" userLabel="Like Count Button" customClass="MRSLRegularButton">
-                                                            <rect key="frame" x="197" y="0.0" width="123" height="27"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBa-b7-DSO" userLabel="Like Count Button" customClass="MRSLRegularButton">
+                                                            <rect key="frame" x="310" y="0.0" width="10" height="27"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="27" id="FAh-wH-ev1"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
                                                             <state key="normal">
@@ -577,6 +580,8 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="LFA-9d-Dvr" firstAttribute="leading" secondItem="G95-yK-0PR" secondAttribute="leading" constant="10" id="a1G-jE-1Am"/>
+                                                        <constraint firstAttribute="trailing" secondItem="cBa-b7-DSO" secondAttribute="trailing" id="cYx-dg-Lf7"/>
+                                                        <constraint firstItem="cBa-b7-DSO" firstAttribute="top" secondItem="G95-yK-0PR" secondAttribute="top" id="lUa-j8-lV6"/>
                                                         <constraint firstItem="LFA-9d-Dvr" firstAttribute="top" secondItem="G95-yK-0PR" secondAttribute="top" constant="2" id="uWu-eo-tq0"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="yCu-kv-Sus"/>
                                                     </constraints>
