@@ -101,7 +101,7 @@
                                                              if (likeBlockOrNil) likeBlockOrNil(YES);
                                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                              MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                                             if ([operation.response statusCode] == 200 || [[serviceErrorInfo.errorInfo lowercaseString] containsString:@"already liked"]) {
+                                                             if ([operation.response statusCode] == 200 || ([[serviceErrorInfo.errorInfo lowercaseString] rangeOfString:@"already liked"].location != NSNotFound)) {
                                                                  if (likeBlockOrNil) likeBlockOrNil(YES);
                                                              } else {
                                                                  [self reportFailure:failureOrNil
@@ -120,7 +120,7 @@
                                                              if (likeBlockOrNil) likeBlockOrNil(NO);
                                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                              MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
-                                                             if ([operation.response statusCode] == 200  || [[serviceErrorInfo.errorInfo lowercaseString] containsString:@"not liked"]) {
+                                                             if ([operation.response statusCode] == 200  || ([[serviceErrorInfo.errorInfo lowercaseString] rangeOfString:@"not liked"].location != NSNotFound)) {
                                                                  if (likeBlockOrNil) likeBlockOrNil(NO);
                                                              } else {
                                                                  [self reportFailure:failureOrNil

@@ -687,7 +687,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AX6-bf-j8E" customClass="MRSLStandardTextView">
-                                                    <rect key="frame" x="20" y="360" width="280" height="37"/>
+                                                    <rect key="frame" x="20" y="360" width="280" height="107"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -748,6 +748,7 @@
                                             <constraint firstItem="uS4-3Z-65k" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" id="Z4P-nO-F5c"/>
                                             <constraint firstAttribute="trailing" secondItem="RZ0-A7-cFb" secondAttribute="trailing" id="ad9-Vx-9mQ"/>
                                             <constraint firstAttribute="trailing" secondItem="AX6-bf-j8E" secondAttribute="trailing" constant="20" id="cA6-5V-ciU"/>
+                                            <constraint firstItem="MnW-4J-GPV" firstAttribute="top" secondItem="AX6-bf-j8E" secondAttribute="bottom" id="dqz-bR-Zdp"/>
                                             <constraint firstItem="Dbg-un-sDm" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" constant="20" id="fJA-Tm-UgV"/>
                                             <constraint firstAttribute="bottom" secondItem="RZ0-A7-cFb" secondAttribute="bottom" constant="24" id="hby-IK-Zga"/>
                                             <constraint firstItem="AX6-bf-j8E" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" constant="20" id="kKM-RM-HxD"/>
