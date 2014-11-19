@@ -12,6 +12,7 @@
 #import "MRSLMenuItem.h"
 #import "MRSLMenuOptionTableViewCell.h"
 #import "MRSLProfileImageView.h"
+#import "MRSLStandardLabel.h"
 #import "MRSLSectionView.h"
 
 #import "MRSLUser.h"
@@ -25,7 +26,7 @@ UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *profileLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet MRSLStandardLabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *menuTableView;
 @property (weak, nonatomic) IBOutlet UIView *menuBar;
 
@@ -112,7 +113,7 @@ UITableViewDelegate>
     MRSLMenuItem *itemActivity = [[MRSLMenuItem alloc] initWithName:@"Activity"
                                                                 key:MRSLMenuActivityKey
                                                                icon:@"icon-menu-activity"];
-    MRSLMenuItem *itemFindFriends = [[MRSLMenuItem alloc] initWithName:@"Find people"
+    MRSLMenuItem *itemFindFriends = [[MRSLMenuItem alloc] initWithName:@"Find users"
                                                                    key:MRSLMenuFindKey
                                                                   icon:@"icon-menu-find"];
     MRSLMenuItem *itemSettings = [[MRSLMenuItem alloc] initWithName:@"Settings"
@@ -191,7 +192,9 @@ UITableViewDelegate>
 - (void)displayUserInformation {
     MRSLUser *currentUser = [MRSLUser currentUser];
     self.profileImageView.user = [MRSLUser isCurrentUserGuest] ? nil : currentUser;
-    self.userNameLabel.text = [MRSLUser isCurrentUserGuest] ? @"Guest" : [currentUser fullName];
+    self.userNameLabel.text = [currentUser fullName];
+    [_userNameLabel setOblique:[currentUser hasEmptyName]];
+
     NSIndexPath *draftIndexPath = [self indexPathForKey:MRSLMenuDraftsKey];
     MRSLMenuItem *draftItem = [self menuItemAtIndexPath:draftIndexPath];
     draftItem.badgeCount = currentUser.draft_countValue;

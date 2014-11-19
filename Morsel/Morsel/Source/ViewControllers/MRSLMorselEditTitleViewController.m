@@ -27,6 +27,8 @@ UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *titleCountLimitLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titlePlaceholderLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButtonItem;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *countLimitConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textBottomConstraint;
 
 @property (strong, nonatomic) NSString *previousTitle;
 
@@ -89,28 +91,32 @@ UITextViewDelegate>
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Done",
                                               @"_view": self.mp_eventView}];
-        MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
-        if (morsel) {
-            if (![morsel.title isEqualToString:self.morselTitleTextView.text]) {
-                morsel.title = self.morselTitleTextView.text;
-                __weak __typeof(self) weakSelf = self;
-                [_appDelegate.apiService updateMorsel:morsel
-                                              success:^(id responseObject) {
-                                                  [weakSelf.navigationController popViewControllerAnimated:YES];
-                                              } failure:^(NSError *error) {
-                                                  morsel.title = weakSelf.previousTitle;
-                                                  [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel title! Please try again."
-                                                                                  delegate:nil];
-                                                  dispatch_async(dispatch_get_main_queue(), ^{
-                                                      [weakSelf.doneBarButtonItem setEnabled:YES];
-                                                      weakSelf.isPerformingRequest = NO;
-                                                  });
-                                              }];
-            }
+    MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
+    if (morsel) {
+        NSString *trimmedTitle = [self.morselTitleTextView.text stringWithWhitespaceTrimmed];
+        if ([morsel.title isEqualToString:trimmedTitle]) {
+            [self.navigationController popViewControllerAnimated:YES];
         } else {
-            [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel title! Please try again."
-                                            delegate:nil];
+            morsel.title = trimmedTitle;
+            __weak __typeof(self) weakSelf = self;
+            [_appDelegate.apiService updateMorsel:morsel
+                                          success:^(id responseObject) {
+                                              [weakSelf.navigationController popViewControllerAnimated:YES];
+                                              weakSelf.isPerformingRequest = NO;
+                                          } failure:^(NSError *error) {
+                                              morsel.title = weakSelf.previousTitle;
+                                              [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel title! Please try again."
+                                                                              delegate:nil];
+                                              dispatch_async(dispatch_get_main_queue(), ^{
+                                                  [weakSelf.doneBarButtonItem setEnabled:YES];
+                                                  weakSelf.isPerformingRequest = NO;
+                                              });
+                                          }];
         }
+    } else {
+        [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel title! Please try again."
+                                        delegate:nil];
+    }
 }
 
 #pragma mark - Private Methods
@@ -119,18 +125,34 @@ UITextViewDelegate>
     return ![self.previousTitle isEqualToString:self.morselTitleTextView.text];
 }
 
+#pragma mark - UIKeyboard Notification Methods
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    NSDictionary* info = [notification userInfo];
+    CGRect kbRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    kbRect = [self.view convertRect:kbRect
+                           fromView:nil];
+    self.countLimitConstraint.constant = kbRect.size.height + 10.f;
+    self.textBottomConstraint.constant = kbRect.size.height;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:.25f
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
+}
+
 #pragma mark - UITextViewDelegate Methods
 
 - (void)textViewDidChange:(UITextView *)textView {
     NSUInteger textLength = textView.text.length;
     _doneBarButtonItem.enabled = [self isDirty];
     _titlePlaceholderLabel.hidden = !(textLength == 0);
-    if (textLength < 40) {
+    if (textLength < MRSLMorselTitleThreshold) {
         [_titleCountLimitLabel setTextColor:[UIColor morselValidColor]];
-    } else if (textLength >= 40 && textLength <= 50) {
+    } else if (textLength >= MRSLMorselTitleThreshold && textLength <= MRSLMorselTitleMaxCount) {
         [_titleCountLimitLabel setTextColor:[UIColor morselInvalidColor]];
     }
-    NSUInteger remainingTextLength = 50 - textLength;
+    NSUInteger remainingTextLength = MRSLMorselTitleMaxCount - textLength;
     _titleCountLimitLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)remainingTextLength];
 }
 
@@ -139,7 +161,7 @@ UITextViewDelegate>
     if ([text isEqualToString:@"\n"]) {
         [self done:nil];
         return NO;
-    } else if (textLength > 50) {
+    } else if (textLength > MRSLMorselTitleMaxCount) {
         return NO;
     }
     return YES;

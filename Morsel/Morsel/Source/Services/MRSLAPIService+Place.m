@@ -19,6 +19,7 @@
 
 - (void)searchPlacesWithQuery:(NSString *)query
                   andLocation:(CLLocation *)location
+                       orNear:(NSString *)near
                       success:(MRSLAPIArrayBlock)successOrNil
                       failure:(MRSLFailureBlock)failureOrNil {
     if ([query length] < 3) {
@@ -26,28 +27,37 @@
         if (failureOrNil) failureOrNil(nil);
         return;
     }
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"query": query,
-                                                                       @"lat_lon": [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude]}
+    
+    // if near passed, used instead of lat_lon
+    NSDictionary *locationDictionary = nil;
+    if ([near length] > 0) {
+        locationDictionary = @{@"query": query,
+                               @"near": near};
+    } else {
+        locationDictionary = @{@"query": query,
+                               @"lat_lon": [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude]};
+    }
+    NSMutableDictionary *parameters = [self parametersWithDictionary:locationDictionary
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 
-    [[MRSLAPIClient sharedClient] GET:@"places/suggest"
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  NSArray *foursquareArray = responseObject[@"data"][@"minivenues"];
-                                  __block NSMutableArray *foursquarePlaces = [NSMutableArray array];
-                                  [foursquareArray enumerateObjectsUsingBlock:^(NSDictionary *venueDictionary, NSUInteger idx, BOOL *stop) {
-                                      MRSLFoursquarePlace *foursquarePlace = [[MRSLFoursquarePlace alloc] initWithDictionary:venueDictionary];
-                                      [foursquarePlaces addObject:foursquarePlace];
-                                  }];
-                                  if (successOrNil) successOrNil(foursquarePlaces);
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:@"places/suggest"
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                             NSArray *foursquareArray = responseObject[@"data"][@"minivenues"];
+                                             __block NSMutableArray *foursquarePlaces = [NSMutableArray array];
+                                             [foursquareArray enumerateObjectsUsingBlock:^(NSDictionary *venueDictionary, NSUInteger idx, BOOL *stop) {
+                                                 MRSLFoursquarePlace *foursquarePlace = [[MRSLFoursquarePlace alloc] initWithDictionary:venueDictionary];
+                                                 [foursquarePlaces addObject:foursquarePlace];
+                                             }];
+                                             if (successOrNil) successOrNil(foursquarePlaces);
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)addUserToPlaceWithFoursquareID:(MRSLFoursquarePlace *)foursquarePlace
@@ -55,10 +65,10 @@
                                success:(MRSLAPISuccessBlock)successOrNil
                                failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"place" : @{
-                                                                                    @"name": NSNullIfNil(foursquarePlace.name),
-                                                                                    @"address": NSNullIfNil(foursquarePlace.address),
-                                                                                    @"city": NSNullIfNil(foursquarePlace.city),
-                                                                                    @"state": NSNullIfNil(foursquarePlace.state)},
+                                                                               @"name": NSNullIfNil(foursquarePlace.name),
+                                                                               @"address": NSNullIfNil(foursquarePlace.address),
+                                                                               @"city": NSNullIfNil(foursquarePlace.city),
+                                                                               @"state": NSNullIfNil(foursquarePlace.state)},
                                                                        @"title": title}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
@@ -83,18 +93,18 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"places/%i", place.placeIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  [place MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                  if (successOrNil) successOrNil(responseObject);
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"places/%i", place.placeIDValue]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                             [place MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                             if (successOrNil) successOrNil(responseObject);
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)getPlacesForUser:(MRSLUser *)user
@@ -115,20 +125,20 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/places", user.userIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                  [self importManagedObjectClass:[MRSLPlace class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"users/%i/places", user.userIDValue]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                             [self importManagedObjectClass:[MRSLPlace class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)getUsersForPlace:(MRSLPlace *)place
@@ -148,19 +158,19 @@
         parameters[@"since_id"] = sinceOrNil;
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"places/%i/users", place.placeIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importManagedObjectClass:[MRSLUser class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"places/%i/users", place.placeIDValue]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             [self importManagedObjectClass:[MRSLUser class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 @end

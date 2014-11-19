@@ -9,6 +9,7 @@
 #import "MRSLAppDelegate.h"
 #import "MRSLAppDelegate+SetupAppearance.h"
 #import "MRSLAppDelegate+CustomURLSchemes.h"
+#import "MRSLAppDelegate+Notifications.h"
 
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import <AFOAuth1Client/AFOAuth1Client.h>
@@ -19,6 +20,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #import "MRSLAPIService+Authentication.h"
+#import "MRSLAPIService+Remote.h"
 
 #import "MRSLAPIClient.h"
 #import "MRSLS3Client.h"
@@ -30,6 +32,7 @@
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
+#import "MRSLRemoteDevice.h"
 #import "MRSLUser.h"
 
 @interface MRSLAppDelegate ()
@@ -76,7 +79,37 @@
                                                  name:MRSLServiceDidLogInUserNotification
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(MRSL_registerRemoteNotifications)
+                                                 name:MRSLRegisterRemoteNotificationsNotification
+                                               object:nil];
+
+    NSDictionary *remoteNotificationUserInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotificationUserInfo && [MRSLUser currentUser]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self handleRemoteNotification:remoteNotificationUserInfo];
+        });
+    }
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    UIApplicationState state = [application applicationState];
+    if (state == UIApplicationStateInactive ||
+        state == UIApplicationStateBackground) {
+        [self handleRemoteNotification:userInfo];
+    } else {
+        [MRSLUser API_updateNotificationsAmount:nil
+                                        failure:nil];
+    }
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [self MRSL_uploadDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    DDLogError(@"Error registering for remote notifications. Error: %@", error);
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
@@ -137,6 +170,14 @@
 
 #pragma mark - Instance Methods
 
+- (void)handleRemoteNotification:(NSDictionary *)dictionary {
+    if (dictionary[@"route"]) {
+        NSURL *remoteRouteURL = [NSURL URLWithString:dictionary[@"route"]];
+        [self handleRouteForURL:remoteRouteURL
+              sourceApplication:nil];
+    }
+}
+
 - (void)setupMorselEnvironment {
     self.defaultDateFormatter = [[NSDateFormatter alloc] init];
     [_defaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
@@ -159,6 +200,8 @@
         [self.apiService getUserAuthenticationsWithSuccess:nil
                                                    failure:nil];
     } failure:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLRegisterRemoteNotificationsNotification
+                                                        object:nil];
     [MRSLUser API_updateNotificationsAmount:nil
                                     failure:nil];
     [currentUser setThirdPartySettings];
@@ -214,6 +257,11 @@
     [[Mixpanel sharedInstance] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
     [[MRSLS3Client sharedClient].operationQueue cancelAllOperations];
+
+    NSNumber *remoteDeviceID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceID"];
+    if (remoteDeviceID) [_appDelegate.apiService deleteUserDeviceWithID:remoteDeviceID
+                                                                success:nil
+                                                                failure:nil];
 
     [self resetSocialConnections];
     [self resetThirdPartySettings];

@@ -21,6 +21,8 @@
 @implementation UIResponder (CustomURLSchemes)
 
 - (void)setupRouteHandler {
+
+    // Web Routes
     [JLRoutes addRoute:@"/users/:user_id" handler:^BOOL(NSDictionary *parameters) {
         return [self handleRouteWithParameters:parameters];
     }];
@@ -28,6 +30,17 @@
         return [self handleRouteWithParameters:parameters];
     }];
     [JLRoutes addRoute:@"/places/:place_id" handler:^BOOL(NSDictionary *parameters) {
+        return [self handleRouteWithParameters:parameters];
+    }];
+
+    // Remote Routes
+    [JLRoutes addRoute:@"morsels/:morsel_id/items/:item_id/:action" handler:^BOOL(NSDictionary *parameters) {
+        return [self handleRouteWithParameters:parameters];
+    }];
+    [JLRoutes addRoute:@"/morsels/:morsel_id/:action" handler:^BOOL(NSDictionary *parameters) {
+        return [self handleRouteWithParameters:parameters];
+    }];
+    [JLRoutes addRoute:@"/users/:user_id/:action" handler:^BOOL(NSDictionary *parameters) {
         return [self handleRouteWithParameters:parameters];
     }];
 }

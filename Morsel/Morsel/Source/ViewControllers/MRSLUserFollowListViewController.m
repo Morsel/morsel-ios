@@ -94,11 +94,11 @@ NSFetchedResultsControllerDelegate>
 
 - (void)setupFetchRequest {
     self.fetchedResultsController = [MRSLUser MR_fetchAllSortedBy:@"dateFollowed"
-                                                       ascending:NO
-                                                   withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", _userIDs]
-                                                         groupBy:nil
-                                                        delegate:self
-                                                       inContext:[NSManagedObjectContext MR_defaultContext]];
+                                                        ascending:NO
+                                                    withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", _userIDs]
+                                                          groupBy:nil
+                                                         delegate:self
+                                                        inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
 - (void)populateContent {
@@ -112,6 +112,7 @@ NSFetchedResultsControllerDelegate>
     if (_loading) return;
     self.loadedAll = NO;
     self.loading = YES;
+    self.fetchedResultsController.delegate = nil;
     __weak __typeof(self)weakSelf = self;
     if (_shouldDisplayFollowers) {
         [_appDelegate.apiService getUserFollowers:_user
@@ -121,7 +122,7 @@ NSFetchedResultsControllerDelegate>
                                           success:^(NSArray *responseArray) {
                                               [weakSelf.refreshControl endRefreshing];
                                               weakSelf.userIDs = [responseArray mutableCopy];
-                                              [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                              [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                         forKey:[NSString stringWithFormat:@"%@_%@_userIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
                                               [weakSelf setupFetchRequest];
                                               [weakSelf populateContent];
@@ -138,7 +139,7 @@ NSFetchedResultsControllerDelegate>
                                             success:^(NSArray *responseArray) {
                                                 [weakSelf.refreshControl endRefreshing];
                                                 weakSelf.userIDs = [responseArray mutableCopy];
-                                                [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                                [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                           forKey:[NSString stringWithFormat:@"%@_%@_userIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
                                                 [weakSelf setupFetchRequest];
                                                 [weakSelf populateContent];
@@ -152,10 +153,11 @@ NSFetchedResultsControllerDelegate>
 
 - (void)loadMore {
     if (_loadingMore || !_user || _loadedAll || [self isLoading]) return;
+    self.fetchedResultsController.delegate = nil;
     self.loadingMore = YES;
     DDLogDebug(@"Loading more");
     MRSLUser *lastUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                              withValue:[_userIDs lastObject]];
+                                                 withValue:[_userIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
     if (_shouldDisplayFollowers) {
         [_appDelegate.apiService getUserFollowers:_user
@@ -168,7 +170,7 @@ NSFetchedResultsControllerDelegate>
                                               if (weakSelf) {
                                                   if ([responseArray count] > 0) {
                                                       [weakSelf.userIDs addObjectsFromArray:responseArray];
-                                                      [[NSUserDefaults standardUserDefaults] setObject:weakSelf.userIDs
+                                                      [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                                 forKey:[NSString stringWithFormat:@"%@_%@_userIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
                                                       [weakSelf setupFetchRequest];
                                                       dispatch_async(dispatch_get_main_queue(), ^{
@@ -191,7 +193,7 @@ NSFetchedResultsControllerDelegate>
                                                 if (weakSelf) {
                                                     if ([responseArray count] > 0) {
                                                         [weakSelf.userIDs addObjectsFromArray:responseArray];
-                                                        [[NSUserDefaults standardUserDefaults] setObject:weakSelf.userIDs
+                                                        [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
                                                                                                   forKey:[NSString stringWithFormat:@"%@_%@_userIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
                                                         [weakSelf setupFetchRequest];
                                                         dispatch_async(dispatch_get_main_queue(), ^{

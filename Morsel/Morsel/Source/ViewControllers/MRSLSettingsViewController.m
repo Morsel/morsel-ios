@@ -9,6 +9,8 @@
 #import "MRSLSettingsViewController.h"
 #import "MRSLUser.h"
 
+#import "MRSLAPIService+Remote.h"
+
 @interface MRSLSettingsViewController ()
 <UIAlertViewDelegate>
 

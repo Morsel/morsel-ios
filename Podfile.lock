@@ -32,22 +32,17 @@ PODS:
   - CocoaLumberjack/Core (1.6.5.1)
   - CocoaLumberjack/Extensions (1.6.5.1):
     - CocoaLumberjack/Core
-  - Facebook-iOS-SDK (3.17.0):
-    - Bolts
+  - Facebook-iOS-SDK (3.19.0):
+    - Bolts (~> 1.0)
   - GCPlaceholderTextView (1.0.1)
-  - GPUImage (0.1.4)
+  - GPUImage (0.1.6)
   - JLRoutes (1.5)
   - KIF (2.0.0)
   - Kiwi-KIF/XCTest (1.0.1):
     - KIF (~> 2.0.0)
     - Kiwi/XCTest (~> 2.2.3)
-  - Kiwi/ARC (2.2.4)
   - Kiwi/ARC (HEAD based on 2.2.4)
-  - Kiwi/NonARC (2.2.4)
   - Kiwi/NonARC (HEAD based on 2.2.4)
-  - Kiwi/XCTest (2.2.4):
-    - Kiwi/ARC
-    - Kiwi/NonARC
   - Kiwi/XCTest (HEAD based on 2.2.4):
     - Kiwi/ARC
     - Kiwi/NonARC
@@ -77,9 +72,9 @@ DEPENDENCIES:
   - AFOAuth2Client (from `https://github.com/Morsel/AFOAuth2Client`)
   - ALAssetsLibrary-CustomPhotoAlbum (~> 1.2)
   - CocoaLumberjack (= 1.6.5.1)
-  - Facebook-iOS-SDK (= 3.17)
+  - Facebook-iOS-SDK (~> 3.19)
   - GCPlaceholderTextView (= 1.0.1)
-  - GPUImage (from `git@github.com:BradLarson/GPUImage.git`, tag `0.1.5`)
+  - GPUImage (~> 0.1)
   - JLRoutes (= 1.5)
   - Kiwi-KIF/XCTest (= 1.0.1)
   - Kiwi/XCTest (HEAD)
@@ -102,9 +97,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/Morsel/AFOAuth1Client
   AFOAuth2Client:
     :git: https://github.com/Morsel/AFOAuth2Client
-  GPUImage:
-    :git: git@github.com:BradLarson/GPUImage.git
-    :tag: 0.1.5
   M13Checkbox:
     :commit: 8c3a6f167e0f602dd47928492ef3777e604be66b
     :git: git@github.com:Marxon13/M13Checkbox.git
@@ -123,9 +115,9 @@ SPEC CHECKSUMS:
   ALAssetsLibrary-CustomPhotoAlbum: 6c6e0dd2a8923de69aedd55c0ad5351fd500e685
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: baf4a09a3bcbdfea3363556a90104e026d3504e2
-  Facebook-iOS-SDK: f20274d809f112ba540842e2b6cbe50128d51b7b
+  Facebook-iOS-SDK: cb7d74759d0b1ba546e6e6f1dde407b0d4e448d6
   GCPlaceholderTextView: d48f3558c8d71daaae65679275075592ca13e1c8
-  GPUImage: f9b32e12350792a630e596ffc7b050bea3662670
+  GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
   JLRoutes: 1a32dbc34b8af9c2a0174c4799afdc72ad5fe447
   KIF: 45369d4a30f5ac140be8267f31f637b9d2a239f4
   Kiwi: c73667f2b84cbf36f1a3830267c5a4ae8dcbd8ba
@@ -145,4 +137,4 @@ SPEC CHECKSUMS:
   VCRURLConnection: 5cc98951bd44186e19f33b77dd9c714da2f74208
   XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.34.4

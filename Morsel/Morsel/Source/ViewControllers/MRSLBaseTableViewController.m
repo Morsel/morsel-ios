@@ -41,7 +41,7 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if (self.dataSource) {
+    if (self.dataSource && !self.disableFetchRefresh) {
         //  Pull to refresh
         self.refreshControl = [UIRefreshControl MRSL_refreshControl];
         [self.refreshControl addTarget:self
@@ -72,15 +72,15 @@ NSFetchedResultsControllerDelegate>
     [self.view setBackgroundColor:[UIColor morselDefaultBackgroundColor]];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 
     if (_selectedIndexPath) {
         [self.tableView deselectRowAtIndexPath:_selectedIndexPath animated:YES];
         self.selectedIndexPath = nil;
     }
 
-    if (self.dataSource && !_fetchedResultsController) {
+    if (self.dataSource && !_fetchedResultsController && !self.disableFetchRefresh) {
         [self populateContent];
         [self refreshContent];
     }
@@ -151,7 +151,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)setObjectIDs:(NSArray *)objectIDs {
     _objectIDs = objectIDs;
-    [[NSUserDefaults standardUserDefaults] setObject:_objectIDs
+    [[NSUserDefaults standardUserDefaults] setObject:[_objectIDs copy]
                                               forKey:_objectIDsKey];
 }
 

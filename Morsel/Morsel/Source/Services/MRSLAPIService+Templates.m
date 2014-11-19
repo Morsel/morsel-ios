@@ -41,43 +41,29 @@
 - (void)createMorselWithTemplate:(MRSLTemplate *)morselTemplate
                          success:(MRSLAPISuccessBlock)successOrNil
                          failure:(MRSLFailureBlock)failureOrNil {
-    MRSLMorsel *morsel = [MRSLMorsel MR_createEntity];
-    morsel.draft = @YES;
-    morsel.title = [NSString stringWithFormat:@"%@ morsel", morselTemplate.title];
-    morsel.template_id = morselTemplate.templateID;
 
-    [_appDelegate.apiService createMorsel:morsel
-                                  success:^(id responseObject) {
-                                      [MRSLEventManager sharedManager].new_morsels_created++;
-                                      __block NSManagedObjectContext *workContext = nil;
-                                      __block MRSLMorsel *morselInContext = nil;
-                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                          morselInContext = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                      withValue:morsel.morselID
-                                                                                      inContext:localContext];
-                                          for (MRSLTemplateItem *templateItem in morselTemplate.itemsArray) {
-                                              MRSLItem *item = [MRSLItem localUniqueItemInContext:localContext];
-                                              item.sort_order = @(templateItem.placeholder_sort_orderValue);
-                                              item.placeholder_description = templateItem.placeholder_description;
-                                              item.template_order = templateItem.template_order;
-                                              item.placeholder_photo_large = templateItem.placeholder_photo_large;
-                                              item.placeholder_photo_small = templateItem.placeholder_photo_small;
-                                              item.morsel = morselInContext;
-                                              [morselInContext addItemsObject:item];
-                                              [_appDelegate.apiService createItem:item
-                                                                          success:nil
-                                                                          failure:nil];
-                                          }
-                                      } completion:^(BOOL success, NSError *error) {
-                                          if (success) [workContext reset];
-                                          morselInContext = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                      withValue:morsel.morselID];
-                                          if (successOrNil && morselInContext) successOrNil(morselInContext);
-                                      }];
-                                  } failure:^(NSError *error) {
-                                      if (failureOrNil) failureOrNil(error);
-                                      [morsel MR_deleteEntity];
-                                  }];
+    [_appDelegate.apiService createMorselWithTemplateID:morselTemplate.templateID
+                                                success:^(id responseObject) {
+                                                    MRSLMorsel *morsel = nil;
+                                                    if ([responseObject isKindOfClass:[MRSLMorsel class]]) morsel = responseObject;
+                                                    [MRSLEventManager sharedManager].new_morsels_created++;
+                                                    for (MRSLTemplateItem *templateItem in morselTemplate.itemsArray) {
+                                                        MRSLItem *item = [MRSLItem localUniqueItemInContext:morsel.managedObjectContext];
+                                                        item.sort_order = @(templateItem.placeholder_sort_orderValue);
+                                                        item.placeholder_description = templateItem.placeholder_description;
+                                                        item.template_order = templateItem.template_order;
+                                                        item.placeholder_photo_large = templateItem.placeholder_photo_large;
+                                                        item.placeholder_photo_small = templateItem.placeholder_photo_small;
+                                                        item.morsel = morsel;
+                                                        [morsel addItemsObject:item];
+                                                        [_appDelegate.apiService createItem:item
+                                                                                    success:nil
+                                                                                    failure:nil];
+                                                    }
+                                                    if (successOrNil && morsel) successOrNil(morsel);
+                                                } failure:^(NSError *error) {
+                                                    if (failureOrNil) failureOrNil(error);
+                                                }];
 }
 
 @end

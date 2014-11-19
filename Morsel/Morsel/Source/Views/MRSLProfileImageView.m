@@ -12,22 +12,20 @@
 
 #import "MRSLUser.h"
 
-@implementation MRSLProfileImageView
+@interface MRSLProfileImageView ()
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    if (!self.shouldBlur) {
-        UIImageView *whiteCircleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:([self getWidth] <= MRSLProfileThumbDimensionThreshold) ? @"effect-circle-white-large" : @"effect-circle-white-small"]];
-        whiteCircleImageView.frame = CGRectMake(0.f, 0.f, [self getWidth], [self getHeight]);
-        [self addSubview:whiteCircleImageView];
-    }
-}
+@property (nonatomic) BOOL viewPrepared;
+
+@end
+
+@implementation MRSLProfileImageView
 
 #pragma mark - Instance Methods
 
 - (void)setUser:(MRSLUser *)user {
     _user = user;
     [self setImageObject:_user];
+    [self setUp];
 }
 
 - (void)addAndRenderImage:(UIImage *)image
@@ -60,6 +58,16 @@
 }
 
 #pragma mark - Private Methods
+
+- (void)setUp {
+    if (self.viewPrepared) return;
+    self.viewPrepared = YES;
+    if (!self.shouldBlur) {
+        UIImageView *whiteCircleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:([self getWidth] <= MRSLProfileThumbDimensionThreshold) ? @"effect-circle-white-large" : @"effect-circle-white-small"]];
+        whiteCircleImageView.frame = CGRectMake(0.f, 0.f, [self getWidth], [self getHeight]);
+        [self addSubview:whiteCircleImageView];
+    }
+}
 
 - (void)setValue:(id)value
       forKeyPath:(NSString *)keyPath {

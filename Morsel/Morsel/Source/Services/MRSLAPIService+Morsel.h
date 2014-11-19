@@ -12,7 +12,7 @@
 
 #pragma mark - Morsel Services
 
-- (void)createMorsel:(MRSLMorsel *)morsel
+- (void)createMorselWithTemplateID:(NSNumber *)templateID
              success:(MRSLAPISuccessBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil;
 
@@ -50,5 +50,26 @@
                   andCount:(NSNumber *)countOrNil
                    success:(MRSLAPIArrayBlock)successOrNil
                    failure:(MRSLFailureBlock)failureOrNil;
+
+- (void)tagUser:(MRSLUser *)user
+       toMorsel:(MRSLMorsel *)morsel
+      shouldTag:(BOOL)shouldTag
+         didTag:(MRSLAPITagBlock)tagBlockOrNil
+        failure:(MRSLFailureBlock)failureOrNil;
+
+- (void)getTaggedUsersForMorsel:(MRSLMorsel *)morsel
+                      withMaxID:(NSNumber *)maxOrNil
+                      orSinceID:(NSNumber *)sinceOrNil
+                       andCount:(NSNumber *)countOrNil
+                        success:(MRSLAPIArrayBlock)successOrNil
+                        failure:(MRSLFailureBlock)failureOrNil;
+
+- (void)getEligibleTaggedUsersForMorsel:(MRSLMorsel *)morsel
+                             usingQuery:(NSString *)queryOrNil
+                              withMaxID:(NSNumber *)maxOrNil
+                              orSinceID:(NSNumber *)sinceOrNil
+                               andCount:(NSNumber *)countOrNil
+                                success:(MRSLAPIArrayBlock)successOrNil
+                                failure:(MRSLFailureBlock)failureOrNil;
 
 @end

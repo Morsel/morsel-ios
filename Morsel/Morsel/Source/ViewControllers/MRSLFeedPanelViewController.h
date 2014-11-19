@@ -11,7 +11,6 @@
 @protocol MRSLFeedPanelViewControllerDelegate <NSObject>
 
 @optional
-- (void)feedPanelViewControllerDidSelectPreviousMorsel;
 - (void)feedPanelViewControllerDidSelectNextMorsel;
 
 @end
@@ -21,6 +20,9 @@
 @property (weak, nonatomic) id <MRSLFeedPanelViewControllerDelegate> delegate;
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
+@property (weak, nonatomic) MRSLMorsel *nextMorsel;
+
+- (void)scrollToMorselItem:(MRSLItem *)item;
 
 - (IBAction)displayLikers;
 - (IBAction)displayShare;

@@ -20,11 +20,13 @@ typedef void (^ MRSLSuccessOrFailureBlock)(BOOL success, NSError *error);
 typedef void (^ MRSLAPIArrayBlock)(NSArray *responseArray);
 typedef void (^ MRSLAPILikeBlock)(BOOL doesLike);
 typedef void (^ MRSLAPIFollowBlock)(BOOL doesFollow);
+typedef void (^ MRSLAPITagBlock)(BOOL didTag);
 typedef void (^ MRSLAPISuccessBlock)(id responseObject);
 typedef void (^ MRSLAPIExistsBlock)(BOOL exists, NSError *error);
 typedef void (^ MRSLAPIValidationBlock)(BOOL isAvailable, NSError *error);
 typedef void (^ MRSLAPICountBlock)(int countValue);
 typedef void (^ MRSLImageProcessingBlock)(BOOL success);
+typedef void (^ MRSLAttributedStringBlock)(NSAttributedString *attributedString, NSError *error);
 typedef void (^ MRSLSocialSuccessBlock)(BOOL success);
 typedef void (^ MRSLSocialFailureBlock)(NSError *error);
 typedef void (^ MRSLSocialUserInfoBlock)(NSDictionary *userInfo, NSError *error);
@@ -73,6 +75,7 @@ typedef NS_ENUM(NSUInteger, MRSLDataSortType) {
     MRSLDataSortTypeSortOrder,
     MRSLDataSortTypeLikedDate,
     MRSLDataSortTypeTagKeywordType,
+    MRSLDataSortTypePublishedDate,
     MRSLDataSortTypeNone
 };
 
@@ -80,7 +83,7 @@ typedef NS_ENUM(NSUInteger, MRSLDataSourceType) {
     MRSLDataSourceTypeMorsel,
     MRSLDataSourceTypePlace,
     MRSLDataSourceTypeTag,
-    MRSLDataSourceTypeActivityItem,
+    MRSLDataSourceTypeLikedMorsel,
     MRSLDataSourceTypeUser
 };
 
@@ -93,6 +96,13 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
+static const CGFloat MRSLCoverAreaHeight = 200.f;
+static const CGFloat MRSLMorselTitleThreshold = 60.f;
+static const CGFloat MRSLMorselTitleMaxCount = 70.f;
+static const CGFloat MRSLAppStatusAndNavigationBarHeight = 64.f;
+static const CGFloat MRSLMorselTemplateDefaultID = -2.f;
+static const CGFloat MRSLCellDefaultPadding = 20.f;
+static const CGFloat MRSLCellDefaultCoverPadding = 60.f;
 static const CGFloat MRSLImageLargeThreshold = 220.f;
 static const CGFloat MRSLImageFullDimensionSize = 640.f;
 static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;

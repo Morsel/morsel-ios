@@ -326,6 +326,7 @@ UITextFieldDelegate>
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [super textFieldDidEndEditing:textField];
     if ([textField isEqual:_usernameField]) {
+        [self.usernameField setText:[self.usernameField.text stringWithWhitespaceTrimmed]];
         if ([_usernameField.text length] > 0) {
             __weak __typeof(self)weakSelf = self;
             _usernameStatusView.hidden = NO;

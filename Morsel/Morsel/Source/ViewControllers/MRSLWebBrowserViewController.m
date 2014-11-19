@@ -10,7 +10,8 @@
 #import "MRSLWebBrowserViewController.h"
 
 @interface MRSLWebBrowserViewController ()
-<UIWebViewDelegate>
+<UIActionSheetDelegate,
+UIWebViewDelegate>
 
 @property (nonatomic) CGFloat webViewHeight;
 
@@ -20,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *goForwardButton;
 @property (weak, nonatomic) IBOutlet UIButton *refreshButton;
 
-@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *browserTitle;
 @property (strong, nonatomic) NSURL *url;
 
 @end
@@ -41,8 +42,7 @@
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-
-    self.navigationController.title = self.title ?: @"Web Browser";
+    if (!self.title) self.title = @"Web browser";
     [self.webView loadRequest:[NSURLRequest requestWithURL:_url]];
     [self.webView.scrollView setContentInset:UIEdgeInsetsMake(0.f, 0.f, 60.f, 0.f)];
     self.webViewHeight = [self.webView getHeight];
@@ -66,8 +66,9 @@
 }
 
 - (void)setTitle:(NSString *)title andURL:(NSURL *)url {
-    self.title = title;
+    self.browserTitle = title;
     self.url = url;
+    self.title = title;
 }
 
 #pragma mark - Private Methods
@@ -94,8 +95,54 @@
     [self.webView reload];
 }
 
+- (IBAction)displayOptions {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Open in Safari", nil];
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"googlechrome://"]]) {
+        [actionSheet addButtonWithTitle:@"Open in Chrome"];
+    }
+    [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
+}
+
 - (void)hideKeyboard {
     [self.view endEditing:YES];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Open in Safari"]) {
+        NSURL *windowURL = self.webView.request.URL ?: self.url;
+        // Open in Safari
+        [[UIApplication sharedApplication] openURL:windowURL];
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Open in Chrome"]) {
+        // Open in Chrome
+        NSURL *inputURL = self.webView.request.URL ?: self.url;
+        NSString *scheme = inputURL.scheme;
+
+        // Replace the URL Scheme with the Chrome equivalent.
+        NSString *chromeScheme = nil;
+        if ([scheme isEqualToString:@"http"]) {
+            chromeScheme = @"googlechrome";
+        } else if ([scheme isEqualToString:@"https"]) {
+            chromeScheme = @"googlechromes";
+        }
+
+        // Proceed only if a valid Google Chrome URI Scheme is available.
+        if (chromeScheme) {
+            NSString *absoluteString = [inputURL absoluteString];
+            NSRange rangeForScheme = [absoluteString rangeOfString:@":"];
+            NSString *urlNoScheme = [absoluteString substringFromIndex:rangeForScheme.location];
+            NSString *chromeURLString = [chromeScheme stringByAppendingString:urlNoScheme];
+            NSURL *chromeURL = [NSURL URLWithString:chromeURLString];
+            
+            // Open the URL with Chrome.
+            [[UIApplication sharedApplication] openURL:chromeURL];
+        }
+    }
 }
 
 #pragma mark - UIWebViewDelegate
@@ -106,6 +153,9 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self displayActivity:NO];
+    if ([self.browserTitle isEqualToString:@"Web browser"] || !self.browserTitle) {
+        self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {

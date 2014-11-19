@@ -12,5 +12,6 @@
 
 - (NSString *)stringWithEncoding:(NSStringEncoding)encoding;
 - (NSString *)stringWithNSUTF8StringEncoding;
+- (NSString *)stringWithWhitespaceTrimmed;
 
 @end

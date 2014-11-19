@@ -132,19 +132,19 @@
         parameters[@"since_id"] = sinceOrNil;
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/followers", user.userIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importManagedObjectClass:[MRSLUser class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"users/%i/followers", user.userIDValue]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             [self importManagedObjectClass:[MRSLUser class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)getUserFollowables:(MRSLUser *)user
@@ -164,19 +164,19 @@
         parameters[@"since_id"] = sinceOrNil;
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/followables", user.userIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importManagedObjectClass:[MRSLUser class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"users/%i/followables", user.userIDValue]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             [self importManagedObjectClass:[MRSLUser class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 @end

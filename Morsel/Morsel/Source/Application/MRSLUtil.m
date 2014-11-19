@@ -61,10 +61,8 @@
 + (Class)classForDataSourceType:(MRSLDataSourceType)dataSourceTabType {
     switch (dataSourceTabType) {
         case MRSLDataSourceTypeMorsel:
+        case MRSLDataSourceTypeLikedMorsel:
             return [MRSLMorsel class];
-            break;
-        case MRSLDataSourceTypeActivityItem:
-            return [MRSLItem class];
             break;
         case MRSLDataSourceTypePlace:
             return [MRSLPlace class];
@@ -101,6 +99,9 @@
         case MRSLDataSortTypeTagKeywordType:
             return @"keyword.type,keyword.name";
             break;
+        case MRSLDataSortTypePublishedDate:
+            return @"publishedDate";
+            break;
         case MRSLDataSortTypeNone:
         default:
             return nil;
@@ -111,10 +112,8 @@
 + (NSString *)stringForDataSourceType:(MRSLDataSourceType)dataSourceTabType {
     switch (dataSourceTabType) {
         case MRSLDataSourceTypeMorsel:
+        case MRSLDataSourceTypeLikedMorsel:
             return @"morsel";
-            break;
-        case MRSLDataSourceTypeActivityItem:
-            return @"item";
             break;
         case MRSLDataSourceTypePlace:
             return @"place";

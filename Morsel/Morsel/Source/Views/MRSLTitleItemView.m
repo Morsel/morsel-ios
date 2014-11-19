@@ -53,7 +53,7 @@
         [subview removeFromSuperview];
     }];
     UIImageView *titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"graphic-identity-nav"]];
-    [titleView setY:2.f];
+    [titleView setY:-2.f];
     [titleView setX:((self.frame.size.width / 2) - (titleView.frame.size.width / 2))];
     [self addSubview:titleView];
 
@@ -62,7 +62,7 @@
 
     MRSLRobotoSlabBoldLabel *titleLabel = [[MRSLRobotoSlabBoldLabel alloc] initWithFrame:self.frame
                                                                              andFontSize:17.f];
-    [titleLabel setWidth:180.f];
+    [titleLabel setWidth:MAX(160.f, self.frame.size.width / 2)];
     [titleLabel setX:((self.frame.size.width / 2) - (titleLabel.frame.size.width / 2))];
     titleLabel.numberOfLines = 2;
     titleLabel.textAlignment = NSTextAlignmentCenter;

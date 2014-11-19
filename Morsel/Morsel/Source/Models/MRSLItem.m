@@ -15,11 +15,34 @@
 
 @implementation MRSLItem
 
-#pragma mark - Class Methods
+#pragma mark - Additions
 
 + (NSString *)API_identifier {
     return MRSLItemAttributes.itemID;
 }
+
+- (NSString *)jsonKeyName {
+    return @"item";
+}
+
+- (NSDictionary *)objectToJSON {
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
+
+    if (self.itemDescription) objectInfoJSON[@"description"] = self.itemDescription;
+
+    if (self.localUUID) objectInfoJSON[@"nonce"] = self.localUUID;
+
+    if (self.template_order) objectInfoJSON[@"template_order"] = self.template_order;
+
+    if (self.morsel) {
+        if (self.morsel.morselID) objectInfoJSON[@"morsel_id"] = self.morsel.morselID;
+        if (self.sort_order) objectInfoJSON[@"sort_order"] = self.sort_order;
+    }
+
+    return objectInfoJSON;
+}
+
+#pragma mark - Class Methods
 
 + (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context {
     MRSLItem *item = [MRSLItem MR_createInContext:context];
@@ -41,60 +64,22 @@
 
 #pragma mark - Instance Methods
 
-- (void)API_updateImage {
-    self.isUploading = @YES;
-    self.didFailUpload = @NO;
-    //  If presignedUpload returned, use it, otherwise fallback to old upload method
-    if (self.presignedUpload) {
-        [self S3_updateImage];
-    } else {
-        [self API_prepareAndUploadPresignedUpload];
-    }
-}
-
-- (void)API_prepareAndUploadPresignedUpload {
-    __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getItem:self
-                          parameters:@{ @"prepare_presigned_upload": @"true" }
-                             success:^(id responseObject) {
-                                 if (weakSelf) [weakSelf S3_updateImage];
-                             } failure:^(NSError *error) {
-                                 [_appDelegate.apiService updateItemImage:weakSelf
-                                                                  success:^(id responseObject) {
-                                                                      if (weakSelf) weakSelf.isUploading = @NO;
-                                                                  } failure:nil];
-                             }];
-}
-
-- (void)S3_updateImage {
-    __weak __typeof(self)weakSelf = self;
-    [_appDelegate.s3Service uploadImageData:self.itemPhotoFull
-                         forPresignedUpload:self.presignedUpload
-                                    success:^(NSDictionary *responseDictionary) {
-                                        [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
-                                                                        forItem:weakSelf
-                                                                        success:^(id responseObject) {
-                                                                            if (weakSelf) {
-                                                                                [weakSelf.presignedUpload MR_deleteEntity];
-                                                                                [weakSelf.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
-                                                                                weakSelf.isUploading = @NO;
-                                                                            }
-                                                                        } failure:nil];
-                                    } failure:^(NSError *error) {
-                                        //  S3 upload failed, fallback to API upload
-                                        [_appDelegate.apiService updateItemImage:self
-                                                                         success:^(id responseObject) {
-                                                                             if (weakSelf) weakSelf.isUploading = @NO;
-                                                                         } failure:nil];
-                                    }];
-}
-
 - (BOOL)isCoverItem {
     return [[self.morsel coverItem] isEqual:self];
 }
 
 - (BOOL)isTemplatePlaceholderItem {
     return (self.template_order != nil && !self.itemPhotoURL && !self.itemPhotoFull);
+}
+
+- (CGFloat)descriptionHeight {
+    if (!self.itemDescription || [self.itemDescription length] == 0) return 25.f;
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:self.itemDescription
+                                                                           attributes:@{NSFontAttributeName: [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleBody]}];
+    CGRect descriptionRect = [attributedString boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
+                                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                                            context:nil];
+    return descriptionRect.size.height + MRSLCellDefaultPadding + 65.f;
 }
 
 - (NSURLRequest *)imageURLRequestForImageSizeType:(MRSLImageSizeType)type {
@@ -158,6 +143,8 @@
     return message;
 }
 
+#pragma mark - MRSLImageRequestable
+
 - (NSData *)localImageLarge {
     return self.itemPhotoLarge;
 }
@@ -169,6 +156,71 @@
 - (NSString *)imageURL {
     return self.itemPhotoURL;
 }
+
+#pragma mark - MRSLReportable
+
+- (NSString *)reportableUrlString {
+    return [NSString stringWithFormat:@"items/%i/report", self.itemIDValue];
+}
+
+- (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
+                      failure:(MRSLFailureBlock)failureOrNil {
+    [_appDelegate.apiService sendReportable:self
+                                    success:successOrNil
+                                    failure:failureOrNil];
+}
+
+#pragma mark - API
+
+- (void)API_updateImage {
+    self.isUploading = @YES;
+    self.didFailUpload = @NO;
+    //  If presignedUpload returned, use it, otherwise fallback to old upload method
+    if (self.presignedUpload) {
+        [self S3_updateImage];
+    } else {
+        [self API_prepareAndUploadPresignedUpload];
+    }
+}
+
+- (void)API_prepareAndUploadPresignedUpload {
+    __weak __typeof(self)weakSelf = self;
+    [_appDelegate.apiService getItem:self
+                          parameters:@{ @"prepare_presigned_upload": @"true" }
+                             success:^(id responseObject) {
+                                 if (weakSelf) [weakSelf S3_updateImage];
+                             } failure:^(NSError *error) {
+                                 [_appDelegate.apiService updateItemImage:weakSelf
+                                                                  success:^(id responseObject) {
+                                                                      if (weakSelf) weakSelf.isUploading = @NO;
+                                                                  } failure:nil];
+                             }];
+}
+
+- (void)S3_updateImage {
+    __weak __typeof(self)weakSelf = self;
+    [_appDelegate.s3Service uploadImageData:self.itemPhotoFull
+                         forPresignedUpload:self.presignedUpload
+                                    success:^(NSDictionary *responseDictionary) {
+                                        [_appDelegate.apiService updatePhotoKey:responseDictionary[@"Key"]
+                                                                        forItem:weakSelf
+                                                                        success:^(id responseObject) {
+                                                                            if (weakSelf) {
+                                                                                [weakSelf.presignedUpload MR_deleteEntity];
+                                                                                [weakSelf.presignedUpload.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                                                weakSelf.isUploading = @NO;
+                                                                            }
+                                                                        } failure:nil];
+                                    } failure:^(NSError *error) {
+                                        //  S3 upload failed, fallback to API upload
+                                        [_appDelegate.apiService updateItemImage:self
+                                                                         success:^(id responseObject) {
+                                                                             if (weakSelf) weakSelf.isUploading = @NO;
+                                                                         } failure:nil];
+                                    }];
+}
+
+#pragma mark - MagicalRecord
 
 - (void)willImport:(id)data {
     if (![data[@"nonce"] isEqual:[NSNull null]]) {
@@ -208,10 +260,6 @@
         self.itemPhotoURL = [photoDictionary[@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
                                                                                     withString:@"IMAGE_SIZE"];
     }
-    if (![data[@"liked_at"] isEqual:[NSNull null]]) {
-        NSString *dateString = data[@"liked_at"];
-        self.likedDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
-    }
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
@@ -233,38 +281,6 @@
     } else {
         self.didFailUpload = @NO;
     }
-}
-
-- (NSString *)reportableUrlString {
-    return [NSString stringWithFormat:@"items/%i/report", self.itemIDValue];
-}
-
-- (void)API_reportWithSuccess:(MRSLSuccessBlock)successOrNil
-                      failure:(MRSLFailureBlock)failureOrNil {
-    [_appDelegate.apiService sendReportable:self
-                                    success:successOrNil
-                                    failure:failureOrNil];
-}
-
-- (NSString *)jsonKeyName {
-    return @"item";
-}
-
-- (NSDictionary *)objectToJSON {
-    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
-
-    if (self.itemDescription) objectInfoJSON[@"description"] = self.itemDescription;
-
-    if (self.localUUID) objectInfoJSON[@"nonce"] = self.localUUID;
-
-    if (self.template_order) objectInfoJSON[@"template_order"] = self.template_order;
-
-    if (self.morsel) {
-        if (self.morsel.morselID) objectInfoJSON[@"morsel_id"] = self.morsel.morselID;
-        if (self.sort_order) objectInfoJSON[@"sort_order"] = self.sort_order;
-    }
-
-    return objectInfoJSON;
 }
 
 @end

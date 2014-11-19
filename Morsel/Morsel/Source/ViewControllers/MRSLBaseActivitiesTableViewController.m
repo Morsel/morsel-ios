@@ -85,10 +85,42 @@
     return newDataSource;
 }
 
-- (void)displayUserFeedWithMorsel:(MRSLMorsel *)morsel {
+- (NSDictionary *)generateUserInfoForActivity:(MRSLActivity *)activity {
+    NSString *action = nil;
+
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+
+    if ([activity hasMorselSubject]) {
+        userInfo[@"morsel_id"] = activity.morselSubject.morselID;
+    } else if ([activity hasItemSubject]) {
+        userInfo[@"item_id"] = activity.itemSubject.itemID;
+        userInfo[@"morsel_id"] = activity.itemSubject.morsel_id;
+    } else if ([activity hasUserSubject]) {
+        userInfo[@"user_id"] = activity.userSubject.userID;
+    }
+
+    if ([activity isFollowAction]) action = @"followers";
+    if ([activity isMorselUserTagAction]) action = @"user_tags";
+    if ([activity isCommentAction]) action = @"comments";
+    if ([activity isLikeAction]) action = @"likers";
+
+    if (action != nil) {
+        userInfo[@"action"] = action;
+    } else {
+        userInfo = nil;
+    }
+
+    return userInfo;
+}
+
+- (void)displayUserFeedWithMorsel:(MRSLMorsel *)morsel
+                     withActivity:(MRSLActivity *)activity {
+    NSDictionary *userInfo = [self generateUserInfoForActivity:activity];
     MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
+    if (userInfo) [userMorselsFeedVC setupWithUserInfo:userInfo];
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
+    userMorselsFeedVC.isExplore = YES;
     [self.navigationController pushViewController:userMorselsFeedVC
                                          animated:YES];
 }
@@ -100,25 +132,35 @@
                                          animated:YES];
 }
 
-- (void)displayUser:(MRSLUser *)user {
+- (void)displayUser:(MRSLUser *)user
+       withActivity:(MRSLActivity *)activity {
+    NSDictionary *userInfo = [self generateUserInfoForActivity:activity];
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
+    if (userInfo) [profileVC setupWithUserInfo:userInfo];
     profileVC.user = user;
     [self.navigationController pushViewController:profileVC
                                          animated:YES];
 }
 
 - (void)showMorselForActivity:(MRSLActivity *)activity {
-    MRSLItem *itemSubject = activity.itemSubject;
+    MRSLMorsel *activityMorsel = nil;
 
-    if (itemSubject.morsel) {
-        [self displayUserFeedWithMorsel:itemSubject.morsel];
-    } else if (itemSubject.morsel_id) {
+    if ([activity hasMorselSubject]) {
+        activityMorsel = activity.morselSubject;
+    } else if ([activity hasItemSubject]) {
+        activityMorsel = activity.itemSubject.morsel;
+    }
+
+    if (activityMorsel) {
+        [self displayUserFeedWithMorsel:activityMorsel withActivity:activity];
+    } else if (activity.itemSubject.morsel_id || activity.subjectID) {
         __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService getMorsel:nil
-                                  orWithID:itemSubject.morsel_id
+                                  orWithID:activity.itemSubject.morsel_id ?: activity.subjectID
                                    success:^(id responseObject) {
                                        if ([responseObject isKindOfClass:[MRSLMorsel class]]) {
-                                           [weakSelf displayUserFeedWithMorsel:responseObject];
+                                           [weakSelf displayUserFeedWithMorsel:responseObject
+                                                                  withActivity:activity];
                                        }
                                    } failure:nil];
     }
@@ -130,7 +172,8 @@
         [self displayPlace:placeSubject];
     } else if ([activity hasUserSubject]) {
         MRSLUser *userSubject = [activity.userSubject isCurrentUser] ? activity.creator : activity.userSubject;
-        [self displayUser:userSubject];
+        [self displayUser:userSubject
+             withActivity:activity];
     }
 }
 
@@ -169,9 +212,11 @@
                                               @"subject_type": NSNullIfNil(activity.subjectType),
                                               @"subject_id": NSNullIfNil(activity.subjectID)}];
 
-    if ([activity.actionType isEqualToString:@"Follow"]) {
+    if ([activity isFollowAction]) {
         [self showReceiverForActivity:activity];
-    } else if ([activity.actionType isEqualToString:@"Comment"] || [activity.actionType isEqualToString:@"Like"]) {
+    } else if ([activity isCommentAction] || [activity isLikeAction]) {
+        [self showMorselForActivity:activity];
+    } else if ([activity isMorselUserTagAction]) {
         [self showMorselForActivity:activity];
     }
 }

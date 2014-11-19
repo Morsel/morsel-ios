@@ -144,7 +144,7 @@ NSFetchedResultsControllerDelegate>
                                        success:^(NSArray *responseArray) {
                                            [weakSelf.refreshControl endRefreshing];
                                            weakSelf.morselIDs = [responseArray mutableCopy];
-                                           [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                           [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.morselIDs copy]
                                                                                      forKey:@"currentuser_draft_morselIDs"];
                                            [weakSelf setupFetchRequest];
                                            [weakSelf populateContent];
@@ -158,7 +158,7 @@ NSFetchedResultsControllerDelegate>
 - (void)loadMore {
     if (_loadingMore || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
-    DDLogDebug(@"Loading more user morsels");
+    DDLogDebug(@"Loading more");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                        withValue:[_morselIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
@@ -173,7 +173,7 @@ NSFetchedResultsControllerDelegate>
                                            if (weakSelf) {
                                                if ([responseArray count] > 0) {
                                                    [weakSelf.morselIDs addObjectsFromArray:responseArray];
-                                                   [[NSUserDefaults standardUserDefaults] setObject:weakSelf.morselIDs
+                                                   [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.morselIDs copy]
                                                                                              forKey:@"currentuser_draft_morselIDs"];
                                                    [weakSelf setupFetchRequest];
                                                    dispatch_async(dispatch_get_main_queue(), ^{

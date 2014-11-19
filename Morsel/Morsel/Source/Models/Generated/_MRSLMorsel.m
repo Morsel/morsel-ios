@@ -11,19 +11,23 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.feedItemFeatured = @"feedItemFeatured",
 	.feedItemID = @"feedItemID",
 	.lastUpdatedDate = @"lastUpdatedDate",
+	.like_count = @"like_count",
+	.liked = @"liked",
+	.likedDate = @"likedDate",
 	.morselID = @"morselID",
 	.morselPhotoURL = @"morselPhotoURL",
 	.primary_item_id = @"primary_item_id",
 	.publishedDate = @"publishedDate",
+	.tagged = @"tagged",
+	.tagged_users_count = @"tagged_users_count",
 	.template_id = @"template_id",
 	.title = @"title",
-	.total_comment_count = @"total_comment_count",
-	.total_like_count = @"total_like_count",
 	.twitter_mrsl = @"twitter_mrsl",
 	.url = @"url",
 };
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
+	.activitiesAsSubject = @"activitiesAsSubject",
 	.creator = @"creator",
 	.items = @"items",
 	.place = @"place",
@@ -73,6 +77,16 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"like_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"like_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"likedValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"liked"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"morselIDValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"morselID"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -83,18 +97,18 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"taggedValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"tagged"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"tagged_users_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"tagged_users_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"template_idValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"template_id"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"total_comment_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"total_comment_count"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"total_like_countValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"total_like_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -211,6 +225,65 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+@dynamic like_count;
+
+
+
+- (int32_t)like_countValue {
+	NSNumber *result = [self like_count];
+	return [result intValue];
+}
+
+- (void)setLike_countValue:(int32_t)value_ {
+	[self setLike_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveLike_countValue {
+	NSNumber *result = [self primitiveLike_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveLike_countValue:(int32_t)value_ {
+	[self setPrimitiveLike_count:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+@dynamic liked;
+
+
+
+- (BOOL)likedValue {
+	NSNumber *result = [self liked];
+	return [result boolValue];
+}
+
+- (void)setLikedValue:(BOOL)value_ {
+	[self setLiked:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveLikedValue {
+	NSNumber *result = [self primitiveLiked];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveLikedValue:(BOOL)value_ {
+	[self setPrimitiveLiked:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic likedDate;
+
+
+
+
+
+
 @dynamic morselID;
 
 
@@ -277,6 +350,58 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+@dynamic tagged;
+
+
+
+- (BOOL)taggedValue {
+	NSNumber *result = [self tagged];
+	return [result boolValue];
+}
+
+- (void)setTaggedValue:(BOOL)value_ {
+	[self setTagged:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveTaggedValue {
+	NSNumber *result = [self primitiveTagged];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveTaggedValue:(BOOL)value_ {
+	[self setPrimitiveTagged:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic tagged_users_count;
+
+
+
+- (int32_t)tagged_users_countValue {
+	NSNumber *result = [self tagged_users_count];
+	return [result intValue];
+}
+
+- (void)setTagged_users_countValue:(int32_t)value_ {
+	[self setTagged_users_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveTagged_users_countValue {
+	NSNumber *result = [self primitiveTagged_users_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveTagged_users_countValue:(int32_t)value_ {
+	[self setPrimitiveTagged_users_count:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
 @dynamic template_id;
 
 
@@ -310,58 +435,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
-@dynamic total_comment_count;
-
-
-
-- (int32_t)total_comment_countValue {
-	NSNumber *result = [self total_comment_count];
-	return [result intValue];
-}
-
-- (void)setTotal_comment_countValue:(int32_t)value_ {
-	[self setTotal_comment_count:[NSNumber numberWithInt:value_]];
-}
-
-- (int32_t)primitiveTotal_comment_countValue {
-	NSNumber *result = [self primitiveTotal_comment_count];
-	return [result intValue];
-}
-
-- (void)setPrimitiveTotal_comment_countValue:(int32_t)value_ {
-	[self setPrimitiveTotal_comment_count:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
-@dynamic total_like_count;
-
-
-
-- (int32_t)total_like_countValue {
-	NSNumber *result = [self total_like_count];
-	return [result intValue];
-}
-
-- (void)setTotal_like_countValue:(int32_t)value_ {
-	[self setTotal_like_count:[NSNumber numberWithInt:value_]];
-}
-
-- (int32_t)primitiveTotal_like_countValue {
-	NSNumber *result = [self primitiveTotal_like_count];
-	return [result intValue];
-}
-
-- (void)setPrimitiveTotal_like_countValue:(int32_t)value_ {
-	[self setPrimitiveTotal_like_count:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
 @dynamic twitter_mrsl;
 
 
@@ -375,6 +448,19 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+
+@dynamic activitiesAsSubject;
+
+	
+- (NSMutableSet*)activitiesAsSubjectSet {
+	[self willAccessValueForKey:@"activitiesAsSubject"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"activitiesAsSubject"];
+  
+	[self didAccessValueForKey:@"activitiesAsSubject"];
+	return result;
+}
+	
 
 @dynamic creator;
 

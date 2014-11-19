@@ -222,7 +222,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                   success:^(NSArray *responseArray) {
                                       [weakSelf.refreshControl endRefreshing];
                                       weakSelf.objectIDs = [responseArray mutableCopy];
-                                      [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                      [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
                                                                                 forKey:[NSString stringWithFormat:@"place_%@_%@IDs", weakSelf.place.placeID, [MRSLUtil stringForDataSourceType:weakSelf.dataSourceTabType]]];
                                       [weakSelf updateDataSourcePredicate];
                                       weakSelf.loading = NO;
@@ -247,7 +247,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                       if (weakSelf) {
                                           if ([responseArray count] > 0) {
                                               [weakSelf.objectIDs addObjectsFromArray:responseArray];
-                                              [[NSUserDefaults standardUserDefaults] setObject:weakSelf.objectIDs
+                                              [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
                                                                                         forKey:[NSString stringWithFormat:@"place_%@_%@IDs", weakSelf.place.placeID, [MRSLUtil stringForDataSourceType:weakSelf.dataSourceTabType]]];
                                               dispatch_async(dispatch_get_main_queue(), ^{
                                                   [weakSelf updateDataSourcePredicate];
@@ -339,6 +339,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
         MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
         userMorselsFeedVC.morsel = morsel;
         userMorselsFeedVC.user = morsel.creator;
+        userMorselsFeedVC.isExplore = YES;
         [self.navigationController pushViewController:userMorselsFeedVC
                                              animated:YES];
     } else if ([item isKindOfClass:[MRSLUser class]]) {
@@ -374,7 +375,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
         switch (index) {
             case MRSLDataSourceTypeMorsel:
                 [self.collectionView setEmptyStateTitle:@"No morsels added"];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeCreationDate
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypePublishedDate
                                                                    ascending:NO];
                 break;
             case MRSLDataSourceTypePlace:

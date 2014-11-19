@@ -12,19 +12,23 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *feedItemFeatured;
 	__unsafe_unretained NSString *feedItemID;
 	__unsafe_unretained NSString *lastUpdatedDate;
+	__unsafe_unretained NSString *like_count;
+	__unsafe_unretained NSString *liked;
+	__unsafe_unretained NSString *likedDate;
 	__unsafe_unretained NSString *morselID;
 	__unsafe_unretained NSString *morselPhotoURL;
 	__unsafe_unretained NSString *primary_item_id;
 	__unsafe_unretained NSString *publishedDate;
+	__unsafe_unretained NSString *tagged;
+	__unsafe_unretained NSString *tagged_users_count;
 	__unsafe_unretained NSString *template_id;
 	__unsafe_unretained NSString *title;
-	__unsafe_unretained NSString *total_comment_count;
-	__unsafe_unretained NSString *total_like_count;
 	__unsafe_unretained NSString *twitter_mrsl;
 	__unsafe_unretained NSString *url;
 } MRSLMorselAttributes;
 
 extern const struct MRSLMorselRelationships {
+	__unsafe_unretained NSString *activitiesAsSubject;
 	__unsafe_unretained NSString *creator;
 	__unsafe_unretained NSString *items;
 	__unsafe_unretained NSString *place;
@@ -33,9 +37,13 @@ extern const struct MRSLMorselRelationships {
 extern const struct MRSLMorselFetchedProperties {
 } MRSLMorselFetchedProperties;
 
+@class MRSLActivity;
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLPlace;
+
+
+
 
 
 
@@ -150,6 +158,44 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* like_count;
+
+
+
+@property int32_t like_countValue;
+- (int32_t)like_countValue;
+- (void)setLike_countValue:(int32_t)value_;
+
+//- (BOOL)validateLike_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* liked;
+
+
+
+@property BOOL likedValue;
+- (BOOL)likedValue;
+- (void)setLikedValue:(BOOL)value_;
+
+//- (BOOL)validateLiked:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSDate* likedDate;
+
+
+
+//- (BOOL)validateLikedDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* morselID;
 
 
@@ -198,6 +244,34 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* tagged;
+
+
+
+@property BOOL taggedValue;
+- (BOOL)taggedValue;
+- (void)setTaggedValue:(BOOL)value_;
+
+//- (BOOL)validateTagged:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* tagged_users_count;
+
+
+
+@property int32_t tagged_users_countValue;
+- (int32_t)tagged_users_countValue;
+- (void)setTagged_users_countValue:(int32_t)value_;
+
+//- (BOOL)validateTagged_users_count:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* template_id;
 
 
@@ -222,34 +296,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* total_comment_count;
-
-
-
-@property int32_t total_comment_countValue;
-- (int32_t)total_comment_countValue;
-- (void)setTotal_comment_countValue:(int32_t)value_;
-
-//- (BOOL)validateTotal_comment_count:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* total_like_count;
-
-
-
-@property int32_t total_like_countValue;
-- (int32_t)total_like_countValue;
-- (void)setTotal_like_countValue:(int32_t)value_;
-
-//- (BOOL)validateTotal_like_count:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSString* twitter_mrsl;
 
 
@@ -266,6 +312,13 @@ extern const struct MRSLMorselFetchedProperties {
 
 //- (BOOL)validateUrl:(id*)value_ error:(NSError**)error_;
 
+
+
+
+
+@property (nonatomic, strong) NSSet *activitiesAsSubject;
+
+- (NSMutableSet*)activitiesAsSubjectSet;
 
 
 
@@ -295,6 +348,11 @@ extern const struct MRSLMorselFetchedProperties {
 @end
 
 @interface _MRSLMorsel (CoreDataGeneratedAccessors)
+
+- (void)addActivitiesAsSubject:(NSSet*)value_;
+- (void)removeActivitiesAsSubject:(NSSet*)value_;
+- (void)addActivitiesAsSubjectObject:(MRSLActivity*)value_;
+- (void)removeActivitiesAsSubjectObject:(MRSLActivity*)value_;
 
 - (void)addItems:(NSSet*)value_;
 - (void)removeItems:(NSSet*)value_;
@@ -357,6 +415,30 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSNumber*)primitiveLike_count;
+- (void)setPrimitiveLike_count:(NSNumber*)value;
+
+- (int32_t)primitiveLike_countValue;
+- (void)setPrimitiveLike_countValue:(int32_t)value_;
+
+
+
+
+- (NSNumber*)primitiveLiked;
+- (void)setPrimitiveLiked:(NSNumber*)value;
+
+- (BOOL)primitiveLikedValue;
+- (void)setPrimitiveLikedValue:(BOOL)value_;
+
+
+
+
+- (NSDate*)primitiveLikedDate;
+- (void)setPrimitiveLikedDate:(NSDate*)value;
+
+
+
+
 - (NSNumber*)primitiveMorselID;
 - (void)setPrimitiveMorselID:(NSNumber*)value;
 
@@ -387,6 +469,24 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSNumber*)primitiveTagged;
+- (void)setPrimitiveTagged:(NSNumber*)value;
+
+- (BOOL)primitiveTaggedValue;
+- (void)setPrimitiveTaggedValue:(BOOL)value_;
+
+
+
+
+- (NSNumber*)primitiveTagged_users_count;
+- (void)setPrimitiveTagged_users_count:(NSNumber*)value;
+
+- (int32_t)primitiveTagged_users_countValue;
+- (void)setPrimitiveTagged_users_countValue:(int32_t)value_;
+
+
+
+
 - (NSNumber*)primitiveTemplate_id;
 - (void)setPrimitiveTemplate_id:(NSNumber*)value;
 
@@ -402,24 +502,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-- (NSNumber*)primitiveTotal_comment_count;
-- (void)setPrimitiveTotal_comment_count:(NSNumber*)value;
-
-- (int32_t)primitiveTotal_comment_countValue;
-- (void)setPrimitiveTotal_comment_countValue:(int32_t)value_;
-
-
-
-
-- (NSNumber*)primitiveTotal_like_count;
-- (void)setPrimitiveTotal_like_count:(NSNumber*)value;
-
-- (int32_t)primitiveTotal_like_countValue;
-- (void)setPrimitiveTotal_like_countValue:(int32_t)value_;
-
-
-
-
 - (NSString*)primitiveTwitter_mrsl;
 - (void)setPrimitiveTwitter_mrsl:(NSString*)value;
 
@@ -430,6 +512,11 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)setPrimitiveUrl:(NSString*)value;
 
 
+
+
+
+- (NSMutableSet*)primitiveActivitiesAsSubject;
+- (void)setPrimitiveActivitiesAsSubject:(NSMutableSet*)value;
 
 
 

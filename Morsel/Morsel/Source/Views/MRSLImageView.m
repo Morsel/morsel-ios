@@ -9,7 +9,7 @@
 #import "MRSLImageView.h"
 #import "MRSLActivityIndicatorView.h"
 
-#import <GPUImage/GPUImageGaussianBlurFilter.h>
+#import <GPUImage/GPUImage.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #import "UIImage+Color.h"
@@ -54,12 +54,39 @@
 #pragma mark - Image Methods
 
 - (void)setItemImage:(UIImage *)image {
-    if (self.shouldBlur && image) {
-        GPUImageGaussianBlurFilter *blurFilter = [[GPUImageGaussianBlurFilter alloc] init];
-        blurFilter.blurPasses = 5.f;
+    if (self.shouldBlur && image && !self.imageProcessed) {
+        self.imageProcessed = YES;
+
+        self.image = [self placeholderImage];
+
+        GPUImageSaturationFilter *saturationFilter = [[GPUImageSaturationFilter alloc] init];
+        saturationFilter.saturation = 2.f;
+
+        GPUImageGaussianBlurPositionFilter *zoomBlurFilter = [[GPUImageGaussianBlurPositionFilter alloc] init];
+        zoomBlurFilter.blurSize = (self.shouldBlurMore) ? 15.f : 5.f;
+        zoomBlurFilter.blurRadius = (self.shouldBlurMore) ? 20.f : 2.f;
+
+        GPUImageGaussianBlurFilter *gaussianBlurFilter = [[GPUImageGaussianBlurFilter alloc] init];
+        gaussianBlurFilter.blurRadiusInPixels = (self.shouldBlurMore) ? 20.f : 2.f;
+        gaussianBlurFilter.blurPasses = (self.shouldBlurMore) ? 15.f : 5.f;
+
+        GPUImageFilterGroup *filterGroup = [[GPUImageFilterGroup alloc] init];
+
+        [filterGroup addFilter:saturationFilter];
+        [filterGroup addFilter:zoomBlurFilter];
+        [filterGroup addFilter:gaussianBlurFilter];
+
+        [saturationFilter addTarget:zoomBlurFilter];
+        [zoomBlurFilter addTarget:gaussianBlurFilter];
+
+        [filterGroup setInitialFilters:@[saturationFilter, zoomBlurFilter]];
+        [filterGroup setTerminalFilter:gaussianBlurFilter];
+
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.image = [blurFilter imageByFilteringImage:image];
-            self.imageProcessed = YES;
+            UIImage *processedImage = [filterGroup imageByFilteringImage:image];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.image = processedImage;
+            });
         });
     } else {
         if (self.grayScale) {
@@ -72,6 +99,8 @@
                     }
                 });
             });
+        } else if (self.shouldBlur) {
+            self.image = [self placeholderImage];
         } else {
             self.image = image;
         }
@@ -88,25 +117,28 @@
             NSURLRequest *smallImageURLRequest = [imageObject imageURLRequestForImageSizeType:MRSLImageSizeTypeSmall];
             UIImage *smallImage = [self imageForCacheKey:[smallImageURLRequest.URL absoluteString]];
             if (imageSizeType == MRSLImageSizeTypeLarge && !_shouldBlur) {
-                UIImage *largeImage = [self imageForCacheKey:[largeImageURLRequest.URL absoluteString]];
-                if (largeImage) {
-                    [self setItemImage:largeImage];
-                } else if (!largeImage && smallImage) {
-                    [self setImageWithURL:largeImageURLRequest.URL
-                         placeholderImage:smallImage ?: [self placeholderImage]
-                                completed:nil
-                    showActivityIndicator:YES];
-                } else {
-                    __weak __typeof(self)weakSelf = self;
-                    [self setImageWithURL:smallImageURLRequest.URL
-                         placeholderImage:[self placeholderImage]
-                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                    [weakSelf setImageWithURL:largeImageURLRequest.URL
-                                             placeholderImage:image
-                                                    completed:nil
-                                        showActivityIndicator:YES];
-                                } showActivityIndicator:YES];
-                }
+                [self reset];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    UIImage *largeImage = [self imageForCacheKey:[largeImageURLRequest.URL absoluteString]];
+                    if (largeImage) {
+                        [self setItemImage:largeImage];
+                    } else if (!largeImage && smallImage) {
+                        [self setImageWithURL:largeImageURLRequest.URL
+                             placeholderImage:smallImage ?: [self placeholderImage]
+                                    completed:nil
+                        showActivityIndicator:YES];
+                    } else {
+                        __weak __typeof(self)weakSelf = self;
+                        [self setImageWithURL:smallImageURLRequest.URL
+                             placeholderImage:[self placeholderImage]
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                        [weakSelf setImageWithURL:largeImageURLRequest.URL
+                                                 placeholderImage:image
+                                                        completed:nil
+                                            showActivityIndicator:YES];
+                                    } showActivityIndicator:YES];
+                    }
+                });
             } else {
                 if (!smallImage) {
                     [self setImageWithURL:smallImageURLRequest.URL

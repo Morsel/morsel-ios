@@ -43,19 +43,19 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"%@/%i/users", keywordType, keyword.keywordIDValue]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importManagedObjectClass:[MRSLUser class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"%@/%i/users", keywordType, keyword.keywordIDValue]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             [self importManagedObjectClass:[MRSLUser class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)getUserCuisines:(MRSLUser *)user
@@ -83,19 +83,19 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-    [[MRSLAPIClient sharedClient] GET:[NSString stringWithFormat:@"users/%i/%@", user.userIDValue, keywordType]
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importManagedObjectClass:[MRSLTag class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"users/%i/%@", user.userIDValue, keywordType]
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             [self importManagedObjectClass:[MRSLTag class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 - (void)getUserTags:(MRSLUser *)user

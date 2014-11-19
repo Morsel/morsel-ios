@@ -38,6 +38,8 @@ UITextFieldDelegate>
 - (IBAction)report;
 
 - (void)setupWithUserInfo:(NSDictionary *)userInfo;
+- (void)keyboardWillShow:(NSNotification *)notification;
+- (void)keyboardWillHide;
 
 - (void)reset;
 

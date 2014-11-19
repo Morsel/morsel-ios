@@ -28,7 +28,10 @@
  */
 
 @interface MRSLSocialServiceTwitter ()
-<UIActionSheetDelegate>
+<UIActionSheetDelegate,
+UIAlertViewDelegate>
+
+@property (nonatomic) BOOL clearingSocialAuthentication;
 
 @property (strong, nonatomic) MRSLSocialSuccessBlock twitterSuccessBlock;
 @property (strong, nonatomic) MRSLSocialFailureBlock twitterFailureBlock;
@@ -55,8 +58,8 @@
     if (self) {
         self.accountStore = [[ACAccountStore alloc] init];
         self.oauth1Client = [[AFOAuth1Client alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.twitter.com/1.1/"]
-                                                                 key:TWITTER_CONSUMER_KEY
-                                                              secret:TWITTER_CONSUMER_SECRET];
+                                                                key:TWITTER_CONSUMER_KEY
+                                                             secret:TWITTER_CONSUMER_SECRET];
     }
     return self;
 }
@@ -93,13 +96,26 @@
 
 - (void)checkForValidTwitterAuthenticationWithSuccess:(MRSLSocialSuccessBlock)successOrNil
                                               failure:(MRSLSocialFailureBlock)failureOrNil {
-    AFOAuth1Token *twitterToken = [AFOAuth1Token retrieveCredentialWithIdentifier:MRSLTwitterCredentialsKey];
-    if (twitterToken && [self.socialAuthentication isValid]) {
-        self.oauth1Client.accessToken = twitterToken;
-        if (successOrNil) successOrNil(YES);
-    } else {
+    if (!self.socialAuthentication) {
         if (failureOrNil) failureOrNil(nil);
+        return;
     }
+    AFOAuth1Token *twitterToken = [AFOAuth1Token retrieveCredentialWithIdentifier:MRSLTwitterCredentialsKey];
+    __weak __typeof(self) weakSelf = self;
+    [self.socialAuthentication API_validateAuthentication:^(BOOL success) {
+        if (twitterToken && success) {
+            weakSelf.oauth1Client.accessToken = twitterToken;
+            [weakSelf getTwitterUserInformation:^(NSDictionary *userInfo, NSError *error) {
+                if (!error) {
+                    if (successOrNil) successOrNil(YES);
+                } else {
+                    if (failureOrNil) failureOrNil(nil);
+                }
+            }];
+        } else {
+            if (failureOrNil) failureOrNil(nil);
+        }
+    }];
 }
 
 - (void)restoreTwitterWithAuthentication:(MRSLSocialAuthentication *)authentication
@@ -107,21 +123,16 @@
     self.socialAuthentication = authentication;
     if (!_oauth1Client.accessToken) {
         _oauth1Client.accessToken = [[AFOAuth1Token alloc] initWithKey:authentication.token
-                                                                 secret:authentication.secret
-                                                                session:nil
-                                                             expiration:nil
-                                                              renewable:YES];
+                                                                secret:authentication.secret
+                                                               session:nil
+                                                            expiration:nil
+                                                             renewable:YES];
         _oauth1Client.accessToken.userInfo = @{@"screen_name": NSNullIfNil(authentication.username),
-                                                @"user_id": NSNullIfNil(authentication.uid)};
+                                               @"user_id": NSNullIfNil(authentication.uid)};
     }
     __weak __typeof(self) weakSelf = self;
     [self getTwitterUserInformation:^(NSDictionary *userInfo, NSError *error) {
-        if (error && !userInfo) {
-            [weakSelf reset];
-            [_appDelegate.apiService deleteUserAuthentication:authentication
-                                                      success:nil
-                                                      failure:nil];
-        } else {
+        if (!error && userInfo) {
             if (shouldCreate && [MRSLUser currentUser]) {
                 [_appDelegate.apiService createUserAuthentication:authentication
                                                           success:nil
@@ -130,7 +141,7 @@
                                                               if ([[serviceErrorInfo.errorInfo lowercaseString] isEqualToString:@"uid: already exists"]) {
                                                                   [UIAlertView showOKAlertViewWithTitle:@"Twitter Account Taken"
                                                                                                 message:@"This Twitter account has already been associated with another Morsel account."];
-                                                                  [self reset];
+                                                                  [weakSelf reset];
                                                                   if (_twitterFailureBlock) _twitterFailureBlock(error);
                                                               }
                                                           }];
@@ -144,36 +155,38 @@
 - (void)authorizeUsingOAuth {
     // Your application will be sent to the background until the user authenticates, and then the app will be brought back using the callback URL
     [_oauth1Client authorizeUsingOAuthWithRequestTokenPath:@"/oauth/request_token"
-                                      userAuthorizationPath:@"/oauth/authorize"
-                                                callbackURL:[NSURL URLWithString:TWITTER_CALLBACK]
-                                            accessTokenPath:@"/oauth/access_token"
-                                               accessMethod:@"POST"
-                                                      scope:nil
-                                                    success:^(AFOAuth1Token *accessToken, id responseObject) {
-                                                        if (accessToken) {
-                                                            MRSLSocialAuthentication *socialAuthentication = [[MRSLSocialAuthentication alloc] init];
-                                                            socialAuthentication.provider = @"twitter";
-                                                            socialAuthentication.token = accessToken.key;
-                                                            socialAuthentication.secret = accessToken.secret;
-                                                            socialAuthentication.username = accessToken.userInfo[@"screen_name"];
-                                                            socialAuthentication.uid = accessToken.userInfo[@"user_id"];
-                                                            [self restoreTwitterWithAuthentication:socialAuthentication
-                                                                                      shouldCreate:YES];
-                                                            if (_twitterSuccessBlock) _twitterSuccessBlock(YES);
-                                                        } else {
-                                                            if (_twitterSuccessBlock) _twitterSuccessBlock(NO);
-                                                        }
-                                                    } failure:^(NSError *error) {
-                                                        if (_twitterFailureBlock) _twitterFailureBlock(error);
-                                                    }];
+                                     userAuthorizationPath:@"/oauth/authorize"
+                                               callbackURL:[NSURL URLWithString:TWITTER_CALLBACK]
+                                           accessTokenPath:@"/oauth/access_token"
+                                              accessMethod:@"POST"
+                                                     scope:nil
+                                                   success:^(AFOAuth1Token *accessToken, id responseObject) {
+                                                       if (accessToken) {
+                                                           MRSLSocialAuthentication *socialAuthentication = [[MRSLSocialAuthentication alloc] init];
+                                                           socialAuthentication.provider = @"twitter";
+                                                           socialAuthentication.token = accessToken.key;
+                                                           socialAuthentication.secret = accessToken.secret;
+                                                           socialAuthentication.username = accessToken.userInfo[@"screen_name"];
+                                                           socialAuthentication.uid = accessToken.userInfo[@"user_id"];
+                                                           [self restoreTwitterWithAuthentication:socialAuthentication
+                                                                                     shouldCreate:YES];
+                                                           if (_twitterSuccessBlock) _twitterSuccessBlock(YES);
+                                                       } else {
+                                                           if (_twitterSuccessBlock) _twitterSuccessBlock(NO);
+                                                       }
+                                                   } failure:^(NSError *error) {
+                                                       if (_twitterFailureBlock) _twitterFailureBlock(error);
+                                                   }];
 }
 
 #pragma mark - User Methods
 
 - (void)getTwitterUserInformation:(MRSLSocialUserInfoBlock)userInfoBlockOrNil {
+    __weak __typeof(self)weakSelf = self;
+
     NSMutableURLRequest *request = [_oauth1Client requestWithMethod:@"GET"
-                                                                path:[NSString stringWithFormat:@"users/show.json?screen_name=%@", [self twitterUsername]]
-                                                          parameters:nil];
+                                                               path:[NSString stringWithFormat:@"users/show.json?screen_name=%@", [self twitterUsername]]
+                                                         parameters:nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperationManager manager] HTTPRequestOperationWithRequest:request
                                                                                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -189,6 +202,10 @@
                                                                                                                                         @"provider": @"twitter"};
                                                                                                              if (userInfoBlockOrNil) userInfoBlockOrNil(userInfo, nil);
                                                                                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                                             if (operation.response.statusCode == 401) {
+                                                                                                                 [weakSelf displaySessionExpiredAlert];
+                                                                                                                 [weakSelf clearSocialAuthentication];
+                                                                                                             }
                                                                                                              if (userInfoBlockOrNil) userInfoBlockOrNil(nil, error);
                                                                                                          }];
     [manager.operationQueue addOperation:operation];
@@ -199,9 +216,10 @@
         if (uidBlockOrNil) uidBlockOrNil([self friendUIDString], nil);
         return;
     }
+    __weak __typeof(self)weakSelf = self;
     NSMutableURLRequest *request = [_oauth1Client requestWithMethod:@"GET"
                                                                path:[NSString stringWithFormat:@"friends/ids.json?screen_name=%@", [self twitterUsername]]
-                                                          parameters:nil];
+                                                         parameters:nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperationManager manager] HTTPRequestOperationWithRequest:request
                                                                                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -214,6 +232,10 @@
                                                                                                              self.friendUIDs = friendUIDs;
                                                                                                              if (uidBlockOrNil) uidBlockOrNil([self friendUIDString], nil);
                                                                                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                                             if (operation.response.statusCode == 401) {
+                                                                                                                 [weakSelf displaySessionExpiredAlert];
+                                                                                                                 [weakSelf clearSocialAuthentication];
+                                                                                                             }
                                                                                                              if (uidBlockOrNil) uidBlockOrNil(nil, error);
                                                                                                          }];
     [manager.operationQueue addOperation:operation];
@@ -233,27 +255,26 @@
            success:(MRSLSocialSuccessBlock)successOrNil
            failure:(MRSLSocialFailureBlock)failureOrNil {
     NSMutableURLRequest *request = [_oauth1Client requestWithMethod:@"POST"
-                                                                path:@"statuses/update.json"
-                                                          parameters:@{@"status": status}];
+                                                               path:@"statuses/update.json"
+                                                         parameters:@{@"status": status}];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+
+    __weak __typeof(self)weakSelf = self;
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperationManager manager] HTTPRequestOperationWithRequest:request
                                                                                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                                                                              DDLogVerbose(@"Twitter Status Update Response: %@", responseObject);
 
                                                                                                              if (successOrNil) successOrNil(YES);
                                                                                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                                             if (operation.response.statusCode == 401) {
+                                                                                                                 [weakSelf displaySessionExpiredAlert];
+                                                                                                                 [weakSelf clearSocialAuthentication];
+                                                                                                             }
                                                                                                              if (failureOrNil) failureOrNil(error);
                                                                                                          }];
     [manager.operationQueue addOperation:operation];
 }
 
-#pragma mark - Reset Methods
-
-- (void)reset {
-    [AFOAuth1Token deleteCredentialWithIdentifier:MRSLTwitterCredentialsKey];
-    self.oauth1Client.accessToken = nil;
-    self.socialAuthentication = nil;
-}
 
 #pragma mark - iOS ACAccount Methods
 
@@ -346,7 +367,11 @@
     [accessTokenRequest setAccount:account];
 
     [accessTokenRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (urlResponse.statusCode == 401) {
+            [UIAlertView showOKAlertViewWithTitle:@"Unable to connect"
+                                          message:@"Please check your Twitter password in iOS Settings."];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
             block(responseData, urlResponse, error);
         });
     }];
@@ -375,9 +400,75 @@
                                                                           shouldCreate:YES];
                                             if (_twitterSuccessBlock) _twitterSuccessBlock(YES);
                                         } else {
-                                            if (_twitterFailureBlock) _twitterFailureBlock(error);
+                                            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                                                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                                                if (httpResponse.statusCode == 401) if (_twitterFailureBlock) _twitterFailureBlock(nil);
+                                            } else {
+                                                if (_twitterFailureBlock) _twitterFailureBlock(error);
+                                            }
                                         }
                                     }];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLTwitterReconnectingAccountNotification
+                                                            object:nil];
+        [self authenticateWithTwitterWithSuccess:^(BOOL success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLTwitterReconnectedAccountNotification
+                                                                    object:nil];
+            });
+        } failure:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:MRSLTwitterReconnectAccountFailedNotification
+                                                                    object:nil];
+            });
+        }];
+    }
+}
+
+#pragma mark - Reset Methods
+
+- (void)displaySessionExpiredAlert {
+    [UIAlertView showAlertViewWithTitle:@"Twitter session error"
+                                message:@"Your session is no longer valid. Would you like to reconnect your account?"
+                               delegate:self
+                      cancelButtonTitle:@"No"
+                      otherButtonTitles:@"Yes", nil];
+}
+
+- (void)clearSocialAuthentication {
+    if (!_clearingSocialAuthentication) {
+        if (!self.socialAuthentication) {
+            [self reset];
+            return;
+        }
+        self.clearingSocialAuthentication = YES;
+        __weak __typeof(self) weakSelf = self;
+        [_socialAuthentication API_validateAuthentication:^(BOOL success) {
+            if (success) {
+                DDLogDebug(@"Twitter clearing social authentication from backend");
+
+                [_appDelegate.apiService deleteUserAuthentication:_socialAuthentication
+                                                          success:^(id responseObject) {
+                                                              weakSelf.clearingSocialAuthentication = NO;
+                                                          } failure:^(NSError *error) {
+                                                              weakSelf.clearingSocialAuthentication = NO;
+                                                          }];
+            }
+
+            [weakSelf reset];
+        }];
+    }
+}
+
+- (void)reset {
+    [AFOAuth1Token deleteCredentialWithIdentifier:MRSLTwitterCredentialsKey];
+    self.oauth1Client.accessToken = nil;
+    self.socialAuthentication = nil;
 }
 
 @end

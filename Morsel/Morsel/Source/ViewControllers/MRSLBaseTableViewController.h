@@ -10,6 +10,8 @@
 
 @interface MRSLBaseTableViewController : UITableViewController
 
+@property (nonatomic) BOOL disableFetchRefresh;
+
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 @end

@@ -43,7 +43,21 @@ NSString *const MRSLAppShouldDisplayWebBrowserNotification = @"MRSLAppShouldDisp
 NSString *const MRSLAppShouldDisplayEmailComposerNotification = @"MRSLAppShouldDisplayEmailComposerNotification";
 NSString *const MRSLAppShouldCallPhoneNumberNotification = @"MRSLAppShouldCallPhoneNumberNotification";
 
+NSString *const MRSLRegisterRemoteNotificationsNotification = @"MRSLRegisterRemoteNotificationsNotification";
+
 #pragma mark - Social Constants
+
+NSString *const MRSLFacebookReconnectingAccountNotification = @"MRSLFacebookReconnectingAccountNotification";
+NSString *const MRSLFacebookReconnectedAccountNotification = @"MRSLFacebookReconnectedAccountNotification";
+NSString *const MRSLFacebookReconnectAccountFailedNotification = @"MRSLFacebookReconnectAccountFailedNotification";
+
+NSString *const MRSLInstagramReconnectingAccountNotification = @"MRSLInstagramReconnectingAccountNotification";
+NSString *const MRSLInstagramReconnectedAccountNotification = @"MRSLInstagramReconnectedAccountNotification";
+NSString *const MRSLInstagramReconnectAccountFailedNotification = @"MRSLInstagramReconnectAccountFailedNotification";
+
+NSString *const MRSLTwitterReconnectingAccountNotification = @"MRSLTwitterReconnectingAccountNotification";
+NSString *const MRSLTwitterReconnectedAccountNotification = @"MRSLTwitterReconnectedAccountNotification";
+NSString *const MRSLTwitterReconnectAccountFailedNotification = @"MRSLTwitterReconnectAccountFailedNotification";
 
 NSString *const MRSLTwitterCredentialsKey = @"MRSLTwitterCredentialsKey";
 NSString *const MRSLInstagramAccountTypeKey = @"MRSLInstagramAccountTypeKey";
@@ -110,9 +124,8 @@ NSString *const MRSLStoryboardFollowingPeopleKey = @"sb_FollowingPeople";
 NSString *const MRSLStoryboardImagePreviewViewControllerKey = @"sb_MRSLImagePreviewViewController";
 NSString *const MRSLStoryboardKeywordUsersViewControllerKey = @"sb_MRSLKeywordUsersViewController";
 NSString *const MRSLStoryboardLikesKey = @"sb_Likes";
+NSString *const MRSLStoryboardTaggedUsersKey = @"sb_TaggedUsers";
 NSString *const MRSLStoryboardMediaPreviewKey = @"sb_MediaPreview";
-NSString *const MRSLStoryboardModalDescriptionViewControllerKey = @"sb_MRSLModalDescriptionViewController";
-NSString *const MRSLStoryboardModalShareViewControllerKey = @"sb_MRSLModalShareViewController";
 NSString *const MRSLStoryboardMorselAddTitleViewControllerKey = @"sb_MRSLMorselAddTitleViewController";
 NSString *const MRSLStoryboardMorselAddKey = @"sb_MorselAdd";
 NSString *const MRSLStoryboardMorselEditKey = @"sb_MorselEdit";
@@ -130,7 +143,6 @@ NSString *const MRSLStoryboardProfileKey = @"sb_Profile";
 NSString *const MRSLStoryboardProfileViewControllerKey = @"sb_MRSLProfileViewController";
 NSString *const MRSLStoryboardSettingsKey = @"sb_Settings";
 NSString *const MRSLStoryboardSignUpKey = @"sb_SignUp";
-NSString *const MRSLStoryboardShareKey = @"sb_Share";
 NSString *const MRSLStoryboardSocialComposeKey = @"sb_SocialCompose" ;
 NSString *const MRSLStoryboardMorselDetailKey = @"sb_MorselDetail";
 NSString *const MRSLStoryboardMorselDetailViewControllerKey = @"sb_MRSLMorselDetailViewController";
@@ -158,6 +170,7 @@ NSString *const MRSLStoryboardSegueSetupProfessionalAccountKey = @"seg_SetupProf
 NSString *const MRSLStoryboardSegueSpecialtiesKey = @"seg_Specialties";
 NSString *const MRSLStoryboardSegueTemplateInfoKey = @"seg_DisplayTemplateInfo";
 NSString *const MRSLStoryboardSegueKeywordFollowersKey = @"seg_DisplayKeywordFollowers";
+NSString *const MRSLStoryboardSegueEligibleUsersKey = @"seg_DisplayEligibleUsers";
 
 #pragma mark - Storyboard Reuse Identifier Constants
 
@@ -184,6 +197,7 @@ NSString *const MRSLStoryboardRUIDMoreCharactersCellKey = @"ruid_MoreCharactersC
 NSString *const MRSLStoryboardRUIDMorselCellKey = @"ruid_MorselCell";
 NSString *const MRSLStoryboardRUIDMorselItemCellKey = @"ruid_MorselItemCell";
 NSString *const MRSLStoryboardRUIDMorselPreviewCellKey = @"ruid_MorselPreviewCell";
+NSString *const MRSLStoryboardRUIDMorselTaggedUsersCellKey = @"ruid_MorselTaggedUsersCell";
 NSString *const MRSLStoryboardRUIDActivityTableViewCellKey = @"ruid_MRSLActivityTableViewCell";
 NSString *const MRSLStoryboardRUIDToggleKeywordTableViewCellKey = @"ruid_ToggleKeywordTableViewCell";
 NSString *const MRSLStoryboardRUIDNoResultsCellKey = @"ruid_NoResultsCell";
@@ -194,11 +208,13 @@ NSString *const MRSLStoryboardRUIDPreviousLoadingKey = @"ruid_PreviousLoading";
 NSString *const MRSLStoryboardRUIDSectionFooterKey = @"ruid_SectionFooter";
 NSString *const MRSLStoryboardRUIDUserCellKey = @"ruid_UserCell";
 NSString *const MRSLStoryboardRUIDUserFollowCellKey = @"ruid_UserFollowCell";
-NSString *const MRSLStoryboardRUIDUserLikedItemCellKey = @"ruid_UserLikedItemCell";
+NSString *const MRSLStoryboardRUIDUserEligibleCellKey = @"ruid_UserEligibleCell";
+NSString *const MRSLStoryboardRUIDUserLikedMorselCellKey = @"ruid_UserLikedMorselCell";
 NSString *const MRSLStoryboardRUIDTemplateCell = @"ruid_TemplateCell";
 NSString *const MRSLStoryboardRUIDTemplateInfoCell = @"ruid_TemplateInfoCell";
 NSString *const MRSLStoryboardRUIDMorselAddCell = @"ruid_MorselAddCell";
 NSString *const MRSLStoryboardRUIDMorselInfoCell = @"ruid_MorselInfoCell";
+NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey = @"ruid_PushNotificationSettingCell";
 
 #pragma mark - Storyboard Source Identifiers
 /*
@@ -214,6 +230,10 @@ int LOG_LEVEL_DEF = LOG_LEVEL_DEBUG;
 #else
 int LOG_LEVEL_DEF = LOG_LEVEL_ERROR;
 #endif
+
+#pragma mark - Misc. Constants
+
+NSString *const MRSLDefaultEmptyUserName = @"Morsel User";
 
 @implementation MRSLConstants
 

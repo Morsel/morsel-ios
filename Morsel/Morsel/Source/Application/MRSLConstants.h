@@ -43,7 +43,21 @@ extern NSString *const MRSLAppShouldDisplayWebBrowserNotification;
 extern NSString *const MRSLAppShouldDisplayEmailComposerNotification;
 extern NSString *const MRSLAppShouldCallPhoneNumberNotification;
 
+extern NSString *const MRSLRegisterRemoteNotificationsNotification;
+
 #pragma mark - Social Constants
+
+extern NSString *const MRSLFacebookReconnectingAccountNotification;
+extern NSString *const MRSLFacebookReconnectedAccountNotification;
+extern NSString *const MRSLFacebookReconnectAccountFailedNotification;
+
+extern NSString *const MRSLInstagramReconnectingAccountNotification;
+extern NSString *const MRSLInstagramReconnectedAccountNotification;
+extern NSString *const MRSLInstagramReconnectAccountFailedNotification;
+
+extern NSString *const MRSLTwitterReconnectingAccountNotification;
+extern NSString *const MRSLTwitterReconnectedAccountNotification;
+extern NSString *const MRSLTwitterReconnectAccountFailedNotification;
 
 extern NSString *const MRSLTwitterCredentialsKey;
 extern NSString *const MRSLInstagramAccountTypeKey;
@@ -110,9 +124,8 @@ extern NSString *const MRSLStoryboardFollowingPeopleKey;
 extern NSString *const MRSLStoryboardImagePreviewViewControllerKey;
 extern NSString *const MRSLStoryboardKeywordUsersViewControllerKey;
 extern NSString *const MRSLStoryboardLikesKey;
+extern NSString *const MRSLStoryboardTaggedUsersKey;
 extern NSString *const MRSLStoryboardMediaPreviewKey;
-extern NSString *const MRSLStoryboardModalDescriptionViewControllerKey;
-extern NSString *const MRSLStoryboardModalShareViewControllerKey;
 extern NSString *const MRSLStoryboardMorselAddTitleViewControllerKey;
 extern NSString *const MRSLStoryboardMorselAddKey;
 extern NSString *const MRSLStoryboardMorselEditKey;
@@ -130,7 +143,6 @@ extern NSString *const MRSLStoryboardProfileKey;
 extern NSString *const MRSLStoryboardProfileViewControllerKey;
 extern NSString *const MRSLStoryboardSettingsKey;
 extern NSString *const MRSLStoryboardSignUpKey;
-extern NSString *const MRSLStoryboardShareKey;
 extern NSString *const MRSLStoryboardSocialComposeKey;
 extern NSString *const MRSLStoryboardMorselDetailKey;
 extern NSString *const MRSLStoryboardMorselDetailViewControllerKey;
@@ -159,6 +171,7 @@ extern NSString *const MRSLStoryboardSegueSetupProfessionalAccountKey;
 extern NSString *const MRSLStoryboardSegueSpecialtiesKey;
 extern NSString *const MRSLStoryboardSegueTemplateInfoKey;
 extern NSString *const MRSLStoryboardSegueKeywordFollowersKey;
+extern NSString *const MRSLStoryboardSegueEligibleUsersKey;
 
 #pragma mark - Storyboard Reuse Identifier Constants
 
@@ -185,6 +198,7 @@ extern NSString *const MRSLStoryboardRUIDMoreCharactersCellKey;
 extern NSString *const MRSLStoryboardRUIDMorselCellKey;
 extern NSString *const MRSLStoryboardRUIDMorselItemCellKey;
 extern NSString *const MRSLStoryboardRUIDMorselPreviewCellKey;
+extern NSString *const MRSLStoryboardRUIDMorselTaggedUsersCellKey;
 extern NSString *const MRSLStoryboardRUIDActivityTableViewCellKey;
 extern NSString *const MRSLStoryboardRUIDToggleKeywordTableViewCellKey;
 extern NSString *const MRSLStoryboardRUIDNoResultsCellKey;
@@ -196,15 +210,22 @@ extern NSString *const MRSLStoryboardRUIDSectionFooterKey;
 extern NSString *const MRSLStoryboardRUIDSectionHeaderKey;
 extern NSString *const MRSLStoryboardRUIDUserCellKey;
 extern NSString *const MRSLStoryboardRUIDUserFollowCellKey;
-extern NSString *const MRSLStoryboardRUIDUserLikedItemCellKey;
+extern NSString *const MRSLStoryboardRUIDUserEligibleCellKey;
+extern NSString *const MRSLStoryboardRUIDUserLikedMorselCellKey;
 extern NSString *const MRSLStoryboardRUIDTemplateCell;
 extern NSString *const MRSLStoryboardRUIDTemplateInfoCell;
 extern NSString *const MRSLStoryboardRUIDMorselAddCell;
 extern NSString *const MRSLStoryboardRUIDMorselInfoCell;
+extern NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey;
 
 #pragma mark - Debugging Constants
 
 extern int LOG_LEVEL_DEF;
+
+#pragma mark - Misc. Constants
+
+extern NSString *const MRSLDefaultEmptyUserName;
+
 
 @interface MRSLConstants : NSObject
 

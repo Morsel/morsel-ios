@@ -25,8 +25,10 @@
         if (failureOrNil) failureOrNil(nil);
         return;
     }
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user" : @{@"query": NSNullIfNil(query),
-                                                                                   @"promoted": ([query length] > 0) ? @"false" : @"true"}}
+    NSMutableDictionary *userParams = [NSMutableDictionary dictionaryWithDictionary:@{ @"query": NSNullIfNil(query) }];
+    if ([query length] == 0) userParams[@"promoted"] = @"true";
+
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user" : userParams}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (maxOrNil && sinceOrNil) {
@@ -38,19 +40,19 @@
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
 
-    [[MRSLAPIClient sharedClient] GET:@"users/search"
-                           parameters:parameters
-                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                  [self importManagedObjectClass:[MRSLUser class]
-                                                  withDictionary:responseObject
-                                                         success:successOrNil
-                                                         failure:failureOrNil];
-                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  [self reportFailure:failureOrNil
-                                         forOperation:operation
-                                            withError:error
-                                             inMethod:NSStringFromSelector(_cmd)];
-                              }];
+    [[MRSLAPIClient sharedClient] performRequest:@"users/search"
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             [self importManagedObjectClass:[MRSLUser class]
+                                                             withDictionary:responseObject
+                                                                    success:successOrNil
+                                                                    failure:failureOrNil];
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self reportFailure:failureOrNil
+                                                    forOperation:operation
+                                                       withError:error
+                                                        inMethod:NSStringFromSelector(_cmd)];
+                                         }];
 }
 
 @end

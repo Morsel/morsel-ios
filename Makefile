@@ -34,3 +34,7 @@ clean:
 	@xctool clean \
   	-workspace Morsel.xcworkspace \
   	-scheme Morsel
+
+open:
+	@echo Opening Morsel.xcworkspace
+	@open Morsel.xcworkspace

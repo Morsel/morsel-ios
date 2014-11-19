@@ -75,7 +75,7 @@ NSFetchedResultsControllerDelegate>
     self.commentsTableView.alwaysBounceVertical = YES;
     [self.commentsTableView setEmptyStateTitle:@"No comments yet. Add one below."];
 
-    self.commentInputTextView.placeholder = @"Write a comment...";
+    self.commentInputTextView.placeholder = @"Add comment...";
 }
 
 - (void)viewDidLayoutSubviews {
@@ -130,7 +130,7 @@ NSFetchedResultsControllerDelegate>
                                      if (weakSelf) {
                                          [weakSelf.refreshControl endRefreshing];
                                          weakSelf.commentIDs = [responseArray mutableCopy];
-                                         [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                         [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.commentIDs copy]
                                                                                    forKey:[NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue]];
                                          [weakSelf setupFetchRequest];
                                          [weakSelf populateContent];
@@ -147,7 +147,7 @@ NSFetchedResultsControllerDelegate>
 - (void)loadMore {
     if (_loadingMore || !_item || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
-    DDLogDebug(@"Loading more item comments");
+    DDLogDebug(@"Loading more");
     MRSLComment *lastComment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
                                                           withValue:[_commentIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
@@ -161,7 +161,7 @@ NSFetchedResultsControllerDelegate>
                                              weakSelf.loadedAll = YES;
                                          } else {
                                              [weakSelf.commentIDs addObjectsFromArray:responseArray];
-                                             [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                             [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.commentIDs copy]
                                                                                        forKey:[NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue]];
                                              [weakSelf setupFetchRequest];
                                              [weakSelf populateContent];

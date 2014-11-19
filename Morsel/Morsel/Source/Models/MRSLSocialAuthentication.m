@@ -8,10 +8,25 @@
 
 #import "MRSLSocialAuthentication.h"
 
+#import "MRSLAPIService+Authentication.h"
+
 @implementation MRSLSocialAuthentication
 
 - (BOOL)isValid {
     return (_authenticationID != nil);
+}
+
+- (void)API_validateAuthentication:(MRSLSuccessBlock)validOrNil {
+    if (![self isValid]) {
+        if (validOrNil) validOrNil(NO);
+        return;
+    }
+    [_appDelegate.apiService getUserAuthentication:self
+                                           success:^(id responseObject) {
+                                               if (validOrNil) validOrNil(YES);
+                                           } failure:^(NSError *error) {
+                                               if (validOrNil) validOrNil(NO);
+                                           }];
 }
 
 @end

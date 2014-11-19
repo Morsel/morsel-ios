@@ -26,7 +26,7 @@
 #import "MRSLStateView.h"
 #import "MRSLCollectionView.h"
 #import "MRSLContainerCollectionViewCell.h"
-#import "MRSLUserLikedItemCollectionViewCell.h"
+#import "MRSLUserLikedMorselCollectionViewCell.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
 #import "MRSLPlaceCollectionViewCell.h"
 #import "MRSLProfilePanelCollectionViewCell.h"
@@ -52,6 +52,7 @@ MRSLStateViewDelegate>
 @property (nonatomic) BOOL loadingMore;
 @property (nonatomic) BOOL loadedAll;
 @property (nonatomic) BOOL shouldShowFollowers;
+@property (nonatomic) BOOL queuedToDisplayFollowers;
 
 @property (nonatomic) MRSLDataSourceType dataSourceTabType;
 
@@ -96,6 +97,9 @@ MRSLStateViewDelegate>
                                             [UIAlertView showAlertViewForErrorString:@"Unable to load user profile."
                                                                             delegate:nil];
                                         }];
+        if ([self.userInfo[@"action"] isEqualToString:@"followers"]) {
+            self.queuedToDisplayFollowers = YES;
+        }
     }
 
     if (!_user) self.user = [MRSLUser currentUser];
@@ -115,6 +119,17 @@ MRSLStateViewDelegate>
     [self.navigationController setNavigationBarHidden:NO
                                              animated:animated];
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    if (self.queuedToDisplayFollowers && self.userInfo) {
+        self.queuedToDisplayFollowers = NO;
+        self.shouldShowFollowers = YES;
+        [self performSegueWithIdentifier:MRSLStoryboardSegueFollowListKey
+                                  sender:nil];
+    }
 }
 
 - (void)viewDidLayoutSubviews {
@@ -254,7 +269,11 @@ MRSLStateViewDelegate>
 }
 
 - (NSString *)objectIDsKey {
-    return [NSString stringWithFormat:@"%@_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
+    if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
+        return [NSString stringWithFormat:@"%@_liked_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
+    } else {
+        return [NSString stringWithFormat:@"%@_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
+    }
 }
 
 - (void)refreshContent {
@@ -272,7 +291,7 @@ MRSLStateViewDelegate>
                                      if (weakSelf) {
                                          [weakSelf.refreshControl endRefreshing];
                                          weakSelf.objectIDs = [responseArray mutableCopy];
-                                         [[NSUserDefaults standardUserDefaults] setObject:responseArray
+                                         [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
                                                                                    forKey:[weakSelf objectIDsKey]];
                                          [weakSelf updateDataSourcePredicate];
                                          weakSelf.loading = NO;
@@ -300,7 +319,7 @@ MRSLStateViewDelegate>
                                      if (weakSelf) {
                                          if ([responseArray count] > 0) {
                                              [weakSelf.objectIDs addObjectsFromArray:responseArray];
-                                             [[NSUserDefaults standardUserDefaults] setObject:weakSelf.objectIDs
+                                             [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
                                                                                        forKey:[self objectIDsKey]];
                                              dispatch_async(dispatch_get_main_queue(), ^{
                                                  [weakSelf updateDataSourcePredicate];
@@ -322,6 +341,7 @@ MRSLStateViewDelegate>
     MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
     userMorselsFeedVC.morsel = morsel;
     userMorselsFeedVC.user = morsel.creator;
+    userMorselsFeedVC.isExplore = YES;
     [self.navigationController pushViewController:userMorselsFeedVC
                                          animated:YES];
 }
@@ -344,16 +364,18 @@ MRSLStateViewDelegate>
             [cell addBorderWithDirections:MRSLBorderSouth
                               borderColor:[UIColor whiteColor]];
             if ([item isKindOfClass:[MRSLMorsel class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMorselPreviewCellKey
-                                                                 forIndexPath:indexPath];
-                [(MRSLMorselPreviewCollectionViewCell *)cell setMorsel:item];
-            } else if ([item isKindOfClass:[MRSLItem class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDUserLikedItemCellKey
-                                                                 forIndexPath:indexPath];
-                [(MRSLUserLikedItemCollectionViewCell *)cell setItem:item
-                                                             andUser:_user];
-                if (indexPath.row != count) {
-                    [cell addDefaultBorderForDirections:MRSLBorderSouth];
+                if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
+                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDUserLikedMorselCellKey
+                                                                     forIndexPath:indexPath];
+                    [(MRSLUserLikedMorselCollectionViewCell *)cell setMorsel:item
+                                                                     andUser:_user];
+                    if (indexPath.row != count) {
+                        [cell addDefaultBorderForDirections:MRSLBorderSouth];
+                    }
+                } else {
+                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDMorselPreviewCellKey
+                                                                     forIndexPath:indexPath];
+                    [(MRSLMorselPreviewCollectionViewCell *)cell setMorsel:item];
                 }
             } else if ([item isKindOfClass:[MRSLPlace class]]) {
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPlaceCellKey
@@ -384,7 +406,11 @@ MRSLStateViewDelegate>
         } else {
             id object = [_segmentedPanelCollectionViewDataSource objectAtIndexPath:indexPath];
             if ([object isKindOfClass:[MRSLMorsel class]]) {
-                return CGSizeMake(MAX(106.f, (collectionView.frame.size.width / 3) - 1.f), MAX(106.f, (collectionView.frame.size.width / 3) - 1.f));
+                if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
+                    return CGSizeMake(collectionView.frame.size.width, 80.f);
+                } else {
+                    return CGSizeMake(MAX(106.f, (collectionView.frame.size.width / 3) - 1.f), MAX(106.f, (collectionView.frame.size.width / 3) - 1.f));
+                }
             } else if ([object isKindOfClass:[MRSLTag class]]) {
                 BOOL shouldDisplayTypeHeader = (indexPath.row == 0);
                 if (indexPath.row > 0) {
@@ -474,7 +500,7 @@ MRSLStateViewDelegate>
         self.dataSourceTabType = index;
 
         switch (index) {
-            case MRSLDataSourceTypeActivityItem:
+            case MRSLDataSourceTypeLikedMorsel:
                 [self.profileCollectionView setEmptyStateTitle:@"No activity yet"];
                 if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:nil];
                 [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeLikedDate
@@ -483,7 +509,7 @@ MRSLStateViewDelegate>
             case MRSLDataSourceTypeMorsel:
                 [self.profileCollectionView setEmptyStateTitle:@"No morsels added"];
                 if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:@"Add a morsel"];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeCreationDate
+                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypePublishedDate
                                                                    ascending:NO];
                 break;
             case MRSLDataSourceTypePlace:
