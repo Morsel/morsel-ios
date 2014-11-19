@@ -513,7 +513,7 @@ MRSLMenuViewControllerDelegate>
         }
         CASE(MRSLMenuFindKey) {
             [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                         properties:@{@"_title": @"Find people",
+                                         properties:@{@"_title": @"Find users",
                                                       @"_view": @"menu"}];
             [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardFindFriendsKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneSocialKey];

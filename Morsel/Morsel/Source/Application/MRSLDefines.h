@@ -96,7 +96,7 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
-static const CGFloat MRSLCoverAreaHeight = 275.f;
+static const CGFloat MRSLCoverAreaHeight = 200.f;
 static const CGFloat MRSLMorselTitleThreshold = 60.f;
 static const CGFloat MRSLMorselTitleMaxCount = 70.f;
 static const CGFloat MRSLAppStatusAndNavigationBarHeight = 64.f;
