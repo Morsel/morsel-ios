@@ -169,9 +169,19 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 
 #else
 
+#if (defined(MORSEL_BETA) || defined(RELEASE))
+
 #define MORSEL_API_BASE_URL @"https://api.eatmorsel.com"
 #define MORSEL_BASE_URL @"https://www.eatmorsel.com"
 #define S3_BASE_URL @"https://morsel.s3.amazonaws.com/"
+
+#elif (defined(MORSEL_DEBUG) || defined(MORSEL_ALPHA))
+
+#define MORSEL_API_BASE_URL @"https://api-staging.eatmorsel.com"
+#define MORSEL_BASE_URL @"https://staging.eatmorsel.com"
+#define S3_BASE_URL @"https://morsel-staging.s3.amazonaws.com/"
+
+#endif
 
 #import "MRSLAppDelegate.h"
 #define _appDelegate ((MRSLAppDelegate *)[[UIApplication sharedApplication] delegate])
