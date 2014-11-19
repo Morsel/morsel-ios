@@ -20,6 +20,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #import "MRSLAPIService+Authentication.h"
+#import "MRSLAPIService+Remote.h"
 
 #import "MRSLAPIClient.h"
 #import "MRSLS3Client.h"
@@ -253,11 +254,14 @@
 }
 
 - (void)resetDataStore {
-    [[MRSLRemoteDevice currentRemoteDevice] API_deleteWithSuccess:nil
-                                                          failure:nil];
     [[Mixpanel sharedInstance] reset];
     [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
     [[MRSLS3Client sharedClient].operationQueue cancelAllOperations];
+
+    NSNumber *remoteDeviceID = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceID"];
+    if (remoteDeviceID) [_appDelegate.apiService deleteUserDeviceWithID:remoteDeviceID
+                                                                success:nil
+                                                                failure:nil];
 
     [self resetSocialConnections];
     [self resetThirdPartySettings];

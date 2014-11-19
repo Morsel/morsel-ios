@@ -48,9 +48,9 @@
 
 - (void)API_deleteWithSuccess:(MRSLAPISuccessBlock)successOrNil
                       failure:(MRSLFailureBlock)failureOrNil {
-    [_appDelegate.apiService deleteUserDevice:self
-                                      success:successOrNil
-                                      failure:failureOrNil];
+    [_appDelegate.apiService deleteUserDeviceWithID:[self deviceID]
+                                            success:successOrNil
+                                            failure:failureOrNil];
 }
 
 #pragma mark - MagicalRecord

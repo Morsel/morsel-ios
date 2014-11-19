@@ -91,27 +91,22 @@
                                                      }];
 }
 
-- (void)deleteUserDevice:(MRSLRemoteDevice *)remoteDevice
-                 success:(MRSLAPISuccessBlock)successOrNil
-                 failure:(MRSLFailureBlock)failureOrNil {
+- (void)deleteUserDeviceWithID:(NSNumber *)remoteDeviceID
+                       success:(MRSLAPISuccessBlock)successOrNil
+                       failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    int remoteDeviceID = remoteDevice.deviceIDValue;
-    NSManagedObjectContext *managedObjectContext = remoteDevice.managedObjectContext;
-    if (managedObjectContext) {
-        NSManagedObjectContext *remoteContext = remoteDevice.managedObjectContext;
-        NSPredicate *remotePredicate = [NSPredicate predicateWithFormat:@"deviceID == %i", remoteDeviceID];
-        [MRSLRemoteDevice MR_deleteAllMatchingPredicate:remotePredicate
-                                              inContext:remoteContext];
-        [remoteContext MR_saveToPersistentStoreAndWait];
-    }
+    NSPredicate *remotePredicate = [NSPredicate predicateWithFormat:@"deviceID == %@", remoteDeviceID];
+    [MRSLRemoteDevice MR_deleteAllMatchingPredicate:remotePredicate
+                                          inContext:[NSManagedObjectContext MR_defaultContext]];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 
     [[NSUserDefaults standardUserDefaults] setObject:@(-1)
                                               forKey:@"deviceID"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"users/devices/%i", remoteDeviceID]
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"users/devices/%@", remoteDeviceID]
                                                   withMethod:MRSLAPIMethodTypeDELETE
                                               formParameters:[self parametersToDataWithDictionary:parameters]
                                                   parameters:nil
