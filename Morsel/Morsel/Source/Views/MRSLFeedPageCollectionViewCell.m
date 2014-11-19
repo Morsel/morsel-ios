@@ -93,7 +93,7 @@
 #pragma mark - UITextView Delegate
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
-    if ([[URL scheme] containsString:@"http"]) {
+    if ([[URL scheme] rangeOfString:@"http"].location != NSNotFound) {
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Web browser",
                                                                                                                        @"url": URL}];
         return NO;

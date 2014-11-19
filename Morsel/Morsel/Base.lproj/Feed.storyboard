@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hhS-Tr-n28">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hhS-Tr-n28">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -536,17 +536,17 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="graphic-cover-shadow" translatesAutoresizingMaskIntoConstraints="NO" id="aRh-Cj-twK">
-                                                    <rect key="frame" x="0.0" y="133" width="320" height="17"/>
+                                                    <rect key="frame" x="0.0" y="236" width="320" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="ZnU-2U-cVa"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="G95-yK-0PR">
-                                                    <rect key="frame" x="0.0" y="150" width="320" height="100"/>
+                                                    <rect key="frame" x="0.0" y="253" width="320" height="147"/>
                                                     <subviews>
                                                         <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LFA-9d-Dvr" customClass="MRSLRegularButton">
                                                             <rect key="frame" x="10" y="2" width="74" height="24"/>
@@ -587,7 +587,7 @@
                                                     </constraints>
                                                 </view>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-Vo-Ecn" userLabel="Info Text View" customClass="MRSLStandardTextView">
-                                                    <rect key="frame" x="20" y="175" width="280" height="75"/>
+                                                    <rect key="frame" x="20" y="278" width="280" height="122"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <attributedString key="attributedText"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -597,13 +597,13 @@
                                                     </connections>
                                                 </textView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="OI1-yX-HLC" userLabel="Cover Text" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="30" y="0.0" width="260" height="150"/>
+                                                    <rect key="frame" x="30" y="0.0" width="260" height="253"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
                                                     <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ED5-Fu-yTT" userLabel="Profile Photo" customClass="MRSLProfileImageView">
-                                                    <rect key="frame" x="132" y="114" width="56" height="56"/>
+                                                    <rect key="frame" x="132" y="217" width="56" height="56"/>
                                                     <gestureRecognizers/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="56" id="DM3-2f-4UY"/>
@@ -614,7 +614,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z6-qS-Vop" userLabel="Edit Button" customClass="MRSLRegularButton">
-                                                    <rect key="frame" x="244" y="114" width="76" height="36"/>
+                                                    <rect key="frame" x="244" y="217" width="76" height="36"/>
                                                     <accessibility key="accessibilityConfiguration" label="Edit"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="36" id="AYu-Gf-CCv"/>
@@ -639,6 +639,7 @@
                                         <constraints>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="0Z6-qS-Vop" secondAttribute="bottom" id="0pX-OQ-6XR"/>
                                             <constraint firstAttribute="bottom" secondItem="uIj-Vo-Ecn" secondAttribute="bottom" id="1Fv-JT-2F3"/>
+                                            <constraint firstAttribute="bottom" secondItem="G95-yK-0PR" secondAttribute="bottom" id="3cg-tL-wFt"/>
                                             <constraint firstAttribute="centerX" secondItem="ED5-Fu-yTT" secondAttribute="centerX" id="8Qg-yR-uFM"/>
                                             <constraint firstAttribute="trailing" secondItem="aRh-Cj-twK" secondAttribute="trailing" id="F4l-6B-HdB"/>
                                             <constraint firstAttribute="trailing" secondItem="uIj-Vo-Ecn" secondAttribute="trailing" constant="20" id="GzV-bP-mR5"/>
@@ -646,7 +647,7 @@
                                             <constraint firstAttribute="trailing" secondItem="0Z6-qS-Vop" secondAttribute="trailing" id="Oo7-l2-1Hd"/>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="aRh-Cj-twK" secondAttribute="bottom" id="Tj5-q0-l6c"/>
                                             <constraint firstItem="OI1-yX-HLC" firstAttribute="top" secondItem="RLK-sr-0Vu" secondAttribute="top" id="UQg-9d-50y"/>
-                                            <constraint firstItem="G95-yK-0PR" firstAttribute="top" relation="greaterThanOrEqual" secondItem="RLK-sr-0Vu" secondAttribute="topMargin" priority="999" constant="150" id="aM9-sf-SP9"/>
+                                            <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="RLK-sr-0Vu" secondAttribute="topMargin" constant="245" id="aM9-sf-SP9"/>
                                             <constraint firstAttribute="bottom" secondItem="G95-yK-0PR" secondAttribute="bottom" id="c6I-Uv-DEH"/>
                                             <constraint firstAttribute="trailing" secondItem="G95-yK-0PR" secondAttribute="trailing" id="dTo-A9-GXD"/>
                                             <constraint firstItem="uIj-Vo-Ecn" firstAttribute="height" secondItem="G95-yK-0PR" secondAttribute="height" constant="-25" id="jji-3X-YQY"/>
@@ -657,7 +658,12 @@
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="OI1-yX-HLC" secondAttribute="bottom" id="wDS-63-A05"/>
                                             <constraint firstAttribute="trailing" secondItem="OI1-yX-HLC" secondAttribute="trailing" constant="30" id="y6H-ci-BIO"/>
                                         </constraints>
-                                        <size key="customSize" width="320" height="250"/>
+                                        <size key="customSize" width="320" height="400"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="c6I-Uv-DEH"/>
+                                            </mask>
+                                        </variation>
                                         <connections>
                                             <outlet property="editButton" destination="0Z6-qS-Vop" id="Txf-Dg-imZ"/>
                                             <outlet property="featuredButton" destination="LFA-9d-Dvr" id="9ba-PG-9SZ"/>
@@ -681,7 +687,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AX6-bf-j8E" customClass="MRSLStandardTextView">
-                                                    <rect key="frame" x="20" y="360" width="280" height="37"/>
+                                                    <rect key="frame" x="20" y="360" width="280" height="107"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -742,6 +748,7 @@
                                             <constraint firstItem="uS4-3Z-65k" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" id="Z4P-nO-F5c"/>
                                             <constraint firstAttribute="trailing" secondItem="RZ0-A7-cFb" secondAttribute="trailing" id="ad9-Vx-9mQ"/>
                                             <constraint firstAttribute="trailing" secondItem="AX6-bf-j8E" secondAttribute="trailing" constant="20" id="cA6-5V-ciU"/>
+                                            <constraint firstItem="MnW-4J-GPV" firstAttribute="top" secondItem="AX6-bf-j8E" secondAttribute="bottom" id="dqz-bR-Zdp"/>
                                             <constraint firstItem="Dbg-un-sDm" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" constant="20" id="fJA-Tm-UgV"/>
                                             <constraint firstAttribute="bottom" secondItem="RZ0-A7-cFb" secondAttribute="bottom" constant="24" id="hby-IK-Zga"/>
                                             <constraint firstItem="AX6-bf-j8E" firstAttribute="leading" secondItem="LWX-ds-AvT" secondAttribute="leading" constant="20" id="kKM-RM-HxD"/>

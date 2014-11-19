@@ -54,19 +54,6 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLRegisterRemoteNotificationsNotification
                                                             object:nil];
     }
-
-    [self updateContent];
-    self.dataSource = [[MRSLTableViewDataSource alloc] initWithObjects:self.notificationSettingsArray
-                                                    configureCellBlock:^UITableViewCell *(NSDictionary *notificationSettingDictionary, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
-                                                        MRSLSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDPushNotificationSettingCellKey];
-                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                            [cell.cellLabel setText:notificationSettingDictionary[@"name"]];
-                                                            [cell.cellSwitch setOn:[notificationSettingDictionary[@"value"] boolValue]
-                                                                          animated:YES];
-                                                        });
-                                                        return cell;
-                                                    }];
-    self.tableView.alwaysBounceVertical = ([self.notificationSettingsArray count] > 0);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -77,11 +64,30 @@
     }
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    if (!self.dataSource) {
+        [self updateContent];
+        self.dataSource = [[MRSLTableViewDataSource alloc] initWithObjects:self.notificationSettingsArray
+                                                        configureCellBlock:^UITableViewCell *(NSDictionary *notificationSettingDictionary, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
+                                                            MRSLSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDPushNotificationSettingCellKey];
+                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                [cell.cellLabel setText:notificationSettingDictionary[@"name"]];
+                                                                [cell.cellSwitch setOn:[notificationSettingDictionary[@"value"] boolValue]
+                                                                              animated:YES];
+                                                            });
+                                                            return cell;
+                                                        }];
+        self.tableView.alwaysBounceVertical = ([self.notificationSettingsArray count] > 0);
+    }
+}
+
 #pragma mark - Private Methods
 
 - (BOOL)isDirty {
     if (!self.currentRemoteDevice) return NO;
     return (self.currentRemoteDevice.notify_item_commentValue != self.enableForComments ||
+            self.currentRemoteDevice.notify_tagged_morsel_item_commentValue != self.enableForFollowupComments ||
             self.currentRemoteDevice.notify_morsel_likeValue != self.enableForLikes ||
             self.currentRemoteDevice.notify_morsel_morsel_user_tagValue != self.enableForMorselUserTags ||
             self.currentRemoteDevice.notify_user_followValue != self.enableForFollows);
@@ -188,12 +194,15 @@
             self.enableForComments = !self.enableForComments;
             break;
         case 1:
+            self.enableForFollowupComments = !self.enableForFollowupComments;
+        break;
+        case 2:
             self.enableForLikes = !self.enableForLikes;
             break;
-        case 2:
+        case 3:
             self.enableForMorselUserTags = !self.enableForMorselUserTags;
             break;
-        case 3:
+        case 4:
             self.enableForFollows = !self.enableForFollows;
             break;
         default:
