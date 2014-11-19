@@ -903,7 +903,8 @@
                                     <outlet property="delegate" destination="CdJ-7I-0rO" id="uvm-89-7Ok"/>
                                 </connections>
                             </collectionView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="127" translatesAutoresizingMaskIntoConstraints="NO" id="dD2-3O-yZb" userLabel="Time Ago Label" customClass="MRSLRobotoLightLabel">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="127" translatesAutoresizingMaskIntoConstraints="NO" id="dD2-3O-yZb" userLabel="Time Ago Label" customClass="MRSLRobotoLightLabel">
+                                <rect key="frame" x="569" y="5" width="21" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="ylE-mx-bAI"/>
                                 </constraints>

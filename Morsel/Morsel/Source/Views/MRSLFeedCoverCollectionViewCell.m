@@ -62,6 +62,7 @@
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {
+    if (morsel.morselIDValue != self.morsel.morselIDValue) self.coverAttributedString = nil;
     _morsel = morsel;
     [self populateContent];
 }
@@ -106,6 +107,7 @@
         } else {
             self.morselID = self.morsel.morselIDValue;
             __weak __typeof(self) weakSelf = self;
+            self.infoTextView.attributedText = nil;
             [self.morsel getCoverInformation:^(NSAttributedString *attributedString, NSError *error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     weakSelf.infoTextView.attributedText = attributedString;

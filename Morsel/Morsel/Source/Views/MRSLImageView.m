@@ -111,25 +111,28 @@
             NSURLRequest *smallImageURLRequest = [imageObject imageURLRequestForImageSizeType:MRSLImageSizeTypeSmall];
             UIImage *smallImage = [self imageForCacheKey:[smallImageURLRequest.URL absoluteString]];
             if (imageSizeType == MRSLImageSizeTypeLarge && !_shouldBlur) {
-                UIImage *largeImage = [self imageForCacheKey:[largeImageURLRequest.URL absoluteString]];
-                if (largeImage) {
-                    [self setItemImage:largeImage];
-                } else if (!largeImage && smallImage) {
-                    [self setImageWithURL:largeImageURLRequest.URL
-                         placeholderImage:smallImage ?: [self placeholderImage]
-                                completed:nil
-                    showActivityIndicator:YES];
-                } else {
-                    __weak __typeof(self)weakSelf = self;
-                    [self setImageWithURL:smallImageURLRequest.URL
-                         placeholderImage:[self placeholderImage]
-                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                    [weakSelf setImageWithURL:largeImageURLRequest.URL
-                                             placeholderImage:image
-                                                    completed:nil
-                                        showActivityIndicator:YES];
-                                } showActivityIndicator:YES];
-                }
+                [self reset];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    UIImage *largeImage = [self imageForCacheKey:[largeImageURLRequest.URL absoluteString]];
+                    if (largeImage) {
+                        [self setItemImage:largeImage];
+                    } else if (!largeImage && smallImage) {
+                        [self setImageWithURL:largeImageURLRequest.URL
+                             placeholderImage:smallImage ?: [self placeholderImage]
+                                    completed:nil
+                        showActivityIndicator:YES];
+                    } else {
+                        __weak __typeof(self)weakSelf = self;
+                        [self setImageWithURL:smallImageURLRequest.URL
+                             placeholderImage:[self placeholderImage]
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                        [weakSelf setImageWithURL:largeImageURLRequest.URL
+                                                 placeholderImage:image
+                                                        completed:nil
+                                            showActivityIndicator:YES];
+                                    } showActivityIndicator:YES];
+                    }
+                });
             } else {
                 if (!smallImage) {
                     [self setImageWithURL:smallImageURLRequest.URL
