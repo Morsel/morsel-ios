@@ -54,8 +54,10 @@
 #pragma mark - Image Methods
 
 - (void)setItemImage:(UIImage *)image {
-    if (self.shouldBlur && image) {
+    if (self.shouldBlur && image && !self.imageProcessed) {
         self.imageProcessed = YES;
+
+        self.image = [self placeholderImage];
 
         GPUImageSaturationFilter *saturationFilter = [[GPUImageSaturationFilter alloc] init];
         saturationFilter.saturation = 2.f;
@@ -82,7 +84,9 @@
 
         dispatch_async(dispatch_get_main_queue(), ^{
             UIImage *processedImage = [filterGroup imageByFilteringImage:image];
-            self.image = processedImage;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.image = processedImage;
+            });
         });
     } else {
         if (self.grayScale) {
@@ -95,6 +99,8 @@
                     }
                 });
             });
+        } else if (self.shouldBlur) {
+            self.image = [self placeholderImage];
         } else {
             self.image = image;
         }
