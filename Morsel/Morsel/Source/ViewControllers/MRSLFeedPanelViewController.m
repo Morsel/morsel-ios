@@ -257,8 +257,8 @@ MRSLFeedShareCollectionViewCellDelegate>
     CGFloat cellHeight = 0.f;
     if (indexPath.row == 0) {
         // Estimate height for cover
-        CGFloat coverElementsHeight = MAX(150.f, floorf([UIScreen mainScreen].bounds.size.height * .3)) + 30.f;
-        cellHeight = coverElementsHeight + [self.morsel coverInformationHeight];
+        //CGFloat coverElementsHeight = 180.f;
+        cellHeight = [self.morsel coverInformationHeight];
     } else if (indexPath.row == [_morsel.items count] + 1) {
         // Estimate height for share page
         CGFloat shareElementsHeight = 200.f;
