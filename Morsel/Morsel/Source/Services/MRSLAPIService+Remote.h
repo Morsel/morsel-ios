@@ -21,8 +21,8 @@
                  success:(MRSLAPISuccessBlock)successOrNil
                  failure:(MRSLFailureBlock)failureOrNil;
 
-- (void)deleteUserDevice:(MRSLRemoteDevice *)remoteDevice
-                 success:(MRSLAPISuccessBlock)successOrNil
-                 failure:(MRSLFailureBlock)failureOrNil;
+- (void)deleteUserDeviceWithID:(NSNumber *)remoteDeviceID
+                       success:(MRSLAPISuccessBlock)successOrNil
+                       failure:(MRSLFailureBlock)failureOrNil;
 
 @end
