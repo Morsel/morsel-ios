@@ -18,6 +18,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.morselPhotoURL = @"morselPhotoURL",
 	.primary_item_id = @"primary_item_id",
 	.publishedDate = @"publishedDate",
+	.summary = @"summary",
 	.tagged = @"tagged",
 	.tagged_users_count = @"tagged_users_count",
 	.template_id = @"template_id",
@@ -344,6 +345,13 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 @dynamic publishedDate;
+
+
+
+
+
+
+@dynamic summary;
 
 
 
