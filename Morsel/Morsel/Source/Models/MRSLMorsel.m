@@ -26,6 +26,7 @@
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
     objectInfoJSON[@"title"] = NSNullIfNil(self.title);
     objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
+    objectInfoJSON[@"summary"] = NSNullIfNil(self.summary);
     if (self.template_id) objectInfoJSON[@"template_id"] = NSNullIfNil(self.template_id);
     MRSLItem *coverItem = [self coverItem];
     if (coverItem) objectInfoJSON[@"primary_item_id"] = NSNullIfNil(coverItem.itemID);
@@ -156,6 +157,11 @@
         [infoAttributedString appendAttributedString:placeAttributedString];
     }
 
+    if (self.summary) {
+        [infoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n\n%@", self.summary]
+                                                                                     attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}]];
+    }
+
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
     [infoAttributedString addAttribute:NSParagraphStyleAttributeName
@@ -216,6 +222,8 @@
                                                                  break;
                                                              }
                                                          }
+
+
 
                                                          NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
                                                          [paragraphStyle setAlignment:NSTextAlignmentCenter];

@@ -268,6 +268,9 @@
 		069CF77719423985004D769A /* MRSLRegularButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 069CF77619423985004D769A /* MRSLRegularButton.m */; };
 		069D281218D22A43000EBF7E /* MRSLItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 069D281118D22A43000EBF7E /* MRSLItemImageView.m */; };
 		069FA3A21989CAF0003B715F /* Specs_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06F567DE18BBDA3D0067FCD4 /* Specs_iPhone.storyboard */; };
+		06B4EFD51A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4EFD41A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m */; };
+		06B4EFD61A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4EFD41A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m */; };
+		06B4EFD71A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4EFD41A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m */; };
 		06B877E1193BD24600160707 /* MRSLPlaceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B877E0193BD24600160707 /* MRSLPlaceCollectionViewCell.m */; };
 		06B877E4193BD43200160707 /* MRSLPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B877E3193BD43200160707 /* MRSLPlaceViewController.m */; };
 		06B877E7193BD43F00160707 /* MRSLPlaceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B877E6193BD43F00160707 /* MRSLPlaceDetailViewController.m */; };
@@ -1037,6 +1040,8 @@
 		069D281018D22A43000EBF7E /* MRSLItemImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLItemImageView.h; path = Source/Views/MRSLItemImageView.h; sourceTree = "<group>"; };
 		069D281118D22A43000EBF7E /* MRSLItemImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLItemImageView.m; path = Source/Views/MRSLItemImageView.m; sourceTree = "<group>"; };
 		06B4448319ED8D8E00E6FDBE /* Morsel_1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Morsel_1.3.xcdatamodel; sourceTree = "<group>"; };
+		06B4EFD31A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselEditSummaryViewController.h; sourceTree = "<group>"; };
+		06B4EFD41A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselEditSummaryViewController.m; sourceTree = "<group>"; };
 		06B877DF193BD24600160707 /* MRSLPlaceCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLPlaceCollectionViewCell.h; path = Source/Views/MRSLPlaceCollectionViewCell.h; sourceTree = "<group>"; };
 		06B877E0193BD24600160707 /* MRSLPlaceCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLPlaceCollectionViewCell.m; path = Source/Views/MRSLPlaceCollectionViewCell.m; sourceTree = "<group>"; };
 		06B877E2193BD43200160707 /* MRSLPlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLPlaceViewController.h; sourceTree = "<group>"; };
@@ -1548,16 +1553,18 @@
 				062AB99318C5885F00742955 /* MRSLMorselDraftsViewController.m */,
 				06D52EB018C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.h */,
 				06D52EB118C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m */,
+				064B035519E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.h */,
+				064B035619E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m */,
+				068F38B11940B18400885E02 /* MRSLMorselEditPlaceViewController.h */,
+				068F38B21940B18400885E02 /* MRSLMorselEditPlaceViewController.m */,
+				06B4EFD31A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.h */,
+				06B4EFD41A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m */,
 				062AB99518C5970400742955 /* MRSLMorselEditTitleViewController.h */,
 				062AB99618C5970400742955 /* MRSLMorselEditTitleViewController.m */,
 				062AB99818C655DF00742955 /* MRSLMorselEditViewController.h */,
 				062AB99918C655DF00742955 /* MRSLMorselEditViewController.m */,
-				068F38B11940B18400885E02 /* MRSLMorselEditPlaceViewController.h */,
-				068F38B21940B18400885E02 /* MRSLMorselEditPlaceViewController.m */,
 				069CCD6C1901A49800D1B770 /* MRSLMorselPublishShareViewController.h */,
 				069CCD6D1901A49800D1B770 /* MRSLMorselPublishShareViewController.m */,
-				064B035519E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.h */,
-				064B035619E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m */,
 			);
 			name = Morsel;
 			sourceTree = "<group>";
@@ -3334,6 +3341,7 @@
 				0676B48F1898514D001D7483 /* MRSLMorselEditItemTableViewCell.m in Sources */,
 				06FE510119116048003A6D7D /* MRSLUserFollowListViewController.m in Sources */,
 				064B035219E33C4200AD3FE3 /* MRSLMorselTaggedUsersTableViewCell.m in Sources */,
+				06B4EFD51A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */,
 				068F38B31940B18400885E02 /* MRSLMorselEditPlaceViewController.m in Sources */,
 				40348F25195363F900BDDC15 /* MRSLActivityTableViewCell.m in Sources */,
 				065D0CC719A9A059009E6FC7 /* MRSLTemplateItem.m in Sources */,
@@ -3510,6 +3518,7 @@
 				06ECF67A18BFE36500577F9C /* MRSLSpecsAppDelegate.m in Sources */,
 				40348F3019536C3D00BDDC15 /* MRSLTableViewDataSource.m in Sources */,
 				064B035819E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m in Sources */,
+				06B4EFD61A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */,
 				06153B8A19956C16000C486D /* MRSLAPIService+Report.m in Sources */,
 				06F2612219DC8C1900A7050B /* MRSLBaseOnboardingViewController.m in Sources */,
 				40677324196BA27C0055BEAE /* _MRSLPresignedUpload.m in Sources */,
@@ -3708,6 +3717,7 @@
 				067966801A116B34008BB222 /* MRSLPushNotificationSettingsViewController.m in Sources */,
 				06C4DE3919897E14009B6406 /* MRSLMorselDetailViewController.m in Sources */,
 				064685EE19D5CA51003FDBE5 /* MRSLExploreViewController.m in Sources */,
+				06B4EFD71A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */,
 				06C4DE3A19897E14009B6406 /* MRSLProfileCredentialsViewController.m in Sources */,
 				06C4DE3B19897E14009B6406 /* MRSLProfileEditFieldsViewController.m in Sources */,
 				0621C2E019ACFDE200340C48 /* MRSLMorselInfoTableViewCell.m in Sources */,

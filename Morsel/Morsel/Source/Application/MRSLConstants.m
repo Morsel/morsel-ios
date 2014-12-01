@@ -171,6 +171,7 @@ NSString *const MRSLStoryboardSegueSpecialtiesKey = @"seg_Specialties";
 NSString *const MRSLStoryboardSegueTemplateInfoKey = @"seg_DisplayTemplateInfo";
 NSString *const MRSLStoryboardSegueKeywordFollowersKey = @"seg_DisplayKeywordFollowers";
 NSString *const MRSLStoryboardSegueEligibleUsersKey = @"seg_DisplayEligibleUsers";
+NSString *const MRSLStoryboardSegueAddSummaryKey = @"seg_AddSummary";
 
 #pragma mark - Storyboard Reuse Identifier Constants
 

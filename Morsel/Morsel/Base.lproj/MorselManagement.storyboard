@@ -51,7 +51,7 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="285" id="EtA-Na-tAv"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
-                                <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.57647061347961426" green="0.64313727617263794" blue="0.56862747669219971" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -489,8 +489,8 @@
                         <outlet property="toolbarView" destination="aia-yn-ZCi" id="j7e-ok-Qb9"/>
                         <segue destination="xiT-us-aqg" kind="show" identifier="seg_EditMorselTitle" id="9dR-Ov-8Wd"/>
                         <segue destination="Skl-OL-Y5W" kind="show" identifier="seg_SelectPlace" id="f8m-py-vMH"/>
-                        <segue destination="Wym-zL-icT" kind="show" identifier="seg_PublishShareMorsel" id="IKb-DN-gAL"/>
                         <segue destination="t2X-wZ-2qF" kind="show" identifier="seg_DisplayEligibleUsers" id="OgK-wb-T3a"/>
+                        <segue destination="Xef-cd-LIz" kind="show" identifier="seg_AddSummary" id="j0j-mK-ocm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1S-uu-Wpb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -725,13 +725,13 @@
         <!--Share-->
         <scene sceneID="5Nl-ac-03G">
             <objects>
-                <viewController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Wym-zL-icT" customClass="MRSLMorselPublishShareViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLMorselPublishShareViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Wym-zL-icT" customClass="MRSLMorselPublishShareViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XNZ-jY-hpg"/>
                         <viewControllerLayoutGuide type="bottom" id="21K-gO-VYN"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="nHD-vo-ZRa">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vDF-YP-3bI" customClass="MRSLBorderedView">
@@ -955,7 +955,78 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mby-0n-c1B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3198.75" y="1749.2957746478871"/>
+            <point key="canvasLocation" x="4038" y="1749"/>
+        </scene>
+        <!--Add summary-->
+        <scene sceneID="g58-CY-EOS">
+            <objects>
+                <viewController storyboardIdentifier="sb_MRSLMorselEditSummaryViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Xef-cd-LIz" customClass="MRSLMorselEditSummaryViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OnR-ua-5kp"/>
+                        <viewControllerLayoutGuide type="bottom" id="rmc-Vm-57J"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0ZG-mB-iVg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3YX-4k-6Bu" customClass="MRSLPlaceholderTextView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="484"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Xef-cd-LIz" id="1Ik-Tt-ICP"/>
+                                </connections>
+                            </textView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a #hashtag or summary to your morsel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="285" translatesAutoresizingMaskIntoConstraints="NO" id="4WV-rv-GeC" customClass="MRSLRobotoLightItalicLabel">
+                                <rect key="frame" x="15" y="6" width="565" height="17"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                <color key="textColor" red="0.57647061347961426" green="0.64313727617263794" blue="0.56862747669219971" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Optional: Adding hash can help other user's discover your morsels." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="565" translatesAutoresizingMaskIntoConstraints="NO" id="ryF-XU-jpc" customClass="MRSLRobotoLightItalicLabel">
+                                <rect key="frame" x="15" y="499" width="565" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4WV-rv-GeC" firstAttribute="top" secondItem="0ZG-mB-iVg" secondAttribute="top" constant="6" id="0Vn-Xa-90k"/>
+                            <constraint firstAttribute="trailing" secondItem="ryF-XU-jpc" secondAttribute="trailing" constant="20" id="74l-eG-RJS"/>
+                            <constraint firstAttribute="trailing" secondItem="3YX-4k-6Bu" secondAttribute="trailing" id="C7P-H2-Ykb"/>
+                            <constraint firstItem="3YX-4k-6Bu" firstAttribute="top" secondItem="0ZG-mB-iVg" secondAttribute="top" id="JEO-d6-omi"/>
+                            <constraint firstItem="rmc-Vm-57J" firstAttribute="top" secondItem="ryF-XU-jpc" secondAttribute="bottom" constant="20" id="JYA-w0-OhX"/>
+                            <constraint firstItem="ryF-XU-jpc" firstAttribute="leading" secondItem="0ZG-mB-iVg" secondAttribute="leading" constant="15" id="Ri7-BW-zBY"/>
+                            <constraint firstItem="3YX-4k-6Bu" firstAttribute="leading" secondItem="0ZG-mB-iVg" secondAttribute="leading" id="b8P-1Z-Nvd"/>
+                            <constraint firstItem="4WV-rv-GeC" firstAttribute="leading" secondItem="0ZG-mB-iVg" secondAttribute="leading" constant="15" id="gUE-Yl-tdw"/>
+                            <constraint firstItem="ryF-XU-jpc" firstAttribute="top" secondItem="3YX-4k-6Bu" secondAttribute="bottom" constant="15" id="krB-eQ-CdU"/>
+                            <constraint firstAttribute="trailing" secondItem="4WV-rv-GeC" secondAttribute="trailing" constant="20" id="ld0-ZS-YCv"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Add summary" id="BJW-6w-UNl">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="cHU-2a-2FT">
+                            <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="next" destination="Xef-cd-LIz" id="Lh2-ws-71O"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="nextBarButtonItem" destination="cHU-2a-2FT" id="2rl-Uk-Vat"/>
+                        <outlet property="optionalLabel" destination="ryF-XU-jpc" id="kf0-pF-c99"/>
+                        <outlet property="optionalLabelBottomConstraint" destination="JYA-w0-OhX" id="0a4-fH-f4R"/>
+                        <outlet property="summaryPlaceholderLabel" destination="4WV-rv-GeC" id="S28-kW-Lyb"/>
+                        <outlet property="summaryTextView" destination="3YX-4k-6Bu" id="s7T-fK-Uia"/>
+                        <segue destination="Wym-zL-icT" kind="show" identifier="seg_PublishShareMorsel" id="bD0-db-BYv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MX3-I5-QWw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3198" y="1749"/>
         </scene>
         <!--Tag People-->
         <scene sceneID="4H4-jU-G9v">
