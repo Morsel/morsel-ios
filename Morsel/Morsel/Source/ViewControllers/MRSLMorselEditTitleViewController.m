@@ -87,7 +87,6 @@ UITextViewDelegate>
 
 - (IBAction)done:(id)sender {
     if (_isPerformingRequest || ![self isDirty]) return;
-    self.isPerformingRequest = YES;
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Done",
                                               @"_view": self.mp_eventView}];
@@ -97,6 +96,7 @@ UITextViewDelegate>
         if ([morsel.title isEqualToString:trimmedTitle]) {
             [self.navigationController popViewControllerAnimated:YES];
         } else {
+            self.isPerformingRequest = YES;
             morsel.title = trimmedTitle;
             __weak __typeof(self) weakSelf = self;
             [_appDelegate.apiService updateMorsel:morsel

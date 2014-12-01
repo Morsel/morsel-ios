@@ -19,8 +19,8 @@
 #import "MRSLMorselEditTitleViewController.h"
 #import "MRSLMorselEditItemTableViewCell.h"
 #import "MRSLMorselInfoTableViewCell.h"
+#import "MRSLMorselEditSummaryViewController.h"
 #import "MRSLMorselTaggedUsersTableViewCell.h"
-#import "MRSLMorselPublishShareViewController.h"
 #import "MRSLMorselEditPlaceViewController.h"
 #import "MRSLMorselEditEligibleUsersViewController.h"
 #import "MRSLMorselDetailViewController.h"
@@ -223,9 +223,9 @@ MRSLMorselEditItemTableViewCellDelegate>
     if ([segue.identifier isEqualToString:MRSLStoryboardSegueEditMorselTitleKey]) {
         MRSLMorselEditTitleViewController *morselEditTitleVC = [segue destinationViewController];
         morselEditTitleVC.morselID = _morsel.morselID;
-    } else if ([segue.identifier isEqualToString:MRSLStoryboardSeguePublishShareMorselKey]) {
-        MRSLMorselPublishShareViewController *morselPublishVC = [segue destinationViewController];
-        morselPublishVC.morsel = _morsel;
+    } else if ([segue.identifier isEqualToString:MRSLStoryboardSegueAddSummaryKey]) {
+        MRSLMorselEditSummaryViewController *morselSummaryVC = [segue destinationViewController];
+        morselSummaryVC.morselID = _morsel.morselID;
     } else if ([segue.identifier isEqualToString:MRSLStoryboardSegueSelectPlaceKey]) {
         MRSLMorselEditPlaceViewController *morselPlaceVC = [segue destinationViewController];
         morselPlaceVC.morsel = _morsel;
@@ -280,7 +280,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                                                  @"items_count": @([weakSelf.objects count]),
                                                                                  @"morsel_id": NSNullIfNil(weakSelf.morsel.morselID),
                                                                                  @"morsel_draft":(weakSelf.morsel.draftValue) ? @"true" : @"false"}];
-                                       [weakSelf performSegueWithIdentifier:MRSLStoryboardSeguePublishShareMorselKey
+                                       [weakSelf performSegueWithIdentifier:MRSLStoryboardSegueAddSummaryKey
                                                                      sender:nil];
                                    }
                                } failure:^(NSError *error) {

@@ -172,6 +172,7 @@ extern NSString *const MRSLStoryboardSegueSpecialtiesKey;
 extern NSString *const MRSLStoryboardSegueTemplateInfoKey;
 extern NSString *const MRSLStoryboardSegueKeywordFollowersKey;
 extern NSString *const MRSLStoryboardSegueEligibleUsersKey;
+extern NSString *const MRSLStoryboardSegueAddSummaryKey;
 
 #pragma mark - Storyboard Reuse Identifier Constants
 
