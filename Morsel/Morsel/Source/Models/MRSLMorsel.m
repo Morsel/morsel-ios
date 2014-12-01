@@ -157,6 +157,11 @@
         [infoAttributedString appendAttributedString:placeAttributedString];
     }
 
+    if (self.summary) {
+        [infoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n\n%@", self.summary]
+                                                                                     attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}]];
+    }
+
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
     [infoAttributedString addAttribute:NSParagraphStyleAttributeName
@@ -217,6 +222,8 @@
                                                                  break;
                                                              }
                                                          }
+
+
 
                                                          NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
                                                          [paragraphStyle setAlignment:NSTextAlignmentCenter];
