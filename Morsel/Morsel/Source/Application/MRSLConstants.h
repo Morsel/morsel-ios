@@ -152,6 +152,8 @@ extern NSString *const MRSLStoryboardTemplateSelectionViewControllerKey;
 extern NSString *const MRSLStoryboardTemplateInfoViewControllerKey;
 extern NSString *const MRSLStoryboardTemplateInfoKey;
 extern NSString *const MRSLStoryboardOnboardingFeedKey;
+extern NSString *const MRSLStoryboardMorselSearchKey;
+extern NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey;
 
 #pragma mark - Storyboard Segue Constants
 
@@ -173,6 +175,7 @@ extern NSString *const MRSLStoryboardSegueTemplateInfoKey;
 extern NSString *const MRSLStoryboardSegueKeywordFollowersKey;
 extern NSString *const MRSLStoryboardSegueEligibleUsersKey;
 extern NSString *const MRSLStoryboardSegueAddSummaryKey;
+extern NSString *const MRSLStoryboardSegueDisplayMorselSearch;
 
 #pragma mark - Storyboard Reuse Identifier Constants
 

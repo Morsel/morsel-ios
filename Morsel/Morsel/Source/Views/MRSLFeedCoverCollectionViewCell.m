@@ -15,6 +15,7 @@
 #import "MRSLProfileImageView.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLMorselTaggedUsersViewController.h"
+#import "MRSLMorselSearchResultsViewController.h"
 #import "MRSLStandardTextView.h"
 
 #import "MRSLItem.h"
@@ -185,7 +186,11 @@
         NSNumber *userID = @([[URL host] intValue]);
         [self displayProfileWithID:userID];
     } else if ([[URL scheme] isEqualToString:@"hashtag"]) {
-#warning Handle hashtag
+        UINavigationController *searchResultsNC = [[UIStoryboard exploreStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselSearchKey];
+        MRSLMorselSearchResultsViewController *morselSearchResultsVC = [[searchResultsNC viewControllers] firstObject];
+        morselSearchResultsVC.hashtagString = [URL host];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                            object:searchResultsNC];
         return NO;
     }
     return YES;

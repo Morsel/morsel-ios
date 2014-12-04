@@ -149,22 +149,22 @@ MRSLSegmentedButtonViewDelegate>
                                                           weakSelf.loading = NO;
                                                       }];
     } else {
-        [_appDelegate.apiService searchWithQuery:_searchBar.text
-                                           maxID:nil
-                                       orSinceID:nil
-                                        andCount:nil
-                                         success:^(NSArray *responseArray) {
-                                             [weakSelf.refreshControl endRefreshing];
-                                             weakSelf.userIDs = [responseArray mutableCopy];
-                                             [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
-                                                                                       forKey:[self objectIDsKey]];
-                                             [weakSelf setupFetchRequest];
-                                             [weakSelf populateContent];
-                                             weakSelf.loading = NO;
-                                         } failure:^(NSError *error) {
-                                             [weakSelf.refreshControl endRefreshing];
-                                             weakSelf.loading = NO;
-                                         }];
+        [_appDelegate.apiService searchUsersWithQuery:_searchBar.text
+                                                maxID:nil
+                                            orSinceID:nil
+                                             andCount:nil
+                                              success:^(NSArray *responseArray) {
+                                                  [weakSelf.refreshControl endRefreshing];
+                                                  weakSelf.userIDs = [responseArray mutableCopy];
+                                                  [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
+                                                                                            forKey:[self objectIDsKey]];
+                                                  [weakSelf setupFetchRequest];
+                                                  [weakSelf populateContent];
+                                                  weakSelf.loading = NO;
+                                              } failure:^(NSError *error) {
+                                                  [weakSelf.refreshControl endRefreshing];
+                                                  weakSelf.loading = NO;
+                                              }];
     }
 }
 
@@ -200,28 +200,28 @@ MRSLSegmentedButtonViewDelegate>
                                                           if (weakSelf) weakSelf.loadingMore = NO;
                                                       }];
     } else {
-        [_appDelegate.apiService searchWithQuery:_searchBar.text
-                                           maxID:@([lastUser userIDValue] - 1)
-                                       orSinceID:nil
-                                        andCount:@(12)
-                                         success:^(NSArray *responseArray) {
-                                             if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                             DDLogDebug(@"%lu users added", (unsigned long)[responseArray count]);
-                                             if (weakSelf) {
-                                                 if ([responseArray count] > 0) {
-                                                     [weakSelf.userIDs addObjectsFromArray:responseArray];
-                                                     [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
-                                                                                               forKey:[self objectIDsKey]];
-                                                     [weakSelf setupFetchRequest];
-                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                         [weakSelf populateContent];
-                                                     });
-                                                 }
-                                                 weakSelf.loadingMore = NO;
-                                             }
-                                         } failure:^(NSError *error) {
-                                             if (weakSelf) weakSelf.loadingMore = NO;
-                                         }];
+        [_appDelegate.apiService searchUsersWithQuery:_searchBar.text
+                                                maxID:@([lastUser userIDValue] - 1)
+                                            orSinceID:nil
+                                             andCount:@(12)
+                                              success:^(NSArray *responseArray) {
+                                                  if ([responseArray count] == 0) weakSelf.loadedAll = YES;
+                                                  DDLogDebug(@"%lu users added", (unsigned long)[responseArray count]);
+                                                  if (weakSelf) {
+                                                      if ([responseArray count] > 0) {
+                                                          [weakSelf.userIDs addObjectsFromArray:responseArray];
+                                                          [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
+                                                                                                    forKey:[self objectIDsKey]];
+                                                          [weakSelf setupFetchRequest];
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              [weakSelf populateContent];
+                                                          });
+                                                      }
+                                                      weakSelf.loadingMore = NO;
+                                                  }
+                                              } failure:^(NSError *error) {
+                                                  if (weakSelf) weakSelf.loadingMore = NO;
+                                              }];
     }
 }
 
@@ -400,10 +400,10 @@ MRSLSegmentedButtonViewDelegate>
     [self suspendTimer];
     if (!_searchTimer) {
         self.searchTimer = [NSTimer timerWithTimeInterval:.1f
-                                             target:self
-                                           selector:@selector(refreshContent)
-                                           userInfo:nil
-                                            repeats:NO];
+                                                   target:self
+                                                 selector:@selector(refreshContent)
+                                                 userInfo:nil
+                                                  repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:_searchTimer
                                      forMode:NSRunLoopCommonModes];
     }

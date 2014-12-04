@@ -287,6 +287,9 @@
 		06B8781A193CCEC700160707 /* MRSLPlaceDetailBaseCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B87819193CCEC700160707 /* MRSLPlaceDetailBaseCollectionViewCell.m */; };
 		06B8781C193CD7E900160707 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B8781B193CD7E900160707 /* MapKit.framework */; };
 		06BE842B18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BE842A18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m */; };
+		06BEC7C11A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BEC7C01A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m */; };
+		06BEC7C21A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BEC7C01A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m */; };
+		06BEC7C31A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BEC7C01A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m */; };
 		06C38C3E18EA5CE90072CF8E /* MRSLModalCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */; };
 		06C38C4118EA5D370072CF8E /* MRSLModalLikersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4018EA5D370072CF8E /* MRSLModalLikersViewController.m */; };
 		06C38C4418EA5D910072CF8E /* MRSLBaseModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4318EA5D910072CF8E /* MRSLBaseModalViewController.m */; };
@@ -1076,6 +1079,8 @@
 		06B8781B193CD7E900160707 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		06BE842918EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLFeedShareCollectionViewCell.h; path = Source/Views/MRSLFeedShareCollectionViewCell.h; sourceTree = "<group>"; };
 		06BE842A18EF0BCC00321F03 /* MRSLFeedShareCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLFeedShareCollectionViewCell.m; path = Source/Views/MRSLFeedShareCollectionViewCell.m; sourceTree = "<group>"; };
+		06BEC7BF1A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselSearchResultsViewController.h; sourceTree = "<group>"; };
+		06BEC7C01A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselSearchResultsViewController.m; sourceTree = "<group>"; };
 		06C38C3C18EA5CE90072CF8E /* MRSLModalCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalCommentsViewController.h; sourceTree = "<group>"; };
 		06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLModalCommentsViewController.m; sourceTree = "<group>"; };
 		06C38C3F18EA5D370072CF8E /* MRSLModalLikersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalLikersViewController.h; sourceTree = "<group>"; };
@@ -1703,14 +1708,15 @@
 		063976D8186361A400A17211 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
-				06F2611E19DC8C0300A7050B /* Onboarding */,
 				064566F518C50C9F00C9CCBF /* Activity */,
 				064685E919D5CA1D003FDBE5 /* Explore */,
 				0609B83A1894AA08005A11A4 /* Feed */,
 				060FEC3F18DCAF2300085ED1 /* Management */,
 				065E06DB19928BBD00865D54 /* Notifications */,
+				06F2611E19DC8C0300A7050B /* Onboarding */,
 				0637B67619377B3200358F25 /* Places */,
 				0609B83C1894AA23005A11A4 /* Registration */,
+				06BEC7BE1A30EC4900E16B13 /* Search */,
 				408504A6193FF0C7003AE38B /* Settings */,
 				06C4CD09192AA18A004CD3B7 /* Social */,
 				061F935419102D8700608C0B /* Tags */,
@@ -2350,6 +2356,15 @@
 				06B877FB193C182800160707 /* MRSLPlaceUserCollectionViewCell.m */,
 			);
 			name = Places;
+			sourceTree = "<group>";
+		};
+		06BEC7BE1A30EC4900E16B13 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				06BEC7BF1A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.h */,
+				06BEC7C01A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m */,
+			);
+			name = Search;
 			sourceTree = "<group>";
 		};
 		06C4CD09192AA18A004CD3B7 /* Social */ = {
@@ -3255,6 +3270,7 @@
 				0642572519DB418B00F8AD90 /* MRSLBaseViewController+Additions.m in Sources */,
 				06B877E4193BD43200160707 /* MRSLPlaceViewController.m in Sources */,
 				0637B6751936982C00358F25 /* MRSLSectionHeaderReusableView.m in Sources */,
+				06BEC7C11A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m in Sources */,
 				069D281218D22A43000EBF7E /* MRSLItemImageView.m in Sources */,
 				068602991891A6C5000CD576 /* MRSLTextField.m in Sources */,
 				06340919191BDFE500C67FB8 /* MRSLWebBrowserViewController.m in Sources */,
@@ -3529,6 +3545,7 @@
 				40A83E4D196E0A7F00DED0A1 /* MRSLStateView.m in Sources */,
 				403C032119EF317B0081336C /* MRSLAppDelegate+Notifications.m in Sources */,
 				4040D49918E6249E008A39E5 /* MRSLActivity_Spec.m in Sources */,
+				06BEC7C21A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m in Sources */,
 				4067732F196BA3400055BEAE /* MRSLS3Service.m in Sources */,
 				065D0CCD19A9A06E009E6FC7 /* _MRSLTemplateItem.m in Sources */,
 				0621C2E919AD0AC000340C48 /* BVReorderTableView.m in Sources */,
@@ -3664,6 +3681,7 @@
 				06C4DDDC19897E14009B6406 /* MRSLSocialAuthentication.m in Sources */,
 				06C4DDDD19897E14009B6406 /* MRSLSocialUser.m in Sources */,
 				06C4DDDE19897E14009B6406 /* MRSLActivity.m in Sources */,
+				06BEC7C31A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m in Sources */,
 				06C4DDDF19897E14009B6406 /* MRSLComment.m in Sources */,
 				06C4DDE019897E14009B6406 /* MRSLItem.m in Sources */,
 				06FB35CC19A294D6008F4B61 /* MRSLAlignedButton.m in Sources */,

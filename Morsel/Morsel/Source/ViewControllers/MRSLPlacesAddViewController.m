@@ -8,8 +8,7 @@
 
 #import "MRSLPlacesAddViewController.h"
 
-#import <CoreLocation/CoreLocation.h>
-
+#import "MRSLAPIService+Search.h"
 #import "MRSLAPIService+Place.h"
 
 #import "MRSLFoursquarePlaceTableViewCell.h"

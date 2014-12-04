@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Explore-->
@@ -107,11 +107,119 @@
                     <navigationItem key="navigationItem" title="Explore" id="wtM-OL-xCc"/>
                     <connections>
                         <outlet property="collectionView" destination="aww-82-pWW" id="rAq-Sq-1Yp"/>
+                        <segue destination="4ZC-BC-TRP" kind="show" identifier="seg_DisplayMorselSearch" id="ikP-i4-X6h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uzq-xY-KfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1745" y="60"/>
+        </scene>
+        <!--Results-->
+        <scene sceneID="oa9-on-h7P">
+            <objects>
+                <viewController storyboardIdentifier="sb_MRSLMorselSearchResultsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="4ZC-BC-TRP" customClass="MRSLMorselSearchResultsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oMo-ZO-9WY"/>
+                        <viewControllerLayoutGuide type="bottom" id="wG6-X1-uKQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5Gm-3T-Zbc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g7U-jB-aUc" customClass="MRSLCollectionView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="Rud-GG-Hf9">
+                                    <size key="itemSize" width="106" height="106"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="320" height="50"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselPreviewCell" id="Gtx-AY-ut3" customClass="MRSLMorselPreviewCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="175" width="106" height="106"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gIY-pa-MIf" customClass="MRSLItemImageView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="106" id="Jd5-8i-qp4"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="avn-bh-b0k"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="86" translatesAutoresizingMaskIntoConstraints="NO" id="0d5-0k-8EB" customClass="MRSLRobotoSlabBoldLabel">
+                                                    <rect key="frame" x="10" y="20" width="86" height="66"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="t4C-h0-8Lp"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="xn1-72-ljf"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="gIY-pa-MIf" secondAttribute="bottom" id="7yG-lr-i32"/>
+                                            <constraint firstItem="0d5-0k-8EB" firstAttribute="leading" secondItem="Gtx-AY-ut3" secondAttribute="leading" constant="10" id="Fx9-dV-8aq"/>
+                                            <constraint firstAttribute="bottom" secondItem="0d5-0k-8EB" secondAttribute="bottom" constant="20" id="JAy-RO-pCu"/>
+                                            <constraint firstItem="gIY-pa-MIf" firstAttribute="leading" secondItem="Gtx-AY-ut3" secondAttribute="leading" id="WhI-6k-xmH"/>
+                                            <constraint firstItem="gIY-pa-MIf" firstAttribute="top" secondItem="Gtx-AY-ut3" secondAttribute="top" id="hpo-nm-Zzx"/>
+                                            <constraint firstAttribute="trailing" secondItem="0d5-0k-8EB" secondAttribute="trailing" constant="10" id="jER-I5-ANC"/>
+                                            <constraint firstAttribute="trailing" secondItem="gIY-pa-MIf" secondAttribute="trailing" id="qIo-qP-iCf"/>
+                                            <constraint firstItem="0d5-0k-8EB" firstAttribute="top" secondItem="Gtx-AY-ut3" secondAttribute="top" constant="20" id="xuM-3b-Xcv"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="itemImageView" destination="gIY-pa-MIf" id="A3Q-H0-aWB"/>
+                                            <outlet property="morselTitleLabel" destination="0d5-0k-8EB" id="5UY-7V-AIW"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="ruid_LoadingCell" id="ucJ-Zd-X6r">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="a4h-d3-SvJ" customClass="MRSLActivityIndicatorView">
+                                            <rect key="frame" x="290" y="15" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="AfG-wJ-aJU"/>
+                                                <constraint firstAttribute="height" constant="20" id="fXH-UI-J7w"/>
+                                            </constraints>
+                                            <color key="color" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="a4h-d3-SvJ" secondAttribute="centerX" id="gwt-qG-x3y"/>
+                                        <constraint firstAttribute="centerY" secondItem="a4h-d3-SvJ" secondAttribute="centerY" id="nN0-eX-i60"/>
+                                    </constraints>
+                                </collectionReusableView>
+                                <connections>
+                                    <outlet property="dataSource" destination="4ZC-BC-TRP" id="zaC-O5-ap6"/>
+                                    <outlet property="delegate" destination="4ZC-BC-TRP" id="dCh-lj-4gK"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="g7U-jB-aUc" firstAttribute="top" secondItem="oMo-ZO-9WY" secondAttribute="bottom" id="137-CS-3WM"/>
+                            <constraint firstItem="wG6-X1-uKQ" firstAttribute="top" secondItem="g7U-jB-aUc" secondAttribute="bottom" id="LdF-lw-AWy"/>
+                            <constraint firstAttribute="trailing" secondItem="g7U-jB-aUc" secondAttribute="trailing" id="ZNw-dZ-5ZU"/>
+                            <constraint firstItem="g7U-jB-aUc" firstAttribute="leading" secondItem="5Gm-3T-Zbc" secondAttribute="leading" id="dqM-dz-a0N"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Results" id="Jf2-Hq-g4f"/>
+                    <connections>
+                        <outlet property="collectionView" destination="g7U-jB-aUc" id="YQr-Qq-Tx8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cjr-VE-sM8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1745" y="882"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kNl-mf-JSo">
@@ -133,5 +241,28 @@
             </objects>
             <point key="canvasLocation" x="933" y="60"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="m1R-Uk-nhO">
+            <objects>
+                <navigationController storyboardIdentifier="sb_MorselSearch" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="xfW-9p-jW9" customClass="MRSLNavigationController" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8fu-oq-9zh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.9843137264251709" green="0.98039215803146362" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4ZC-BC-TRP" kind="relationship" relationship="rootViewController" id="pxh-rI-fyd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e0j-iD-JRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="933" y="882"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="pxh-rI-fyd"/>
+    </inferredMetricsTieBreakers>
 </document>
