@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hhS-Tr-n28">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hhS-Tr-n28">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -586,16 +586,6 @@
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="yCu-kv-Sus"/>
                                                     </constraints>
                                                 </view>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-Vo-Ecn" userLabel="Info Text View" customClass="MRSLStandardTextView">
-                                                    <rect key="frame" x="20" y="203" width="280" height="197"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <attributedString key="attributedText"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                    <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="RLK-sr-0Vu" id="wqJ-Aa-AgX"/>
-                                                    </connections>
-                                                </textView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="OI1-yX-HLC" userLabel="Cover Text" customClass="MRSLRobotoSlabBoldLabel">
                                                     <rect key="frame" x="30" y="0.0" width="260" height="158"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
@@ -638,11 +628,9 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="0Z6-qS-Vop" secondAttribute="bottom" id="0pX-OQ-6XR"/>
-                                            <constraint firstAttribute="bottom" secondItem="uIj-Vo-Ecn" secondAttribute="bottom" id="1Fv-JT-2F3"/>
                                             <constraint firstAttribute="bottom" secondItem="G95-yK-0PR" secondAttribute="bottom" id="3cg-tL-wFt"/>
                                             <constraint firstAttribute="centerX" secondItem="ED5-Fu-yTT" secondAttribute="centerX" id="8Qg-yR-uFM"/>
                                             <constraint firstAttribute="trailing" secondItem="aRh-Cj-twK" secondAttribute="trailing" id="F4l-6B-HdB"/>
-                                            <constraint firstAttribute="trailing" secondItem="uIj-Vo-Ecn" secondAttribute="trailing" constant="20" id="GzV-bP-mR5"/>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="ED5-Fu-yTT" secondAttribute="bottom" constant="-20" id="Inx-28-Ie8"/>
                                             <constraint firstAttribute="trailing" secondItem="0Z6-qS-Vop" secondAttribute="trailing" id="Oo7-l2-1Hd"/>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="aRh-Cj-twK" secondAttribute="bottom" id="Tj5-q0-l6c"/>
@@ -650,8 +638,6 @@
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="top" secondItem="RLK-sr-0Vu" secondAttribute="topMargin" constant="170" id="aM9-sf-SP9"/>
                                             <constraint firstAttribute="bottom" secondItem="G95-yK-0PR" secondAttribute="bottom" id="c6I-Uv-DEH"/>
                                             <constraint firstAttribute="trailing" secondItem="G95-yK-0PR" secondAttribute="trailing" id="dTo-A9-GXD"/>
-                                            <constraint firstItem="uIj-Vo-Ecn" firstAttribute="height" secondItem="G95-yK-0PR" secondAttribute="height" constant="-25" id="jji-3X-YQY"/>
-                                            <constraint firstItem="uIj-Vo-Ecn" firstAttribute="leading" secondItem="RLK-sr-0Vu" secondAttribute="leading" constant="20" id="nh5-pn-EB3"/>
                                             <constraint firstItem="G95-yK-0PR" firstAttribute="leading" secondItem="RLK-sr-0Vu" secondAttribute="leading" id="qjQ-JV-wrm"/>
                                             <constraint firstItem="OI1-yX-HLC" firstAttribute="leading" secondItem="RLK-sr-0Vu" secondAttribute="leading" constant="30" id="s8f-GK-RjU"/>
                                             <constraint firstItem="aRh-Cj-twK" firstAttribute="leading" secondItem="RLK-sr-0Vu" secondAttribute="leading" id="vFq-6z-WtW"/>
@@ -667,7 +653,7 @@
                                         <connections>
                                             <outlet property="editButton" destination="0Z6-qS-Vop" id="Txf-Dg-imZ"/>
                                             <outlet property="featuredButton" destination="LFA-9d-Dvr" id="9ba-PG-9SZ"/>
-                                            <outlet property="infoTextView" destination="uIj-Vo-Ecn" id="u3O-Ip-LUc"/>
+                                            <outlet property="infoBackgroundView" destination="G95-yK-0PR" id="aUr-ec-gqz"/>
                                             <outlet property="likeCountButton" destination="cBa-b7-DSO" id="Agl-f5-uLt"/>
                                             <outlet property="morselTitleLabel" destination="OI1-yX-HLC" id="g5r-e5-y0P"/>
                                             <outlet property="profileImageView" destination="ED5-Fu-yTT" id="ZZs-NV-plK"/>
