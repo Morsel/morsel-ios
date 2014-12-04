@@ -152,6 +152,8 @@ NSString *const MRSLStoryboardTemplateSelectionViewControllerKey = @"sb_MRSLTemp
 NSString *const MRSLStoryboardTemplateInfoViewControllerKey = @"sb_MRSLTemplateInfoViewController";
 NSString *const MRSLStoryboardTemplateInfoKey = @"sb_TemplateInfo";
 NSString *const MRSLStoryboardOnboardingFeedKey = @"sb_OnboardingFeed";
+NSString *const MRSLStoryboardMorselSearchKey = @"sb_MorselSearch";
+NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey = @"sb_MRSLMorselSearchResultsViewController";
 
 #pragma mark - Storyboard Segue Constants
 
@@ -172,6 +174,7 @@ NSString *const MRSLStoryboardSegueTemplateInfoKey = @"seg_DisplayTemplateInfo";
 NSString *const MRSLStoryboardSegueKeywordFollowersKey = @"seg_DisplayKeywordFollowers";
 NSString *const MRSLStoryboardSegueEligibleUsersKey = @"seg_DisplayEligibleUsers";
 NSString *const MRSLStoryboardSegueAddSummaryKey = @"seg_AddSummary";
+NSString *const MRSLStoryboardSegueDisplayMorselSearch = @"seg_DisplayMorselSearch";
 
 #pragma mark - Storyboard Reuse Identifier Constants
 

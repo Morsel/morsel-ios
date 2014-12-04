@@ -10,6 +10,9 @@
 
 @interface MRSLStandardTextView : UITextView
 
++ (MRSLStandardTextView *)textViewWithHashtagHighlightingFromAttributedString:(NSAttributedString *)string
+                                                                        frame:(CGRect)frame
+                                                                     delegate:(id)delegate;
 - (void)setUp;
 
 @end

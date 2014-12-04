@@ -15,6 +15,8 @@
 #import "MRSLProfileImageView.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLMorselTaggedUsersViewController.h"
+#import "MRSLMorselSearchResultsViewController.h"
+#import "MRSLStandardTextView.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -26,13 +28,13 @@
 
 @property (nonatomic) int morselID;
 @property (strong, nonatomic) NSAttributedString *coverAttributedString;
+@property (strong, nonatomic) MRSLStandardTextView *infoTextView;
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
-
+@property (weak, nonatomic) IBOutlet UIView *infoBackgroundView;
 @property (weak, nonatomic) IBOutlet UIButton *likeCountButton;
 @property (weak, nonatomic) IBOutlet UIButton *featuredButton;
-@property (weak, nonatomic) IBOutlet UITextView *infoTextView;
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
@@ -93,6 +95,45 @@
 #pragma mark - Private Methods
 
 - (void)populateContent {
+    if (!self.infoTextView) {
+
+        MRSLStandardTextView *infoTextView = [MRSLStandardTextView textViewWithHashtagHighlightingFromAttributedString:nil
+                                                                                                                 frame:CGRectMake(20.f, self.frame.size.height - 20.f, self.frame.size.width - 40.f, 20.f)
+                                                                                                              delegate:self];
+        [infoTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        infoTextView.editable = NO;
+        infoTextView.selectable = YES;
+        infoTextView.scrollEnabled = NO;
+        infoTextView.showsVerticalScrollIndicator = NO;
+
+        [self addSubview:infoTextView];
+
+        NSDictionary *metrics = @{@"padding": @20,
+                                  @"smallpadding": @5,
+                                  @"bottom": @0};
+        UIView *profileImageView = self.profileImageView;
+        NSDictionary *views = NSDictionaryOfVariableBindings(infoTextView, profileImageView);
+        @try {
+            NSArray *hConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-(==padding)-[infoTextView]-(==padding)-|"
+                                                                            options:0
+                                                                            metrics:metrics
+                                                                              views:views];
+            NSArray *vConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[profileImageView]-(==smallpadding)-[infoTextView(>=50.0)]-(==bottom)-|"
+                                                                            options:0
+                                                                            metrics:metrics
+                                                                              views:views];
+            [self addConstraints:hConstraints];
+            [self addConstraints:vConstraints];
+            [infoTextView setContentCompressionResistancePriority:UILayoutPriorityRequired
+                                                          forAxis:UILayoutConstraintAxisVertical];
+            [infoTextView setContentHuggingPriority:UILayoutPriorityRequired
+                                            forAxis:UILayoutConstraintAxisVertical];
+        } @catch (NSException *exception) {
+            DDLogError(@"Constraints error: %@", exception);
+        }
+
+        self.infoTextView = infoTextView;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         self.featuredButton.hidden = !([self isHomeFeedItem] && _morsel.feedItemFeaturedValue);
         self.morselTitleLabel.text = _morsel.title;
@@ -101,6 +142,8 @@
                               forState:UIControlStateNormal];
         self.likeCountButton.hidden = (_morsel.like_countValue == 0);
         self.editButton.hidden = ![_morsel.creator isCurrentUser];
+
+
 
         if (self.morsel.morselIDValue == self.morselID && self.coverAttributedString) {
             self.infoTextView.attributedText = self.coverAttributedString;
@@ -138,9 +181,17 @@
         taggedUsersVC.morsel = self.morsel;
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
                                                             object:taggedNC];
+        return NO;
     } else if ([[URL scheme] isEqualToString:@"user"]) {
         NSNumber *userID = @([[URL host] intValue]);
         [self displayProfileWithID:userID];
+    } else if ([[URL scheme] isEqualToString:@"hashtag"]) {
+        UINavigationController *searchResultsNC = [[UIStoryboard exploreStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselSearchKey];
+        MRSLMorselSearchResultsViewController *morselSearchResultsVC = [[searchResultsNC viewControllers] firstObject];
+        morselSearchResultsVC.hashtagString = [URL host];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                            object:searchResultsNC];
+        return NO;
     }
     return YES;
 }

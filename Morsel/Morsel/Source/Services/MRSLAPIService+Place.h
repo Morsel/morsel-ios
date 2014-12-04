@@ -8,17 +8,9 @@
 
 #import "MRSLAPIService.h"
 
-#import <CoreLocation/CoreLocation.h>
-
 @class MRSLFoursquarePlace;
 
 @interface MRSLAPIService (Place)
-
-- (void)searchPlacesWithQuery:(NSString *)query
-                  andLocation:(CLLocation *)location
-                       orNear:(NSString *)near
-                      success:(MRSLAPIArrayBlock)successOrNil
-                      failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)addUserToPlaceWithFoursquareID:(MRSLFoursquarePlace *)foursquarePlace
                              userTitle:(NSString *)title

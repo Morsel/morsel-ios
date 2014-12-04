@@ -115,7 +115,7 @@ NSFetchedResultsControllerDelegate>
                                              }
                                          } failure:^(NSError *error) {
                                              if (weakSelf) {
-                                                 [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
+                                                 [[MRSLEventManager sharedManager] track:@"Error Loading Explore"
                                                                               properties:@{@"_view": self.mp_eventView,
                                                                                            @"message" : NSNullIfNil(error.description),
                                                                                            @"action" : @"refresh"}];
@@ -133,7 +133,7 @@ NSFetchedResultsControllerDelegate>
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getExploreWithMaxID:@([lastMorsel feedItemIDValue] - 1)
                                        orSinceID:nil
-                                        andCount:@(7)
+                                        andCount:nil
                                          success:^(NSArray *responseArray) {
                                              if ([responseArray count] == 0) weakSelf.loadedAll = YES;
                                              DDLogDebug(@"%lu feed items added", (unsigned long)[responseArray count]);
@@ -150,7 +150,7 @@ NSFetchedResultsControllerDelegate>
                                              }
                                          } failure:^(NSError *error) {
                                              if (weakSelf) weakSelf.loadingMore = NO;
-                                             [[MRSLEventManager sharedManager] track:@"Error Loading Feed"
+                                             [[MRSLEventManager sharedManager] track:@"Error Loading Explore"
                                                                           properties:@{@"_view": self.mp_eventView,
                                                                                        @"message" : NSNullIfNil(error.description),
                                                                                        @"action" : @"load_more"}];
