@@ -195,6 +195,7 @@ extern NSString *const MRSLStoryboardRUIDInfoCellKey;
 extern NSString *const MRSLStoryboardRUIDInstructionCellKey;
 extern NSString *const MRSLStoryboardRUIDKeywordCellKey;
 extern NSString *const MRSLStoryboardRUIDLoadingCellKey;
+extern NSString *const MRSLStoryboardRUIDSearchCellKey;
 extern NSString *const MRSLStoryboardRUIDLocationDisabledCellKey;
 extern NSString *const MRSLStoryboardRUIDItemPreviewCellKey;
 extern NSString *const MRSLStoryboardRUIDMenuOptionCellKey;

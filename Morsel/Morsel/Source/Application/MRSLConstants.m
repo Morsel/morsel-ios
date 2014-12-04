@@ -194,6 +194,7 @@ NSString *const MRSLStoryboardRUIDInfoCellKey = @"ruid_InfoCell";
 NSString *const MRSLStoryboardRUIDInstructionCellKey = @"ruid_InstructionCell";
 NSString *const MRSLStoryboardRUIDKeywordCellKey = @"ruid_KeywordCell";
 NSString *const MRSLStoryboardRUIDLoadingCellKey = @"ruid_LoadingCell";
+NSString *const MRSLStoryboardRUIDSearchCellKey = @"ruid_SearchCell";
 NSString *const MRSLStoryboardRUIDLocationDisabledCellKey = @"ruid_LocationDisabledCell";
 NSString *const MRSLStoryboardRUIDItemPreviewCellKey = @"ruid_ItemPreviewCell";
 NSString *const MRSLStoryboardRUIDMenuOptionCellKey = @"ruid_MenuOptionCell";

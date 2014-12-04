@@ -13,6 +13,7 @@
 #import "MRSLCollectionView.h"
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
+#import "MRSLSearchBarCollectionReusableView.h"
 
 #import "MRSLMorsel.h"
 
@@ -20,6 +21,7 @@
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
+UISearchBarDelegate,
 NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, getter = isLoading) BOOL loading;
@@ -52,6 +54,11 @@ NSFetchedResultsControllerDelegate>
                         action:@selector(refreshContent)
               forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:_refreshControl];
+
+    [self.collectionView registerNib:[UINib nibWithNibName:@"MRSLSearchBarCollectionReusableView"
+                                                    bundle:nil]
+          forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                 withReuseIdentifier:MRSLStoryboardRUIDSearchCellKey];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -183,6 +190,12 @@ NSFetchedResultsControllerDelegate>
         return [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                   withReuseIdentifier:MRSLStoryboardRUIDLoadingCellKey
                                                          forIndexPath:indexPath];
+    } else if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        MRSLSearchBarCollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                         withReuseIdentifier:MRSLStoryboardRUIDSearchCellKey
+                                                                                                forIndexPath:indexPath];
+        header.searchBar.delegate = self;
+        return header;
     }
     return nil;
 }
@@ -208,6 +221,11 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    return CGSizeMake([collectionView getWidth], 44.f);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     return _loadingMore ? CGSizeMake([collectionView getWidth], 50.f) : CGSizeZero;
 }
@@ -226,6 +244,32 @@ NSFetchedResultsControllerDelegate>
     CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
     CGFloat contentOffset = maximumOffset - currentOffset;
     if (contentOffset <= 10.f) [self loadMore];
+    [self.view endEditing:YES];
+}
+
+#pragma mark - UISearchBarDelegate Methods
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+#warning Begin search in context
+}
+
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ([text isEqualToString:@"\n"]) {
+        [searchBar setShowsCancelButton:NO animated:YES];
+        [searchBar resignFirstResponder];
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [self.view endEditing:YES];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:YES animated:YES];
 }
 
 @end
