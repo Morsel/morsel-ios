@@ -15,7 +15,7 @@
 @property (strong, nonatomic) NSArray *objects;
 
 @property (copy, nonatomic) NSString *cellIdentifier;
-@property (copy, nonatomic) MRSLCellConfigureBlock configureCellBlock;
+@property (copy, nonatomic) MRSLCVCellConfigureBlock configureCellBlock;
 
 @end
 
@@ -33,7 +33,7 @@
 - (id)initWithManagedObjectClass:(Class)objectClass
                        predicate:(NSPredicate *)predicateOrNil
                   collectionView:(UICollectionView *)collectionView
-                      cellConfig:(MRSLCellConfigureBlock)cellConfig
+                      cellConfig:(MRSLCVCellConfigureBlock)cellConfig
              supplementaryConfig:(MRSLSupplementaryCellConfigureBlock)supplementaryConfig
                     headerConfig:(MRSLLayoutHeaderSizeConfigureBlock)headerConfig
                   cellSizeConfig:(MRSLLayoutCellSizeConfigureBlock)cellSizeConfig

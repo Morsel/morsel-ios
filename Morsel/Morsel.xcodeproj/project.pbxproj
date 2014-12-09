@@ -39,6 +39,12 @@
 		060C97A519B7B08D006AAC43 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060C97A419B7B08D006AAC43 /* UIButton+Additions.m */; };
 		060C97A619B7B08D006AAC43 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060C97A419B7B08D006AAC43 /* UIButton+Additions.m */; };
 		060C97A719B7B08D006AAC43 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 060C97A419B7B08D006AAC43 /* UIButton+Additions.m */; };
+		060D392B1A3B877200BFB642 /* MRSLIconTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 060D392A1A3B877200BFB642 /* MRSLIconTextTableViewCell.m */; };
+		060D392C1A3B877200BFB642 /* MRSLIconTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 060D392A1A3B877200BFB642 /* MRSLIconTextTableViewCell.m */; };
+		060D392D1A3B877200BFB642 /* MRSLIconTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 060D392A1A3B877200BFB642 /* MRSLIconTextTableViewCell.m */; };
+		060D39311A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 060D39301A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m */; };
+		060D39321A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 060D39301A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m */; };
+		060D39331A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 060D39301A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m */; };
 		060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */; };
 		061531C218E220530025F07E /* RobotoSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 061531C018E220530025F07E /* RobotoSlab-Bold.ttf */; };
 		06153B8919956C16000C486D /* MRSLAPIService+Report.m in Sources */ = {isa = PBXBuildFile; fileRef = 06153B8819956C16000C486D /* MRSLAPIService+Report.m */; };
@@ -768,6 +774,10 @@
 		060C6C561A0A9E3200B72411 /* _MRSLRemoteDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MRSLRemoteDevice.m; path = Source/Models/Generated/_MRSLRemoteDevice.m; sourceTree = "<group>"; };
 		060C97A319B7B08D006AAC43 /* UIButton+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Additions.h"; sourceTree = "<group>"; };
 		060C97A419B7B08D006AAC43 /* UIButton+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Additions.m"; sourceTree = "<group>"; };
+		060D39291A3B877200BFB642 /* MRSLIconTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLIconTextTableViewCell.h; path = Source/Views/MRSLIconTextTableViewCell.h; sourceTree = "<group>"; };
+		060D392A1A3B877200BFB642 /* MRSLIconTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLIconTextTableViewCell.m; path = Source/Views/MRSLIconTextTableViewCell.m; sourceTree = "<group>"; };
+		060D392F1A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseRemoteDataSourceViewController.h; sourceTree = "<group>"; };
+		060D39301A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLBaseRemoteDataSourceViewController.m; sourceTree = "<group>"; };
 		060FEC4718DCC75E00085ED1 /* MRSLBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseViewController.h; sourceTree = "<group>"; };
 		060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLBaseViewController.m; sourceTree = "<group>"; };
 		061531C018E220530025F07E /* RobotoSlab-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Bold.ttf"; sourceTree = "<group>"; };
@@ -938,6 +948,7 @@
 		065E523818C147220040C391 /* KIFUITestActor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFUITestActor+Additions.m"; path = "Source/Actors/KIFUITestActor+Additions.m"; sourceTree = "<group>"; };
 		065E523A18C147280040C391 /* FeedFlow_Integration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedFlow_Integration.m; path = Source/Flows/FeedFlow_Integration.m; sourceTree = "<group>"; };
 		065E523B18C147280040C391 /* LoginFlow_Integration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginFlow_Integration.m; path = Source/Flows/LoginFlow_Integration.m; sourceTree = "<group>"; };
+		065EC0AA1A3F8EB300C656A1 /* Morsel_1.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Morsel_1.5.xcdatamodel; sourceTree = "<group>"; };
 		0660668D18522E7900E780FC /* Morsel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Morsel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0660669818522E7900E780FC /* Morsel-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Morsel-Info.plist"; sourceTree = "<group>"; };
 		0660669A18522E7900E780FC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1337,8 +1348,8 @@
 		408744361940DAB2000B491F /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		4087443A1940F273000B491F /* MRSLBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseTableViewController.h; sourceTree = "<group>"; };
 		4087443B1940F273000B491F /* MRSLBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLBaseTableViewController.m; sourceTree = "<group>"; };
-		4087443F1940F376000B491F /* UIViewController+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Base.h"; sourceTree = "<group>"; };
-		408744401940F376000B491F /* UIViewController+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Base.m"; sourceTree = "<group>"; };
+		4087443F1940F376000B491F /* UIViewController+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Base.h"; path = "../ViewControllers/UIViewController+Base.h"; sourceTree = "<group>"; };
+		408744401940F376000B491F /* UIViewController+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Base.m"; path = "../ViewControllers/UIViewController+Base.m"; sourceTree = "<group>"; };
 		40874444194167EA000B491F /* MRSLReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLReusableView.h; path = Source/Views/MRSLReusableView.h; sourceTree = "<group>"; };
 		40874445194167EA000B491F /* MRSLReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLReusableView.m; path = Source/Views/MRSLReusableView.m; sourceTree = "<group>"; };
 		409055451976E5B900026DCC /* MRSLNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLNavigationController.h; sourceTree = "<group>"; };
@@ -1484,6 +1495,21 @@
 				0609B83F1894B52E005A11A4 /* MRSLCameraPreviewView.m */,
 			);
 			name = "AV Capture";
+			sourceTree = "<group>";
+		};
+		060D392E1A3B888100BFB642 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				06C38C4218EA5D910072CF8E /* MRSLBaseModalViewController.h */,
+				06C38C4318EA5D910072CF8E /* MRSLBaseModalViewController.m */,
+				060D392F1A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.h */,
+				060D39301A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m */,
+				4087443A1940F273000B491F /* MRSLBaseTableViewController.h */,
+				4087443B1940F273000B491F /* MRSLBaseTableViewController.m */,
+				060FEC4718DCC75E00085ED1 /* MRSLBaseViewController.h */,
+				060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */,
+			);
+			name = General;
 			sourceTree = "<group>";
 		};
 		060EB0BE18BE71D300D082B8 /* Utilities */ = {
@@ -1706,20 +1732,12 @@
 		063976D71863619A00A17211 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				06C38C4218EA5D910072CF8E /* MRSLBaseModalViewController.h */,
-				06C38C4318EA5D910072CF8E /* MRSLBaseModalViewController.m */,
-				4087443A1940F273000B491F /* MRSLBaseTableViewController.h */,
-				4087443B1940F273000B491F /* MRSLBaseTableViewController.m */,
-				060FEC4718DCC75E00085ED1 /* MRSLBaseViewController.h */,
-				060FEC4818DCC75E00085ED1 /* MRSLBaseViewController.m */,
 				06F44618195223BF00BE3014 /* MRSLMenuViewController.h */,
 				06F44619195223BF00BE3014 /* MRSLMenuViewController.m */,
 				409055451976E5B900026DCC /* MRSLNavigationController.h */,
 				409055461976E5B900026DCC /* MRSLNavigationController.m */,
 				063250C81860E1DD00ADDF23 /* MRSLRootViewController.h */,
 				063250C91860E1DD00ADDF23 /* MRSLRootViewController.m */,
-				4087443F1940F376000B491F /* UIViewController+Base.h */,
-				408744401940F376000B491F /* UIViewController+Base.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -1898,6 +1916,8 @@
 				40DC742E19549DA2005CFECF /* MRSLBaseTableViewCell.m */,
 				06DFA95119AD29F700936BEB /* MRSLCheckmarkTextTableViewCell.h */,
 				06DFA95219AD29F700936BEB /* MRSLCheckmarkTextTableViewCell.m */,
+				060D39291A3B877200BFB642 /* MRSLIconTextTableViewCell.h */,
+				060D392A1A3B877200BFB642 /* MRSLIconTextTableViewCell.m */,
 				065649151A1273B700075AB2 /* MRSLSwitchTableViewCell.h */,
 				065649161A1273B700075AB2 /* MRSLSwitchTableViewCell.m */,
 			);
@@ -2086,6 +2106,8 @@
 				40854F8619747A350015DFBB /* UIView+States.m */,
 				06D053681986B7B30065916D /* UIViewController+Additions.h */,
 				06D053691986B7B30065916D /* UIViewController+Additions.m */,
+				4087443F1940F376000B491F /* UIViewController+Base.h */,
+				408744401940F376000B491F /* UIViewController+Base.m */,
 			);
 			name = Categories;
 			path = Morsel/Source/Categories;
@@ -2226,11 +2248,12 @@
 		0698CA8D18523AE2007AF442 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				068B04D8195A04B0004B302F /* Protocols */,
 				062E8E00189C19F8002A8CD4 /* Data Objects */,
-				066F5ADC185BCA6D00468210 /* Model */,
-				066F5ADB185BCA6100468210 /* Human */,
+				4003509018EB571800C97DDC /* Data Sources */,
 				0698CA96185240E2007AF442 /* Generated */,
+				066F5ADB185BCA6100468210 /* Human */,
+				066F5ADC185BCA6D00468210 /* Model */,
+				068B04D8195A04B0004B302F /* Protocols */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2253,7 +2276,7 @@
 		0698CA9118523BBE007AF442 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				4003509018EB571800C97DDC /* DataSources */,
+				060D392E1A3B888100BFB642 /* General */,
 				063976D71863619A00A17211 /* Interface */,
 				063976D8186361A400A17211 /* Sections */,
 			);
@@ -2719,7 +2742,7 @@
 			name = Follow;
 			sourceTree = "<group>";
 		};
-		4003509018EB571800C97DDC /* DataSources */ = {
+		4003509018EB571800C97DDC /* Data Sources */ = {
 			isa = PBXGroup;
 			children = (
 				40348F3219536CC000BDDC15 /* MRSLDataSource.h */,
@@ -2737,7 +2760,8 @@
 				40348F2D19536C3D00BDDC15 /* MRSLTableViewDataSource.h */,
 				40348F2E19536C3D00BDDC15 /* MRSLTableViewDataSource.m */,
 			);
-			path = DataSources;
+			name = "Data Sources";
+			path = Source/ViewControllers/DataSources;
 			sourceTree = "<group>";
 		};
 		4003509618EB5CBF00C97DDC /* Activity */ = {
@@ -3446,6 +3470,7 @@
 				4062A4F1196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */,
 				068B04DC195A083C004B302F /* UIImage+Color.m in Sources */,
 				060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */,
+				060D39311A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m in Sources */,
 				408744371940DAB2000B491F /* NSString+Additions.m in Sources */,
 				061B4EAA195CC4DD00BC4C76 /* MRSLProfileEditPlacesViewController.m in Sources */,
 				06D52EB218C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m in Sources */,
@@ -3487,6 +3512,7 @@
 				065D0CF619AC0227009E6FC7 /* MRSLRobotoLightItalicLabel.m in Sources */,
 				068602AE1891C603000CD576 /* MRSLRobotoSlabBoldLabel.m in Sources */,
 				0684504C192F9F6A00B38870 /* MRSLSegmentedHeaderReusableView.m in Sources */,
+				060D392B1A3B877200BFB642 /* MRSLIconTextTableViewCell.m in Sources */,
 				06D0536A1986B7B30065916D /* UIViewController+Additions.m in Sources */,
 				06DAFB43191A910A0044AF3E /* MRSLAPIService+Profile.m in Sources */,
 				06FE510B19117CFE003A6D7D /* MRSLKeyword.m in Sources */,
@@ -3573,6 +3599,7 @@
 				064685ED19D5CA51003FDBE5 /* MRSLExploreViewController.m in Sources */,
 				06ECF68418BFE39A00577F9C /* Crash_Spec.m in Sources */,
 				40854F8D19747EB10015DFBB /* UICollectionView+States.m in Sources */,
+				060D392C1A3B877200BFB642 /* MRSLIconTextTableViewCell.m in Sources */,
 				068E277818BBFBB50020CA84 /* MRSLComment.m in Sources */,
 				40854F97197482560015DFBB /* MRSLCollectionView.m in Sources */,
 				40A83E4D196E0A7F00DED0A1 /* MRSLStateView.m in Sources */,
@@ -3615,6 +3642,7 @@
 				069CEB0B1A16A689006B9713 /* MRSLActivityItemShareTextProvider.m in Sources */,
 				403B5BF9195A041D001F33D2 /* MRSLProfessionalSettingsTableViewController.m in Sources */,
 				408504AA193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */,
+				060D39321A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m in Sources */,
 				40854F7E197450F90015DFBB /* MRSLTableView.m in Sources */,
 				06ECF67A18BFE36500577F9C /* MRSLSpecsAppDelegate.m in Sources */,
 				40348F3019536C3D00BDDC15 /* MRSLTableViewDataSource.m in Sources */,
@@ -3699,6 +3727,7 @@
 				06C4DDCD19897E14009B6406 /* UIImagePickerController+StatusBarHidden.m in Sources */,
 				06C4DDCE19897E14009B6406 /* UINavigationController+Additions.m in Sources */,
 				06C4DDCF19897E14009B6406 /* UIRefreshControl+Additions.m in Sources */,
+				060D39331A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m in Sources */,
 				06C4DDD019897E14009B6406 /* UIStoryboard+Morsel.m in Sources */,
 				06C4DDD119897E14009B6406 /* UITableView+Additions.m in Sources */,
 				06C4DDD219897E14009B6406 /* UITableView+States.m in Sources */,
@@ -3716,6 +3745,7 @@
 				06C4DDDB19897E14009B6406 /* MRSLPlaceTimeframe.m in Sources */,
 				06C4DDDC19897E14009B6406 /* MRSLSocialAuthentication.m in Sources */,
 				06C4DDDD19897E14009B6406 /* MRSLSocialUser.m in Sources */,
+				060D392D1A3B877200BFB642 /* MRSLIconTextTableViewCell.m in Sources */,
 				06C4DDDE19897E14009B6406 /* MRSLActivity.m in Sources */,
 				06BEC7C31A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m in Sources */,
 				06C4DDDF19897E14009B6406 /* MRSLComment.m in Sources */,
@@ -5277,13 +5307,14 @@
 		0698CA8A18523A8C007AF442 /* Morsel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				065EC0AA1A3F8EB300C656A1 /* Morsel_1.5.xcdatamodel */,
 				064B034F19E326CE00AD3FE3 /* Morsel_1.4.xcdatamodel */,
 				06B4448319ED8D8E00E6FDBE /* Morsel_1.3.xcdatamodel */,
 				065E06DD1992AB0000865D54 /* Morsel_1.1.xcdatamodel */,
 				406D93EF19C3BB8E00DFA08E /* Morsel_1.2.xcdatamodel */,
 				0698CA8B18523A8C007AF442 /* Morsel.xcdatamodel */,
 			);
-			currentVersion = 064B034F19E326CE00AD3FE3 /* Morsel_1.4.xcdatamodel */;
+			currentVersion = 065EC0AA1A3F8EB300C656A1 /* Morsel_1.5.xcdatamodel */;
 			name = Morsel.xcdatamodeld;
 			path = Source/Models/Morsel.xcdatamodeld;
 			sourceTree = "<group>";

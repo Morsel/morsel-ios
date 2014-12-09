@@ -11,7 +11,7 @@
 @interface MRSLCollectionViewArrayDataSource : MRSLCollectionViewDataSource
 
 - (id)initWithObjects:(NSArray *)objects
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock;
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock;
 
 - (void)updateObjects:(NSArray *)newObjects;
 

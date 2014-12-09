@@ -17,7 +17,7 @@
 @property (strong, nonatomic) NSArray *objects;
 @property (strong, nonatomic) NSArray *sections;
 
-@property (copy, nonatomic) MRSLCellConfigureBlock configureCellBlock;
+@property (copy, nonatomic) MRSLCVCellConfigureBlock configureCellBlock;
 
 @end
 
@@ -29,19 +29,6 @@
         self.collectionView = collectionView;
     }
     return self;
-}
-
-- (id)objectAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.objects count] == 0 || indexPath.row >= [self count]) return nil;
-    return self.objects[(NSUInteger) indexPath.row];
-}
-
-- (NSUInteger)count {
-    return [self.objects count];
-}
-
-- (BOOL)isEmpty {
-    return [self count] == 0;
 }
 
 #pragma mark - UICollectionViewDataSource Methods

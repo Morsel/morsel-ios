@@ -13,6 +13,7 @@
 @interface MRSLHashtagKeywordTableViewCell ()
 
 @property (nonatomic, weak) IBOutlet UILabel *hashtagLabel;
+@property (weak, nonatomic) IBOutlet UILabel *hashtagCountLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *arrowImageView;
 
 @end
@@ -32,6 +33,7 @@
 
 - (void)populateContent {
     self.hashtagLabel.text = [NSString stringWithFormat:@"#%@", _hashtagKeyword.name];
+    self.hashtagCountLabel.text = [NSString stringWithFormat:@"%i morsel%@", _hashtagKeyword.tags_countValue, (_hashtagKeyword.tags_countValue > 1) ? @"s" : @""];
 }
 
 @end

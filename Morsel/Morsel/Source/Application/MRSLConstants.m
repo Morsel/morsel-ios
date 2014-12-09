@@ -154,6 +154,7 @@ NSString *const MRSLStoryboardTemplateInfoKey = @"sb_TemplateInfo";
 NSString *const MRSLStoryboardOnboardingFeedKey = @"sb_OnboardingFeed";
 NSString *const MRSLStoryboardMorselSearchKey = @"sb_MorselSearch";
 NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey = @"sb_MRSLMorselSearchResultsViewController";
+NSString *const MRSLStoryboardFindFriendsViewControllerKey = @"sb_MRSLFindFriendsViewController";
 
 #pragma mark - Storyboard Segue Constants
 
@@ -220,6 +221,8 @@ NSString *const MRSLStoryboardRUIDTemplateInfoCell = @"ruid_TemplateInfoCell";
 NSString *const MRSLStoryboardRUIDMorselAddCell = @"ruid_MorselAddCell";
 NSString *const MRSLStoryboardRUIDMorselInfoCell = @"ruid_MorselInfoCell";
 NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey = @"ruid_PushNotificationSettingCell";
+NSString *const MRSLStoryboardRUIDHashtagKeywordCellKey = @"ruid_HashtagKeywordCell";
+NSString *const MRSLStoryboardRUIDIcontTextCellKey = @"ruid_IconTextCell";
 
 #pragma mark - Storyboard Source Identifiers
 /*

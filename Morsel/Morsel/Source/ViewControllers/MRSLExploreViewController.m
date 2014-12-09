@@ -70,7 +70,10 @@ NSFetchedResultsControllerDelegate>
             self.exploreSearchVC = obj;
         }
     }];
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -278,6 +281,7 @@ NSFetchedResultsControllerDelegate>
     if ([text isEqualToString:@"\n"]) {
         [searchBar setShowsCancelButton:NO animated:YES];
         [searchBar resignFirstResponder];
+        [self.exploreSearchVC commenceSearch];
         return NO;
     } else {
         return YES;
