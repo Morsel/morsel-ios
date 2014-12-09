@@ -11,6 +11,7 @@
 #import "MRSLAPIService+Explore.h"
 
 #import "MRSLCollectionView.h"
+#import "MRSLExploreSearchViewController.h"
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
 #import "MRSLSearchBarCollectionReusableView.h"
@@ -29,6 +30,10 @@ NSFetchedResultsControllerDelegate>
 @property (nonatomic) BOOL loadedAll;
 
 @property (weak, nonatomic) IBOutlet MRSLCollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIView *exploreSearchContainerView;
+
+@property (weak, nonatomic) MRSLExploreSearchViewController *exploreSearchVC;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSArray *morsels;
@@ -59,6 +64,22 @@ NSFetchedResultsControllerDelegate>
                                                     bundle:nil]
           forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                  withReuseIdentifier:MRSLStoryboardRUIDSearchCellKey];
+
+    [self.childViewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[MRSLExploreSearchViewController class]]) {
+            self.exploreSearchVC = obj;
+        }
+    }];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -250,7 +271,7 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - UISearchBarDelegate Methods
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-#warning Begin search in context
+    self.exploreSearchVC.searchQuery = searchText;
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
@@ -266,10 +287,37 @@ NSFetchedResultsControllerDelegate>
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar setShowsCancelButton:NO animated:YES];
     [self.view endEditing:YES];
+    self.exploreSearchContainerView.hidden = YES;
+    self.exploreSearchContainerView.userInteractionEnabled = NO;
+    self.collectionView.scrollEnabled = YES;
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [searchBar setShowsCancelButton:YES animated:YES];
+    self.exploreSearchContainerView.hidden = NO;
+    self.exploreSearchContainerView.userInteractionEnabled = YES;
+    self.collectionView.scrollEnabled = NO;
+}
+
+#pragma mark - Notification Methods
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    self.searchBottomConstraint.constant = keyboardSize.height;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.35f
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    self.searchBottomConstraint.constant = 0.f;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.2f
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
 }
 
 @end

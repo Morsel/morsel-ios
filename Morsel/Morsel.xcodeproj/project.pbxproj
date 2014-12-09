@@ -510,6 +510,12 @@
 		06CDA74C199A910C004786F0 /* MRSLMenuBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CDA749199A910C004786F0 /* MRSLMenuBarButtonItem.m */; };
 		06CE1882187F13A0009F9722 /* MRSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE1881187F13A0009F9722 /* MRSLConstants.m */; };
 		06D0536A1986B7B30065916D /* UIViewController+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D053691986B7B30065916D /* UIViewController+Additions.m */; };
+		06D1D5BF1A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D5BE1A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m */; };
+		06D1D5C01A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D5BE1A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m */; };
+		06D1D5C11A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D5BE1A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m */; };
+		06D1D5C41A379B2B0085B8E2 /* MRSLExploreSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D5C31A379B2B0085B8E2 /* MRSLExploreSearchViewController.m */; };
+		06D1D5C51A379B2B0085B8E2 /* MRSLExploreSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D5C31A379B2B0085B8E2 /* MRSLExploreSearchViewController.m */; };
+		06D1D5C61A379B2B0085B8E2 /* MRSLExploreSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D5C31A379B2B0085B8E2 /* MRSLExploreSearchViewController.m */; };
 		06D52EB218C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D52EB118C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m */; };
 		06DAFB40191A8F640044AF3E /* MRSLAPIService+Registration.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB3F191A8F640044AF3E /* MRSLAPIService+Registration.m */; };
 		06DAFB43191A910A0044AF3E /* MRSLAPIService+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB42191A910A0044AF3E /* MRSLAPIService+Profile.m */; };
@@ -1108,6 +1114,10 @@
 		06CE1881187F13A0009F9722 /* MRSLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLConstants.m; sourceTree = "<group>"; };
 		06D053681986B7B30065916D /* UIViewController+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Additions.h"; sourceTree = "<group>"; };
 		06D053691986B7B30065916D /* UIViewController+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Additions.m"; sourceTree = "<group>"; };
+		06D1D5BD1A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLHashtagKeywordTableViewCell.h; path = Source/Views/MRSLHashtagKeywordTableViewCell.h; sourceTree = "<group>"; };
+		06D1D5BE1A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLHashtagKeywordTableViewCell.m; path = Source/Views/MRSLHashtagKeywordTableViewCell.m; sourceTree = "<group>"; };
+		06D1D5C21A379B2B0085B8E2 /* MRSLExploreSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLExploreSearchViewController.h; sourceTree = "<group>"; };
+		06D1D5C31A379B2B0085B8E2 /* MRSLExploreSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLExploreSearchViewController.m; sourceTree = "<group>"; };
 		06D52EB018C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselEditDescriptionViewController.h; sourceTree = "<group>"; };
 		06D52EB118C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselEditDescriptionViewController.m; sourceTree = "<group>"; };
 		06DAFB3E191A8F640044AF3E /* MRSLAPIService+Registration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLAPIService+Registration.h"; sourceTree = "<group>"; };
@@ -1793,6 +1803,8 @@
 		064685E919D5CA1D003FDBE5 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
+				06D1D5C21A379B2B0085B8E2 /* MRSLExploreSearchViewController.h */,
+				06D1D5C31A379B2B0085B8E2 /* MRSLExploreSearchViewController.m */,
 				064685EA19D5CA51003FDBE5 /* MRSLExploreViewController.h */,
 				064685EB19D5CA51003FDBE5 /* MRSLExploreViewController.m */,
 			);
@@ -2203,6 +2215,8 @@
 		0698298419188A36005DBA3D /* Keyword */ = {
 			isa = PBXGroup;
 			children = (
+				06D1D5BD1A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.h */,
+				06D1D5BE1A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m */,
 				0698298519188A5C005DBA3D /* MRSLToggleKeywordTableViewCell.h */,
 				0698298619188A5C005DBA3D /* MRSLToggleKeywordTableViewCell.m */,
 			);
@@ -3428,6 +3442,7 @@
 				403C032019EF317B0081336C /* MRSLAppDelegate+Notifications.m in Sources */,
 				06DAFB61191A99A90044AF3E /* MRSLAPIService+Like.m in Sources */,
 				061F935A191037D700608C0B /* MRSLTagListTableViewCell.m in Sources */,
+				06D1D5BF1A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m in Sources */,
 				4062A4F1196EED8E00394EFA /* UIActivityIndicatorView+Additions.m in Sources */,
 				068B04DC195A083C004B302F /* UIImage+Color.m in Sources */,
 				060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */,
@@ -3455,6 +3470,7 @@
 				06B877FF193C1C6100160707 /* MRSLFoursquarePlace.m in Sources */,
 				06B87805193C750E00160707 /* MRSLPlaceCoverSelectTableViewCell.m in Sources */,
 				40854F8C19747EB10015DFBB /* UICollectionView+States.m in Sources */,
+				06D1D5C41A379B2B0085B8E2 /* MRSLExploreSearchViewController.m in Sources */,
 				40F637D6193E987A003AD040 /* NSMutableString+Additions.m in Sources */,
 				06F2612119DC8C1900A7050B /* MRSLBaseOnboardingViewController.m in Sources */,
 				06B87811193CBB5700160707 /* MRSLPlaceDetailHoursCollectionViewCell.m in Sources */,
@@ -3524,6 +3540,7 @@
 				0621C2DF19ACFDE200340C48 /* MRSLMorselInfoTableViewCell.m in Sources */,
 				066E8C25191AAC7200991165 /* MRSLAPIService+Like.m in Sources */,
 				065D0CC319A99AB1009E6FC7 /* _MRSLTemplate.m in Sources */,
+				06D1D5C51A379B2B0085B8E2 /* MRSLExploreSearchViewController.m in Sources */,
 				066E8C26191AAC7200991165 /* MRSLAPIService+Follow.m in Sources */,
 				4090554D1976F19900026DCC /* UIRefreshControl+Additions.m in Sources */,
 				066E8C27191AAC7200991165 /* MRSLAPIService+Comment.m in Sources */,
@@ -3578,6 +3595,7 @@
 				0684BFF119E5B3420083AEA5 /* MRSLEligibleUserTableViewCell.m in Sources */,
 				065D0CBE19A99A97009E6FC7 /* MRSLTemplate.m in Sources */,
 				40677329196BA2900055BEAE /* MRSLPresignedUpload.m in Sources */,
+				06D1D5C01A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m in Sources */,
 				40780BB7198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */,
 				4003509418EB578C00C97DDC /* MRSLCollectionViewArrayDataSource.m in Sources */,
 				065649181A1273B700075AB2 /* MRSLSwitchTableViewCell.m in Sources */,
@@ -3674,6 +3692,7 @@
 				06C4DDCB19897E14009B6406 /* UIImage+Color.m in Sources */,
 				065D0CEF19ABE7E7009E6FC7 /* MRSLTemplateItemInfoTableViewCell.m in Sources */,
 				065D0CBF19A99A97009E6FC7 /* MRSLTemplate.m in Sources */,
+				06D1D5C61A379B2B0085B8E2 /* MRSLExploreSearchViewController.m in Sources */,
 				068165C619F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m in Sources */,
 				0621C2EA19AD0AC000340C48 /* BVReorderTableView.m in Sources */,
 				06C4DDCC19897E14009B6406 /* UIImage+Resize.m in Sources */,
@@ -3755,6 +3774,7 @@
 				06C4DE0919897E14009B6406 /* MRSLSocialServiceFacebook.m in Sources */,
 				064B035919E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m in Sources */,
 				06C4DE0A19897E14009B6406 /* MRSLSocialServiceInstagram.m in Sources */,
+				06D1D5C11A3798800085B8E2 /* MRSLHashtagKeywordTableViewCell.m in Sources */,
 				065D0CC919A9A059009E6FC7 /* MRSLTemplateItem.m in Sources */,
 				06C4DE0B19897E14009B6406 /* MRSLSocialServiceTwitter.m in Sources */,
 				06C4DE0C19897E14009B6406 /* MRSLBaseModalViewController.m in Sources */,
