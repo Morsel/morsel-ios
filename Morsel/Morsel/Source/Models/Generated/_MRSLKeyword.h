@@ -7,6 +7,7 @@
 extern const struct MRSLKeywordAttributes {
 	__unsafe_unretained NSString *keywordID;
 	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *tags_count;
 	__unsafe_unretained NSString *type;
 } MRSLKeywordAttributes;
 
@@ -18,6 +19,7 @@ extern const struct MRSLKeywordFetchedProperties {
 } MRSLKeywordFetchedProperties;
 
 @class MRSLTag;
+
 
 
 
@@ -55,6 +57,20 @@ extern const struct MRSLKeywordFetchedProperties {
 
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* tags_count;
+
+
+
+@property int32_t tags_countValue;
+- (int32_t)tags_countValue;
+- (void)setTags_countValue:(int32_t)value_;
+
+//- (BOOL)validateTags_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -98,6 +114,15 @@ extern const struct MRSLKeywordFetchedProperties {
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveTags_count;
+- (void)setPrimitiveTags_count:(NSNumber*)value;
+
+- (int32_t)primitiveTags_countValue;
+- (void)setPrimitiveTags_countValue:(int32_t)value_;
 
 
 

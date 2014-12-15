@@ -14,7 +14,7 @@
 - (id)initWithManagedObjectClass:(Class)objectClass
                        predicate:(NSPredicate *)predicateOrNil
                   collectionView:(UICollectionView *)collectionView
-                      cellConfig:(MRSLCellConfigureBlock)cellConfig
+                      cellConfig:(MRSLCVCellConfigureBlock)cellConfig
              supplementaryConfig:(MRSLSupplementaryCellConfigureBlock)supplementaryConfig
                     headerConfig:(MRSLLayoutHeaderSizeConfigureBlock)headerConfig
                   cellSizeConfig:(MRSLLayoutCellSizeConfigureBlock)cellSizeConfig

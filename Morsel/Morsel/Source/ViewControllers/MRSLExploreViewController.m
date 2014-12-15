@@ -11,8 +11,10 @@
 #import "MRSLAPIService+Explore.h"
 
 #import "MRSLCollectionView.h"
+#import "MRSLExploreSearchViewController.h"
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
+#import "MRSLSearchBarCollectionReusableView.h"
 
 #import "MRSLMorsel.h"
 
@@ -20,6 +22,7 @@
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
+UISearchBarDelegate,
 NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, getter = isLoading) BOOL loading;
@@ -27,6 +30,10 @@ NSFetchedResultsControllerDelegate>
 @property (nonatomic) BOOL loadedAll;
 
 @property (weak, nonatomic) IBOutlet MRSLCollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIView *exploreSearchContainerView;
+
+@property (weak, nonatomic) MRSLExploreSearchViewController *exploreSearchVC;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSArray *morsels;
@@ -52,6 +59,30 @@ NSFetchedResultsControllerDelegate>
                         action:@selector(refreshContent)
               forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:_refreshControl];
+
+    [self.collectionView registerNib:[UINib nibWithNibName:@"MRSLSearchBarCollectionReusableView"
+                                                    bundle:nil]
+          forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                 withReuseIdentifier:MRSLStoryboardRUIDSearchCellKey];
+
+    [self.childViewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[MRSLExploreSearchViewController class]]) {
+            self.exploreSearchVC = obj;
+        }
+    }];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -183,6 +214,12 @@ NSFetchedResultsControllerDelegate>
         return [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                   withReuseIdentifier:MRSLStoryboardRUIDLoadingCellKey
                                                          forIndexPath:indexPath];
+    } else if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        MRSLSearchBarCollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                         withReuseIdentifier:MRSLStoryboardRUIDSearchCellKey
+                                                                                                forIndexPath:indexPath];
+        header.searchBar.delegate = self;
+        return header;
     }
     return nil;
 }
@@ -208,6 +245,11 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    return CGSizeMake([collectionView getWidth], 44.f);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     return _loadingMore ? CGSizeMake([collectionView getWidth], 50.f) : CGSizeZero;
 }
@@ -226,6 +268,60 @@ NSFetchedResultsControllerDelegate>
     CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
     CGFloat contentOffset = maximumOffset - currentOffset;
     if (contentOffset <= 10.f) [self loadMore];
+    [self.view endEditing:YES];
+}
+
+#pragma mark - UISearchBarDelegate Methods
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    self.exploreSearchVC.searchQuery = searchText;
+}
+
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ([text isEqualToString:@"\n"]) {
+        [searchBar setShowsCancelButton:NO animated:YES];
+        [searchBar resignFirstResponder];
+        [self.exploreSearchVC commenceSearch];
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [self.view endEditing:YES];
+    self.exploreSearchContainerView.hidden = YES;
+    self.exploreSearchContainerView.userInteractionEnabled = NO;
+    self.collectionView.scrollEnabled = YES;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:YES animated:YES];
+    self.exploreSearchContainerView.hidden = NO;
+    self.exploreSearchContainerView.userInteractionEnabled = YES;
+    self.collectionView.scrollEnabled = NO;
+}
+
+#pragma mark - Notification Methods
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    self.searchBottomConstraint.constant = keyboardSize.height;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.35f
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    self.searchBottomConstraint.constant = 0.f;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.2f
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
 }
 
 @end

@@ -82,7 +82,9 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.view endEditing:YES];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    });
 }
 
 - (void)setupNavigationItems {

@@ -11,14 +11,14 @@
 @interface MRSLCollectionViewDataSource ()
 
 @property (strong, nonatomic) NSArray *objects;
-@property (copy, nonatomic) MRSLCellConfigureBlock configureCellBlock;
+@property (copy, nonatomic) MRSLCVCellConfigureBlock configureCellBlock;
 
 @end
 
 @implementation MRSLCollectionViewArrayDataSource
 
 - (id)initWithObjects:(NSArray *)objects
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock {
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock {
     self = [super init];
     if (self) {
         self.objects = objects;

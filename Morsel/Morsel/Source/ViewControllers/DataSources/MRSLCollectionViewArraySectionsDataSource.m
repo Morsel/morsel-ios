@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) NSArray *objects;
 @property (strong, nonatomic) NSArray *sections;
-@property (copy, nonatomic) MRSLCellConfigureBlock configureCellBlock;
+@property (copy, nonatomic) MRSLCVCellConfigureBlock configureCellBlock;
 
 @end
 
@@ -29,7 +29,7 @@
 
 - (id)initWithObjects:(NSArray *)objects
              sections:(NSArray *)sectionsOrNil
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock
    supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
 sectionHeaderSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionHeaderSizeBlock
 sectionFooterSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionFooterSizeBlock
@@ -49,7 +49,7 @@ sectionFooterSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionFooterSizeBlo
 
 - (id)initWithObjects:(NSArray *)objects
              sections:(NSArray *)sectionsOrNil
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock
    supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
      sectionHeaderSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionHeaderSizeBlock
         cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock {
@@ -64,7 +64,7 @@ sectionFooterSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionFooterSizeBlo
 
 - (id)initWithObjects:(NSArray *)objects
              sections:(NSArray *)sectionsOrNil
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock
    supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
         cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock {
     return [self initWithObjects:objects

@@ -17,7 +17,7 @@
 
 - (id)initWithManagedObjectClass:(Class)objectClass
                        predicate:(NSPredicate *)predicateOrNil
-              configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+              configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock
                   collectionView:(UICollectionView *)collectionView;
 
 - (void)updateFetchRequestWithManagedObjectClass:(Class)objectClass

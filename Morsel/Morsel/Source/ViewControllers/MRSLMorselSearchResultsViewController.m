@@ -44,7 +44,7 @@ NSFetchedResultsControllerDelegate>
     self.mp_eventView = @"Search results";
     [self.collectionView setEmptyStateTitle:@"No results"];
 
-    self.title = (_searchString) ? @"Search results" : (_hashtagString ? [NSString stringWithFormat:@"#%@", _hashtagString] : @"Results");
+    self.title = (_searchString) ? _searchString : (_hashtagString ? [NSString stringWithFormat:@"#%@", _hashtagString] : @"Results");
 
     self.morsels = [NSMutableArray array];
     self.morselIDs = [NSMutableArray array];

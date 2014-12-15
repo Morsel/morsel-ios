@@ -225,8 +225,6 @@ MRSLSegmentedButtonViewDelegate>
     }
 }
 
-#pragma mark - Private Methods
-
 - (void)loadFacebookFriends {
     [[MRSLSocialServiceFacebook sharedService] getFacebookFriendUIDs:^(NSString *uids, NSError *error) {
         if (!error) {

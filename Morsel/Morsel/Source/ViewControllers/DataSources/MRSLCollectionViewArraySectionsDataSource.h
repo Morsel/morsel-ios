@@ -12,7 +12,7 @@
 
 - (id)initWithObjects:(NSArray *)objects
              sections:(NSArray *)sectionsOrNil
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock
    supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
 sectionHeaderSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionHeaderSizeBlock
 sectionFooterSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionFooterSizeBlock
@@ -20,14 +20,14 @@ sectionFooterSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionFooterSizeBlo
 
 - (id)initWithObjects:(NSArray *)objects
              sections:(NSArray *)sectionsOrNil
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock
    supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
 sectionHeaderSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionHeaderSizeBlock
         cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock;
 
 - (id)initWithObjects:(NSArray *)objects
              sections:(NSArray *)sectionsOrNil
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock
    supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
         cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock;
 
