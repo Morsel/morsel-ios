@@ -43,7 +43,8 @@
     }
 
     self.title = @"Morsel summary";
-    self.optionalLabel.text = @"Optional:\nAdding #hashtags can help other users discover your morsels.";
+    self.nextBarButtonItem.title = (self.summaryTextView.text.length > 0) ? @"Next" : @"Skip";
+    self.optionalLabel.text = @"Pro Tip:\nIncluding #hashtags can help your content get discovered more easily.";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -137,6 +138,7 @@
 - (void)textViewDidChange:(UITextView *)textView {
     NSUInteger textLength = textView.text.length;
     _summaryPlaceholderLabel.hidden = !(textLength == 0);
+    self.nextBarButtonItem.title = (textLength > 0) ? @"Next" : @"Skip";
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
