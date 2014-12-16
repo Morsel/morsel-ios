@@ -330,7 +330,7 @@
                                     <outletCollection property="buttons" destination="Toi-5B-0QA" id="QBz-G0-OYI"/>
                                 </connections>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="34" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BdK-ds-nph" customClass="MRSLTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="34" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BdK-ds-nph" customClass="MRSLTableView">
                                 <rect key="frame" x="0.0" y="50" width="600" height="442"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>

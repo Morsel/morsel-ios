@@ -240,6 +240,7 @@ MRSLTableViewDataSourceDelegate>
 #pragma mark - Data Source Delegate Methods
 
 - (void)tableViewDataSourceScrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
     [self dataSourceDidScroll:scrollView
                    withOffset:scrollView.contentOffset.y];
 }
