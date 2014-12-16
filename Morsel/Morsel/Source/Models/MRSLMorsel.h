@@ -17,6 +17,7 @@
 - (NSString *)placeholderTitle;
 - (NSString *)firstItemDescription;
 - (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil;
+- (NSMutableAttributedString *)thumbnailInformation;
 
 - (MRSLItem *)coverItem;
 

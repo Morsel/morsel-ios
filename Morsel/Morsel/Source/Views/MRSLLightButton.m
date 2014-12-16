@@ -29,7 +29,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
 }
 
 - (void)setUp {
-    [self.titleLabel setFont:[UIFont robotoLightFontOfSize:self.titleLabel.font.pointSize]];
+    [self.titleLabel setFont:[UIFont primaryLightFontOfSize:self.titleLabel.font.pointSize]];
     [self setDefaultRoundedCornerRadius];
 }
 

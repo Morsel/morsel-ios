@@ -9,13 +9,13 @@
 #import "MRSLProfilePanelCollectionViewCell.h"
 
 #import "MRSLProfileImageView.h"
-#import "MRSLStandardLabel.h"
+#import "MRSLPrimaryLabel.h"
 
 #import "MRSLUser.h"
 
 @interface MRSLProfilePanelCollectionViewCell ()
 
-@property (weak, nonatomic) IBOutlet MRSLStandardLabel *nameLabel;
+@property (weak, nonatomic) IBOutlet MRSLPrimaryLabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bioLabel;
 @property (weak, nonatomic) IBOutlet UIButton *followersButton;
 @property (weak, nonatomic) IBOutlet UIButton *followingButton;

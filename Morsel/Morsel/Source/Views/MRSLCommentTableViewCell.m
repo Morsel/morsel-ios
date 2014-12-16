@@ -12,7 +12,7 @@
 
 #import "MRSLAPIService+Comment.h"
 
-#import "MRSLStandardLabel.h"
+#import "MRSLPrimaryLabel.h"
 #import "MRSLProfileImageView.h"
 
 #import "MRSLComment.h"
@@ -22,7 +22,7 @@
 <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
-@property (weak, nonatomic) IBOutlet MRSLStandardLabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet MRSLPrimaryLabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentBodyLabel;
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;

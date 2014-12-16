@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLStandardLabel.h"
+#import "MRSLPrimaryLabel.h"
 
-@implementation MRSLStandardLabel
+@implementation MRSLPrimaryLabel
 
 - (id)initWithFrame:(CGRect)frame
         andFontSize:(CGFloat)fontSize {
     self = [super initWithFrame:frame];
     if (self) {
-        self.font = [UIFont robotoLightFontOfSize:fontSize];
+        self.font = [UIFont primaryLightFontOfSize:fontSize];
         [self setTextColor:[UIColor morselDefaultTextColor]];
         [self setUp];
     }
@@ -24,7 +24,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.font = [UIFont robotoLightFontOfSize:16.f];
+        self.font = [UIFont primaryLightFontOfSize:16.f];
         [self setTextColor:[UIColor morselDefaultTextColor]];
         [self setUp];
     }
@@ -40,11 +40,11 @@
 }
 
 - (void)setUp {
-    [self setFont:[UIFont robotoLightFontOfSize:self.font.pointSize]];
+    [self setFont:[UIFont primaryLightFontOfSize:self.font.pointSize]];
 }
 
 - (UIFont *)obliqueFont {
-    return [UIFont robotoLightItalicFontOfSize:self.font.pointSize];
+    return [UIFont primaryLightItalicFontOfSize:self.font.pointSize];
 }
 
 - (void)setOblique:(BOOL)oblique {

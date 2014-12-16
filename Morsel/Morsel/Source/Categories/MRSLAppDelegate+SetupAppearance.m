@@ -26,20 +26,20 @@
         [shadow setShadowOffset: CGSizeMake(0.f, 0.f)];
 
         [[UINavigationBar appearance] setTitleTextAttributes:@{
-                                                               NSFontAttributeName : [UIFont robotoSlabBoldFontOfSize:17.f],
+                                                               NSFontAttributeName : [UIFont primaryBoldFontOfSize:17.f],
                                                                NSForegroundColorAttributeName : [UIColor morselDefaultTextColor],
                                                                NSShadowAttributeName : shadow
                                                                }];
 
         [[UIBarButtonItem appearance] setTitleTextAttributes:@{
-                                                               NSFontAttributeName : [UIFont robotoLightFontOfSize:17.f],
+                                                               NSFontAttributeName : [UIFont primaryLightFontOfSize:17.f],
                                                                NSForegroundColorAttributeName : [UIColor morselPrimary],
                                                                NSShadowAttributeName : shadow
                                                                }
                                                     forState:UIControlStateNormal];
 
         [[UIBarButtonItem appearance] setTitleTextAttributes:@{
-                                                               NSFontAttributeName : [UIFont robotoLightFontOfSize:17.f],
+                                                               NSFontAttributeName : [UIFont primaryLightFontOfSize:17.f],
                                                                NSForegroundColorAttributeName : [UIColor morselDefaultPlaceholderTextColor],
                                                                NSShadowAttributeName : shadow
                                                                }

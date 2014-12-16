@@ -10,43 +10,42 @@
 
 @implementation UIFont (Morsel)
 
-+ (UIFont *)robotoSlabBoldFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"RobotoSlab-Bold"
++ (UIFont *)primaryBoldFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Lato-Bold"
                            size:fontSize];
 }
 
-+ (UIFont *)robotoSlabItalicsFontOfSize:(CGFloat)fontSize {
-    //  Since there's no italics font for Roboto Slab, just use Regular. When fonts change in
-    //  the future this should be updated w/ the new italics font
-    return [UIFont robotoSlabRegularFontOfSize:fontSize];
-}
-
-+ (UIFont *)robotoSlabRegularFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"RobotoSlab-Regular"
++ (UIFont *)primaryItalicsFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Lato-BoldItalic"
                            size:fontSize];
 }
 
-+ (UIFont *)robotoLightFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Roboto-Light"
++ (UIFont *)primaryRegularFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Lato-Regular"
                            size:fontSize];
 }
 
-+ (UIFont *)robotoLightItalicFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Roboto-LightItalic"
++ (UIFont *)primaryLightFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Lato-Light"
                            size:fontSize];
 }
 
-+ (UIFont *)robotoRegularFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Roboto-Regular"
++ (UIFont *)primaryLightItalicFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Lato-LightItalic"
                            size:fontSize];
 }
 
-+ (UIFont *)robotoBoldFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Roboto-Bold"
++ (UIFont *)secondaryRegularFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Merriweather"
                            size:fontSize];
 }
 
-+ (UIFont *)preferredRobotoFontForTextStyle:(NSString *)textStyle {
++ (UIFont *)secondaryBoldFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Merriweather-Bold"
+                           size:fontSize];
+}
+
++ (CGFloat)fontSizeForContent {
     CGFloat fontSize = 16.f;
     NSString *contentSize = [UIApplication sharedApplication].preferredContentSizeCategory;
 
@@ -65,21 +64,46 @@
     } else if ([contentSize isEqualToString:UIContentSizeCategoryExtraExtraExtraLarge]) {
         fontSize = 22.f;
     }
+    return fontSize;
+}
+
++ (UIFont *)preferredPrimaryFontForTextStyle:(NSString *)textStyle {
+    CGFloat fontSize = [UIFont fontSizeForContent];
 
     // choose the font weight
     if ([textStyle isEqualToString:UIFontTextStyleHeadline]) {
         fontSize += 2.f;
-        return [UIFont robotoSlabBoldFontOfSize:fontSize];
+        return [UIFont primaryBoldFontOfSize:fontSize];
     } else if ([textStyle isEqualToString:UIFontTextStyleSubheadline]) {
-        return [UIFont robotoSlabBoldFontOfSize:fontSize];
+        return [UIFont primaryBoldFontOfSize:fontSize];
     } else if ([textStyle isEqualToString:UIFontTextStyleCaption1]) {
         fontSize -= 2.f;
-        return [UIFont robotoSlabRegularFontOfSize:fontSize];
+        return [UIFont primaryRegularFontOfSize:fontSize];
     }  else if ([textStyle isEqualToString:UIFontTextStyleCaption2]) {
         fontSize -= 2.f;
-        return [UIFont robotoSlabRegularFontOfSize:fontSize];
+        return [UIFont primaryRegularFontOfSize:fontSize];
     } else {
-        return [UIFont robotoSlabRegularFontOfSize:fontSize];
+        return [UIFont primaryRegularFontOfSize:fontSize];
+    }
+}
+
++ (UIFont *)preferredSecondaryFontForTextStyle:(NSString *)textStyle {
+    CGFloat fontSize = [UIFont fontSizeForContent];
+
+    // choose the font weight
+    if ([textStyle isEqualToString:UIFontTextStyleHeadline]) {
+        fontSize += 2.f;
+        return [UIFont secondaryBoldFontOfSize:fontSize];
+    } else if ([textStyle isEqualToString:UIFontTextStyleSubheadline]) {
+        return [UIFont secondaryBoldFontOfSize:fontSize];
+    } else if ([textStyle isEqualToString:UIFontTextStyleCaption1]) {
+        fontSize -= 2.f;
+        return [UIFont secondaryRegularFontOfSize:fontSize];
+    }  else if ([textStyle isEqualToString:UIFontTextStyleCaption2]) {
+        fontSize -= 2.f;
+        return [UIFont secondaryRegularFontOfSize:fontSize];
+    } else {
+        return [UIFont secondaryRegularFontOfSize:fontSize];
     }
 }
 

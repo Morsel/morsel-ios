@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MRSLStandardLabel : UILabel
+@interface MRSLPrimaryLabel : UILabel
 
 @property (nonatomic, getter=isOblique) BOOL oblique;
 

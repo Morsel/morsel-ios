@@ -11,7 +11,7 @@
 #import "MRSLAPIService+Morsel.h"
 
 #import "MRSLProfileImageView.h"
-#import "MRSLRobotoLightLabel.h"
+#import "MRSLPrimaryLightLabel.h"
 
 #import "MRSLUser.h"
 
@@ -80,17 +80,17 @@
     if ([_taggedUserIDs count] == 0) {
         self.tagStatusLabel.hidden = NO;
         self.tagStatusLabel.text = @"None";
-        self.tagStatusLabel.font = [UIFont robotoLightItalicFontOfSize:self.tagStatusLabel.font.pointSize];
+        self.tagStatusLabel.font = [UIFont primaryLightItalicFontOfSize:self.tagStatusLabel.font.pointSize];
     } else {
         self.tagStatusLabel.hidden = YES;
-        self.tagStatusLabel.font = [UIFont robotoLightFontOfSize:self.tagStatusLabel.font.pointSize];
+        self.tagStatusLabel.font = [UIFont primaryLightFontOfSize:self.tagStatusLabel.font.pointSize];
         int userCount = 0;
         int userSpacing = 0.f;
         for (NSNumber *userID in _taggedUserIDs) {
             MRSLUser *taggedUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID withValue:userID];
             if (taggedUser) {
                 if (userCount >= 4) {
-                    MRSLRobotoLightLabel *remainingTagUsersLabel = [[MRSLRobotoLightLabel alloc] initWithFrame:CGRectMake(userSpacing, 0.f, 40.f, 40.f)];
+                    MRSLPrimaryLightLabel *remainingTagUsersLabel = [[MRSLPrimaryLightLabel alloc] initWithFrame:CGRectMake(userSpacing, 0.f, 40.f, 40.f)];
                     remainingTagUsersLabel.textAlignment = NSTextAlignmentCenter;
                     remainingTagUsersLabel.textColor = [UIColor whiteColor];
                     remainingTagUsersLabel.backgroundColor = [UIColor morselPrimary];

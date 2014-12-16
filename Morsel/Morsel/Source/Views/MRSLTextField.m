@@ -15,7 +15,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
 - (id)initWithCoder:(NSCoder  *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.font = [UIFont robotoLightFontOfSize:self.font.pointSize];
+        self.font = [UIFont primaryLightFontOfSize:self.font.pointSize];
         self.textColor = [UIColor morselDefaultTextColor];
         self.backgroundColor = [UIColor morselDefaultTextFieldBackgroundColor];
     }
@@ -33,7 +33,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
     rect.origin.y += 10.f;
     [[self placeholder] drawInRect:rect
                     withAttributes:@{
-                                     NSFontAttributeName : [UIFont robotoLightFontOfSize:self.font.pointSize],
+                                     NSFontAttributeName : [UIFont primaryLightFontOfSize:self.font.pointSize],
                                      NSForegroundColorAttributeName: [UIColor morselDefaultPlaceholderTextColor]
                                      }];
 }

@@ -9,7 +9,7 @@
 #import "MRSLEligibleUserTableViewCell.h"
 
 #import "MRSLProfileImageView.h"
-#import "MRSLStandardLabel.h"
+#import "MRSLPrimaryLabel.h"
 
 #import "MRSLUser.h"
 
@@ -21,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *checkmarkView;
-@property (weak, nonatomic) IBOutlet MRSLStandardLabel *userFullNameLabel;
+@property (weak, nonatomic) IBOutlet MRSLPrimaryLabel *userFullNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 
 @end

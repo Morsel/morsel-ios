@@ -169,7 +169,7 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
         MRSLPlaceInfo *placeInfo = [_hoursInfo objectAtIndex:indexPath.row];
         CGRect placeInfoSecondaryRect = [placeInfo.secondaryInfo boundingRectWithSize:CGSizeMake(156.f, CGFLOAT_MAX)
                                                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                                                           attributes:@{NSFontAttributeName : [UIFont robotoLightFontOfSize:14.f], NSParagraphStyleAttributeName: paragraphStyle}
+                                                                           attributes:@{NSFontAttributeName : [UIFont primaryLightFontOfSize:14.f], NSParagraphStyleAttributeName: paragraphStyle}
                                                                               context:nil];
         cellSize = CGSizeMake(collectionView.frame.size.width, (placeInfoSecondaryRect.size.height <= 44.f) ? 44.f : placeInfoSecondaryRect.size.height);
     }

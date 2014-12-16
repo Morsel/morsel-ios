@@ -7,7 +7,7 @@
 //
 
 #import "MRSLStateView.h"
-#import "MRSLRobotoLightLabel.h"
+#import "MRSLPrimaryLightLabel.h"
 #import "MRSLColoredBackgroundLightButton.h"
 
 static CGFloat kContainerWidth = 320.0f;
@@ -18,7 +18,7 @@ static CGFloat kButtonHeight = 40.0f;
 @interface MRSLStateView ()
 
 @property (strong, nonatomic) UIView *containerView;
-@property (strong, nonatomic) MRSLRobotoLightLabel *titleLabel;
+@property (strong, nonatomic) MRSLPrimaryLightLabel *titleLabel;
 @property (strong, nonatomic) UIView *accessoryView;
 @property (strong, nonatomic) MRSLColoredBackgroundLightButton *button;
 
@@ -45,7 +45,7 @@ static CGFloat kButtonHeight = 40.0f;
         self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, CGRectGetWidth(frame), CGRectGetHeight(frame))];
 
         self.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(kPadding, kPadding, CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f), CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f))];
-        self.titleLabel = [[MRSLRobotoLightLabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_accessoryView.frame) + kPadding, kPadding, CGRectGetWidth(_containerView.frame) - (CGRectGetMaxX(_accessoryView.frame) + (kPadding * 2.0f)), CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f))];
+        self.titleLabel = [[MRSLPrimaryLightLabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_accessoryView.frame) + kPadding, kPadding, CGRectGetWidth(_containerView.frame) - (CGRectGetMaxX(_accessoryView.frame) + (kPadding * 2.0f)), CGRectGetHeight(_containerView.frame) - (kPadding * 2.0f))];
         [_titleLabel setBackgroundColor:[UIColor clearColor]];
 
         [_containerView addSubview:_titleLabel];
@@ -69,7 +69,7 @@ static CGFloat kButtonHeight = 40.0f;
         [_button setY:CGRectGetMaxY(_titleLabel.frame) + kPadding];
 
         [_button setBackgroundColor:[UIColor morselPrimary]];
-        [_button.titleLabel setFont:[UIFont robotoLightFontOfSize:14.0f]];
+        [_button.titleLabel setFont:[UIFont primaryLightFontOfSize:14.0f]];
     }
 
     return _button;

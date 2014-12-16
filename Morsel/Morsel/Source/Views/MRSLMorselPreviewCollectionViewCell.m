@@ -10,12 +10,13 @@
 
 #import "MRSLItemImageView.h"
 
+#import "MRSLStandardTextView.h"
+
 #import "MRSLMorsel.h"
 
 @interface MRSLMorselPreviewCollectionViewCell ()
 
-@property (weak, nonatomic) IBOutlet UILabel *morselTitleLabel;
-
+@property (weak, nonatomic) IBOutlet MRSLStandardTextView *textView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *itemImageView;
 
 @end
@@ -26,7 +27,29 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [_morselTitleLabel addStandardShadow];
+    self.backgroundColor = [UIColor morselBackgroundDark];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    if (!self.itemImageView.layer.mask) {
+        CAGradientLayer *l = [CAGradientLayer layer];
+        l.frame = self.bounds;
+        l.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:1.f
+                                                                  green:1.f
+                                                                   blue:1.f
+                                                                  alpha:1.f] CGColor],
+                    (id)[[UIColor colorWithRed:1.f
+                                         green:1.f
+                                          blue:1.f
+                                         alpha:0.f] CGColor], nil];
+
+        l.startPoint = CGPointMake(0.f, 0.5f);
+        l.endPoint = CGPointMake(0.f, 1.f);
+
+        self.itemImageView.layer.mask = l;
+    }
 }
 
 - (void)setBounds:(CGRect)bounds {
@@ -40,8 +63,8 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [_itemImageView reset];
             _itemImageView.item = [morsel coverItem];
-            _morselTitleLabel.text = morsel.title;
         });
+        _textView.attributedText = [_morsel thumbnailInformation];
     }
 }
 

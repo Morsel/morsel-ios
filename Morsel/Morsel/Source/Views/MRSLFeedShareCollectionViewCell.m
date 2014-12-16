@@ -102,13 +102,13 @@
                                          value:@"next://display"
                                          range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
         [nextInfoAttributedString addAttribute:NSFontAttributeName
-                                         value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                         value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleSubheadline]
                                          range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
         [nextInfoAttributedString addAttribute:NSLinkAttributeName
                                          value:@"next://display"
                                          range:[[nextInfoAttributedString string] rangeOfString:morselName]];
         [nextInfoAttributedString addAttribute:NSFontAttributeName
-                                         value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]
+                                         value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]
                                          range:[[nextInfoAttributedString string] rangeOfString:morselName]];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setAlignment:NSTextAlignmentRight];
