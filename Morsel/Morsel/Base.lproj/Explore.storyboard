@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Explore-->
@@ -41,7 +40,7 @@
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="Gpe-Lj-FbW"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="86" translatesAutoresizingMaskIntoConstraints="NO" id="pZA-ts-CeP" customClass="MRSLRobotoSlabBoldLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="86" translatesAutoresizingMaskIntoConstraints="NO" id="pZA-ts-CeP" customClass="MRSLPrimaryBoldLabel">
                                                     <rect key="frame" x="10" y="20" width="86" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="TsW-fQ-mPN"/>
@@ -163,7 +162,7 @@
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="avn-bh-b0k"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="86" translatesAutoresizingMaskIntoConstraints="NO" id="0d5-0k-8EB" customClass="MRSLRobotoSlabBoldLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="86" translatesAutoresizingMaskIntoConstraints="NO" id="0d5-0k-8EB" customClass="MRSLPrimaryBoldLabel">
                                                     <rect key="frame" x="10" y="20" width="86" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="t4C-h0-8Lp"/>
@@ -355,7 +354,7 @@
                                                         <constraint firstAttribute="width" constant="40" id="ZZz-9m-RxA"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="SIL-s1-wqh" customClass="MRSLRobotoSlabBoldLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="SIL-s1-wqh" customClass="MRSLPrimaryBoldLabel">
                                                     <rect key="frame" x="58" y="10" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="Pdc-C0-X1u"/>
@@ -365,7 +364,7 @@
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="xsA-TD-Ykx" customClass="MRSLRobotoLightLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="xsA-TD-Ykx" customClass="MRSLPrimaryLightLabel">
                                                     <rect key="frame" x="58" y="30" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="DAa-TH-Vna"/>
@@ -429,13 +428,19 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N8Q-Ju-SoE" id="lIK-3H-yxr">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="1J0-eP-4ps" customClass="MRSLRobotoLightLabel">
-                                                    <rect key="frame" x="10" y="0.0" width="546" height="59"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="hashtag" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="1J0-eP-4ps" customClass="MRSLPrimaryBoldLabel">
+                                                    <rect key="frame" x="10" y="0.0" width="497" height="59"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="dh2-RO-e1G"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
                                                     <color key="textColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="morsels" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="ugB-aj-nuk" customClass="MRSLPrimaryLightItalicLabel">
+                                                    <rect key="frame" x="507" y="0.0" width="49" height="59"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                                    <color key="textColor" red="0.57647061347961426" green="0.64313727617263794" blue="0.56862747669219971" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="icon-arrow-accessory-red" translatesAutoresizingMaskIntoConstraints="NO" id="Tzm-p5-yFX">
@@ -452,24 +457,19 @@
                                                         <constraint firstAttribute="height" constant="1" id="nd8-yn-0Ru"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="ugB-aj-nuk" customClass="MRSLRobotoLightItalicLabel">
-                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
-                                                    <color key="textColor" red="0.57647061347961426" green="0.64313727617263794" blue="0.56862747669219971" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="1J0-eP-4ps" firstAttribute="leading" secondItem="lIK-3H-yxr" secondAttribute="leading" constant="10" id="ATJ-r9-zLP"/>
                                                 <constraint firstAttribute="trailing" secondItem="Yhg-hG-fcf" secondAttribute="trailing" id="F6b-tZ-qia"/>
                                                 <constraint firstAttribute="bottom" secondItem="Yhg-hG-fcf" secondAttribute="bottom" id="Ij7-2H-0y1"/>
-                                                <constraint firstItem="Yhg-hG-fcf" firstAttribute="top" secondItem="ugB-aj-nuk" secondAttribute="bottom" id="atl-Uw-wiN"/>
+                                                <constraint firstItem="ugB-aj-nuk" firstAttribute="top" secondItem="lIK-3H-yxr" secondAttribute="top" id="O2j-vV-8Y3"/>
+                                                <constraint firstItem="Tzm-p5-yFX" firstAttribute="leading" secondItem="ugB-aj-nuk" secondAttribute="trailing" constant="8" id="Qtd-nG-NvU"/>
+                                                <constraint firstItem="ugB-aj-nuk" firstAttribute="leading" secondItem="1J0-eP-4ps" secondAttribute="trailing" id="c96-6T-h30"/>
                                                 <constraint firstItem="1J0-eP-4ps" firstAttribute="top" secondItem="lIK-3H-yxr" secondAttribute="top" id="g9f-7w-haK"/>
                                                 <constraint firstAttribute="trailing" secondItem="Tzm-p5-yFX" secondAttribute="trailing" constant="20" id="kyO-Tn-U0J"/>
-                                                <constraint firstItem="ugB-aj-nuk" firstAttribute="leading" secondItem="1J0-eP-4ps" secondAttribute="trailing" id="l5Z-IV-ue2"/>
-                                                <constraint firstItem="Tzm-p5-yFX" firstAttribute="leading" secondItem="ugB-aj-nuk" secondAttribute="trailing" constant="8" id="n6Q-Tp-qA6"/>
                                                 <constraint firstItem="Yhg-hG-fcf" firstAttribute="top" secondItem="1J0-eP-4ps" secondAttribute="bottom" id="o2l-L2-B12"/>
                                                 <constraint firstItem="Yhg-hG-fcf" firstAttribute="leading" secondItem="lIK-3H-yxr" secondAttribute="leading" id="oaT-KQ-4rk"/>
-                                                <constraint firstItem="ugB-aj-nuk" firstAttribute="top" secondItem="lIK-3H-yxr" secondAttribute="topMargin" id="vKq-Et-Xzd"/>
+                                                <constraint firstItem="Yhg-hG-fcf" firstAttribute="top" secondItem="ugB-aj-nuk" secondAttribute="bottom" id="y2C-5W-uc6"/>
                                                 <constraint firstAttribute="centerY" secondItem="Tzm-p5-yFX" secondAttribute="centerY" id="yzS-gh-fn2"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -488,8 +488,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="alF-dI-3Ah">
                                                     <rect key="frame" x="10" y="10" width="40" height="40"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="40" id="unA-Nh-Urf"/>
-                                                        <constraint firstAttribute="height" constant="40" id="yTb-LO-r2x"/>
+                                                        <constraint firstAttribute="width" constant="40" id="Ykw-4d-V1h"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="icon-arrow-accessory-red" translatesAutoresizingMaskIntoConstraints="NO" id="ItP-6N-n8h">
@@ -514,17 +513,18 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="alF-dI-3Ah" firstAttribute="leading" secondItem="uge-hj-H5M" secondAttribute="leading" constant="10" id="1xZ-UZ-YLI"/>
                                                 <constraint firstAttribute="trailing" secondItem="ItP-6N-n8h" secondAttribute="trailing" constant="20" id="1yW-u5-cWI"/>
                                                 <constraint firstAttribute="centerY" secondItem="ItP-6N-n8h" secondAttribute="centerY" id="2NK-Sa-A7i"/>
                                                 <constraint firstAttribute="trailing" secondItem="W1y-7q-Fhi" secondAttribute="trailing" id="4qc-ME-Zc7"/>
                                                 <constraint firstItem="upM-gB-RiU" firstAttribute="top" secondItem="uge-hj-H5M" secondAttribute="top" id="Bs3-6B-0j2"/>
+                                                <constraint firstItem="W1y-7q-Fhi" firstAttribute="top" secondItem="alF-dI-3Ah" secondAttribute="bottom" constant="9" id="Cno-5G-hNV"/>
                                                 <constraint firstAttribute="bottom" secondItem="W1y-7q-Fhi" secondAttribute="bottom" id="PSf-0X-tvC"/>
-                                                <constraint firstItem="upM-gB-RiU" firstAttribute="leading" secondItem="alF-dI-3Ah" secondAttribute="trailing" constant="8" id="QBB-9r-wTO"/>
+                                                <constraint firstItem="alF-dI-3Ah" firstAttribute="top" secondItem="uge-hj-H5M" secondAttribute="top" constant="10" id="QmF-vW-d20"/>
                                                 <constraint firstAttribute="bottom" secondItem="upM-gB-RiU" secondAttribute="bottom" id="S1s-kB-eGy"/>
                                                 <constraint firstItem="W1y-7q-Fhi" firstAttribute="leading" secondItem="uge-hj-H5M" secondAttribute="leading" id="X5K-3T-gVr"/>
+                                                <constraint firstItem="upM-gB-RiU" firstAttribute="leading" secondItem="alF-dI-3Ah" secondAttribute="trailing" constant="8" id="YVS-J3-jDX"/>
                                                 <constraint firstItem="ItP-6N-n8h" firstAttribute="leading" secondItem="upM-gB-RiU" secondAttribute="trailing" constant="8" id="anS-gJ-HIp"/>
-                                                <constraint firstItem="alF-dI-3Ah" firstAttribute="leading" secondItem="uge-hj-H5M" secondAttribute="leading" constant="10" id="cdX-fE-4Ym"/>
-                                                <constraint firstItem="alF-dI-3Ah" firstAttribute="top" secondItem="uge-hj-H5M" secondAttribute="top" constant="10" id="ltB-A8-h4g"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

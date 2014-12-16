@@ -182,7 +182,7 @@
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     CGRect bodyRect = [notificationSettingName boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 80.f, CGFLOAT_MAX)
                                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                                         attributes:@{NSFontAttributeName: [UIFont robotoLightFontOfSize:14.f], NSParagraphStyleAttributeName: paragraphStyle}
+                                                         attributes:@{NSFontAttributeName: [UIFont primaryLightFontOfSize:14.f], NSParagraphStyleAttributeName: paragraphStyle}
                                                             context:nil];
     return MAX(44.f, bodyRect.size.height);
 }

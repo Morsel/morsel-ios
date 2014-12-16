@@ -51,10 +51,10 @@
 
     if (!item.itemDescription || [item.description length] == 0) {
         self.descriptionLabel.text = @"Tap to add text";
-        [self.descriptionLabel setFont:[UIFont robotoLightItalicFontOfSize:14.f]];
+        [self.descriptionLabel setFont:[UIFont primaryLightItalicFontOfSize:14.f]];
     } else {
         self.descriptionLabel.text = item.itemDescription;
-        [self.descriptionLabel setFont:[UIFont robotoLightFontOfSize:14.f]];
+        [self.descriptionLabel setFont:[UIFont primaryLightFontOfSize:14.f]];
     }
     self.placeholderDescriptionLabel.text = item.placeholder_description ?: @"Additional photo";
 }

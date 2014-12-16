@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLStandardLabel.h"
+#import "MRSLPrimaryLabel.h"
 
-@interface MRSLRobotoLightLabel : MRSLStandardLabel
+@interface MRSLPrimaryLightLabel : MRSLPrimaryLabel
 
 @end

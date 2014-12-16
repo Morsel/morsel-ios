@@ -254,7 +254,7 @@ NSFetchedResultsControllerDelegate>
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     CGRect bodyRect = [comment.commentDescription boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - MRSLDefaultCommentLabelPadding, CGFLOAT_MAX)
                                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                                            attributes:@{NSFontAttributeName: [UIFont robotoLightFontOfSize:12.f], NSParagraphStyleAttributeName: paragraphStyle}
+                                                            attributes:@{NSFontAttributeName: [UIFont primaryLightFontOfSize:12.f], NSParagraphStyleAttributeName: paragraphStyle}
                                                                context:nil];
     CGFloat defaultCellSize = 70.f;
 

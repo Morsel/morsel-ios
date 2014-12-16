@@ -55,7 +55,7 @@
     NSMutableAttributedString *coverAttributedInfo = [self coverInformationFromProperties];
     if ([self hasTaggedUsers]) {
         NSMutableAttributedString *taggedAttributedString = [[NSMutableAttributedString alloc] initWithString:@"\n\nwith "
-                                                                                                   attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                   attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
         [coverAttributedInfo appendAttributedString:taggedAttributedString];
     }
     CGRect coverInfoRect = [coverAttributedInfo boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
@@ -136,30 +136,30 @@
 - (NSMutableAttributedString *)coverInformationFromProperties {
     NSString *fullName = [self.creator fullName];
     NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"by %@", fullName]
-                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
     [infoAttributedString addAttribute:NSLinkAttributeName
                                  value:@"profile://display"
                                  range:[[infoAttributedString string] rangeOfString:fullName]];
     [infoAttributedString addAttribute:NSFontAttributeName
-                                 value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleHeadline]
+                                 value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleHeadline]
                                  range:[[infoAttributedString string] rangeOfString:fullName]];
 
     if (self.place) {
         NSString *placeName = self.place.name;
         NSMutableAttributedString *placeAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@ %@, %@", placeName, self.place.city ?: @"", self.place.state ?: @""]
-                                                                                                  attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                  attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
         [placeAttributedString addAttribute:NSLinkAttributeName
                                       value:@"place://display"
                                       range:[[placeAttributedString string] rangeOfString:placeName]];
         [placeAttributedString addAttribute:NSFontAttributeName
-                                      value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                      value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleSubheadline]
                                       range:[[placeAttributedString string] rangeOfString:placeName]];
         [infoAttributedString appendAttributedString:placeAttributedString];
     }
 
     if (self.summary) {
         [infoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n\n%@", self.summary]
-                                                                                     attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}]];
+                                                                                     attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}]];
     }
 
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -181,7 +181,7 @@
                                                  success:^(NSArray *responseArray) {
                                                      if (weakSelf) {
                                                          NSMutableAttributedString *taggedAttributedString = [[NSMutableAttributedString alloc] initWithString:@"\n\nwith "
-                                                                                                                                                    attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                                                                    attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
                                                          int userEnumCount = 0;
                                                          for (id objectID in responseArray) {
                                                              MRSLUser *taggedUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
@@ -193,13 +193,13 @@
                                                                                                 value:[NSString stringWithFormat:@"user://%i", taggedUser.userIDValue]
                                                                                                 range:[[taggedUserAttributedString string] rangeOfString:userFullName]];
                                                              [taggedUserAttributedString addAttribute:NSFontAttributeName
-                                                                                                value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                                                                                value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleSubheadline]
                                                                                                 range:[[taggedUserAttributedString string] rangeOfString:userFullName]];
 
                                                              BOOL hasMore = ([responseArray count] - (userEnumCount + 1) > 0);
                                                              if (hasMore) {
                                                                  NSAttributedString *commaAttributedString = [[NSMutableAttributedString alloc] initWithString:@", "
-                                                                                                                                                    attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                                                                    attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
 
                                                                  [taggedUserAttributedString appendAttributedString:commaAttributedString];
                                                              }
@@ -210,12 +210,12 @@
                                                                  if (hasMore) {
                                                                      NSString *moreString = [NSString stringWithFormat:@"%i more", (int)[responseArray count] - userEnumCount];
                                                                      NSMutableAttributedString *moreAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"and %@", moreString]
-                                                                                                                                                              attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                                                                              attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
                                                                      [moreAttributedString addAttribute:NSLinkAttributeName
                                                                                                   value:@"more://display"
                                                                                                   range:[[moreAttributedString string] rangeOfString:moreString]];
                                                                      [moreAttributedString addAttribute:NSFontAttributeName
-                                                                                                  value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                                                                                  value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleSubheadline]
                                                                                                   range:[[moreAttributedString string] rangeOfString:moreString]];
                                                                      [taggedAttributedString appendAttributedString:moreAttributedString];
                                                                  }

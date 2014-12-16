@@ -11,7 +11,7 @@
 @implementation MRSLRegularButton
 
 - (void)setUp {
-    [self.titleLabel setFont:[UIFont robotoRegularFontOfSize:self.titleLabel.font.pointSize]];
+    [self.titleLabel setFont:[UIFont primaryRegularFontOfSize:self.titleLabel.font.pointSize]];
 }
 
 @end

@@ -243,6 +243,10 @@ MRSLSegmentedButtonViewDelegate>
     return height;
 }
 
+- (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return (_section == 0) ? 44.f : 60.f;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return [MRSLSectionView sectionViewWithTitle:((_section == 0) ? @"Popular hashtags" : @"Suggested users")];
 }
@@ -257,10 +261,6 @@ MRSLSegmentedButtonViewDelegate>
         count = [self.dataSource count];
     }
     return count;
-}
-
-- (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return 60.f;
 }
 
 - (void)tableViewDataSource:(UITableView *)tableView

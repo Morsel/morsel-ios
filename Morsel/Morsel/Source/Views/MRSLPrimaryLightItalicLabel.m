@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLRobotoLightItalicLabel.h"
+#import "MRSLPrimaryLightItalicLabel.h"
 
-@implementation MRSLRobotoLightItalicLabel
+@implementation MRSLPrimaryLightItalicLabel
 
 - (void)setUp {
-    [self setFont:[UIFont robotoLightItalicFontOfSize:self.font.pointSize]];
+    [self setFont:[UIFont primaryLightItalicFontOfSize:self.font.pointSize]];
 }
 
 @end

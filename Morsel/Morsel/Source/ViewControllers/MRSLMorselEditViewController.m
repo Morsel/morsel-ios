@@ -417,12 +417,12 @@ MRSLMorselEditItemTableViewCellDelegate>
                 tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselInfoCell];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell keyLabel] setText:@"Title"];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:(!_morsel || [_morsel hasPlaceholderTitle]) ? @"Name your morsel" : [_morsel title]];
-                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setFont:(!_morsel || [_morsel hasPlaceholderTitle]) ? [UIFont robotoLightItalicFontOfSize:14.f] : [UIFont robotoLightFontOfSize:14.f]];
+                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setFont:(!_morsel || [_morsel hasPlaceholderTitle]) ? [UIFont primaryLightItalicFontOfSize:14.f] : [UIFont primaryLightFontOfSize:14.f]];
             } else if (indexPath.row == 1 && [[MRSLUser currentUser] isProfessional]) {
                 tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselInfoCell];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell keyLabel] setText:@"Place"];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:[_morsel.place name] ?: @"None / Personal"];
-                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setFont:(![_morsel.place name]) ? [UIFont robotoLightItalicFontOfSize:14.f] : [UIFont robotoLightFontOfSize:14.f]];
+                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setFont:(![_morsel.place name]) ? [UIFont primaryLightItalicFontOfSize:14.f] : [UIFont primaryLightFontOfSize:14.f]];
             } else {
                 tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselTaggedUsersCellKey];
                 [(MRSLMorselTaggedUsersTableViewCell *)tableViewCell setMorsel:self.morsel];

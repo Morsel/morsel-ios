@@ -9,14 +9,14 @@
 #import "MRSLPlaceUserCollectionViewCell.h"
 
 #import "MRSLProfileImageView.h"
-#import "MRSLStandardLabel.h"
+#import "MRSLPrimaryLabel.h"
 
 #import "MRSLUser.h"
 
 @interface MRSLPlaceUserCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
-@property (weak, nonatomic) IBOutlet MRSLStandardLabel *nameLabel;
+@property (weak, nonatomic) IBOutlet MRSLPrimaryLabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *positionLabel;
 
 @end

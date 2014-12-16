@@ -15,7 +15,7 @@
 #import "MRSLPlaceCoverSelectTableViewCell.h"
 #import "MRSLCheckmarkTextTableViewCell.h"
 #import "MRSLPlacesAddViewController.h"
-#import "MRSLRobotoLightLabel.h"
+#import "MRSLPrimaryLightLabel.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPlace.h"

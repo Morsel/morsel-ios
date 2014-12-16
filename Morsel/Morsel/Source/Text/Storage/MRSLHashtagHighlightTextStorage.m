@@ -105,7 +105,7 @@
                                           value:linkString
                                           range:hashtagRange];
                              [self addAttribute:NSFontAttributeName
-                                          value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                          value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleSubheadline]
                                           range:hashtagRange];
                          }];
 }

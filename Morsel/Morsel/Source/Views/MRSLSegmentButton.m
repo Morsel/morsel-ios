@@ -39,7 +39,7 @@
     [self setTitleColor:[UIColor whiteColor]
                forState:UIControlStateSelected];
 
-    [self.titleLabel setFont:[UIFont robotoRegularFontOfSize:self.titleLabel.font.pointSize]];
+    [self.titleLabel setFont:[UIFont primaryRegularFontOfSize:self.titleLabel.font.pointSize]];
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {

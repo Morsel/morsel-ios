@@ -33,7 +33,7 @@ NSString const *badgeValueKey = @"badgeValueKey";
     // Default design initialization
     self.badgeBGColor   = [UIColor morselPrimary];
     self.badgeTextColor = [UIColor whiteColor];
-    self.badgeFont      = [UIFont robotoLightFontOfSize:12.f];
+    self.badgeFont      = [UIFont primaryLightFontOfSize:12.f];
     self.badgePadding   = 6;
     self.badgeMinSize   = 8;
     self.badgeOriginX   = self.customView.frame.size.width - (self.badgePadding/2);

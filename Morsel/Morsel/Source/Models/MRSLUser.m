@@ -266,12 +266,12 @@ static const int kGuestUserID = -1;
 - (NSMutableAttributedString *)profileInformation {
     NSString *fullName = [self fullName];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ \n%@", fullName, self.bio ?: @""]
-                                                                                         attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleBody]}];
+                                                                                         attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleBody]}];
     [attributedString addAttribute:NSLinkAttributeName
                              value:@"profile://display"
                              range:[[attributedString string] rangeOfString:fullName]];
     [attributedString addAttribute:NSFontAttributeName
-                             value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleHeadline]
+                             value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleHeadline]
                              range:[[attributedString string] rangeOfString:fullName]];
 
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];

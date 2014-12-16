@@ -11,7 +11,7 @@
 @implementation MRSLBoldButton
 
 - (void)setUp {
-    [self.titleLabel setFont:[UIFont robotoSlabBoldFontOfSize:self.titleLabel.font.pointSize]];
+    [self.titleLabel setFont:[UIFont primaryBoldFontOfSize:self.titleLabel.font.pointSize]];
 }
 
 @end
