@@ -134,7 +134,7 @@ NSFetchedResultsControllerDelegate>
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getExploreWithMaxID:nil
                                        orSinceID:nil
-                                        andCount:@(18)
+                                        andCount:nil
                                          success:^(NSArray *responseArray) {
                                              if (weakSelf) {
                                                  if ([responseArray count] > 0) {
@@ -241,7 +241,7 @@ NSFetchedResultsControllerDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(MAX(106.f, (collectionView.frame.size.width / 3) - 1.f), MAX(106.f, (collectionView.frame.size.width / 3) - 1.f));
+    return CGSizeMake(MAX(160.f, floorf(collectionView.frame.size.width / 2)), MAX(160.f, floorf(collectionView.frame.size.width / 2)));
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView

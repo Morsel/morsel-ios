@@ -133,6 +133,34 @@
     return nil;
 }
 
+- (NSMutableAttributedString *)thumbnailInformation {
+    NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:self.title ?: @""
+                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleHeadline],
+                                                                                                          NSForegroundColorAttributeName: [UIColor whiteColor]}];
+
+    NSString *fullName = [self.creator fullName];
+    NSMutableAttributedString *userAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\nby %@", fullName]
+                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1],
+                                                                                                          NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    [infoAttributedString appendAttributedString:userAttributedString];
+
+    if (self.place) {
+        NSString *placeName = self.place.name;
+        NSMutableAttributedString *placeAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@", placeName]
+                                                                                                  attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1],
+                                                                                                               NSForegroundColorAttributeName: [UIColor whiteColor]}];
+        [infoAttributedString appendAttributedString:placeAttributedString];
+    }
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    [infoAttributedString addAttribute:NSParagraphStyleAttributeName
+                                 value:paragraphStyle
+                                 range:NSMakeRange(0, infoAttributedString.length)];
+
+    return infoAttributedString;
+}
+
 - (NSMutableAttributedString *)coverInformationFromProperties {
     NSString *fullName = [self.creator fullName];
     NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"by %@", fullName]

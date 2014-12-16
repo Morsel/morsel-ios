@@ -19,8 +19,8 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aww-82-pWW" customClass="MRSLCollectionView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="ffo-tj-7al">
-                                    <size key="itemSize" width="106" height="106"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="ffo-tj-7al">
+                                    <size key="itemSize" width="160" height="160"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="320" height="50"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -30,42 +30,39 @@
                                         <rect key="frame" x="0.0" y="175" width="106" height="106"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4ui-MG-YLX" customClass="MRSLItemImageView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="106" id="9uh-wx-at5"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="Gpe-Lj-FbW"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="86" translatesAutoresizingMaskIntoConstraints="NO" id="pZA-ts-CeP" customClass="MRSLPrimaryBoldLabel">
-                                                    <rect key="frame" x="10" y="20" width="86" height="66"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="TsW-fQ-mPN"/>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="ybx-Jp-6dj"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L62-W0-GwK" customClass="MRSLStandardTextView">
+                                                    <rect key="frame" x="0.0" y="123" width="160" height="37"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="4ui-MG-YLX" secondAttribute="bottom" id="7so-nc-qzc"/>
-                                            <constraint firstItem="pZA-ts-CeP" firstAttribute="top" secondItem="8L4-Gj-nuV" secondAttribute="top" constant="20" id="JSB-P4-MRT"/>
-                                            <constraint firstItem="pZA-ts-CeP" firstAttribute="leading" secondItem="8L4-Gj-nuV" secondAttribute="leading" constant="10" id="Sae-5B-5nN"/>
+                                            <constraint firstItem="L62-W0-GwK" firstAttribute="leading" secondItem="8L4-Gj-nuV" secondAttribute="leading" id="BED-pU-pb5"/>
+                                            <constraint firstAttribute="bottom" secondItem="L62-W0-GwK" secondAttribute="bottom" id="DE2-de-8a0"/>
+                                            <constraint firstAttribute="trailing" secondItem="L62-W0-GwK" secondAttribute="trailing" id="RCe-2U-w45"/>
                                             <constraint firstAttribute="trailing" secondItem="4ui-MG-YLX" secondAttribute="trailing" id="mKp-Jb-Q5d"/>
                                             <constraint firstItem="4ui-MG-YLX" firstAttribute="leading" secondItem="8L4-Gj-nuV" secondAttribute="leading" id="p2R-hh-wSK"/>
                                             <constraint firstItem="4ui-MG-YLX" firstAttribute="top" secondItem="8L4-Gj-nuV" secondAttribute="top" id="qJh-8n-o3A"/>
-                                            <constraint firstAttribute="trailing" secondItem="pZA-ts-CeP" secondAttribute="trailing" constant="10" id="sQ4-p3-QCl"/>
-                                            <constraint firstAttribute="bottom" secondItem="pZA-ts-CeP" secondAttribute="bottom" constant="20" id="y7P-zb-o2g"/>
                                         </constraints>
+                                        <size key="customSize" width="160" height="160"/>
                                         <connections>
                                             <outlet property="itemImageView" destination="4ui-MG-YLX" id="MOc-VH-xzl"/>
-                                            <outlet property="morselTitleLabel" destination="pZA-ts-CeP" id="keJ-Ey-aUW"/>
+                                            <outlet property="textView" destination="L62-W0-GwK" id="fBQ-4n-IsF"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -141,53 +138,50 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g7U-jB-aUc" customClass="MRSLCollectionView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="Rud-GG-Hf9">
-                                    <size key="itemSize" width="106" height="106"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="Rud-GG-Hf9">
+                                    <size key="itemSize" width="160" height="160"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="320" height="50"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselPreviewCell" id="Gtx-AY-ut3" customClass="MRSLMorselPreviewCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselPreviewCell" id="lsj-OQ-WbH" customClass="MRSLMorselPreviewCollectionViewCell">
                                         <rect key="frame" x="0.0" y="175" width="106" height="106"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gIY-pa-MIf" customClass="MRSLItemImageView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tZ3-W7-JbW" customClass="MRSLItemImageView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="106" id="Jd5-8i-qp4"/>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="avn-bh-b0k"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="4Et-Gd-qxA"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="106" id="UIr-0F-cmo"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="86" translatesAutoresizingMaskIntoConstraints="NO" id="0d5-0k-8EB" customClass="MRSLPrimaryBoldLabel">
-                                                    <rect key="frame" x="10" y="20" width="86" height="66"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="t4C-h0-8Lp"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="xn1-72-ljf"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2L-xS-rxO" customClass="MRSLStandardTextView">
+                                                    <rect key="frame" x="0.0" y="123" width="160" height="37"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="gIY-pa-MIf" secondAttribute="bottom" id="7yG-lr-i32"/>
-                                            <constraint firstItem="0d5-0k-8EB" firstAttribute="leading" secondItem="Gtx-AY-ut3" secondAttribute="leading" constant="10" id="Fx9-dV-8aq"/>
-                                            <constraint firstAttribute="bottom" secondItem="0d5-0k-8EB" secondAttribute="bottom" constant="20" id="JAy-RO-pCu"/>
-                                            <constraint firstItem="gIY-pa-MIf" firstAttribute="leading" secondItem="Gtx-AY-ut3" secondAttribute="leading" id="WhI-6k-xmH"/>
-                                            <constraint firstItem="gIY-pa-MIf" firstAttribute="top" secondItem="Gtx-AY-ut3" secondAttribute="top" id="hpo-nm-Zzx"/>
-                                            <constraint firstAttribute="trailing" secondItem="0d5-0k-8EB" secondAttribute="trailing" constant="10" id="jER-I5-ANC"/>
-                                            <constraint firstAttribute="trailing" secondItem="gIY-pa-MIf" secondAttribute="trailing" id="qIo-qP-iCf"/>
-                                            <constraint firstItem="0d5-0k-8EB" firstAttribute="top" secondItem="Gtx-AY-ut3" secondAttribute="top" constant="20" id="xuM-3b-Xcv"/>
+                                            <constraint firstItem="T2L-xS-rxO" firstAttribute="leading" secondItem="lsj-OQ-WbH" secondAttribute="leading" id="60D-mG-6MJ"/>
+                                            <constraint firstItem="tZ3-W7-JbW" firstAttribute="leading" secondItem="lsj-OQ-WbH" secondAttribute="leading" id="Is8-qh-Bv1"/>
+                                            <constraint firstItem="tZ3-W7-JbW" firstAttribute="top" secondItem="lsj-OQ-WbH" secondAttribute="top" id="UeJ-aN-z3n"/>
+                                            <constraint firstAttribute="trailing" secondItem="T2L-xS-rxO" secondAttribute="trailing" id="WPI-kE-hiK"/>
+                                            <constraint firstAttribute="bottom" secondItem="T2L-xS-rxO" secondAttribute="bottom" id="X8l-YF-sRW"/>
+                                            <constraint firstAttribute="trailing" secondItem="tZ3-W7-JbW" secondAttribute="trailing" id="cFm-4E-4BD"/>
+                                            <constraint firstAttribute="bottom" secondItem="tZ3-W7-JbW" secondAttribute="bottom" id="mmc-wD-4KM"/>
                                         </constraints>
+                                        <size key="customSize" width="160" height="160"/>
                                         <connections>
-                                            <outlet property="itemImageView" destination="gIY-pa-MIf" id="A3Q-H0-aWB"/>
-                                            <outlet property="morselTitleLabel" destination="0d5-0k-8EB" id="5UY-7V-AIW"/>
+                                            <outlet property="itemImageView" destination="tZ3-W7-JbW" id="xoh-FY-uYc"/>
+                                            <outlet property="textView" destination="T2L-xS-rxO" id="bxz-n6-Ufz"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

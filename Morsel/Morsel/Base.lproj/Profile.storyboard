@@ -25,7 +25,7 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="Ren-C9-zd8"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="416" id="hBg-44-A9e"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="Kfi-hz-0sM" customClass="MRSLStickyHeaderCollectionViewLayout">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="Kfi-hz-0sM" customClass="MRSLStickyHeaderCollectionViewLayout">
                                     <size key="itemSize" width="106" height="106"/>
                                     <size key="headerReferenceSize" width="320" height="50"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -165,48 +165,6 @@
                                             <outlet property="nameLabel" destination="DXf-MG-zfq" id="BhR-Bq-Ufh"/>
                                             <outlet property="profileImageView" destination="GMc-6J-rv2" id="uN2-c9-Rgn"/>
                                             <outlet property="reportButton" destination="85u-KW-I9F" id="DxU-9B-c07"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselPreviewCell" id="18U-pM-zK7" customClass="MRSLMorselPreviewCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="175" width="106" height="106"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PvI-cZ-yzt" customClass="MRSLItemImageView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="BnU-hG-AGX"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="106" id="mBn-bI-4XO"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="86" translatesAutoresizingMaskIntoConstraints="NO" id="Ifw-xj-nb8" customClass="MRSLPrimaryBoldLabel">
-                                                    <rect key="frame" x="10" y="20" width="86" height="66"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="9bB-0b-r6P"/>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="TU7-XA-nOu"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="PvI-cZ-yzt" firstAttribute="leading" secondItem="18U-pM-zK7" secondAttribute="leading" id="8ta-1H-kNx"/>
-                                            <constraint firstItem="PvI-cZ-yzt" firstAttribute="top" secondItem="18U-pM-zK7" secondAttribute="top" id="Egb-Yd-DVG"/>
-                                            <constraint firstAttribute="trailing" secondItem="PvI-cZ-yzt" secondAttribute="trailing" id="P0W-Uc-bS0"/>
-                                            <constraint firstAttribute="bottom" secondItem="PvI-cZ-yzt" secondAttribute="bottom" id="XGE-yf-8Ac"/>
-                                            <constraint firstItem="Ifw-xj-nb8" firstAttribute="top" secondItem="18U-pM-zK7" secondAttribute="top" constant="20" id="kp9-r9-pzB"/>
-                                            <constraint firstAttribute="bottom" secondItem="Ifw-xj-nb8" secondAttribute="bottom" constant="20" id="lXd-R3-yib"/>
-                                            <constraint firstItem="Ifw-xj-nb8" firstAttribute="leading" secondItem="18U-pM-zK7" secondAttribute="leading" constant="10" id="n40-5B-uTV"/>
-                                            <constraint firstAttribute="trailing" secondItem="Ifw-xj-nb8" secondAttribute="trailing" constant="10" id="oH1-qC-0Ax"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="itemImageView" destination="PvI-cZ-yzt" id="gsY-dd-SjW"/>
-                                            <outlet property="morselTitleLabel" destination="Ifw-xj-nb8" id="eY4-KS-Li7"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_ContainerCell" id="baN-6O-kz8" customClass="MRSLContainerCollectionViewCell">
@@ -438,6 +396,45 @@
                                         <connections>
                                             <outlet property="nameLabel" destination="nyx-nU-wkJ" id="Luf-8S-DNE"/>
                                             <outlet property="tagTypeLabel" destination="E0R-0X-uen" id="rgB-ba-d7f"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselPreviewCell" id="Wgv-Fr-605" customClass="MRSLMorselPreviewCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="175" width="106" height="106"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eFX-Ar-j7l" customClass="MRSLItemImageView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="106" id="Edk-bd-O4M"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="YuV-sp-jSf"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wyf-3x-QX7" customClass="MRSLStandardTextView">
+                                                    <rect key="frame" x="0.0" y="123" width="160" height="37"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="eFX-Ar-j7l" firstAttribute="leading" secondItem="Wgv-Fr-605" secondAttribute="leading" id="4Iy-n8-TGX"/>
+                                            <constraint firstItem="eFX-Ar-j7l" firstAttribute="top" secondItem="Wgv-Fr-605" secondAttribute="top" id="Clk-ma-hFY"/>
+                                            <constraint firstItem="Wyf-3x-QX7" firstAttribute="leading" secondItem="Wgv-Fr-605" secondAttribute="leading" id="G7n-5F-dul"/>
+                                            <constraint firstAttribute="bottom" secondItem="eFX-Ar-j7l" secondAttribute="bottom" id="IAM-B1-17E"/>
+                                            <constraint firstAttribute="bottom" secondItem="Wyf-3x-QX7" secondAttribute="bottom" id="Z6x-Pt-vqg"/>
+                                            <constraint firstAttribute="trailing" secondItem="Wyf-3x-QX7" secondAttribute="trailing" id="bGB-jy-Ut1"/>
+                                            <constraint firstAttribute="trailing" secondItem="eFX-Ar-j7l" secondAttribute="trailing" id="nIK-Hb-aqD"/>
+                                        </constraints>
+                                        <size key="customSize" width="160" height="160"/>
+                                        <connections>
+                                            <outlet property="itemImageView" destination="eFX-Ar-j7l" id="gU8-Q4-jCE"/>
+                                            <outlet property="textView" destination="Wyf-3x-QX7" id="k1h-eR-Ijw"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

@@ -533,6 +533,7 @@
 		06DAFB66191AA20E0044AF3E /* MRSLAPIService+Keyword.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB57191A925C0044AF3E /* MRSLAPIService+Keyword.m */; };
 		06DAFB67191AA20E0044AF3E /* MRSLAPIService+Registration.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DAFB3F191A8F640044AF3E /* MRSLAPIService+Registration.m */; };
 		06DC35DF18CA6BFA00702E34 /* MRSLImagePreviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC35DE18CA6BFA00702E34 /* MRSLImagePreviewCollectionViewCell.m */; };
+		06DE6FC31A3FEC1B0099C9B4 /* MRSLWhiteTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE6FC21A3FEC1B0099C9B4 /* MRSLWhiteTextView.m */; };
 		06DF5E2719362D4D002B1AA6 /* MRSLFollowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF5E2619362D4D002B1AA6 /* MRSLFollowButton.m */; };
 		06DF5E2A193636C7002B1AA6 /* MRSLAPIService+Router.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF5E29193636C7002B1AA6 /* MRSLAPIService+Router.m */; };
 		06DFA95319AD29F700936BEB /* MRSLCheckmarkTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DFA95219AD29F700936BEB /* MRSLCheckmarkTextTableViewCell.m */; };
@@ -1146,6 +1147,8 @@
 		06DAFB60191A99A90044AF3E /* MRSLAPIService+Like.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLAPIService+Like.m"; sourceTree = "<group>"; };
 		06DC35DD18CA6BFA00702E34 /* MRSLImagePreviewCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLImagePreviewCollectionViewCell.h; path = Source/Views/MRSLImagePreviewCollectionViewCell.h; sourceTree = "<group>"; };
 		06DC35DE18CA6BFA00702E34 /* MRSLImagePreviewCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLImagePreviewCollectionViewCell.m; path = Source/Views/MRSLImagePreviewCollectionViewCell.m; sourceTree = "<group>"; };
+		06DE6FC11A3FEC1B0099C9B4 /* MRSLWhiteTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLWhiteTextView.h; path = Morsel/Source/Views/MRSLWhiteTextView.h; sourceTree = SOURCE_ROOT; };
+		06DE6FC21A3FEC1B0099C9B4 /* MRSLWhiteTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLWhiteTextView.m; path = Morsel/Source/Views/MRSLWhiteTextView.m; sourceTree = SOURCE_ROOT; };
 		06DF5E2519362D4D002B1AA6 /* MRSLFollowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLFollowButton.h; path = Source/Views/MRSLFollowButton.h; sourceTree = "<group>"; };
 		06DF5E2619362D4D002B1AA6 /* MRSLFollowButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLFollowButton.m; path = Source/Views/MRSLFollowButton.m; sourceTree = "<group>"; };
 		06DF5E28193636C7002B1AA6 /* MRSLAPIService+Router.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLAPIService+Router.h"; sourceTree = "<group>"; };
@@ -2639,6 +2642,8 @@
 				4061724A198308310097CD17 /* MRSLPlaceholderTextView.m */,
 				0651205D19F59A2A00E71924 /* MRSLStandardTextView.h */,
 				0651205E19F59A2A00E71924 /* MRSLStandardTextView.m */,
+				06DE6FC11A3FEC1B0099C9B4 /* MRSLWhiteTextView.h */,
+				06DE6FC21A3FEC1B0099C9B4 /* MRSLWhiteTextView.m */,
 			);
 			name = TextView;
 			sourceTree = "<group>";
@@ -3365,6 +3370,7 @@
 				062064151919629D00D8DCF9 /* MRSLSocialServiceTwitter.m in Sources */,
 				065D0CCC19A9A06E009E6FC7 /* _MRSLTemplateItem.m in Sources */,
 				0621C2E319AD0A1300340C48 /* UITableViewCell+Additions.m in Sources */,
+				06DE6FC31A3FEC1B0099C9B4 /* MRSLWhiteTextView.m in Sources */,
 				0669C5131871FD370093132F /* UIImage+Resize.m in Sources */,
 				0641E48B19193BE300ABDCB8 /* MRSLUserLikedMorselCollectionViewCell.m in Sources */,
 				0621C2D919AC4AB000340C48 /* MRSLReorderTableView.m in Sources */,
