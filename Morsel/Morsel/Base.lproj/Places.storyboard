@@ -593,7 +593,7 @@
                                                         <constraint firstAttribute="height" constant="50" id="35X-nC-PDA"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <state key="normal" title="People">
+                                                    <state key="normal" title="Users">
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>

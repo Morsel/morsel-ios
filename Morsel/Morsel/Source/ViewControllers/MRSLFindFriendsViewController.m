@@ -68,7 +68,7 @@ MRSLSegmentedButtonViewDelegate>
     [self.tableView addSubview:_refreshControl];
     self.tableView.alwaysBounceVertical = YES;
 
-    [self.tableView setEmptyStateTitle:@"No people found."];
+    [self.tableView setEmptyStateTitle:@"No users found."];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -350,9 +350,9 @@ MRSLSegmentedButtonViewDelegate>
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (_friendSection == 0) {
-        return [MRSLSectionView sectionViewWithTitle:([self shouldShowSuggestedPeople] ? @"Suggested people" : @"Search results")];
+        return [MRSLSectionView sectionViewWithTitle:([self shouldShowSuggestedPeople] ? @"Suggested users" : @"Search results")];
     } else {
-        return [MRSLSectionView sectionViewWithTitle:@"People found"];
+        return [MRSLSectionView sectionViewWithTitle:@"Users found"];
     }
 }
 

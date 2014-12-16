@@ -1028,7 +1028,7 @@
             </objects>
             <point key="canvasLocation" x="3198" y="1749"/>
         </scene>
-        <!--Tag People-->
+        <!--Tag Users-->
         <scene sceneID="4H4-jU-G9v">
             <objects>
                 <viewController storyboardIdentifier="sb_MRSLMorselEditEligibleUsersViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="t2X-wZ-2qF" customClass="MRSLMorselEditEligibleUsersViewController" sceneMemberID="viewController">
@@ -1144,7 +1144,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Tag People" id="PYX-H9-5j6"/>
+                    <navigationItem key="navigationItem" title="Tag Users" id="PYX-H9-5j6"/>
                     <connections>
                         <outlet property="searchBar" destination="BAB-Dj-evM" id="Hb0-eo-lqf"/>
                         <outlet property="tableView" destination="HCB-PU-MwF" id="D9X-Zj-rK8"/>
