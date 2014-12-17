@@ -20,6 +20,8 @@
 
 @property (nonatomic) BOOL isPerformingRequest;
 
+@property (strong, nonatomic) MRSLMorsel *morsel;
+
 @property (weak, nonatomic) IBOutlet UILabel *summaryPlaceholderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *optionalLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *optionalLabelBottomConstraint;
@@ -36,14 +38,15 @@
 
     self.mp_eventView = @"morsel_summary";
 
+    self.morsel = [self getOrLoadMorselIfExists];
+
     if (_morselID) {
-        MRSLMorsel *morsel = [self getOrLoadMorselIfExists];
-        self.summaryTextView.text = morsel.summary ?: @"";
+        self.summaryTextView.text = _morsel.summary ?: @"";
         [self textViewDidChange:_summaryTextView];
     }
 
     self.title = @"Morsel summary";
-    self.nextBarButtonItem.title = (self.summaryTextView.text.length > 0) ? @"Next" : @"Skip";
+    self.nextBarButtonItem.title = _morsel.publishedDate ? @"Save" : (self.summaryTextView.text.length > 0) ? @"Next" : @"Skip";
     self.optionalLabel.text = @"Pro Tip:\nIncluding #hashtags can help your content get discovered more easily.";
 }
 
@@ -100,8 +103,12 @@
                                               dispatch_async(dispatch_get_main_queue(), ^{
                                                   [weakSelf.nextBarButtonItem setEnabled:YES];
                                                   weakSelf.isPerformingRequest = NO;
-                                                  [weakSelf performSegueWithIdentifier:MRSLStoryboardSeguePublishShareMorselKey
-                                                                                sender:nil];
+                                                  if (weakSelf.morsel.publishedDate) {
+                                                      [weakSelf goBack];
+                                                  } else {
+                                                      [weakSelf performSegueWithIdentifier:MRSLStoryboardSeguePublishShareMorselKey
+                                                                                    sender:nil];
+                                                  }
                                               });
                                           } failure:^(NSError *error) {
                                               [UIAlertView showAlertViewForErrorString:@"Unable to update Morsel summary! Please try again."
@@ -138,7 +145,7 @@
 - (void)textViewDidChange:(UITextView *)textView {
     NSUInteger textLength = textView.text.length;
     _summaryPlaceholderLabel.hidden = !(textLength == 0);
-    self.nextBarButtonItem.title = (textLength > 0) ? @"Next" : @"Skip";
+    if (!_morsel.publishedDate) self.nextBarButtonItem.title = (textLength > 0) ? @"Next" : @"Skip";
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {

@@ -542,6 +542,9 @@ MRSLMorselEditItemTableViewCellDelegate>
     if ([_morsel.items count] > 0) {
         [actionSheet addButtonWithTitle:@"Preview"];
     }
+    if (_morsel.publishedDate) {
+        [actionSheet addButtonWithTitle:@"Edit summary"];
+    }
     [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
     [actionSheet showInView:self.view];
 }
@@ -561,6 +564,9 @@ MRSLMorselEditItemTableViewCellDelegate>
         userMorselsFeedVC.user = _morsel.creator;
         [self.navigationController pushViewController:userMorselsFeedVC
                                              animated:YES];
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Edit summary"]) {
+        [self performSegueWithIdentifier:MRSLStoryboardSegueAddSummaryKey
+                                  sender:nil];
     }
 }
 
