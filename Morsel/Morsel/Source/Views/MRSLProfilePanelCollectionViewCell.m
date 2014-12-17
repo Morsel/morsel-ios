@@ -50,7 +50,7 @@
     self.bioLabel.text = _user.bio;
     self.profileImageView.user = nil;
     self.profileImageView.user = _user;
-    self.blurProfileImageView.user = _user;
+    if (!self.blurProfileImageView.user) self.blurProfileImageView.user = _user;
     self.reportButton.hidden = [_user isCurrentUser];
     [self.followersButton setTitle:[NSString stringWithFormat:@"Followers: %i", _user.follower_countValue]
                           forState:UIControlStateNormal];
