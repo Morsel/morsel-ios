@@ -191,7 +191,6 @@ MRSLStateViewDelegate>
                                                                                                                                                                                        forIndexPath:indexPath];
 
                                                                                                                               [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
-                                                                                                                              [(MRSLSegmentedHeaderReusableView *)reusableView setShouldDisplayProfessionalTabs:[weakSelf.user isProfessional]];
                                                                                                                           } else {
                                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                                                                                                                                 withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
@@ -537,6 +536,16 @@ MRSLStateViewDelegate>
         [self updateDataSourcePredicate];
         [self refreshContent];
     }
+}
+
+- (NSIndexSet *)segmentedButtonViewIndexSetToDisplay {
+    if (![self.user ?: [MRSLUser currentUser] isProfessional]) {
+        NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+        [indexSet addIndex:0];
+        [indexSet addIndex:3];
+        return indexSet;
+    }
+    return nil;
 }
 
 #pragma mark - MRSLStateViewDelegate

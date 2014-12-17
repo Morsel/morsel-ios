@@ -32,10 +32,10 @@
         if (failureOrNil) failureOrNil(nil);
         return;
     }
-    NSMutableDictionary *userParams = [NSMutableDictionary dictionaryWithDictionary:@{ @"query": NSNullIfNil(query) }];
-    if ([query length] == 0) userParams[@"promoted"] = @"true";
+    NSMutableDictionary *keywordParams = [NSMutableDictionary dictionaryWithDictionary:@{ @"query": NSNullIfNil(query) }];
+    if ([query length] == 0) keywordParams[@"promoted"] = @"true";
 
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"keyword" : userParams}
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"keyword" : keywordParams}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (maxOrNil && sinceOrNil) {
