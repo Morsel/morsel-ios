@@ -10,6 +10,9 @@
 
 @interface MRSLMorselPreviewCollectionViewCell : UICollectionViewCell
 
++ (CGSize)defaultCellSizeForCollectionView:(UICollectionView *)collectionView
+                               atIndexPath:(NSIndexPath *)indexPath;
+
 @property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end

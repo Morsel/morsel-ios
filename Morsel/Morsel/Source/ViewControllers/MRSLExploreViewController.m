@@ -241,7 +241,8 @@ NSFetchedResultsControllerDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(MAX(160.f, floorf(collectionView.frame.size.width / 2)), MAX(160.f, floorf(collectionView.frame.size.width / 2)));
+    return [MRSLMorselPreviewCollectionViewCell defaultCellSizeForCollectionView:collectionView
+                                                                     atIndexPath:indexPath];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
