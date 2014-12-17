@@ -63,21 +63,9 @@ MRSLSegmentedButtonViewDelegate>
 - (NSPredicate *)predicateForSectionAndQuery {
     NSPredicate *predicate = nil;
     if (_section == 0) {
-        if ([_searchQuery length] > 0) {
-            // Filter names
-            predicate = [NSPredicate predicateWithFormat:@"(keywordID IN %@) AND (name CONTAINS[cd] %@)", self.objectIDs, _searchQuery ?: @""];
-        } else {
-            // Search API
-            predicate = [NSPredicate predicateWithFormat:@"keywordID IN %@", self.objectIDs];
-        }
+        predicate = [NSPredicate predicateWithFormat:@"keywordID IN %@", self.objectIDs];
     } else {
-        if ([_searchQuery length] > 0) {
-            // Filter names
-            predicate = [NSPredicate predicateWithFormat:@"(userID IN %@) AND (first_name CONTAINS[cd] %@ || last_name CONTAINS[cd] %@)", self.objectIDs, _searchQuery ?: @"", _searchQuery ?: @""];
-        } else {
-            // Search API
-            predicate = [NSPredicate predicateWithFormat:@"userID IN %@", self.objectIDs];
-        }
+        predicate = [NSPredicate predicateWithFormat:@"userID IN %@", self.objectIDs];
     }
     return predicate;
 }
