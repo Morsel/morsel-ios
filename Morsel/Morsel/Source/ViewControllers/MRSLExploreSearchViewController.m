@@ -200,6 +200,7 @@ MRSLSegmentedButtonViewDelegate>
                                                                                    MRSLIconTextTableViewCell *iconTextCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDIcontTextCellKey];
                                                                                    iconTextCell.titleLabel.text = (strongSelf.section == 0) ? [NSString stringWithFormat:@"search for \"%@\"", strongSelf.searchQuery] : @"Find friends";
                                                                                    iconTextCell.iconImageView.image = [UIImage imageNamed:(strongSelf.section == 0) ? @"icon-explore-search" : @"icon-explore-find"];
+                                                                                   iconTextCell.pipeView.hidden = (strongSelf.section == 1);
                                                                                    return iconTextCell;
                                                                                }
                                                                            }];
@@ -208,7 +209,7 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 - (BOOL)matchesConditionsToDisplayAdditionalSection {
-    return ((_section == 0 && [self.searchQuery length] > 0) || (_section == 1 && [self.searchQuery length] == 0));
+    return ((_section == 0 && [self.searchQuery length] > 2) || (_section == 1 && [self.searchQuery length] == 0));
 }
 
 - (BOOL)iconTextCellFoundForIndexPath:(NSIndexPath *)indexPath {
@@ -244,6 +245,7 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 - (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (_section == 0 && [self matchesConditionsToDisplayAdditionalSection]) return 60.f;
     return (_section == 0) ? 44.f : 60.f;
 }
 
