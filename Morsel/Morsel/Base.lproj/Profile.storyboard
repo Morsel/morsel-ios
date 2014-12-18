@@ -449,24 +449,10 @@
                                                     <rect key="frame" x="450" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="vX1-3f-Yd6"/>
+                                                        <constraint firstAttribute="height" constant="50" placeholder="YES" id="uSr-xS-stQ"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="Likes">
-                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kgx-e9-Kqf" customClass="MRSLSegmentButton">
-                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
-                                                    <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="2ag-vU-tRi"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <state key="normal" title="Morsels">
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
@@ -477,7 +463,7 @@
                                                     <rect key="frame" x="150" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="1IY-kW-8O4"/>
+                                                        <constraint firstAttribute="height" constant="50" placeholder="YES" id="YCh-7t-Ft6"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="Places">
@@ -491,7 +477,7 @@
                                                     <rect key="frame" x="300" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="dat-Ns-LiF"/>
+                                                        <constraint firstAttribute="height" constant="50" placeholder="YES" id="8vj-Rx-uWw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="Tags">
@@ -501,27 +487,44 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kgx-e9-Kqf" customClass="MRSLSegmentButton">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
+                                                    <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" placeholder="YES" id="L7H-Dr-Kex"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <state key="normal" title="Morsels">
+                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="leading" secondItem="5rI-9f-lU1" secondAttribute="trailing" id="6JD-KD-Jed"/>
+                                                <constraint firstAttribute="trailing" secondItem="6U3-l6-BIZ" secondAttribute="trailing" placeholder="YES" id="0pm-8A-2ey"/>
+                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" placeholder="YES" id="2fa-8w-SMa"/>
+                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" placeholder="YES" id="3ek-cM-gxq"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="759-Ym-urX"/>
-                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" id="CQc-CZ-tI1"/>
+                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="leading" secondItem="Kgx-e9-Kqf" secondAttribute="trailing" placeholder="YES" id="7HM-0p-Xcg"/>
+                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="leading" secondItem="CMw-Rh-Pbg" secondAttribute="trailing" placeholder="YES" id="7qo-Pe-zX4"/>
+                                                <constraint firstAttribute="bottom" secondItem="6U3-l6-BIZ" secondAttribute="bottom" placeholder="YES" id="8d3-e5-RhT"/>
+                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="width" secondItem="5rI-9f-lU1" secondAttribute="width" placeholder="YES" id="BGJ-Dh-r3H"/>
+                                                <constraint firstAttribute="bottom" secondItem="CMw-Rh-Pbg" secondAttribute="bottom" placeholder="YES" id="BfD-nS-yyM"/>
+                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" placeholder="YES" id="KKy-53-Lwm"/>
                                                 <constraint firstAttribute="height" constant="50" id="Ki6-XM-t4h"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="leading" secondItem="CMw-Rh-Pbg" secondAttribute="trailing" id="Oio-St-EJs"/>
-                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="leading" secondItem="Kgx-e9-Kqf" secondAttribute="trailing" id="SSn-0L-QE1"/>
-                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="leading" secondItem="Xxz-jt-jtY" secondAttribute="leading" id="Ufu-Jb-Qm0"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="width" secondItem="6U3-l6-BIZ" secondAttribute="width" id="Waa-aq-NiN"/>
-                                                <constraint firstAttribute="bottom" secondItem="6U3-l6-BIZ" secondAttribute="bottom" id="dFg-gH-fpd"/>
-                                                <constraint firstAttribute="bottom" secondItem="5rI-9f-lU1" secondAttribute="bottom" id="euT-ep-8C7"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="width" secondItem="Kgx-e9-Kqf" secondAttribute="width" id="fFO-VT-cTY"/>
-                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" id="meR-B2-PHK"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" id="miI-fu-k84"/>
-                                                <constraint firstAttribute="trailing" secondItem="6U3-l6-BIZ" secondAttribute="trailing" id="onx-7g-SvJ"/>
-                                                <constraint firstAttribute="bottom" secondItem="CMw-Rh-Pbg" secondAttribute="bottom" id="u8Z-Ll-VUn"/>
-                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" id="vXg-uS-6RK"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="width" secondItem="CMw-Rh-Pbg" secondAttribute="width" id="wHy-ua-unw"/>
-                                                <constraint firstAttribute="bottom" secondItem="Kgx-e9-Kqf" secondAttribute="bottom" id="ykl-YG-1f7"/>
+                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="leading" secondItem="Kgx-e9-Kqf" secondAttribute="trailing" placeholder="YES" id="Otc-rn-Rnc"/>
+                                                <constraint firstAttribute="bottom" secondItem="Kgx-e9-Kqf" secondAttribute="bottom" placeholder="YES" id="WM5-Gj-f4H"/>
+                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="width" secondItem="Kgx-e9-Kqf" secondAttribute="width" placeholder="YES" id="c6B-oU-vUD"/>
+                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="leading" secondItem="5rI-9f-lU1" secondAttribute="trailing" placeholder="YES" id="cQ1-vv-vnv"/>
+                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="width" secondItem="CMw-Rh-Pbg" secondAttribute="width" placeholder="YES" id="jy1-Qh-j0a"/>
+                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="leading" secondItem="CMw-Rh-Pbg" secondAttribute="trailing" placeholder="YES" id="lE5-QZ-r07"/>
+                                                <constraint firstAttribute="bottom" secondItem="5rI-9f-lU1" secondAttribute="bottom" placeholder="YES" id="pJv-Cm-Pjn"/>
+                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="leading" secondItem="5rI-9f-lU1" secondAttribute="trailing" placeholder="YES" id="qv4-2d-QQm"/>
+                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" placeholder="YES" id="sSH-ax-zIo"/>
+                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="leading" secondItem="Xxz-jt-jtY" secondAttribute="leading" placeholder="YES" id="wfY-vB-0bA"/>
                                             </constraints>
                                             <connections>
                                                 <outlet property="delegate" destination="Tfj-fk-nYN" id="5Xv-9y-7Zx"/>

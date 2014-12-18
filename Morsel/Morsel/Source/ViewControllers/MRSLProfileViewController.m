@@ -191,7 +191,6 @@ MRSLStateViewDelegate>
                                                                                                                                                                                        forIndexPath:indexPath];
 
                                                                                                                               [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
-                                                                                                                              [(MRSLSegmentedHeaderReusableView *)reusableView setShouldDisplayProfessionalTabs:[weakSelf.user isProfessional]];
                                                                                                                           } else {
                                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                                                                                                                                 withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
@@ -409,7 +408,8 @@ MRSLStateViewDelegate>
                 if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
                     return CGSizeMake(collectionView.frame.size.width, 80.f);
                 } else {
-                    return CGSizeMake(MAX(160.f, floorf(collectionView.frame.size.width / 2)), MAX(160.f, floorf(collectionView.frame.size.width / 2)));
+                    return [MRSLMorselPreviewCollectionViewCell defaultCellSizeForCollectionView:collectionView
+                                                                                     atIndexPath:indexPath];
                 }
             } else if ([object isKindOfClass:[MRSLTag class]]) {
                 BOOL shouldDisplayTypeHeader = (indexPath.row == 0);
@@ -537,6 +537,16 @@ MRSLStateViewDelegate>
         [self updateDataSourcePredicate];
         [self refreshContent];
     }
+}
+
+- (NSIndexSet *)segmentedButtonViewIndexSetToDisplay {
+    if (![self.user ?: [MRSLUser currentUser] isProfessional]) {
+        NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+        [indexSet addIndex:0];
+        [indexSet addIndex:3];
+        return indexSet;
+    }
+    return nil;
 }
 
 #pragma mark - MRSLStateViewDelegate

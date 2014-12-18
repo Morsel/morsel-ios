@@ -25,6 +25,17 @@
 
 #pragma mark - Instance Methods
 
++ (CGSize)defaultCellSizeForCollectionView:(UICollectionView *)collectionView
+                               atIndexPath:(NSIndexPath *)indexPath {
+    CGFloat cellWidth = floorf(collectionView.frame.size.width / (([UIDevice currentDeviceIsIpad]) ? 3 : 2));
+    CGFloat offset = 0.f;
+    if ([UIDevice has35InchScreen] || [UIDevice has4InchScreen] || [UIDevice has55InchScreen] || [UIDevice currentDeviceIsIpad]) {
+        cellWidth -= MRSLMinimumSpacingPadding;
+        offset = ((indexPath.row % 2) ? 0.f : MRSLMinimumSpacingPadding);
+    }
+    return CGSizeMake(MAX(159.f, cellWidth + offset), MAX(159.f, cellWidth));
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.backgroundColor = [UIColor morselBackgroundDark];
@@ -34,21 +45,23 @@
     [super layoutSubviews];
 
     if (!self.itemImageView.layer.mask) {
-        CAGradientLayer *l = [CAGradientLayer layer];
-        l.frame = self.bounds;
-        l.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:1.f
-                                                                  green:1.f
-                                                                   blue:1.f
-                                                                  alpha:1.f] CGColor],
-                    (id)[[UIColor colorWithRed:1.f
-                                         green:1.f
-                                          blue:1.f
-                                         alpha:0.f] CGColor], nil];
+        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+        gradientLayer.frame = self.bounds;
+        gradientLayer.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:1.f
+                                                                              green:1.f
+                                                                               blue:1.f
+                                                                              alpha:1.f] CGColor],
+                                (id)[[UIColor colorWithRed:1.f
+                                                     green:1.f
+                                                      blue:1.f
+                                                     alpha:0.f] CGColor], nil];
 
-        l.startPoint = CGPointMake(0.f, 0.5f);
-        l.endPoint = CGPointMake(0.f, 1.f);
+        gradientLayer.startPoint = CGPointMake(0.f, 0.5f);
+        gradientLayer.endPoint = CGPointMake(0.f, 1.f);
 
-        self.itemImageView.layer.mask = l;
+        self.itemImageView.layer.mask = gradientLayer;
+    } else {
+        self.itemImageView.layer.mask.frame = self.bounds;
     }
 }
 

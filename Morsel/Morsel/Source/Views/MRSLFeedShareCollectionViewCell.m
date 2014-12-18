@@ -34,8 +34,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *reportButton;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *profileImageDescriptionSpacing;
-
 @end
 
 @implementation MRSLFeedShareCollectionViewCell
@@ -74,9 +72,6 @@
     _nextMorselButton.hidden = (!self.nextMorsel);
     _nextInfoTextView.hidden = (!self.nextMorsel);
 
-    self.profileImageDescriptionSpacing.constant = self.followButton.hidden ? 0.f : 40.f;
-    [self setNeedsUpdateConstraints];
-
     if (!_reportButton.hidden) {
         self.morselID = self.morsel.morselIDValue;
         __weak __typeof(self)weakSelf = self;
@@ -85,9 +80,6 @@
                                             if (weakSelf && weakSelf.morselID == weakSelf.morsel.morselIDValue &&
                                                 !weakSelf.morsel.creator.followingValue) {
                                                 weakSelf.followButton.user = weakSelf.morsel.creator;
-
-                                                weakSelf.profileImageDescriptionSpacing.constant = weakSelf.followButton.hidden ? 0.f : 40.f;
-                                                [weakSelf setNeedsUpdateConstraints];
                                             }
                                         } failure:nil];
     }

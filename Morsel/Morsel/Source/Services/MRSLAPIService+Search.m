@@ -28,14 +28,12 @@
                         success:(MRSLAPIArrayBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil {
     if ([query length] > 0 && [query length] < 3) {
-        DDLogError(@"Cannot search keywords. Query is less than minimum character length of 3.");
-        if (failureOrNil) failureOrNil(nil);
-        return;
+        query = @"";
     }
-    NSMutableDictionary *userParams = [NSMutableDictionary dictionaryWithDictionary:@{ @"query": NSNullIfNil(query) }];
-    if ([query length] == 0) userParams[@"promoted"] = @"true";
+    NSMutableDictionary *keywordParams = [NSMutableDictionary dictionaryWithDictionary:@{ @"query": NSNullIfNil(query) }];
+    if ([query length] == 0) keywordParams[@"promoted"] = @"true";
 
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"keyword" : userParams}
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"keyword" : keywordParams}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     if (maxOrNil && sinceOrNil) {
@@ -174,9 +172,7 @@
                      success:(MRSLAPIArrayBlock)successOrNil
                      failure:(MRSLFailureBlock)failureOrNil {
     if ([query length] > 0 && [query length] < 3) {
-        DDLogError(@"Cannot search users. Query is less than minimum character length of 3.");
-        if (failureOrNil) failureOrNil(nil);
-        return;
+        query = @"";
     }
     NSMutableDictionary *userParams = [NSMutableDictionary dictionaryWithDictionary:@{ @"query": NSNullIfNil(query) }];
     if ([query length] == 0) userParams[@"promoted"] = @"true";

@@ -168,17 +168,23 @@ MRSLTableViewDataSourceDelegate>
     self.remoteRequestBlock((nextPage ? [self maxID] : nil), (nextPage ? nil : [self sinceID]), nil, ^(NSArray *objectIDs, NSError *error) {
         if ([objectIDs count] > 0) {
             //  If no data has been loaded or the first new objectID doesn't already exist
-            if ([weakSelf.dataSource count] == 0 || ![[objectIDs firstObject] isEqualToNumber:[weakSelf.objectIDs firstObject]]) {
+            if ([weakSelf.dataSource count] == 0) {
                 if (nextPage)
                     [weakSelf appendObjectIDs:[objectIDs copy]];
                 else
                     [weakSelf prependObjectIDs:[objectIDs copy]];
+            } else {
+                weakSelf.objectIDs = objectIDs;
             }
             [weakSelf resetFetchedResultsController];
             [weakSelf populateContent];
         } else if (nextPage) {
             //  Reached the end, stop loading nextPage
             weakSelf.stopLoadingNextPage = YES;
+        } else {
+            weakSelf.objectIDs = objectIDs;
+            [weakSelf resetFetchedResultsController];
+            [weakSelf populateContent];
         }
 
         [weakSelf.refreshControl endRefreshing];
@@ -240,6 +246,7 @@ MRSLTableViewDataSourceDelegate>
 #pragma mark - Data Source Delegate Methods
 
 - (void)tableViewDataSourceScrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
     [self dataSourceDidScroll:scrollView
                    withOffset:scrollView.contentOffset.y];
 }

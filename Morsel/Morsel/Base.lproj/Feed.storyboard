@@ -798,7 +798,7 @@
                                                     </connections>
                                                 </button>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="8wz-jv-Rga" userLabel="User Name Bio Text View" customClass="MRSLStandardTextView">
-                                                    <rect key="frame" x="20" y="168" width="280" height="37"/>
+                                                    <rect key="frame" x="20" y="130" width="280" height="37"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="UOS-k1-kKA"/>
@@ -837,7 +837,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JkO-06-06e" customClass="MRSLFollowButton">
-                                                    <rect key="frame" x="124" y="130" width="72" height="30"/>
+                                                    <rect key="frame" x="124" y="175" width="72" height="30"/>
                                                     <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="FJj-zC-Y0I"/>
@@ -854,12 +854,12 @@
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstItem="JkO-06-06e" firstAttribute="top" secondItem="8wz-jv-Rga" secondAttribute="bottom" constant="8" id="0iK-I2-vG2"/>
                                             <constraint firstAttribute="bottom" secondItem="ORi-P1-DoF" secondAttribute="bottom" id="1xx-Ky-NoK"/>
                                             <constraint firstAttribute="centerX" secondItem="SZa-bC-Vw6" secondAttribute="centerX" id="9om-wN-rx4"/>
                                             <constraint firstAttribute="centerX" secondItem="JkO-06-06e" secondAttribute="centerX" id="BnT-nf-MSr"/>
                                             <constraint firstAttribute="bottom" secondItem="gw6-kg-9SE" secondAttribute="bottom" id="IVo-08-NhU"/>
                                             <constraint firstItem="gw6-kg-9SE" firstAttribute="leading" secondItem="AM7-9K-DqK" secondAttribute="leading" id="RAP-vG-fsY"/>
-                                            <constraint firstItem="JkO-06-06e" firstAttribute="top" secondItem="6wP-Dj-988" secondAttribute="bottom" constant="82" id="SrT-Sn-QQm"/>
                                             <constraint firstItem="6wP-Dj-988" firstAttribute="top" secondItem="AM7-9K-DqK" secondAttribute="top" constant="8" id="WtF-l9-pBr"/>
                                             <constraint firstAttribute="centerX" secondItem="6wP-Dj-988" secondAttribute="centerX" id="awn-T2-cwe"/>
                                             <constraint firstAttribute="trailing" secondItem="ORi-P1-DoF" secondAttribute="trailing" constant="40" id="bDE-QW-Bdc"/>
@@ -869,7 +869,7 @@
                                             <constraint firstItem="SZa-bC-Vw6" firstAttribute="top" secondItem="6wP-Dj-988" secondAttribute="bottom" constant="17" id="pAk-tj-Qoc"/>
                                             <constraint firstAttribute="bottom" secondItem="xMa-zz-OTs" secondAttribute="bottom" id="qZO-yx-y8T"/>
                                             <constraint firstItem="xMa-zz-OTs" firstAttribute="leading" secondItem="gw6-kg-9SE" secondAttribute="trailing" constant="36" id="uVf-NN-moF"/>
-                                            <constraint firstItem="8wz-jv-Rga" firstAttribute="top" secondItem="SZa-bC-Vw6" secondAttribute="bottom" constant="47" id="x9u-ys-Z8Z"/>
+                                            <constraint firstItem="8wz-jv-Rga" firstAttribute="top" secondItem="SZa-bC-Vw6" secondAttribute="bottom" constant="9" id="x9u-ys-Z8Z"/>
                                             <constraint firstAttribute="trailing" secondItem="8wz-jv-Rga" secondAttribute="trailing" constant="20" id="yev-Do-66x"/>
                                         </constraints>
                                         <size key="customSize" width="320" height="250"/>
@@ -877,7 +877,6 @@
                                             <outlet property="followButton" destination="JkO-06-06e" id="zke-pd-bZW"/>
                                             <outlet property="nextInfoTextView" destination="ORi-P1-DoF" id="rPS-Qb-qsd"/>
                                             <outlet property="nextMorselButton" destination="xMa-zz-OTs" id="sZ4-Aw-WSG"/>
-                                            <outlet property="profileImageDescriptionSpacing" destination="x9u-ys-Z8Z" id="zt2-Vo-S4p"/>
                                             <outlet property="profileImageView" destination="SZa-bC-Vw6" id="ciu-zv-9FC"/>
                                             <outlet property="reportButton" destination="gw6-kg-9SE" id="fpc-E0-Snr"/>
                                             <outlet property="userInfoTextView" destination="8wz-jv-Rga" id="ra0-T7-sQa"/>

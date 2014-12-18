@@ -323,7 +323,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
         } else {
             id object = [_segmentedPanelCollectionViewDataSource objectAtIndexPath:indexPath];
             if ([object isKindOfClass:[MRSLMorsel class]]) {
-                return CGSizeMake(MAX(160.f, floorf(collectionView.frame.size.width / 2)), MAX(160.f, floorf(collectionView.frame.size.width / 2)));
+                return [MRSLMorselPreviewCollectionViewCell defaultCellSizeForCollectionView:collectionView
+                                                                                 atIndexPath:indexPath];
             } else {
                 return CGSizeMake(collectionView.frame.size.width, 80.f);
             }

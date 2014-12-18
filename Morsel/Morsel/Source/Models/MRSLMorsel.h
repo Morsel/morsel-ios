@@ -18,6 +18,7 @@
 - (NSString *)firstItemDescription;
 - (NSData *)downloadCoverPhotoIfNilWithCompletion:(MRSLSuccessOrFailureBlock)completionOrNil;
 - (NSMutableAttributedString *)thumbnailInformation;
+- (NSString *)instagramString;
 
 - (MRSLItem *)coverItem;
 

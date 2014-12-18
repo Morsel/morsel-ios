@@ -330,7 +330,7 @@
                                     <outletCollection property="buttons" destination="Toi-5B-0QA" id="QBz-G0-OYI"/>
                                 </connections>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="34" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BdK-ds-nph" customClass="MRSLTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="34" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BdK-ds-nph" customClass="MRSLTableView">
                                 <rect key="frame" x="0.0" y="50" width="600" height="442"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -494,7 +494,7 @@
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W1y-7q-Fhi">
                                                     <rect key="frame" x="0.0" y="59" width="600" height="1"/>
-                                                    <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.88627450980392153" green="0.8666666666666667" blue="0.84313725490196079" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="yJf-bb-eJ6"/>
                                                     </constraints>
@@ -523,6 +523,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="iconImageView" destination="alF-dI-3Ah" id="gWV-tk-xpO"/>
+                                            <outlet property="pipeView" destination="W1y-7q-Fhi" id="3qh-or-K4D"/>
                                             <outlet property="titleLabel" destination="upM-gB-RiU" id="U02-0E-g0k"/>
                                         </connections>
                                     </tableViewCell>

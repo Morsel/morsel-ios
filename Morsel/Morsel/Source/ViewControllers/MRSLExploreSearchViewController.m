@@ -63,21 +63,9 @@ MRSLSegmentedButtonViewDelegate>
 - (NSPredicate *)predicateForSectionAndQuery {
     NSPredicate *predicate = nil;
     if (_section == 0) {
-        if ([_searchQuery length] > 0) {
-            // Filter names
-            predicate = [NSPredicate predicateWithFormat:@"(keywordID IN %@) AND (name CONTAINS[cd] %@)", self.objectIDs, _searchQuery ?: @""];
-        } else {
-            // Search API
-            predicate = [NSPredicate predicateWithFormat:@"keywordID IN %@", self.objectIDs];
-        }
+        predicate = [NSPredicate predicateWithFormat:@"keywordID IN %@", self.objectIDs];
     } else {
-        if ([_searchQuery length] > 0) {
-            // Filter names
-            predicate = [NSPredicate predicateWithFormat:@"(userID IN %@) AND (first_name CONTAINS[cd] %@ || last_name CONTAINS[cd] %@)", self.objectIDs, _searchQuery ?: @"", _searchQuery ?: @""];
-        } else {
-            // Search API
-            predicate = [NSPredicate predicateWithFormat:@"userID IN %@", self.objectIDs];
-        }
+        predicate = [NSPredicate predicateWithFormat:@"userID IN %@", self.objectIDs];
     }
     return predicate;
 }
@@ -200,6 +188,7 @@ MRSLSegmentedButtonViewDelegate>
                                                                                    MRSLIconTextTableViewCell *iconTextCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDIcontTextCellKey];
                                                                                    iconTextCell.titleLabel.text = (strongSelf.section == 0) ? [NSString stringWithFormat:@"search for \"%@\"", strongSelf.searchQuery] : @"Find friends";
                                                                                    iconTextCell.iconImageView.image = [UIImage imageNamed:(strongSelf.section == 0) ? @"icon-explore-search" : @"icon-explore-find"];
+                                                                                   iconTextCell.pipeView.hidden = (strongSelf.section == 1);
                                                                                    return iconTextCell;
                                                                                }
                                                                            }];
@@ -208,7 +197,7 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 - (BOOL)matchesConditionsToDisplayAdditionalSection {
-    return ((_section == 0 && [self.searchQuery length] > 0) || (_section == 1 && [self.searchQuery length] == 0));
+    return ((_section == 0 && [self.searchQuery length] > 2) || (_section == 1 && [self.searchQuery length] == 0));
 }
 
 - (BOOL)iconTextCellFoundForIndexPath:(NSIndexPath *)indexPath {
@@ -244,6 +233,7 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 - (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (_section == 0 && [self matchesConditionsToDisplayAdditionalSection]) return 60.f;
     return (_section == 0) ? 44.f : 60.f;
 }
 
