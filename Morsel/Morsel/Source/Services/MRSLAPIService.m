@@ -139,7 +139,7 @@
                         [morsel MR_importValuesForKeysWithObject:morselDictionary];
                         morsel.feedItemID = feedItemDictionary[@"id"];
                         morsel.feedItemFeatured = @([feedItemDictionary[@"featured"] boolValue]);
-                        if ([morsel.items count] > 0) [feedItemIDs addObject:morselDictionary[@"id"]];
+                        [feedItemIDs addObject:morselDictionary[@"id"]];
                     }
                 }
             }];
