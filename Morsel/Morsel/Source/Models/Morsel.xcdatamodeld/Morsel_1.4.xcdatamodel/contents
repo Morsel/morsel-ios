@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1.4" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="1.4" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="MRSLActivity" representedClassName="MRSLActivity" syncable="YES">
         <attribute name="actionType" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -152,7 +152,6 @@
         <attribute name="morselPhotoURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="primary_item_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="publishedDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tagged" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="tagged_users_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="template_id" optional="YES" attributeType="Integer 16" syncable="YES"/>
@@ -492,7 +491,7 @@
         <element name="MRSLComment" positionX="7" positionY="0" width="128" height="118"/>
         <element name="MRSLItem" positionX="-243" positionY="0" width="128" height="418"/>
         <element name="MRSLKeyword" positionX="7" positionY="-130" width="128" height="103"/>
-        <element name="MRSLMorsel" positionX="-153" positionY="458" width="128" height="420"/>
+        <element name="MRSLMorsel" positionX="-153" positionY="458" width="128" height="405"/>
         <element name="MRSLNotification" positionX="9" positionY="405" width="128" height="165"/>
         <element name="MRSLPlace" positionX="628" positionY="240" width="128" height="553"/>
         <element name="MRSLPresignedUpload" positionX="-36" positionY="18" width="128" height="180"/>
