@@ -377,6 +377,20 @@
         NSDictionary *photoDictionary = data[@"photos"];
         self.morselPhotoURL = photoDictionary[@"_800x600"];
     }
+
+    if (self.primary_item_id &&
+        ![data[@"primary_item_photos"] isEqual:[NSNull null]]) {
+        MRSLItem *primaryItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                        withValue:self.primary_item_id
+                                                        inContext:self.managedObjectContext];
+        if (!primaryItem) {
+            primaryItem = [MRSLItem MR_createInContext:self.managedObjectContext];
+            primaryItem.itemID = self.primary_item_id;
+            primaryItem.itemPhotoURL = [data[@"primary_item_photos"][@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
+                                                                                                            withString:@"IMAGE_SIZE"];
+            [self addItemsObject:primaryItem];
+        }
+    }
 }
 
 @end
