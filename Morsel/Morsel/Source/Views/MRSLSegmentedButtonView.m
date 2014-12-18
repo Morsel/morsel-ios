@@ -10,8 +10,6 @@
 
 @interface MRSLSegmentedButtonView ()
 
-@property (nonatomic) BOOL constraintsSet;
-
 @property (strong, nonatomic) NSIndexSet *buttonSet;
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *buttons;
@@ -22,9 +20,8 @@
 
 #pragma mark - Instance Methods
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    if (_constraintsSet) return;
+- (void)awakeFromNib {
+    [super awakeFromNib];
     self.buttons =  [_buttons sortedArrayUsingComparator:^NSComparisonResult(UIButton *buttonA, UIButton *buttonB) {
         return [buttonA getX] > [buttonB getX];
     }];
@@ -32,19 +29,23 @@
         [button addTarget:self
                    action:@selector(selectedButton:)
          forControlEvents:UIControlEventTouchUpInside];
-
         [button setTranslatesAutoresizingMaskIntoConstraints:NO];
     }];
-
+    
     [self addDefaultBorderForDirections:MRSLBorderSouth];
     [self setupConstraints];
+    [self setHidden:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self setupConstraints];
+        [self setHidden:NO];
+    });
 }
 
 - (void)setupConstraints {
-    self.constraintsSet = YES;
     if ([self.delegate respondsToSelector:@selector(segmentedButtonViewIndexSetToDisplay)]) {
         self.buttonSet = [self.delegate segmentedButtonViewIndexSetToDisplay];
     }
+    [self removeConstraints:[self constraints]];
     if (_buttonSet) self.buttons = [_buttons objectsAtIndexes:_buttonSet];
     NSDictionary *metrics = @{@"height": @50,
                               @"padding": @0};
