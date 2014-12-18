@@ -272,6 +272,29 @@
     }
 }
 
+- (NSString *)instagramString {
+    return (self.title ? [NSString stringWithFormat:@"%@. Get the whole story at eatmorsel.com/%@ #morselgram %@", self.title, self.creator.username, [self summaryHashtags]] :
+            [NSString stringWithFormat:@"Get the whole story at eatmorsel.com #morselgram%@", [self summaryHashtags]]);
+}
+
+- (NSString *)summaryHashtags {
+    NSString *regexStr = @"(?:\\s|^)(?:#|\\uFF03)([0-9a-z_]*[a-z_]+[a-z0-9_]*)";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexStr
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:nil];
+    __block NSMutableArray *hashtags = [NSMutableArray array];
+    // iterate over each match, adding links
+    [regex enumerateMatchesInString:self.summary
+                            options:0
+                              range:NSMakeRange(0, self.summary.length)
+                         usingBlock:^(NSTextCheckingResult *match,
+                                      NSMatchingFlags flags,
+                                      BOOL *stop){
+                             [hashtags addObject:[[self summary] substringWithRange:match.range]];
+                         }];
+    return ([hashtags count] > 0) ? [hashtags componentsJoinedByString:@" "] : @"";
+}
+
 #pragma mark - Templates
 
 - (void)reloadTemplateDataIfNecessaryWithSuccess:(MRSLSuccessBlock)successOrNil
