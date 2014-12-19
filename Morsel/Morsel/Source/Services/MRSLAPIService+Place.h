@@ -22,16 +22,14 @@
          failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getPlacesForUser:(MRSLUser *)user
-               withMaxID:(NSNumber *)maxOrNil
-               orSinceID:(NSNumber *)sinceOrNil
-                andCount:(NSNumber *)countOrNil
+                    page:(NSNumber *)pageOrNil
+                   count:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
                  failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getUsersForPlace:(MRSLPlace *)place
-               withMaxID:(NSNumber *)maxOrNil
-               orSinceID:(NSNumber *)sinceOrNil
-                andCount:(NSNumber *)countOrNil
+                    page:(NSNumber *)pageOrNil
+                   count:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
                  failure:(MRSLFailureBlock)failureOrNil;
 

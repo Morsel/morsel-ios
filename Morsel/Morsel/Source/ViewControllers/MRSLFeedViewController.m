@@ -252,16 +252,16 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
         __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService likeMorsel:morsel
-                               shouldLike:morsel.likedValue
-                                  didLike:^(BOOL doesLike) {
-                                      if (morsel.likedValue) [MRSLEventManager sharedManager].likes_given++;
-                                      weakSelf.likeBarButtonItem.enabled = YES;
-                                  } failure: ^(NSError * error) {
-                                      weakSelf.likeBarButtonItem.enabled = YES;
-                                      [morsel setLikedValue:!morsel.likedValue];
-                                      [morsel setLike_countValue:morsel.like_countValue - 1];
-                                      [weakSelf setLikeButtonImageForMorsel:morsel];
-                                  }];
+                                 shouldLike:morsel.likedValue
+                                    didLike:^(BOOL doesLike) {
+                                        if (morsel.likedValue) [MRSLEventManager sharedManager].likes_given++;
+                                        weakSelf.likeBarButtonItem.enabled = YES;
+                                    } failure: ^(NSError * error) {
+                                        weakSelf.likeBarButtonItem.enabled = YES;
+                                        [morsel setLikedValue:!morsel.likedValue];
+                                        [morsel setLike_countValue:morsel.like_countValue - 1];
+                                        [weakSelf setLikeButtonImageForMorsel:morsel];
+                                    }];
     }
 }
 
@@ -353,7 +353,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getFeedWithMaxID:nil
                                     orSinceID:nil
-                                     andCount:@(4)
+                                        count:@(4)
                                       success:^(NSArray *responseArray) {
                                           if (weakSelf) {
                                               if ([responseArray count] > 0) {
@@ -388,7 +388,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getFeedWithMaxID:nil
                                     orSinceID:firstMorsel.feedItemID
-                                     andCount:@(4)
+                                        count:@(4)
                                       success:^(NSArray *responseArray) {
                                           if (weakSelf) {
                                               NSSet *existingSet = [NSSet setWithArray:weakSelf.morselIDs];
@@ -452,7 +452,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
     __weak __typeof (self) weakSelf = self;
     [_appDelegate.apiService getFeedWithMaxID:@([lastMorsel feedItemIDValue] - 1)
                                     orSinceID:nil
-                                     andCount:@(4)
+                                        count:@(4)
                                       success:^(NSArray *responseArray) {
                                           if ([responseArray count] == 0) weakSelf.loadedAll = YES;
                                           DDLogDebug(@"%lu feed items added", (unsigned long)[responseArray count]);

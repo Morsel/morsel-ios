@@ -14,6 +14,7 @@
 #import "MRSLMorselTableViewCell.h"
 #import "MRSLMorselEditViewController.h"
 #import "MRSLTableView.h"
+#import "MRSLTableViewDataSource.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
@@ -21,21 +22,9 @@
 #import "MRSLTemplate.h"
 
 @interface MRSLMorselDraftsViewController ()
-<UITableViewDataSource,
-UITableViewDelegate,
-NSFetchedResultsControllerDelegate>
+<MRSLTableViewDataSourceDelegate>
 
-@property (nonatomic, getter = isLoading) BOOL loading;
-@property (nonatomic) BOOL loadingMore;
-@property (nonatomic) BOOL loadedAll;
-
-@property (weak, nonatomic) IBOutlet MRSLTableView *tableView;
-
-@property (strong, nonatomic) NSFetchedResultsController *morselsFetchedResultsController;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
-@property (strong, nonatomic) NSMutableArray *morsels;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) NSMutableArray *morselIDs;
 
 @end
 
@@ -46,180 +35,65 @@ NSFetchedResultsControllerDelegate>
 
     self.mp_eventView = @"drafts";
 
-    self.morselIDs =  [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:@"currentuser_draft_morselIDs"] ?: [NSMutableArray array];
-
     self.title = @"Drafts";
-
-    self.morsels = [NSMutableArray array];
-
-    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshContent)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.tableView addSubview:_refreshControl];
-    self.tableView.alwaysBounceVertical = YES;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(morselCreated)
-                                                 name:MRSLUserDidCreateMorselNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(morselDeleted:)
-                                                 name:MRSLUserDidDeleteMorselNotification
-                                               object:nil];
 
     [self.tableView setEmptyStateTitle:@"None yet. Create a new morsel below."];
 
     MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirst];
     if (!morselTemplate) [_appDelegate.apiService getTemplatesWithSuccess:nil
                                                                   failure:nil];
+
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+        [_appDelegate.apiService getMorselsForUser:nil
+                                              page:page
+                                             count:nil
+                                        onlyDrafts:YES
+                                           success:^(NSArray *responseArray) {
+                                               remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                           } failure:^(NSError *error) {
+                                               remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                           }];
+    };
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
     if (_selectedIndexPath) {
         [self.tableView deselectRowAtIndexPath:_selectedIndexPath
-                                                  animated:YES];
+                                      animated:YES];
         self.selectedIndexPath = nil;
     }
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-
-    if (_morselsFetchedResultsController) return;
-    [self reloadContent];
+- (NSString *)objectIDsKey {
+    return @"currentuser_morsel_drafts";
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    _morselsFetchedResultsController.delegate = nil;
-    _morselsFetchedResultsController = nil;
-    [super viewWillDisappear:animated];
+- (NSFetchedResultsController *)defaultFetchedResultsController {
+    return  [MRSLMorsel MR_fetchAllSortedBy:@"lastUpdatedDate"
+                                  ascending:NO
+                              withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", self.objectIDs]
+                                    groupBy:nil
+                                   delegate:self
+                                  inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
-#pragma mark - Private Methods
-
-- (void)setLoading:(BOOL)loading {
-    _loading = loading;
-
-    [self.tableView toggleLoading:loading];
+- (MRSLDataSource *)dataSource {
+    MRSLDataSource *superDataSource = [super dataSource];
+    if (superDataSource) return superDataSource;
+    MRSLDataSource *newDataSource = [[MRSLTableViewDataSource alloc] initWithObjects:nil
+                                                                  configureCellBlock:^UITableViewCell *(id item, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
+                                                                      MRSLMorsel *morsel = item;
+                                                                      MRSLMorselTableViewCell *morselCell = [self.tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselCellKey];
+                                                                      morselCell.morsel = morsel;
+                                                                      morselCell.morselPipeView.hidden = (indexPath.row == count - 1);
+                                                                      return morselCell;
+                                                                  }];
+    [self setDataSource:newDataSource];
+    return newDataSource;
 }
 
-- (void)reloadContent {
-    [self setupFetchRequest];
-    [self populateContent];
-    [self refreshContent];
-}
-
-- (void)setupFetchRequest {
-    self.morselsFetchedResultsController = [MRSLMorsel MR_fetchAllSortedBy:@"lastUpdatedDate"
-                                                                 ascending:NO
-                                                             withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", _morselIDs]
-                                                                   groupBy:nil
-                                                                  delegate:self
-                                                                 inContext:[NSManagedObjectContext MR_defaultContext]];
-}
-
-- (void)populateContent {
-    NSError *fetchError = nil;
-    [_morselsFetchedResultsController performFetch:&fetchError];
-    self.morsels = [[_morselsFetchedResultsController fetchedObjects] mutableCopy];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-        if ([self.tableView numberOfRowsInAllSections] > 0) self.loading = NO;
-    });
-}
-
-- (void)refreshContent {
-    self.loadedAll = NO;
-    self.loading = YES;
-    __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getMorselsForUser:nil
-                                     withMaxID:nil
-                                     orSinceID:nil
-                                      andCount:nil
-                                    onlyDrafts:YES
-                                       success:^(NSArray *responseArray) {
-                                           [weakSelf.refreshControl endRefreshing];
-                                           weakSelf.morselIDs = [responseArray mutableCopy];
-                                           [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.morselIDs copy]
-                                                                                     forKey:@"currentuser_draft_morselIDs"];
-                                           [weakSelf setupFetchRequest];
-                                           [weakSelf populateContent];
-                                           weakSelf.loading = NO;
-                                       } failure:^(NSError *error) {
-                                           [weakSelf.refreshControl endRefreshing];
-                                           weakSelf.loading = NO;
-                                       }];
-}
-
-- (void)loadMore {
-    if (_loadingMore || _loadedAll || [self isLoading]) return;
-    self.loadingMore = YES;
-    DDLogDebug(@"Loading more");
-    MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                       withValue:[_morselIDs lastObject]];
-    __weak __typeof (self) weakSelf = self;
-    [_appDelegate.apiService getMorselsForUser:nil
-                                     withMaxID:@([lastMorsel morselIDValue] - 1)
-                                     orSinceID:nil
-                                      andCount:@(12)
-                                    onlyDrafts:YES
-                                       success:^(NSArray *responseArray) {
-                                           if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                           DDLogDebug(@"%lu user morsels added", (unsigned long)[responseArray count]);
-                                           if (weakSelf) {
-                                               if ([responseArray count] > 0) {
-                                                   [weakSelf.morselIDs addObjectsFromArray:responseArray];
-                                                   [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.morselIDs copy]
-                                                                                             forKey:@"currentuser_draft_morselIDs"];
-                                                   [weakSelf setupFetchRequest];
-                                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                                       [weakSelf populateContent];
-                                                   });
-                                               }
-                                               weakSelf.loadingMore = NO;
-                                           }
-                                       } failure:^(NSError *error) {
-                                           if (weakSelf) weakSelf.loadingMore = NO;
-                                       }];
-}
-
-#pragma mark - Notification Methods
-
-- (void)morselCreated {
-    [self reloadContent];
-}
-
-- (void)morselDeleted:(NSNotification *)notification {
-    NSNumber *deletedMorselID = notification.object;
-    NSNumber *confirmedMorselID = nil;
-    for (NSNumber *morselID in self.morselIDs) {
-        if ([deletedMorselID intValue] == [morselID intValue]) {
-            confirmedMorselID = morselID;
-            break;
-        }
-    }
-    [self.morselIDs removeObject:confirmedMorselID];
-    [self setupFetchRequest];
-    [self populateContent];
-}
-
-#pragma mark - UITableViewDataSource Methods
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_morsels count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLMorsel *morsel = [_morsels objectAtIndex:MIN(indexPath.row, [_morsels count] - 1)];
-    MRSLMorselTableViewCell *morselCell = [self.tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselCellKey];
-    morselCell.morsel = morsel;
-    morselCell.morselPipeView.hidden = (indexPath.row == [_morsels count] - 1);
-    return morselCell;
-}
+#pragma mark - MRSLTableViewDataSource Methods
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
@@ -227,30 +101,30 @@ NSFetchedResultsControllerDelegate>
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        MRSLMorsel *deletedMorsel = [_morsels objectAtIndex:indexPath.row];
+        MRSLMorsel *deletedMorsel = [self.dataSource objectAtIndexPath:indexPath];
         [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                      properties:@{@"_title": @"Delete Morsel",
                                                   @"_view": self.mp_eventView,
-                                                  @"item_count": @([_morsels count]),
+                                                  @"item_count": @([self.dataSource count]),
                                                   @"morsel_id": NSNullIfNil(deletedMorsel.morselID)}];
-        [_morsels removeObject:deletedMorsel];
+        [self.dataSource removeObject:deletedMorsel];
         [tableView deleteRowsAtIndexPaths:@[indexPath]
-                                       withRowAnimation:UITableViewRowAnimationFade];
+                         withRowAnimation:UITableViewRowAnimationFade];
         double delayInSeconds = .4f;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [_appDelegate.apiService deleteMorsel:deletedMorsel
-                                        success:nil
+                                          success:nil
                                           failure:nil];
         });
     }
 }
 
-#pragma mark - UITableViewDelegate Methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableViewDataSource:(UITableView *)tableView
+              didSelectItem:(id)item
+                atIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
-    MRSLMorsel *morsel = [_morsels objectAtIndex:indexPath.row];
+    MRSLMorsel *morsel = item;
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Morsel",
                                               @"_view": self.mp_eventView,
@@ -263,31 +137,8 @@ NSFetchedResultsControllerDelegate>
                                          animated:YES];
 }
 
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat currentOffset = scrollView.contentOffset.y;
-    CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
-    if (maximumOffset - currentOffset <= 10.f) {
-        [self loadMore];
-    }
-}
-
-#pragma mark - NSFetchedResultsControllerDelegate Methods
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"NSFetchedResultsController detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
-    [self populateContent];
-}
-
-#pragma mark - Dealloc
-
-- (void)reset {
-    [super reset];
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    [self.tableView removeFromSuperview];
-    self.tableView = nil;
+- (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.f;
 }
 
 @end

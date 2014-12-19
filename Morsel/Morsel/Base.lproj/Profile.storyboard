@@ -575,8 +575,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="collectionView" destination="nOm-Tm-KKG" id="aKp-rN-lEd"/>
                         <outlet property="followButton" destination="D9H-eS-9AV" id="t7C-NC-wWG"/>
-                        <outlet property="profileCollectionView" destination="nOm-Tm-KKG" id="RBq-7I-Q43"/>
                         <segue destination="cTM-Ai-v5D" kind="show" identifier="seg_FollowList" id="Mat-q5-4Vl"/>
                         <segue destination="1RQ-g2-pHX" kind="show" identifier="seg_DisplayKeywordFollowers" id="deb-aO-ZjR"/>
                     </connections>
@@ -668,10 +668,6 @@
                                         </view>
                                     </collectionViewCell>
                                 </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="bQs-Ee-YU4" id="GN7-IH-23d"/>
-                                    <outlet property="delegate" destination="bQs-Ee-YU4" id="d6O-HF-D40"/>
-                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -689,7 +685,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="OI9-5H-JIr"/>
                     <connections>
-                        <outlet property="feedCollectionView" destination="jVK-mb-Gjh" id="4zm-V0-9Tb"/>
+                        <outlet property="collectionView" destination="jVK-mb-Gjh" id="u5n-EE-5bL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TyD-W3-D2u" sceneMemberID="firstResponder"/>

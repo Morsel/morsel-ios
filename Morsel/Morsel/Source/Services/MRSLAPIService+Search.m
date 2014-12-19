@@ -22,9 +22,8 @@
 #pragma mark - Hashtags
 
 - (void)searchHashtagsWithQuery:(NSString *)query
-                          maxID:(NSNumber *)maxOrNil
-                      orSinceID:(NSNumber *)sinceOrNil
-                       andCount:(NSNumber *)countOrNil
+                           page:(NSNumber *)pageOrNil
+                          count:(NSNumber *)countOrNil
                         success:(MRSLAPIArrayBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil {
     if ([query length] > 0 && [query length] < 3) {
@@ -36,13 +35,8 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"keyword" : keywordParams}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
 
     [[MRSLAPIClient sharedClient] performRequest:@"hashtags/search"
@@ -63,14 +57,15 @@
 #pragma mark - Morsels
 
 - (void)searchMorselsWithHashtagQuery:(NSString *)hashtagQuery
-                                maxID:(NSNumber *)maxOrNil
-                            orSinceID:(NSNumber *)sinceOrNil
-                             andCount:(NSNumber *)countOrNil
+                                 page:(NSNumber *)pageOrNil
+                                count:(NSNumber *)countOrNil
                               success:(MRSLAPIArrayBlock)successOrNil
                               failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
+    if (countOrNil) parameters[@"count"] = countOrNil;
 
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"hashtags/%@/morsels", hashtagQuery]
                                       parameters:parameters
@@ -88,20 +83,22 @@
 }
 
 - (void)searchMorselsWithQuery:(NSString *)query
-                         maxID:(NSNumber *)maxOrNil
-                     orSinceID:(NSNumber *)sinceOrNil
-                      andCount:(NSNumber *)countOrNil
+                          page:(NSNumber *)pageOrNil
+                         count:(NSNumber *)countOrNil
                        success:(MRSLAPIArrayBlock)successOrNil
                        failure:(MRSLFailureBlock)failureOrNil {
-    if ([query length] < 3) {
+    if ([query length] > 0 && [query length] < 3) {
         DDLogError(@"Cannot search morsels. Query is less than minimum character length of 3.");
         if (failureOrNil) failureOrNil(nil);
         return;
     }
+    NSDictionary *queryDictionary = ([query length] == 0) ? nil : @{@"morsel" : @{ @"query": NSNullIfNil(query) }};
 
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"morsel" : @{ @"query": NSNullIfNil(query) }}
+    NSMutableDictionary *parameters = [self parametersWithDictionary:queryDictionary
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
+    if (countOrNil) parameters[@"count"] = countOrNil;
 
     [[MRSLAPIClient sharedClient] performRequest:@"morsels/search"
                                       parameters:parameters
@@ -166,9 +163,8 @@
 #pragma mark - Users
 
 - (void)searchUsersWithQuery:(NSString *)query
-                       maxID:(NSNumber *)maxOrNil
-                   orSinceID:(NSNumber *)sinceOrNil
-                    andCount:(NSNumber *)countOrNil
+                        page:(NSNumber *)pageOrNil
+                       count:(NSNumber *)countOrNil
                      success:(MRSLAPIArrayBlock)successOrNil
                      failure:(MRSLFailureBlock)failureOrNil {
     if ([query length] > 0 && [query length] < 3) {
@@ -180,13 +176,7 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"user" : userParams}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
 
     [[MRSLAPIClient sharedClient] performRequest:@"users/search"

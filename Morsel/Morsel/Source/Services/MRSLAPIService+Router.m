@@ -17,17 +17,17 @@
 
 - (void)getUserData:(MRSLUser *)user
   forDataSourceType:(MRSLDataSourceType)dataSourceType
-          withMaxID:(NSNumber *)maxOrNil
-          orSinceID:(NSNumber *)sinceOrNil
-           andCount:(NSNumber *)countOrNil
+               page:(NSNumber *)pageOrNil
+              maxID:(NSNumber *)maxOrNil
+            sinceID:(NSNumber *)sinceOrNil
+              count:(NSNumber *)countOrNil
             success:(MRSLAPIArrayBlock)successOrNil
             failure:(MRSLFailureBlock)failureOrNil {
     switch (dataSourceType) {
         case MRSLDataSourceTypeMorsel:
             [_appDelegate.apiService getMorselsForUser:user
-                                             withMaxID:maxOrNil
-                                             orSinceID:sinceOrNil
-                                              andCount:countOrNil
+                                                  page:pageOrNil
+                                                 count:countOrNil
                                             onlyDrafts:NO
                                                success:successOrNil
                                                failure:failureOrNil];
@@ -35,16 +35,15 @@
         case MRSLDataSourceTypeLikedMorsel:
             [_appDelegate.apiService getLikedMorselsForUser:user
                                                       maxID:maxOrNil
-                                                  orSinceID:sinceOrNil
-                                                   andCount:countOrNil
+                                                    sinceID:sinceOrNil
+                                                      count:countOrNil
                                                     success:successOrNil
                                                     failure:failureOrNil];
             break;
         case MRSLDataSourceTypePlace:
             [_appDelegate.apiService getPlacesForUser:user
-                                            withMaxID:maxOrNil
-                                            orSinceID:sinceOrNil
-                                             andCount:countOrNil
+                                                 page:pageOrNil
+                                                count:countOrNil
                                               success:successOrNil
                                               failure:failureOrNil];
             break;
@@ -62,25 +61,24 @@
 
 - (void)getPlaceData:(MRSLPlace *)place
    forDataSourceType:(MRSLDataSourceType)dataSourceType
-           withMaxID:(NSNumber *)maxOrNil
-           orSinceID:(NSNumber *)sinceOrNil
-            andCount:(NSNumber *)countOrNil
+                page:(NSNumber *)pageOrNil
+               maxID:(NSNumber *)maxOrNil
+             sinceID:(NSNumber *)sinceOrNil
+               count:(NSNumber *)countOrNil
              success:(MRSLAPIArrayBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {
     switch (dataSourceType) {
         case MRSLDataSourceTypeMorsel:
             [_appDelegate.apiService getMorselsForPlace:place
-                                             withMaxID:maxOrNil
-                                             orSinceID:sinceOrNil
-                                              andCount:countOrNil
-                                               success:successOrNil
-                                               failure:failureOrNil];
+                                                   page:pageOrNil
+                                                  count:countOrNil
+                                                success:successOrNil
+                                                failure:failureOrNil];
             break;
         case MRSLDataSourceTypeUser:
             [_appDelegate.apiService getUsersForPlace:place
-                                            withMaxID:maxOrNil
-                                            orSinceID:sinceOrNil
-                                             andCount:countOrNil
+                                                 page:pageOrNil
+                                                count:countOrNil
                                               success:successOrNil
                                               failure:failureOrNil];
             break;

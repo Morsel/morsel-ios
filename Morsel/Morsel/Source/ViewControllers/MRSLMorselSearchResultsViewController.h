@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLBaseViewController.h"
+#import "MRSLBaseRemoteDataSourceViewController.h"
 
-@interface MRSLMorselSearchResultsViewController : MRSLBaseViewController
+@interface MRSLMorselSearchResultsViewController : MRSLBaseRemoteDataSourceViewController
 
 @property (nonatomic, strong) NSString *searchString;
 @property (nonatomic, strong) NSString *hashtagString;

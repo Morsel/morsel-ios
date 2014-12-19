@@ -57,9 +57,8 @@
     self.loading = YES;
     __weak __typeof(self) weakSelf = self;
     [_appDelegate.apiService getTaggedUsersForMorsel:_morsel
-                                           withMaxID:nil
-                                           orSinceID:nil
-                                            andCount:nil
+                                                page:nil
+                                               count:nil
                                              success:^(NSArray *responseArray) {
                                                  if (weakSelf) {
                                                      weakSelf.taggedUserIDs = responseArray;

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLBaseViewController.h"
+#import "MRSLBaseRemoteDataSourceViewController.h"
 
-@interface MRSLMorselTaggedUsersViewController : MRSLBaseViewController
+@interface MRSLMorselTaggedUsersViewController : MRSLBaseRemoteDataSourceViewController
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
 

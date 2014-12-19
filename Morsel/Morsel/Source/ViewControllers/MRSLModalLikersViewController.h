@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLBaseModalViewController.h"
+#import "MRSLBaseRemoteDataSourceViewController.h"
 
-@interface MRSLModalLikersViewController : MRSLBaseViewController
+@interface MRSLModalLikersViewController : MRSLBaseRemoteDataSourceViewController
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
 

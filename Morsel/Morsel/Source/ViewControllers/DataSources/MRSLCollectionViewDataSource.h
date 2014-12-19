@@ -27,6 +27,8 @@ typedef CGSize (^MRSLLayoutSectionSizeConfigureBlock)(UICollectionView *collecti
 - (void)collectionViewDataSourceDidScroll:(UICollectionView *)collectionView
                                withOffset:(CGFloat)offset;
 - (NSInteger)collectionViewDataSourceNumberOfItemsInSection:(NSInteger)section;
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView;
 
 @end
 
@@ -37,5 +39,15 @@ UICollectionViewDelegate>
 @property (weak, nonatomic) id <MRSLCollectionViewDataSourceDelegate> delegate;
 
 - (id)initWithCollectionView:(UICollectionView *)collectionView;
+- (id)initWithObjects:(id)objects
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock;
+- (id)initWithObjects:(NSArray *)objects
+             sections:(NSArray *)sectionsOrNil
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock
+   supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
+sectionHeaderSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionHeaderSizeBlock
+sectionFooterSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionFooterSizeBlock
+        cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock
+   sectionInsetConfig:(MRSLLayoutSectionInsetConfigureBlock)insetConfig;
 
 @end

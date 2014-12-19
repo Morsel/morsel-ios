@@ -11,7 +11,8 @@
 
 #import "MRSLAPIService+Place.h"
 
-#import "MRSLCollectionViewFetchResultsDataSource.h"
+#import "MRSLCollectionView.h"
+#import "MRSLCollectionViewDataSource.h"
 #import "MRSLPlaceCollectionViewCell.h"
 
 #import "MRSLPlace.h"
@@ -19,12 +20,6 @@
 
 @interface MRSLProfileEditPlacesViewController ()
 <MRSLCollectionViewDataSourceDelegate>
-
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-
-@property (strong, nonatomic) NSMutableArray *placeIDs;
-@property (strong, nonatomic) MRSLCollectionViewFetchResultsDataSource *dataSource;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
 
@@ -35,49 +30,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.placeIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username]] ?: [NSMutableArray array];
-    self.dataSource = [[MRSLCollectionViewFetchResultsDataSource alloc] initWithManagedObjectClass:[MRSLPlace class]
-                                                                                         predicate:[NSPredicate predicateWithFormat:@"placeID IN %@", _placeIDs]
-                                                                                configureCellBlock:^UICollectionViewCell *(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
-                                                                                    MRSLPlaceCollectionViewCell *placeCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPlaceCellKey
-                                                                                                                                                                           forIndexPath:indexPath];
-                                                                                        placeCell.place = item;
-                                                                                        return placeCell;
-                                                                                    return nil;
-                                                                                } collectionView:_collectionView];
-    self.dataSource.delegate = self;
-    [self.collectionView setDataSource:_dataSource];
-    [self.collectionView setDelegate:_dataSource];
+    self.mp_eventView = @"profile_places";
+    self.emptyStateString = @"No places";
 
-    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshContent)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.collectionView addSubview:_refreshControl];
-    self.collectionView.alwaysBounceVertical = YES;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self refreshContent];
-}
-
-- (void)refreshContent {
-    __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getPlacesForUser:[MRSLUser currentUser]
-                                    withMaxID:nil
-                                    orSinceID:nil
-                                     andCount:nil
-                                      success:^(NSArray *responseArray) {
-                                          weakSelf.placeIDs = [responseArray mutableCopy];
-                                          [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.placeIDs copy]
-                                                                                    forKey:[NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username]];
-                                          [weakSelf updateDataSourcePredicate];
-                                          [weakSelf.refreshControl endRefreshing];
-    } failure:^(NSError *error) {
-        [weakSelf.refreshControl endRefreshing];
-    }];
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+        [_appDelegate.apiService getPlacesForUser:[MRSLUser currentUser]
+                                             page:page
+                                            count:nil
+                                          success:^(NSArray *responseArray) {
+                                              remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                          } failure:^(NSError *error) {
+                                              remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                          }];
+    };
 }
 
 - (IBAction)contactMorsel {
@@ -90,31 +55,39 @@
 
 #pragma mark - Private Methods
 
-- (void)updateDataSourcePredicate {
-    [self.dataSource updateFetchRequestWithManagedObjectClass:[MRSLPlace class]
-                                                withPredicate:[NSPredicate predicateWithFormat:@"placeID IN %@", _placeIDs]];
+- (NSString *)objectIDsKey {
+    return [NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username];
+}
+
+- (NSFetchedResultsController *)defaultFetchedResultsController {
+    return  [MRSLPlace MR_fetchAllSortedBy:@"name"
+                                 ascending:YES
+                             withPredicate:[NSPredicate predicateWithFormat:@"placeID IN %@", self.objectIDs]
+                                   groupBy:nil
+                                  delegate:self
+                                 inContext:[NSManagedObjectContext MR_defaultContext]];
+}
+
+- (MRSLDataSource *)dataSource {
+    MRSLDataSource *superDataSource = [super dataSource];
+    if (superDataSource) return superDataSource;
+    MRSLDataSource *newDataSource = [[MRSLCollectionViewDataSource alloc] initWithObjects:nil configureCellBlock:^UICollectionViewCell *(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
+        MRSLPlaceCollectionViewCell *placeCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPlaceCellKey
+                                                                                           forIndexPath:indexPath];
+        placeCell.place = item;
+        return placeCell;
+        return nil;
+    }];
+    [self setDataSource:newDataSource];
+    return newDataSource;
 }
 
 #pragma mark - MRSLCollectionViewDataSourceDelegate
-
-- (NSInteger)collectionViewDataSourceNumberOfItemsInSection:(NSInteger)section {
-    return [_dataSource count];
-}
 
 - (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItem:(id)item {
     if ([self.delegate respondsToSelector:@selector(profileEditPlacesDidSelectPlace:)]) {
         [self.delegate profileEditPlacesDidSelectPlace:item];
     }
-}
-
-#pragma mark - Dealloc
-
-- (void)reset {
-    [super reset];
-    self.collectionView.delegate = nil;
-    self.collectionView.dataSource = nil;
-    [self.collectionView removeFromSuperview];
-    self.collectionView = nil;
 }
 
 @end

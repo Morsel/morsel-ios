@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseRemoteDataSourceViewController.h"
 
-@interface MRSLMorselDetailViewController : MRSLBaseViewController
+@interface MRSLMorselDetailViewController : MRSLBaseRemoteDataSourceViewController
 
 @property (nonatomic) BOOL isExplore;
 

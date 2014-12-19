@@ -35,12 +35,37 @@
     return [self.objects count];
 }
 
+- (NSUInteger)indexOfObject:(id)object {
+    return [self.objects indexOfObject:object];
+}
+
+- (void)addObject:(id)object {
+    NSMutableArray *mutableArray = [self.objects mutableCopy];
+    [mutableArray addObject:object];
+    self.objects = [NSArray arrayWithArray:mutableArray];
+}
+
 - (void)updateObjects:(id)newObjects {
     self.objects = newObjects;
 }
 
 - (BOOL)isEmpty {
     return [self count] == 0;
+}
+
+- (BOOL)containsObject:(id)object {
+    return [self.objects containsObject:object];
+}
+
+- (BOOL)removeObject:(id)object {
+    NSInteger indexOfObjectToRemove = [self.objects indexOfObject:object];
+    if (indexOfObjectToRemove != NSNotFound) {
+        NSMutableArray *mutableArray = [self.objects mutableCopy];
+        [mutableArray removeObjectAtIndex:indexOfObjectToRemove];
+        self.objects = [NSArray arrayWithArray:mutableArray];
+        return YES;
+    }
+    return NO;
 }
 
 @end

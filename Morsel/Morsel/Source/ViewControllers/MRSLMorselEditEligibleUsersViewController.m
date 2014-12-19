@@ -11,28 +11,23 @@
 #import "MRSLAPIService+Morsel.h"
 
 #import "MRSLTableView.h"
+#import "MRSLTableViewDataSource.h"
 #import "MRSLEligibleUserTableViewCell.h"
 #import "MRSLProfileViewController.h"
 
 #import "MRSLUser.h"
 
+@interface MRSLBaseRemoteDataSourceViewController (Private)
+
+- (void)tableViewDataSourceScrollViewDidScroll:(UIScrollView *)scrollView;
+
+@end
+
 @interface MRSLMorselEditEligibleUsersViewController ()
-<UITableViewDataSource,
-UITableViewDelegate,
-NSFetchedResultsControllerDelegate,
+<MRSLTableViewDataSourceDelegate,
 UISearchBarDelegate>
 
-@property (nonatomic, getter = isLoading) BOOL loading;
-@property (nonatomic) BOOL loadingMore;
-@property (nonatomic) BOOL loadedAll;
-
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSArray *eligibleUsers;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) NSMutableArray *userIDs;
 
 @property (strong, nonatomic) NSTimer *searchTimer;
 
@@ -47,135 +42,62 @@ UISearchBarDelegate>
 
     self.mp_eventView = @"eligible_users";
 
-    self.eligibleUsers = [NSMutableArray array];
-
-    self.userIDs = [NSMutableArray array];
-
-    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshContent)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.tableView addSubview:_refreshControl];
-    self.tableView.alwaysBounceVertical = YES;
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    if (_fetchedResultsController) return;
-
-    [self setupFetchRequest];
-    [self populateContent];
-    [self refreshContent];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    _fetchedResultsController.delegate = nil;
-    _fetchedResultsController = nil;
-    [super viewWillDisappear:animated];
+    [self setupRemoteRequest];
 }
 
 #pragma mark - Private Methods
 
-- (void)setLoading:(BOOL)loading {
-    _loading = loading;
-
-    [self.tableView toggleLoading:loading];
+- (NSString *)objectIDsKey {
+    return @"eligible_tagged_userIDs";
 }
 
-- (void)setupFetchRequest {
-    self.fetchedResultsController = [MRSLUser MR_fetchAllSortedBy:@"userID"
-                                                        ascending:NO
-                                                    withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", _userIDs]
-                                                          groupBy:nil
-                                                         delegate:self
-                                                        inContext:[NSManagedObjectContext MR_defaultContext]];
+- (NSFetchedResultsController *)defaultFetchedResultsController {
+    return  [MRSLUser MR_fetchAllSortedBy:@"userID"
+                                ascending:NO
+                            withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", self.objectIDs]
+                                  groupBy:nil
+                                 delegate:self
+                                inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
-- (void)populateContent {
-    NSError *fetchError = nil;
-    [_fetchedResultsController performFetch:&fetchError];
-    self.eligibleUsers = [_fetchedResultsController fetchedObjects];
-    [self.tableView reloadData];
+- (MRSLDataSource *)dataSource {
+    MRSLDataSource *superDataSource = [super dataSource];
+    if (superDataSource) return superDataSource;
+    MRSLDataSource *newDataSource = [[MRSLTableViewDataSource alloc] initWithObjects:nil configureCellBlock:^UITableViewCell *(id item, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
+        MRSLUser *user = item;
+
+        MRSLEligibleUserTableViewCell *eligibleCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDUserEligibleCellKey];
+        [eligibleCell setUser:user
+                    andMorsel:_morsel];
+        eligibleCell.pipeView.hidden = (indexPath.row == count - 1);
+
+        return eligibleCell;
+    }];
+    [self setDataSource:newDataSource];
+    return newDataSource;
+}
+
+- (void)setupRemoteRequest {
     [self.tableView setEmptyStateTitle:(_searchBar.text.length > 0) ? @"No results" : @"No one to tag"];
+    __weak __typeof(self) weakSelf = self;
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        [_appDelegate.apiService getEligibleTaggedUsersForMorsel:strongSelf.morsel
+                                                      usingQuery:strongSelf.searchBar.text
+                                                            page:page
+                                                           count:nil
+                                                         success:^(NSArray *responseArray) {
+                                                             remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                                         } failure:^(NSError *error) {
+                                                             remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                                         }];
+    };
 }
 
-- (void)refreshContent {
-    self.loadedAll = NO;
-    self.loading = YES;
-    __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getEligibleTaggedUsersForMorsel:_morsel
-                                                  usingQuery:_searchBar.text
-                                                   withMaxID:nil
-                                                   orSinceID:nil
-                                                    andCount:nil
-                                                     success:^(NSArray *responseArray) {
-                                                         if (weakSelf) {
-                                                             [weakSelf.refreshControl endRefreshing];
-                                                             weakSelf.userIDs = [responseArray mutableCopy];
-                                                             [weakSelf setupFetchRequest];
-                                                             [weakSelf populateContent];
-                                                             weakSelf.loading = NO;
-                                                         }
-                                                     } failure:^(NSError *error) {
-                                                         if (weakSelf) {
-                                                             [weakSelf.refreshControl endRefreshing];
-                                                             weakSelf.loading = NO;
-                                                         }
-                                                     }];
-}
+#pragma mark - MRSLTableViewDataSourceDelegate
 
-- (void)loadMore {
-    if (_loadingMore || !_morsel || _loadedAll || [self isLoading]) return;
-    self.loadingMore = YES;
-    DDLogDebug(@"Loading more");
-    MRSLUser *lastUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                                          withValue:[_userIDs lastObject]];
-    __weak __typeof (self) weakSelf = self;
-    [_appDelegate.apiService getEligibleTaggedUsersForMorsel:_morsel
-                                                  usingQuery:_searchBar.text
-                                                   withMaxID:@([lastUser userIDValue] - 1)
-                                                   orSinceID:nil
-                                                    andCount:@(10)
-                                                     success:^(NSArray *responseArray) {
-                                                         if (weakSelf) {
-                                                             if ([responseArray count] == 0) {
-                                                                 weakSelf.loadedAll = YES;
-                                                             } else {
-                                                                 [weakSelf.userIDs addObjectsFromArray:responseArray];
-                                                                 [weakSelf setupFetchRequest];
-                                                                 [weakSelf populateContent];
-                                                             }
-                                                             weakSelf.loadingMore = NO;
-                                                         }
-                                                     } failure:^(NSError *error) {
-                                                         if (weakSelf) {
-                                                             weakSelf.loadingMore = NO;
-                                                         }
-                                                     }];
-}
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_eligibleUsers count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLUser *user = [_eligibleUsers objectAtIndex:indexPath.row];
-
-    MRSLEligibleUserTableViewCell *eligibleCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDUserEligibleCellKey];
-    [eligibleCell setUser:user
-                andMorsel:_morsel];
-    eligibleCell.pipeView.hidden = (indexPath.row == [_eligibleUsers count] - 1);
-
-    return eligibleCell;
-}
-
-#pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLUser *user = [_eligibleUsers objectAtIndex:indexPath.row];
+- (void)tableViewDataSource:(UITableView *)tableView didSelectItem:(id)item {
+    MRSLUser *user = item;
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Tag",
                                               @"tagged_user_id": user.userID}];
@@ -192,14 +114,8 @@ UISearchBarDelegate>
                               }];
 }
 
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat currentOffset = scrollView.contentOffset.y;
-    CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
-    if (maximumOffset - currentOffset <= 10.f) {
-        [self loadMore];
-    }
+- (void)tableViewDataSourceScrollViewDidScroll:(UIScrollView *)scrollView {
+    [super tableViewDataSourceScrollViewDidScroll:scrollView];
     if (self.searchBar.isFirstResponder) {
         [self.searchBar resignFirstResponder];
         [self.searchBar setShowsCancelButton:NO
@@ -207,14 +123,9 @@ UISearchBarDelegate>
     }
 }
 
-#pragma mark - NSFetchedResultsControllerDelegate Methods
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu comments.", (unsigned long)[[controller fetchedObjects] count]);
-    [self populateContent];
-}
-
 #pragma mark - UISearchBarDelegate
+
+#warning Should also refactor all timer searches
 
 - (void)suspendTimer {
     if (_searchTimer) {
@@ -228,7 +139,7 @@ UISearchBarDelegate>
     if (!_searchTimer) {
         self.searchTimer = [NSTimer timerWithTimeInterval:.1f
                                                    target:self
-                                                 selector:@selector(refreshContent)
+                                                 selector:@selector(triggerSearch)
                                                  userInfo:nil
                                                   repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:_searchTimer
@@ -236,9 +147,12 @@ UISearchBarDelegate>
     }
 }
 
+- (void)triggerSearch {
+    [self setupRemoteRequest];
+    [self refreshRemoteContent];
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [self setupFetchRequest];
-    [self populateContent];
     [self resumeTimer];
 }
 

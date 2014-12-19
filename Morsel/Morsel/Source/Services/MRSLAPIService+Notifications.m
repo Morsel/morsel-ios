@@ -16,23 +16,15 @@
 @implementation MRSLAPIService (Notifications)
 
 - (void)getNotificationsForUser:(MRSLUser *)user
-                          maxID:(NSNumber *)maxOrNil
-                      orSinceID:(NSNumber *)sinceOrNil
-                       andCount:(NSNumber *)countOrNil
+                           page:(NSNumber *)pageOrNil
+                          count:(NSNumber *)countOrNil
                         success:(MRSLAPIArrayBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
-
     [[MRSLAPIClient sharedClient] performRequest:@"notifications"
                                       parameters:parameters
                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {

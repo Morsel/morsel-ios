@@ -17,6 +17,7 @@
 
 @property (strong, nonatomic) NSString *objectIDsKey;
 @property (strong, nonatomic) NSArray *objectIDs;
+@property (copy, nonatomic) MRSLRemotePagedRequestBlock pagedRemoteRequestBlock;
 
 @end
 
@@ -24,7 +25,6 @@
 
 @property (strong, nonatomic) NSString *tappedItemEventName;
 @property (strong, nonatomic) NSString *tappedItemEventView;
-@property (copy, nonatomic) MRSLRemoteRequestBlock remoteRequestBlock;
 
 @end
 
@@ -35,16 +35,15 @@
     self.tappedItemEventName = @"Tapped Followable Activity";
     self.tappedItemEventView = @"Followable Activity";
 
-    self.remoteRequestBlock = ^(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
         [_appDelegate.apiService getFollowablesActivitiesForUser:[MRSLUser currentUser]
-                                                    maxID:maxID
-                                                orSinceID:sinceID
-                                                 andCount:count
-                                                  success:^(NSArray *responseArray) {
-                                                      remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
-                                                  } failure:^(NSError *error) {
-                                                      remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
-                                                  }];
+                                                            page:page
+                                                           count:count
+                                                         success:^(NSArray *responseArray) {
+                                                             remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                                         } failure:^(NSError *error) {
+                                                             remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                                         }];
     };
 
     [super viewDidLoad];

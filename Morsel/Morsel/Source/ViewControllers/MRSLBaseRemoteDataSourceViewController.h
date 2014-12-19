@@ -8,25 +8,31 @@
 
 #import "MRSLBaseViewController.h"
 
-@class MRSLDataSource;
+@class MRSLDataSource, MRSLTableView, MRSLCollectionView;
 
 @interface MRSLBaseRemoteDataSourceViewController : MRSLBaseViewController
 <NSFetchedResultsControllerDelegate>
 
-@property (nonatomic) BOOL disableFetchRefresh;
+@property (nonatomic) BOOL disablePagination;
+@property (nonatomic) BOOL loadingMore;
 
-@property (copy, nonatomic) MRSLRemoteRequestBlock remoteRequestBlock;
+@property (weak, nonatomic) IBOutlet MRSLTableView *tableView;
+@property (weak, nonatomic) IBOutlet MRSLCollectionView *collectionView;
+
+@property (copy, nonatomic) MRSLRemotePagedRequestBlock pagedRemoteRequestBlock;
+@property (copy, nonatomic) MRSLRemoteTimelineRequestBlock timelineRemoteRequestBlock;
 
 @property (strong, nonatomic) MRSLDataSource *dataSource;
 
 @property (strong, nonatomic) NSString *emptyStateString;
+@property (strong, nonatomic) NSString *emptyStateButtonString;
 @property (strong, nonatomic) NSArray *objectIDs;
 
 - (NSString *)objectIDsKey;
 - (NSFetchedResultsController *)defaultFetchedResultsController;
 
-- (void)populateContent;
-- (void)refreshContent;
-- (void)resetFetchedResultsController;
+- (void)refreshLocalContent;
+- (void)refreshRemoteContent;
+- (void)loadNextPage;
 
 @end

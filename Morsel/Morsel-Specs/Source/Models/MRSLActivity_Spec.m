@@ -33,11 +33,11 @@ describe(@"MRSLActivity", ^{
             __block BOOL requestCompleted = NO;
             __block MRSLActivity *importedActivity = nil;
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-users-activities.json"
-                                                 forRequestPath:@"/users/activities"];
+                                               forRequestPath:@"/users/activities"];
             [_appDelegate.apiService getUserActivitiesForUser:nil
                                                         maxID:nil
-                                                    orSinceID:nil
-                                                     andCount:nil
+                                                      sinceID:nil
+                                                        count:nil
                                                       success:^(NSArray *responseArray) {
                                                           NSNumber *firstActivityID = [responseArray firstObject];
                                                           importedActivity = [MRSLActivity MR_findFirstByAttribute:MRSLActivityAttributes.activityID
@@ -99,7 +99,7 @@ describe(@"MRSLActivity", ^{
             it(@"should have a last name", ^{
                 [[[creator last_name] should] equal:@"Ferguson"];
             });
-
+            
             it(@"should have photos", ^{
                 [[[creator profilePhotoURL] should] beNonNil];
             });

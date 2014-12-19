@@ -19,7 +19,8 @@ NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) MRSLTableViewDataSource *dataSource;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (copy, nonatomic) MRSLRemoteRequestBlock remoteRequestBlock;
+@property (copy, nonatomic) MRSLRemotePagedRequestBlock pagedRemoteRequestBlock;
+@property (copy, nonatomic) MRSLRemoteTimelineRequestBlock timelineRemoteRequestBlock;
 
 @property (strong, nonatomic) NSString *objectIDsKey;
 @property (strong, nonatomic) NSArray *objectIDs;
@@ -28,6 +29,8 @@ NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL stopLoadingNextPage;
+
+@property (nonatomic) NSNumber *currentPage;
 
 @property (strong, nonatomic) MRSLActivityIndicatorView *footerActivityIndicatorView;
 
@@ -41,7 +44,9 @@ NSFetchedResultsControllerDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if (self.dataSource && !self.disableFetchRefresh) {
+    self.currentPage = @(1);
+
+    if (self.dataSource && !self.disableRemoteRefresh) {
         //  Pull to refresh
         self.refreshControl = [UIRefreshControl MRSL_refreshControl];
         [self.refreshControl addTarget:self
@@ -67,7 +72,7 @@ NSFetchedResultsControllerDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     [self setupNavigationItems];
     [self.view setBackgroundColor:[UIColor morselDefaultBackgroundColor]];
 }
@@ -80,7 +85,7 @@ NSFetchedResultsControllerDelegate>
         self.selectedIndexPath = nil;
     }
 
-    if (self.dataSource && !_fetchedResultsController && !self.disableFetchRefresh) {
+    if (self.dataSource && !_fetchedResultsController && !self.disableRemoteRefresh) {
         [self populateContent];
         [self refreshContent];
     }
@@ -109,6 +114,11 @@ NSFetchedResultsControllerDelegate>
     }
 }
 
+- (void)refreshLocalContent {
+    [self resetFetchedResultsController];
+    [self populateContent];
+}
+
 - (void)refreshContent {
     [self fetchAPIWithNextPage:NO];
 }
@@ -125,28 +135,50 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)fetchAPIWithNextPage:(BOOL)nextPage {
-    if ([self isLoading] || !self.remoteRequestBlock) return;
+    if ([self isLoading] || (!self.pagedRemoteRequestBlock && !self.timelineRemoteRequestBlock)) return;
 
     self.loading = YES;
+    self.loadingMore = nextPage;
     __weak typeof(self) weakSelf = self;
-    self.remoteRequestBlock((nextPage ? [self maxID] : nil), (nextPage ? nil : [self sinceID]), nil, ^(NSArray *objectIDs, NSError *error) {
-        if ([objectIDs count] > 0) {
-            //  If no data has been loaded or the first new objectID doesn't already exist
-            if ([weakSelf.dataSource count] == 0 || ![[objectIDs firstObject] isEqualToNumber:[weakSelf.objectIDs firstObject]]) {
-                if (nextPage)
-                    [weakSelf appendObjectIDs:[objectIDs copy]];
-                else
-                    [weakSelf prependObjectIDs:[objectIDs copy]];
-                [weakSelf resetFetchedResultsController];
-                [weakSelf populateContent];
-            }
-        } else if (nextPage) {
-            //  Reached the end, stop loading nextPage
-            weakSelf.stopLoadingNextPage = YES;
+    if (self.pagedRemoteRequestBlock) {
+        // Paged pagination
+        if (!nextPage) self.currentPage = @(1);
+        self.pagedRemoteRequestBlock(self.currentPage, nil, ^(NSArray *objectIDs, NSError *error) {
+            [weakSelf completeRemoteRequestWithNextPage:nextPage
+                                              objectIDs:objectIDs
+                                                  error:error];
+            if (!error) self.currentPage = @([self.currentPage intValue] + 1);
+        });
+    } else if (self.timelineRemoteRequestBlock) {
+        // Timeline pagination
+        self.timelineRemoteRequestBlock((nextPage ? [self maxID] : nil), (nextPage ? nil : [self sinceID]), nil, ^(NSArray *objectIDs, NSError *error) {
+            [weakSelf completeRemoteRequestWithNextPage:nextPage
+                                              objectIDs:objectIDs
+                                                  error:error];
+        });
+    }
+}
+
+- (void)completeRemoteRequestWithNextPage:(BOOL)nextPage
+                                objectIDs:(NSArray *)objectIDs
+                                    error:(NSError *)error {
+    if ([objectIDs count] > 0) {
+        //  If no data has been loaded or the first new objectID doesn't already exist
+        if ([self.dataSource count] == 0 || ![[objectIDs firstObject] isEqualToNumber:[self.objectIDs firstObject]]) {
+            if (nextPage)
+                [self appendObjectIDs:[objectIDs copy]];
+            else
+                [self prependObjectIDs:[objectIDs copy]];
         }
-        [weakSelf.refreshControl endRefreshing];
-        weakSelf.loading = NO;
-    });
+    } else if (nextPage && [objectIDs count] == 0) {
+        //  Reached the end, stop loading nextPage
+        self.stopLoadingNextPage = YES;
+    } else if (!nextPage && [objectIDs count] == 0) {
+        self.objectIDs = objectIDs;
+    }
+    [self refreshLocalContent];
+    [self.refreshControl endRefreshing];
+    self.loading = NO;
 }
 
 - (void)setObjectIDs:(NSArray *)objectIDs {
@@ -213,7 +245,6 @@ NSFetchedResultsControllerDelegate>
         return nil;
     }
 }
-
 
 #pragma mark - MRSLTableViewDataSourceDelegate
 

@@ -18,9 +18,9 @@
 #pragma mark - Comment Services
 
 - (void)getComments:(MRSLItem *)item
-          withMaxID:(NSNumber *)maxOrNil
-          orSinceID:(NSNumber *)sinceOrNil
-           andCount:(NSNumber *)countOrNil
+              maxID:(NSNumber *)maxOrNil
+            sinceID:(NSNumber *)sinceOrNil
+              count:(NSNumber *)countOrNil
             success:(MRSLAPIArrayBlock)successOrNil
             failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
@@ -34,6 +34,7 @@
         parameters[@"since_id"] = sinceOrNil;
     }
     if (countOrNil) parameters[@"count"] = countOrNil;
+
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"items/%i/comments", item.itemIDValue]
                                       parameters:parameters
                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {

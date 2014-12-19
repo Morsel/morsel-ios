@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseRemoteDataSourceViewController.h"
 
 @class MRSLUser;
 
-@interface MRSLProfileViewController : MRSLBaseViewController
+@interface MRSLProfileViewController : MRSLBaseRemoteDataSourceViewController
 
 @property (strong, nonatomic) MRSLUser *user;
 

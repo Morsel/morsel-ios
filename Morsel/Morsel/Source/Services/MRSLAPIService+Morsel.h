@@ -13,8 +13,8 @@
 #pragma mark - Morsel Services
 
 - (void)createMorselWithTemplateID:(NSNumber *)templateID
-             success:(MRSLAPISuccessBlock)successOrNil
-             failure:(MRSLFailureBlock)failureOrNil;
+                           success:(MRSLAPISuccessBlock)successOrNil
+                           failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)deleteMorsel:(MRSLMorsel *)morsel
              success:(MRSLAPISuccessBlock)successOrNil
@@ -37,17 +37,15 @@
           failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getMorselsForUser:(MRSLUser *)userOrNil
-                withMaxID:(NSNumber *)maxOrNil
-                orSinceID:(NSNumber *)sinceOrNil
-                 andCount:(NSNumber *)countOrNil
+                     page:(NSNumber *)pageOrNil
+                    count:(NSNumber *)countOrNil
                onlyDrafts:(BOOL)shouldOnlyDisplayDrafts
                   success:(MRSLAPIArrayBlock)successOrNil
                   failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getMorselsForPlace:(MRSLPlace *)placeOrNil
-                 withMaxID:(NSNumber *)maxOrNil
-                 orSinceID:(NSNumber *)sinceOrNil
-                  andCount:(NSNumber *)countOrNil
+                      page:(NSNumber *)pageOrNil
+                     count:(NSNumber *)countOrNil
                    success:(MRSLAPIArrayBlock)successOrNil
                    failure:(MRSLFailureBlock)failureOrNil;
 
@@ -58,17 +56,15 @@
         failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getTaggedUsersForMorsel:(MRSLMorsel *)morsel
-                      withMaxID:(NSNumber *)maxOrNil
-                      orSinceID:(NSNumber *)sinceOrNil
-                       andCount:(NSNumber *)countOrNil
+                           page:(NSNumber *)pageOrNil
+                          count:(NSNumber *)countOrNil
                         success:(MRSLAPIArrayBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getEligibleTaggedUsersForMorsel:(MRSLMorsel *)morsel
                              usingQuery:(NSString *)queryOrNil
-                              withMaxID:(NSNumber *)maxOrNil
-                              orSinceID:(NSNumber *)sinceOrNil
-                               andCount:(NSNumber *)countOrNil
+                                   page:(NSNumber *)pageOrNil
+                                  count:(NSNumber *)countOrNil
                                 success:(MRSLAPIArrayBlock)successOrNil
                                 failure:(MRSLFailureBlock)failureOrNil;
 
