@@ -56,6 +56,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [super viewDidLoad];
 
     self.emptyStateString = @"No morsels added";
+    self.dataSortType = MRSLDataSortTypePublishedDate;
 
     if (self.userInfo[@"place_id"]) {
         self.place = [MRSLPlace MR_findFirstByAttribute:MRSLPlaceAttributes.placeID
@@ -171,8 +172,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
         [_appDelegate.apiService getPlaceData:strongSelf.place
                             forDataSourceType:strongSelf.dataSourceTabType
                                          page:page
-                                        maxID:nil
-                                      sinceID:nil
                                         count:nil
                                       success:^(NSArray *responseArray) {
                                           remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);

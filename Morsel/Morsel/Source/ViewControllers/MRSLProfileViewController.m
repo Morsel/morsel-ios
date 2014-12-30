@@ -72,6 +72,8 @@ MRSLStateViewDelegate>
     [super viewDidLoad];
 
     self.emptyStateString = @"No morsels added";
+    self.dataSortType = MRSLDataSortTypePublishedDate;
+    self.followButton.hidden = YES;
 
     if (self.userInfo[@"user_id"]) {
         self.user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
@@ -143,7 +145,7 @@ MRSLStateViewDelegate>
     NSString *predicateString = [NSString stringWithFormat:@"%@ID", [MRSLUtil stringForDataSourceType:self.dataSourceTabType]];
     NSString *sortString = [MRSLUtil stringForDataSortType:self.dataSortType];
     return [[MRSLUtil classForDataSourceType:self.dataSourceTabType] MR_fetchAllSortedBy:sortString
-                                                                               ascending:(self.dataSourceTabType == MRSLDataSortTypeName || self.dataSourceTabType == MRSLDataSortTypeTagKeywordType)
+                                                                               ascending:self.dataAscending
                                                                            withPredicate:[NSPredicate predicateWithFormat:@"%K IN %@", predicateString, self.objectIDs]
                                                                                  groupBy:nil
                                                                                 delegate:self
@@ -201,40 +203,20 @@ MRSLStateViewDelegate>
 }
 
 - (void)setupRemoteRequestBlock {
+    [self refreshProfile];
     __weak __typeof(self)weakSelf = self;
-    if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
-        self.pagedRemoteRequestBlock = nil;
-        self.timelineRemoteRequestBlock = ^(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [_appDelegate.apiService getUserData:strongSelf.user
-                               forDataSourceType:strongSelf.dataSourceTabType
-                                            page:nil
-                                           maxID:maxID
-                                         sinceID:sinceID
-                                           count:nil
-                                         success:^(NSArray *responseArray) {
-                                             remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
-                                         } failure:^(NSError *error) {
-                                             remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
-                                         }];
-        };
-    } else {
-        self.timelineRemoteRequestBlock = nil;
-        self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [_appDelegate.apiService getUserData:strongSelf.user
-                               forDataSourceType:strongSelf.dataSourceTabType
-                                            page:page
-                                           maxID:nil
-                                         sinceID:nil
-                                           count:nil
-                                         success:^(NSArray *responseArray) {
-                                             remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
-                                         } failure:^(NSError *error) {
-                                             remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
-                                         }];
-        };
-    }
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [_appDelegate.apiService getUserData:strongSelf.user
+                           forDataSourceType:strongSelf.dataSourceTabType
+                                        page:page
+                                       count:nil
+                                     success:^(NSArray *responseArray) {
+                                         remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                     } failure:^(NSError *error) {
+                                         remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                     }];
+    };
 }
 
 - (void)displayEditProfile {
@@ -254,7 +236,6 @@ MRSLStateViewDelegate>
 
 - (void)populateUserInformation {
     self.title = _user.username;
-    self.followButton.user = _user;
     if ([self.user isCurrentUser]) {
         //  Hide the follow button and show a 'Edit' button instead
         [self.followButton setHidden:YES];
@@ -266,6 +247,9 @@ MRSLStateViewDelegate>
                                                                                        action:@selector(displayEditProfile)]];
 
         }
+    } else {
+        self.followButton.user = _user;
+        self.followButton.hidden = NO;
     }
 }
 

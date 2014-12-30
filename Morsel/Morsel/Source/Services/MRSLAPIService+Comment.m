@@ -18,21 +18,14 @@
 #pragma mark - Comment Services
 
 - (void)getComments:(MRSLItem *)item
-              maxID:(NSNumber *)maxOrNil
-            sinceID:(NSNumber *)sinceOrNil
+               page:(NSNumber *)pageOrNil
               count:(NSNumber *)countOrNil
             success:(MRSLAPIArrayBlock)successOrNil
             failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
 
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"items/%i/comments", item.itemIDValue]

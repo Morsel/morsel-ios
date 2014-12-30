@@ -49,7 +49,6 @@ MRSLSegmentedButtonViewDelegate>
 - (void)viewDidLoad {
     self.emptyStateString = @"No results found.";
     [self setupRemoteRequestBlock];
-    [self dataSource];
 }
 
 - (void)setSearchQuery:(NSString *)searchQuery {
@@ -105,7 +104,7 @@ MRSLSegmentedButtonViewDelegate>
 - (void)resumeTimer {
     [self suspendTimer];
     if (!_searchTimer) {
-        self.searchTimer = [NSTimer timerWithTimeInterval:.1f
+        self.searchTimer = [NSTimer timerWithTimeInterval:MRSLSearchDelayDefault
                                                    target:self
                                                  selector:@selector(triggerSearch)
                                                  userInfo:nil

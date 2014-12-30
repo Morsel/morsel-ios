@@ -35,8 +35,7 @@ describe(@"MRSLActivity", ^{
             [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-users-activities.json"
                                                forRequestPath:@"/users/activities"];
             [_appDelegate.apiService getUserActivitiesForUser:nil
-                                                        maxID:nil
-                                                      sinceID:nil
+                                                         page:nil
                                                         count:nil
                                                       success:^(NSArray *responseArray) {
                                                           NSNumber *firstActivityID = [responseArray firstObject];

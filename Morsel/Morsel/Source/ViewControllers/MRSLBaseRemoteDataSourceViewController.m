@@ -33,8 +33,6 @@ MRSLTableViewDataSourceDelegate>
 
 @implementation MRSLBaseRemoteDataSourceViewController
 
-#warning Must keep track of last page?
-
 #pragma mark - Instance Methods
 
 - (void)viewDidLoad {
@@ -42,7 +40,7 @@ MRSLTableViewDataSourceDelegate>
 
     self.currentPage = @(1);
 
-    if ((self.dataSource) && !self.disablePagination) {
+    if ((self.dataSource) && !self.disablePagination && ![self isHorizontalLayout]) {
         //  Pull to refresh
         self.refreshControl = [UIRefreshControl MRSL_refreshControl];
         [self.refreshControl addTarget:self
@@ -62,6 +60,10 @@ MRSLTableViewDataSourceDelegate>
     }
     if (self.objectIDsKey) self.objectIDs = [[NSUserDefaults standardUserDefaults] arrayForKey:self.objectIDsKey] ?: @[];
 
+    if ([self.objectIDs count] > MRSLPaginationCountDefault) {
+        self.objectIDs = [[self.objectIDs copy] subarrayWithRange:NSMakeRange(0, MRSLPaginationCountDefault)];
+    }
+
     if (self.tableView) {
         [self.tableView setScrollsToTop:YES];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -70,7 +72,7 @@ MRSLTableViewDataSourceDelegate>
         [self.tableView setEmptyStateTitle:self.emptyStateString ?: @"Nothing to display."];
     } else if (self.collectionView) {
         [self.collectionView setScrollsToTop:YES];
-        if (!self.disablePagination) self.collectionView.alwaysBounceVertical = YES;
+        if (!self.disablePagination && ![self isHorizontalLayout]) self.collectionView.alwaysBounceVertical = YES;
 
         [self.collectionView setEmptyStateTitle:self.emptyStateString ?: @"Nothing to display."];
     }
@@ -86,6 +88,18 @@ MRSLTableViewDataSourceDelegate>
 
     if ((self.dataSource) && !_fetchedResultsController) {
         [self populateContent];
+
+        if (([self.currentPage intValue] == 1) &&
+            [self.objectIDs count] > 0) {
+            if (!self.disablePagination) {
+                [self.refreshControl beginRefreshing];
+                if (self.collectionView) [self.collectionView setContentOffset:CGPointMake(0.f, -self.refreshControl.frame.size.height)
+                                                                      animated:YES];
+                if (self.tableView) [self.tableView setContentOffset:CGPointMake(0.f, -self.refreshControl.frame.size.height)
+                                                            animated:YES];
+            }
+        }
+
         [self refreshContent];
     }
 }
@@ -105,6 +119,16 @@ MRSLTableViewDataSourceDelegate>
 }
 
 #pragma mark - Getter Methods
+
+- (BOOL)isHorizontalLayout {
+    BOOL isHorizontal = NO;
+    if (self.collectionView) {
+        if ([self.collectionView.collectionViewLayout isKindOfClass:[UICollectionViewFlowLayout class]]) {
+            isHorizontal = (UICollectionViewScrollDirectionHorizontal == [(UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout scrollDirection]);
+        }
+    }
+    return isHorizontal;
+}
 
 - (NSString *)objectIDsKey {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
@@ -181,6 +205,7 @@ MRSLTableViewDataSourceDelegate>
 
 - (void)resetPaginationAndData {
     self.stopLoadingNextPage = NO;
+    if ([self.currentPage intValue] == 1) return;
     self.currentPage = @(1);
     self.objectIDs = @[];
     [self.dataSource updateObjects:_objectIDs];
@@ -212,7 +237,6 @@ MRSLTableViewDataSourceDelegate>
         if (self.collectionView) [self.collectionView reloadData];
         if ([self.dataSource count] > 0) self.loading = NO;
     });
-    [self.refreshControl endRefreshing];
 }
 
 - (void)fetchAPIWithNextPage:(BOOL)nextPage {
@@ -244,16 +268,15 @@ MRSLTableViewDataSourceDelegate>
                                 objectIDs:(NSArray *)objectIDs
                                     error:(NSError *)error {
     if ([objectIDs count] > 0) {
-        //  If no data has been loaded or the first new objectID doesn't already exist
+        //  If no data has been loaded or the first new objectID doesn't already exist, aka identical response
         if ([self.dataSource count] == 0 || ![[objectIDs firstObject] isEqualToNumber:[self.objectIDs firstObject]]) {
             if (nextPage)
                 [self appendObjectIDs:[objectIDs copy]];
             else
                 [self prependObjectIDs:[objectIDs copy]];
-        } else {
-            // Identical response. Halting pagination.
-            self.stopLoadingNextPage = YES;
         }
+        // Reached final page since amount of objects returned was less than default of 20
+        if ([objectIDs count] < MRSLPaginationCountDefault) self.stopLoadingNextPage = YES;
     } else if (nextPage && [objectIDs count] == 0) {
         //  Reached the end, stop loading nextPage
         self.stopLoadingNextPage = YES;
@@ -330,20 +353,17 @@ MRSLTableViewDataSourceDelegate>
 
 - (void)dataSourceDidScroll:(UIScrollView *)scrollView
                  withOffset:(CGFloat)offset {
-    if ([self.dataSource count] > 0) {
-        BOOL isHorizontal = NO;
-        if (self.collectionView) {
-            if ([self.collectionView.collectionViewLayout isKindOfClass:[UICollectionViewFlowLayout class]]) {
-                isHorizontal = (UICollectionViewScrollDirectionHorizontal == [(UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout scrollDirection]);
-            }
-        }
+    if ([self.dataSource count] > 0 && ![self isLoading]) {
+        BOOL isHorizontal = [self isHorizontalLayout];
         BOOL shouldLoadMore = NO;
         if (isHorizontal) {
             CGFloat currentPage = scrollView.contentOffset.x / scrollView.frame.size.width;
             shouldLoadMore = (currentPage >= [self.dataSource count] - 2);
         } else {
+            CGFloat currentOffset = scrollView.contentOffset.y;
             CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
-            shouldLoadMore = (maximumOffset - offset <= 10.f);
+            CGFloat contentOffset = maximumOffset - currentOffset;
+            shouldLoadMore = (contentOffset <= 10.f);
         }
         if (shouldLoadMore) [self loadNextPage];
     }
@@ -352,7 +372,6 @@ MRSLTableViewDataSourceDelegate>
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Activity detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
     [self populateContent];
 }
 

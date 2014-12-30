@@ -56,13 +56,11 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-
     __weak __typeof(self) weakSelf = self;
-    self.timelineRemoteRequestBlock = ^(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         [_appDelegate.apiService getComments:strongSelf.item
-                                       maxID:maxID
-                                     sinceID:sinceID
+                                        page:page
                                        count:nil
                                      success:^(NSArray *responseArray) {
                                          remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
@@ -225,7 +223,7 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
     } else {
         return YES;
     }
-    
+
     return YES;
 }
 

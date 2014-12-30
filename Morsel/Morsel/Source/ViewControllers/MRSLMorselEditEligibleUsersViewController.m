@@ -125,8 +125,6 @@ UISearchBarDelegate>
 
 #pragma mark - UISearchBarDelegate
 
-#warning Should also refactor all timer searches
-
 - (void)suspendTimer {
     if (_searchTimer) {
         [_searchTimer invalidate];
@@ -137,7 +135,7 @@ UISearchBarDelegate>
 - (void)resumeTimer {
     [self suspendTimer];
     if (!_searchTimer) {
-        self.searchTimer = [NSTimer timerWithTimeInterval:.1f
+        self.searchTimer = [NSTimer timerWithTimeInterval:MRSLSearchDelayDefault
                                                    target:self
                                                  selector:@selector(triggerSearch)
                                                  userInfo:nil

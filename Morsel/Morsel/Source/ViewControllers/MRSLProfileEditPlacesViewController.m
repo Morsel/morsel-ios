@@ -71,13 +71,22 @@
 - (MRSLDataSource *)dataSource {
     MRSLDataSource *superDataSource = [super dataSource];
     if (superDataSource) return superDataSource;
-    MRSLDataSource *newDataSource = [[MRSLCollectionViewDataSource alloc] initWithObjects:nil configureCellBlock:^UICollectionViewCell *(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
-        MRSLPlaceCollectionViewCell *placeCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPlaceCellKey
-                                                                                           forIndexPath:indexPath];
-        placeCell.place = item;
-        return placeCell;
-        return nil;
-    }];
+    MRSLDataSource *newDataSource = [[MRSLCollectionViewDataSource alloc] initWithObjects:nil
+                                                                                 sections:nil
+                                                                       configureCellBlock:^UICollectionViewCell *(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
+                                                                           MRSLPlaceCollectionViewCell *placeCell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPlaceCellKey
+                                                                                                                                                              forIndexPath:indexPath];
+                                                                           placeCell.place = item;
+                                                                           return placeCell;
+                                                                           return nil;
+                                                                       }
+                                                                       supplementaryBlock:nil
+                                                                   sectionHeaderSizeBlock:nil
+                                                                   sectionFooterSizeBlock:nil
+                                                                            cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
+                                                                                return CGSizeMake(collectionView.frame.size.width, 60.f);
+                                                                            }
+                                                                       sectionInsetConfig:nil];
     [self setDataSource:newDataSource];
     return newDataSource;
 }

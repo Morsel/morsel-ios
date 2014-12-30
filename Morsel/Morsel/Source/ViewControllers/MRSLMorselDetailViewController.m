@@ -33,6 +33,7 @@
 
 - (void)collectionViewDataSourceDidScroll:(UICollectionView *)collectionView
                                withOffset:(CGFloat)offset;
+- (void)populateContent;
 
 @end
 
@@ -113,6 +114,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
     } else {
         [self setupRemoteRequestBlock];
     }
+    if (self.morsel) {
+        self.objectIDs = @[self.morsel.morselID];
+        [self.dataSource updateObjects:@[self.morsel]];
+    }
+
     if (self.disablePagination) [self.collectionView setAlwaysBounceHorizontal:NO];
 }
 
@@ -240,7 +246,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
         } else {
             [_appDelegate.apiService getMorselsForUser:strongSelf.user
                                                   page:page
-                                                 count:@(4)
+                                                 count:nil
                                             onlyDrafts:NO
                                                success:^(NSArray *responseArray) {
                                                    remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
@@ -249,7 +255,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                                }];
         }
     };
-    [self setupInterface];
 }
 
 - (MRSLCollectionViewDataSource *)dataSource {
@@ -281,7 +286,8 @@ MRSLFeedPanelCollectionViewCellDelegate>
     return newDataSource;
 }
 
-- (void)setupInterface {
+- (void)populateContent {
+    [super populateContent];
     if (_isPreview) {
         self.title = @"Preview";
     } else if (_isExplore) {

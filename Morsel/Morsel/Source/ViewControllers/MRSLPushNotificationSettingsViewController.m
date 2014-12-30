@@ -41,7 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.disableRemoteRefresh = YES;
+    self.disablePagination = YES;
     self.currentRemoteDevice = [MRSLRemoteDevice currentRemoteDevice];
 
     if (self.currentRemoteDevice) {

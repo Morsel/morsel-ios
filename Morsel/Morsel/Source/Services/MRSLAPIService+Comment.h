@@ -13,8 +13,7 @@
 #pragma mark - Comment Services
 
 - (void)getComments:(MRSLItem *)item
-              maxID:(NSNumber *)maxOrNil
-            sinceID:(NSNumber *)sinceOrNil
+               page:(NSNumber *)pageOrNil
               count:(NSNumber *)countOrNil
             success:(MRSLAPIArrayBlock)successOrNil
             failure:(MRSLFailureBlock)failureOrNil;

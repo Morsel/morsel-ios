@@ -88,8 +88,7 @@ describe(@"Importing from the API", ^{
                                                    forRequestPath:@"/items/40/comments"];
 
                 [_appDelegate.apiService getComments:itemWithComments
-                                               maxID:nil
-                                             sinceID:nil
+                                                page:nil
                                                count:nil
                                              success:^(NSArray *responseArray) {
                                                  firstComment = [[[itemWithComments comments] allObjects] firstObject];

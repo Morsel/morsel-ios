@@ -46,7 +46,7 @@ NSFetchedResultsControllerDelegate>
 
     self.currentPage = @(1);
 
-    if (self.dataSource && !self.disableRemoteRefresh) {
+    if (self.dataSource && !self.disablePagination) {
         //  Pull to refresh
         self.refreshControl = [UIRefreshControl MRSL_refreshControl];
         [self.refreshControl addTarget:self
@@ -64,6 +64,10 @@ NSFetchedResultsControllerDelegate>
         [self.tableView setTableFooterView:footerView];
     }
     if (self.objectIDsKey) _objectIDs = [[NSUserDefaults standardUserDefaults] arrayForKey:self.objectIDsKey] ?: @[];
+
+    if ([self.objectIDs count] > MRSLPaginationCountDefault) {
+        self.objectIDs = [[self.objectIDs copy] subarrayWithRange:NSMakeRange(0, MRSLPaginationCountDefault)];
+    }
 
     self.tableView.alwaysBounceVertical = YES;
     [self.tableView setScrollsToTop:YES];
@@ -85,8 +89,16 @@ NSFetchedResultsControllerDelegate>
         self.selectedIndexPath = nil;
     }
 
-    if (self.dataSource && !_fetchedResultsController && !self.disableRemoteRefresh) {
+    if (self.dataSource && !_fetchedResultsController) {
         [self populateContent];
+        if (([self.currentPage intValue] == 1) &&
+            [self.objectIDs count] > 0) {
+            if (!self.disablePagination) {
+                [self.refreshControl beginRefreshing];
+                if (self.tableView) [self.tableView setContentOffset:CGPointMake(0.f, -self.refreshControl.frame.size.height)
+                                                            animated:YES];
+            }
+        }
         [self refreshContent];
     }
 }
@@ -131,7 +143,6 @@ NSFetchedResultsControllerDelegate>
         [self.tableView reloadData];
         if ([self.dataSource count] > 0) self.loading = NO;
     });
-    [self.refreshControl endRefreshing];
 }
 
 - (void)fetchAPIWithNextPage:(BOOL)nextPage {

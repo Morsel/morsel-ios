@@ -18,8 +18,6 @@
 - (void)getUserData:(MRSLUser *)user
   forDataSourceType:(MRSLDataSourceType)dataSourceType
                page:(NSNumber *)pageOrNil
-              maxID:(NSNumber *)maxOrNil
-            sinceID:(NSNumber *)sinceOrNil
               count:(NSNumber *)countOrNil
             success:(MRSLAPIArrayBlock)successOrNil
             failure:(MRSLFailureBlock)failureOrNil {
@@ -34,8 +32,7 @@
             break;
         case MRSLDataSourceTypeLikedMorsel:
             [_appDelegate.apiService getLikedMorselsForUser:user
-                                                      maxID:maxOrNil
-                                                    sinceID:sinceOrNil
+                                                       page:pageOrNil
                                                       count:countOrNil
                                                     success:successOrNil
                                                     failure:failureOrNil];
@@ -62,8 +59,6 @@
 - (void)getPlaceData:(MRSLPlace *)place
    forDataSourceType:(MRSLDataSourceType)dataSourceType
                 page:(NSNumber *)pageOrNil
-               maxID:(NSNumber *)maxOrNil
-             sinceID:(NSNumber *)sinceOrNil
                count:(NSNumber *)countOrNil
              success:(MRSLAPIArrayBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil {

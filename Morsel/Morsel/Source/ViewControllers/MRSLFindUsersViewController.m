@@ -234,7 +234,8 @@ MRSLTableViewDataSourceDelegate>
         self.searchBar.placeholder = @"Find users on Morsel";
     }
 
-    [self triggerSearch];
+    [self setupRemoteRequest];
+    [self refreshRemoteContent];
 }
 
 #pragma mark - MRSLTableViewDataSource
@@ -277,7 +278,7 @@ MRSLTableViewDataSourceDelegate>
 - (void)resumeTimer {
     [self suspendTimer];
     if (!_searchTimer) {
-        self.searchTimer = [NSTimer timerWithTimeInterval:.1f
+        self.searchTimer = [NSTimer timerWithTimeInterval:MRSLSearchDelayDefault
                                                    target:self
                                                  selector:@selector(triggerSearch)
                                                  userInfo:nil

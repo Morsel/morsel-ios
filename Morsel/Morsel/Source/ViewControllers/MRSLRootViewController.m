@@ -174,7 +174,7 @@ MRSLMenuViewControllerDelegate>
 - (void)resumeTimer {
     [self suspendTimer];
     if (!_timer) {
-        self.timer = [NSTimer timerWithTimeInterval:180.f
+        self.timer = [NSTimer timerWithTimeInterval:MRSLNotificationRefreshDelayDefault
                                              target:self
                                            selector:@selector(updateUnread)
                                            userInfo:nil

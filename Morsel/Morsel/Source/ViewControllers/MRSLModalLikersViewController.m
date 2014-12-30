@@ -34,11 +34,10 @@
     self.emptyStateString = @"No likes";
 
     __weak __typeof(self) weakSelf = self;
-    self.timelineRemoteRequestBlock = ^(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         [_appDelegate.apiService getMorselLikers:strongSelf.morsel
-                                           maxID:nil
-                                         sinceID:nil
+                                            page:page
                                            count:nil
                                          success:^(NSArray *responseArray) {
                                              remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
@@ -65,11 +64,11 @@
 
 - (NSFetchedResultsController *)defaultFetchedResultsController {
     return  [MRSLUser MR_fetchAllSortedBy:@"userID"
-                                                          ascending:NO
-                                                      withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", self.objectIDs]
-                                                            groupBy:nil
-                                                           delegate:self
-                                                          inContext:[NSManagedObjectContext MR_defaultContext]];
+                                ascending:NO
+                            withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", self.objectIDs]
+                                  groupBy:nil
+                                 delegate:self
+                                inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
 - (MRSLDataSource *)dataSource {

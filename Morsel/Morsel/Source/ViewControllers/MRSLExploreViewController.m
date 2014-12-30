@@ -88,7 +88,7 @@ UISearchBarDelegate>
 }
 
 - (NSFetchedResultsController *)defaultFetchedResultsController {
-    return  [MRSLMorsel MR_fetchAllSortedBy:@"morselID"
+    return  [MRSLMorsel MR_fetchAllSortedBy:@"publishedDate"
                                   ascending:NO
                               withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", self.objectIDs]
                                     groupBy:nil

@@ -164,7 +164,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)resumeTimer {
     [self suspendTimer];
     if (!_timer) {
-        self.timer = [NSTimer timerWithTimeInterval:60.f
+        self.timer = [NSTimer timerWithTimeInterval:MRSLFeedRefreshDelayDefault
                                              target:self
                                            selector:@selector(loadNew)
                                            userInfo:nil

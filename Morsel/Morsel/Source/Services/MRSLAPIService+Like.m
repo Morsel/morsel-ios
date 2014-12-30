@@ -19,23 +19,15 @@
 #pragma mark - Like Services
 
 - (void)getLikedMorselsForUser:(MRSLUser *)user
-                         maxID:(NSNumber *)maxOrNil
-                       sinceID:(NSNumber *)sinceOrNil
+                          page:(NSNumber *)pageOrNil
                          count:(NSNumber *)countOrNil
                        success:(MRSLAPIArrayBlock)successOrNil
                        failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"type": @"Morsel"}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
-
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"users/%i/likeables", user.userIDValue]
                                       parameters:parameters
                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -51,23 +43,15 @@
 }
 
 - (void)getMorselLikers:(MRSLMorsel *)morsel
-                  maxID:(NSNumber *)maxOrNil
-                sinceID:(NSNumber *)sinceOrNil
+                   page:(NSNumber *)pageOrNil
                   count:(NSNumber *)countOrNil
                 success:(MRSLAPIArrayBlock)successOrNil
                 failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
-
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"morsels/%i/likers", morsel.morselIDValue]
                                       parameters:parameters
                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {

@@ -13,8 +13,6 @@
 - (void)getUserData:(MRSLUser *)user
   forDataSourceType:(MRSLDataSourceType)dataSourceType
                page:(NSNumber *)pageOrNil
-              maxID:(NSNumber *)maxOrNil
-            sinceID:(NSNumber *)sinceOrNil
               count:(NSNumber *)countOrNil
             success:(MRSLAPIArrayBlock)successOrNil
             failure:(MRSLFailureBlock)failureOrNil;
@@ -22,8 +20,6 @@
 - (void)getPlaceData:(MRSLPlace *)place
    forDataSourceType:(MRSLDataSourceType)dataSourceType
                 page:(NSNumber *)pageOrNil
-               maxID:(NSNumber *)maxOrNil
-             sinceID:(NSNumber *)sinceOrNil
                count:(NSNumber *)countOrNil
              success:(MRSLAPIArrayBlock)successOrNil
              failure:(MRSLFailureBlock)failureOrNil;
