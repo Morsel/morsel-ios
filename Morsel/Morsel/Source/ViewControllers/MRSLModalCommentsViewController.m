@@ -24,6 +24,12 @@
 static const CGFloat MRSLDefaultCommentLabelHeight = 14.f;
 static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
 
+@interface MRSLBaseRemoteDataSourceViewController (Private)
+
+- (void)populateContent;
+
+@end
+
 @interface MRSLModalCommentsViewController ()
 <MRSLTableViewDataSourceDelegate>
 
@@ -77,7 +83,6 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
 }
 
 - (NSFetchedResultsController *)defaultFetchedResultsController {
-    self.previousCommentsAvailable = (_item.comment_countValue != [self.dataSource count]);
     return  [MRSLComment MR_fetchAllSortedBy:@"creationDate"
                                    ascending:YES
                                withPredicate:[NSPredicate predicateWithFormat:@"commentID IN %@", self.objectIDs]
@@ -108,6 +113,11 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
     return newDataSource;
 }
 
+- (void)populateContent {
+    [super populateContent];
+    self.previousCommentsAvailable = (_item.comment_countValue != [self.dataSource count]);
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)addComment {
@@ -131,8 +141,9 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
                                                        success:^(id responseObject) {
                                                            [MRSLEventManager sharedManager].comments_added++;
                                                            if (responseObject && weakSelf) {
-                                                               [weakSelf.dataSource addObject:[(MRSLComment *)responseObject commentID]];
-                                                               [weakSelf refreshRemoteContent];
+                                                               weakSelf.objectIDs = [weakSelf.objectIDs arrayByAddingObject:[(MRSLComment *)responseObject commentID]];
+                                                               [weakSelf.dataSource addObject:responseObject];
+                                                               [weakSelf refreshLocalContent];
                                                                if (weakSelf.tableView.contentSize.height > [weakSelf.tableView getHeight]) {
                                                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                                                        CGPoint bottomOffset = CGPointMake(0, weakSelf.tableView.contentSize.height - weakSelf.tableView.bounds.size.height);

@@ -354,7 +354,7 @@ MRSLTableViewDataSourceDelegate>
 
 - (void)dataSourceDidScroll:(UIScrollView *)scrollView
                  withOffset:(CGFloat)offset {
-    if ([self.dataSource count] > 0 && ![self isLoading]) {
+    if ([self.dataSource count] > 0 && ![self isLoading] && !self.disablePagination) {
         BOOL isHorizontal = [self isHorizontalLayout];
         BOOL shouldLoadMore = NO;
         if (isHorizontal) {
