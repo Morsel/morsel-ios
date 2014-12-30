@@ -20,6 +20,7 @@ MRSLTableViewDataSourceDelegate>
 
 @property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL stopLoadingNextPage;
+@property (nonatomic) BOOL refreshedOnInitialLoad;
 
 @property (nonatomic) NSNumber *currentPage;
 
@@ -86,7 +87,7 @@ MRSLTableViewDataSourceDelegate>
         self.selectedIndexPath = nil;
     }
 
-    if ((self.dataSource) && !_fetchedResultsController) {
+    if ((self.dataSource) && !_fetchedResultsController && !self.refreshedOnInitialLoad) {
         [self populateContent];
 
         if (([self.currentPage intValue] == 1) &&
@@ -102,6 +103,7 @@ MRSLTableViewDataSourceDelegate>
 
         [self refreshContent];
     }
+    self.refreshedOnInitialLoad = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -207,9 +209,8 @@ MRSLTableViewDataSourceDelegate>
     self.stopLoadingNextPage = NO;
     if ([self.currentPage intValue] == 1) return;
     self.currentPage = @(1);
-    self.objectIDs = @[];
+    _objectIDs = @[];
     [self.dataSource updateObjects:_objectIDs];
-
 }
 
 - (void)refreshLocalContent {

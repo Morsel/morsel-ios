@@ -56,6 +56,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
     [super viewDidLoad];
 
     self.emptyStateString = @"No morsels added";
+    self.dataSourceTabType = MRSLDataSourceTypeMorsel;
     self.dataSortType = MRSLDataSortTypePublishedDate;
 
     if (self.userInfo[@"place_id"]) {
@@ -70,7 +71,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                   success:^(id responseObject) {
                                       if (weakSelf) {
                                           [weakSelf setupRemoteRequestBlock];
-                                          [weakSelf dataSource];
                                       }
                                   }
                                   failure:^(NSError *error) {
@@ -79,7 +79,6 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                   }];
     } else {
         [self setupRemoteRequestBlock];
-        [self dataSource];
     }
 }
 

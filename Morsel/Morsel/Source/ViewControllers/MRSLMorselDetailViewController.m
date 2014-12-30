@@ -74,7 +74,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewDidLoad {
     self.isPreview = (_morsel.publishedDate == nil);
-    self.disablePagination = (self.isPreview || self.isExplore);
+    self.disablePagination = YES;
 
     [super viewDidLoad];
 
@@ -229,7 +229,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
     __weak __typeof(self) weakSelf = self;
     self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
         __strong __typeof(self) strongSelf = weakSelf;
-        if (strongSelf.disablePagination) {
             [_appDelegate.apiService getMorsel:strongSelf.morsel
                                       orWithID:nil
                                        success:^(id responseObject) {
@@ -243,17 +242,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                        } failure:^(NSError *error) {
                                            remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
                                        }];
-        } else {
-            [_appDelegate.apiService getMorselsForUser:strongSelf.user
-                                                  page:page
-                                                 count:nil
-                                            onlyDrafts:NO
-                                               success:^(NSArray *responseArray) {
-                                                   remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
-                                               } failure:^(NSError *error) {
-                                                   remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
-                                               }];
-        }
     };
 }
 

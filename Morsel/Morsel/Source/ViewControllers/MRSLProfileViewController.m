@@ -69,12 +69,6 @@ MRSLStateViewDelegate>
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-
-    self.emptyStateString = @"No morsels added";
-    self.dataSortType = MRSLDataSortTypePublishedDate;
-    self.followButton.hidden = YES;
-
     if (self.userInfo[@"user_id"]) {
         self.user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                             withValue:@([self.userInfo[@"user_id"] intValue])];
@@ -87,7 +81,6 @@ MRSLStateViewDelegate>
                                         success:^(id responseObject) {
                                             if (weakSelf) {
                                                 [weakSelf setupRemoteRequestBlock];
-                                                [weakSelf dataSource];
                                             }
                                         } failure:^(NSError *error) {
                                             [UIAlertView showAlertViewForErrorString:@"Unable to load user profile."
@@ -99,8 +92,14 @@ MRSLStateViewDelegate>
     } else {
         if (!_user) self.user = [MRSLUser currentUser];
         [self setupRemoteRequestBlock];
-        [self dataSource];
     }
+
+    self.emptyStateString = @"No morsels added";
+    self.dataSourceTabType = MRSLDataSourceTypeMorsel;
+    self.dataSortType = MRSLDataSortTypePublishedDate;
+    self.followButton.hidden = YES;
+
+    [super viewDidLoad];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

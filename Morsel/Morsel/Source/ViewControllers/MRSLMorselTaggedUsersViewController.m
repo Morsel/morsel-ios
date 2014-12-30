@@ -86,4 +86,8 @@
                                          animated:YES];
 }
 
+- (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.f;
+}
+
 @end

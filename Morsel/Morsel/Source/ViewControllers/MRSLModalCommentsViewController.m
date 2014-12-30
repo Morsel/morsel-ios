@@ -178,7 +178,7 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
     return count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (_previousCommentsAvailable && indexPath.row == 0) return 44;
     NSIndexPath *adjustedIndexPath = [NSIndexPath indexPathForRow:(indexPath.row - ((self.previousCommentsAvailable) ? 1 : 0))
                                                         inSection:indexPath.section];
@@ -197,7 +197,7 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
     return defaultCellSize;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableViewDataSource:(UITableView *)tableView didSelectItem:(id)item atIndexPath:(NSIndexPath *)indexPath {
     if (_previousCommentsAvailable && indexPath.row == 0) {
         if (self.loadingMore) return;
         [super loadNextPage];
