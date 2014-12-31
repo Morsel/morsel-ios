@@ -94,10 +94,12 @@ MRSLTableViewDataSourceDelegate>
             [self.objectIDs count] > 0) {
             if (!self.disablePagination) {
                 [self.refreshControl beginRefreshing];
-                if (self.collectionView) [self.collectionView setContentOffset:CGPointMake(0.f, -self.refreshControl.frame.size.height)
-                                                                      animated:YES];
-                if (self.tableView) [self.tableView setContentOffset:CGPointMake(0.f, -self.refreshControl.frame.size.height)
-                                                            animated:YES];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    if (self.collectionView) [self.collectionView setContentOffset:CGPointMake(0.f, MRSLDefaultRefreshControlPadding)
+                                                                          animated:YES];
+                    if (self.tableView) [self.tableView setContentOffset:CGPointMake(0.f, MRSLDefaultRefreshControlPadding)
+                                                                animated:YES];
+                });
             }
         }
 
