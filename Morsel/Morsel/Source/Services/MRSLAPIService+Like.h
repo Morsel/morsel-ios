@@ -13,16 +13,14 @@
 #pragma mark - Like Services
 
 - (void)getLikedMorselsForUser:(MRSLUser *)user
-                         maxID:(NSNumber *)maxOrNil
-                     orSinceID:(NSNumber *)sinceOrNil
-                      andCount:(NSNumber *)countOrNil
+                          page:(NSNumber *)pageOrNil
+                         count:(NSNumber *)countOrNil
                        success:(MRSLAPIArrayBlock)successOrNil
                        failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getMorselLikers:(MRSLMorsel *)morsel
-                  maxID:(NSNumber *)maxOrNil
-              orSinceID:(NSNumber *)sinceOrNil
-               andCount:(NSNumber *)countOrNil
+                   page:(NSNumber *)pageOrNil
+                  count:(NSNumber *)countOrNil
                 success:(MRSLAPIArrayBlock)successOrNil
                 failure:(MRSLFailureBlock)failureOrNil;
 

@@ -113,7 +113,7 @@ UITableViewDelegate>
     MRSLMenuItem *itemActivity = [[MRSLMenuItem alloc] initWithName:@"Activity"
                                                                 key:MRSLMenuActivityKey
                                                                icon:@"icon-menu-activity"];
-    MRSLMenuItem *itemFindFriends = [[MRSLMenuItem alloc] initWithName:@"Find users"
+    MRSLMenuItem *itemFindUsers = [[MRSLMenuItem alloc] initWithName:@"Find users"
                                                                    key:MRSLMenuFindKey
                                                                   icon:@"icon-menu-find"];
     MRSLMenuItem *itemSettings = [[MRSLMenuItem alloc] initWithName:@"Settings"
@@ -134,7 +134,7 @@ UITableViewDelegate>
                                      itemExplore,
                                      itemNotifications,
                                      itemActivity,
-                                     itemFindFriends,
+                                     itemFindUsers,
                                      itemSettings
                                      ]
                              }

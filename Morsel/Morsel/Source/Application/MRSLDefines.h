@@ -34,7 +34,8 @@ typedef void (^ MRSLSocialUIDStringBlock)(NSString *uids, NSError *error);
 typedef void (^ MRSLSocialCancelBlock)();
 typedef void (^ MRSLDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^ MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock)(NSArray *objectIDs, NSError *error);
-typedef void (^ MRSLRemoteRequestBlock)(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock);
+typedef void (^ MRSLRemoteTimelineRequestBlock)(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock);
+typedef void (^ MRSLRemotePagedRequestBlock)(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock);
 typedef void (^ MRSLMediaItemProcessingSuccessBlock)(NSData *fullImageData, NSData *largeImageData, NSData *thumbImageData);
 
 #pragma mark - Enum
@@ -96,6 +97,10 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
+static const CGFloat MRSLFeedRefreshDelayDefault = 60.f;
+static const CGFloat MRSLNotificationRefreshDelayDefault = 180.f;
+static const CGFloat MRSLSearchDelayDefault = .2f;
+static const CGFloat MRSLPaginationCountDefault = 20.f;
 static const CGFloat MRSLMinimumSpacingPadding = 1.f;
 static const CGFloat MRSLCoverAreaHeight = 200.f;
 static const CGFloat MRSLMorselTitleThreshold = 60.f;
@@ -128,11 +133,11 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 #define ROLLBAR_ENVIRONMENT @"debug"
 #endif
 
-/* 
- Defining to disable Mixpanel using the advertising identifier, 
- which Apple prohibits if AdSupport.framework is included but 
+/*
+ Defining to disable Mixpanel using the advertising identifier,
+ which Apple prohibits if AdSupport.framework is included but
  this feature is not enabled in iTunes Connect.
-*/
+ */
 #define MIXPANEL_NO_IFA
 
 #define ROLLBAR_ACCESS_TOKEN @"80ee8af968f646898f1c1a6d6253b347"

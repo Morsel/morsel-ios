@@ -33,6 +33,11 @@ typedef UITableViewCell *(^MRSLTVCellConfigureBlock)(id item, UITableView *table
 - (CGFloat)tableViewDataSource:(UITableView *)tableView
       heightForItemAtIndexPath:(NSIndexPath *)indexPath;
 
+#pragma mark - UITableViewDataSource Methods
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath;
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section;
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;

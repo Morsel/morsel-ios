@@ -12,27 +12,15 @@
 
 #import "MRSLUserFollowTableViewCell.h"
 #import "MRSLProfileViewController.h"
+#import "MRSLTableView.h"
+#import "MRSLTableViewDataSource.h"
 
 #import "MRSLUser.h"
 
-#import "MRSLTableView.h"
-
 @interface MRSLUserFollowListViewController ()
-<UITableViewDataSource,
-UITableViewDelegate,
-NSFetchedResultsControllerDelegate>
+<MRSLTableViewDataSourceDelegate>
 
-@property (nonatomic, getter = isLoading) BOOL loading;
-@property (nonatomic) BOOL loadingMore;
-@property (nonatomic) BOOL loadedAll;
-
-@property (weak, nonatomic) IBOutlet MRSLTableView *tableView;
-
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
-@property (strong, nonatomic) NSArray *users;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) NSMutableArray *userIDs;
 
 @end
 
@@ -43,21 +31,33 @@ NSFetchedResultsControllerDelegate>
 
     if (!_user) self.user = [MRSLUser currentUser];
 
-    self.userIDs = [NSMutableArray array];
-
     self.title = _shouldDisplayFollowers ? @"Followers" : @"Following";
 
-    self.users = [NSMutableArray array];
-
-    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshContent)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.tableView addSubview:_refreshControl];
-    self.tableView.alwaysBounceVertical = YES;
-
     [self.tableView setEmptyStateTitle:_shouldDisplayFollowers ? @"No followers yet." : @"Not following anyone."];
+
+    __weak __typeof(self) weakSelf = self;
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.shouldDisplayFollowers) {
+            [_appDelegate.apiService getUserFollowers:strongSelf.user
+                                                 page:page
+                                                count:nil
+                                              success:^(NSArray *responseArray) {
+                                                  remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                              } failure:^(NSError *error) {
+                                                  remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                              }];
+        } else {
+            [_appDelegate.apiService getUserFollowables:strongSelf.user
+                                                   page:page
+                                                  count:nil
+                                                success:^(NSArray *responseArray) {
+                                                    remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                                } failure:^(NSError *error) {
+                                                    remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                                }];
+        }
+    };
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,193 +70,48 @@ NSFetchedResultsControllerDelegate>
     }
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    if (self.fetchedResultsController) return;
-    [self setupFetchRequest];
-    [self populateContent];
-    [self refreshContent];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    _fetchedResultsController.delegate = nil;
-    _fetchedResultsController = nil;
-    [super viewWillDisappear:animated];
-}
-
 #pragma mark - Private Methods
 
-- (void)setLoading:(BOOL)loading {
-    _loading = loading;
-
-    [self.tableView toggleLoading:loading];
+- (NSString *)objectIDsKey {
+    return [NSString stringWithFormat:@"%@_%@_userIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"];
 }
 
-- (void)setupFetchRequest {
-    self.fetchedResultsController = [MRSLUser MR_fetchAllSortedBy:@"dateFollowed"
-                                                        ascending:NO
-                                                    withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", _userIDs]
-                                                          groupBy:nil
-                                                         delegate:self
-                                                        inContext:[NSManagedObjectContext MR_defaultContext]];
+- (NSFetchedResultsController *)defaultFetchedResultsController {
+    return  [MRSLUser MR_fetchAllSortedBy:@"dateFollowed"
+                                ascending:NO
+                            withPredicate:[NSPredicate predicateWithFormat:@"userID IN %@", self.objectIDs]
+                                  groupBy:nil
+                                 delegate:self
+                                inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
-- (void)populateContent {
-    NSError *fetchError = nil;
-    [_fetchedResultsController performFetch:&fetchError];
-    self.users = [_fetchedResultsController fetchedObjects];
-    [self.tableView reloadData];
+- (MRSLDataSource *)dataSource {
+    MRSLDataSource *superDataSource = [super dataSource];
+    if (superDataSource) return superDataSource;
+    MRSLDataSource *newDataSource = [[MRSLTableViewDataSource alloc] initWithObjects:nil
+                                                                  configureCellBlock:^UITableViewCell *(id item, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
+                                                                      MRSLUser *user = item;
+                                                                      MRSLUserFollowTableViewCell *userCell = [self.tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDUserFollowCellKey];
+                                                                      userCell.user = user;
+                                                                      userCell.pipeView.hidden = (indexPath.row == count - 1);
+                                                                      return userCell;
+                                                                  }];
+    [self setDataSource:newDataSource];
+    return newDataSource;
 }
 
-- (void)refreshContent {
-    if (_loading) return;
-    self.loadedAll = NO;
-    self.loading = YES;
-    self.fetchedResultsController.delegate = nil;
-    __weak __typeof(self)weakSelf = self;
-    if (_shouldDisplayFollowers) {
-        [_appDelegate.apiService getUserFollowers:_user
-                                        withMaxID:nil
-                                        orSinceID:nil
-                                         andCount:nil
-                                          success:^(NSArray *responseArray) {
-                                              [weakSelf.refreshControl endRefreshing];
-                                              weakSelf.userIDs = [responseArray mutableCopy];
-                                              [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
-                                                                                        forKey:[NSString stringWithFormat:@"%@_%@_userIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
-                                              [weakSelf setupFetchRequest];
-                                              [weakSelf populateContent];
-                                              weakSelf.loading = NO;
-                                          } failure:^(NSError *error) {
-                                              [weakSelf.refreshControl endRefreshing];
-                                              weakSelf.loading = NO;
-                                          }];
-    } else {
-        [_appDelegate.apiService getUserFollowables:_user
-                                          withMaxID:nil
-                                          orSinceID:nil
-                                           andCount:nil
-                                            success:^(NSArray *responseArray) {
-                                                [weakSelf.refreshControl endRefreshing];
-                                                weakSelf.userIDs = [responseArray mutableCopy];
-                                                [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
-                                                                                          forKey:[NSString stringWithFormat:@"%@_%@_userIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
-                                                [weakSelf setupFetchRequest];
-                                                [weakSelf populateContent];
-                                                weakSelf.loading = NO;
-                                            } failure:^(NSError *error) {
-                                                [weakSelf.refreshControl endRefreshing];
-                                                weakSelf.loading = NO;
-                                            }];
-    }
-}
+#pragma mark - MRSLTableViewDataSource Delegate
 
-- (void)loadMore {
-    if (_loadingMore || !_user || _loadedAll || [self isLoading]) return;
-    self.fetchedResultsController.delegate = nil;
-    self.loadingMore = YES;
-    DDLogDebug(@"Loading more");
-    MRSLUser *lastUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
-                                                 withValue:[_userIDs lastObject]];
-    __weak __typeof (self) weakSelf = self;
-    if (_shouldDisplayFollowers) {
-        [_appDelegate.apiService getUserFollowers:_user
-                                        withMaxID:@([lastUser userIDValue] - 1)
-                                        orSinceID:nil
-                                         andCount:@(12)
-                                          success:^(NSArray *responseArray) {
-                                              if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                              DDLogDebug(@"%lu objects added", (unsigned long)[responseArray count]);
-                                              if (weakSelf) {
-                                                  if ([responseArray count] > 0) {
-                                                      [weakSelf.userIDs addObjectsFromArray:responseArray];
-                                                      [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
-                                                                                                forKey:[NSString stringWithFormat:@"%@_%@_userIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
-                                                      [weakSelf setupFetchRequest];
-                                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                                          [weakSelf populateContent];
-                                                      });
-                                                  }
-                                                  weakSelf.loadingMore = NO;
-                                              }
-                                          } failure:^(NSError *error) {
-                                              if (weakSelf) weakSelf.loadingMore = NO;
-                                          }];
-    } else {
-        [_appDelegate.apiService getUserFollowables:_user
-                                          withMaxID:@([lastUser userIDValue] - 1)
-                                          orSinceID:nil
-                                           andCount:@(12)
-                                            success:^(NSArray *responseArray) {
-                                                if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                                DDLogDebug(@"%lu objects added", (unsigned long)[responseArray count]);
-                                                if (weakSelf) {
-                                                    if ([responseArray count] > 0) {
-                                                        [weakSelf.userIDs addObjectsFromArray:responseArray];
-                                                        [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.userIDs copy]
-                                                                                                  forKey:[NSString stringWithFormat:@"%@_%@_userIDs", _user.username, _shouldDisplayFollowers ? @"followers" : @"following"]];
-                                                        [weakSelf setupFetchRequest];
-                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                            [weakSelf populateContent];
-                                                        });
-                                                    }
-                                                    weakSelf.loadingMore = NO;
-                                                }
-                                            } failure:^(NSError *error) {
-                                                if (weakSelf) weakSelf.loadingMore = NO;
-                                            }];
-    }
-}
-
-#pragma mark - UITableViewDataSource Methods
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_users count];
-}
-
-- (MRSLUserFollowTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLUser *user = [_users objectAtIndex:indexPath.row];
-    MRSLUserFollowTableViewCell *userCell = [self.tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDUserFollowCellKey];
-    userCell.user = user;
-    userCell.pipeView.hidden = (indexPath.row == [_users count] - 1);
-    return userCell;
-}
-
-#pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    MRSLUser *user = [_users objectAtIndex:indexPath.row];
+- (void)tableViewDataSource:(UITableView *)tableView didSelectItem:(id)item {
+    MRSLUser *user = item;
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
     profileVC.user = user;
     [self.navigationController pushViewController:profileVC
                                          animated:YES];
 }
 
-#pragma mark - NSFetchedResultsControllerDelegate Methods
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"NSFetchedResultsController detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
-    [self populateContent];
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat currentOffset = scrollView.contentOffset.y;
-    CGFloat maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
-    if (maximumOffset - currentOffset <= 10.f) {
-        [self loadMore];
-    }
-}
-
-#pragma mark - Dealloc
-
-- (void)reset {
-    [super reset];
-    self.tableView.dataSource = nil;
-    self.tableView.delegate = nil;
-    [self.tableView removeFromSuperview];
-    self.tableView = nil;
+- (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.f;
 }
 
 @end

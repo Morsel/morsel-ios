@@ -206,7 +206,7 @@ UITextFieldDelegate>
 - (void)resumeTimer {
     [self suspendTimer];
     if (!_searchTimer) {
-        self.searchTimer = [NSTimer timerWithTimeInterval:.1f
+        self.searchTimer = [NSTimer timerWithTimeInterval:MRSLSearchDelayDefault
                                                    target:self
                                                  selector:@selector(refreshContent)
                                                  userInfo:nil
@@ -323,17 +323,6 @@ UITextFieldDelegate>
             [self refreshContent];
         }
     }
-}
-
-
-#pragma mark - Dealloc
-
-- (void)reset {
-    [super reset];
-    self.tableView.dataSource = nil;
-    self.tableView.delegate = nil;
-    [self.tableView removeFromSuperview];
-    self.tableView = nil;
 }
 
 @end

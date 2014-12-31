@@ -7,7 +7,7 @@
         <!--Find Users-->
         <scene sceneID="lhz-GA-3ux">
             <objects>
-                <viewController storyboardIdentifier="sb_MRSLFindFriendsViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="FEW-fa-5ct" customClass="MRSLFindFriendsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sb_MRSLFindUsersViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="FEW-fa-5ct" customClass="MRSLFindUsersViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sjR-C7-boD"/>
                         <viewControllerLayoutGuide type="bottom" id="INY-P6-JT5"/>
@@ -330,7 +330,7 @@
         <!--Navigation Controller-->
         <scene sceneID="zba-Cv-Cmx">
             <objects>
-                <navigationController storyboardIdentifier="sb_FindFriends" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Hng-NZ-pHv" customClass="MRSLNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sb_FindUsers" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Hng-NZ-pHv" customClass="MRSLNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="SSj-OY-g9t">

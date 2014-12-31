@@ -16,26 +16,25 @@
 #import "MRSLCheckmarkTextTableViewCell.h"
 #import "MRSLPlacesAddViewController.h"
 #import "MRSLPrimaryLightLabel.h"
+#import "MRSLTableView.h"
+#import "MRSLTableViewDataSource.h"
 
 #import "MRSLMorsel.h"
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
 
+@interface MRSLBaseRemoteDataSourceViewController (Private)
+
+- (void)populateContent;
+
+@end
+
 @interface MRSLMorselEditPlaceViewController ()
-<NSFetchedResultsControllerDelegate,
-UIAlertViewDelegate,
-UITableViewDataSource,
-UITableViewDelegate>
+<MRSLTableViewDataSourceDelegate,
+UIAlertViewDelegate>
 
 @property (nonatomic) NSInteger selectedPlaceRow;
 @property (nonatomic) NSInteger originalPlaceRow;
-
-@property (weak, nonatomic) IBOutlet UITableView *placeTableView;
-
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSArray *places;
-@property (strong, nonatomic) NSMutableArray *placeIDs;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
 
@@ -45,32 +44,20 @@ UITableViewDelegate>
     [super viewDidLoad];
 
     self.mp_eventView = @"associate_place";
-    self.placeIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username]] ?: [NSMutableArray array];
 
-    self.places = [NSMutableArray array];
-
-    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshContent)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.placeTableView addSubview:_refreshControl];
-    self.placeTableView.alwaysBounceVertical = YES;
     self.selectedPlaceRow = -1;
     self.originalPlaceRow = -1;
-}
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self setupFetchRequest];
-    [self populateContent];
-    [self refreshContent];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    _fetchedResultsController.delegate = nil;
-    _fetchedResultsController = nil;
-    [super viewWillDisappear:animated];
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+        [_appDelegate.apiService getPlacesForUser:[MRSLUser currentUser]
+                                             page:page
+                                            count:nil
+                                          success:^(NSArray *responseArray) {
+                                              remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                          } failure:^(NSError *error) {
+                                              remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                          }];
+    };
 }
 
 #pragma mark - Action Methods
@@ -105,7 +92,7 @@ UITableViewDelegate>
                                                                        properties:@{@"_title": @"Save",
                                                                                     @"_view": self.mp_eventView,
                                                                                     @"place_selected": NSNullIfNil(_morsel.place.placeID),
-                                                                                    @"place_count": NSNullIfNil(@([_places count])),
+                                                                                    @"place_count": NSNullIfNil(@([weakSelf.dataSource count])),
                                                                                     @"morsel_id": NSNullIfNil(_morsel.morselID)}];
                                       }
                                   } failure:^(NSError *error) {
@@ -119,121 +106,100 @@ UITableViewDelegate>
 
 #pragma mark - Private Methods
 
+- (NSString *)objectIDsKey {
+    return [NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username];
+}
+
+- (NSFetchedResultsController *)defaultFetchedResultsController {
+    return  [MRSLPlace MR_fetchAllSortedBy:@"name"
+                                 ascending:YES
+                             withPredicate:[NSPredicate predicateWithFormat:@"placeID IN %@", self.objectIDs]
+                                   groupBy:nil
+                                  delegate:self
+                                 inContext:[NSManagedObjectContext MR_defaultContext]];
+}
+
+- (MRSLDataSource *)dataSource {
+    MRSLDataSource *superDataSource = [super dataSource];
+    if (superDataSource) return superDataSource;
+    MRSLDataSource *newDataSource = [[MRSLTableViewDataSource alloc] initWithObjects:nil configureCellBlock:^UITableViewCell *(id item, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
+        UITableViewCell *cell = nil;
+        if (indexPath.row > count - 1 || count == 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDCheckmarkCellKey];
+            [[(MRSLCheckmarkTextTableViewCell *)cell titleLabel] setText:@"None / Personal"];
+        } else {
+            MRSLPlace *place = item;
+            cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDPlaceCellKey];
+            [(MRSLPlaceCoverSelectTableViewCell *)cell setPlace:place];
+        }
+        return cell;
+    }];
+    [self setDataSource:newDataSource];
+    return newDataSource;
+}
+
 - (BOOL)isDirty {
     return self.originalPlaceRow != self.selectedPlaceRow;
 }
 
 - (void)updateMorsel {
-    if ([_places count] > 0 && _selectedPlaceRow >= 0 && _selectedPlaceRow < [_places count]) {
-        MRSLPlace *place = [_places objectAtIndex:_selectedPlaceRow];
+    if ([self.dataSource count] > 0 && _selectedPlaceRow >= 0 && _selectedPlaceRow < [self.dataSource count]) {
+        MRSLPlace *place = [self.dataSource objectAtIndexPath:[NSIndexPath indexPathForRow:_selectedPlaceRow inSection:0]];
         self.morsel.place = place;
     } else {
         self.morsel.place = nil;
     }
 }
 
-- (void)setupFetchRequest {
-    self.fetchedResultsController = [MRSLPlace MR_fetchAllSortedBy:@"name"
-                                                         ascending:YES
-                                                     withPredicate:[NSPredicate predicateWithFormat:@"placeID IN %@", _placeIDs]
-                                                           groupBy:nil
-                                                          delegate:self
-                                                         inContext:[NSManagedObjectContext MR_defaultContext]];
-}
-
 - (void)populateContent {
-    NSError *fetchError = nil;
-    [_fetchedResultsController performFetch:&fetchError];
-    self.places = [_fetchedResultsController fetchedObjects];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.placeTableView reloadData];
-    });
+    [super populateContent];
     if (self.morsel.place) {
-        NSInteger placeIndex = [self.places indexOfObject:self.morsel.place];
+        NSInteger placeIndex = [self.dataSource indexOfObject:self.morsel.place];
         self.selectedPlaceRow = placeIndex;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.placeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedPlaceRow inSection:0]
-                                             animated:YES
-                                       scrollPosition:UITableViewScrollPositionMiddle];
+            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedPlaceRow inSection:0]
+                                        animated:YES
+                                  scrollPosition:UITableViewScrollPositionMiddle];
         });
     } else {
-        if ([self.places count] > 0) {
-            self.selectedPlaceRow = [_places count];
+        if ([self.dataSource count] > 0) {
+            self.selectedPlaceRow = [self.dataSource count];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.placeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedPlaceRow inSection:0]
-                                                 animated:YES
-                                           scrollPosition:UITableViewScrollPositionNone];
+                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedPlaceRow inSection:0]
+                                            animated:YES
+                                      scrollPosition:UITableViewScrollPositionNone];
             });
         }
     }
     if (self.originalPlaceRow < 0) self.originalPlaceRow = _selectedPlaceRow;
 }
 
-- (void)refreshContent {
-    __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getPlacesForUser:[MRSLUser currentUser]
-                                    withMaxID:nil
-                                    orSinceID:nil
-                                     andCount:nil
-                                      success:^(NSArray *responseArray) {
-                                          [weakSelf.refreshControl endRefreshing];
-                                          weakSelf.placeIDs = [responseArray mutableCopy];
-                                          [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.placeIDs copy]
-                                                                                    forKey:[NSString stringWithFormat:@"%@_placeIDs", [MRSLUser currentUser].username]];
-                                          [weakSelf setupFetchRequest];
-                                          [weakSelf populateContent];
-                                      } failure:^(NSError *error) {
-                                          [weakSelf.refreshControl endRefreshing];
-                                      }];
-}
-
 #pragma mark - Segue Methods
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender {
     if ([segue.identifier isEqualToString:MRSLStoryboardSeguePublishShareMorselKey]) {
         MRSLMorselPublishShareViewController *publishShareVC = [segue destinationViewController];
         publishShareVC.morsel = _morsel;
     }
 }
 
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
+#pragma mark - MRSLTableViewDataSource Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return ([self.places count] == 0) ? 1 : [self.places count] + 1;
+    return ([self.dataSource count] == 0) ? 1 : [self.dataSource count] + 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    if (indexPath.row > [_places count] - 1 || [_places count] == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_CheckmarkCell"];
-        [[(MRSLCheckmarkTextTableViewCell *)cell titleLabel] setText:@"None / Personal"];
-    } else {
-        MRSLPlace *place = [_places objectAtIndex:indexPath.row];
-        cell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDPlaceCellKey];
-        [(MRSLPlaceCoverSelectTableViewCell *)cell setPlace:place];
-    }
-    return cell;
-}
-
-#pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ((indexPath.row > [_places count] - 1 && [_places count] > 0) || ([_places count] == 0)) {
+- (void)tableViewDataSource:(UITableView *)tableView didSelectItem:(id)item atIndexPath:(NSIndexPath *)indexPath {
+    if ((indexPath.row > [self.dataSource count] - 1 && [self.dataSource count] > 0) || ([self.dataSource count] == 0)) {
         self.selectedPlaceRow = -1;
     } else {
         _selectedPlaceRow = indexPath.row;
     }
 }
 
-#pragma mark - NSFetchedResultsControllerDelegate Methods
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Activity detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
-    [self populateContent];
+- (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.f;
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -242,16 +208,6 @@ UITableViewDelegate>
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Discard"]) {
         [super goBack];
     }
-}
-
-#pragma mark - Dealloc
-
-- (void)reset {
-    [super reset];
-    self.placeTableView.dataSource = nil;
-    self.placeTableView.delegate = nil;
-    [self.placeTableView removeFromSuperview];
-    self.placeTableView = nil;
 }
 
 @end

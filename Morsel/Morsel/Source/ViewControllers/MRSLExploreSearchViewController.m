@@ -11,7 +11,7 @@
 #import "MRSLAPIService+Search.h"
 
 #import "MRSLHashtagKeywordTableViewCell.h"
-#import "MRSLFindFriendsViewController.h"
+#import "MRSLFindUsersViewController.h"
 #import "MRSLMorselSearchResultsViewController.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLTableViewDataSource.h"
@@ -23,6 +23,12 @@
 
 #import "MRSLKeyword.h"
 #import "MRSLUser.h"
+
+@interface MRSLBaseRemoteDataSourceViewController (Private)
+
+- (void)populateContent;
+
+@end
 
 @interface MRSLExploreSearchViewController ()
 <MRSLTableViewDataSourceDelegate,
@@ -43,7 +49,6 @@ MRSLSegmentedButtonViewDelegate>
 - (void)viewDidLoad {
     self.emptyStateString = @"No results found.";
     [self setupRemoteRequestBlock];
-    [self dataSource];
 }
 
 - (void)setSearchQuery:(NSString *)searchQuery {
@@ -99,9 +104,9 @@ MRSLSegmentedButtonViewDelegate>
 - (void)resumeTimer {
     [self suspendTimer];
     if (!_searchTimer) {
-        self.searchTimer = [NSTimer timerWithTimeInterval:.1f
+        self.searchTimer = [NSTimer timerWithTimeInterval:MRSLSearchDelayDefault
                                                    target:self
-                                                 selector:@selector(refreshContent)
+                                                 selector:@selector(triggerSearch)
                                                  userInfo:nil
                                                   repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:_searchTimer
@@ -109,15 +114,19 @@ MRSLSegmentedButtonViewDelegate>
     }
 }
 
+- (void)triggerSearch {
+    [self setupRemoteRequestBlock];
+    [self refreshRemoteContent];
+}
+
 - (void)setupRemoteRequestBlock {
     __weak __typeof(self)weakSelf = self;
-    self.remoteRequestBlock = ^(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if ([strongSelf section] == 0) {
             [_appDelegate.apiService searchHashtagsWithQuery:strongSelf.searchQuery
-                                                       maxID:nil
-                                                   orSinceID:nil
-                                                    andCount:nil
+                                                        page:page
+                                                       count:nil
                                                      success:^(NSArray *responseArray) {
                                                          [strongSelf resetPredicateFromQuery];
                                                          remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
@@ -127,9 +136,8 @@ MRSLSegmentedButtonViewDelegate>
                                                      }];
         } else {
             [_appDelegate.apiService searchUsersWithQuery:strongSelf.searchQuery
-                                                    maxID:nil
-                                                orSinceID:nil
-                                                 andCount:nil
+                                                     page:page
+                                                    count:nil
                                                   success:^(NSArray *responseArray) {
                                                       [strongSelf resetPredicateFromQuery];
                                                       remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
@@ -210,8 +218,7 @@ MRSLSegmentedButtonViewDelegate>
     self.section = index;
 
     [self setupRemoteRequestBlock];
-    [self resetFetchedResultsController];
-    [self refreshContent];
+    [self refreshRemoteContent];
 }
 
 #pragma mark - UITableViewDataSource
@@ -260,7 +267,7 @@ MRSLSegmentedButtonViewDelegate>
         if (_section == 0) {
             [self displaySearch];
         } else {
-            MRSLFindFriendsViewController *findFriendsVC = [[UIStoryboard socialStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardFindFriendsViewControllerKey];
+            MRSLFindUsersViewController *findFriendsVC = [[UIStoryboard socialStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardFindUsersViewControllerKey];
             [self.navigationController pushViewController:findFriendsVC
                                                  animated:YES];
         }

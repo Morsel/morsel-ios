@@ -20,8 +20,7 @@
 
 @property (strong, nonatomic) NSString *objectIDsKey;
 @property (strong, nonatomic) NSArray *objectIDs;
-
-- (NSFetchedResultsController *)defaultFetchedResultsController;
+@property (copy, nonatomic) MRSLRemotePagedRequestBlock pagedRemoteRequestBlock;
 
 @end
 
@@ -30,7 +29,6 @@
 @property (strong, nonatomic) MRSLTableViewDataSource *dataSource;
 @property (strong, nonatomic) NSString *tappedItemEventName;
 @property (strong, nonatomic) NSString *tappedItemEventView;
-@property (copy, nonatomic) MRSLRemoteRequestBlock remoteRequestBlock;
 
 - (void)refreshContent;
 
@@ -43,16 +41,15 @@
     self.tappedItemEventName = @"Tapped Notification";
     self.tappedItemEventView = @"Notifications";
 
-    self.remoteRequestBlock = ^(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
         [_appDelegate.apiService getNotificationsForUser:[MRSLUser currentUser]
-                                                       maxID:maxID
-                                                   orSinceID:sinceID
-                                                    andCount:count
-                                                     success:^(NSArray *responseArray) {
-                                                         remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
-                                                     } failure:^(NSError *error) {
-                                                         remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
-                                                     }];
+                                                    page:page
+                                                   count:count
+                                                 success:^(NSArray *responseArray) {
+                                                     remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                                 } failure:^(NSError *error) {
+                                                     remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                                 }];
     };
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -76,11 +73,11 @@
 
 - (NSFetchedResultsController *)defaultFetchedResultsController {
     return [MRSLActivity MR_fetchAllSortedBy:@"notification.notificationID"
-                                       ascending:NO
-                                   withPredicate:[NSPredicate predicateWithFormat:@"notification.notificationID IN %@", self.objectIDs]
-                                         groupBy:nil
-                                        delegate:self
-                                       inContext:[NSManagedObjectContext MR_defaultContext]];
+                                   ascending:NO
+                               withPredicate:[NSPredicate predicateWithFormat:@"notification.notificationID IN %@", self.objectIDs]
+                                     groupBy:nil
+                                    delegate:self
+                                   inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
 - (NSString *)emptyStateTitle {

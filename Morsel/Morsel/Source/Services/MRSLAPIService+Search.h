@@ -15,25 +15,22 @@
 #pragma mark - Hashtags
 
 - (void)searchHashtagsWithQuery:(NSString *)query
-                          maxID:(NSNumber *)maxOrNil
-                      orSinceID:(NSNumber *)sinceOrNil
-                       andCount:(NSNumber *)countOrNil
+                           page:(NSNumber *)pageOrNil
+                          count:(NSNumber *)countOrNil
                         success:(MRSLAPIArrayBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil;
 
 #pragma mark - Morsels
 
 - (void)searchMorselsWithHashtagQuery:(NSString *)hashtagQuery
-                                maxID:(NSNumber *)maxOrNil
-                            orSinceID:(NSNumber *)sinceOrNil
-                             andCount:(NSNumber *)countOrNil
+                                 page:(NSNumber *)pageOrNil
+                                count:(NSNumber *)countOrNil
                               success:(MRSLAPIArrayBlock)successOrNil
                               failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)searchMorselsWithQuery:(NSString *)query
-                         maxID:(NSNumber *)maxOrNil
-                     orSinceID:(NSNumber *)sinceOrNil
-                      andCount:(NSNumber *)countOrNil
+                          page:(NSNumber *)pageOrNil
+                         count:(NSNumber *)countOrNil
                        success:(MRSLAPIArrayBlock)successOrNil
                        failure:(MRSLFailureBlock)failureOrNil;
 
@@ -48,9 +45,8 @@
 #pragma mark - Users
 
 - (void)searchUsersWithQuery:(NSString *)query
-                       maxID:(NSNumber *)maxOrNil
-                   orSinceID:(NSNumber *)sinceOrNil
-                    andCount:(NSNumber *)countOrNil
+                        page:(NSNumber *)pageOrNil
+                       count:(NSNumber *)countOrNil
                      success:(MRSLAPIArrayBlock)successOrNil
                      failure:(MRSLFailureBlock)failureOrNil;
 

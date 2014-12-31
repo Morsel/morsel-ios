@@ -51,7 +51,7 @@
 
 - (CGFloat)coverInformationHeight {
     CGFloat coverInfoHeight = 0.f;
-    
+
     NSMutableAttributedString *coverAttributedInfo = [self coverInformationFromProperties];
     if ([self hasTaggedUsers]) {
         NSMutableAttributedString *taggedAttributedString = [[NSMutableAttributedString alloc] initWithString:@"\n\nwith "
@@ -203,9 +203,8 @@
     if ([self hasTaggedUsers]) {
         __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService getTaggedUsersForMorsel:self
-                                               withMaxID:nil
-                                               orSinceID:nil
-                                                andCount:nil
+                                                    page:@(0)
+                                                   count:nil
                                                  success:^(NSArray *responseArray) {
                                                      if (weakSelf) {
                                                          NSMutableAttributedString *taggedAttributedString = [[NSMutableAttributedString alloc] initWithString:@"\n\nwith "
@@ -364,7 +363,7 @@
         NSString *publishString = data[@"published_at"];
         self.publishedDate = [_appDelegate.defaultDateFormatter dateFromString:publishString];
     }
-    
+
     if (![data[@"updated_at"] isEqual:[NSNull null]]) {
         NSString *updateString = data[@"updated_at"];
         self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];

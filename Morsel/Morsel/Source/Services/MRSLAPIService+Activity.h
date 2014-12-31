@@ -13,16 +13,14 @@
 #pragma mark - Activity Services
 
 - (void)getUserActivitiesForUser:(MRSLUser *)user
-                           maxID:(NSNumber *)maxOrNil
-                       orSinceID:(NSNumber *)sinceOrNil
-                        andCount:(NSNumber *)countOrNil
+                            page:(NSNumber *)pageOrNil
+                           count:(NSNumber *)countOrNil
                          success:(MRSLAPIArrayBlock)successOrNil
                          failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getFollowablesActivitiesForUser:(MRSLUser *)user
-                                  maxID:(NSNumber *)maxOrNil
-                              orSinceID:(NSNumber *)sinceOrNil
-                               andCount:(NSNumber *)countOrNil
+                                   page:(NSNumber *)pageOrNil
+                                  count:(NSNumber *)countOrNil
                                 success:(MRSLAPIArrayBlock)successOrNil
                                 failure:(MRSLFailureBlock)failureOrNil;
 

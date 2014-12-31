@@ -119,7 +119,7 @@ extern NSString *const MRSLStoryboardExploreKey;
 extern NSString *const MRSLStoryboardFeedKey;
 extern NSString *const MRSLStoryboardFeedPanelKey;
 extern NSString *const MRSLStoryboardFeedPanelViewControllerKey;
-extern NSString *const MRSLStoryboardFindFriendsKey;
+extern NSString *const MRSLStoryboardFindUsersKey;
 extern NSString *const MRSLStoryboardFollowingPeopleKey;
 extern NSString *const MRSLStoryboardImagePreviewViewControllerKey;
 extern NSString *const MRSLStoryboardKeywordUsersViewControllerKey;
@@ -154,7 +154,7 @@ extern NSString *const MRSLStoryboardTemplateInfoKey;
 extern NSString *const MRSLStoryboardOnboardingFeedKey;
 extern NSString *const MRSLStoryboardMorselSearchKey;
 extern NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey;
-extern NSString *const MRSLStoryboardFindFriendsViewControllerKey;
+extern NSString *const MRSLStoryboardFindUsersViewControllerKey;
 
 #pragma mark - Storyboard Segue Constants
 
@@ -225,6 +225,7 @@ extern NSString *const MRSLStoryboardRUIDMorselInfoCell;
 extern NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey;
 extern NSString *const MRSLStoryboardRUIDHashtagKeywordCellKey;
 extern NSString *const MRSLStoryboardRUIDIcontTextCellKey;
+extern NSString *const MRSLStoryboardRUIDCheckmarkCellKey;
 
 #pragma mark - Debugging Constants
 

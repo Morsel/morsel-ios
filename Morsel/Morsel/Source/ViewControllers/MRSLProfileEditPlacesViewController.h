@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLBaseViewController.h"
+#import "MRSLBaseRemoteDataSourceViewController.h"
 
 @protocol MRSLProfileEditPlacesViewControllerDelegate <NSObject>
 
@@ -16,10 +16,8 @@
 
 @end
 
-@interface MRSLProfileEditPlacesViewController : MRSLBaseViewController
+@interface MRSLProfileEditPlacesViewController : MRSLBaseRemoteDataSourceViewController
 
 @property (weak, nonatomic) id <MRSLProfileEditPlacesViewControllerDelegate> delegate;
-
-- (void)refreshContent;
 
 @end
