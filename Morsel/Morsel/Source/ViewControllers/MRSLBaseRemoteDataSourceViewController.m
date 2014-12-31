@@ -41,7 +41,9 @@ MRSLTableViewDataSourceDelegate>
 
     self.currentPage = @(1);
 
-    if ((self.dataSource) && !self.disablePagination && ![self isHorizontalLayout]) {
+    if (!self.paginationCount) self.paginationCount = @(MRSLPaginationCountDefault);
+
+    if ((self.dataSource) && !self.disableAutomaticPagination && ![self isHorizontalLayout]) {
         //  Pull to refresh
         self.refreshControl = [UIRefreshControl MRSL_refreshControl];
         [self.refreshControl addTarget:self
@@ -61,19 +63,19 @@ MRSLTableViewDataSourceDelegate>
     }
     if (self.objectIDsKey) self.objectIDs = [[NSUserDefaults standardUserDefaults] arrayForKey:self.objectIDsKey] ?: @[];
 
-    if ([self.objectIDs count] > MRSLPaginationCountDefault) {
-        self.objectIDs = [[self.objectIDs copy] subarrayWithRange:NSMakeRange(0, MRSLPaginationCountDefault)];
+    if ([self.objectIDs count] > [self.paginationCount intValue]) {
+        self.objectIDs = [[self.objectIDs copy] subarrayWithRange:NSMakeRange(0, [self.paginationCount intValue])];
     }
 
     if (self.tableView) {
         [self.tableView setScrollsToTop:YES];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        if (!self.disablePagination) self.tableView.alwaysBounceVertical = YES;
+        if (!self.disableAutomaticPagination) self.tableView.alwaysBounceVertical = YES;
 
         [self.tableView setEmptyStateTitle:self.emptyStateString ?: @"Nothing to display."];
     } else if (self.collectionView) {
         [self.collectionView setScrollsToTop:YES];
-        if (!self.disablePagination && ![self isHorizontalLayout]) self.collectionView.alwaysBounceVertical = YES;
+        if (!self.disableAutomaticPagination && ![self isHorizontalLayout]) self.collectionView.alwaysBounceVertical = YES;
 
         [self.collectionView setEmptyStateTitle:self.emptyStateString ?: @"Nothing to display."];
     }
@@ -92,7 +94,7 @@ MRSLTableViewDataSourceDelegate>
 
         if (([self.currentPage intValue] == 1) &&
             [self.objectIDs count] > 0) {
-            if (!self.disablePagination) {
+            if (!self.disableAutomaticPagination) {
                 [self.refreshControl beginRefreshing];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     if (self.collectionView) [self.collectionView setContentOffset:CGPointMake(0.f, MRSLDefaultRefreshControlPadding)
@@ -252,6 +254,7 @@ MRSLTableViewDataSourceDelegate>
         // Paged pagination
         if (!nextPage) self.currentPage = @(1);
         self.pagedRemoteRequestBlock(self.currentPage, nil, ^(NSArray *objectIDs, NSError *error) {
+            weakSelf.loadingMore = NO;
             [weakSelf completeRemoteRequestWithNextPage:nextPage
                                               objectIDs:objectIDs
                                                   error:error];
@@ -260,6 +263,7 @@ MRSLTableViewDataSourceDelegate>
     } else if (self.timelineRemoteRequestBlock) {
         // Timeline pagination
         self.timelineRemoteRequestBlock((nextPage ? [self maxID] : nil), (nextPage ? nil : [self sinceID]), nil, ^(NSArray *objectIDs, NSError *error) {
+            weakSelf.loadingMore = NO;
             [weakSelf completeRemoteRequestWithNextPage:nextPage
                                               objectIDs:objectIDs
                                                   error:error];
@@ -279,7 +283,7 @@ MRSLTableViewDataSourceDelegate>
                 [self prependObjectIDs:[objectIDs copy]];
         }
         // Reached final page since amount of objects returned was less than default of 20
-        if ([objectIDs count] < MRSLPaginationCountDefault) self.stopLoadingNextPage = YES;
+        if ([objectIDs count] < [self.paginationCount intValue]) self.stopLoadingNextPage = YES;
     } else if (nextPage && [objectIDs count] == 0) {
         //  Reached the end, stop loading nextPage
         self.stopLoadingNextPage = YES;
@@ -356,7 +360,7 @@ MRSLTableViewDataSourceDelegate>
 
 - (void)dataSourceDidScroll:(UIScrollView *)scrollView
                  withOffset:(CGFloat)offset {
-    if ([self.dataSource count] > 0 && ![self isLoading] && !self.disablePagination) {
+    if ([self.dataSource count] > 0 && ![self isLoading] && !self.disableAutomaticPagination) {
         BOOL isHorizontal = [self isHorizontalLayout];
         BOOL shouldLoadMore = NO;
         if (isHorizontal) {

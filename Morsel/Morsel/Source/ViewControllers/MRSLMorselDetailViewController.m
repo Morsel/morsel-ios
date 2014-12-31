@@ -74,7 +74,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)viewDidLoad {
     self.isPreview = (_morsel.publishedDate == nil);
-    self.disablePagination = YES;
+    self.disableAutomaticPagination = YES;
 
     [super viewDidLoad];
 
@@ -119,7 +119,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
         [self.dataSource updateObjects:@[self.morsel]];
     }
 
-    if (self.disablePagination) [self.collectionView setAlwaysBounceHorizontal:NO];
+    if (self.disableAutomaticPagination) [self.collectionView setAlwaysBounceHorizontal:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

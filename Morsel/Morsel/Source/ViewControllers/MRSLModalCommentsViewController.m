@@ -47,7 +47,8 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
 @implementation MRSLModalCommentsViewController
 
 - (void)viewDidLoad {
-    self.disablePagination = YES;
+    self.disableAutomaticPagination = YES;
+    self.paginationCount = @(6);
 
     [super viewDidLoad];
 
@@ -69,7 +70,7 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         [_appDelegate.apiService getComments:strongSelf.item
                                         page:page
-                                       count:nil
+                                       count:strongSelf.paginationCount
                                      success:^(NSArray *responseArray) {
                                          remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
                                          if ([page intValue] == 1) {

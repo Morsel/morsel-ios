@@ -13,8 +13,10 @@
 @interface MRSLBaseRemoteDataSourceViewController : MRSLBaseViewController
 <NSFetchedResultsControllerDelegate>
 
-@property (nonatomic) BOOL disablePagination;
+@property (nonatomic) BOOL disableAutomaticPagination;
 @property (nonatomic) BOOL loadingMore;
+
+@property (strong, nonatomic) NSNumber *paginationCount;
 
 @property (weak, nonatomic) IBOutlet MRSLTableView *tableView;
 @property (weak, nonatomic) IBOutlet MRSLCollectionView *collectionView;
