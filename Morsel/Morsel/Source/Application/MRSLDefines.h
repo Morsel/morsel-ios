@@ -97,6 +97,7 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
+static const CGFloat MRSLDefaultRefreshControlPadding = -60.f;
 static const CGFloat MRSLFeedRefreshDelayDefault = 60.f;
 static const CGFloat MRSLNotificationRefreshDelayDefault = 180.f;
 static const CGFloat MRSLSearchDelayDefault = .2f;

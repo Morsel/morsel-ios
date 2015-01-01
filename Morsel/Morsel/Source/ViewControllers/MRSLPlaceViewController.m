@@ -40,6 +40,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
 @property (nonatomic) MRSLDataSourceType dataSourceTabType;
 @property (nonatomic) MRSLDataSortType dataSortType;
 
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
 @property (weak, nonatomic) IBOutlet MRSLFollowButton *followButton;
 
 @end
@@ -79,6 +81,15 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                   }];
     } else {
         [self setupRemoteRequestBlock];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.collectionView deselectItemAtIndexPath:self.selectedIndexPath
+                                            animated:YES];
+        self.selectedIndexPath = nil;
     }
 }
 
@@ -131,10 +142,16 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                    } supplementaryBlock:^(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
                                                                                                        UICollectionReusableView *reusableView = nil;
                                                                                                        if (indexPath.section == 1) {
-                                                                                                           reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                             withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
-                                                                                                                                                                    forIndexPath:indexPath];
-                                                                                                           [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
+                                                                                                           if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                                 withReuseIdentifier:MRSLStoryboardRUIDLoadingCellKey
+                                                                                                                                                                        forIndexPath:indexPath];
+                                                                                                           } else {
+                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                                 withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
+                                                                                                                                                                        forIndexPath:indexPath];
+                                                                                                               [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
+                                                                                                           }
                                                                                                        } else {
                                                                                                            reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                                                                                                              withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
@@ -148,7 +165,9 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                        } else {
                                                                                                            return CGSizeZero;
                                                                                                        }
-                                                                                                   } sectionFooterSizeBlock:nil
+                                                                                                   } sectionFooterSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                                       return (weakSelf.loadingMore && section == 1) ? CGSizeMake([collectionView getWidth], 50.f) : CGSizeZero;
+                                                                                                   }
                                                                                                         cellSizeBlock:^(UICollectionView *collectionView, NSIndexPath *indexPath) {
                                                                                                             return [weakSelf configureSizeForCollectionView:collectionView
                                                                                                                                                 atIndexPath:indexPath];
@@ -266,7 +285,9 @@ MRSLSegmentedHeaderReusableViewDelegate>
 #pragma mark - MRSLCollectionViewDataSourceDelegate
 
 - (void)collectionViewDataSource:(UICollectionView *)collectionView
-                   didSelectItem:(id)item {
+        didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
+    id item = [self.dataSource objectAtIndexPath:indexPath];
     if ([item isKindOfClass:[MRSLMorsel class]]) {
         MRSLMorsel *morsel = item;
         MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
@@ -280,17 +301,14 @@ MRSLSegmentedHeaderReusableViewDelegate>
         profileVC.user = item;
         [self.navigationController pushViewController:profileVC
                                              animated:YES];
-    }
-}
-
-- (void)collectionViewDataSource:(UICollectionView *)collectionView
-        didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    if ([cell.reuseIdentifier isEqualToString:MRSLStoryboardRUIDEmptyCellKey] && _place.twitter_username) {
-        [[MRSLSocialService sharedService] shareTextToTwitter:[NSString stringWithFormat:@"Hey @%@ I’d love to see your food and drinks on @eatmorsel!", _place.twitter_username]
-                                             inViewController:self
-                                                      success:nil
-                                                       cancel:nil];
+    } else {
+        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+        if ([cell.reuseIdentifier isEqualToString:MRSLStoryboardRUIDEmptyCellKey] && _place.twitter_username) {
+            [[MRSLSocialService sharedService] shareTextToTwitter:[NSString stringWithFormat:@"Hey @%@ I’d love to see your food and drinks on @eatmorsel!", _place.twitter_username]
+                                                 inViewController:self
+                                                          success:nil
+                                                           cancel:nil];
+        }
     }
 }
 

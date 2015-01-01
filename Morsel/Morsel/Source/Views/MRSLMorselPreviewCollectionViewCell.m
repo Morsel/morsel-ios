@@ -78,6 +78,9 @@
             _itemImageView.item = [morsel coverItem];
         });
         _textView.attributedText = [_morsel thumbnailInformation];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            _textView.attributedText = [_morsel thumbnailInformation];
+        });
     }
 }
 

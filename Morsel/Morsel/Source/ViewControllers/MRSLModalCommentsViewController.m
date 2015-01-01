@@ -35,6 +35,8 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
 
 @property (nonatomic) BOOL previousCommentsAvailable;
 
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
 @property (weak, nonatomic) IBOutlet UIView *commentInputView;
 @property (weak, nonatomic) IBOutlet MRSLPlaceholderTextView *commentInputTextView;
 
@@ -45,7 +47,8 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
 @implementation MRSLModalCommentsViewController
 
 - (void)viewDidLoad {
-    self.disablePagination = YES;
+    self.disableAutomaticPagination = YES;
+    self.paginationCount = @(6);
 
     [super viewDidLoad];
 
@@ -67,16 +70,37 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         [_appDelegate.apiService getComments:strongSelf.item
                                         page:page
-                                       count:nil
+                                       count:strongSelf.paginationCount
                                      success:^(NSArray *responseArray) {
                                          remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                         if ([page intValue] == 1) {
+                                             [weakSelf scrollTableViewToBottom];
+                                         }
                                      } failure:^(NSError *error) {
                                          remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
                                      }];
     };
+    [self scrollTableViewToBottom];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.tableView deselectRowAtIndexPath:_selectedIndexPath
+                                      animated:YES];
+        self.selectedIndexPath = nil;
+    }
 }
 
 #pragma mark - Private Methods
+
+- (void)scrollTableViewToBottom {
+    if (self.tableView.contentSize.height > [self.tableView getHeight]) {
+        CGPoint bottomOffset = CGPointMake(0, self.tableView.contentSize.height - self.tableView.bounds.size.height);
+        [self.tableView setContentOffset:bottomOffset
+                                animated:NO];
+    }
+}
 
 - (NSString *)objectIDsKey {
     return [NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue];
@@ -144,13 +168,7 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
                                                                weakSelf.objectIDs = [weakSelf.objectIDs arrayByAddingObject:[(MRSLComment *)responseObject commentID]];
                                                                [weakSelf.dataSource addObject:responseObject];
                                                                [weakSelf refreshLocalContent];
-                                                               if (weakSelf.tableView.contentSize.height > [weakSelf.tableView getHeight]) {
-                                                                   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                                       CGPoint bottomOffset = CGPointMake(0, weakSelf.tableView.contentSize.height - weakSelf.tableView.bounds.size.height);
-                                                                       [weakSelf.tableView setContentOffset:bottomOffset
-                                                                                                   animated:YES];
-                                                                   });
-                                                               }
+                                                               [weakSelf scrollTableViewToBottom];
                                                            }
                                                        } failure:nil];
             _commentInputTextView.text = nil;
@@ -208,7 +226,10 @@ static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
     return defaultCellSize;
 }
 
-- (void)tableViewDataSource:(UITableView *)tableView didSelectItem:(id)item atIndexPath:(NSIndexPath *)indexPath {
+- (void)tableViewDataSource:(UITableView *)tableView
+              didSelectItem:(id)item
+                atIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
     if (_previousCommentsAvailable && indexPath.row == 0) {
         if (self.loadingMore) return;
         [super loadNextPage];

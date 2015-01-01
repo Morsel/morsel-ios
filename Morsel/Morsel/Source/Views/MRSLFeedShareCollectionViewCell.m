@@ -122,6 +122,10 @@
     } else if ([[URL scheme] isEqualToString:@"next"]) {
         [self displayNextMorsel:nil];
         return NO;
+    } else if ([[URL scheme] rangeOfString:@"http"].location != NSNotFound) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Loading...",
+                                                                                                                       @"url": URL}];
+        return NO;
     }
     return YES;
 }

@@ -192,6 +192,10 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
                                                             object:searchResultsNC];
         return NO;
+    } else if ([[URL scheme] rangeOfString:@"http"].location != NSNotFound) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Loading...",
+                                                                                                                       @"url": URL}];
+        return NO;
     }
     return YES;
 }
