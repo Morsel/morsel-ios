@@ -142,10 +142,16 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                    } supplementaryBlock:^(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
                                                                                                        UICollectionReusableView *reusableView = nil;
                                                                                                        if (indexPath.section == 1) {
-                                                                                                           reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                             withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
-                                                                                                                                                                    forIndexPath:indexPath];
-                                                                                                           [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
+                                                                                                           if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                                 withReuseIdentifier:MRSLStoryboardRUIDLoadingCellKey
+                                                                                                                                                                        forIndexPath:indexPath];
+                                                                                                           } else {
+                                                                                                               reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                                 withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
+                                                                                                                                                                        forIndexPath:indexPath];
+                                                                                                               [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
+                                                                                                           }
                                                                                                        } else {
                                                                                                            reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                                                                                                              withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
@@ -159,7 +165,9 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                                                                                        } else {
                                                                                                            return CGSizeZero;
                                                                                                        }
-                                                                                                   } sectionFooterSizeBlock:nil
+                                                                                                   } sectionFooterSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                                       return (weakSelf.loadingMore && section == 1) ? CGSizeMake([collectionView getWidth], 50.f) : CGSizeZero;
+                                                                                                   }
                                                                                                         cellSizeBlock:^(UICollectionView *collectionView, NSIndexPath *indexPath) {
                                                                                                             return [weakSelf configureSizeForCollectionView:collectionView
                                                                                                                                                 atIndexPath:indexPath];
@@ -277,7 +285,7 @@ MRSLSegmentedHeaderReusableViewDelegate>
 #pragma mark - MRSLCollectionViewDataSourceDelegate
 
 - (void)collectionViewDataSource:(UICollectionView *)collectionView
-                   didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+        didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedIndexPath = indexPath;
     id item = [self.dataSource objectAtIndexPath:indexPath];
     if ([item isKindOfClass:[MRSLMorsel class]]) {

@@ -47,7 +47,7 @@
 
     self.title = @"Morsel summary";
     self.nextBarButtonItem.title = _morsel.publishedDate ? @"Save" : (self.summaryTextView.text.length > 0) ? @"Next" : @"Skip";
-    self.optionalLabel.text = @"Pro Tip:\nIncluding #hashtags can help your content get discovered more easily.";
+    self.optionalLabel.text = @"Pro Tip:\nInclude #hashtags to help others discover your content.";
 }
 
 - (void)viewDidAppear:(BOOL)animated {

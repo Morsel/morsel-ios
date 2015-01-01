@@ -177,11 +177,17 @@ MRSLStateViewDelegate>
                                                                                      supplementaryBlock:^UICollectionReusableView *(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
                                                                                          UICollectionReusableView *reusableView = nil;
                                                                                          if (indexPath.section == 1) {
-                                                                                             reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                               withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
-                                                                                                                                                      forIndexPath:indexPath];
+                                                                                             if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+                                                                                                 reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                   withReuseIdentifier:MRSLStoryboardRUIDLoadingCellKey
+                                                                                                                                                          forIndexPath:indexPath];
+                                                                                             } else {
+                                                                                                 reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                   withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
+                                                                                                                                                          forIndexPath:indexPath];
 
-                                                                                             [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
+                                                                                                 [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
+                                                                                             }
                                                                                          } else {
                                                                                              reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                                                                                                withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
@@ -197,10 +203,13 @@ MRSLStateViewDelegate>
                                                                                          return CGSizeZero;
                                                                                      }
                                                                                  }
-                                                                                 sectionFooterSizeBlock:nil cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
-                                                                                     return [weakSelf configureSizeForCollectionView:collectionView
-                                                                                                                         atIndexPath:indexPath];
+                                                                                 sectionFooterSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                     return (weakSelf.loadingMore && section == 1) ? CGSizeMake([collectionView getWidth], 50.f) : CGSizeZero;
                                                                                  }
+                                                                                          cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
+                                                                                              return [weakSelf configureSizeForCollectionView:collectionView
+                                                                                                                                  atIndexPath:indexPath];
+                                                                                          }
                                                                                      sectionInsetConfig:^UIEdgeInsets(UICollectionView *collectionView, NSInteger section) {
                                                                                          if (section != 0) {
                                                                                              return UIEdgeInsetsMake(0.f, 0.f, 10.f, 0.f);
