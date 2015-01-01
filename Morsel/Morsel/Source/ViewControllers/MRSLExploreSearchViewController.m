@@ -47,7 +47,7 @@ MRSLSegmentedButtonViewDelegate>
 #pragma mark - Instance Methods
 
 - (void)viewDidLoad {
-    self.emptyStateString = @"No results found.";
+    self.emptyStateString = @"";
     [self setupRemoteRequestBlock];
 }
 
@@ -217,6 +217,7 @@ MRSLSegmentedButtonViewDelegate>
 - (void)segmentedButtonViewDidSelectIndex:(NSInteger)index {
     self.section = index;
 
+    self.emptyStateString = (index == 0) ? @"" : @"No results found.";
     [self setupRemoteRequestBlock];
     [self refreshRemoteContent];
 }
