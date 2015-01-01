@@ -40,6 +40,8 @@ MRSLSegmentedHeaderReusableViewDelegate>
 @property (nonatomic) MRSLDataSourceType dataSourceTabType;
 @property (nonatomic) MRSLDataSortType dataSortType;
 
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
 @property (weak, nonatomic) IBOutlet MRSLFollowButton *followButton;
 
 @end
@@ -79,6 +81,15 @@ MRSLSegmentedHeaderReusableViewDelegate>
                                   }];
     } else {
         [self setupRemoteRequestBlock];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.collectionView deselectItemAtIndexPath:self.selectedIndexPath
+                                            animated:YES];
+        self.selectedIndexPath = nil;
     }
 }
 
@@ -266,7 +277,9 @@ MRSLSegmentedHeaderReusableViewDelegate>
 #pragma mark - MRSLCollectionViewDataSourceDelegate
 
 - (void)collectionViewDataSource:(UICollectionView *)collectionView
-                   didSelectItem:(id)item {
+                   didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
+    id item = [self.dataSource objectAtIndexPath:indexPath];
     if ([item isKindOfClass:[MRSLMorsel class]]) {
         MRSLMorsel *morsel = item;
         MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
@@ -280,17 +293,14 @@ MRSLSegmentedHeaderReusableViewDelegate>
         profileVC.user = item;
         [self.navigationController pushViewController:profileVC
                                              animated:YES];
-    }
-}
-
-- (void)collectionViewDataSource:(UICollectionView *)collectionView
-        didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    if ([cell.reuseIdentifier isEqualToString:MRSLStoryboardRUIDEmptyCellKey] && _place.twitter_username) {
-        [[MRSLSocialService sharedService] shareTextToTwitter:[NSString stringWithFormat:@"Hey @%@ I’d love to see your food and drinks on @eatmorsel!", _place.twitter_username]
-                                             inViewController:self
-                                                      success:nil
-                                                       cancel:nil];
+    } else {
+        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+        if ([cell.reuseIdentifier isEqualToString:MRSLStoryboardRUIDEmptyCellKey] && _place.twitter_username) {
+            [[MRSLSocialService sharedService] shareTextToTwitter:[NSString stringWithFormat:@"Hey @%@ I’d love to see your food and drinks on @eatmorsel!", _place.twitter_username]
+                                                 inViewController:self
+                                                          success:nil
+                                                           cancel:nil];
+        }
     }
 }
 

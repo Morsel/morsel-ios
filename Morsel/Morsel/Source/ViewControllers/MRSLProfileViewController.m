@@ -51,6 +51,8 @@ MRSLStateViewDelegate>
 @property (nonatomic) BOOL queuedToDisplayFollowers;
 @property (nonatomic) BOOL dataAscending;
 
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
 @property (nonatomic) MRSLDataSourceType dataSourceTabType;
 @property (nonatomic) MRSLDataSortType dataSortType;
 
@@ -110,6 +112,15 @@ MRSLStateViewDelegate>
         self.shouldShowFollowers = YES;
         [self performSegueWithIdentifier:MRSLStoryboardSegueFollowListKey
                                   sender:nil];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.collectionView deselectItemAtIndexPath:self.selectedIndexPath
+                                            animated:YES];
+        self.selectedIndexPath = nil;
     }
 }
 
@@ -358,7 +369,9 @@ MRSLStateViewDelegate>
 
 #pragma mark - MRSLCollectionViewDataSourceDelegate
 
-- (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItem:(id)item {
+- (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    id item = [self.dataSource objectAtIndexPath:indexPath];
+    self.selectedIndexPath = indexPath;
     if ([item isKindOfClass:[MRSLMorsel class]]) {
         MRSLMorsel *morsel = item;
         MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
