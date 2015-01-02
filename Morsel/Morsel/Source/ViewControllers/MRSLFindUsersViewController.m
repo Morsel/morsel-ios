@@ -37,12 +37,14 @@ MRSLTableViewDataSourceDelegate>
 
 @property (nonatomic) NSInteger friendSection;
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 @property (strong, nonatomic) NSString *socialProvider;
 @property (strong, nonatomic) NSString *socialFriendUIDs;
 
 @property (strong, nonatomic) NSTimer *searchTimer;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -57,6 +59,15 @@ MRSLTableViewDataSourceDelegate>
     [self.tableView setEmptyStateTitle:@"No users found."];
 
     [self setupRemoteRequest];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.tableView deselectRowAtIndexPath:self.selectedIndexPath
+                                      animated:YES];
+        self.selectedIndexPath = nil;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -253,7 +264,9 @@ MRSLTableViewDataSourceDelegate>
 }
 
 - (void)tableViewDataSource:(UITableView *)tableView
-              didSelectItem:(id)item {
+              didSelectItem:(id)item
+                atIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
     MRSLUser *user = item;
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
     profileVC.user = user;
