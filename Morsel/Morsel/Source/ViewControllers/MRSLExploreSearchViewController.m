@@ -98,7 +98,8 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 - (NSString *)objectIDsKey {
-    return [NSString stringWithFormat:@"%li_explore_%@IDs", (long)_section, (_section == 0) ? @"morsel" : @"user"];
+    NSString *nonWhitespaceSearchQuery = ([self.searchQuery length] > 0) ? [self.searchQuery stringByReplacingOccurrencesOfString:@" " withString:@"_"] : @"empty";
+    return [NSString stringWithFormat:@"%li_explore_%@IDs_forQuery_%@", (long)_section, (_section == 0) ? @"morsel" : @"user", nonWhitespaceSearchQuery];
 }
 
 - (void)displaySearch {

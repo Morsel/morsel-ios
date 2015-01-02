@@ -82,7 +82,8 @@ MRSLTableViewDataSourceDelegate>
 }
 
 - (NSString *)objectIDsKey {
-    return [NSString stringWithFormat:@"%li_findusers_%@_userIDs", (long)_friendSection, ([self shouldShowSuggestedPeople] ? @"suggested" : @"all")];
+    NSString *nonWhitespaceSearchQuery = ([self.searchBar.text length] > 0) ? [self.searchBar.text stringByReplacingOccurrencesOfString:@" " withString:@"_"] : @"empty";
+    return [NSString stringWithFormat:@"%li_findusers_%@_userIDs_forQuery_%@", (long)_friendSection, ([self shouldShowSuggestedPeople] ? @"suggested" : @"all"), nonWhitespaceSearchQuery];
 }
 
 - (MRSLDataSource *)dataSource {

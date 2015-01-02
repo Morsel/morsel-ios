@@ -69,7 +69,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (NSString *)objectIDsKey {
-    return [NSString stringWithFormat:@"%@detail_morselIDs", _user.username ? [NSString stringWithFormat:@"%@_", _user.username] :@""];
+    return [NSString stringWithFormat:@"%@detail_morselID_%i", _user.username ? [NSString stringWithFormat:@"%@_", _user.username] :@"", self.morsel.morselIDValue];
 }
 
 - (void)viewDidLoad {
@@ -114,10 +114,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
     } else {
         [self setupRemoteRequestBlock];
     }
+    /*
     if (self.morsel) {
         self.objectIDs = @[self.morsel.morselID];
         [self.dataSource updateObjects:@[self.morsel]];
-    }
+    }*/
 
     if (self.disableAutomaticPagination) [self.collectionView setAlwaysBounceHorizontal:NO];
 }
