@@ -237,6 +237,15 @@ MRSLMorselEditItemTableViewCellDelegate>
 
 #pragma mark - Action Methods
 
+- (void)goBack {
+    UIViewController *secondToLastVC = [[self.navigationController viewControllers] objectAtIndex:[[self.navigationController viewControllers] count] - 2];
+    if ([secondToLastVC isKindOfClass:[MRSLTemplateInfoViewController class]]) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [super goBack];
+    }
+}
+
 - (void)displayPublishMorsel {
     self.morsel = [self getOrLoadMorselIfExists];
     self.navigationItem.rightBarButtonItem.enabled = NO;
