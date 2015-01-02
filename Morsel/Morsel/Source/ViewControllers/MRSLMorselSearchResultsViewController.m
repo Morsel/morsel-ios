@@ -59,7 +59,8 @@
 }
 
 - (NSString *)objectIDsKey {
-    return [NSString stringWithFormat:@"morsel_%@_IDs", (self.searchString) ? @"search" : @"hashtag_search"];
+    NSString *nonWhitespaceSearchString = (self.searchString) ? [self.searchString stringByReplacingOccurrencesOfString:@" " withString:@"_"] : [self.hashtagString stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    return [NSString stringWithFormat:@"morsel_%@_IDs_forQuery_%@", (self.searchString) ? @"search" : @"hashtag_search", nonWhitespaceSearchString];
 }
 
 - (NSFetchedResultsController *)defaultFetchedResultsController {
@@ -91,7 +92,8 @@
                                                                                          }
                                                                                          return nil;
                                                                                      }
-                                                                                 sectionHeaderSizeBlock:nil sectionFooterSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                 sectionHeaderSizeBlock:nil
+                                                                                 sectionFooterSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
                                                                                      return weakSelf.loadingMore ? CGSizeMake([collectionView getWidth], 50.f) : CGSizeZero;
                                                                                  }
                                                                                           cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
