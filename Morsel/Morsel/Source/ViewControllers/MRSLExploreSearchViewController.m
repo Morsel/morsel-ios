@@ -36,6 +36,8 @@ MRSLSegmentedButtonViewDelegate>
 
 @property (nonatomic) NSInteger section;
 
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
 @property (weak, nonatomic) IBOutlet MRSLSegmentedButtonView *segmentedButtonView;
 
 @property (strong, nonatomic) NSTimer *searchTimer;
@@ -47,14 +49,34 @@ MRSLSegmentedButtonViewDelegate>
 #pragma mark - Instance Methods
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     self.emptyStateString = @"";
     [self setupRemoteRequestBlock];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.tableView deselectRowAtIndexPath:self.selectedIndexPath
+                                      animated:YES];
+        self.selectedIndexPath = nil;
+    }
+}
+
+- (void)commenceSearch {
+    if (_section == 0 && _searchQuery.length > 0)  {
+        [self displaySearch];
+    }
+}
+
+#pragma mark - Set Methods
 
 - (void)setSearchQuery:(NSString *)searchQuery {
     _searchQuery = searchQuery;
     [self resumeTimer];
 }
+
+#pragma mark - Private Methods
 
 - (void)resetPredicateFromQuery {
     NSPredicate *predicate = [self predicateForSectionAndQuery];
@@ -76,13 +98,8 @@ MRSLSegmentedButtonViewDelegate>
 }
 
 - (NSString *)objectIDsKey {
-    return [NSString stringWithFormat:@"%li_explore_%@IDs", (long)_section, (_section == 0) ? @"morsel" : @"user"];
-}
-
-- (void)commenceSearch {
-    if (_section == 0 && _searchQuery.length > 0)  {
-        [self displaySearch];
-    }
+    NSString *nonWhitespaceSearchQuery = ([self.searchQuery length] > 0) ? [self.searchQuery stringByReplacingOccurrencesOfString:@" " withString:@"_"] : @"empty";
+    return [NSString stringWithFormat:@"%li_explore_%@IDs_forQuery_%@", (long)_section, (_section == 0) ? @"morsel" : @"user", nonWhitespaceSearchQuery];
 }
 
 - (void)displaySearch {
@@ -91,8 +108,6 @@ MRSLSegmentedButtonViewDelegate>
     [self.navigationController pushViewController:searchVC
                                          animated:YES];
 }
-
-#pragma mark - Private Methods
 
 - (void)suspendTimer {
     if (_searchTimer) {
@@ -264,6 +279,7 @@ MRSLSegmentedButtonViewDelegate>
 - (void)tableViewDataSource:(UITableView *)tableView
               didSelectItem:(id)item
                 atIndexPath:(NSIndexPath *)indexPath{
+    self.selectedIndexPath = indexPath;
     if ([self iconTextCellFoundForIndexPath:indexPath]) {
         if (_section == 0) {
             [self displaySearch];

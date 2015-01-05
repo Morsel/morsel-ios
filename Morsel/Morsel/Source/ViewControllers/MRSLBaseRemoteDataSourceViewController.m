@@ -91,6 +91,7 @@ MRSLTableViewDataSourceDelegate>
 
     if ((self.dataSource) && !_fetchedResultsController && !self.refreshedOnInitialLoad) {
         [self populateContent];
+        [self refreshContent];
 
         if (([self.currentPage intValue] == 1) &&
             [self.objectIDs count] > 0) {
@@ -104,8 +105,6 @@ MRSLTableViewDataSourceDelegate>
                 });
             }
         }
-
-        [self refreshContent];
     }
     self.refreshedOnInitialLoad = YES;
 }
@@ -249,6 +248,7 @@ MRSLTableViewDataSourceDelegate>
 
     self.loading = YES;
     self.loadingMore = nextPage;
+    if (self.collectionView && self.loadingMore) [[self.collectionView collectionViewLayout] invalidateLayout];
     __weak typeof(self) weakSelf = self;
     if (self.pagedRemoteRequestBlock) {
         // Paged pagination

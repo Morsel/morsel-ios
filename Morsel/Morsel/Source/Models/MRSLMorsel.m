@@ -24,7 +24,7 @@
 
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
-    objectInfoJSON[@"title"] = NSNullIfNil(self.title);
+    objectInfoJSON[@"title"] = NSNullIfNil((([self.title length] > 0) ? self.title : nil));
     objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
     objectInfoJSON[@"summary"] = NSNullIfNil((([self.summary length] > 0) ? self.summary : nil));
     if (self.template_id) objectInfoJSON[@"template_id"] = NSNullIfNil(self.template_id);

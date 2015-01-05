@@ -33,8 +33,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.allowObserversToRemain = YES;
     self.mp_eventView = @"drafts";
-
     self.title = @"Drafts";
 
     [self.tableView setEmptyStateTitle:@"None yet. Create a new morsel below."];
@@ -54,6 +54,15 @@
                                                remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
                                            }];
     };
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselCreated)
+                                                 name:MRSLUserDidCreateMorselNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(morselDeleted:)
+                                                 name:MRSLUserDidDeleteMorselNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -62,6 +71,7 @@
         [self.tableView deselectRowAtIndexPath:_selectedIndexPath
                                       animated:YES];
         self.selectedIndexPath = nil;
+        [self refreshLocalContent];
     }
 }
 
@@ -91,6 +101,16 @@
                                                                   }];
     [self setDataSource:newDataSource];
     return newDataSource;
+}
+
+#pragma mark - Notification Methods
+
+- (void)morselCreated {
+    [self refreshRemoteContent];
+}
+
+- (void)morselDeleted:(NSNotification *)notification {
+    [self refreshLocalContent];
 }
 
 #pragma mark - MRSLTableViewDataSource Methods

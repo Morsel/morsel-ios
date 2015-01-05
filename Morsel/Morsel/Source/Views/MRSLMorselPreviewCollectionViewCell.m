@@ -23,7 +23,7 @@
 
 @implementation MRSLMorselPreviewCollectionViewCell
 
-#pragma mark - Instance Methods
+#pragma mark - Class Methods
 
 + (CGSize)defaultCellSizeForCollectionView:(UICollectionView *)collectionView
                                atIndexPath:(NSIndexPath *)indexPath {
@@ -36,9 +36,12 @@
     return CGSizeMake(MAX(159.f, cellWidth + offset), MAX(159.f, cellWidth));
 }
 
+#pragma mark - Instance Methods
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.backgroundColor = [UIColor morselBackgroundDark];
+    self.textView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)layoutSubviews {
@@ -74,12 +77,9 @@
     if (_morsel != morsel) {
         _morsel = morsel;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_itemImageView reset];
-            _itemImageView.item = [morsel coverItem];
-        });
-        _textView.attributedText = [_morsel thumbnailInformation];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _textView.attributedText = [_morsel thumbnailInformation];
+            [self.itemImageView reset];
+            self.itemImageView.item = [morsel coverItem];
+            self.textView.attributedText = [morsel thumbnailInformation];
         });
     }
 }

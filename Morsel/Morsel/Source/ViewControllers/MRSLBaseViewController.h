@@ -16,6 +16,8 @@ UITextFieldDelegate>
 
 @property (nonatomic) UIImagePickerControllerCameraDevice preferredDeviceCamera;
 
+@property (nonatomic) BOOL allowObserversToRemain;
+
 // Asset and Image Management
 @property (nonatomic) BOOL shouldSaveToDeviceLibrary;
 @property (strong, nonatomic) ALAssetsLibrary *assetsLibrary;

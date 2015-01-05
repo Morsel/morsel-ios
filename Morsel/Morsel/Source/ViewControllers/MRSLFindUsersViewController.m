@@ -37,12 +37,14 @@ MRSLTableViewDataSourceDelegate>
 
 @property (nonatomic) NSInteger friendSection;
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 @property (strong, nonatomic) NSString *socialProvider;
 @property (strong, nonatomic) NSString *socialFriendUIDs;
 
 @property (strong, nonatomic) NSTimer *searchTimer;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -59,6 +61,15 @@ MRSLTableViewDataSourceDelegate>
     [self setupRemoteRequest];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.tableView deselectRowAtIndexPath:self.selectedIndexPath
+                                      animated:YES];
+        self.selectedIndexPath = nil;
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self suspendTimer];
@@ -71,7 +82,8 @@ MRSLTableViewDataSourceDelegate>
 }
 
 - (NSString *)objectIDsKey {
-    return [NSString stringWithFormat:@"%li_findusers_%@_userIDs", (long)_friendSection, ([self shouldShowSuggestedPeople] ? @"suggested" : @"all")];
+    NSString *nonWhitespaceSearchQuery = ([self.searchBar.text length] > 0) ? [self.searchBar.text stringByReplacingOccurrencesOfString:@" " withString:@"_"] : @"empty";
+    return [NSString stringWithFormat:@"%li_findusers_%@_userIDs_forQuery_%@", (long)_friendSection, ([self shouldShowSuggestedPeople] ? @"suggested" : @"all"), nonWhitespaceSearchQuery];
 }
 
 - (MRSLDataSource *)dataSource {
@@ -253,7 +265,9 @@ MRSLTableViewDataSourceDelegate>
 }
 
 - (void)tableViewDataSource:(UITableView *)tableView
-              didSelectItem:(id)item {
+              didSelectItem:(id)item
+                atIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
     MRSLUser *user = item;
     MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
     profileVC.user = user;
