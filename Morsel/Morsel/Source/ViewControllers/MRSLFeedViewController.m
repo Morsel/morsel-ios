@@ -380,7 +380,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 - (void)loadNew {
     if ([_morselIDs count] == 0 || [self isLoading]) return;
-    DDLogDebug(@"Loading new feed items");
     NSNumber *firstValidID = [_morselIDs firstObjectWithValidFeedItemID];
     if (!firstValidID) return;
     MRSLMorsel *firstMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
@@ -446,7 +445,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
 - (void)loadMore {
     if (_loadingMore || _loadedAll || [self isLoading]) return;
     self.loadingMore = YES;
-    DDLogDebug(@"Loading more");
     MRSLMorsel *lastMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
                                                        withValue:[_morselIDs lastObject]];
     __weak __typeof (self) weakSelf = self;
@@ -455,7 +453,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                         count:@(4)
                                       success:^(NSArray *responseArray) {
                                           if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                          DDLogDebug(@"%lu feed items added", (unsigned long)[responseArray count]);
                                           if (weakSelf) {
                                               weakSelf.loadingMore = NO;
                                               if ([responseArray count] > 0) {
