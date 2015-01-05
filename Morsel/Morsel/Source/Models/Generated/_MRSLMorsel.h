@@ -19,6 +19,7 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *morselPhotoURL;
 	__unsafe_unretained NSString *primary_item_id;
 	__unsafe_unretained NSString *publishedDate;
+	__unsafe_unretained NSString *rank;
 	__unsafe_unretained NSString *summary;
 	__unsafe_unretained NSString *tagged;
 	__unsafe_unretained NSString *tagged_users_count;
@@ -42,6 +43,7 @@ extern const struct MRSLMorselFetchedProperties {
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLPlace;
+
 
 
 
@@ -241,6 +243,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 //- (BOOL)validatePublishedDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* rank;
+
+
+
+@property float rankValue;
+- (float)rankValue;
+- (void)setRankValue:(float)value_;
+
+//- (BOOL)validateRank:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -477,6 +493,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSDate*)primitivePublishedDate;
 - (void)setPrimitivePublishedDate:(NSDate*)value;
+
+
+
+
+- (NSNumber*)primitiveRank;
+- (void)setPrimitiveRank:(NSNumber*)value;
+
+- (float)primitiveRankValue;
+- (void)setPrimitiveRankValue:(float)value_;
 
 
 

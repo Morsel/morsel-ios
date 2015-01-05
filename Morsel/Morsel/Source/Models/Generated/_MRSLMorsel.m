@@ -18,6 +18,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.morselPhotoURL = @"morselPhotoURL",
 	.primary_item_id = @"primary_item_id",
 	.publishedDate = @"publishedDate",
+	.rank = @"rank",
 	.summary = @"summary",
 	.tagged = @"tagged",
 	.tagged_users_count = @"tagged_users_count",
@@ -95,6 +96,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"primary_item_idValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"primary_item_id"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"rankValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"rank"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -346,6 +352,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 @dynamic publishedDate;
 
+
+
+
+
+
+@dynamic rank;
+
+
+
+- (float)rankValue {
+	NSNumber *result = [self rank];
+	return [result floatValue];
+}
+
+- (void)setRankValue:(float)value_ {
+	[self setRank:[NSNumber numberWithFloat:value_]];
+}
+
+- (float)primitiveRankValue {
+	NSNumber *result = [self primitiveRank];
+	return [result floatValue];
+}
+
+- (void)setPrimitiveRankValue:(float)value_ {
+	[self setPrimitiveRank:[NSNumber numberWithFloat:value_]];
+}
 
 
 

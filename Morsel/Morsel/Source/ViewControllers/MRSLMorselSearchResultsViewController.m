@@ -64,7 +64,7 @@
 }
 
 - (NSFetchedResultsController *)defaultFetchedResultsController {
-    return [MRSLMorsel MR_fetchAllSortedBy:@"publishedDate"
+    return [MRSLMorsel MR_fetchAllSortedBy:(self.searchString) ? @"rank,publishedDate" : @"publishedDate"
                                  ascending:NO
                              withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", self.objectIDs]
                                    groupBy:nil
