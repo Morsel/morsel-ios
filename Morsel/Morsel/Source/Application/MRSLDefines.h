@@ -142,10 +142,9 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 #define MIXPANEL_NO_IFA
 
 #define ROLLBAR_ACCESS_TOKEN @"80ee8af968f646898f1c1a6d6253b347"
-#define ROLLBAR_VERSION @"v0.1.2"
 
 #if defined (ROLLBAR_ENVIRONMENT)
-#import "Rollbar.h"
+#import <Rollbar/Rollbar.h>
 #endif
 
 #pragma mark - Defines

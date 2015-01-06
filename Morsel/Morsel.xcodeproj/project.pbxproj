@@ -92,6 +92,21 @@
 		062AB9A218C681C900742955 /* MRSLMediaItemPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062AB9A118C681C900742955 /* MRSLMediaItemPreviewViewController.m */; };
 		062D7D651942AA950079F999 /* MRSLSegmentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D7D641942AA950079F999 /* MRSLSegmentButton.m */; };
 		062DF21718845B7E00C199D8 /* MRSLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 062DF21618845B7D00C199D8 /* MRSLLoginViewController.m */; };
+		0631E3DF1A5C51AD005C80E9 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3BE1A5C51AD005C80E9 /* CHANGELOG */; };
+		0631E3E01A5C51AD005C80E9 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3BE1A5C51AD005C80E9 /* CHANGELOG */; };
+		0631E3E11A5C51AD005C80E9 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3BE1A5C51AD005C80E9 /* CHANGELOG */; };
+		0631E4001A5C51AD005C80E9 /* DBChooser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3D81A5C51AD005C80E9 /* DBChooser.bundle */; };
+		0631E4011A5C51AD005C80E9 /* DBChooser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3D81A5C51AD005C80E9 /* DBChooser.bundle */; };
+		0631E4021A5C51AD005C80E9 /* DBChooser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3D81A5C51AD005C80E9 /* DBChooser.bundle */; };
+		0631E4031A5C51AD005C80E9 /* DBChooser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0631E3D91A5C51AD005C80E9 /* DBChooser.framework */; };
+		0631E4041A5C51AD005C80E9 /* DBChooser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0631E3D91A5C51AD005C80E9 /* DBChooser.framework */; };
+		0631E4051A5C51AD005C80E9 /* DBChooser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0631E3D91A5C51AD005C80E9 /* DBChooser.framework */; };
+		0631E4061A5C51AD005C80E9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3DD1A5C51AD005C80E9 /* LICENSE */; };
+		0631E4071A5C51AD005C80E9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3DD1A5C51AD005C80E9 /* LICENSE */; };
+		0631E4081A5C51AD005C80E9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3DD1A5C51AD005C80E9 /* LICENSE */; };
+		0631E4091A5C51AD005C80E9 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3DE1A5C51AD005C80E9 /* README */; };
+		0631E40A1A5C51AD005C80E9 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3DE1A5C51AD005C80E9 /* README */; };
+		0631E40B1A5C51AD005C80E9 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 0631E3DE1A5C51AD005C80E9 /* README */; };
 		063250CA1860E1DD00ADDF23 /* MRSLRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063250C91860E1DD00ADDF23 /* MRSLRootViewController.m */; };
 		06340919191BDFE500C67FB8 /* MRSLWebBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06340918191BDFE500C67FB8 /* MRSLWebBrowserViewController.m */; };
 		0634091C191C0C0300C67FB8 /* MRSLResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0634091B191C0C0300C67FB8 /* MRSLResetPasswordViewController.m */; };
@@ -652,14 +667,6 @@
 		40780BB6198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */; };
 		40780BB7198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */; };
 		40780BB8198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */; };
-		407FDF55194807E4005FEEBF /* Rollbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF45194807E4005FEEBF /* Rollbar.m */; };
-		407FDF58194807E4005FEEBF /* RollbarConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF47194807E4005FEEBF /* RollbarConfiguration.m */; };
-		407FDF5B194807E4005FEEBF /* RollbarFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF49194807E4005FEEBF /* RollbarFileReader.m */; };
-		407FDF5E194807E4005FEEBF /* RollbarLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF4B194807E4005FEEBF /* RollbarLogger.m */; };
-		407FDF61194807E4005FEEBF /* RollbarNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF4D194807E4005FEEBF /* RollbarNotifier.m */; };
-		407FDF64194807E4005FEEBF /* RollbarReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF4F194807E4005FEEBF /* RollbarReachability.m */; };
-		407FDF67194807E4005FEEBF /* RollbarThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 407FDF51194807E4005FEEBF /* RollbarThread.m */; };
-		407FDF6D194807E4005FEEBF /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 407FDF54194807E4005FEEBF /* CrashReporter.framework */; };
 		408504A3193FEE48003AE38B /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 408504A1193FEE48003AE38B /* Settings.storyboard */; };
 		408504A9193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */; };
 		408504AA193FF0F5003AE38B /* MRSLSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */; };
@@ -677,21 +684,6 @@
 		40854F9219747EFA0015DFBB /* UICollectionView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40854F9019747EFA0015DFBB /* UICollectionView+Additions.m */; };
 		40854F96197482560015DFBB /* MRSLCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40854F95197482560015DFBB /* MRSLCollectionView.m */; };
 		40854F97197482560015DFBB /* MRSLCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40854F95197482560015DFBB /* MRSLCollectionView.m */; };
-		4085E30F1970963200A3FC73 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30A1970963200A3FC73 /* CHANGELOG */; };
-		4085E3101970963200A3FC73 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30A1970963200A3FC73 /* CHANGELOG */; };
-		4085E3111970963200A3FC73 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30A1970963200A3FC73 /* CHANGELOG */; };
-		4085E3121970963200A3FC73 /* DBChooser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30B1970963200A3FC73 /* DBChooser.bundle */; };
-		4085E3131970963200A3FC73 /* DBChooser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30B1970963200A3FC73 /* DBChooser.bundle */; };
-		4085E3141970963200A3FC73 /* DBChooser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30B1970963200A3FC73 /* DBChooser.bundle */; };
-		4085E3151970963200A3FC73 /* DBChooser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4085E30C1970963200A3FC73 /* DBChooser.framework */; };
-		4085E3161970963200A3FC73 /* DBChooser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4085E30C1970963200A3FC73 /* DBChooser.framework */; };
-		4085E3171970963200A3FC73 /* DBChooser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4085E30C1970963200A3FC73 /* DBChooser.framework */; };
-		4085E3181970963300A3FC73 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30D1970963200A3FC73 /* LICENSE */; };
-		4085E3191970963300A3FC73 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30D1970963200A3FC73 /* LICENSE */; };
-		4085E31A1970963300A3FC73 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30D1970963200A3FC73 /* LICENSE */; };
-		4085E31B1970963300A3FC73 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30E1970963200A3FC73 /* README */; };
-		4085E31C1970963300A3FC73 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30E1970963200A3FC73 /* README */; };
-		4085E31D1970963300A3FC73 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 4085E30E1970963200A3FC73 /* README */; };
 		408744371940DAB2000B491F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744361940DAB2000B491F /* NSString+Additions.m */; };
 		408744381940DAB2000B491F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 408744361940DAB2000B491F /* NSString+Additions.m */; };
 		4087443C1940F273000B491F /* MRSLBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4087443B1940F273000B491F /* MRSLBaseTableViewController.m */; };
@@ -836,6 +828,11 @@
 		062D7D641942AA950079F999 /* MRSLSegmentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSegmentButton.m; path = Source/Views/MRSLSegmentButton.m; sourceTree = "<group>"; };
 		062DF21518845B7D00C199D8 /* MRSLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLLoginViewController.h; sourceTree = "<group>"; };
 		062DF21618845B7D00C199D8 /* MRSLLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLLoginViewController.m; sourceTree = "<group>"; };
+		0631E3BE1A5C51AD005C80E9 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
+		0631E3D81A5C51AD005C80E9 /* DBChooser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DBChooser.bundle; sourceTree = "<group>"; };
+		0631E3D91A5C51AD005C80E9 /* DBChooser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DBChooser.framework; sourceTree = "<group>"; };
+		0631E3DD1A5C51AD005C80E9 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		0631E3DE1A5C51AD005C80E9 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		063250C81860E1DD00ADDF23 /* MRSLRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLRootViewController.h; sourceTree = "<group>"; };
 		063250C91860E1DD00ADDF23 /* MRSLRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLRootViewController.m; sourceTree = "<group>"; };
 		06325115186107F200ADDF23 /* MRSLDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLDefines.h; sourceTree = "<group>"; };
@@ -1283,21 +1280,6 @@
 		406D93EF19C3BB8E00DFA08E /* Morsel_1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Morsel_1.2.xcdatamodel; sourceTree = "<group>"; };
 		40780BB4198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLSectionCollectionReusableView.h; path = Source/Views/MRSLSectionCollectionReusableView.h; sourceTree = "<group>"; };
 		40780BB5198A9EDC000EE8E7 /* MRSLSectionCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLSectionCollectionReusableView.m; path = Source/Views/MRSLSectionCollectionReusableView.m; sourceTree = "<group>"; };
-		407FDF44194807E4005FEEBF /* Rollbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rollbar.h; sourceTree = "<group>"; };
-		407FDF45194807E4005FEEBF /* Rollbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rollbar.m; sourceTree = "<group>"; };
-		407FDF46194807E4005FEEBF /* RollbarConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollbarConfiguration.h; sourceTree = "<group>"; };
-		407FDF47194807E4005FEEBF /* RollbarConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollbarConfiguration.m; sourceTree = "<group>"; };
-		407FDF48194807E4005FEEBF /* RollbarFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollbarFileReader.h; sourceTree = "<group>"; };
-		407FDF49194807E4005FEEBF /* RollbarFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollbarFileReader.m; sourceTree = "<group>"; };
-		407FDF4A194807E4005FEEBF /* RollbarLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollbarLogger.h; sourceTree = "<group>"; };
-		407FDF4B194807E4005FEEBF /* RollbarLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollbarLogger.m; sourceTree = "<group>"; };
-		407FDF4C194807E4005FEEBF /* RollbarNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollbarNotifier.h; sourceTree = "<group>"; };
-		407FDF4D194807E4005FEEBF /* RollbarNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollbarNotifier.m; sourceTree = "<group>"; };
-		407FDF4E194807E4005FEEBF /* RollbarReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollbarReachability.h; sourceTree = "<group>"; };
-		407FDF4F194807E4005FEEBF /* RollbarReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollbarReachability.m; sourceTree = "<group>"; };
-		407FDF50194807E4005FEEBF /* RollbarThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollbarThread.h; sourceTree = "<group>"; };
-		407FDF51194807E4005FEEBF /* RollbarThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollbarThread.m; sourceTree = "<group>"; };
-		407FDF54194807E4005FEEBF /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
 		408504A2193FEE48003AE38B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
 		408504A7193FF0F5003AE38B /* MRSLSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLSettingsViewController.h; sourceTree = "<group>"; };
 		408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLSettingsViewController.m; sourceTree = "<group>"; };
@@ -1315,11 +1297,6 @@
 		40854F9019747EFA0015DFBB /* UICollectionView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+Additions.m"; sourceTree = "<group>"; };
 		40854F94197482560015DFBB /* MRSLCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLCollectionView.h; path = Source/Views/MRSLCollectionView.h; sourceTree = "<group>"; };
 		40854F95197482560015DFBB /* MRSLCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLCollectionView.m; path = Source/Views/MRSLCollectionView.m; sourceTree = "<group>"; };
-		4085E30A1970963200A3FC73 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
-		4085E30B1970963200A3FC73 /* DBChooser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DBChooser.bundle; sourceTree = "<group>"; };
-		4085E30C1970963200A3FC73 /* DBChooser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DBChooser.framework; sourceTree = "<group>"; };
-		4085E30D1970963200A3FC73 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		4085E30E1970963200A3FC73 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		408744351940DAB2000B491F /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		408744361940DAB2000B491F /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		4087443A1940F273000B491F /* MRSLBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLBaseTableViewController.h; sourceTree = "<group>"; };
@@ -1374,10 +1351,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0631E4031A5C51AD005C80E9 /* DBChooser.framework in Frameworks */,
 				0667316A19EC85DC00750D97 /* Photos.framework in Frameworks */,
-				4085E3151970963200A3FC73 /* DBChooser.framework in Frameworks */,
 				06B8781C193CD7E900160707 /* MapKit.framework in Frameworks */,
-				407FDF6D194807E4005FEEBF /* CrashReporter.framework in Frameworks */,
 				83193CDB90584AB6BE66EE88 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1386,8 +1362,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0631E4041A5C51AD005C80E9 /* DBChooser.framework in Frameworks */,
 				057749E490424AA8A501241D /* libPods-Morsel-Specs.a in Frameworks */,
-				4085E3161970963200A3FC73 /* DBChooser.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1395,8 +1371,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0631E4051A5C51AD005C80E9 /* DBChooser.framework in Frameworks */,
 				F74BE655C47B487989CEC74D /* libPods-Morsel-Integration.a in Frameworks */,
-				4085E3171970963200A3FC73 /* DBChooser.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1623,6 +1599,19 @@
 				063C345E1923CFC3002682B4 /* MRSLSocialUser.m */,
 			);
 			name = "Data Objects";
+			sourceTree = "<group>";
+		};
+		0631E3BD1A5C51AD005C80E9 /* dropbox-ios-dropins-sdk-1.2.1 */ = {
+			isa = PBXGroup;
+			children = (
+				0631E3BE1A5C51AD005C80E9 /* CHANGELOG */,
+				0631E3DD1A5C51AD005C80E9 /* LICENSE */,
+				0631E3DE1A5C51AD005C80E9 /* README */,
+				0631E3D81A5C51AD005C80E9 /* DBChooser.bundle */,
+				0631E3D91A5C51AD005C80E9 /* DBChooser.framework */,
+			);
+			name = "dropbox-ios-dropins-sdk-1.2.1";
+			path = "../../Vendor/dropbox-ios-dropins-sdk-1.2.1";
 			sourceTree = "<group>";
 		};
 		063250CB1860E85700ADDF23 /* Feed */ = {
@@ -1933,8 +1922,8 @@
 				0660669618522E7900E780FC /* Morsel */,
 				0698CACB18524359007AF442 /* Morsel-Integration */,
 				0698CAB51852432D007AF442 /* Morsel-Specs */,
-				407FDEE51948052E005FEEBF /* Vendor */,
 				0660668F18522E7900E780FC /* Frameworks */,
+				06BB9F711A5C4E4100F33456 /* Vendor */,
 				0660668E18522E7900E780FC /* Products */,
 				5D2AFA57B3DB97A7AACABC6E /* Pods */,
 			);
@@ -1953,11 +1942,11 @@
 		0660668F18522E7900E780FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0667316919EC85DC00750D97 /* Photos.framework */,
-				06B8781B193CD7E900160707 /* MapKit.framework */,
-				4D39BCA7E9BC46D8914312A8 /* libPods.a */,
 				85BAA024FEB848BEB18EFEBB /* libPods-Morsel-Integration.a */,
 				F25ECEABED4243EAB69138D9 /* libPods-Morsel-Specs.a */,
+				4D39BCA7E9BC46D8914312A8 /* libPods.a */,
+				06B8781B193CD7E900160707 /* MapKit.framework */,
+				0667316919EC85DC00750D97 /* Photos.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2381,6 +2370,15 @@
 			name = Places;
 			sourceTree = "<group>";
 		};
+		06BB9F711A5C4E4100F33456 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				0631E3BD1A5C51AD005C80E9 /* dropbox-ios-dropins-sdk-1.2.1 */,
+			);
+			name = Vendor;
+			path = Morsel;
+			sourceTree = "<group>";
+		};
 		06BEC7BE1A30EC4900E16B13 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -2792,54 +2790,6 @@
 			path = Source/Services;
 			sourceTree = "<group>";
 		};
-		407FDEE51948052E005FEEBF /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				4085E3091970963200A3FC73 /* dropbox-ios-dropins-sdk-1.2.1 */,
-				407FDF41194807E4005FEEBF /* Rollbar */,
-			);
-			name = Vendor;
-			path = ../Vendor;
-			sourceTree = "<group>";
-		};
-		407FDF41194807E4005FEEBF /* Rollbar */ = {
-			isa = PBXGroup;
-			children = (
-				407FDF42194807E4005FEEBF /* Source */,
-				407FDF53194807E4005FEEBF /* Vendor */,
-			);
-			path = Rollbar;
-			sourceTree = "<group>";
-		};
-		407FDF42194807E4005FEEBF /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				407FDF44194807E4005FEEBF /* Rollbar.h */,
-				407FDF45194807E4005FEEBF /* Rollbar.m */,
-				407FDF46194807E4005FEEBF /* RollbarConfiguration.h */,
-				407FDF47194807E4005FEEBF /* RollbarConfiguration.m */,
-				407FDF48194807E4005FEEBF /* RollbarFileReader.h */,
-				407FDF49194807E4005FEEBF /* RollbarFileReader.m */,
-				407FDF4A194807E4005FEEBF /* RollbarLogger.h */,
-				407FDF4B194807E4005FEEBF /* RollbarLogger.m */,
-				407FDF4C194807E4005FEEBF /* RollbarNotifier.h */,
-				407FDF4D194807E4005FEEBF /* RollbarNotifier.m */,
-				407FDF4E194807E4005FEEBF /* RollbarReachability.h */,
-				407FDF4F194807E4005FEEBF /* RollbarReachability.m */,
-				407FDF50194807E4005FEEBF /* RollbarThread.h */,
-				407FDF51194807E4005FEEBF /* RollbarThread.m */,
-			);
-			path = Source;
-			sourceTree = "<group>";
-		};
-		407FDF53194807E4005FEEBF /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				407FDF54194807E4005FEEBF /* CrashReporter.framework */,
-			);
-			path = Vendor;
-			sourceTree = "<group>";
-		};
 		408504A6193FF0C7003AE38B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -2853,18 +2803,6 @@
 				408504A8193FF0F5003AE38B /* MRSLSettingsViewController.m */,
 			);
 			name = Settings;
-			sourceTree = "<group>";
-		};
-		4085E3091970963200A3FC73 /* dropbox-ios-dropins-sdk-1.2.1 */ = {
-			isa = PBXGroup;
-			children = (
-				4085E30A1970963200A3FC73 /* CHANGELOG */,
-				4085E30B1970963200A3FC73 /* DBChooser.bundle */,
-				4085E30C1970963200A3FC73 /* DBChooser.framework */,
-				4085E30D1970963200A3FC73 /* LICENSE */,
-				4085E30E1970963200A3FC73 /* README */,
-			);
-			path = "dropbox-ios-dropins-sdk-1.2.1";
 			sourceTree = "<group>";
 		};
 		40A83E49196E0A2E00DED0A1 /* States */ = {
@@ -3026,15 +2964,13 @@
 				0637B67C19377B8D00358F25 /* Places.storyboard in Resources */,
 				063BB6F218983CC00029DAF0 /* Feed.storyboard in Resources */,
 				063BB6F818983CF80029DAF0 /* Profile.storyboard in Resources */,
+				0631E3DF1A5C51AD005C80E9 /* CHANGELOG in Resources */,
 				063BB6FE18983D3F0029DAF0 /* MediaManagement.storyboard in Resources */,
 				066066A418522E7900E780FC /* Main.storyboard in Resources */,
-				4085E30F1970963200A3FC73 /* CHANGELOG in Resources */,
 				065D0CD119ABCA32009E6FC7 /* Templates.storyboard in Resources */,
 				062AB98818C534B600742955 /* MorselManagement.storyboard in Resources */,
 				40348F1F1953632500BDDC15 /* MRSLActivityTableViewCell.xib in Resources */,
-				4085E3121970963200A3FC73 /* DBChooser.bundle in Resources */,
 				06CA688E1A3F9EA700E26D9E /* Merriweather-Bold.ttf in Resources */,
-				4085E3181970963300A3FC73 /* LICENSE in Resources */,
 				063BB6FB18983D170029DAF0 /* Login.storyboard in Resources */,
 				06CA688C1A3F9EA700E26D9E /* Lato-Bold.ttf in Resources */,
 				06C4CD08192A6FD3004CD3B7 /* Social.storyboard in Resources */,
@@ -3043,9 +2979,11 @@
 				408504A3193FEE48003AE38B /* Settings.storyboard in Resources */,
 				06CA688D1A3F9EA700E26D9E /* Lato-Regular.ttf in Resources */,
 				06043E1619D5C48E003568C7 /* Explore.storyboard in Resources */,
+				0631E4061A5C51AD005C80E9 /* LICENSE in Resources */,
 				060BC3601A3FA7B100CA05CB /* Lato-LightItalic.ttf in Resources */,
 				065D0CB319A99739009E6FC7 /* templates.json in Resources */,
-				4085E31B1970963300A3FC73 /* README in Resources */,
+				0631E4091A5C51AD005C80E9 /* README in Resources */,
+				0631E4001A5C51AD005C80E9 /* DBChooser.bundle in Resources */,
 				06CA68911A3F9EA700E26D9E /* Merriweather-Regular.ttf in Resources */,
 				064566F418C50BDD00C9CCBF /* Activity.storyboard in Resources */,
 			);
@@ -3055,24 +2993,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0631E40A1A5C51AD005C80E9 /* README in Resources */,
 				069FA3A21989CAF0003B715F /* Specs_iPhone.storyboard in Resources */,
-				4085E31C1970963300A3FC73 /* README in Resources */,
+				0631E4011A5C51AD005C80E9 /* DBChooser.bundle in Resources */,
 				06F567CE18BBB1270067FCD4 /* mrsl-item-authenticated.json in Resources */,
 				0698CABA1852432D007AF442 /* InfoPlist.strings in Resources */,
 				06F567CD18BBB1270067FCD4 /* mrsl-comment.json in Resources */,
 				40D702AC18E9F72A001CCC42 /* mrsl-users-activities.json in Resources */,
 				06F567D318BBB1270067FCD4 /* mrsl-user-with-auth-token.json in Resources */,
-				4085E3191970963300A3FC73 /* LICENSE in Resources */,
-				4085E3101970963200A3FC73 /* CHANGELOG in Resources */,
 				065D0CB419A99739009E6FC7 /* templates.json in Resources */,
+				0631E4071A5C51AD005C80E9 /* LICENSE in Resources */,
 				06043E1719D5C48E003568C7 /* Explore.storyboard in Resources */,
 				06F567D718BBB18C0067FCD4 /* mrsl-morsel.json in Resources */,
 				40617247198303A50097CD17 /* Acknowledgements.html in Resources */,
-				4085E3131970963200A3FC73 /* DBChooser.bundle in Resources */,
 				06F2611C19DC894000A7050B /* Onboarding.storyboard in Resources */,
 				0661225F1A31193100F91F80 /* MRSLSearchBarCollectionReusableView.xib in Resources */,
 				065D0CD219ABCA32009E6FC7 /* Templates.storyboard in Resources */,
 				066A780919C2083300896C42 /* Launch.xib in Resources */,
+				0631E3E01A5C51AD005C80E9 /* CHANGELOG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3080,19 +3018,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4085E31A1970963300A3FC73 /* LICENSE in Resources */,
+				0631E40B1A5C51AD005C80E9 /* README in Resources */,
 				0698CAD018524359007AF442 /* InfoPlist.strings in Resources */,
 				066122601A31193100F91F80 /* MRSLSearchBarCollectionReusableView.xib in Resources */,
 				06F2611D19DC894000A7050B /* Onboarding.storyboard in Resources */,
-				4085E3111970963200A3FC73 /* CHANGELOG in Resources */,
 				06043E1819D5C48E003568C7 /* Explore.storyboard in Resources */,
+				0631E4021A5C51AD005C80E9 /* DBChooser.bundle in Resources */,
 				065D0CD319ABCA32009E6FC7 /* Templates.storyboard in Resources */,
+				0631E4081A5C51AD005C80E9 /* LICENSE in Resources */,
 				40617248198303A50097CD17 /* Acknowledgements.html in Resources */,
-				4085E3141970963200A3FC73 /* DBChooser.bundle in Resources */,
 				065D0CB519A99739009E6FC7 /* templates.json in Resources */,
 				066A780A19C2083300896C42 /* Launch.xib in Resources */,
-				4085E31D1970963300A3FC73 /* README in Resources */,
 				06C4DE95198987AF009B6406 /* api-users-sign-in-javierotero.json in Resources */,
+				0631E3E11A5C51AD005C80E9 /* CHANGELOG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3322,14 +3260,12 @@
 				0615C37F1908C8E200A1C361 /* MRSLMorselDetailViewController.m in Sources */,
 				061B4EA8195CC4DD00BC4C76 /* MRSLProfileCredentialsViewController.m in Sources */,
 				409055471976E5B900026DCC /* MRSLNavigationController.m in Sources */,
-				407FDF58194807E4005FEEBF /* RollbarConfiguration.m in Sources */,
 				060C6C571A0A9E3200B72411 /* _MRSLRemoteDevice.m in Sources */,
 				40854F78197440830015DFBB /* UITableView+States.m in Sources */,
 				06DAFB55191A92320044AF3E /* MRSLAPIService+Comment.m in Sources */,
 				061B4EA9195CC4DD00BC4C76 /* MRSLProfileEditFieldsViewController.m in Sources */,
 				062AB99718C5970400742955 /* MRSLMorselEditTitleViewController.m in Sources */,
 				06DFA95319AD29F700936BEB /* MRSLCheckmarkTextTableViewCell.m in Sources */,
-				407FDF67194807E4005FEEBF /* RollbarThread.m in Sources */,
 				06225C86192BB618000721C1 /* MRSLFindUsersViewController.m in Sources */,
 				0684BFF019E5B3420083AEA5 /* MRSLEligibleUserTableViewCell.m in Sources */,
 				0693C25718F6C7320026D6B3 /* MRSLMorsel.m in Sources */,
@@ -3337,7 +3273,6 @@
 				069CCD6E1901A49800D1B770 /* MRSLMorselPublishShareViewController.m in Sources */,
 				4062A4FB196F233000394EFA /* MRSLNotificationsTableViewController.m in Sources */,
 				065E06E01992D59E00865D54 /* MRSLAPIService+Notifications.m in Sources */,
-				407FDF5B194807E4005FEEBF /* RollbarFileReader.m in Sources */,
 				403E9E2518EDCC20003CDE3B /* MRSLNotification.m in Sources */,
 				061F934A1910091400608C0B /* MRSLTagStatsNameCell.m in Sources */,
 				068B04D7195A000F004B302F /* MRSLImageView.m in Sources */,
@@ -3377,7 +3312,6 @@
 				061F93501910096E00608C0B /* MRSLTagStatsSupplmentaryCell.m in Sources */,
 				060C97A519B7B08D006AAC43 /* UIButton+Additions.m in Sources */,
 				0637B67919377B5300358F25 /* MRSLPlacesAddViewController.m in Sources */,
-				407FDF5E194807E4005FEEBF /* RollbarLogger.m in Sources */,
 				064B035719E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m in Sources */,
 				06256C6E196DC07000E32630 /* MRSLMenuItem.m in Sources */,
 				4062A4F6196EF2F100394EFA /* MRSLIconStateView.m in Sources */,
@@ -3464,7 +3398,6 @@
 				0640FF32187DB89300BE2F0D /* MRSLSignUpViewController.m in Sources */,
 				403E9E2018EDCC09003CDE3B /* _MRSLNotification.m in Sources */,
 				06B877E1193BD24600160707 /* MRSLPlaceCollectionViewCell.m in Sources */,
-				407FDF55194807E4005FEEBF /* Rollbar.m in Sources */,
 				062AB98E18C541E400742955 /* UIDevice+Additions.m in Sources */,
 				0698CA9518523BBE007AF442 /* MRSLFeedViewController.m in Sources */,
 				06B87802193C633B00160707 /* MRSLFoursquarePlaceTableViewCell.m in Sources */,
@@ -3496,10 +3429,8 @@
 				066122631A31199500F91F80 /* MRSLSearchBarCollectionReusableView.m in Sources */,
 				065649171A1273B700075AB2 /* MRSLSwitchTableViewCell.m in Sources */,
 				06F1847B18E0B68C00DBA468 /* MRSLFeedPanelCollectionViewCell.m in Sources */,
-				407FDF61194807E4005FEEBF /* RollbarNotifier.m in Sources */,
 				06ECF61E1975AF4F005AAB63 /* UINavigationController+Additions.m in Sources */,
 				40854F96197482560015DFBB /* MRSLCollectionView.m in Sources */,
-				407FDF64194807E4005FEEBF /* RollbarReachability.m in Sources */,
 				40A83E51196E0B6F00DED0A1 /* MRSLLoadingStateView.m in Sources */,
 				06C38C4118EA5D370072CF8E /* MRSLModalLikersViewController.m in Sources */,
 				06FE510E19118E4D003A6D7D /* MRSLTag.m in Sources */,
@@ -4141,6 +4072,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
@@ -4175,6 +4108,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -4229,6 +4164,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -4361,6 +4298,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
@@ -4393,6 +4332,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
@@ -4438,6 +4379,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -4491,6 +4434,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -4544,6 +4489,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -4596,6 +4543,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -4693,6 +4642,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
@@ -4727,6 +4678,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -4781,6 +4734,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -4873,6 +4828,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
@@ -4904,6 +4861,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -4963,6 +4922,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
@@ -5054,6 +5015,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel/Morsel-Prefix.pch";
@@ -5085,6 +5048,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Specs/Morsel-Specs-Prefix.pch";
@@ -5144,6 +5109,8 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"${SRCROOT}/../Vendor/**",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-sdk-1.3.13",
+					"/Users/oteroj/Documents/Personal/Work/Morsel/morsel-ios/Vendor/dropbox-ios-dropins-sdk-1.2.1",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Morsel-Integration/Morsel-Integration-Prefix.pch";
