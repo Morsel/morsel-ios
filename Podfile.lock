@@ -48,7 +48,9 @@ PODS:
   - MagicalRecord (2.2):
     - MagicalRecord/Core (= 2.2)
   - MagicalRecord/Core (2.2)
-  - Mixpanel (2.3.1)
+  - Mixpanel (2.6.2):
+    - Mixpanel/MPCategoryHelpers (= 2.6.2)
+  - Mixpanel/MPCategoryHelpers (2.6.2)
   - NSData+Base64 (1.0.0)
   - NSDate+TimeAgo (1.0.2)
   - NullSafe (1.2)
@@ -74,17 +76,17 @@ DEPENDENCIES:
   - Facebook-iOS-SDK (~> 3.19)
   - GCPlaceholderTextView (= 1.0.1)
   - GPUImage (~> 0.1)
-  - JLRoutes (= 1.5)
+  - JLRoutes (~> 1.5)
   - KIF-Kiwi (~> 0.2)
   - Kiwi (~> 2.3)
   - M13Checkbox (~> 1.1)
   - MagicalRecord (= 2.2)
-  - Mixpanel (= 2.3.1)
-  - NSDate+TimeAgo (= 1.0.2)
+  - Mixpanel (~> 2.6)
+  - NSDate+TimeAgo (~> 1.0)
   - NullSafe (= 1.2)
-  - NXOAuth2Client (= 1.2.6)
-  - OAuthCore (= 0.0.1)
-  - OHHTTPStubs (= 3.1.4)
+  - NXOAuth2Client (~> 1.2)
+  - OAuthCore (~> 0.0)
+  - OHHTTPStubs (~> 3.1)
   - RNActivityView (~> 0.0)
   - Rollbar (~> 0.1)
   - RSKImageCropper (from `https://github.com/Morsel/RSKImageCropper`)
@@ -138,7 +140,7 @@ SPEC CHECKSUMS:
   Kiwi: 73e1400209055ee9c8ba78c6012b6b642d0fb9f7
   M13Checkbox: e87ebe28627368b1c6d2233282d711a3854dfe3f
   MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
-  Mixpanel: 9cc470a58346f60da8ce2982096bcc72b5a7372b
+  Mixpanel: c075cedebda3328ce1ee29a18429e265ce967cd8
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   NSDate+TimeAgo: c01d6ac0b81add41f77f264fa4276d355723fcde
   NullSafe: 9685bb76b0fa73cab04a69c176622662d46f0160

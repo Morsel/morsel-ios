@@ -125,8 +125,11 @@ static const int kGuestUserID = -1;
                                        username:nil
                                           email:nil];
 #endif
+#if defined (SPEC_TESTING) || defined (INTEGRATION_TESTING)
+#else
     [[Mixpanel sharedInstance] identify:nil];
     [[Mixpanel sharedInstance].people set:@{}];
+#endif
 }
 
 + (void)incrementCurrentUserDraftCount {
@@ -240,6 +243,8 @@ static const int kGuestUserID = -1;
 }
 
 - (void)setThirdPartySettings {
+#if defined (SPEC_TESTING) || defined (INTEGRATION_TESTING)
+#else
     if ([MRSLUser isCurrentUserGuest]) {
         [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_guest": @"true"}];
     } else if ([MRSLUser currentUser] && ![MRSLUser isCurrentUserGuest]) {
@@ -265,6 +270,7 @@ static const int kGuestUserID = -1;
         [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_pro": (self.professionalValue) ? @"true" : @"false"}];
         [[Mixpanel sharedInstance] registerSuperProperties:@{@"is_guest": @"false"}];
     }
+#endif
 }
 
 - (NSMutableAttributedString *)profileInformation {

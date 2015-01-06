@@ -79,7 +79,7 @@ describe(@"Importing from the API", ^{
                 [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
                 return _itemWithComments;
             });
-            let(comment, nil);
+            let(comment, ^id{ return nil; });
 
             beforeEach(^{
                 __block BOOL requestCompleted = NO;
@@ -151,7 +151,7 @@ describe(@"Importing from the API", ^{
     });
 
     describe(@"MRSLUser", ^{
-        let(currentUser, nil);
+        let(currentUser, ^id{ return nil; });
 
         beforeEach(^{
             __block BOOL requestCompleted = NO;
