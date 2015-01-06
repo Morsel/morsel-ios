@@ -235,6 +235,10 @@ MRSLSegmentedButtonViewDelegate>
     self.emptyStateString = (index == 0) ? @"" : @"No results found.";
     [self setupRemoteRequestBlock];
     [self refreshRemoteContent];
+
+    if ([self.delegate respondsToSelector:@selector(exploreSearchViewControllerDidChangeSegmentWithIndex:)]) {
+        [self.delegate exploreSearchViewControllerDidChangeSegmentWithIndex:index];
+    }
 }
 
 #pragma mark - UITableViewDataSource
