@@ -9,18 +9,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Kiwi/Kiwi.h>
 
-#import "MRSLCaptureMultipleMediaViewController.h"
-
 #import "MRSLItem.h"
 #import "MRSLUser.h"
-
-@interface MRSLBaseCaptureMediaViewController (Private)
-
-@property (nonatomic) AVCaptureSession *session;
-
-- (void)endCameraSession;
-
-@end
 
 SPEC_BEGIN(CrashSpec)
 
@@ -53,22 +43,6 @@ describe(@"AlertView", ^{
                 [alert dismissWithClickedButtonIndex:0
                                             animated:NO];
             });
-        });
-    });
-});
-
-/*
- Testflight Crash Reports associated to this case:
- * https://www.testflightapp.com/dashboard/builds/crashes/9549606/23413879/
-*/
-
-describe(@"CaptureMediaViewController", ^{
-    MRSLCaptureMultipleMediaViewController *captureMediaVC = [[UIStoryboard mediaManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCaptureMultipleMediaViewControllerKey];
-    context(@"attempts to end camera session in quick succession", ^{
-            [captureMediaVC endCameraSession];
-            [captureMediaVC endCameraSession];
-        it(@"should end session and not crash", ^{
-            [[theValue(captureMediaVC.session.running) should] beNo];
         });
     });
 });

@@ -8,7 +8,7 @@
 
 #import "MRSLFeedPanelViewController.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+#import <DateTools/NSDate+DateTools.h>
 
 #import "MRSLAPIService+Morsel.h"
 
@@ -107,7 +107,7 @@ MRSLFeedShareCollectionViewCellDelegate>
         [self.collectionView reloadData];
         [self resetCollectionViewContentOffset:NO];
 
-        self.timeAgoLabel.text = [_morsel.publishedDate dateTimeAgo];
+        self.timeAgoLabel.text = [_morsel.publishedDate timeAgoSinceNow];
         self.timeAgoLabel.hidden = (!_morsel.publishedDate);
     }
 }

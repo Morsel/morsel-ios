@@ -4,7 +4,7 @@
 
         <h2>AFNetworking</h2>
 
-        <p>Copyright (c) 2013 AFNetworking (http://afnetworking.com/)</p>
+        <p>Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com/)</p>
 
         <p>Permission is hereby granted, free of charge, to any person obtaining a copy
         of this software and associated documentation files (the "Software"), to deal
@@ -126,45 +126,11 @@
 
         <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 
-        <h2>ELCImagePickerController</h2>
+        <h2>DateTools</h2>
 
-        <h1>ELCImagePickerController</h1>
+        <p>The MIT License (MIT)</p>
 
-        <p><em>A clone of the UIImagePickerController using the Assets Library Framework allowing for multiple asset selection.</em></p>
-
-        <h2>Usage</h2>
-
-        <p>The image picker is created and displayed in a very similar manner to the <code>UIImagePickerController</code>. The sample application  shows its use. To display the controller you instantiate it and display it modally like so.</p>
-
-        <p>```obj-c
-        // Create the image picker
-        ELCImagePickerController *imagePicker = [[ELCImagePickerController alloc] init];
-        imagePicker.maximumImagesCount = 4; //Set the maximum number of images to select, defaults to 4
-        imagePicker.imagePickerDelegate = self;</p>
-
-        <p>//Present modally
-        [self presentViewController:elcPicker animated:YES completion:nil];</p>
-
-        <p>// Release if not using ARC
-        [imagePicker release];
-        ```</p>
-
-        <p>The <code>ELCImagePickerController</code> will return the select images back to the <code>ELCImagePickerControllerDelegate</code>. The delegate contains methods very similar to the <code>UIImagePickerControllerDelegate</code>. Instead of returning one dictionary representing a single image the controller sends back an array of similarly structured dictionaries. The two delegate methods are:</p>
-
-        <p><code>obj-c
-            - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info;
-            - (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker;
-        </code></p>
-
-        <p>The Image Picker allows for some customization, including limiting
-        to just one photo album, limiting to single image selection, and automatically
-        scrolling to the bottom. See the demo viewcontroller for example usage.</p>
-
-        <h2>License</h2>
-
-        <p>The MIT License</p>
-
-        <p>Copyright (c) 2010 ELC Technologies</p>
+        <p>Copyright (c) 2014 Matthew York</p>
 
         <p>Permission is hereby granted, free of charge, to any person obtaining a copy
         of this software and associated documentation files (the "Software"), to deal
@@ -173,16 +139,16 @@
         copies of the Software, and to permit persons to whom the Software is
         furnished to do so, subject to the following conditions:</p>
 
-        <p>The above copyright notice and this permission notice shall be included in
-        all copies or substantial portions of the Software.</p>
+        <p>The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.</p>
 
         <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
         IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
         FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
         AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
         LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-        THE SOFTWARE.</p>
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.</p>
 
         <h2>Facebook-iOS-SDK</h2>
 
@@ -688,6 +654,71 @@
                 limitations under the License.</p></li>
         </ol>
 
+        <p>================================================================================</p>
+
+        <p>_MPTweakBindObserver.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+        _MPTweakBindObserver.m Copyright (c) 2014, Facebook, Inc. All rights reserved.
+        MPTweak.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+        MPTweak.m Copyright (c) 2014, Facebook, Inc. All rights reserved.
+        MPTweakInline.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+        MPTweakInline.m Copyright (c) 2014, Facebook, Inc. All rights reserved.
+        MPTweakInlineInternal.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+        MPTweakStore.h Copyright (c) 2014, Facebook, Inc. All rights reserved.
+        MPTweakStore.m Copyright (c) 2014, Facebook, Inc. All rights reserved.</p>
+
+        <p>Redistribution and use in source and binary forms, with or without modification,
+        are permitted provided that the following conditions are met:</p>
+
+        <ul>
+            <li><p>Redistributions of source code must retain the above copyright notice, this
+                list of conditions and the following disclaimer.</p></li>
+            <li><p>Redistributions in binary form must reproduce the above copyright notice,
+                this list of conditions and the following disclaimer in the documentation</p></li>
+        </ul>
+
+        <p>and/or other materials provided with the distribution.</p>
+
+        <ul>
+            <li>Neither the name Facebook nor the names of its contributors may be used to</li>
+        </ul>
+
+        <p>endorse or promote products derived from this software without specific
+        prior written permission.</p>
+
+        <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND</p>
+
+        <p>ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+        WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</p>
+
+        <p>DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+        ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+        (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</p>
+
+        <p>LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+        ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</p>
+
+        <p>(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+        SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+
+        <p>================================================================================</p>
+
+        <p>libMPCategoryHelpers.a (c) Mixpanel, Inc. 2014.</p>
+
+        <p>Mixpanel grants you a limited, non-exclusive, non-transferable,
+        non-sublicenseable, revocable license to use the Software solely for your
+        internal use.  You may not commercialize this Software for the benefit of any
+        third party.  You may not decompile, disassemble, reverse engineer or otherwise
+        attempt to obtain or perceive the source code from which any software component
+        of the Software are compiled or interpreted, and you acknowledge that nothing
+        herein will be construed to grant you any right to obtain or use such code nor
+        create any derivative product from any of the foregoing, except with the prior
+        written consent of Mixpanel.  Any dispute arising hereunder shall be submitted
+        to confidential binding arbitration in the County and City of San Francisco,
+        California for the maximum judgment enforceable, except that to the extent you
+        have in any manner violated or threatened to violate Mixplanel’s intellectual
+        property rights, Mixpanel may seek injunctive or other appropriate relief in
+        any state or federal court in the State of California.</p>
+
         <h2>NSData+Base64</h2>
 
         <p>This software is provided 'as-is', without any express or implied
@@ -707,31 +738,15 @@
                 distribution.</li>
         </ol>
 
-        <h2>NSDate+TimeAgo</h2>
-
-        <p>Copyright (c) 2011-2013, Kevin Lawler</p>
-
-        <p>Permission to use, copy, modify, and/or distribute this software for any purpose
-        with or without fee is hereby granted, provided that the above copyright notice
-        and this permission notice appear in all copies.</p>
-
-        <p>THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-        REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
-        FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-        INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
-        OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-        TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
-        THIS SOFTWARE.</p>
-
         <h2>NXOAuth2Client</h2>
 
-        <p>Copyright © 2012, nxtbgthng GmbH</p>
+        <p>Copyright © 2012-2014, nxtbgthng GmbH</p>
 
         <p>All rights reserved.</p>
 
         <p>Redistribution and use in source and binary forms, with or without
         modification, are permitted provided that the following conditions are met:</p>
-
+        
         <ul>
             <li>Redistributions of source code must retain the above copyright
                 notice, this list of conditions and the following disclaimer.</li>
@@ -742,7 +757,7 @@
                 names of its contributors may be used to endorse or promote products
                 derived from this software without specific prior written permission.</li>
         </ul>
-
+        
         <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
         ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -753,23 +768,23 @@
             ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
             (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
             SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-
+            
             <h2>NullSafe</h2>
-
+            
             <p>NullSafe</p>
-
+            
             <p>Version 1.2, December 22nd, 2012</p>
-
+            
             <p>Copyright (C) 2012 Charcoal Design</p>
-
+            
             <p>This software is provided 'as-is', without any express or implied
             warranty.  In no event will the authors be held liable for any damages
             arising from the use of this software.</p>
-
+            
             <p>Permission is granted to anyone to use this software for any purpose,
             including commercial applications, and to alter it and redistribute it
             freely, subject to the following restrictions:</p>
-
+            
             <ol>
                 <li>The origin of this software must not be misrepresented; you must not
                     claim that you wrote the original software. If you use this software
@@ -779,34 +794,64 @@
                     misrepresented as being the original software.</li>
                 <li>This notice may not be removed or altered from any source distribution.</li>
             </ol>
-
+            
             <h2>OAuthCore</h2>
-
+            
             <p>Copyright (C) 2012 Loren Brichter</p>
-
+            
             <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-
+            
             <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-
+            
             <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-
-            <h2>OHHTTPStubs</h2>
-
-            <ul>
-                <li>MIT LICENSE -</li>
-            </ul>
-
-            <p>Copyright (c) 2012 Olivier Halligon</p>
-
-            <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-
-            <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-
-            <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+            
+            <h2>RNActivityView</h2>
+            
+            <p>Copyright (c) 2014 Romilson Nunes <a href="&#x6D;&#97;&#x69;&#x6C;&#116;&#111;:&#115;&#x6F;&#x75;&#122;a&#x69;&#110;&#x66;&#51;&#64;y&#x61;&#x68;&#111;&#x6F;&#46;c&#x6F;&#x6D;&#x2E;&#x62;&#114;">&#115;&#x6F;&#x75;&#122;a&#x69;&#110;&#x66;&#51;&#64;y&#x61;&#x68;&#111;&#x6F;&#46;c&#x6F;&#x6D;&#x2E;&#x62;&#114;</a></p>
+            
+            <p>Permission is hereby granted, free of charge, to any person obtaining a copy
+            of this software and associated documentation files (the "Software"), to deal
+            in the Software without restriction, including without limitation the rights
+            to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+            copies of the Software, and to permit persons to whom the Software is
+            furnished to do so, subject to the following conditions:</p>
+            
+            <p>The above copyright notice and this permission notice shall be included in
+            all copies or substantial portions of the Software.</p>
+            
+            <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+            IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+            FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+            AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+            LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+            OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+            THE SOFTWARE.</p>
+            
+            <h2>RSKImageCropper</h2>
+            
+            <p>Copyright (c) 2014 Ruslan Skorb, http://lnkd.in/gsBbvb</p>
+            
+            <p>Permission is hereby granted, free of charge, to any person obtaining a copy
+            of this software and associated documentation files (the "Software"), to deal
+            in the Software without restriction, including without limitation the rights
+            to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+            copies of the Software, and to permit persons to whom the Software is
+            furnished to do so, subject to the following conditions:</p>
+            
+            <p>The above copyright notice and this permission notice shall be included in
+            all copies or substantial portions of the Software.</p>
+            
+            <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+            IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+            FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+            AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+            LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+            OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+            THE SOFTWARE.</p>
             
             <h2>SDWebImage</h2>
             
-            <p>Copyright (c) 2009 Olivier Poitrey <a href="&#109;&#97;&#105;&#108;&#116;o:&#x72;s&#64;d&#97;i&#108;&#x79;&#109;&#111;&#116;&#105;o&#x6E;&#46;&#99;&#111;m">&#x72;s&#64;d&#97;i&#108;&#x79;&#109;&#111;&#116;&#105;o&#x6E;&#46;&#99;&#111;m</a></p>
+            <p>Copyright (c) 2009 Olivier Poitrey <a href="&#109;&#97;i&#108;&#x74;&#x6F;:r&#115;&#64;&#100;&#x61;&#x69;&#108;&#121;m&#x6F;&#116;&#105;&#111;&#x6E;&#x2E;&#99;&#111;&#x6D;">r&#115;&#64;&#100;&#x61;&#x69;&#108;&#121;m&#x6F;&#116;&#105;&#111;&#x6E;&#x2E;&#99;&#111;&#x6D;</a></p>
             
             <p>Permission is hereby granted, free of charge, to any person obtaining a copy
             of this software and associated documentation files (the "Software"), to deal
@@ -851,5 +896,7 @@
                 <li>This notice may not be removed or altered from any source distribution.
                     Generated by CocoaPods - http://cocoapods.org</li>
             </ol>
+            
+
     </body>
 </html>

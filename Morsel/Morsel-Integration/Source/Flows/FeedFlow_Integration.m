@@ -8,7 +8,7 @@
 
 #import "KIFUITestActor+Additions.h"
 
-KIF_SPEC_BEGIN(FeedFlowIntegration)
+SPEC_BEGIN(FeedFlowIntegration)
 
 describe(@"The feed", ^{
     beforeEach(^{
@@ -28,4 +28,4 @@ describe(@"The feed", ^{
     });
 });
 
-KIF_SPEC_END
+SPEC_END

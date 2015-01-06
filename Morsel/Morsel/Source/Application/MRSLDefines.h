@@ -142,10 +142,9 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 #define MIXPANEL_NO_IFA
 
 #define ROLLBAR_ACCESS_TOKEN @"80ee8af968f646898f1c1a6d6253b347"
-#define ROLLBAR_VERSION @"v0.1.2"
 
 #if defined (ROLLBAR_ENVIRONMENT)
-#import "Rollbar.h"
+#import <Rollbar/Rollbar.h>
 #endif
 
 #pragma mark - Defines
@@ -182,7 +181,7 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 #define MORSEL_BASE_URL @"https://www.eatmorsel.com"
 #define S3_BASE_URL @"https://morsel.s3.amazonaws.com/"
 
-#elif (defined(MORSEL_DEBUG) || defined(MORSEL_ALPHA))
+#elif (defined(MORSEL_ALPHA) || defined(MORSEL_DEBUG) || defined(SPEC_TESTING) || defined(INTEGRATION_TESTING))
 
 #define MORSEL_API_BASE_URL @"https://api-staging.eatmorsel.com"
 #define MORSEL_BASE_URL @"https://staging.eatmorsel.com"
@@ -220,7 +219,7 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 #define INSTAGRAM_CONSUMER_SECRET @"0887a6cfbea54cdea71ad7b7b3dc1a29"
 #define INSTAGRAM_CALLBACK @"insta-morsel://success"
 
-#elif (defined(MORSEL_ALPHA) || defined(MORSEL_DEBUG))
+#elif (defined(MORSEL_ALPHA) || defined(MORSEL_DEBUG) || defined(SPEC_TESTING) || defined(INTEGRATION_TESTING))
 
 #define FACEBOOK_APP_ID @"1494349067476127"
 #define FACEBOOK_PUBLISH_AUDIENCE FBSessionDefaultAudienceOnlyMe

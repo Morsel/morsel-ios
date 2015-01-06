@@ -60,11 +60,11 @@
 
     if (!cell) {
         if (indexPath.section >= collectionView.numberOfSections) {
-            [self failWithError:[NSError KIFErrorWithFormat:@"Section %d is not found in '%@' collection view", indexPath.section, collectionViewLabel] stopTest:YES];
+            [self failWithError:[NSError KIFErrorWithFormat:@"Section %ld is not found in '%@' collection view", (long)indexPath.section, collectionViewLabel] stopTest:YES];
         }
 
         if (indexPath.row >= [collectionView numberOfItemsInSection:indexPath.section]) {
-            [self failWithError:[NSError KIFErrorWithFormat:@"Row %d is not found in section %d of '%@' collection view", indexPath.row, indexPath.section, collectionViewLabel] stopTest:YES];
+            [self failWithError:[NSError KIFErrorWithFormat:@"Row %ld is not found in section %ld of '%@' collection view", (long)indexPath.row, (long)indexPath.section, collectionViewLabel] stopTest:YES];
         }
 
         [collectionView scrollToItemAtIndexPath:indexPath

@@ -8,8 +8,6 @@
 
 #import "MRSLFeedPageCollectionViewCell.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
-
 #import "MRSLAPIService+Like.h"
 
 #import "MRSLModalCommentsViewController.h"

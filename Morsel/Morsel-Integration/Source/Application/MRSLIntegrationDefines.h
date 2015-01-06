@@ -8,7 +8,7 @@
 
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <OHHTTPStubs/OHHTTPStubsResponse+JSON.h>
-#import <Kiwi+KIF.h>
+#import <KIF-Kiwi/KIF-Kiwi.h>
 
 #import "MRSLDefines.h"
 #import "MRSLSpecUtil.h"

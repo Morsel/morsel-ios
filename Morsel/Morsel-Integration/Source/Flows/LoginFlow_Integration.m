@@ -8,7 +8,7 @@
 
 #import "KIFUITestActor+Additions.h"
 
-KIF_SPEC_BEGIN(LoginFlowIntegration)
+SPEC_BEGIN(LoginFlowIntegration)
 
 describe(@"The login flow", ^{
     beforeEach(^{
@@ -32,4 +32,4 @@ describe(@"The login flow", ^{
     });
 });
 
-KIF_SPEC_END
+SPEC_END
