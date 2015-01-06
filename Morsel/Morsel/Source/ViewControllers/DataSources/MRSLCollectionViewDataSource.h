@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef UICollectionViewCell *(^MRSLCellConfigureBlock)(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count);
+#import "MRSLDataSource.h"
+
+typedef UICollectionViewCell *(^MRSLCVCellConfigureBlock)(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count);
 typedef UICollectionReusableView *(^MRSLSupplementaryCellConfigureBlock)(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath);
 typedef CGSize (^MRSLLayoutHeaderSizeConfigureBlock)(UICollectionView *collectionView, NSInteger section);
 typedef CGSize (^MRSLLayoutCellSizeConfigureBlock)(UICollectionView *collectionView, NSIndexPath *indexPath);
@@ -25,21 +27,27 @@ typedef CGSize (^MRSLLayoutSectionSizeConfigureBlock)(UICollectionView *collecti
 - (void)collectionViewDataSourceDidScroll:(UICollectionView *)collectionView
                                withOffset:(CGFloat)offset;
 - (NSInteger)collectionViewDataSourceNumberOfItemsInSection:(NSInteger)section;
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView;
 
 @end
 
-@interface MRSLCollectionViewDataSource : NSObject
+@interface MRSLCollectionViewDataSource : MRSLDataSource
 <UICollectionViewDataSource,
 UICollectionViewDelegate>
 
 @property (weak, nonatomic) id <MRSLCollectionViewDataSourceDelegate> delegate;
 
 - (id)initWithCollectionView:(UICollectionView *)collectionView;
-
-- (id)objectAtIndexPath:(NSIndexPath *)indexPath;
-
-- (NSUInteger)count;
-
-- (BOOL)isEmpty;
+- (id)initWithObjects:(id)objects
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock;
+- (id)initWithObjects:(NSArray *)objects
+             sections:(NSArray *)sectionsOrNil
+   configureCellBlock:(MRSLCVCellConfigureBlock)configureCellBlock
+   supplementaryBlock:(MRSLSupplementaryCellConfigureBlock)supplementaryBlock
+sectionHeaderSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionHeaderSizeBlock
+sectionFooterSizeBlock:(MRSLLayoutSectionSizeConfigureBlock)sectionFooterSizeBlock
+        cellSizeBlock:(MRSLLayoutCellSizeConfigureBlock)cellSizeBlock
+   sectionInsetConfig:(MRSLLayoutSectionInsetConfigureBlock)insetConfig;
 
 @end

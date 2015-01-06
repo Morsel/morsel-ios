@@ -27,7 +27,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.optionNameLabel.textColor = [UIColor morselPrimary];
-    self.optionNameLabel.font = [UIFont robotoRegularFontOfSize:_optionNameLabel.font.pointSize];
+    self.optionNameLabel.font = [UIFont primaryRegularFontOfSize:_optionNameLabel.font.pointSize];
     [self addBorderWithDirections:MRSLBorderSouth
                       borderColor:[[self defaultBackgroundColor] colorWithAlphaComponent:.8f]];
 }

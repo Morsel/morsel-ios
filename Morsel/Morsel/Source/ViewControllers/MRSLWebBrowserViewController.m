@@ -42,7 +42,7 @@ UIWebViewDelegate>
                                              selector:@selector(keyboardWillHide)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-    if (!self.title) self.title = @"Web browser";
+    if (!self.title) self.title = @"Loading...";
     [self.webView loadRequest:[NSURLRequest requestWithURL:_url]];
     [self.webView.scrollView setContentInset:UIEdgeInsetsMake(0.f, 0.f, 60.f, 0.f)];
     self.webViewHeight = [self.webView getHeight];
@@ -153,7 +153,7 @@ UIWebViewDelegate>
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self displayActivity:NO];
-    if ([self.browserTitle isEqualToString:@"Web browser"] || !self.browserTitle) {
+    if ([self.browserTitle isEqualToString:@"Loading..."] || !self.browserTitle) {
         self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     }
 }

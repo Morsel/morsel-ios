@@ -1,6 +1,7 @@
 #import "MRSLUser.h"
 
 #import "MRSLS3Service.h"
+#import "MRSLAPIService+Authentication.h"
 #import "MRSLAPIService+Profile.h"
 #import "MRSLAPIService+Notifications.h"
 #import "MRSLAPIService+Report.h"
@@ -159,8 +160,11 @@ static const int kGuestUserID = -1;
     if (!currentUser) return;
 
     [_appDelegate.apiService getUserProfile:currentUser
-                                    success:userSuccessOrNil
-                                    failure:failureOrNil];
+                                    success:^(id responseObject) {
+                                        [_appDelegate.apiService getUserAuthenticationsWithSuccess:nil
+                                                                                   failure:nil];
+                                        if (userSuccessOrNil) userSuccessOrNil(responseObject);
+                                    } failure:failureOrNil];
 }
 
 #pragma mark - Instance Methods
@@ -266,12 +270,12 @@ static const int kGuestUserID = -1;
 - (NSMutableAttributedString *)profileInformation {
     NSString *fullName = [self fullName];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ \n%@", fullName, self.bio ?: @""]
-                                                                                         attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleBody]}];
+                                                                                         attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleBody]}];
     [attributedString addAttribute:NSLinkAttributeName
                              value:@"profile://display"
                              range:[[attributedString string] rangeOfString:fullName]];
     [attributedString addAttribute:NSFontAttributeName
-                             value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleHeadline]
+                             value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleHeadline]
                              range:[[attributedString string] rangeOfString:fullName]];
 
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];

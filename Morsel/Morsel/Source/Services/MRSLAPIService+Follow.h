@@ -23,16 +23,14 @@
             failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getUserFollowers:(MRSLUser *)user
-               withMaxID:(NSNumber *)maxOrNil
-               orSinceID:(NSNumber *)sinceOrNil
-                andCount:(NSNumber *)countOrNil
+                    page:(NSNumber *)pageOrNil
+                   count:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
                  failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getUserFollowables:(MRSLUser *)user
-                 withMaxID:(NSNumber *)maxOrNil
-                 orSinceID:(NSNumber *)sinceOrNil
-                  andCount:(NSNumber *)countOrNil
+                      page:(NSNumber *)pageOrNil
+                     count:(NSNumber *)countOrNil
                    success:(MRSLAPIArrayBlock)successOrNil
                    failure:(MRSLFailureBlock)failureOrNil;
 

@@ -19,7 +19,6 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 
-#import "MRSLAPIService+Authentication.h"
 #import "MRSLAPIService+Remote.h"
 
 #import "MRSLAPIClient.h"
@@ -196,10 +195,8 @@
 - (void)refreshUserInformation {
     MRSLUser *currentUser = [MRSLUser currentUser];
     if (!currentUser) return;
-    [MRSLUser API_refreshCurrentUserWithSuccess:^(id responseObject) {
-        [self.apiService getUserAuthenticationsWithSuccess:nil
-                                                   failure:nil];
-    } failure:nil];
+    [MRSLUser API_refreshCurrentUserWithSuccess:nil
+                                        failure:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MRSLRegisterRemoteNotificationsNotification
                                                         object:nil];
     [MRSLUser API_updateNotificationsAmount:nil

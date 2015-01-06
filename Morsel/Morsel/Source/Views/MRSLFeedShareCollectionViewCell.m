@@ -34,8 +34,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextMorselButton;
 @property (weak, nonatomic) IBOutlet UIButton *reportButton;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *profileImageDescriptionSpacing;
-
 @end
 
 @implementation MRSLFeedShareCollectionViewCell
@@ -74,9 +72,6 @@
     _nextMorselButton.hidden = (!self.nextMorsel);
     _nextInfoTextView.hidden = (!self.nextMorsel);
 
-    self.profileImageDescriptionSpacing.constant = self.followButton.hidden ? 0.f : 40.f;
-    [self setNeedsUpdateConstraints];
-
     if (!_reportButton.hidden) {
         self.morselID = self.morsel.morselIDValue;
         __weak __typeof(self)weakSelf = self;
@@ -85,9 +80,6 @@
                                             if (weakSelf && weakSelf.morselID == weakSelf.morsel.morselIDValue &&
                                                 !weakSelf.morsel.creator.followingValue) {
                                                 weakSelf.followButton.user = weakSelf.morsel.creator;
-
-                                                weakSelf.profileImageDescriptionSpacing.constant = weakSelf.followButton.hidden ? 0.f : 40.f;
-                                                [weakSelf setNeedsUpdateConstraints];
                                             }
                                         } failure:nil];
     }
@@ -102,13 +94,13 @@
                                          value:@"next://display"
                                          range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
         [nextInfoAttributedString addAttribute:NSFontAttributeName
-                                         value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                         value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleSubheadline]
                                          range:[[nextInfoAttributedString string] rangeOfString:nextMorsel]];
         [nextInfoAttributedString addAttribute:NSLinkAttributeName
                                          value:@"next://display"
                                          range:[[nextInfoAttributedString string] rangeOfString:morselName]];
         [nextInfoAttributedString addAttribute:NSFontAttributeName
-                                         value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]
+                                         value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]
                                          range:[[nextInfoAttributedString string] rangeOfString:morselName]];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setAlignment:NSTextAlignmentRight];
@@ -129,6 +121,10 @@
         return NO;
     } else if ([[URL scheme] isEqualToString:@"next"]) {
         [self displayNextMorsel:nil];
+        return NO;
+    } else if ([[URL scheme] rangeOfString:@"http"].location != NSNotFound) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayWebBrowserNotification object:@{@"title": @"Loading...",
+                                                                                                                       @"url": URL}];
         return NO;
     }
     return YES;

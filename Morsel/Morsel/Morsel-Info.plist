@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4</string>
+	<string>1.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -47,7 +47,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201411191612</string>
+	<string>201412161636</string>
 	<key>FacebookAppID</key>
 	<string>${FB_APP_ID}</string>
 	<key>FacebookDisplayName</key>
@@ -58,12 +58,13 @@
 	<string>Location is required to find out where you are</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Roboto-Light.ttf</string>
-		<string>Roboto-LightItalic.ttf</string>
-		<string>Roboto-Bold.ttf</string>
-		<string>Roboto-Regular.ttf</string>
-		<string>RobotoSlab-Regular.ttf</string>
-		<string>RobotoSlab-Bold.ttf</string>
+		<string>Lato-Light.ttf</string>
+		<string>Lato-LightItalic.ttf</string>
+		<string>Lato-BoldItalic.ttf</string>
+		<string>Lato-Regular.ttf</string>
+		<string>Lato-Bold.ttf</string>
+		<string>Merriweather-Bold.ttf</string>
+		<string>Merriweather-Regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch</string>

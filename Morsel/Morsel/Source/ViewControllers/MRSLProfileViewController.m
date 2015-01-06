@@ -42,28 +42,23 @@
 
 @interface MRSLProfileViewController ()
 <UIActionSheetDelegate,
-UIScrollViewDelegate,
 MRSLCollectionViewDataSourceDelegate,
 MRSLProfilePanelCollectionViewCellDelegate,
 MRSLSegmentedHeaderReusableViewDelegate,
 MRSLStateViewDelegate>
 
-@property (nonatomic, getter = isLoading) BOOL loading;
-@property (nonatomic) BOOL loadingMore;
-@property (nonatomic) BOOL loadedAll;
 @property (nonatomic) BOOL shouldShowFollowers;
 @property (nonatomic) BOOL queuedToDisplayFollowers;
+@property (nonatomic) BOOL dataAscending;
+
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 @property (nonatomic) MRSLDataSourceType dataSourceTabType;
+@property (nonatomic) MRSLDataSortType dataSortType;
 
 @property (weak, nonatomic) IBOutlet MRSLFollowButton *followButton;
-@property (weak, nonatomic) IBOutlet MRSLCollectionView *profileCollectionView;
 
-@property (strong, nonatomic) NSMutableArray *objectIDs;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSString *keywordType;
-
-@property (strong, nonatomic) MRSLPanelSegmentedCollectionViewDataSource *segmentedPanelCollectionViewDataSource;
 
 @end
 
@@ -76,8 +71,6 @@ MRSLStateViewDelegate>
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-
     if (self.userInfo[@"user_id"]) {
         self.user = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                             withValue:@([self.userInfo[@"user_id"] intValue])];
@@ -89,9 +82,7 @@ MRSLStateViewDelegate>
         [_appDelegate.apiService getUserProfile:_user
                                         success:^(id responseObject) {
                                             if (weakSelf) {
-                                                [weakSelf loadObjectIDs];
-                                                [weakSelf setupCollectionViewDataSource];
-                                                [weakSelf refreshContent];
+                                                [weakSelf setupRemoteRequestBlock];
                                             }
                                         } failure:^(NSError *error) {
                                             [UIAlertView showAlertViewForErrorString:@"Unable to load user profile."
@@ -100,25 +91,17 @@ MRSLStateViewDelegate>
         if ([self.userInfo[@"action"] isEqualToString:@"followers"]) {
             self.queuedToDisplayFollowers = YES;
         }
+    } else {
+        if (!_user) self.user = [MRSLUser currentUser];
+        [self setupRemoteRequestBlock];
     }
 
-    if (!_user) self.user = [MRSLUser currentUser];
+    self.emptyStateString = @"No morsels added";
+    self.dataSourceTabType = MRSLDataSourceTypeMorsel;
+    self.dataSortType = MRSLDataSortTypePublishedDate;
+    self.followButton.hidden = YES;
 
-    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshContent)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.profileCollectionView addSubview:_refreshControl];
-    self.profileCollectionView.alwaysBounceVertical = YES;
-
-    [self loadObjectIDs];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:NO
-                                             animated:animated];
-    [super viewWillAppear:animated];
+    [super viewDidLoad];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -132,15 +115,13 @@ MRSLStateViewDelegate>
     }
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-
-    if (self.segmentedPanelCollectionViewDataSource) return;
-
-    [self setupCollectionViewDataSource];
-    [self populateUserInformation];
-    [self refreshContent];
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.collectionView deselectItemAtIndexPath:self.selectedIndexPath
+                                            animated:YES];
+        self.selectedIndexPath = nil;
+    }
 }
 
 #pragma mark - Action Methods
@@ -166,62 +147,95 @@ MRSLStateViewDelegate>
     return [self.user isCurrentUser];
 }
 
-- (void)setLoading:(BOOL)loading {
-    _loading = loading;
-
-    [self.profileCollectionView toggleLoading:loading];
+- (NSString *)objectIDsKey {
+    return [NSString stringWithFormat:@"profile_user_%@_%@IDs", _user.userID, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
 }
 
-- (void)setupCollectionViewDataSource {
+- (NSFetchedResultsController *)defaultFetchedResultsController {
+    NSString *predicateString = [NSString stringWithFormat:@"%@ID", [MRSLUtil stringForDataSourceType:self.dataSourceTabType]];
+    NSString *sortString = [MRSLUtil stringForDataSortType:self.dataSortType];
+    return [[MRSLUtil classForDataSourceType:self.dataSourceTabType] MR_fetchAllSortedBy:sortString
+                                                                               ascending:self.dataAscending
+                                                                           withPredicate:[NSPredicate predicateWithFormat:@"%K IN %@", predicateString, self.objectIDs]
+                                                                                 groupBy:nil
+                                                                                delegate:self
+                                                                               inContext:[NSManagedObjectContext MR_defaultContext]];
+}
+
+- (MRSLDataSource *)dataSource {
+    MRSLDataSource *superDataSource = [super dataSource];
+    if (superDataSource) return superDataSource;
     __weak __typeof(self) weakSelf = self;
-    NSString *predicateString = [NSString stringWithFormat:@"%@ID", [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
-    self.segmentedPanelCollectionViewDataSource = [[MRSLPanelSegmentedCollectionViewDataSource alloc] initWithManagedObjectClass:[MRSLUtil classForDataSourceType:_dataSourceTabType]
-                                                                                                                       predicate:[NSPredicate predicateWithFormat:@"%K IN %@", predicateString, _objectIDs]
-                                                                                                                  collectionView:_profileCollectionView
-                                                                                                                      cellConfig:^(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
-                                                                                                                          return [weakSelf configureCellForItem:item
-                                                                                                                                               inCollectionView:collectionView
-                                                                                                                                                    atIndexPath:indexPath
-                                                                                                                                                       andCount:count];
-                                                                                                                      } supplementaryConfig:^(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
-                                                                                                                          UICollectionReusableView *reusableView = nil;
-                                                                                                                          if (indexPath.section == 1) {
-                                                                                                                              reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                                                withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
-                                                                                                                                                                                       forIndexPath:indexPath];
+    MRSLDataSource *newDataSource = [[MRSLPanelSegmentedCollectionViewDataSource alloc] initWithObjects:nil
+                                                                                               sections:nil
+                                                                                     configureCellBlock:^UICollectionViewCell *(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
+                                                                                         return [weakSelf configureCellForItem:item
+                                                                                                              inCollectionView:collectionView
+                                                                                                                   atIndexPath:indexPath
+                                                                                                                         count:count];
+                                                                                     }
+                                                                                     supplementaryBlock:^UICollectionReusableView *(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
+                                                                                         UICollectionReusableView *reusableView = nil;
+                                                                                         if (indexPath.section == 1) {
+                                                                                             if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+                                                                                                 reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                   withReuseIdentifier:MRSLStoryboardRUIDLoadingCellKey
+                                                                                                                                                          forIndexPath:indexPath];
+                                                                                             } else {
+                                                                                                 reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                                   withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
+                                                                                                                                                          forIndexPath:indexPath];
 
-                                                                                                                              [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
-                                                                                                                              [(MRSLSegmentedHeaderReusableView *)reusableView setShouldDisplayProfessionalTabs:[weakSelf.user isProfessional]];
-                                                                                                                          } else {
-                                                                                                                              reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                                                                                                                                withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
-                                                                                                                                                                                       forIndexPath:indexPath];
-                                                                                                                              [reusableView setHidden:YES];
-                                                                                                                          }
-                                                                                                                          return reusableView;
-                                                                                                                      } headerConfig:^(UICollectionView *collectionView, NSInteger section) {
-                                                                                                                          if (section != 0) {
-                                                                                                                              return CGSizeMake(collectionView.bounds.size.width, 50.f);
-                                                                                                                          } else {
-                                                                                                                              return CGSizeZero;
-                                                                                                                          }
-                                                                                                                      } cellSizeConfig:^(UICollectionView *collectionView, NSIndexPath *indexPath) {
-                                                                                                                          return [weakSelf configureSizeForCollectionView:collectionView
-                                                                                                                                                              atIndexPath:indexPath];
-                                                                                                                      } sectionInsetConfig:^(UICollectionView *collectionView, NSInteger section) {
-                                                                                                                          if (section != 0) {
-                                                                                                                              return UIEdgeInsetsMake(0.f, 0.f, 10.f, 0.f);
-                                                                                                                          } else {
-                                                                                                                              return UIEdgeInsetsZero;
-                                                                                                                          }
-                                                                                                                      }];
+                                                                                                 [(MRSLSegmentedHeaderReusableView *)reusableView setDelegate:weakSelf];
+                                                                                             }
+                                                                                         } else {
+                                                                                             reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                               withReuseIdentifier:MRSLStoryboardRUIDHeaderCellKey
+                                                                                                                                                      forIndexPath:indexPath];
+                                                                                             [reusableView setHidden:YES];
+                                                                                         }
+                                                                                         return reusableView;
+                                                                                     }
+                                                                                 sectionHeaderSizeBlock:^(UICollectionView *collectionView, NSInteger section) {
+                                                                                     if (section != 0) {
+                                                                                         return CGSizeMake(collectionView.bounds.size.width, 50.f);
+                                                                                     } else {
+                                                                                         return CGSizeZero;
+                                                                                     }
+                                                                                 }
+                                                                                 sectionFooterSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                     return (weakSelf.loadingMore && section == 1) ? CGSizeMake([collectionView getWidth], 50.f) : CGSizeZero;
+                                                                                 }
+                                                                                          cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
+                                                                                              return [weakSelf configureSizeForCollectionView:collectionView
+                                                                                                                                  atIndexPath:indexPath];
+                                                                                          }
+                                                                                     sectionInsetConfig:^UIEdgeInsets(UICollectionView *collectionView, NSInteger section) {
+                                                                                         if (section != 0) {
+                                                                                             return UIEdgeInsetsMake(0.f, 0.f, 10.f, 0.f);
+                                                                                         } else {
+                                                                                             return UIEdgeInsetsZero;
+                                                                                         }
+                                                                                     }];
+    [self setDataSource:newDataSource];
+    return newDataSource;
+}
 
-    [self.profileCollectionView setDataSource:_segmentedPanelCollectionViewDataSource];
-    [self.profileCollectionView setDelegate:_segmentedPanelCollectionViewDataSource];
-    [self.profileCollectionView setEmptyStateTitle:@"No morsels added"];
-    [self.profileCollectionView setEmptyStateDelegate:self];
-
-    [self.segmentedPanelCollectionViewDataSource setDelegate:self];
+- (void)setupRemoteRequestBlock {
+    [self refreshProfile];
+    __weak __typeof(self)weakSelf = self;
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [_appDelegate.apiService getUserData:strongSelf.user
+                           forDataSourceType:strongSelf.dataSourceTabType
+                                        page:page
+                                       count:nil
+                                     success:^(NSArray *responseArray) {
+                                         remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                     } failure:^(NSError *error) {
+                                         remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                     }];
+    };
 }
 
 - (void)displayEditProfile {
@@ -241,7 +255,6 @@ MRSLStateViewDelegate>
 
 - (void)populateUserInformation {
     self.title = _user.username;
-    self.followButton.user = _user;
     if ([self.user isCurrentUser]) {
         //  Hide the follow button and show a 'Edit' button instead
         [self.followButton setHidden:YES];
@@ -253,88 +266,14 @@ MRSLStateViewDelegate>
                                                                                        action:@selector(displayEditProfile)]];
 
         }
-        [self.profileCollectionView setEmptyStateButtonTitle:@"Add a morsel"];
+    } else {
+        self.followButton.user = _user;
+        self.followButton.hidden = NO;
     }
-    [_profileCollectionView reloadData];
 }
 
 - (void)loadObjectIDs {
     self.objectIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[self objectIDsKey]] ?: [NSMutableArray array];
-}
-
-- (void)updateDataSourcePredicate {
-    NSString *predicateString = [NSString stringWithFormat:@"%@ID", [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
-    [self.segmentedPanelCollectionViewDataSource updateFetchRequestWithManagedObjectClass:[MRSLUtil classForDataSourceType:_dataSourceTabType]
-                                                                            withPredicate:[NSPredicate predicateWithFormat:@"%K IN %@", predicateString, _objectIDs]];
-}
-
-- (NSString *)objectIDsKey {
-    if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
-        return [NSString stringWithFormat:@"%@_liked_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
-    } else {
-        return [NSString stringWithFormat:@"%@_%@IDs", _user.username, [MRSLUtil stringForDataSourceType:_dataSourceTabType]];
-    }
-}
-
-- (void)refreshContent {
-    if ([self isLoading]) return;
-    [self refreshProfile];
-    self.loadedAll = NO;
-    self.loading = YES;
-    __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getUserData:_user
-                       forDataSourceType:_dataSourceTabType
-                               withMaxID:nil
-                               orSinceID:nil
-                                andCount:@(12)
-                                 success:^(NSArray *responseArray) {
-                                     if (weakSelf) {
-                                         [weakSelf.refreshControl endRefreshing];
-                                         weakSelf.objectIDs = [responseArray mutableCopy];
-                                         [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
-                                                                                   forKey:[weakSelf objectIDsKey]];
-                                         [weakSelf updateDataSourcePredicate];
-                                         weakSelf.loading = NO;
-                                     }
-                                 } failure:^(NSError *error) {
-                                     if (weakSelf) {
-                                         [weakSelf.refreshControl endRefreshing];
-                                         weakSelf.loading = NO;
-                                     }
-                                 }];
-}
-
-- (void)loadMore {
-    if (_loadingMore || !_user || _loadedAll || [self isLoading]) return;
-    self.loadingMore = YES;
-    __weak __typeof (self) weakSelf = self;
-    [_appDelegate.apiService getUserData:_user
-                       forDataSourceType:_dataSourceTabType
-                               withMaxID:@([self lastObjectID])
-                               orSinceID:nil
-                                andCount:@(12)
-                                 success:^(NSArray *responseArray) {
-                                     if ([responseArray count] == 0) weakSelf.loadedAll = YES;
-                                     DDLogDebug(@"%lu user data objects added", (unsigned long)[responseArray count]);
-                                     if (weakSelf) {
-                                         if ([responseArray count] > 0) {
-                                             [weakSelf.objectIDs addObjectsFromArray:responseArray];
-                                             [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.objectIDs copy]
-                                                                                       forKey:[self objectIDsKey]];
-                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                                 [weakSelf updateDataSourcePredicate];
-                                             });
-                                         }
-                                         weakSelf.loadingMore = NO;
-                                     }
-                                 } failure:^(NSError *error) {
-                                     if (weakSelf) weakSelf.loadingMore = NO;
-                                 }];
-}
-
-- (int)lastObjectID {
-    int lastID = [[_objectIDs lastObject] intValue];
-    return (lastID == 0) ? 0 : lastID - 1;
 }
 
 - (void)displayUserFeedWithMorsel:(MRSLMorsel *)morsel {
@@ -351,7 +290,7 @@ MRSLStateViewDelegate>
 - (UICollectionViewCell *)configureCellForItem:(id)item
                               inCollectionView:(UICollectionView *)collectionView
                                    atIndexPath:(NSIndexPath *)indexPath
-                                      andCount:(NSUInteger)count {
+                                         count:(NSUInteger)count {
     UICollectionViewCell *cell = nil;
     if (indexPath.section == 0) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDPanelCellKey
@@ -401,21 +340,22 @@ MRSLStateViewDelegate>
     if (indexPath.section == 0) {
         return CGSizeMake(collectionView.frame.size.width, 124.f);
     } else {
-        if ([self.segmentedPanelCollectionViewDataSource count] == 0) {
+        if ([self.dataSource count] == 0) {
             return CGSizeMake(collectionView.frame.size.width, (_dataSourceTabType == MRSLDataSourceTypeTag) ? 500.f : 80.f);
         } else {
-            id object = [_segmentedPanelCollectionViewDataSource objectAtIndexPath:indexPath];
+            id object = [self.dataSource objectAtIndexPath:indexPath];
             if ([object isKindOfClass:[MRSLMorsel class]]) {
                 if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
                     return CGSizeMake(collectionView.frame.size.width, 80.f);
                 } else {
-                    return CGSizeMake(MAX(106.f, (collectionView.frame.size.width / 3) - 1.f), MAX(106.f, (collectionView.frame.size.width / 3) - 1.f));
+                    return [MRSLMorselPreviewCollectionViewCell defaultCellSizeForCollectionView:collectionView
+                                                                                     atIndexPath:indexPath];
                 }
             } else if ([object isKindOfClass:[MRSLTag class]]) {
                 BOOL shouldDisplayTypeHeader = (indexPath.row == 0);
                 if (indexPath.row > 0) {
                     MRSLTag *currentTag = object;
-                    MRSLTag *previousTag = [self.segmentedPanelCollectionViewDataSource objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section]];
+                    MRSLTag *previousTag = [self.dataSource objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section]];
                     shouldDisplayTypeHeader = ![previousTag.keyword.type isEqualToString:currentTag.keyword.type];
                 }
                 return CGSizeMake(collectionView.frame.size.width, (shouldDisplayTypeHeader) ? 64.f : 40.f);
@@ -438,7 +378,9 @@ MRSLStateViewDelegate>
 
 #pragma mark - MRSLCollectionViewDataSourceDelegate
 
-- (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItem:(id)item {
+- (void)collectionViewDataSource:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    id item = [self.dataSource objectAtIndexPath:indexPath];
+    self.selectedIndexPath = indexPath;
     if ([item isKindOfClass:[MRSLMorsel class]]) {
         MRSLMorsel *morsel = item;
         MRSLMorselDetailViewController *userMorselsFeedVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselDetailViewControllerKey];
@@ -473,12 +415,6 @@ MRSLStateViewDelegate>
     }
 }
 
-- (void)collectionViewDataSourceDidScroll:(UICollectionView *)collectionView withOffset:(CGFloat)offset {
-    if (offset <= 10.f) {
-        [self loadMore];
-    }
-}
-
 #pragma mark - MRSLProfilePanelCollectionViewCellDelegate
 
 - (void)profilePanelDidSelectFollowers {
@@ -501,47 +437,56 @@ MRSLStateViewDelegate>
 
         switch (index) {
             case MRSLDataSourceTypeLikedMorsel:
-                [self.profileCollectionView setEmptyStateTitle:@"No activity yet"];
-                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:nil];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeLikedDate
-                                                                   ascending:NO];
+                self.emptyStateString = @"No activity yet";
+                if ([self isCurrentUserProfile]) self.emptyStateButtonString = nil;
+                self.dataSortType = MRSLDataSortTypeLikedDate;
+                self.dataAscending = NO;
                 break;
             case MRSLDataSourceTypeMorsel:
-                [self.profileCollectionView setEmptyStateTitle:@"No morsels added"];
-                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:@"Add a morsel"];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypePublishedDate
-                                                                   ascending:NO];
+                self.emptyStateString = @"No morsels added";
+                if ([self isCurrentUserProfile]) self.emptyStateButtonString = @"Add a morsel";
+                self.dataSortType = MRSLDataSortTypePublishedDate;
+                self.dataAscending = NO;
                 break;
             case MRSLDataSourceTypePlace:
-                [self.profileCollectionView setEmptyStateTitle:@"No places added"];
-                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:@"Add a place"];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeName
-                                                                   ascending:YES];
+                self.emptyStateString = @"No places added";
+                if ([self isCurrentUserProfile]) self.emptyStateButtonString = @"Add a place";
+                self.dataSortType = MRSLDataSortTypeName;
+                self.dataAscending = YES;
                 break;
             case MRSLDataSourceTypeTag:
-                [self.profileCollectionView setEmptyStateTitle:@"No tags added"];
-                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:@"Manage tags"];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeTagKeywordType
-                                                                   ascending:YES];
+                self.emptyStateString = @"No tags added";
+                if ([self isCurrentUserProfile]) self.emptyStateButtonString = @"Manage tags";
+                self.dataSortType = MRSLDataSortTypeTagKeywordType;
+                self.dataAscending = YES;
                 break;
             default:
-                [self.profileCollectionView setEmptyStateTitle:@"No results"];
-                if ([self isCurrentUserProfile]) [self.profileCollectionView setEmptyStateButtonTitle:nil];
-                [self.segmentedPanelCollectionViewDataSource setDataSortType:MRSLDataSortTypeNone
-                                                                   ascending:NO];
+                self.emptyStateString = @"No results";
+                if ([self isCurrentUserProfile]) self.emptyStateButtonString = nil;
+                self.dataSortType = MRSLDataSortTypeNone;
+                self.dataAscending = NO;
                 break;
         }
 
-        [[MRSLAPIClient sharedClient].operationQueue cancelAllOperations];
-        [self loadObjectIDs];
-        [self updateDataSourcePredicate];
-        [self refreshContent];
+        [self setupRemoteRequestBlock];
+        [self refreshRemoteContent];
     }
+}
+
+- (NSIndexSet *)segmentedButtonViewIndexSetToDisplay {
+    if (![self.user ?: [MRSLUser currentUser] isProfessional]) {
+        NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+        [indexSet addIndex:0];
+        [indexSet addIndex:3];
+        return indexSet;
+    }
+    return nil;
 }
 
 #pragma mark - MRSLStateViewDelegate
 
-- (void)stateView:(MRSLStateView *)stateView didSelectButton:(UIButton *)button {
+- (void)stateView:(MRSLStateView *)stateView
+  didSelectButton:(UIButton *)button {
     if ([button.titleLabel.text isEqualToString:@"Add a morsel"]) {
         [self displayMorselAdd];
     } else if ([button.titleLabel.text isEqualToString:@"Add a place"]) {
@@ -563,17 +508,6 @@ MRSLStateViewDelegate>
                                           message:@"Please try again"];
         }];
     }
-}
-
-#pragma mark - Dealloc
-
-- (void)reset {
-    [super reset];
-    [self.profileCollectionView setEmptyStateDelegate:nil];
-    self.profileCollectionView.delegate = nil;
-    self.profileCollectionView.dataSource = nil;
-    [self.profileCollectionView removeFromSuperview];
-    self.profileCollectionView = nil;
 }
 
 @end

@@ -16,14 +16,14 @@
 
 @interface MRSLTableViewDataSource ()
 
-@property (copy, nonatomic) MRSLCellConfigureBlock configureCellBlock;
+@property (copy, nonatomic) MRSLTVCellConfigureBlock configureCellBlock;
 
 @end
 
 @implementation MRSLTableViewDataSource
 
 - (id)initWithObjects:(id)objects
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock {
+   configureCellBlock:(MRSLTVCellConfigureBlock)configureCellBlock {
     self = [super initWithObjects:objects];
     if (self) {
         self.configureCellBlock = [configureCellBlock copy];
@@ -32,6 +32,13 @@
 }
 
 #pragma mark - UITableViewDelegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if ([self.delegate respondsToSelector:@selector(numberOfSectionsInTableView:)]) {
+        return [self.delegate numberOfSectionsInTableView:tableView];
+    }
+    return 1;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(tableViewDataSource:didSelectItem:)]) {
@@ -84,6 +91,21 @@
     }
 }
 
+#pragma mark - Editing
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(tableView:canEditRowAtIndexPath:)]) {
+        return [self.delegate tableView:tableView canEditRowAtIndexPath:indexPath];
+    }
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(tableView:commitEditingStyle:forRowAtIndexPath:)]) {
+        [self.delegate tableView:tableView commitEditingStyle:editingStyle forRowAtIndexPath:indexPath];
+    }
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -96,7 +118,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *tableViewCell = self.configureCellBlock([self objectAtIndexPath:indexPath], tableView, indexPath, [self count]);
-    [tableViewCell addDefaultBorderForDirections:MRSLBorderSouth];
     return tableViewCell;
 }
 

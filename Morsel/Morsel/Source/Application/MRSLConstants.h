@@ -119,7 +119,7 @@ extern NSString *const MRSLStoryboardExploreKey;
 extern NSString *const MRSLStoryboardFeedKey;
 extern NSString *const MRSLStoryboardFeedPanelKey;
 extern NSString *const MRSLStoryboardFeedPanelViewControllerKey;
-extern NSString *const MRSLStoryboardFindFriendsKey;
+extern NSString *const MRSLStoryboardFindUsersKey;
 extern NSString *const MRSLStoryboardFollowingPeopleKey;
 extern NSString *const MRSLStoryboardImagePreviewViewControllerKey;
 extern NSString *const MRSLStoryboardKeywordUsersViewControllerKey;
@@ -152,6 +152,9 @@ extern NSString *const MRSLStoryboardTemplateSelectionViewControllerKey;
 extern NSString *const MRSLStoryboardTemplateInfoViewControllerKey;
 extern NSString *const MRSLStoryboardTemplateInfoKey;
 extern NSString *const MRSLStoryboardOnboardingFeedKey;
+extern NSString *const MRSLStoryboardMorselSearchKey;
+extern NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey;
+extern NSString *const MRSLStoryboardFindUsersViewControllerKey;
 
 #pragma mark - Storyboard Segue Constants
 
@@ -172,6 +175,8 @@ extern NSString *const MRSLStoryboardSegueSpecialtiesKey;
 extern NSString *const MRSLStoryboardSegueTemplateInfoKey;
 extern NSString *const MRSLStoryboardSegueKeywordFollowersKey;
 extern NSString *const MRSLStoryboardSegueEligibleUsersKey;
+extern NSString *const MRSLStoryboardSegueAddSummaryKey;
+extern NSString *const MRSLStoryboardSegueDisplayMorselSearch;
 
 #pragma mark - Storyboard Reuse Identifier Constants
 
@@ -191,6 +196,7 @@ extern NSString *const MRSLStoryboardRUIDInfoCellKey;
 extern NSString *const MRSLStoryboardRUIDInstructionCellKey;
 extern NSString *const MRSLStoryboardRUIDKeywordCellKey;
 extern NSString *const MRSLStoryboardRUIDLoadingCellKey;
+extern NSString *const MRSLStoryboardRUIDSearchCellKey;
 extern NSString *const MRSLStoryboardRUIDLocationDisabledCellKey;
 extern NSString *const MRSLStoryboardRUIDItemPreviewCellKey;
 extern NSString *const MRSLStoryboardRUIDMenuOptionCellKey;
@@ -217,6 +223,9 @@ extern NSString *const MRSLStoryboardRUIDTemplateInfoCell;
 extern NSString *const MRSLStoryboardRUIDMorselAddCell;
 extern NSString *const MRSLStoryboardRUIDMorselInfoCell;
 extern NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey;
+extern NSString *const MRSLStoryboardRUIDHashtagKeywordCellKey;
+extern NSString *const MRSLStoryboardRUIDIcontTextCellKey;
+extern NSString *const MRSLStoryboardRUIDCheckmarkCellKey;
 
 #pragma mark - Debugging Constants
 

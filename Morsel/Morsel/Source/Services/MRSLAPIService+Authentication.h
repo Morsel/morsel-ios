@@ -15,7 +15,7 @@
 #pragma mark - Authorization Services
 
 - (void)checkAuthentication:(MRSLSocialAuthentication *)authentication
-                               exists:(MRSLAPIExistsBlock)existsOrNil;
+                     exists:(MRSLAPIExistsBlock)existsOrNil;
 
 - (void)createUserAuthentication:(MRSLSocialAuthentication *)authentication
                          success:(MRSLAPISuccessBlock)userSuccessOrNil
@@ -30,9 +30,8 @@
 
 - (void)getSocialProviderConnections:(NSString *)provider
                            usingUIDs:(NSString *)uids
-                               maxID:(NSNumber *)maxOrNil
-                           orSinceID:(NSNumber *)sinceOrNil
-                            andCount:(NSNumber *)countOrNil
+                                page:(NSNumber *)pageOrNil
+                               count:(NSNumber *)countOrNil
                              success:(MRSLAPIArrayBlock)successOrNil
                              failure:(MRSLFailureBlock)failureOrNil;
 

@@ -10,7 +10,7 @@
 
 @interface MRSLSegmentedButtonView ()
 
-@property (nonatomic) BOOL defaultSet;
+@property (strong, nonatomic) NSIndexSet *buttonSet;
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *buttons;
 
@@ -20,9 +20,8 @@
 
 #pragma mark - Instance Methods
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
+- (void)awakeFromNib {
+    [super awakeFromNib];
     self.buttons =  [_buttons sortedArrayUsingComparator:^NSComparisonResult(UIButton *buttonA, UIButton *buttonB) {
         return [buttonA getX] > [buttonB getX];
     }];
@@ -30,34 +29,66 @@
         [button addTarget:self
                    action:@selector(selectedButton:)
          forControlEvents:UIControlEventTouchUpInside];
-
-        if (idx > 0) {
-            [button addDefaultBorderForDirections:MRSLBorderWest];
-        }
+        [button setTranslatesAutoresizingMaskIntoConstraints:NO];
     }];
-
+    
     [self addDefaultBorderForDirections:MRSLBorderSouth];
+    [self setupConstraints];
+    [self setHidden:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self setupConstraints];
+        [self setHidden:NO];
+    });
 }
 
-//  TODO: Make a delegate for this: - (void)segmentButtonView:()segementButtonView hideButtonsInIndexSet:()
-- (void)setShouldDisplayProfessionalTabs:(BOOL)shouldDisplayProfessionalTabs {
-    if (!_defaultSet) {
-        self.defaultSet = YES;
-        _shouldDisplayProfessionalTabs = shouldDisplayProfessionalTabs;
-        if (!_shouldDisplayProfessionalTabs) {
-            CGFloat halfWidth = [self getWidth] * 0.5f;
+- (void)setupConstraints {
+    if ([self.delegate respondsToSelector:@selector(segmentedButtonViewIndexSetToDisplay)]) {
+        self.buttonSet = [self.delegate segmentedButtonViewIndexSetToDisplay];
+    }
+    [self removeConstraints:[self constraints]];
+    if (_buttonSet) self.buttons = [_buttons objectsAtIndexes:_buttonSet];
+    NSDictionary *metrics = @{@"height": @50,
+                              @"padding": @0};
+    UIButton *firstButton = [_buttons firstObject];
+    UIButton *previousButton = nil;
+    NSInteger idx = 0;
+    NSDictionary *views = NSDictionaryOfVariableBindings(firstButton);
+    for (UIButton *button in _buttons) {
+        NSArray *hConstraints = nil;
+        NSArray *vConstraints = nil;
 
-            UIButton *morselsButton = [_buttons firstObject];
-            [morselsButton setX:0.f];
-            [morselsButton setWidth:halfWidth];
-            [self bringSubviewToFront:morselsButton];
-
-            UIButton *likesButton = [_buttons lastObject];
-            [likesButton setX:halfWidth];
-            [likesButton setWidth:halfWidth];
-            [self bringSubviewToFront:likesButton];
+        if ([button isEqual:firstButton]) {
+            hConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-(==padding)-[firstButton]"
+                                                                   options:0
+                                                                   metrics:metrics
+                                                                     views:views];
+            vConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(==padding)-[firstButton(==height)]-(==padding)-|"
+                                                                   options:0
+                                                                   metrics:metrics
+                                                                     views:views];
+        } else {
+            previousButton = [_buttons objectAtIndex:idx - 1];
+            NSDictionary *additionalViews = NSDictionaryOfVariableBindings(previousButton, button, firstButton);
+            NSString *hConstraintsString = (idx == [_buttons count] - 1) ? @"[previousButton]-(==padding)-[button(firstButton)]-(==padding)-|" : @"[previousButton]-(==padding)-[button(firstButton)]";
+            hConstraints = [NSLayoutConstraint constraintsWithVisualFormat:hConstraintsString
+                                                                   options:0
+                                                                   metrics:metrics
+                                                                     views:additionalViews];
+            vConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(==padding)-[button(==height)]-(==padding)-|"
+                                                                   options:0
+                                                                   metrics:metrics
+                                                                     views:additionalViews];
         }
-        [self selectedButton:[_buttons firstObject]];
+        [self addConstraints:hConstraints];
+        [self addConstraints:vConstraints];
+
+        if (idx > 0) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [button addDefaultBorderForDirections:MRSLBorderWest];
+                [self selectedButton:[_buttons firstObject]];
+            });
+        }
+        idx++;
     }
 }
 

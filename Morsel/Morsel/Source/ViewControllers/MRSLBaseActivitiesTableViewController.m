@@ -30,7 +30,6 @@
 
 @property (strong, nonatomic) MRSLTableViewDataSource *dataSource;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (copy, nonatomic) MRSLRemoteRequestBlock remoteRequestBlock;
 
 @property (strong, nonatomic) NSString *objectIDsKey;
 @property (strong, nonatomic) NSArray *objectIDs;

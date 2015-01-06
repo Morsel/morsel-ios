@@ -24,8 +24,9 @@
 
 - (NSDictionary *)objectToJSON {
     NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
-    objectInfoJSON[@"title"] = NSNullIfNil(self.title);
+    objectInfoJSON[@"title"] = NSNullIfNil((([self.title length] > 0) ? self.title : nil));
     objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
+    objectInfoJSON[@"summary"] = NSNullIfNil((([self.summary length] > 0) ? self.summary : nil));
     if (self.template_id) objectInfoJSON[@"template_id"] = NSNullIfNil(self.template_id);
     MRSLItem *coverItem = [self coverItem];
     if (coverItem) objectInfoJSON[@"primary_item_id"] = NSNullIfNil(coverItem.itemID);
@@ -50,11 +51,11 @@
 
 - (CGFloat)coverInformationHeight {
     CGFloat coverInfoHeight = 0.f;
-    
+
     NSMutableAttributedString *coverAttributedInfo = [self coverInformationFromProperties];
     if ([self hasTaggedUsers]) {
         NSMutableAttributedString *taggedAttributedString = [[NSMutableAttributedString alloc] initWithString:@"\n\nwith "
-                                                                                                   attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                   attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
         [coverAttributedInfo appendAttributedString:taggedAttributedString];
     }
     CGRect coverInfoRect = [coverAttributedInfo boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
@@ -132,28 +133,61 @@
     return nil;
 }
 
+- (NSMutableAttributedString *)thumbnailInformation {
+    NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:self.title ?: @""
+                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleHeadline],
+                                                                                                          NSForegroundColorAttributeName: [UIColor whiteColor]}];
+
+    NSString *fullName = [self.creator fullName];
+    NSMutableAttributedString *userAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\nby %@", fullName]
+                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1],
+                                                                                                          NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    [infoAttributedString appendAttributedString:userAttributedString];
+
+    if (self.place) {
+        NSString *placeName = self.place.name;
+        NSMutableAttributedString *placeAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@", placeName]
+                                                                                                  attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1],
+                                                                                                               NSForegroundColorAttributeName: [UIColor whiteColor]}];
+        [infoAttributedString appendAttributedString:placeAttributedString];
+    }
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    [infoAttributedString addAttribute:NSParagraphStyleAttributeName
+                                 value:paragraphStyle
+                                 range:NSMakeRange(0, infoAttributedString.length)];
+
+    return infoAttributedString;
+}
+
 - (NSMutableAttributedString *)coverInformationFromProperties {
     NSString *fullName = [self.creator fullName];
     NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"by %@", fullName]
-                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
     [infoAttributedString addAttribute:NSLinkAttributeName
                                  value:@"profile://display"
                                  range:[[infoAttributedString string] rangeOfString:fullName]];
     [infoAttributedString addAttribute:NSFontAttributeName
-                                 value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleHeadline]
+                                 value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleHeadline]
                                  range:[[infoAttributedString string] rangeOfString:fullName]];
 
     if (self.place) {
         NSString *placeName = self.place.name;
         NSMutableAttributedString *placeAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@ %@, %@", placeName, self.place.city ?: @"", self.place.state ?: @""]
-                                                                                                  attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                  attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
         [placeAttributedString addAttribute:NSLinkAttributeName
                                       value:@"place://display"
                                       range:[[placeAttributedString string] rangeOfString:placeName]];
         [placeAttributedString addAttribute:NSFontAttributeName
-                                      value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                      value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleSubheadline]
                                       range:[[placeAttributedString string] rangeOfString:placeName]];
         [infoAttributedString appendAttributedString:placeAttributedString];
+    }
+
+    if (self.summary) {
+        [infoAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n\n%@", self.summary]
+                                                                                     attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}]];
     }
 
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -169,13 +203,12 @@
     if ([self hasTaggedUsers]) {
         __weak __typeof(self) weakSelf = self;
         [_appDelegate.apiService getTaggedUsersForMorsel:self
-                                               withMaxID:nil
-                                               orSinceID:nil
-                                                andCount:nil
+                                                    page:@(0)
+                                                   count:nil
                                                  success:^(NSArray *responseArray) {
                                                      if (weakSelf) {
                                                          NSMutableAttributedString *taggedAttributedString = [[NSMutableAttributedString alloc] initWithString:@"\n\nwith "
-                                                                                                                                                    attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                                                                    attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
                                                          int userEnumCount = 0;
                                                          for (id objectID in responseArray) {
                                                              MRSLUser *taggedUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
@@ -187,13 +220,13 @@
                                                                                                 value:[NSString stringWithFormat:@"user://%i", taggedUser.userIDValue]
                                                                                                 range:[[taggedUserAttributedString string] rangeOfString:userFullName]];
                                                              [taggedUserAttributedString addAttribute:NSFontAttributeName
-                                                                                                value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                                                                                value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleSubheadline]
                                                                                                 range:[[taggedUserAttributedString string] rangeOfString:userFullName]];
 
                                                              BOOL hasMore = ([responseArray count] - (userEnumCount + 1) > 0);
                                                              if (hasMore) {
                                                                  NSAttributedString *commaAttributedString = [[NSMutableAttributedString alloc] initWithString:@", "
-                                                                                                                                                    attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                                                                    attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
 
                                                                  [taggedUserAttributedString appendAttributedString:commaAttributedString];
                                                              }
@@ -204,18 +237,20 @@
                                                                  if (hasMore) {
                                                                      NSString *moreString = [NSString stringWithFormat:@"%i more", (int)[responseArray count] - userEnumCount];
                                                                      NSMutableAttributedString *moreAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"and %@", moreString]
-                                                                                                                                                              attributes:@{NSFontAttributeName : [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleCaption1]}];
+                                                                                                                                                              attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleCaption1]}];
                                                                      [moreAttributedString addAttribute:NSLinkAttributeName
                                                                                                   value:@"more://display"
                                                                                                   range:[[moreAttributedString string] rangeOfString:moreString]];
                                                                      [moreAttributedString addAttribute:NSFontAttributeName
-                                                                                                  value:[UIFont preferredRobotoFontForTextStyle:UIFontTextStyleSubheadline]
+                                                                                                  value:[UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleSubheadline]
                                                                                                   range:[[moreAttributedString string] rangeOfString:moreString]];
                                                                      [taggedAttributedString appendAttributedString:moreAttributedString];
                                                                  }
                                                                  break;
                                                              }
                                                          }
+
+
 
                                                          NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
                                                          [paragraphStyle setAlignment:NSTextAlignmentCenter];
@@ -234,6 +269,29 @@
     } else {
         if (attributedStringBlock) attributedStringBlock(infoAttributedString, nil);
     }
+}
+
+- (NSString *)instagramString {
+    return (self.title ? [NSString stringWithFormat:@"%@. Get the whole story at eatmorsel.com/%@ #morselgram %@", self.title, self.creator.username, [self summaryHashtags]] :
+            [NSString stringWithFormat:@"Get the whole story at eatmorsel.com #morselgram%@", [self summaryHashtags]]);
+}
+
+- (NSString *)summaryHashtags {
+    NSString *regexStr = @"(?:\\s|^)(?:#|\\uFF03)([0-9a-z_]*[a-z_]+[a-z0-9_]*)";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexStr
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:nil];
+    __block NSMutableArray *hashtags = [NSMutableArray array];
+    // iterate over each match, adding links
+    [regex enumerateMatchesInString:self.summary
+                            options:0
+                              range:NSMakeRange(0, self.summary.length)
+                         usingBlock:^(NSTextCheckingResult *match,
+                                      NSMatchingFlags flags,
+                                      BOOL *stop){
+                             [hashtags addObject:[[self summary] substringWithRange:match.range]];
+                         }];
+    return ([hashtags count] > 0) ? [hashtags componentsJoinedByString:@" "] : @"";
 }
 
 #pragma mark - Templates
@@ -305,7 +363,7 @@
         NSString *publishString = data[@"published_at"];
         self.publishedDate = [_appDelegate.defaultDateFormatter dateFromString:publishString];
     }
-    
+
     if (![data[@"updated_at"] isEqual:[NSNull null]]) {
         NSString *updateString = data[@"updated_at"];
         self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
@@ -317,6 +375,20 @@
     if (![data[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = data[@"photos"];
         self.morselPhotoURL = photoDictionary[@"_800x600"];
+    }
+
+    if (self.primary_item_id &&
+        ![data[@"primary_item_photos"] isEqual:[NSNull null]]) {
+        MRSLItem *primaryItem = [MRSLItem MR_findFirstByAttribute:MRSLItemAttributes.itemID
+                                                        withValue:self.primary_item_id
+                                                        inContext:self.managedObjectContext];
+        if (!primaryItem) {
+            primaryItem = [MRSLItem MR_createInContext:self.managedObjectContext];
+            primaryItem.itemID = self.primary_item_id;
+            primaryItem.itemPhotoURL = [data[@"primary_item_photos"][@"_100x100"] stringByReplacingOccurrencesOfString:@"_100x100"
+                                                                                                            withString:@"IMAGE_SIZE"];
+            [self addItemsObject:primaryItem];
+        }
     }
 }
 

@@ -18,7 +18,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self.textLabel setFont:[UIFont robotoLightFontOfSize:self.textLabel.font.pointSize]];
+    [self.textLabel setFont:[UIFont primaryLightFontOfSize:self.textLabel.font.pointSize]];
 }
 
 - (UITableViewCellSelectionStyle)selectionStyle {

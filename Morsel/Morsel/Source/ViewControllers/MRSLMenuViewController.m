@@ -12,7 +12,7 @@
 #import "MRSLMenuItem.h"
 #import "MRSLMenuOptionTableViewCell.h"
 #import "MRSLProfileImageView.h"
-#import "MRSLStandardLabel.h"
+#import "MRSLPrimaryLabel.h"
 #import "MRSLSectionView.h"
 
 #import "MRSLUser.h"
@@ -26,7 +26,7 @@ UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *profileLabel;
 
-@property (weak, nonatomic) IBOutlet MRSLStandardLabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet MRSLPrimaryLabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *menuTableView;
 @property (weak, nonatomic) IBOutlet UIView *menuBar;
 
@@ -113,7 +113,7 @@ UITableViewDelegate>
     MRSLMenuItem *itemActivity = [[MRSLMenuItem alloc] initWithName:@"Activity"
                                                                 key:MRSLMenuActivityKey
                                                                icon:@"icon-menu-activity"];
-    MRSLMenuItem *itemFindFriends = [[MRSLMenuItem alloc] initWithName:@"Find users"
+    MRSLMenuItem *itemFindUsers = [[MRSLMenuItem alloc] initWithName:@"Find users"
                                                                    key:MRSLMenuFindKey
                                                                   icon:@"icon-menu-find"];
     MRSLMenuItem *itemSettings = [[MRSLMenuItem alloc] initWithName:@"Settings"
@@ -134,7 +134,7 @@ UITableViewDelegate>
                                      itemExplore,
                                      itemNotifications,
                                      itemActivity,
-                                     itemFindFriends,
+                                     itemFindUsers,
                                      itemSettings
                                      ]
                              }

@@ -13,9 +13,8 @@
 @interface MRSLAPIService (Notifications)
 
 - (void)getNotificationsForUser:(MRSLUser *)user
-                          maxID:(NSNumber *)maxOrNil
-                      orSinceID:(NSNumber *)sinceOrNil
-                       andCount:(NSNumber *)countOrNil
+                           page:(NSNumber *)pageOrNil
+                          count:(NSNumber *)countOrNil
                         success:(MRSLAPIArrayBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil;
 

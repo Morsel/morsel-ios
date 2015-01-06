@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseRemoteDataSourceViewController.h"
 
-@interface MRSLPlaceViewController : MRSLBaseViewController
+@interface MRSLPlaceViewController : MRSLBaseRemoteDataSourceViewController
 
 @property (weak, nonatomic) MRSLPlace *place;
 

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "MRSLBaseRemoteDataSourceViewController.h"
 
-@interface MRSLUserFollowListViewController : MRSLBaseViewController
+@interface MRSLUserFollowListViewController : MRSLBaseRemoteDataSourceViewController
 
 @property (weak, nonatomic) MRSLUser *user;
 

@@ -8,7 +8,7 @@
 
 #import "MRSLDataSource.h"
 
-typedef UITableViewCell *(^MRSLCellConfigureBlock)(id item, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count);
+typedef UITableViewCell *(^MRSLTVCellConfigureBlock)(id item, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count);
 
 @protocol MRSLTableViewDataSourceDelegate <NSObject>
 
@@ -27,10 +27,16 @@ typedef UITableViewCell *(^MRSLCellConfigureBlock)(id item, UITableView *tableVi
 
 - (void)tableViewDataSourceDidScroll:(UITableView *)tableView
                           withOffset:(CGFloat)offset;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 - (NSInteger)tableViewDataSourceNumberOfItemsInSection:(NSInteger)section;
 
 - (CGFloat)tableViewDataSource:(UITableView *)tableView
       heightForItemAtIndexPath:(NSIndexPath *)indexPath;
+
+#pragma mark - UITableViewDataSource Methods
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section;
@@ -47,6 +53,6 @@ UITableViewDelegate>
 @property (weak, nonatomic) id <MRSLTableViewDataSourceDelegate> delegate;
 
 - (id)initWithObjects:(id)objects
-   configureCellBlock:(MRSLCellConfigureBlock)configureCellBlock;
+   configureCellBlock:(MRSLTVCellConfigureBlock)configureCellBlock;
 
 @end

@@ -6,18 +6,9 @@
 //  Copyright (c) 2014 Morsel. All rights reserved.
 //
 
-#import "MRSLCollectionViewFetchResultsDataSource.h"
+#import "MRSLCollectionViewDataSource.h"
 
-@interface MRSLPanelSegmentedCollectionViewDataSource : MRSLCollectionViewFetchResultsDataSource
+@interface MRSLPanelSegmentedCollectionViewDataSource : MRSLCollectionViewDataSource
 <UICollectionViewDelegateFlowLayout>
-
-- (id)initWithManagedObjectClass:(Class)objectClass
-                       predicate:(NSPredicate *)predicateOrNil
-                  collectionView:(UICollectionView *)collectionView
-                      cellConfig:(MRSLCellConfigureBlock)cellConfig
-             supplementaryConfig:(MRSLSupplementaryCellConfigureBlock)supplementaryConfig
-                    headerConfig:(MRSLLayoutHeaderSizeConfigureBlock)headerConfig
-                  cellSizeConfig:(MRSLLayoutCellSizeConfigureBlock)cellSizeConfig
-              sectionInsetConfig:(MRSLLayoutSectionInsetConfigureBlock)insetConfig;
 
 @end

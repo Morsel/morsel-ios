@@ -12,12 +12,11 @@
 
 @optional
 - (void)segmentedHeaderDidSelectIndex:(NSInteger)index;
+- (NSIndexSet *)segmentedButtonViewIndexSetToDisplay;
 
 @end
 
 @interface MRSLSegmentedHeaderReusableView : UICollectionReusableView
-
-@property (nonatomic) BOOL shouldDisplayProfessionalTabs;
 
 @property (weak, nonatomic) id <MRSLSegmentedHeaderReusableViewDelegate> delegate;
 
