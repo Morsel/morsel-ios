@@ -47,7 +47,7 @@ NSFetchedResultsControllerDelegate>
 
     self.currentPage = @(1);
 
-    if (self.dataSource && !self.disablePagination) {
+    if (self.dataSource && !self.disablePagination && !self.disableRemoteCapabilities) {
         //  Pull to refresh
         self.refreshControl = [UIRefreshControl MRSL_refreshControl];
         [self.refreshControl addTarget:self
@@ -138,6 +138,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)populateContent {
+    if (self.disableRemoteCapabilities) return;
     NSError *fetchError = nil;
     [self.fetchedResultsController performFetch:&fetchError];
     [self.dataSource updateObjects:[self.fetchedResultsController fetchedObjects]];
@@ -148,6 +149,7 @@ NSFetchedResultsControllerDelegate>
 }
 
 - (void)fetchAPIWithNextPage:(BOOL)nextPage {
+    if (self.disableRemoteCapabilities) return;
     if ([self isLoading] || (!self.pagedRemoteRequestBlock && !self.timelineRemoteRequestBlock)) return;
 
     self.loading = YES;
@@ -211,11 +213,13 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - FetchedResultsController
 
 - (void)resetFetchedResultsController {
+    if (self.disableRemoteCapabilities) return;
     _fetchedResultsController.delegate = nil;
     _fetchedResultsController = nil;
 }
 
 - (NSFetchedResultsController *)defaultFetchedResultsController {
+    if (self.disableRemoteCapabilities) return nil;
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
@@ -275,7 +279,7 @@ NSFetchedResultsControllerDelegate>
 #pragma mark - NSFetchedResultsControllerDelegate Methods
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Activity detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
+    DDLogDebug(@"MRSLBaseTableViewController detected content change. Reloading with %lu items.", (unsigned long)[[controller fetchedObjects] count]);
     [self populateContent];
 }
 

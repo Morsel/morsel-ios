@@ -28,10 +28,15 @@
 
 @interface MRSLExploreViewController ()
 <MRSLCollectionViewDataSourceDelegate,
+MRSLExploreSearchViewControllerDelegate,
 UISearchBarDelegate>
+
+@property (nonatomic) NSInteger selectedSegment;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBottomConstraint;
 @property (weak, nonatomic) IBOutlet UIView *exploreSearchContainerView;
+
+@property (weak, nonatomic) UISearchBar *searchBar;
 
 @property (weak, nonatomic) MRSLExploreSearchViewController *exploreSearchVC;
 
@@ -54,6 +59,7 @@ UISearchBarDelegate>
     [self.childViewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if ([obj isKindOfClass:[MRSLExploreSearchViewController class]]) {
             self.exploreSearchVC = obj;
+            self.exploreSearchVC.delegate = self;
         }
     }];
     self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
@@ -157,7 +163,14 @@ UISearchBarDelegate>
 
 #pragma mark - UISearchBarDelegate Methods
 
+- (void)setSearchBarPlaceholder {
+    if (self.searchBar) {
+        [self.searchBar setPlaceholder:(self.selectedSegment == 0) ? @"Search morsels" : @"Search users"];
+    }
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    self.searchBar = searchBar;
     self.exploreSearchVC.searchQuery = searchText;
 }
 
@@ -173,6 +186,8 @@ UISearchBarDelegate>
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.searchBar = searchBar;
+    [self.searchBar setPlaceholder:@"Search morsels and users"];
     [searchBar setShowsCancelButton:NO animated:YES];
     [self.view endEditing:YES];
     self.exploreSearchContainerView.hidden = YES;
@@ -181,10 +196,19 @@ UISearchBarDelegate>
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar = searchBar;
     [searchBar setShowsCancelButton:YES animated:YES];
     self.exploreSearchContainerView.hidden = NO;
     self.exploreSearchContainerView.userInteractionEnabled = YES;
     self.collectionView.scrollEnabled = NO;
+    [self setSearchBarPlaceholder];
+}
+
+#pragma mark - MRSLExploreSearchViewControllerDelegate Methods
+
+- (void)exploreSearchViewControllerDidChangeSegmentWithIndex:(NSInteger)index {
+    self.selectedSegment = index;
+    [self setSearchBarPlaceholder];
 }
 
 #pragma mark - Notification Methods
