@@ -8,8 +8,6 @@
 
 #import "MRSLMorselEditViewController.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
-
 #import "MRSLAPIService+Item.h"
 #import "MRSLAPIService+Morsel.h"
 

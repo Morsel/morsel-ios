@@ -8,7 +8,7 @@
 
 #import "MRSLCommentTableViewCell.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+#import <DateTools/NSDate+DateTools.h>
 
 #import "MRSLAPIService+Comment.h"
 
@@ -46,7 +46,7 @@
         _userNameLabel.text = _comment.creator.fullName;
         [_userNameLabel setOblique:[_comment.creator hasEmptyName]];
         _commentBodyLabel.text = _comment.commentDescription;
-        _timeAgoLabel.text = [_comment.creationDate timeAgo];
+        _timeAgoLabel.text = [_comment.creationDate timeAgoSinceNow];
 
         self.deleteButton.hidden = ![_comment deleteableByUser:[MRSLUser currentUser]];
     }

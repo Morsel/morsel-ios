@@ -8,7 +8,7 @@
 
 #import "MRSLUserLikedMorselCollectionViewCell.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+#import <DateTools/NSDate+DateTools.h>
 
 #import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
@@ -45,7 +45,7 @@
         self.descriptionLabel.text = [NSString stringWithFormat:@"%@ liked %@", [user username], [_morsel title]];
         [self.descriptionLabel sizeToFit];
         [self.descriptionLabel setWidth:160.f];
-        self.timeAgoLabel.text = [morsel.likedDate timeAgo];
+        self.timeAgoLabel.text = [morsel.likedDate timeAgoSinceNow];
         self.itemImageView.item = morsel.coverItem;
         self.creatorProfileImageView.user = user;
     }

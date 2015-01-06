@@ -32,6 +32,7 @@ PODS:
   - CocoaLumberjack/Core (1.6.5.1)
   - CocoaLumberjack/Extensions (1.6.5.1):
     - CocoaLumberjack/Core
+  - DateTools (1.4.3)
   - Facebook-iOS-SDK (3.21.1):
     - Bolts (~> 1.0)
   - GCPlaceholderTextView (1.0.1)
@@ -52,7 +53,6 @@ PODS:
     - Mixpanel/MPCategoryHelpers (= 2.6.2)
   - Mixpanel/MPCategoryHelpers (2.6.2)
   - NSData+Base64 (1.0.0)
-  - NSDate+TimeAgo (1.0.2)
   - NullSafe (1.2)
   - NXOAuth2Client (1.2.6)
   - OAuthCore (0.0.1):
@@ -73,6 +73,7 @@ DEPENDENCIES:
   - AFOAuth2Client (from `https://github.com/Morsel/AFOAuth2Client`)
   - ALAssetsLibrary-CustomPhotoAlbum (~> 1.2)
   - CocoaLumberjack (= 1.6.5.1)
+  - DateTools (~> 1.4)
   - Facebook-iOS-SDK (~> 3.19)
   - GCPlaceholderTextView (= 1.0.1)
   - GPUImage (~> 0.1)
@@ -82,7 +83,6 @@ DEPENDENCIES:
   - M13Checkbox (~> 1.1)
   - MagicalRecord (= 2.2)
   - Mixpanel (~> 2.6)
-  - NSDate+TimeAgo (~> 1.0)
   - NullSafe (= 1.2)
   - NXOAuth2Client (~> 1.2)
   - OAuthCore (~> 0.0)
@@ -131,6 +131,7 @@ SPEC CHECKSUMS:
   ALAssetsLibrary-CustomPhotoAlbum: 6c6e0dd2a8923de69aedd55c0ad5351fd500e685
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: baf4a09a3bcbdfea3363556a90104e026d3504e2
+  DateTools: 7c2d233ea2d4bda3a717d0cd5f58da926a5998d0
   Facebook-iOS-SDK: 18c26e86ab25c17854a2ee2a8f60562099c6600f
   GCPlaceholderTextView: d48f3558c8d71daaae65679275075592ca13e1c8
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
@@ -142,7 +143,6 @@ SPEC CHECKSUMS:
   MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
   Mixpanel: c075cedebda3328ce1ee29a18429e265ce967cd8
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
-  NSDate+TimeAgo: c01d6ac0b81add41f77f264fa4276d355723fcde
   NullSafe: 9685bb76b0fa73cab04a69c176622662d46f0160
   NXOAuth2Client: f9a3efde1cce92c92fd1518070caf305bd363ef4
   OAuthCore: 09d3c56dd3f64a61d1ffcbf103f28118ff8ca2e9
