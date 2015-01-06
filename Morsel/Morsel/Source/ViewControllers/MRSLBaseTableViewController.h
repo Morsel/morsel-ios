@@ -10,6 +10,7 @@
 
 @interface MRSLBaseTableViewController : UITableViewController
 
+@property (nonatomic) BOOL disableRemoteCapabilities;
 @property (nonatomic) BOOL disablePagination;
 @property (nonatomic) BOOL loadingMore;
 
