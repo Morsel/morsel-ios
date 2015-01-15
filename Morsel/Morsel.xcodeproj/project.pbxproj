@@ -257,6 +257,12 @@
 		068E278C18BBFBB50020CA84 /* _MRSLUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0698CA9B18524100007AF442 /* _MRSLUser.m */; };
 		068F38B31940B18400885E02 /* MRSLMorselEditPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068F38B21940B18400885E02 /* MRSLMorselEditPlaceViewController.m */; };
 		0691702A18F47DF800971662 /* MRSLMediaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0691702918F47DF800971662 /* MRSLMediaManager.m */; };
+		069251C11A68806900093BE2 /* MRSLCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 069251C01A68806900093BE2 /* MRSLCollection.m */; };
+		069251C21A68806900093BE2 /* MRSLCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 069251C01A68806900093BE2 /* MRSLCollection.m */; };
+		069251C31A68806900093BE2 /* MRSLCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 069251C01A68806900093BE2 /* MRSLCollection.m */; };
+		069251C61A68807300093BE2 /* _MRSLCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 069251C51A68807300093BE2 /* _MRSLCollection.m */; };
+		069251C71A68807300093BE2 /* _MRSLCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 069251C51A68807300093BE2 /* _MRSLCollection.m */; };
+		069251C81A68807300093BE2 /* _MRSLCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 069251C51A68807300093BE2 /* _MRSLCollection.m */; };
 		0692743A1935094A00F59621 /* MRSLPanelSegmentedCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 069274391935094A00F59621 /* MRSLPanelSegmentedCollectionViewDataSource.m */; };
 		0693C25118F6C0D10026D6B3 /* _MRSLItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0693C25018F6C0D10026D6B3 /* _MRSLItem.m */; };
 		0693C25418F6C0DD0026D6B3 /* MRSLItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0693C25318F6C0DD0026D6B3 /* MRSLItem.m */; };
@@ -996,6 +1002,11 @@
 		068F38B21940B18400885E02 /* MRSLMorselEditPlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselEditPlaceViewController.m; sourceTree = "<group>"; };
 		0691702818F47DF800971662 /* MRSLMediaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMediaManager.h; sourceTree = "<group>"; };
 		0691702918F47DF800971662 /* MRSLMediaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMediaManager.m; sourceTree = "<group>"; };
+		069251BE1A687ECC00093BE2 /* Morsel_1.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Morsel_1.6.xcdatamodel; sourceTree = "<group>"; };
+		069251BF1A68806900093BE2 /* MRSLCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLCollection.h; path = Source/Models/MRSLCollection.h; sourceTree = "<group>"; };
+		069251C01A68806900093BE2 /* MRSLCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLCollection.m; path = Source/Models/MRSLCollection.m; sourceTree = "<group>"; };
+		069251C41A68807300093BE2 /* _MRSLCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MRSLCollection.h; path = Source/Models/Generated/_MRSLCollection.h; sourceTree = "<group>"; };
+		069251C51A68807300093BE2 /* _MRSLCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MRSLCollection.m; path = Source/Models/Generated/_MRSLCollection.m; sourceTree = "<group>"; };
 		069274381935094A00F59621 /* MRSLPanelSegmentedCollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLPanelSegmentedCollectionViewDataSource.h; sourceTree = "<group>"; };
 		069274391935094A00F59621 /* MRSLPanelSegmentedCollectionViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLPanelSegmentedCollectionViewDataSource.m; sourceTree = "<group>"; };
 		0693C24F18F6C0D10026D6B3 /* _MRSLItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MRSLItem.h; path = Source/Models/Generated/_MRSLItem.h; sourceTree = "<group>"; };
@@ -2080,6 +2091,8 @@
 			children = (
 				4040D49F18E62809008A39E5 /* MRSLActivity.h */,
 				4040D4A018E62809008A39E5 /* MRSLActivity.m */,
+				069251BF1A68806900093BE2 /* MRSLCollection.h */,
+				069251C01A68806900093BE2 /* MRSLCollection.m */,
 				066F5ACE185BCA4D00468210 /* MRSLComment.h */,
 				066F5ACF185BCA4D00468210 /* MRSLComment.m */,
 				0693C25218F6C0DD0026D6B3 /* MRSLItem.h */,
@@ -2251,6 +2264,8 @@
 			children = (
 				4040D49A18E627ED008A39E5 /* _MRSLActivity.h */,
 				4040D49B18E627ED008A39E5 /* _MRSLActivity.m */,
+				069251C41A68807300093BE2 /* _MRSLCollection.h */,
+				069251C51A68807300093BE2 /* _MRSLCollection.m */,
 				066F5ABF185BCA3D00468210 /* _MRSLComment.h */,
 				066F5AC0185BCA3D00468210 /* _MRSLComment.m */,
 				0693C24F18F6C0D10026D6B3 /* _MRSLItem.h */,
@@ -3283,6 +3298,7 @@
 				062AB99418C5885F00742955 /* MRSLMorselDraftsViewController.m in Sources */,
 				40A4E11C194026F200251AA5 /* MRSLSettingsTableViewController.m in Sources */,
 				06CDA745199A87E9004786F0 /* UIBarButtonItem+Additions.m in Sources */,
+				069251C61A68807300093BE2 /* _MRSLCollection.m in Sources */,
 				06F4461A195223BF00BE3014 /* MRSLMenuViewController.m in Sources */,
 				06584C5B18C7CE8F00D9035A /* MRSLMediaItemPreviewCollectionViewCell.m in Sources */,
 				06FB35CA19A294D6008F4B61 /* MRSLAlignedButton.m in Sources */,
@@ -3427,6 +3443,7 @@
 				06C38C4118EA5D370072CF8E /* MRSLModalLikersViewController.m in Sources */,
 				06FE510E19118E4D003A6D7D /* MRSLTag.m in Sources */,
 				065904DA1937DE1900414E06 /* MRSLAPIService+Place.m in Sources */,
+				069251C11A68806900093BE2 /* MRSLCollection.m in Sources */,
 				06845050192FC30A00B38870 /* MRSLStickyHeaderCollectionViewLayout.m in Sources */,
 				4095840919AE8D4E00612A52 /* UIImage+Watermark.m in Sources */,
 				06F446171952227A00BE3014 /* MRSLBadgeLabelView.m in Sources */,
@@ -3451,6 +3468,7 @@
 				066E8C26191AAC7200991165 /* MRSLAPIService+Follow.m in Sources */,
 				4090554D1976F19900026DCC /* UIRefreshControl+Additions.m in Sources */,
 				066E8C27191AAC7200991165 /* MRSLAPIService+Comment.m in Sources */,
+				069251C71A68807300093BE2 /* _MRSLCollection.m in Sources */,
 				0621C2DA19AC4AB000340C48 /* MRSLReorderTableView.m in Sources */,
 				066E8C28191AAC7200991165 /* MRSLAPIService+Feed.m in Sources */,
 				06CDA74B199A910C004786F0 /* MRSLMenuBarButtonItem.m in Sources */,
@@ -3560,6 +3578,7 @@
 				065D0CE919ABE710009E6FC7 /* MRSLTemplateInfoViewController.m in Sources */,
 				40C7E0A31953E5DE0067BCB1 /* MRSLMyActivityTableViewController.m in Sources */,
 				4069CB2B189B127E001790F3 /* MRSLAPIService.m in Sources */,
+				069251C21A68806900093BE2 /* MRSLCollection.m in Sources */,
 				06ECF68018BFE38400577F9C /* ModelObjectImporting_Spec.m in Sources */,
 				065D0CB919A9991C009E6FC7 /* MRSLAPIService+Templates.m in Sources */,
 				405C1E2C19883B140021DE36 /* MRSLActivityIndicatorView.m in Sources */,
@@ -3615,6 +3634,7 @@
 				060C6C541A0A9E2000B72411 /* MRSLRemoteDevice.m in Sources */,
 				06C4DDD519897E14009B6406 /* UIViewController+Additions.m in Sources */,
 				06C4DDD619897E14009B6406 /* MRSLStickyHeaderCollectionViewLayout.m in Sources */,
+				069251C31A68806900093BE2 /* MRSLCollection.m in Sources */,
 				06C4DDD719897E14009B6406 /* MRSLFoursquarePlace.m in Sources */,
 				06C4DDD819897E14009B6406 /* MRSLMediaItem.m in Sources */,
 				06C4DDD919897E14009B6406 /* MRSLMenuItem.m in Sources */,
@@ -3769,6 +3789,7 @@
 				06C4DE5719897E14009B6406 /* MRSLPlaceDetailContactCollectionViewCell.m in Sources */,
 				06C4DE5819897E14009B6406 /* MRSLPlaceDetailHoursCollectionViewCell.m in Sources */,
 				065D0CE519ABE3C3009E6FC7 /* MRSLBaseCollectionViewCell.m in Sources */,
+				069251C81A68807300093BE2 /* _MRSLCollection.m in Sources */,
 				06C4DE5919897E14009B6406 /* MRSLPlaceDetailInfoCollectionViewCell.m in Sources */,
 				06C4DE5A19897E14009B6406 /* MRSLPlaceDetailPanelCollectionViewCell.m in Sources */,
 				065D0CC419A99AB1009E6FC7 /* _MRSLTemplate.m in Sources */,
@@ -5200,6 +5221,7 @@
 		0698CA8A18523A8C007AF442 /* Morsel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				069251BE1A687ECC00093BE2 /* Morsel_1.6.xcdatamodel */,
 				065EC0AA1A3F8EB300C656A1 /* Morsel_1.5.xcdatamodel */,
 				064B034F19E326CE00AD3FE3 /* Morsel_1.4.xcdatamodel */,
 				06B4448319ED8D8E00E6FDBE /* Morsel_1.3.xcdatamodel */,
@@ -5207,7 +5229,7 @@
 				406D93EF19C3BB8E00DFA08E /* Morsel_1.2.xcdatamodel */,
 				0698CA8B18523A8C007AF442 /* Morsel.xcdatamodel */,
 			);
-			currentVersion = 065EC0AA1A3F8EB300C656A1 /* Morsel_1.5.xcdatamodel */;
+			currentVersion = 069251BE1A687ECC00093BE2 /* Morsel_1.6.xcdatamodel */;
 			name = Morsel.xcdatamodeld;
 			path = Source/Models/Morsel.xcdatamodeld;
 			sourceTree = "<group>";

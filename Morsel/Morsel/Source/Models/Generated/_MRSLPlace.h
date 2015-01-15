@@ -40,6 +40,7 @@ extern const struct MRSLPlaceAttributes {
 
 extern const struct MRSLPlaceRelationships {
 	__unsafe_unretained NSString *activitiesAsSubject;
+	__unsafe_unretained NSString *collection;
 	__unsafe_unretained NSString *morsels;
 	__unsafe_unretained NSString *users;
 } MRSLPlaceRelationships;
@@ -48,6 +49,7 @@ extern const struct MRSLPlaceFetchedProperties {
 } MRSLPlaceFetchedProperties;
 
 @class MRSLActivity;
+@class MRSLCollection;
 @class MRSLMorsel;
 @class MRSLUser;
 
@@ -437,6 +439,13 @@ extern const struct MRSLPlaceFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSSet *collection;
+
+- (NSMutableSet*)collectionSet;
+
+
+
+
 @property (nonatomic, strong) NSSet *morsels;
 
 - (NSMutableSet*)morselsSet;
@@ -460,6 +469,11 @@ extern const struct MRSLPlaceFetchedProperties {
 - (void)removeActivitiesAsSubject:(NSSet*)value_;
 - (void)addActivitiesAsSubjectObject:(MRSLActivity*)value_;
 - (void)removeActivitiesAsSubjectObject:(MRSLActivity*)value_;
+
+- (void)addCollection:(NSSet*)value_;
+- (void)removeCollection:(NSSet*)value_;
+- (void)addCollectionObject:(MRSLCollection*)value_;
+- (void)removeCollectionObject:(MRSLCollection*)value_;
 
 - (void)addMorsels:(NSSet*)value_;
 - (void)removeMorsels:(NSSet*)value_;
@@ -683,6 +697,11 @@ extern const struct MRSLPlaceFetchedProperties {
 
 - (NSMutableSet*)primitiveActivitiesAsSubject;
 - (void)setPrimitiveActivitiesAsSubject:(NSMutableSet*)value;
+
+
+
+- (NSMutableSet*)primitiveCollection;
+- (void)setPrimitiveCollection:(NSMutableSet*)value;
 
 
 

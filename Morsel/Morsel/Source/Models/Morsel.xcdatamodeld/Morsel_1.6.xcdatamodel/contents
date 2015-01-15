@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1.5" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="1.6" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="MRSLActivity" representedClassName="MRSLActivity" syncable="YES">
         <attribute name="actionType" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -40,6 +40,34 @@
         </relationship>
         <relationship name="placeSubject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLPlace" inverseName="activitiesAsSubject" inverseEntity="MRSLPlace" syncable="YES"/>
         <relationship name="userSubject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="activitiesAsSubject" inverseEntity="MRSLUser" syncable="YES"/>
+    </entity>
+    <entity name="MRSLCollection" representedClassName="MRSLCollection" syncable="YES">
+        <attribute name="collectionDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="collectionID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="collections" inverseEntity="MRSLUser" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="creatorID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="collections" inverseEntity="MRSLMorsel" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="primary_morsels"/>
+                <entry key="relatedByAttribute" value="morselID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="place" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLPlace" inverseName="collection" inverseEntity="MRSLPlace" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="placeID"/>
+            </userInfo>
+        </relationship>
     </entity>
     <entity name="MRSLComment" representedClassName="MRSLComment" syncable="YES">
         <attribute name="commentDescription" optional="YES" attributeType="String" syncable="YES">
@@ -154,6 +182,7 @@
         <attribute name="primary_item_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="publishedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="rank" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="sort_order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tagged" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="tagged_users_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -166,6 +195,7 @@
         </attribute>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="morselSubject" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="collections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLCollection" inverseName="morsels" inverseEntity="MRSLCollection" syncable="YES"/>
         <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="morsels" inverseEntity="MRSLUser" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="userID"/>
@@ -309,6 +339,11 @@
             </userInfo>
         </attribute>
         <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="placeSubject" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="collection" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLCollection" inverseName="place" inverseEntity="MRSLCollection" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="placeID"/>
+            </userInfo>
+        </relationship>
         <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="place" inverseEntity="MRSLMorsel" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="morselID"/>
@@ -463,6 +498,7 @@
             </userInfo>
         </relationship>
         <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="userSubject" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="collections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLCollection" inverseName="creator" inverseEntity="MRSLCollection" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLComment" inverseName="creator" inverseEntity="MRSLComment" syncable="YES">
             <userInfo>
                 <entry key="relatedByAttribute" value="commentID"/>
@@ -491,17 +527,18 @@
     </entity>
     <elements>
         <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="208"/>
+        <element name="MRSLCollection" positionX="-36" positionY="18" width="128" height="178"/>
         <element name="MRSLComment" positionX="7" positionY="0" width="128" height="118"/>
         <element name="MRSLItem" positionX="-243" positionY="0" width="128" height="418"/>
         <element name="MRSLKeyword" positionX="7" positionY="-130" width="128" height="118"/>
-        <element name="MRSLMorsel" positionX="-153" positionY="458" width="128" height="435"/>
+        <element name="MRSLMorsel" positionX="-153" positionY="458" width="128" height="463"/>
         <element name="MRSLNotification" positionX="9" positionY="405" width="128" height="165"/>
-        <element name="MRSLPlace" positionX="628" positionY="240" width="128" height="553"/>
+        <element name="MRSLPlace" positionX="628" positionY="240" width="128" height="568"/>
         <element name="MRSLPresignedUpload" positionX="-36" positionY="18" width="128" height="180"/>
         <element name="MRSLRemoteDevice" positionX="-36" positionY="18" width="128" height="210"/>
         <element name="MRSLTag" positionX="196" positionY="-45" width="128" height="118"/>
         <element name="MRSLTemplate" positionX="-36" positionY="18" width="128" height="133"/>
         <element name="MRSLTemplateItem" positionX="-27" positionY="27" width="128" height="135"/>
-        <element name="MRSLUser" positionX="376" positionY="18" width="128" height="583"/>
+        <element name="MRSLUser" positionX="376" positionY="18" width="128" height="600"/>
     </elements>
 </model>

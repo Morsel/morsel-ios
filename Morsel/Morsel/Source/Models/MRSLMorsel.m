@@ -368,10 +368,12 @@
         NSString *updateString = data[@"updated_at"];
         self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
     }
+
     if (![data[@"liked_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"liked_at"];
         self.likedDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
+    
     if (![data[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = data[@"photos"];
         self.morselPhotoURL = photoDictionary[@"_800x600"];

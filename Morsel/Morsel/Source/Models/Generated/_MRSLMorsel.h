@@ -20,6 +20,7 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *primary_item_id;
 	__unsafe_unretained NSString *publishedDate;
 	__unsafe_unretained NSString *rank;
+	__unsafe_unretained NSString *sort_order;
 	__unsafe_unretained NSString *summary;
 	__unsafe_unretained NSString *tagged;
 	__unsafe_unretained NSString *tagged_users_count;
@@ -31,6 +32,7 @@ extern const struct MRSLMorselAttributes {
 
 extern const struct MRSLMorselRelationships {
 	__unsafe_unretained NSString *activitiesAsSubject;
+	__unsafe_unretained NSString *collections;
 	__unsafe_unretained NSString *creator;
 	__unsafe_unretained NSString *items;
 	__unsafe_unretained NSString *place;
@@ -40,9 +42,11 @@ extern const struct MRSLMorselFetchedProperties {
 } MRSLMorselFetchedProperties;
 
 @class MRSLActivity;
+@class MRSLCollection;
 @class MRSLUser;
 @class MRSLItem;
 @class MRSLPlace;
+
 
 
 
@@ -262,6 +266,20 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* sort_order;
+
+
+
+@property int32_t sort_orderValue;
+- (int32_t)sort_orderValue;
+- (void)setSort_orderValue:(int32_t)value_;
+
+//- (BOOL)validateSort_order:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSString* summary;
 
 
@@ -351,6 +369,13 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSSet *collections;
+
+- (NSMutableSet*)collectionsSet;
+
+
+
+
 @property (nonatomic, strong) MRSLUser *creator;
 
 //- (BOOL)validateCreator:(id*)value_ error:(NSError**)error_;
@@ -381,6 +406,11 @@ extern const struct MRSLMorselFetchedProperties {
 - (void)removeActivitiesAsSubject:(NSSet*)value_;
 - (void)addActivitiesAsSubjectObject:(MRSLActivity*)value_;
 - (void)removeActivitiesAsSubjectObject:(MRSLActivity*)value_;
+
+- (void)addCollections:(NSSet*)value_;
+- (void)removeCollections:(NSSet*)value_;
+- (void)addCollectionsObject:(MRSLCollection*)value_;
+- (void)removeCollectionsObject:(MRSLCollection*)value_;
 
 - (void)addItems:(NSSet*)value_;
 - (void)removeItems:(NSSet*)value_;
@@ -506,6 +536,15 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
+- (NSNumber*)primitiveSort_order;
+- (void)setPrimitiveSort_order:(NSNumber*)value;
+
+- (int32_t)primitiveSort_orderValue;
+- (void)setPrimitiveSort_orderValue:(int32_t)value_;
+
+
+
+
 - (NSString*)primitiveSummary;
 - (void)setPrimitiveSummary:(NSString*)value;
 
@@ -560,6 +599,11 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (NSMutableSet*)primitiveActivitiesAsSubject;
 - (void)setPrimitiveActivitiesAsSubject:(NSMutableSet*)value;
+
+
+
+- (NSMutableSet*)primitiveCollections;
+- (void)setPrimitiveCollections:(NSMutableSet*)value;
 
 
 
