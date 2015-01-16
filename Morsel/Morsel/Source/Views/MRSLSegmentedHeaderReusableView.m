@@ -19,17 +19,19 @@
 
 @implementation MRSLSegmentedHeaderReusableView
 
-- (void)setShouldDisplayProfessionalTabs:(BOOL)shouldDisplayProfessionalTabs {
-    _shouldDisplayProfessionalTabs = shouldDisplayProfessionalTabs;
-    self.buttonView.shouldDisplayProfessionalTabs = _shouldDisplayProfessionalTabs;
-}
-
 #pragma mark - MRSLSegmentedButtonViewDelegate
 
 - (void)segmentedButtonViewDidSelectIndex:(NSInteger)index {
     if ([self.delegate respondsToSelector:@selector(segmentedHeaderDidSelectIndex:)]) {
         [self.delegate segmentedHeaderDidSelectIndex:index];
     }
+}
+
+- (NSIndexSet *)segmentedButtonViewIndexSetToDisplay {
+    if ([self.delegate respondsToSelector:@selector(segmentedButtonViewIndexSetToDisplay)]) {
+        return [self.delegate segmentedButtonViewIndexSetToDisplay];
+    }
+    return nil;
 }
 
 @end

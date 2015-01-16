@@ -17,49 +17,6 @@
 
 @implementation MRSLAPIService (Place)
 
-- (void)searchPlacesWithQuery:(NSString *)query
-                  andLocation:(CLLocation *)location
-                       orNear:(NSString *)near
-                      success:(MRSLAPIArrayBlock)successOrNil
-                      failure:(MRSLFailureBlock)failureOrNil {
-    if ([query length] < 3) {
-        DDLogError(@"Cannot search places. Query is less than minimum character length of 3.");
-        if (failureOrNil) failureOrNil(nil);
-        return;
-    }
-    
-    // if near passed, used instead of lat_lon
-    NSDictionary *locationDictionary = nil;
-    if ([near length] > 0) {
-        locationDictionary = @{@"query": query,
-                               @"near": near};
-    } else {
-        locationDictionary = @{@"query": query,
-                               @"lat_lon": [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude]};
-    }
-    NSMutableDictionary *parameters = [self parametersWithDictionary:locationDictionary
-                                                includingMRSLObjects:nil
-                                              requiresAuthentication:YES];
-
-    [[MRSLAPIClient sharedClient] performRequest:@"places/suggest"
-                                      parameters:parameters
-                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                             DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                             NSArray *foursquareArray = responseObject[@"data"][@"minivenues"];
-                                             __block NSMutableArray *foursquarePlaces = [NSMutableArray array];
-                                             [foursquareArray enumerateObjectsUsingBlock:^(NSDictionary *venueDictionary, NSUInteger idx, BOOL *stop) {
-                                                 MRSLFoursquarePlace *foursquarePlace = [[MRSLFoursquarePlace alloc] initWithDictionary:venueDictionary];
-                                                 [foursquarePlaces addObject:foursquarePlace];
-                                             }];
-                                             if (successOrNil) successOrNil(foursquarePlaces);
-                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                             [self reportFailure:failureOrNil
-                                                    forOperation:operation
-                                                       withError:error
-                                                        inMethod:NSStringFromSelector(_cmd)];
-                                         }];
-}
-
 - (void)addUserToPlaceWithFoursquareID:(MRSLFoursquarePlace *)foursquarePlace
                              userTitle:(NSString *)title
                                success:(MRSLAPISuccessBlock)successOrNil
@@ -108,21 +65,14 @@
 }
 
 - (void)getPlacesForUser:(MRSLUser *)user
-               withMaxID:(NSNumber *)maxOrNil
-               orSinceID:(NSNumber *)sinceOrNil
-                andCount:(NSNumber *)countOrNil
+                    page:(NSNumber *)pageOrNil
+                   count:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
                  failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
 
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"users/%i/places", user.userIDValue]
@@ -142,21 +92,14 @@
 }
 
 - (void)getUsersForPlace:(MRSLPlace *)place
-               withMaxID:(NSNumber *)maxOrNil
-               orSinceID:(NSNumber *)sinceOrNil
-                andCount:(NSNumber *)countOrNil
+                    page:(NSNumber *)pageOrNil
+                   count:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
                  failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:NO];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"places/%i/users", place.placeIDValue]
                                       parameters:parameters

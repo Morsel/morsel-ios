@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="1.4" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="MRSLActivity" representedClassName="MRSLActivity" syncable="YES">
+        <attribute name="actionType" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="action_type"/>
+            </userInfo>
+        </attribute>
+        <attribute name="activityID" optional="YES" attributeType="Integer 32" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="subjectID" optional="YES" attributeType="Integer 32" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="subject.id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="subjectType" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="subject_type"/>
+            </userInfo>
+        </attribute>
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="activities" inverseEntity="MRSLUser" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="userID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="itemSubject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="activitiesAsSubject" inverseEntity="MRSLItem" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="itemID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="morselSubject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="activitiesAsSubject" inverseEntity="MRSLMorsel" syncable="YES"/>
+        <relationship name="notification" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLNotification" inverseName="activity" inverseEntity="MRSLNotification" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="notificationID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="placeSubject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLPlace" inverseName="activitiesAsSubject" inverseEntity="MRSLPlace" syncable="YES"/>
+        <relationship name="userSubject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="activitiesAsSubject" inverseEntity="MRSLUser" syncable="YES"/>
+    </entity>
+    <entity name="MRSLComment" representedClassName="MRSLComment" syncable="YES">
+        <attribute name="commentDescription" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="description"/>
+            </userInfo>
+        </attribute>
+        <attribute name="commentID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="comments" inverseEntity="MRSLUser" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="userID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="comments" inverseEntity="MRSLItem" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="itemID"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="MRSLItem" representedClassName="MRSLItem" syncable="YES">
+        <attribute name="comment_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="creator_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="didFailUpload" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="isUploading" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="itemDescription" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="description"/>
+            </userInfo>
+        </attribute>
+        <attribute name="itemID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="itemPhotoFull" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="itemPhotoLarge" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="itemPhotoThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="itemPhotoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="localUUID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="morsel_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="photo_processing" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="placeholder_description" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="placeholder_photo_large" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="placeholder_photo_small" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sort_order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="template_order" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="itemSubject" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLComment" inverseName="item" inverseEntity="MRSLComment" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="commentID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="morsel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="items" inverseEntity="MRSLMorsel" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="morselID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="presignedUpload" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="MRSLPresignedUpload" inverseName="item" inverseEntity="MRSLPresignedUpload" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="presigned_upload"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="MRSLKeyword" representedClassName="MRSLKeyword" syncable="YES">
+        <attribute name="keywordID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tags_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLTag" inverseName="keyword" inverseEntity="MRSLTag" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="tagID"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="MRSLMorsel" representedClassName="MRSLMorsel" syncable="YES">
+        <attribute name="clipboard_mrsl" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="mrsl.clipboard_mrsl"/>
+            </userInfo>
+        </attribute>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="draft" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="facebook_mrsl" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="mrsl.facebook_mrsl"/>
+            </userInfo>
+        </attribute>
+        <attribute name="feedItemFeatured" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="feedItemID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="like_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="likedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="morselID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="morselPhotoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="primary_item_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="publishedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="rank" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tagged" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="tagged_users_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="template_id" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twitter_mrsl" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="mrsl.twitter_mrsl"/>
+            </userInfo>
+        </attribute>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="morselSubject" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="morsels" inverseEntity="MRSLUser" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="userID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLItem" inverseName="morsel" inverseEntity="MRSLItem" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="itemID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="place" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLPlace" inverseName="morsels" inverseEntity="MRSLPlace" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="placeID"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="MRSLNotification" representedClassName="MRSLNotification" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="markedReadAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notificationID" optional="YES" attributeType="Integer 32" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="payloadID" optional="YES" attributeType="Integer 32" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="payload.id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="payloadType" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="payload_type"/>
+            </userInfo>
+        </attribute>
+        <attribute name="read" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="notification" inverseEntity="MRSLActivity" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="activityID"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="MRSLPlace" representedClassName="MRSLPlace" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="credit_cards" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.credit_cards"/>
+            </userInfo>
+        </attribute>
+        <attribute name="days" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dining_options" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.dining_options"/>
+            </userInfo>
+        </attribute>
+        <attribute name="dining_style" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.dining_style"/>
+            </userInfo>
+        </attribute>
+        <attribute name="dress_code" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.dress_code"/>
+            </userInfo>
+        </attribute>
+        <attribute name="facebook_page_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="follower_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="formatted_phone" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.formatted_phone"/>
+            </userInfo>
+        </attribute>
+        <attribute name="foursquare_timeframes" optional="YES" attributeType="Transformable" syncable="YES">
+            <userInfo>
+                <entry key="attributeValueClassName" value="NSArray"/>
+            </userInfo>
+        </attribute>
+        <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="menu_mobile_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.menu_mobile_url"/>
+            </userInfo>
+        </attribute>
+        <attribute name="menu_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.menu_url"/>
+            </userInfo>
+        </attribute>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="outdoor_seating" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.outdoor_seating"/>
+            </userInfo>
+        </attribute>
+        <attribute name="parking" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.parking"/>
+            </userInfo>
+        </attribute>
+        <attribute name="parking_details" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.parking_details"/>
+            </userInfo>
+        </attribute>
+        <attribute name="placeID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="postal_code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="price_tier" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.price_tier"/>
+            </userInfo>
+        </attribute>
+        <attribute name="public_transit" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.public_transit"/>
+            </userInfo>
+        </attribute>
+        <attribute name="reservations" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.reservations"/>
+            </userInfo>
+        </attribute>
+        <attribute name="reservations_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.reservations_url"/>
+            </userInfo>
+        </attribute>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twitter_username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="website_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="information.website_url"/>
+            </userInfo>
+        </attribute>
+        <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="placeSubject" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="place" inverseEntity="MRSLMorsel" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="morselID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="places" inverseEntity="MRSLUser" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="userID"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="MRSLPresignedUpload" representedClassName="MRSLPresignedUpload" syncable="YES">
+        <attribute name="acl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="awsAccessKeyId" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="AWSAccessKeyId"/>
+            </userInfo>
+        </attribute>
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="policy" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="signature" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="successActionStatus" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="success_action_status"/>
+            </userInfo>
+        </attribute>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLItem" inverseName="presignedUpload" inverseEntity="MRSLItem" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="presignedUpload" inverseEntity="MRSLUser" syncable="YES"/>
+    </entity>
+    <entity name="MRSLRemoteDevice" representedClassName="MRSLRemoteDevice" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deviceID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="model" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notify_item_comment" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="notify_morsel_like" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="notify_morsel_morsel_user_tag" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="notify_tagged_morsel_item_comment" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="notify_user_follow" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="MRSLTag" representedClassName="MRSLTag" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="tagID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <relationship name="keyword" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLKeyword" inverseName="tag" inverseEntity="MRSLKeyword" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="keywordID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="tags" inverseEntity="MRSLUser" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="userID"/>
+            </userInfo>
+        </relationship>
+        <userInfo>
+            <entry key="mappedKeyName" value="id"/>
+        </userInfo>
+    </entity>
+    <entity name="MRSLTemplate" representedClassName="MRSLTemplate" syncable="YES">
+        <attribute name="icon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="templateDescription" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="description"/>
+            </userInfo>
+        </attribute>
+        <attribute name="templateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="tip" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MRSLTemplateItem" inverseName="template" inverseEntity="MRSLTemplateItem" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="template_order"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <entity name="MRSLTemplateItem" representedClassName="MRSLTemplateItem" syncable="YES">
+        <attribute name="placeholder_description" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="placeholder_photo_large" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="placeholder_photos.large"/>
+            </userInfo>
+        </attribute>
+        <attribute name="placeholder_photo_small" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="placeholder_photos.small"/>
+            </userInfo>
+        </attribute>
+        <attribute name="placeholder_sort_order" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="template_order" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <relationship name="template" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLTemplate" inverseName="items" inverseEntity="MRSLTemplate" syncable="YES"/>
+    </entity>
+    <entity name="MRSLUser" representedClassName="MRSLUser" syncable="YES">
+        <attribute name="auth_token" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="auto_follow" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="bio" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="dateFormat" value="yyyy-MM-dd'T'H:mm:ss.SSSS'Z'"/>
+                <entry key="mappedKeyName" value="created_at"/>
+            </userInfo>
+        </attribute>
+        <attribute name="dateFollowed" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="draft_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="facebook_uid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="followed_user_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="follower_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isUploading" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="liked_item_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="morsel_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="passwordSet" optional="YES" attributeType="Boolean" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="password_set"/>
+            </userInfo>
+        </attribute>
+        <attribute name="photo_processing" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="professional" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="profilePhotoFull" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="profilePhotoLarge" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="profilePhotoThumb" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="profilePhotoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="staff" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="tagged" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twitter_username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="Integer 32" defaultValueString="0.0" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="activities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="creator" inverseEntity="MRSLActivity" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="activityID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="activitiesAsSubject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLActivity" inverseName="userSubject" inverseEntity="MRSLActivity" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLComment" inverseName="creator" inverseEntity="MRSLComment" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="commentID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="morsels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLMorsel" inverseName="creator" inverseEntity="MRSLMorsel" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="morselID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="places" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLPlace" inverseName="users" inverseEntity="MRSLPlace" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="placeID"/>
+            </userInfo>
+        </relationship>
+        <relationship name="presignedUpload" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="MRSLPresignedUpload" inverseName="user" inverseEntity="MRSLPresignedUpload" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="presigned_upload"/>
+            </userInfo>
+        </relationship>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MRSLTag" inverseName="user" inverseEntity="MRSLTag" syncable="YES">
+            <userInfo>
+                <entry key="relatedByAttribute" value="tagID"/>
+            </userInfo>
+        </relationship>
+    </entity>
+    <elements>
+        <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="208"/>
+        <element name="MRSLComment" positionX="7" positionY="0" width="128" height="118"/>
+        <element name="MRSLItem" positionX="-243" positionY="0" width="128" height="418"/>
+        <element name="MRSLKeyword" positionX="7" positionY="-130" width="128" height="118"/>
+        <element name="MRSLMorsel" positionX="-153" positionY="458" width="128" height="435"/>
+        <element name="MRSLNotification" positionX="9" positionY="405" width="128" height="165"/>
+        <element name="MRSLPlace" positionX="628" positionY="240" width="128" height="553"/>
+        <element name="MRSLPresignedUpload" positionX="-36" positionY="18" width="128" height="180"/>
+        <element name="MRSLRemoteDevice" positionX="-36" positionY="18" width="128" height="210"/>
+        <element name="MRSLTag" positionX="196" positionY="-45" width="128" height="118"/>
+        <element name="MRSLTemplate" positionX="-36" positionY="18" width="128" height="133"/>
+        <element name="MRSLTemplateItem" positionX="-27" positionY="27" width="128" height="135"/>
+        <element name="MRSLUser" positionX="376" positionY="18" width="128" height="583"/>
+    </elements>
+</model>

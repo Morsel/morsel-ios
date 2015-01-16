@@ -196,22 +196,15 @@
 }
 
 - (void)getMorselsForUser:(MRSLUser *)userOrNil
-                withMaxID:(NSNumber *)maxOrNil
-                orSinceID:(NSNumber *)sinceOrNil
-                 andCount:(NSNumber *)countOrNil
+                     page:(NSNumber *)pageOrNil
+                    count:(NSNumber *)countOrNil
                onlyDrafts:(BOOL)shouldOnlyDisplayDrafts
                   success:(MRSLAPIArrayBlock)successOrNil
                   failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
 
     NSString *endpoint = nil;
@@ -239,21 +232,14 @@
 }
 
 - (void)getMorselsForPlace:(MRSLPlace *)placeOrNil
-                 withMaxID:(NSNumber *)maxOrNil
-                 orSinceID:(NSNumber *)sinceOrNil
-                  andCount:(NSNumber *)countOrNil
+                      page:(NSNumber *)pageOrNil
+                     count:(NSNumber *)countOrNil
                    success:(MRSLAPIArrayBlock)successOrNil
                    failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
 
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"places/%i/morsels", placeOrNil.placeIDValue]
@@ -320,21 +306,14 @@
 }
 
 - (void)getTaggedUsersForMorsel:(MRSLMorsel *)morsel
-                      withMaxID:(NSNumber *)maxOrNil
-                      orSinceID:(NSNumber *)sinceOrNil
-                       andCount:(NSNumber *)countOrNil
+                           page:(NSNumber *)pageOrNil
+                          count:(NSNumber *)countOrNil
                         success:(MRSLAPIArrayBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"morsels/%i/tagged_users", morsel.morselIDValue]
                                       parameters:parameters
@@ -354,21 +333,14 @@
 
 - (void)getEligibleTaggedUsersForMorsel:(MRSLMorsel *)morsel
                              usingQuery:(NSString *)queryOrNil
-                              withMaxID:(NSNumber *)maxOrNil
-                              orSinceID:(NSNumber *)sinceOrNil
-                               andCount:(NSNumber *)countOrNil
+                                   page:(NSNumber *)pageOrNil
+                                  count:(NSNumber *)countOrNil
                                 success:(MRSLAPIArrayBlock)successOrNil
                                 failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-    if (maxOrNil && sinceOrNil) {
-        DDLogError(@"Attempting to call with both max and since IDs set. Ignoring both values.");
-    } else if (maxOrNil && !sinceOrNil) {
-        parameters[@"max_id"] = maxOrNil;
-    } else if (!maxOrNil && sinceOrNil) {
-        parameters[@"since_id"] = sinceOrNil;
-    }
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
     if (countOrNil) parameters[@"count"] = countOrNil;
 
     if ([queryOrNil length] > 2) {

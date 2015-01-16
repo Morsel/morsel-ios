@@ -8,7 +8,7 @@
 
 #import "MRSLTitleItemView.h"
 
-#import "MRSLRobotoSlabBoldLabel.h"
+#import "MRSLPrimaryBoldLabel.h"
 
 @interface MRSLTitleItemView ()
 
@@ -60,7 +60,7 @@
     [self setWidth:titleView.frame.size.width];
     [self setHeight:titleView.frame.size.height];
 
-    MRSLRobotoSlabBoldLabel *titleLabel = [[MRSLRobotoSlabBoldLabel alloc] initWithFrame:self.frame
+    MRSLPrimaryBoldLabel *titleLabel = [[MRSLPrimaryBoldLabel alloc] initWithFrame:self.frame
                                                                              andFontSize:17.f];
     [titleLabel setWidth:MAX(160.f, self.frame.size.width / 2)];
     [titleLabel setX:((self.frame.size.width / 2) - (titleLabel.frame.size.width / 2))];

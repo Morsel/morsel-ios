@@ -34,7 +34,8 @@ typedef void (^ MRSLSocialUIDStringBlock)(NSString *uids, NSError *error);
 typedef void (^ MRSLSocialCancelBlock)();
 typedef void (^ MRSLDataURLResponseErrorBlock)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^ MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock)(NSArray *objectIDs, NSError *error);
-typedef void (^ MRSLRemoteRequestBlock)(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock);
+typedef void (^ MRSLRemoteTimelineRequestBlock)(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock);
+typedef void (^ MRSLRemotePagedRequestBlock)(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock);
 typedef void (^ MRSLMediaItemProcessingSuccessBlock)(NSData *fullImageData, NSData *largeImageData, NSData *thumbImageData);
 
 #pragma mark - Enum
@@ -96,6 +97,12 @@ typedef NS_ENUM(NSUInteger, MRSLStatusType) {
 
 #pragma mark - Media Capture Values
 
+static const CGFloat MRSLDefaultRefreshControlPadding = -60.f;
+static const CGFloat MRSLFeedRefreshDelayDefault = 60.f;
+static const CGFloat MRSLNotificationRefreshDelayDefault = 180.f;
+static const CGFloat MRSLSearchDelayDefault = .2f;
+static const CGFloat MRSLPaginationCountDefault = 20.f;
+static const CGFloat MRSLMinimumSpacingPadding = 1.f;
 static const CGFloat MRSLCoverAreaHeight = 200.f;
 static const CGFloat MRSLMorselTitleThreshold = 60.f;
 static const CGFloat MRSLMorselTitleMaxCount = 70.f;
@@ -103,7 +110,7 @@ static const CGFloat MRSLAppStatusAndNavigationBarHeight = 64.f;
 static const CGFloat MRSLMorselTemplateDefaultID = -2.f;
 static const CGFloat MRSLCellDefaultPadding = 20.f;
 static const CGFloat MRSLCellDefaultCoverPadding = 60.f;
-static const CGFloat MRSLImageLargeThreshold = 220.f;
+static const CGFloat MRSLImageLargeThreshold = 140.f;
 static const CGFloat MRSLImageFullDimensionSize = 640.f;
 static const CGFloat MRSLUserProfileImageLargeDimensionSize = 72.f;
 static const CGFloat MRSLUserProfileImageThumbDimensionSize = 40.f;
@@ -127,18 +134,17 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 #define ROLLBAR_ENVIRONMENT @"debug"
 #endif
 
-/* 
- Defining to disable Mixpanel using the advertising identifier, 
- which Apple prohibits if AdSupport.framework is included but 
+/*
+ Defining to disable Mixpanel using the advertising identifier,
+ which Apple prohibits if AdSupport.framework is included but
  this feature is not enabled in iTunes Connect.
-*/
+ */
 #define MIXPANEL_NO_IFA
 
 #define ROLLBAR_ACCESS_TOKEN @"80ee8af968f646898f1c1a6d6253b347"
-#define ROLLBAR_VERSION @"v0.1.2"
 
 #if defined (ROLLBAR_ENVIRONMENT)
-#import "Rollbar.h"
+#import <Rollbar/Rollbar.h>
 #endif
 
 #pragma mark - Defines
@@ -175,7 +181,7 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 #define MORSEL_BASE_URL @"https://www.eatmorsel.com"
 #define S3_BASE_URL @"https://morsel.s3.amazonaws.com/"
 
-#elif (defined(MORSEL_DEBUG) || defined(MORSEL_ALPHA))
+#elif (defined(MORSEL_ALPHA) || defined(MORSEL_DEBUG) || defined(SPEC_TESTING) || defined(INTEGRATION_TESTING))
 
 #define MORSEL_API_BASE_URL @"https://api-staging.eatmorsel.com"
 #define MORSEL_BASE_URL @"https://staging.eatmorsel.com"
@@ -213,7 +219,7 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 #define INSTAGRAM_CONSUMER_SECRET @"0887a6cfbea54cdea71ad7b7b3dc1a29"
 #define INSTAGRAM_CALLBACK @"insta-morsel://success"
 
-#elif (defined(MORSEL_ALPHA) || defined(MORSEL_DEBUG))
+#elif (defined(MORSEL_ALPHA) || defined(MORSEL_DEBUG) || defined(SPEC_TESTING) || defined(INTEGRATION_TESTING))
 
 #define FACEBOOK_APP_ID @"1494349067476127"
 #define FACEBOOK_PUBLISH_AUDIENCE FBSessionDefaultAudienceOnlyMe

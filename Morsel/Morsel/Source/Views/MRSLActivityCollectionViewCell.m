@@ -8,7 +8,7 @@
 
 #import "MRSLActivityCollectionViewCell.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+#import <DateTools/NSDate+DateTools.h>
 
 #import "MRSLItemImageView.h"
 #import "MRSLProfileImageView.h"
@@ -35,7 +35,7 @@
         [self reset];
 
         self.descriptionLabel.text = [activity message];
-        self.timeAgoLabel.text = [activity.creationDate timeAgo];
+        self.timeAgoLabel.text = [activity.creationDate timeAgoSinceNow];
         self.creatorProfileImageView.user = activity.creator;
 
         [self.descriptionLabel sizeToFit];

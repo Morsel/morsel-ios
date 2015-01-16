@@ -6,6 +6,7 @@
 const struct MRSLKeywordAttributes MRSLKeywordAttributes = {
 	.keywordID = @"keywordID",
 	.name = @"name",
+	.tags_count = @"tags_count",
 	.type = @"type",
 };
 
@@ -47,6 +48,11 @@ const struct MRSLKeywordFetchedProperties MRSLKeywordFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"tags_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"tags_count"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 
 	return keyPaths;
 }
@@ -82,6 +88,32 @@ const struct MRSLKeywordFetchedProperties MRSLKeywordFetchedProperties = {
 
 @dynamic name;
 
+
+
+
+
+
+@dynamic tags_count;
+
+
+
+- (int32_t)tags_countValue {
+	NSNumber *result = [self tags_count];
+	return [result intValue];
+}
+
+- (void)setTags_countValue:(int32_t)value_ {
+	[self setTags_count:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveTags_countValue {
+	NSNumber *result = [self primitiveTags_count];
+	return [result intValue];
+}
+
+- (void)setPrimitiveTags_countValue:(int32_t)value_ {
+	[self setPrimitiveTags_count:[NSNumber numberWithInt:value_]];
+}
 
 
 

@@ -14,7 +14,7 @@
     [super awakeFromNib];
 
     [self.titleLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.titleLabel setFont:[UIFont robotoLightFontOfSize:self.titleLabel.font.pointSize]];
+    [self.titleLabel setFont:[UIFont primaryLightFontOfSize:self.titleLabel.font.pointSize]];
     [self setCheckAlignment:M13CheckboxAlignmentLeft];
     [self setFlat:YES];
     [self setStrokeWidth:1.f];

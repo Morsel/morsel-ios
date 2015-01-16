@@ -50,7 +50,7 @@
 
     self.coverView.hidden = ![_item isCoverItem];
 
-    _itemDescription.font = (_item.itemDescription.length > 0) ? [UIFont robotoLightFontOfSize:_itemDescription.font.pointSize] : [UIFont robotoLightItalicFontOfSize:_itemDescription.font.pointSize];
+    _itemDescription.font = (_item.itemDescription.length > 0) ? [UIFont primaryLightFontOfSize:_itemDescription.font.pointSize] : [UIFont primaryLightItalicFontOfSize:_itemDescription.font.pointSize];
 
     _itemThumbnail.item = _item;
 }

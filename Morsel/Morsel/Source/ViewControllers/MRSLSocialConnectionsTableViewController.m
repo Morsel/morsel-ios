@@ -221,10 +221,11 @@
 
 - (void)toggleSwitch:(UISwitch *)socialSwitch
         shouldEnable:(BOOL)shouldEnable {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [socialSwitch setEnabled:YES];
         [socialSwitch setOn:shouldEnable
                    animated:YES];
+
     });
 }
 

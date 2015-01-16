@@ -75,7 +75,7 @@
 - (CGFloat)descriptionHeight {
     if (!self.itemDescription || [self.itemDescription length] == 0) return 25.f;
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:self.itemDescription
-                                                                           attributes:@{NSFontAttributeName: [UIFont preferredRobotoFontForTextStyle:UIFontTextStyleBody]}];
+                                                                           attributes:@{NSFontAttributeName: [UIFont preferredSecondaryFontForTextStyle:UIFontTextStyleBody]}];
     CGRect descriptionRect = [attributedString boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
                                                             options:NSStringDrawingUsesLineFragmentOrigin
                                                             context:nil];

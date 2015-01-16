@@ -79,7 +79,7 @@ describe(@"Importing from the API", ^{
                 [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
                 return _itemWithComments;
             });
-            let(comment, nil);
+            let(comment, ^id{ return nil; });
 
             beforeEach(^{
                 __block BOOL requestCompleted = NO;
@@ -88,9 +88,8 @@ describe(@"Importing from the API", ^{
                                                    forRequestPath:@"/items/40/comments"];
 
                 [_appDelegate.apiService getComments:itemWithComments
-                                           withMaxID:nil
-                                           orSinceID:nil
-                                            andCount:nil
+                                                page:nil
+                                               count:nil
                                              success:^(NSArray *responseArray) {
                                                  firstComment = [[[itemWithComments comments] allObjects] firstObject];
                                                  requestCompleted = YES;
@@ -152,7 +151,7 @@ describe(@"Importing from the API", ^{
     });
 
     describe(@"MRSLUser", ^{
-        let(currentUser, nil);
+        let(currentUser, ^id{ return nil; });
 
         beforeEach(^{
             __block BOOL requestCompleted = NO;

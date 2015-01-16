@@ -8,8 +8,6 @@
 
 #import "MRSLMorselEditViewController.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
-
 #import "MRSLAPIService+Item.h"
 #import "MRSLAPIService+Morsel.h"
 
@@ -19,8 +17,8 @@
 #import "MRSLMorselEditTitleViewController.h"
 #import "MRSLMorselEditItemTableViewCell.h"
 #import "MRSLMorselInfoTableViewCell.h"
+#import "MRSLMorselEditSummaryViewController.h"
 #import "MRSLMorselTaggedUsersTableViewCell.h"
-#import "MRSLMorselPublishShareViewController.h"
 #import "MRSLMorselEditPlaceViewController.h"
 #import "MRSLMorselEditEligibleUsersViewController.h"
 #import "MRSLMorselDetailViewController.h"
@@ -223,9 +221,9 @@ MRSLMorselEditItemTableViewCellDelegate>
     if ([segue.identifier isEqualToString:MRSLStoryboardSegueEditMorselTitleKey]) {
         MRSLMorselEditTitleViewController *morselEditTitleVC = [segue destinationViewController];
         morselEditTitleVC.morselID = _morsel.morselID;
-    } else if ([segue.identifier isEqualToString:MRSLStoryboardSeguePublishShareMorselKey]) {
-        MRSLMorselPublishShareViewController *morselPublishVC = [segue destinationViewController];
-        morselPublishVC.morsel = _morsel;
+    } else if ([segue.identifier isEqualToString:MRSLStoryboardSegueAddSummaryKey]) {
+        MRSLMorselEditSummaryViewController *morselSummaryVC = [segue destinationViewController];
+        morselSummaryVC.morselID = _morsel.morselID;
     } else if ([segue.identifier isEqualToString:MRSLStoryboardSegueSelectPlaceKey]) {
         MRSLMorselEditPlaceViewController *morselPlaceVC = [segue destinationViewController];
         morselPlaceVC.morsel = _morsel;
@@ -236,6 +234,15 @@ MRSLMorselEditItemTableViewCellDelegate>
 }
 
 #pragma mark - Action Methods
+
+- (void)goBack {
+    UIViewController *secondToLastVC = [[self.navigationController viewControllers] objectAtIndex:[[self.navigationController viewControllers] count] - 2];
+    if ([secondToLastVC isKindOfClass:[MRSLTemplateInfoViewController class]]) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [super goBack];
+    }
+}
 
 - (void)displayPublishMorsel {
     self.morsel = [self getOrLoadMorselIfExists];
@@ -280,7 +287,7 @@ MRSLMorselEditItemTableViewCellDelegate>
                                                                                  @"items_count": @([weakSelf.objects count]),
                                                                                  @"morsel_id": NSNullIfNil(weakSelf.morsel.morselID),
                                                                                  @"morsel_draft":(weakSelf.morsel.draftValue) ? @"true" : @"false"}];
-                                       [weakSelf performSegueWithIdentifier:MRSLStoryboardSeguePublishShareMorselKey
+                                       [weakSelf performSegueWithIdentifier:MRSLStoryboardSegueAddSummaryKey
                                                                      sender:nil];
                                    }
                                } failure:^(NSError *error) {
@@ -417,12 +424,12 @@ MRSLMorselEditItemTableViewCellDelegate>
                 tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselInfoCell];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell keyLabel] setText:@"Title"];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:(!_morsel || [_morsel hasPlaceholderTitle]) ? @"Name your morsel" : [_morsel title]];
-                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setFont:(!_morsel || [_morsel hasPlaceholderTitle]) ? [UIFont robotoLightItalicFontOfSize:14.f] : [UIFont robotoLightFontOfSize:14.f]];
+                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setFont:(!_morsel || [_morsel hasPlaceholderTitle]) ? [UIFont primaryLightItalicFontOfSize:14.f] : [UIFont primaryLightFontOfSize:14.f]];
             } else if (indexPath.row == 1 && [[MRSLUser currentUser] isProfessional]) {
                 tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselInfoCell];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell keyLabel] setText:@"Place"];
                 [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setText:[_morsel.place name] ?: @"None / Personal"];
-                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setFont:(![_morsel.place name]) ? [UIFont robotoLightItalicFontOfSize:14.f] : [UIFont robotoLightFontOfSize:14.f]];
+                [[(MRSLMorselInfoTableViewCell *)tableViewCell titleLabel] setFont:(![_morsel.place name]) ? [UIFont primaryLightItalicFontOfSize:14.f] : [UIFont primaryLightFontOfSize:14.f]];
             } else {
                 tableViewCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDMorselTaggedUsersCellKey];
                 [(MRSLMorselTaggedUsersTableViewCell *)tableViewCell setMorsel:self.morsel];
@@ -542,6 +549,9 @@ MRSLMorselEditItemTableViewCellDelegate>
     if ([_morsel.items count] > 0) {
         [actionSheet addButtonWithTitle:@"Preview"];
     }
+    if (_morsel.publishedDate) {
+        [actionSheet addButtonWithTitle:@"Edit summary"];
+    }
     [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
     [actionSheet showInView:self.view];
 }
@@ -561,6 +571,9 @@ MRSLMorselEditItemTableViewCellDelegate>
         userMorselsFeedVC.user = _morsel.creator;
         [self.navigationController pushViewController:userMorselsFeedVC
                                              animated:YES];
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Edit summary"]) {
+        [self performSegueWithIdentifier:MRSLStoryboardSegueAddSummaryKey
+                                  sender:nil];
     }
 }
 

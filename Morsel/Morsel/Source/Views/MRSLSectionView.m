@@ -7,11 +7,11 @@
 //
 
 #import "MRSLSectionView.h"
-#import "MRSLRobotoSlabBoldLabel.h"
+#import "MRSLPrimaryBoldLabel.h"
 
 @interface MRSLSectionView()
 
-@property (strong, nonatomic) MRSLRobotoSlabBoldLabel *label;
+@property (strong, nonatomic) MRSLPrimaryBoldLabel *label;
 
 @end
 
@@ -33,7 +33,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _label = [[MRSLRobotoSlabBoldLabel alloc] initWithFrame:CGRectMake(16.f, 0.f, [UIScreen mainScreen].bounds.size.width - 80.f, 34.f)
+        _label = [[MRSLPrimaryBoldLabel alloc] initWithFrame:CGRectMake(16.f, 0.f, [UIScreen mainScreen].bounds.size.width - 80.f, 34.f)
                                                     andFontSize:16.f];
 
         _label.textColor = [UIColor morselDark];

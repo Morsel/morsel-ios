@@ -127,10 +127,12 @@
     MRSLMediaItem *mediaItem = [[MRSLMediaItem alloc] init];
     mediaItem.mediaFullImage = croppedImage;
     [self processMediaItem:mediaItem];
-    [self.assetsLibrary saveImage:mediaItem.mediaFullImage
-                          toAlbum:@"Morsel"
-                       completion:nil
-                          failure:nil];
+    if (self.shouldSaveToDeviceLibrary) {
+        [self.assetsLibrary saveImage:mediaItem.mediaFullImage
+                              toAlbum:@"Morsel"
+                           completion:nil
+                              failure:nil];
+    }
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }
@@ -143,15 +145,18 @@
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    self.shouldSaveToDeviceLibrary = NO;
     NSString *actionSheetTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([actionSheetTitle isEqualToString:@"Cancel"]) return;
 
     if ([actionSheetTitle isEqualToString:@"Dropbox"]) {
+        self.shouldSaveToDeviceLibrary = YES;
         [self importFromDropbox];
     } else {
         [[UIApplication sharedApplication] setStatusBarHidden:YES];
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take Photo"]) {
+            self.shouldSaveToDeviceLibrary = YES;
             imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
             imagePicker.cameraDevice = self.preferredDeviceCamera;
         } else {

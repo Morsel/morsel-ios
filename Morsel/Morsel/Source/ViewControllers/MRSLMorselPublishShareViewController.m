@@ -345,7 +345,7 @@
             weakSelf.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:photoFilePath]];
             weakSelf.documentInteractionController.UTI = @"com.instagram.exclusivegram";
             weakSelf.documentInteractionController.delegate = weakSelf;
-            weakSelf.documentInteractionController.annotation = @{ @"InstagramCaption" : (weakSelf.morsel.title ? [NSString stringWithFormat:@"%@. Get the whole story at eatmorsel.com/%@ #morselgram", weakSelf.morsel.title, weakSelf.morsel.creator.username] : @"Get the whole story at eatmorsel.com #morselgram") };
+            weakSelf.documentInteractionController.annotation = @{ @"InstagramCaption" : [weakSelf.morsel instagramString]};
             [_documentInteractionController presentOpenInMenuFromRect:CGRectZero
                                                                inView:weakSelf.view
                                                              animated:YES];

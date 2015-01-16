@@ -8,7 +8,7 @@
 
 #import "NSDate+TimeAgoMinimized.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+#import <DateTools/NSDate+DateTools.h>
 
 #ifndef NSDateTimeAgoLocalizedStrings
 #define NSDateTimeAgoLocalizedStrings(key) \

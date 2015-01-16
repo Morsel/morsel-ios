@@ -35,7 +35,7 @@
                             <constraint firstAttribute="width" constant="80" id="OX8-kg-Z5J"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turd Ferguson (turdferg) liked &quot;Morsel ipsum numis sequitor something something something" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="DGj-Ni-L6s" customClass="MRSLRobotoSlabRegularLabel">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turd Ferguson (turdferg) liked &quot;Morsel ipsum numis sequitor something something something" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="DGj-Ni-L6s" customClass="MRSLPrimaryRegularLabel">
                         <rect key="frame" x="70" y="10" width="160" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="9Fm-PI-NFI"/>
@@ -45,7 +45,7 @@
                         <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 min ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="164" translatesAutoresizingMaskIntoConstraints="NO" id="sOY-UH-G1J" customClass="MRSLRobotoSlabRegularLabel">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 min ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="164" translatesAutoresizingMaskIntoConstraints="NO" id="sOY-UH-G1J" customClass="MRSLPrimaryRegularLabel">
                         <rect key="frame" x="68" y="58" width="164" height="22"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="Pg3-IV-naO"/>

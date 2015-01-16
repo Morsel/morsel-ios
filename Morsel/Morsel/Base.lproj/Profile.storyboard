@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mgU-9x-CbA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mgU-9x-CbA">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -25,10 +25,10 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="Ren-C9-zd8"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="416" id="hBg-44-A9e"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="Kfi-hz-0sM" customClass="MRSLStickyHeaderCollectionViewLayout">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="Kfi-hz-0sM" customClass="MRSLStickyHeaderCollectionViewLayout">
                                     <size key="itemSize" width="106" height="106"/>
                                     <size key="headerReferenceSize" width="320" height="50"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="50" height="50"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
@@ -50,7 +50,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iPc-fM-Bv4">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="124"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="14" preferredMaxLayoutWidth="210" translatesAutoresizingMaskIntoConstraints="NO" id="DXf-MG-zfq" customClass="MRSLRobotoSlabBoldLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="14" preferredMaxLayoutWidth="210" translatesAutoresizingMaskIntoConstraints="NO" id="DXf-MG-zfq" customClass="MRSLPrimaryBoldLabel">
                                                             <rect key="frame" x="100" y="10" width="210" height="49"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="210" id="5nu-Vy-UC1"/>
@@ -60,7 +60,7 @@
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" preferredMaxLayoutWidth="210" translatesAutoresizingMaskIntoConstraints="NO" id="Sxl-W2-9KT" customClass="MRSLRobotoLightLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" preferredMaxLayoutWidth="210" translatesAutoresizingMaskIntoConstraints="NO" id="Sxl-W2-9KT" customClass="MRSLPrimaryLightLabel">
                                                             <rect key="frame" x="100" y="55" width="210" height="35"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="210" id="5sR-Uv-ZAK"/>
@@ -95,25 +95,10 @@
                                                                 <action selector="report" destination="MYi-AS-SvG" eventType="touchUpInside" id="RqX-Gu-SNa"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V1E-4e-rQT" customClass="MRSLRegularButton">
-                                                            <rect key="frame" x="110" y="93" width="69" height="24"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="24" id="RBw-VS-SbL"/>
-                                                                <constraint firstAttribute="width" constant="69" id="T5f-Bi-Zxd"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <state key="normal" title="Followers: -">
-                                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="displayFollowers" destination="64H-u5-Yl9" eventType="touchUpInside" id="Gen-Hq-bkY"/>
-                                                            </connections>
-                                                        </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44w-Ui-et2" customClass="MRSLRegularButton">
-                                                            <rect key="frame" x="231" y="93" width="69" height="24"/>
+                                                            <rect key="frame" x="209" y="93" width="101" height="24"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="24" id="Jik-Ta-rqE"/>
-                                                                <constraint firstAttribute="width" constant="69" id="VwM-fY-AhQ"/>
+                                                                <constraint firstAttribute="height" constant="24" id="THZ-hr-pUY"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                             <state key="normal" title="Following: -">
@@ -123,22 +108,37 @@
                                                                 <action selector="displayFollowing" destination="64H-u5-Yl9" eventType="touchUpInside" id="Aib-bg-a1k"/>
                                                             </connections>
                                                         </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V1E-4e-rQT" customClass="MRSLRegularButton">
+                                                            <rect key="frame" x="100" y="93" width="101" height="24"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="24" id="IKW-J9-6OU"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                            <state key="normal" title="Followers: -">
+                                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="displayFollowers" destination="64H-u5-Yl9" eventType="touchUpInside" id="Gen-Hq-bkY"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.19" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="44w-Ui-et2" firstAttribute="leading" secondItem="V1E-4e-rQT" secondAttribute="trailing" constant="52" id="4Ou-MU-Wk6"/>
-                                                        <constraint firstAttribute="trailing" secondItem="44w-Ui-et2" secondAttribute="trailing" constant="20" id="6my-Fn-0rd"/>
+                                                        <constraint firstItem="44w-Ui-et2" firstAttribute="leading" relation="lessThanOrEqual" secondItem="V1E-4e-rQT" secondAttribute="trailing" constant="8" id="26E-Np-SYk"/>
+                                                        <constraint firstAttribute="bottom" secondItem="V1E-4e-rQT" secondAttribute="bottom" constant="7" id="7gZ-0f-yiQ"/>
                                                         <constraint firstAttribute="trailing" secondItem="DXf-MG-zfq" secondAttribute="trailing" constant="10" id="Aj9-MV-kQc"/>
                                                         <constraint firstAttribute="trailing" secondItem="Sxl-W2-9KT" secondAttribute="trailing" constant="10" id="C2D-26-nGg"/>
                                                         <constraint firstItem="Sxl-W2-9KT" firstAttribute="top" secondItem="iPc-fM-Bv4" secondAttribute="top" constant="55" id="FZE-bY-v57"/>
                                                         <constraint firstItem="Sxl-W2-9KT" firstAttribute="leading" secondItem="GMc-6J-rv2" secondAttribute="trailing" constant="10" id="HLQ-sT-kh9"/>
-                                                        <constraint firstAttribute="bottom" secondItem="44w-Ui-et2" secondAttribute="bottom" constant="7" id="HVr-VS-rr1"/>
+                                                        <constraint firstItem="44w-Ui-et2" firstAttribute="width" secondItem="V1E-4e-rQT" secondAttribute="width" id="R8y-9q-bds"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="Tdh-hg-N7j"/>
                                                         <constraint firstAttribute="height" constant="124" id="WhD-9B-Dmu"/>
+                                                        <constraint firstItem="V1E-4e-rQT" firstAttribute="leading" secondItem="85u-KW-I9F" secondAttribute="trailing" constant="62" id="fZc-gp-VI1"/>
                                                         <constraint firstItem="GMc-6J-rv2" firstAttribute="leading" secondItem="iPc-fM-Bv4" secondAttribute="leading" constant="10" id="hIx-uH-lew"/>
-                                                        <constraint firstAttribute="bottom" secondItem="V1E-4e-rQT" secondAttribute="bottom" constant="7" id="o4F-BV-tan"/>
                                                         <constraint firstItem="85u-KW-I9F" firstAttribute="leading" secondItem="iPc-fM-Bv4" secondAttribute="leading" constant="10" id="quW-lG-wIY"/>
                                                         <constraint firstItem="GMc-6J-rv2" firstAttribute="top" secondItem="iPc-fM-Bv4" secondAttribute="top" constant="10" id="rt5-3c-Lfw"/>
+                                                        <constraint firstAttribute="trailing" secondItem="44w-Ui-et2" secondAttribute="trailing" constant="10" id="sPT-Qt-6QR"/>
+                                                        <constraint firstAttribute="bottom" secondItem="44w-Ui-et2" secondAttribute="bottom" constant="7" id="u1W-S4-QvW"/>
                                                         <constraint firstItem="DXf-MG-zfq" firstAttribute="top" secondItem="iPc-fM-Bv4" secondAttribute="top" constant="10" id="udf-hN-oTQ"/>
                                                         <constraint firstItem="DXf-MG-zfq" firstAttribute="leading" secondItem="GMc-6J-rv2" secondAttribute="trailing" constant="10" id="wAV-xM-cls"/>
                                                         <constraint firstAttribute="bottom" secondItem="85u-KW-I9F" secondAttribute="bottom" constant="3" id="ySb-1L-DCg"/>
@@ -167,48 +167,6 @@
                                             <outlet property="reportButton" destination="85u-KW-I9F" id="DxU-9B-c07"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselPreviewCell" id="18U-pM-zK7" customClass="MRSLMorselPreviewCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="175" width="106" height="106"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PvI-cZ-yzt" customClass="MRSLItemImageView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="BnU-hG-AGX"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="106" id="mBn-bI-4XO"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="86" translatesAutoresizingMaskIntoConstraints="NO" id="Ifw-xj-nb8" customClass="MRSLRobotoSlabBoldLabel">
-                                                    <rect key="frame" x="10" y="20" width="86" height="66"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="9bB-0b-r6P"/>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="TU7-XA-nOu"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="PvI-cZ-yzt" firstAttribute="leading" secondItem="18U-pM-zK7" secondAttribute="leading" id="8ta-1H-kNx"/>
-                                            <constraint firstItem="PvI-cZ-yzt" firstAttribute="top" secondItem="18U-pM-zK7" secondAttribute="top" id="Egb-Yd-DVG"/>
-                                            <constraint firstAttribute="trailing" secondItem="PvI-cZ-yzt" secondAttribute="trailing" id="P0W-Uc-bS0"/>
-                                            <constraint firstAttribute="bottom" secondItem="PvI-cZ-yzt" secondAttribute="bottom" id="XGE-yf-8Ac"/>
-                                            <constraint firstItem="Ifw-xj-nb8" firstAttribute="top" secondItem="18U-pM-zK7" secondAttribute="top" constant="20" id="kp9-r9-pzB"/>
-                                            <constraint firstAttribute="bottom" secondItem="Ifw-xj-nb8" secondAttribute="bottom" constant="20" id="lXd-R3-yib"/>
-                                            <constraint firstItem="Ifw-xj-nb8" firstAttribute="leading" secondItem="18U-pM-zK7" secondAttribute="leading" constant="10" id="n40-5B-uTV"/>
-                                            <constraint firstAttribute="trailing" secondItem="Ifw-xj-nb8" secondAttribute="trailing" constant="10" id="oH1-qC-0Ax"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="itemImageView" destination="PvI-cZ-yzt" id="gsY-dd-SjW"/>
-                                            <outlet property="morselTitleLabel" destination="Ifw-xj-nb8" id="eY4-KS-Li7"/>
-                                        </connections>
-                                    </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_ContainerCell" id="baN-6O-kz8" customClass="MRSLContainerCollectionViewCell">
                                         <rect key="frame" x="214" y="175" width="106" height="106"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -225,7 +183,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="zkv-iO-FQE" customClass="MRSLRobotoLightLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="zkv-iO-FQE" customClass="MRSLPrimaryLightLabel">
                                                     <rect key="frame" x="35" y="0.0" width="250" height="80"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="Lcr-Os-KM2"/>
@@ -274,7 +232,7 @@
                                                         <constraint firstAttribute="width" constant="80" id="yqN-DY-Iwe"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="ydO-NN-bIW" customClass="MRSLRobotoSlabRegularLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="ydO-NN-bIW" customClass="MRSLPrimaryRegularLabel">
                                                     <rect key="frame" x="70" y="10" width="160" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="BRL-8h-qO2"/>
@@ -284,7 +242,7 @@
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 min ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="164" translatesAutoresizingMaskIntoConstraints="NO" id="Rb1-Rn-vGH" customClass="MRSLRobotoSlabRegularLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 min ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="164" translatesAutoresizingMaskIntoConstraints="NO" id="Rb1-Rn-vGH" customClass="MRSLPrimaryRegularLabel">
                                                     <rect key="frame" x="68" y="58" width="164" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="2SA-HO-TY1"/>
@@ -333,7 +291,7 @@
                                                         <constraint firstAttribute="width" constant="30" id="hhH-vx-c90"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="fJF-2g-kbu" customClass="MRSLRobotoSlabBoldLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="fJF-2g-kbu" customClass="MRSLPrimaryBoldLabel">
                                                     <rect key="frame" x="54" y="3" width="246" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" id="Mye-Fx-A1J"/>
@@ -343,7 +301,7 @@
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="m80-zB-Lnt" customClass="MRSLRobotoLightItalicLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="m80-zB-Lnt" customClass="MRSLPrimaryLightItalicLabel">
                                                     <rect key="frame" x="54" y="28" width="246" height="32"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" id="BPy-AR-6Sv"/>
@@ -392,7 +350,7 @@
                                                                 <constraint firstAttribute="height" constant="24" id="NRZ-Ju-RXz"/>
                                                             </constraints>
                                                         </view>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="E0R-0X-uen" customClass="MRSLRobotoSlabBoldLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="E0R-0X-uen" customClass="MRSLPrimaryBoldLabel">
                                                             <rect key="frame" x="10" y="0.0" width="300" height="24"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="24" id="TJJ-so-mBc"/>
@@ -401,7 +359,7 @@
                                                             <color key="textColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="nyx-nU-wkJ" customClass="MRSLRobotoLightLabel">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="nyx-nU-wkJ" customClass="MRSLPrimaryLightLabel">
                                                             <rect key="frame" x="40" y="20" width="260" height="40"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="40" id="AnC-uJ-xK3"/>
@@ -440,6 +398,45 @@
                                             <outlet property="tagTypeLabel" destination="E0R-0X-uen" id="rgB-ba-d7f"/>
                                         </connections>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselPreviewCell" id="Wgv-Fr-605" customClass="MRSLMorselPreviewCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="175" width="106" height="106"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eFX-Ar-j7l" customClass="MRSLItemImageView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="106" id="Edk-bd-O4M"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="YuV-sp-jSf"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wyf-3x-QX7" customClass="MRSLStandardTextView">
+                                                    <rect key="frame" x="0.0" y="123" width="160" height="37"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="eFX-Ar-j7l" firstAttribute="leading" secondItem="Wgv-Fr-605" secondAttribute="leading" id="4Iy-n8-TGX"/>
+                                            <constraint firstItem="eFX-Ar-j7l" firstAttribute="top" secondItem="Wgv-Fr-605" secondAttribute="top" id="Clk-ma-hFY"/>
+                                            <constraint firstItem="Wyf-3x-QX7" firstAttribute="leading" secondItem="Wgv-Fr-605" secondAttribute="leading" id="G7n-5F-dul"/>
+                                            <constraint firstAttribute="bottom" secondItem="eFX-Ar-j7l" secondAttribute="bottom" id="IAM-B1-17E"/>
+                                            <constraint firstAttribute="bottom" secondItem="Wyf-3x-QX7" secondAttribute="bottom" id="Z6x-Pt-vqg"/>
+                                            <constraint firstAttribute="trailing" secondItem="Wyf-3x-QX7" secondAttribute="trailing" id="bGB-jy-Ut1"/>
+                                            <constraint firstAttribute="trailing" secondItem="eFX-Ar-j7l" secondAttribute="trailing" id="nIK-Hb-aqD"/>
+                                        </constraints>
+                                        <size key="customSize" width="160" height="160"/>
+                                        <connections>
+                                            <outlet property="itemImageView" destination="eFX-Ar-j7l" id="gU8-Q4-jCE"/>
+                                            <outlet property="textView" destination="Wyf-3x-QX7" id="k1h-eR-Ijw"/>
+                                        </connections>
+                                    </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_HeaderCell" id="Tfj-fk-nYN" customClass="MRSLSegmentedHeaderReusableView">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
@@ -448,39 +445,11 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xxz-jt-jtY" customClass="MRSLSegmentedButtonView">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                             <subviews>
-                                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6U3-l6-BIZ" customClass="MRSLSegmentButton">
-                                                    <rect key="frame" x="450" y="0.0" width="150" height="50"/>
-                                                    <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="vX1-3f-Yd6"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <state key="normal" title="Likes">
-                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kgx-e9-Kqf" customClass="MRSLSegmentButton">
-                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
-                                                    <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="2ag-vU-tRi"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <state key="normal" title="Morsels">
-                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </button>
                                                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMw-Rh-Pbg" customClass="MRSLSegmentButton">
                                                     <rect key="frame" x="150" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="1IY-kW-8O4"/>
+                                                        <constraint firstAttribute="height" constant="50" placeholder="YES" id="YCh-7t-Ft6"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="Places">
@@ -494,7 +463,7 @@
                                                     <rect key="frame" x="300" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="dat-Ns-LiF"/>
+                                                        <constraint firstAttribute="height" constant="50" placeholder="YES" id="8vj-Rx-uWw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="Tags">
@@ -504,27 +473,58 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
+                                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6U3-l6-BIZ" customClass="MRSLSegmentButton">
+                                                    <rect key="frame" x="450" y="0.0" width="150" height="50"/>
+                                                    <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" placeholder="YES" id="uSr-xS-stQ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <state key="normal" title="Likes">
+                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kgx-e9-Kqf" customClass="MRSLSegmentButton">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
+                                                    <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" placeholder="YES" id="L7H-Dr-Kex"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <state key="normal" title="Morsels">
+                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="allowsToggle" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="leading" secondItem="5rI-9f-lU1" secondAttribute="trailing" id="6JD-KD-Jed"/>
+                                                <constraint firstAttribute="trailing" secondItem="6U3-l6-BIZ" secondAttribute="trailing" placeholder="YES" id="0pm-8A-2ey"/>
+                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" placeholder="YES" id="2fa-8w-SMa"/>
+                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" placeholder="YES" id="3ek-cM-gxq"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="759-Ym-urX"/>
-                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" id="CQc-CZ-tI1"/>
+                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="leading" secondItem="Kgx-e9-Kqf" secondAttribute="trailing" placeholder="YES" id="7HM-0p-Xcg"/>
+                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="leading" secondItem="CMw-Rh-Pbg" secondAttribute="trailing" placeholder="YES" id="7qo-Pe-zX4"/>
+                                                <constraint firstAttribute="bottom" secondItem="6U3-l6-BIZ" secondAttribute="bottom" placeholder="YES" id="8d3-e5-RhT"/>
+                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="width" secondItem="5rI-9f-lU1" secondAttribute="width" placeholder="YES" id="BGJ-Dh-r3H"/>
+                                                <constraint firstAttribute="bottom" secondItem="CMw-Rh-Pbg" secondAttribute="bottom" placeholder="YES" id="BfD-nS-yyM"/>
+                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" placeholder="YES" id="KKy-53-Lwm"/>
                                                 <constraint firstAttribute="height" constant="50" id="Ki6-XM-t4h"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="leading" secondItem="CMw-Rh-Pbg" secondAttribute="trailing" id="Oio-St-EJs"/>
-                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="leading" secondItem="Kgx-e9-Kqf" secondAttribute="trailing" id="SSn-0L-QE1"/>
-                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="leading" secondItem="Xxz-jt-jtY" secondAttribute="leading" id="Ufu-Jb-Qm0"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="width" secondItem="6U3-l6-BIZ" secondAttribute="width" id="Waa-aq-NiN"/>
-                                                <constraint firstAttribute="bottom" secondItem="6U3-l6-BIZ" secondAttribute="bottom" id="dFg-gH-fpd"/>
-                                                <constraint firstAttribute="bottom" secondItem="5rI-9f-lU1" secondAttribute="bottom" id="euT-ep-8C7"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="width" secondItem="Kgx-e9-Kqf" secondAttribute="width" id="fFO-VT-cTY"/>
-                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" id="meR-B2-PHK"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" id="miI-fu-k84"/>
-                                                <constraint firstAttribute="trailing" secondItem="6U3-l6-BIZ" secondAttribute="trailing" id="onx-7g-SvJ"/>
-                                                <constraint firstAttribute="bottom" secondItem="CMw-Rh-Pbg" secondAttribute="bottom" id="u8Z-Ll-VUn"/>
-                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" id="vXg-uS-6RK"/>
-                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="width" secondItem="CMw-Rh-Pbg" secondAttribute="width" id="wHy-ua-unw"/>
-                                                <constraint firstAttribute="bottom" secondItem="Kgx-e9-Kqf" secondAttribute="bottom" id="ykl-YG-1f7"/>
+                                                <constraint firstItem="CMw-Rh-Pbg" firstAttribute="leading" secondItem="Kgx-e9-Kqf" secondAttribute="trailing" placeholder="YES" id="Otc-rn-Rnc"/>
+                                                <constraint firstAttribute="bottom" secondItem="Kgx-e9-Kqf" secondAttribute="bottom" placeholder="YES" id="WM5-Gj-f4H"/>
+                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="width" secondItem="Kgx-e9-Kqf" secondAttribute="width" placeholder="YES" id="c6B-oU-vUD"/>
+                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="leading" secondItem="5rI-9f-lU1" secondAttribute="trailing" placeholder="YES" id="cQ1-vv-vnv"/>
+                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="width" secondItem="CMw-Rh-Pbg" secondAttribute="width" placeholder="YES" id="jy1-Qh-j0a"/>
+                                                <constraint firstItem="5rI-9f-lU1" firstAttribute="leading" secondItem="CMw-Rh-Pbg" secondAttribute="trailing" placeholder="YES" id="lE5-QZ-r07"/>
+                                                <constraint firstAttribute="bottom" secondItem="5rI-9f-lU1" secondAttribute="bottom" placeholder="YES" id="pJv-Cm-Pjn"/>
+                                                <constraint firstItem="6U3-l6-BIZ" firstAttribute="leading" secondItem="5rI-9f-lU1" secondAttribute="trailing" placeholder="YES" id="qv4-2d-QQm"/>
+                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="top" secondItem="Xxz-jt-jtY" secondAttribute="top" placeholder="YES" id="sSH-ax-zIo"/>
+                                                <constraint firstItem="Kgx-e9-Kqf" firstAttribute="leading" secondItem="Xxz-jt-jtY" secondAttribute="leading" placeholder="YES" id="wfY-vB-0bA"/>
                                             </constraints>
                                             <connections>
                                                 <outlet property="delegate" destination="Tfj-fk-nYN" id="5Xv-9y-7Zx"/>
@@ -544,6 +544,24 @@
                                     <connections>
                                         <outlet property="buttonView" destination="Xxz-jt-jtY" id="xJa-Ae-umT"/>
                                     </connections>
+                                </collectionReusableView>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="ruid_LoadingCell" id="56P-0m-nbb">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="qzU-fN-mfb" customClass="MRSLActivityIndicatorView">
+                                            <rect key="frame" x="290" y="15" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="Eyr-jN-Aty"/>
+                                                <constraint firstAttribute="height" constant="20" id="arq-oN-ohq"/>
+                                            </constraints>
+                                            <color key="color" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="qzU-fN-mfb" secondAttribute="centerX" id="M1o-Uw-D5j"/>
+                                        <constraint firstAttribute="centerY" secondItem="qzU-fN-mfb" secondAttribute="centerY" id="cpR-th-xcl"/>
+                                    </constraints>
                                 </collectionReusableView>
                                 <connections>
                                     <outlet property="delegate" destination="MYi-AS-SvG" id="PoE-SA-5Y8"/>
@@ -575,15 +593,15 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="collectionView" destination="nOm-Tm-KKG" id="aKp-rN-lEd"/>
                         <outlet property="followButton" destination="D9H-eS-9AV" id="t7C-NC-wWG"/>
-                        <outlet property="profileCollectionView" destination="nOm-Tm-KKG" id="RBq-7I-Q43"/>
                         <segue destination="cTM-Ai-v5D" kind="show" identifier="seg_FollowList" id="Mat-q5-4Vl"/>
                         <segue destination="1RQ-g2-pHX" kind="show" identifier="seg_DisplayKeywordFollowers" id="deb-aO-ZjR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DG6-lV-ROE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2431.875" y="101.40845070422534"/>
+            <point key="canvasLocation" x="2431" y="101"/>
         </scene>
         <!--Profile-->
         <scene sceneID="mBO-ua-4aU">
@@ -668,10 +686,6 @@
                                         </view>
                                     </collectionViewCell>
                                 </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="bQs-Ee-YU4" id="GN7-IH-23d"/>
-                                    <outlet property="delegate" destination="bQs-Ee-YU4" id="d6O-HF-D40"/>
-                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -689,7 +703,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="OI9-5H-JIr"/>
                     <connections>
-                        <outlet property="feedCollectionView" destination="jVK-mb-Gjh" id="4zm-V0-9Tb"/>
+                        <outlet property="collectionView" destination="jVK-mb-Gjh" id="u5n-EE-5bL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TyD-W3-D2u" sceneMemberID="firstResponder"/>
@@ -747,7 +761,7 @@
                                                         <constraint firstAttribute="height" constant="40" id="j2y-i2-Cta"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="Ftm-aW-7ck" customClass="MRSLRobotoSlabBoldLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="Ftm-aW-7ck" customClass="MRSLPrimaryBoldLabel">
                                                     <rect key="frame" x="58" y="10" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="QFF-uZ-IM2"/>
@@ -757,7 +771,7 @@
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="Meh-Iy-7ry" customClass="MRSLRobotoLightLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="Meh-Iy-7ry" customClass="MRSLPrimaryLightLabel">
                                                     <rect key="frame" x="58" y="30" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="jya-JH-KLU"/>
@@ -874,7 +888,7 @@
                                                         <constraint firstAttribute="height" constant="40" id="z48-5Q-jiN"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="alG-O3-xGc" customClass="MRSLRobotoSlabBoldLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="alG-O3-xGc" customClass="MRSLPrimaryBoldLabel">
                                                     <rect key="frame" x="58" y="10" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="BTq-AT-PUV"/>
@@ -884,7 +898,7 @@
                                                     <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="q1a-2a-iwc" customClass="MRSLRobotoLightLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="q1a-2a-iwc" customClass="MRSLPrimaryLightLabel">
                                                     <rect key="frame" x="58" y="30" width="440" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="2WO-zz-qxv"/>

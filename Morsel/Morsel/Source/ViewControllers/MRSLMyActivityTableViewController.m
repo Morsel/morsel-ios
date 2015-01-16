@@ -16,6 +16,7 @@
 
 @property (strong, nonatomic) NSString *objectIDsKey;
 @property (strong, nonatomic) NSArray *objectIDs;
+@property (copy, nonatomic) MRSLRemotePagedRequestBlock pagedRemoteRequestBlock;
 
 @end
 
@@ -23,7 +24,6 @@
 
 @property (strong, nonatomic) NSString *tappedItemEventName;
 @property (strong, nonatomic) NSString *tappedItemEventView;
-@property (copy, nonatomic) MRSLRemoteRequestBlock remoteRequestBlock;
 
 @end
 
@@ -34,11 +34,10 @@
     self.tappedItemEventName = @"Tapped My Activity";
     self.tappedItemEventView = @"My Activity";
 
-    self.remoteRequestBlock = ^(NSNumber *maxID, NSNumber *sinceID, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
         [_appDelegate.apiService getUserActivitiesForUser:[MRSLUser currentUser]
-                                                    maxID:maxID
-                                                orSinceID:sinceID
-                                                 andCount:count
+                                                     page:page
+                                                    count:count
                                                   success:^(NSArray *responseArray) {
                                                       remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
                                                   } failure:^(NSError *error) {

@@ -10,7 +10,7 @@
 
 @interface UIView (States_Private)
 
-- (BOOL)shouldShowEmptyState;
+- (BOOL)shouldShowTableViewEmptyState;
 
 @end
 
@@ -18,7 +18,7 @@
 
 #pragma mark - Private Methods
 
-- (BOOL)shouldShowEmptyState {
+- (BOOL)shouldShowTableViewEmptyState {
     if ([self.dataSource respondsToSelector:@selector(isEmpty)])
         return [(id)self.dataSource isEmpty];
     else {

@@ -8,11 +8,11 @@
 
 #import "MRSLCommentTableViewCell.h"
 
-#import <NSDate+TimeAgo/NSDate+TimeAgo.h>
+#import <DateTools/NSDate+DateTools.h>
 
 #import "MRSLAPIService+Comment.h"
 
-#import "MRSLStandardLabel.h"
+#import "MRSLPrimaryLabel.h"
 #import "MRSLProfileImageView.h"
 
 #import "MRSLComment.h"
@@ -22,7 +22,7 @@
 <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeAgoLabel;
-@property (weak, nonatomic) IBOutlet MRSLStandardLabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet MRSLPrimaryLabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentBodyLabel;
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 @property (weak, nonatomic) IBOutlet MRSLProfileImageView *profileImageView;
@@ -46,7 +46,7 @@
         _userNameLabel.text = _comment.creator.fullName;
         [_userNameLabel setOblique:[_comment.creator hasEmptyName]];
         _commentBodyLabel.text = _comment.commentDescription;
-        _timeAgoLabel.text = [_comment.creationDate timeAgo];
+        _timeAgoLabel.text = [_comment.creationDate timeAgoSinceNow];
 
         self.deleteButton.hidden = ![_comment deleteableByUser:[MRSLUser currentUser]];
     }

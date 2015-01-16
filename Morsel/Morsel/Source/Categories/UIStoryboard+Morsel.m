@@ -18,7 +18,7 @@
 }
 
 + (UIStoryboard *)exploreStoryboard {
-    return [UIStoryboard storyboardWithName:MRSLStoryboardExploreKey
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneExploreKey
                                      bundle:nil];
 }
 

@@ -14,7 +14,7 @@
 
 - (void)getFeedWithMaxID:(NSNumber *)maxOrNil
                orSinceID:(NSNumber *)sinceOrNil
-                andCount:(NSNumber *)countOrNil
+                   count:(NSNumber *)countOrNil
                  success:(MRSLAPIArrayBlock)successOrNil
                  failure:(MRSLFailureBlock)failureOrNil;
 

@@ -82,16 +82,20 @@ static char const *const CurrentStateViewKey = "CurrentStateViewKey";
 - (void)toggleLoading:(BOOL)shouldEnable {
     if (shouldEnable) {
         //  Only show the loading state if the view is not empty
-        [self setCurrentStateView:[self shouldShowEmptyState] ? self.loadingStateView : nil];
+        [self setCurrentStateView:(([self isKindOfClass:[UICollectionView class]]) ? [self shouldShowCollectionViewEmptyState] : [self shouldShowTableViewEmptyState]) ? self.loadingStateView : nil];
     } else {
         [self setCurrentStateView:nil];
-        [self toggleEmpty:[self shouldShowEmptyState]];
+        [self toggleEmpty:(([self isKindOfClass:[UICollectionView class]]) ? [self shouldShowCollectionViewEmptyState] : [self shouldShowTableViewEmptyState])];
     }
 }
 
 #pragma mark - Private Methods
 
-- (BOOL)shouldShowEmptyState {
+- (BOOL)shouldShowTableViewEmptyState {
+    return NO;
+}
+
+- (BOOL)shouldShowCollectionViewEmptyState {
     return NO;
 }
 

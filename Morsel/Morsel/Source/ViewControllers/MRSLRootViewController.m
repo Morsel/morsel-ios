@@ -174,7 +174,7 @@ MRSLMenuViewControllerDelegate>
 - (void)resumeTimer {
     [self suspendTimer];
     if (!_timer) {
-        self.timer = [NSTimer timerWithTimeInterval:180.f
+        self.timer = [NSTimer timerWithTimeInterval:MRSLNotificationRefreshDelayDefault
                                              target:self
                                            selector:@selector(updateUnread)
                                            userInfo:nil
@@ -515,7 +515,7 @@ MRSLMenuViewControllerDelegate>
             [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                          properties:@{@"_title": @"Find users",
                                                       @"_view": @"menu"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardFindFriendsKey
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardFindUsersKey
                                                       andStoryboardFileName:MRSLStoryboardiPhoneSocialKey];
             break;
         }

@@ -14,6 +14,7 @@
 #import "MRSLPlaceholderTextView.h"
 #import "MRSLProfileViewController.h"
 #import "MRSLTableView.h"
+#import "MRSLTableViewDataSource.h"
 
 #import "MRSLComment.h"
 #import "MRSLItem.h"
@@ -23,35 +24,37 @@
 static const CGFloat MRSLDefaultCommentLabelHeight = 14.f;
 static const CGFloat MRSLDefaultCommentLabelPadding = 128.f;
 
+@interface MRSLBaseRemoteDataSourceViewController (Private)
+
+- (void)populateContent;
+
+@end
+
 @interface MRSLModalCommentsViewController ()
-<UITableViewDataSource,
-UITableViewDelegate,
-NSFetchedResultsControllerDelegate>
+<MRSLTableViewDataSourceDelegate>
 
 @property (nonatomic) BOOL previousCommentsAvailable;
-@property (nonatomic, getter = isLoading) BOOL loading;
-@property (nonatomic) BOOL loadingMore;
-@property (nonatomic) BOOL loadedAll;
 
-@property (weak, nonatomic) IBOutlet MRSLTableView *commentsTableView;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
 @property (weak, nonatomic) IBOutlet UIView *commentInputView;
 @property (weak, nonatomic) IBOutlet MRSLPlaceholderTextView *commentInputTextView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarBottomLayoutGuide;
-
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSArray *comments;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) NSMutableArray *commentIDs;
 
 @end
 
 @implementation MRSLModalCommentsViewController
 
 - (void)viewDidLoad {
+    self.disableAutomaticPagination = YES;
+    self.paginationCount = @(6);
+
     [super viewDidLoad];
 
     self.mp_eventView = @"comments";
+    self.emptyStateString = @"No comments yet. Add one below.";
+    self.commentInputTextView.placeholder = @"Add comment...";
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -62,117 +65,81 @@ NSFetchedResultsControllerDelegate>
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-
-    self.commentIDs = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:[NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue]] ?: [NSMutableArray array];
-    self.comments = [NSMutableArray array];
-
-    self.refreshControl = [UIRefreshControl MRSL_refreshControl];
-    [_refreshControl addTarget:self
-                        action:@selector(refreshContent)
-              forControlEvents:UIControlEventValueChanged];
-
-    [self.commentsTableView addSubview:_refreshControl];
-    self.commentsTableView.alwaysBounceVertical = YES;
-    [self.commentsTableView setEmptyStateTitle:@"No comments yet. Add one below."];
-
-    self.commentInputTextView.placeholder = @"Add comment...";
+    __weak __typeof(self) weakSelf = self;
+    self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        [_appDelegate.apiService getComments:strongSelf.item
+                                        page:page
+                                       count:strongSelf.paginationCount
+                                     success:^(NSArray *responseArray) {
+                                         remoteRequestWithObjectIDsOrErrorCompletionBlock(responseArray, nil);
+                                         if ([page intValue] == 1) {
+                                             [weakSelf scrollTableViewToBottom];
+                                         }
+                                     } failure:^(NSError *error) {
+                                         remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
+                                     }];
+    };
+    [self scrollTableViewToBottom];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    if (_fetchedResultsController) return;
-
-    [self setupFetchRequest];
-    [self populateContent];
-    [self refreshContent];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    _fetchedResultsController.delegate = nil;
-    _fetchedResultsController = nil;
-    [super viewWillDisappear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.selectedIndexPath) {
+        [self.tableView deselectRowAtIndexPath:_selectedIndexPath
+                                      animated:YES];
+        self.selectedIndexPath = nil;
+    }
 }
 
 #pragma mark - Private Methods
 
-- (void)setLoading:(BOOL)loading {
-    _loading = loading;
-
-    [self.commentsTableView toggleLoading:loading];
+- (void)scrollTableViewToBottom {
+    if (self.tableView.contentSize.height > [self.tableView getHeight]) {
+        CGPoint bottomOffset = CGPointMake(0, self.tableView.contentSize.height - self.tableView.bounds.size.height);
+        [self.tableView setContentOffset:bottomOffset
+                                animated:NO];
+    }
 }
 
-- (void)setupFetchRequest {
-    self.fetchedResultsController = [MRSLComment MR_fetchAllSortedBy:@"creationDate"
-                                                           ascending:YES
-                                                       withPredicate:[NSPredicate predicateWithFormat:@"commentID IN %@", _commentIDs]
-                                                             groupBy:nil
-                                                            delegate:self
-                                                           inContext:[NSManagedObjectContext MR_defaultContext]];
+- (NSString *)objectIDsKey {
+    return [NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue];
+}
+
+- (NSFetchedResultsController *)defaultFetchedResultsController {
+    return  [MRSLComment MR_fetchAllSortedBy:@"creationDate"
+                                   ascending:YES
+                               withPredicate:[NSPredicate predicateWithFormat:@"commentID IN %@", self.objectIDs]
+                                     groupBy:nil
+                                    delegate:self
+                                   inContext:[NSManagedObjectContext MR_defaultContext]];
+}
+
+- (MRSLDataSource *)dataSource {
+    MRSLDataSource *superDataSource = [super dataSource];
+    if (superDataSource) return superDataSource;
+    MRSLDataSource *newDataSource = [[MRSLTableViewDataSource alloc] initWithObjects:nil
+                                                                  configureCellBlock:^UITableViewCell *(id item, UITableView *tableView, NSIndexPath *indexPath, NSUInteger count) {
+                                                                      if (_previousCommentsAvailable && indexPath.row == 0) {
+                                                                          UITableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:(self.loadingMore) ? MRSLStoryboardRUIDPreviousLoadingKey :
+                                                                                                            MRSLStoryboardRUIDPreviousCommentCellKey];
+                                                                          return tableViewCell;
+                                                                      }
+                                                                      NSIndexPath *adjustedIndexPath = [NSIndexPath indexPathForRow:(indexPath.row - ((self.previousCommentsAvailable) ? 1 : 0))
+                                                                                                                          inSection:indexPath.section];
+                                                                      MRSLComment *comment = [self.dataSource objectAtIndexPath:adjustedIndexPath];
+                                                                      MRSLCommentTableViewCell *commentCell = [tableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDCommentCellKey];
+                                                                      commentCell.comment = comment;
+                                                                      commentCell.pipeView.hidden = (indexPath.row == count - 1);
+                                                                      return commentCell;
+                                                                  }];
+    [self setDataSource:newDataSource];
+    return newDataSource;
 }
 
 - (void)populateContent {
-    NSError *fetchError = nil;
-    [_fetchedResultsController performFetch:&fetchError];
-    self.comments = [_fetchedResultsController fetchedObjects];
-    self.previousCommentsAvailable = (_item.comment_countValue != [_comments count]);
-    [self.commentsTableView reloadData];
-}
-
-- (void)refreshContent {
-    self.loadedAll = NO;
-    self.loading = YES;
-    __weak __typeof(self)weakSelf = self;
-    [_appDelegate.apiService getComments:_item
-                               withMaxID:nil
-                               orSinceID:nil
-                                andCount:@(10)
-                                 success:^(NSArray *responseArray) {
-                                     if (weakSelf) {
-                                         [weakSelf.refreshControl endRefreshing];
-                                         weakSelf.commentIDs = [responseArray mutableCopy];
-                                         [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.commentIDs copy]
-                                                                                   forKey:[NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue]];
-                                         [weakSelf setupFetchRequest];
-                                         [weakSelf populateContent];
-                                         weakSelf.loading = NO;
-                                     }
-                                 } failure:^(NSError *error) {
-                                     if (weakSelf) {
-                                         [weakSelf.refreshControl endRefreshing];
-                                         weakSelf.loading = NO;
-                                     }
-                                 }];
-}
-
-- (void)loadMore {
-    if (_loadingMore || !_item || _loadedAll || [self isLoading]) return;
-    self.loadingMore = YES;
-    DDLogDebug(@"Loading more");
-    MRSLComment *lastComment = [MRSLComment MR_findFirstByAttribute:MRSLCommentAttributes.commentID
-                                                          withValue:[_commentIDs lastObject]];
-    __weak __typeof (self) weakSelf = self;
-    [_appDelegate.apiService getComments:_item
-                               withMaxID:@([lastComment commentIDValue] - 1)
-                               orSinceID:nil
-                                andCount:@(10)
-                                 success:^(NSArray *responseArray) {
-                                     if (weakSelf) {
-                                         if ([responseArray count] == 0) {
-                                             weakSelf.loadedAll = YES;
-                                         } else {
-                                             [weakSelf.commentIDs addObjectsFromArray:responseArray];
-                                             [[NSUserDefaults standardUserDefaults] setObject:[weakSelf.commentIDs copy]
-                                                                                       forKey:[NSString stringWithFormat:@"%i_commentIDs", _item.itemIDValue]];
-                                             [weakSelf setupFetchRequest];
-                                             [weakSelf populateContent];
-                                         }
-                                         weakSelf.loadingMore = NO;
-                                     }
-                                 } failure:^(NSError *error) {
-                                     if (weakSelf) {
-                                         weakSelf.loadingMore = NO;
-                                     }
-                                 }];
+    [super populateContent];
+    self.previousCommentsAvailable = (_item.comment_countValue != [self.dataSource count]);
 }
 
 #pragma mark - Action Methods
@@ -198,17 +165,10 @@ NSFetchedResultsControllerDelegate>
                                                        success:^(id responseObject) {
                                                            [MRSLEventManager sharedManager].comments_added++;
                                                            if (responseObject && weakSelf) {
-                                                               [weakSelf.commentIDs addObject:[(MRSLComment *)responseObject commentID]];
-                                                               [weakSelf setupFetchRequest];
-                                                               [weakSelf populateContent];
-                                                               [weakSelf setLoading:NO];
-                                                               if (weakSelf.commentsTableView.contentSize.height > [weakSelf.commentsTableView getHeight]) {
-                                                                   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                                       CGPoint bottomOffset = CGPointMake(0, weakSelf.commentsTableView.contentSize.height - weakSelf.commentsTableView.bounds.size.height);
-                                                                       [weakSelf.commentsTableView setContentOffset:bottomOffset
-                                                                                                           animated:YES];
-                                                                   });
-                                                               }
+                                                               weakSelf.objectIDs = [weakSelf.objectIDs arrayByAddingObject:[(MRSLComment *)responseObject commentID]];
+                                                               [weakSelf.dataSource addObject:responseObject];
+                                                               [weakSelf refreshLocalContent];
+                                                               [weakSelf scrollTableViewToBottom];
                                                            }
                                                        } failure:nil];
             _commentInputTextView.text = nil;
@@ -240,21 +200,23 @@ NSFetchedResultsControllerDelegate>
                      }];
 }
 
-#pragma mark - UITableViewDataSource
+#pragma mark - MRSLTableViewDataSource Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger count = ([_comments count] + ((_previousCommentsAvailable) ? 1 : 0));
+    NSInteger count = ([self.dataSource count] + ((_previousCommentsAvailable) ? 1 : 0));
     return count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableViewDataSource:(UITableView *)tableView heightForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (_previousCommentsAvailable && indexPath.row == 0) return 44;
-    MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
+    NSIndexPath *adjustedIndexPath = [NSIndexPath indexPathForRow:(indexPath.row - ((self.previousCommentsAvailable) ? 1 : 0))
+                                                        inSection:indexPath.section];
+    MRSLComment *comment = [self.dataSource objectAtIndexPath:adjustedIndexPath];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     CGRect bodyRect = [comment.commentDescription boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - MRSLDefaultCommentLabelPadding, CGFLOAT_MAX)
                                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                                            attributes:@{NSFontAttributeName: [UIFont robotoLightFontOfSize:12.f], NSParagraphStyleAttributeName: paragraphStyle}
+                                                            attributes:@{NSFontAttributeName: [UIFont primaryLightFontOfSize:12.f], NSParagraphStyleAttributeName: paragraphStyle}
                                                                context:nil];
     CGFloat defaultCellSize = 70.f;
 
@@ -264,41 +226,24 @@ NSFetchedResultsControllerDelegate>
     return defaultCellSize;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableViewDataSource:(UITableView *)tableView
+              didSelectItem:(id)item
+                atIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
     if (_previousCommentsAvailable && indexPath.row == 0) {
-        UITableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:(_loadingMore) ? MRSLStoryboardRUIDPreviousLoadingKey :
-                                          MRSLStoryboardRUIDPreviousCommentCellKey];
-        return tableViewCell;
-    }
-    MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
-    MRSLCommentTableViewCell *commentCell = [self.commentsTableView dequeueReusableCellWithIdentifier:MRSLStoryboardRUIDCommentCellKey];
-    commentCell.comment = comment;
-    commentCell.pipeView.hidden = (indexPath.row == [_comments count] - 1);
-    return commentCell;
-}
-
-#pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (_previousCommentsAvailable && indexPath.row == 0) {
-        if (_loadingMore) return;
-        [self loadMore];
+        if (self.loadingMore) return;
+        [super loadNextPage];
         [tableView reloadRowsAtIndexPaths:@[indexPath]
                          withRowAnimation:UITableViewRowAnimationNone];
     } else {
-        MRSLComment *comment = [_comments objectAtIndex:(indexPath.row - ((_previousCommentsAvailable) ? 1 : 0))];
+        NSIndexPath *adjustedIndexPath = [NSIndexPath indexPathForRow:(indexPath.row - ((self.previousCommentsAvailable) ? 1 : 0))
+                                                            inSection:indexPath.section];
+        MRSLComment *comment = [self.dataSource objectAtIndexPath:adjustedIndexPath];
         MRSLProfileViewController *profileVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardProfileViewControllerKey];
         profileVC.user = comment.creator;
         [self.navigationController pushViewController:profileVC
                                              animated:YES];
     }
-}
-
-#pragma mark - NSFetchedResultsControllerDelegate Methods
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    DDLogDebug(@"Fetch controller detected change in content. Reloading with %lu comments.", (unsigned long)[[controller fetchedObjects] count]);
-    [self populateContent];
 }
 
 #pragma mark - UITextViewDelegate Methods
@@ -312,19 +257,6 @@ NSFetchedResultsControllerDelegate>
     }
 
     return YES;
-}
-
-#pragma mark - Destroy Methods
-
-- (void)reset {
-    [super reset];
-    self.commentsTableView.dataSource = nil;
-    self.commentsTableView.delegate = nil;
-    [self.commentsTableView removeFromSuperview];
-    self.commentsTableView = nil;
-    self.commentInputTextView.delegate = nil;
-    self.commentInputTextView.placeholder = nil;
-    self.commentInputTextView.placeholderColor = nil;
 }
 
 @end

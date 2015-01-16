@@ -8,7 +8,7 @@
 
 #import "MRSLPlaceDetailViewController.h"
 
-#import "MRSLCollectionViewArraySectionsDataSource.h"
+#import "MRSLCollectionViewDataSource.h"
 #import "MRSLSectionHeaderReusableView.h"
 #import "MRSLPlaceDetailBaseCollectionViewCell.h"
 #import "MRSLPlaceDetailPanelCollectionViewCell.h"
@@ -23,7 +23,7 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
 
 @property (strong, nonatomic) NSMutableArray *detailSections;
 
-@property (strong, nonatomic) MRSLCollectionViewArraySectionsDataSource *collectionViewDataSource;
+@property (strong, nonatomic) MRSLCollectionViewDataSource *collectionViewDataSource;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
@@ -64,7 +64,7 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
                    withReuseIdentifier:MRSLStoryboardRUIDSectionHeaderKey];
 
     __weak __typeof(self) weakSelf = self;
-    self.collectionViewDataSource = [[MRSLCollectionViewArraySectionsDataSource alloc] initWithObjects:@[[NSNull null]]
+    self.collectionViewDataSource = [[MRSLCollectionViewDataSource alloc] initWithObjects:@[[NSNull null]]
                                                                                               sections:_detailSections
                                                                                     configureCellBlock:^UICollectionViewCell *(id item, UICollectionView *collectionView, NSIndexPath *indexPath, NSUInteger count) {
                                                                                         return [weakSelf configureCellForCollectionView:collectionView
@@ -90,7 +90,7 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
                                                                                     } cellSizeBlock:^CGSize(UICollectionView *collectionView, NSIndexPath *indexPath) {
                                                                                         return [weakSelf configureCellSizeForCollectionView:collectionView
                                                                                                                                   indexPath:indexPath];
-                                                                                    }];
+                                                                                    } sectionInsetConfig:nil];
     [self.collectionView setDataSource:_collectionViewDataSource];
     [self.collectionView setDelegate:_collectionViewDataSource];
     [self.collectionViewDataSource setDelegate:self];
@@ -169,7 +169,7 @@ MRSLPlaceDetailPanelCollectionViewCellDelegate>
         MRSLPlaceInfo *placeInfo = [_hoursInfo objectAtIndex:indexPath.row];
         CGRect placeInfoSecondaryRect = [placeInfo.secondaryInfo boundingRectWithSize:CGSizeMake(156.f, CGFLOAT_MAX)
                                                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                                                           attributes:@{NSFontAttributeName : [UIFont robotoLightFontOfSize:14.f], NSParagraphStyleAttributeName: paragraphStyle}
+                                                                           attributes:@{NSFontAttributeName : [UIFont primaryLightFontOfSize:14.f], NSParagraphStyleAttributeName: paragraphStyle}
                                                                               context:nil];
         cellSize = CGSizeMake(collectionView.frame.size.width, (placeInfoSecondaryRect.size.height <= 44.f) ? 44.f : placeInfoSecondaryRect.size.height);
     }

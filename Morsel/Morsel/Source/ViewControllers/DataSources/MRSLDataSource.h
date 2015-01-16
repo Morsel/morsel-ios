@@ -17,9 +17,13 @@
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
 
 - (NSUInteger)count;
+- (NSUInteger)indexOfObject:(id)object;
 
+- (void)addObject:(id)object;
 - (void)updateObjects:(id)newObjects;
 
 - (BOOL)isEmpty;
+- (BOOL)containsObject:(id)object;
+- (BOOL)removeObject:(id)object;
 
 @end
