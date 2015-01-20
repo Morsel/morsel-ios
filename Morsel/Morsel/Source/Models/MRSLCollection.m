@@ -13,6 +13,25 @@
 
 @implementation MRSLCollection
 
+#pragma mark - Additions
+
++ (NSString *)API_identifier {
+    return MRSLCollectionAttributes.collectionID;
+}
+
+- (NSString *)jsonKeyName {
+    return @"collection";
+}
+
+- (NSDictionary *)objectToJSON {
+    NSMutableDictionary *objectInfoJSON = [NSMutableDictionary dictionary];
+    objectInfoJSON[@"title"] = NSNullIfNil((([self.title length] > 0) ? self.title : nil));
+    objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
+    objectInfoJSON[@"description"] = NSNullIfNil((([self.collectionDescription length] > 0) ? self.collectionDescription : nil));
+
+    return objectInfoJSON;
+}
+
 - (NSArray *)morselsArray {
     NSSortDescriptor *idSort = [NSSortDescriptor sortDescriptorWithKey:@"sort_order"
                                                              ascending:YES];
