@@ -42,7 +42,11 @@
         <relationship name="userSubject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MRSLUser" inverseName="activitiesAsSubject" inverseEntity="MRSLUser" syncable="YES"/>
     </entity>
     <entity name="MRSLCollection" representedClassName="MRSLCollection" syncable="YES">
-        <attribute name="collectionDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="collectionDescription" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="description"/>
+            </userInfo>
+        </attribute>
         <attribute name="collectionID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="id"/>
@@ -527,7 +531,7 @@
     </entity>
     <elements>
         <element name="MRSLActivity" positionX="9" positionY="153" width="128" height="208"/>
-        <element name="MRSLCollection" positionX="-36" positionY="18" width="128" height="178"/>
+        <element name="MRSLCollection" positionX="-36" positionY="18" width="128" height="180"/>
         <element name="MRSLComment" positionX="7" positionY="0" width="128" height="118"/>
         <element name="MRSLItem" positionX="-243" positionY="0" width="128" height="418"/>
         <element name="MRSLKeyword" positionX="7" positionY="-130" width="128" height="118"/>

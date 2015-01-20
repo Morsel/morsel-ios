@@ -311,6 +311,7 @@
 		06BFCE1C1A6EF9A100DDBAE9 /* MRSLAPIService+Collection.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BFCE1B1A6EF9A100DDBAE9 /* MRSLAPIService+Collection.m */; };
 		06BFCE1D1A6EF9A100DDBAE9 /* MRSLAPIService+Collection.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BFCE1B1A6EF9A100DDBAE9 /* MRSLAPIService+Collection.m */; };
 		06BFCE1E1A6EF9A100DDBAE9 /* MRSLAPIService+Collection.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BFCE1B1A6EF9A100DDBAE9 /* MRSLAPIService+Collection.m */; };
+		06BFCE201A6F146D00DDBAE9 /* mrsl-collection.json in Resources */ = {isa = PBXBuildFile; fileRef = 06BFCE1F1A6F146D00DDBAE9 /* mrsl-collection.json */; };
 		06C38C3E18EA5CE90072CF8E /* MRSLModalCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */; };
 		06C38C4118EA5D370072CF8E /* MRSLModalLikersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4018EA5D370072CF8E /* MRSLModalLikersViewController.m */; };
 		06C38C4418EA5D910072CF8E /* MRSLBaseModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C38C4318EA5D910072CF8E /* MRSLBaseModalViewController.m */; };
@@ -1089,6 +1090,7 @@
 		06BEC7C01A30EC6A00E16B13 /* MRSLMorselSearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselSearchResultsViewController.m; sourceTree = "<group>"; };
 		06BFCE1A1A6EF9A100DDBAE9 /* MRSLAPIService+Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MRSLAPIService+Collection.h"; sourceTree = "<group>"; };
 		06BFCE1B1A6EF9A100DDBAE9 /* MRSLAPIService+Collection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MRSLAPIService+Collection.m"; sourceTree = "<group>"; };
+		06BFCE1F1A6F146D00DDBAE9 /* mrsl-collection.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-collection.json"; sourceTree = "<group>"; };
 		06C38C3C18EA5CE90072CF8E /* MRSLModalCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalCommentsViewController.h; sourceTree = "<group>"; };
 		06C38C3D18EA5CE90072CF8E /* MRSLModalCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLModalCommentsViewController.m; sourceTree = "<group>"; };
 		06C38C3F18EA5D370072CF8E /* MRSLModalLikersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLModalLikersViewController.h; sourceTree = "<group>"; };
@@ -2578,6 +2580,7 @@
 		06F567C318BBB1270067FCD4 /* Responses */ = {
 			isa = PBXGroup;
 			children = (
+				06BFCE1F1A6F146D00DDBAE9 /* mrsl-collection.json */,
 				06F567C418BBB1270067FCD4 /* mrsl-comment.json */,
 				06F567C518BBB1270067FCD4 /* mrsl-item-authenticated.json */,
 				06F567D618BBB18C0067FCD4 /* mrsl-morsel.json */,
@@ -3013,6 +3016,7 @@
 			files = (
 				06530E4D1A5C634100DEE3A6 /* Specs_iPhone.storyboard in Resources */,
 				0631E40A1A5C51AD005C80E9 /* README in Resources */,
+				06BFCE201A6F146D00DDBAE9 /* mrsl-collection.json in Resources */,
 				0631E4011A5C51AD005C80E9 /* DBChooser.bundle in Resources */,
 				06F567CE18BBB1270067FCD4 /* mrsl-item-authenticated.json in Resources */,
 				0698CABA1852432D007AF442 /* InfoPlist.strings in Resources */,

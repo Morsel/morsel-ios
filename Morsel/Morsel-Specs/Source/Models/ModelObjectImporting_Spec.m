@@ -7,11 +7,13 @@
 //
 
 #import "MRSLComment.h"
+#import "MRSLCollection.h"
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
 
 #import "MRSLAPIService+Comment.h"
+#import "MRSLAPIService+Collection.h"
 #import "MRSLAPIService+Item.h"
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Registration.h"
@@ -62,10 +64,6 @@ describe(@"Importing from the API", ^{
 
         it(@"has itemPhotoURL", ^{
             [[[item itemPhotoURL] should] equal:@"https://morsel-staging.s3.amazonaws.com/item-images/item/2/IMAGE_SIZE_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png"];
-        });
-
-        it(@"has liked value", ^{
-            [[[item liked] should] beFalse];
         });
 
         it(@"has url", ^{
@@ -131,6 +129,10 @@ describe(@"Importing from the API", ^{
 
         it(@"has creator", ^{
             [[[morsel creator] should] beNonNil];
+        });
+
+        it(@"has liked value", ^{
+            [[[morsel liked] should] beTrue];
         });
 
         it(@"has id of 1", ^{
@@ -204,13 +206,63 @@ describe(@"Importing from the API", ^{
         it(@"has draft_count of 10", ^{
             [[[currentUser draft_count] should] equal:@10];
         });
-        
+
         it(@"has liked_item_count of 3", ^{
             [[[currentUser liked_item_count] should] equal:@3];
         });
-        
+
         it(@"has morsel_count of 1", ^{
             [[[currentUser morsel_count] should] equal:@1];
+        });
+    });
+
+    describe(@"MRSLCollection", ^{
+        let(collection, ^id{
+            MRSLCollection *existingCollection = [MRSLCollection MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+            [existingCollection setCollectionID:@5];
+            return existingCollection;
+        });
+
+        beforeEach(^{
+            __block BOOL requestCompleted = NO;
+            [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-collection.json"
+                                               forRequestPath:@"/collections/5"];
+
+            [_appDelegate.apiService getCollection:collection
+                                           success:^(id responseObject) {
+                                               requestCompleted = YES;
+                                           }
+                                           failure:nil];
+            
+            [[expectFutureValue(theValue(requestCompleted)) shouldEventuallyBeforeTimingOutAfter(MRSL_DEFAULT_TIMEOUT)] beTrue];
+        });
+
+        it(@"has a title", ^{
+            [[[collection title] should] equal:@"This is my bitchin' collection!"];
+        });
+
+        it(@"has an optional text description", ^{
+            [[[collection collectionDescription] should] equal:@"Here's some bitchin' stuff I've been following"];
+        });
+
+        it(@"has a single owner", ^{
+            [[[collection creator] should] beNonNil];
+        });
+
+        it(@"is a group of morsels", ^{
+            [[collection morselsArray] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [[obj should] beKindOfClass:[MRSLMorsel class]];
+            }];
+        });
+
+        it(@"has one morsel", ^{
+            [[@([[collection morsels] count]) should] equal:@1];
+        });
+
+        it(@"has morsels with a sort order", ^{
+            [[collection morselsArray] enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
+                [[[morsel sort_order] should] equal:@1];
+            }];
         });
     });
 });
