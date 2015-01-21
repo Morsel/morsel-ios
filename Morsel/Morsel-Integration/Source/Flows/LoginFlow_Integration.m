@@ -13,14 +13,14 @@ SPEC_BEGIN(LoginFlowIntegration)
 describe(@"The login flow", ^{
     beforeEach(^{
         [MagicalRecord setupCoreDataStackWithInMemoryStore];
-        [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"api-users-sign-in-javierotero.json"
-                                           forRequestPath:@"/users/sign_in"];
         [tester navigateToLoginPage];
     });
     afterEach(^{
         [tester returnToLoggedOutHomeScreen];
-        [MagicalRecord cleanUp];
-
+    });
+    afterAll(^{
+        [MRSLVCRManager saveVCR];
+        [tester waitForTimeInterval:MRSL_DEFAULT_TIMEOUT];
     });
     context(@"when a correct login", ^{
         beforeEach(^{

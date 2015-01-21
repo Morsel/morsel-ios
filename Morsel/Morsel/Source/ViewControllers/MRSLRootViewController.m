@@ -373,6 +373,7 @@ MRSLMenuViewControllerDelegate>
     [standardUserDefaults synchronize];
 
     UIViewController *feedOnboardVC = [[UIStoryboard onboardingStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardOnboardingFeedKey];
+    [feedOnboardVC.view setAccessibilityLabel:@"How to use"];
     [feedOnboardVC.view setFrame:CGRectMake(0.f, 0.f, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     [feedOnboardVC.view setAlpha:0.f];
     [feedOnboardVC willMoveToParentViewController:self];

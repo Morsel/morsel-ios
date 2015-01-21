@@ -11,8 +11,6 @@
 #import "MRSLUser.h"
 
 #import "MRSLAPIService+Activity.h"
-#import "MRSLFactory+Activity.h"
-#import "MRSLFactory+User.h"
 
 SPEC_BEGIN(MRSLActivity_Spec)
 

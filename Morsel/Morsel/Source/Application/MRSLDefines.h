@@ -149,15 +149,15 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 
 #pragma mark - Defines
 
+#define MRSL_RECORDING 0
+
 #define MORSEL_SUPPORT_EMAIL @"Morsel Support <support@eatmorsel.com>"
 
 #define TWITTER_BASE_URL @"https://www.twitter.com"
 
-#if defined(SPEC_TESTING)
+#pragma mark - AppDelegate Environment Defines
 
-#define MORSEL_API_BASE_URL @"https://MORSEL_API_BASE_URL"
-#define MORSEL_BASE_URL @"https://MORSEL_BASE_URL"
-#define S3_BASE_URL @"https://S3_BASE_URL"
+#if defined(SPEC_TESTING)
 
 #import "MRSLSpecsAppDelegate.h"
 #define _appDelegate ((MRSLSpecsAppDelegate *)[[UIApplication sharedApplication] delegate])
@@ -165,15 +165,19 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 
 #elif defined(INTEGRATION_TESTING)
 
-#define MORSEL_API_BASE_URL @"https://MORSEL_API_BASE_URL"
-#define MORSEL_BASE_URL @"https://MORSEL_BASE_URL"
-#define S3_BASE_URL @"https://S3_BASE_URL"
-
 #import "MRSLIntegrationAppDelegate.h"
 #define _appDelegate ((MRSLIntegrationAppDelegate *)[[UIApplication sharedApplication] delegate])
 #define _appDelClassString @"MRSLIntegrationAppDelegate"
 
 #else
+
+#import "MRSLAppDelegate.h"
+#define _appDelegate ((MRSLAppDelegate *)[[UIApplication sharedApplication] delegate])
+#define _appDelClassString @"MRSLAppDelegate"
+
+#endif
+
+#pragma mark - API Service Defines
 
 #if (defined(MORSEL_BETA) || defined(RELEASE))
 
@@ -186,12 +190,6 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 #define MORSEL_API_BASE_URL @"https://api-staging.eatmorsel.com"
 #define MORSEL_BASE_URL @"https://staging.eatmorsel.com"
 #define S3_BASE_URL @"https://morsel-staging.s3.amazonaws.com/"
-
-#endif
-
-#import "MRSLAppDelegate.h"
-#define _appDelegate ((MRSLAppDelegate *)[[UIApplication sharedApplication] delegate])
-#define _appDelClassString @"MRSLAppDelegate"
 
 #endif
 

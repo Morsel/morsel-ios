@@ -12,19 +12,15 @@ SPEC_BEGIN(FeedFlowIntegration)
 
 describe(@"The feed", ^{
     beforeEach(^{
-        [OHHTTPStubs removeAllStubs];
         [MagicalRecord setupCoreDataStackWithInMemoryStore];
-    });
-
-    afterEach(^{
-        [MagicalRecord cleanUp];
-    });
-    beforeAll(^{
         [tester navigateToLoginPage];
-        [tester performLogIn];
+    });
+    afterEach(^{
+        [tester returnToLoggedOutHomeScreen];
     });
     afterAll(^{
-        [tester returnToLoggedOutHomeScreen];
+        [MRSLVCRManager saveVCR];
+        [tester waitForTimeInterval:MRSL_DEFAULT_TIMEOUT];
     });
 });
 
