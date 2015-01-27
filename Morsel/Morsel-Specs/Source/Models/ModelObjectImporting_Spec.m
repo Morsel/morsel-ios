@@ -70,6 +70,10 @@ describe(@"Importing from the API", ^{
             [[[item url] should] equal:@"http://eatmorsel.com/marty/1-butter/1"];
         });
 
+        it(@"has no template_order", ^{
+            [[[item template_order] should] beNil];
+        });
+
         context(@"has comments", ^{
             let(itemWithComments, ^id{
                 MRSLItem *_itemWithComments = [MRSLItem MR_createEntity];
@@ -214,6 +218,42 @@ describe(@"Importing from the API", ^{
         it(@"has morsel_count of 1", ^{
             [[[currentUser morsel_count] should] equal:@1];
         });
+
+        it(@"is a professional account", ^{
+            [[theValue([currentUser professionalValue]) should] equal:theValue(YES)];
+        });
+
+        it(@"is tagged", ^{
+            [[theValue([currentUser taggedValue]) should] equal:theValue(NO)];
+        });
+
+        it(@"is staff", ^{
+            [[theValue([currentUser staffValue]) should] equal:theValue(YES)];
+        });
+
+        it(@"is being followed by the current user", ^{
+            [[theValue([currentUser followingValue]) should] equal:theValue(NO)];
+        });
+
+        it(@"is following 3 users", ^{
+            [[theValue([currentUser followed_user_countValue]) should] equal:theValue(3)];
+        });
+
+        it(@"has 5 users following them", ^{
+            [[theValue([currentUser follower_countValue]) should] equal:theValue(5)];
+        });
+
+        it(@"has no photo processing", ^{
+            [[theValue([currentUser photo_processingValue]) should] equal:theValue(NO)];
+        });
+
+        it(@"has email 'buttsackmcgee@eatmorsel.com'", ^{
+            [[[currentUser email] should] equal:@"buttsackmcgee@eatmorsel.com"];
+        });
+
+        it(@"has auto_follow enabled", ^{
+            [[theValue([currentUser auto_followValue]) shouldEventually] equal:theValue(YES)];
+        });
     });
 
     describe(@"MRSLCollection", ^{
@@ -263,6 +303,68 @@ describe(@"Importing from the API", ^{
             [[collection morselsArray] enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, NSUInteger idx, BOOL *stop) {
                 [[[morsel sort_order] should] equal:@1];
             }];
+        });
+    });
+
+    describe(@"Slim MRSLMorsel", ^{
+        let(morsel, ^id{
+            MRSLMorsel *existingMorsel = [MRSLMorsel MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+            [existingMorsel setMorselID:@12];
+            return existingMorsel;
+        });
+
+        beforeEach(^{
+            __block BOOL requestCompleted = NO;
+            [MRSLSpecUtil stubItemAPIRequestsWithJSONFileName:@"mrsl-morsel-slim.json"
+                                               forRequestPath:@"/morsels/12"];
+
+            [_appDelegate.apiService getMorsel:morsel
+                                      orWithID:nil
+                                       success:^(id responseObject) {
+                                           requestCompleted = YES;
+                                       } failure:nil];
+
+            [[expectFutureValue(theValue(requestCompleted)) shouldEventuallyBeforeTimingOutAfter(MRSL_DEFAULT_TIMEOUT)] beTrue];
+        });
+
+        it(@"has creator", ^{
+            [[[morsel creator] should] beNonNil];
+        });
+
+        it(@"has id of 12", ^{
+            [[theValue([morsel morselIDValue]) should] equal:theValue(12)];
+        });
+
+        it(@"has title 'Butter Rocks!'", ^{
+            [[[morsel title] should] equal:@"Butter Rocks!"];
+        });
+
+        it(@"has creationDate that is of kind NSDate", ^{
+            [[[morsel creationDate] should] beKindOfClass:[NSDate class]];
+        });
+
+        it(@"has publishedDate that is of kind NSDate", ^{
+            [[[morsel publishedDate] should] beKindOfClass:[NSDate class]];
+        });
+
+        it(@"has lastUpdatedDate that is of kind NSDate", ^{
+            [[[morsel lastUpdatedDate] should] beKindOfClass:[NSDate class]];
+        });
+
+        it(@"has one item", ^{
+            [[theValue([[morsel items] count]) should] equal:theValue(1)];
+        });
+
+        it(@"has cover item with id of 120", ^{
+            [[theValue([[morsel coverItem] itemIDValue]) should] equal:theValue(120)];
+        });
+
+        it(@"has no tagged users", ^{
+            [[theValue([morsel tagged_users_countValue]) should] equal:theValue(0)];
+        });
+
+        it(@"has no search rank", ^{
+            [[[morsel rank] should] beNil];
         });
     });
 });

@@ -1,0 +1,38 @@
+{
+    "data": {
+        "id": 12,
+        "title": "Butter Rocks!",
+        "slug": "butter-rocks",
+        "creator_id": 12,
+        "place_id": 12,
+        "created_at": "2014-01-07T16:34:44.862Z",
+        "updated_at": "2014-01-07T16:34:44.862Z",
+        "published_at": "2014-01-07T16:34:44.862Z",
+        "draft": false,
+        "primary_item_id": 120,
+        "primary_item_photos": {
+            "_50x50": "https://morsel-staging.s3.amazonaws.com/item-images/item/2/_50x50_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png",
+            "_100x100": "https://morsel-staging.s3.amazonaws.com/item-images/item/2/_100x100_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png",
+            "_320x320": "https://morsel-staging.s3.amazonaws.com/item-images/item/2/_320x320_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png",
+            "_640x640": "https://morsel-staging.s3.amazonaws.com/item-images/item/2/_640x640_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png",
+            "_992x992": "https://morsel-staging.s3.amazonaws.com/item-images/item/2/_992x992_648922f4-8850-4402-8ff8-8ffc1e2f8c01.png"
+        },
+        "tagged_users_count": 0,
+        "rank": null,
+        "creator": {
+            "id": 12,
+            "username": "turdferg",
+            "first_name": "Turd",
+            "last_name": "Ferguson",
+            "bio": "Suck It, Trebek",
+            "industry": "chef",
+            "professional": true,
+            "photos": {
+                "_40x40": "https://morsel-staging.s3.amazonaws.com/user-images/user/3/1389119757-batman.jpeg",
+                "_72x72": "https://morsel-staging.s3.amazonaws.com/user-images/user/3/1389119757-batman.jpeg",
+                "_80x80": "https://morsel-staging.s3.amazonaws.com/user-images/user/3/1389119757-batman.jpeg",
+                "_144x144": "https://morsel-staging.s3.amazonaws.com/user-images/user/3/1389119757-batman.jpeg"
+            }
+        }
+    }
+}

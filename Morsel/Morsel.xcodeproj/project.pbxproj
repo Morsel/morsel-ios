@@ -271,6 +271,7 @@
 		0693C25418F6C0DD0026D6B3 /* MRSLItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0693C25318F6C0DD0026D6B3 /* MRSLItem.m */; };
 		0693C25718F6C7320026D6B3 /* MRSLMorsel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0693C25618F6C7320026D6B3 /* MRSLMorsel.m */; };
 		0693C25A18F6C73D0026D6B3 /* _MRSLMorsel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0693C25918F6C73D0026D6B3 /* _MRSLMorsel.m */; };
+		06970EFA1A77FE7600BAA049 /* mrsl-morsel-slim.json in Resources */ = {isa = PBXBuildFile; fileRef = 06970EF91A77FE7600BAA049 /* mrsl-morsel-slim.json */; };
 		0698298719188A5C005DBA3D /* MRSLToggleKeywordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0698298619188A5C005DBA3D /* MRSLToggleKeywordTableViewCell.m */; };
 		0698CA8C18523A8C007AF442 /* Morsel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0698CA8A18523A8C007AF442 /* Morsel.xcdatamodeld */; };
 		0698CA9418523BBE007AF442 /* MRSLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0698CA9018523BBE007AF442 /* MRSLAppDelegate.m */; };
@@ -1022,6 +1023,7 @@
 		0693C25618F6C7320026D6B3 /* MRSLMorsel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMorsel.m; path = Source/Models/MRSLMorsel.m; sourceTree = "<group>"; };
 		0693C25818F6C73D0026D6B3 /* _MRSLMorsel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MRSLMorsel.h; path = Source/Models/Generated/_MRSLMorsel.h; sourceTree = "<group>"; };
 		0693C25918F6C73D0026D6B3 /* _MRSLMorsel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MRSLMorsel.m; path = Source/Models/Generated/_MRSLMorsel.m; sourceTree = "<group>"; };
+		06970EF91A77FE7600BAA049 /* mrsl-morsel-slim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mrsl-morsel-slim.json"; sourceTree = "<group>"; };
 		0698298519188A5C005DBA3D /* MRSLToggleKeywordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLToggleKeywordTableViewCell.h; path = Source/Views/MRSLToggleKeywordTableViewCell.h; sourceTree = "<group>"; };
 		0698298619188A5C005DBA3D /* MRSLToggleKeywordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLToggleKeywordTableViewCell.m; path = Source/Views/MRSLToggleKeywordTableViewCell.m; sourceTree = "<group>"; };
 		0698CA8B18523A8C007AF442 /* Morsel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Morsel.xcdatamodel; sourceTree = "<group>"; };
@@ -2591,6 +2593,7 @@
 				06BFCE1F1A6F146D00DDBAE9 /* mrsl-collection.json */,
 				06F567C418BBB1270067FCD4 /* mrsl-comment.json */,
 				06F567C518BBB1270067FCD4 /* mrsl-item-authenticated.json */,
+				06970EF91A77FE7600BAA049 /* mrsl-morsel-slim.json */,
 				06F567D618BBB18C0067FCD4 /* mrsl-morsel.json */,
 				06F567CA18BBB1270067FCD4 /* mrsl-user-with-auth-token.json */,
 				40D702AB18E9F72A001CCC42 /* mrsl-users-activities.json */,
@@ -3018,6 +3021,7 @@
 				065D0CB419A99739009E6FC7 /* templates.json in Resources */,
 				0631E4071A5C51AD005C80E9 /* LICENSE in Resources */,
 				06F567D718BBB18C0067FCD4 /* mrsl-morsel.json in Resources */,
+				06970EFA1A77FE7600BAA049 /* mrsl-morsel-slim.json in Resources */,
 				40617247198303A50097CD17 /* Acknowledgements.html in Resources */,
 				066A780919C2083300896C42 /* Launch.xib in Resources */,
 				0631E3E01A5C51AD005C80E9 /* CHANGELOG in Resources */,

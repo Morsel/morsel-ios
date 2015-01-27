@@ -20,6 +20,7 @@
         "draft": true,
         "morsel_id": 40,
         "sort_order": 1,
-        "url": "http://eatmorsel.com/marty/1-butter/1"
+        "url": "http://eatmorsel.com/marty/1-butter/1",
+        "template_order": null,
     }
 }
