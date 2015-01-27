@@ -22,6 +22,7 @@
 #import "MRSLProfileImageView.h"
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLUserFollowListViewController.h"
+#import "MRSLCollectionDetailViewController.h"
 
 #import "MRSLStateView.h"
 #import "MRSLCollectionView.h"
@@ -32,12 +33,13 @@
 #import "MRSLProfilePanelCollectionViewCell.h"
 #import "MRSLSegmentedHeaderReusableView.h"
 #import "MRSLTagStatsNameCell.h"
+#import "MRSLCollectionPreviewCell.h"
 
 #import "MRSLItem.h"
+#import "MRSLCollection.h"
 #import "MRSLMorsel.h"
 #import "MRSLPlace.h"
 #import "MRSLKeyword.h"
-#import "MRSLTag.h"
 #import "MRSLUser.h"
 
 @interface MRSLProfileViewController ()
@@ -154,6 +156,7 @@ MRSLStateViewDelegate>
 - (NSFetchedResultsController *)defaultFetchedResultsController {
     NSString *predicateString = [NSString stringWithFormat:@"%@ID", [MRSLUtil stringForDataSourceType:self.dataSourceTabType]];
     NSString *sortString = [MRSLUtil stringForDataSortType:self.dataSortType];
+#warning Make sure this defaults to ID for order
     return [[MRSLUtil classForDataSourceType:self.dataSourceTabType] MR_fetchAllSortedBy:sortString
                                                                                ascending:self.dataAscending
                                                                            withPredicate:[NSPredicate predicateWithFormat:@"%K IN %@", predicateString, self.objectIDs]
@@ -323,11 +326,10 @@ MRSLStateViewDelegate>
                 if (indexPath.row != count) {
                     [cell addDefaultBorderForDirections:MRSLBorderSouth];
                 }
-            } else if ([item isKindOfClass:[MRSLTag class]]) {
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDKeywordCellKey
+            } else if ([item isKindOfClass:[MRSLCollection class]]) {
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDCollectionCellKey
                                                                  forIndexPath:indexPath];
-                [[(MRSLTagStatsNameCell *)cell nameLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] name]];
-                [[(MRSLTagStatsNameCell *)cell tagTypeLabel] setText:[(MRSLKeyword *)[(MRSLTag *)item keyword] isCuisineType] ? @"Cuisines" : @"Specialties"];
+                [(MRSLCollectionPreviewCell *)cell setCollection:item];
             }
         }
     }
@@ -344,21 +346,14 @@ MRSLStateViewDelegate>
             return CGSizeMake(collectionView.frame.size.width, (_dataSourceTabType == MRSLDataSourceTypeTag) ? 500.f : 80.f);
         } else {
             id object = [self.dataSource objectAtIndexPath:indexPath];
-            if ([object isKindOfClass:[MRSLMorsel class]]) {
+            if ([object isKindOfClass:[MRSLMorsel class]] ||
+                [object isKindOfClass:[MRSLCollection class]]) {
                 if (self.dataSourceTabType == MRSLDataSourceTypeLikedMorsel) {
                     return CGSizeMake(collectionView.frame.size.width, 80.f);
                 } else {
                     return [MRSLMorselPreviewCollectionViewCell defaultCellSizeForCollectionView:collectionView
                                                                                      atIndexPath:indexPath];
                 }
-            } else if ([object isKindOfClass:[MRSLTag class]]) {
-                BOOL shouldDisplayTypeHeader = (indexPath.row == 0);
-                if (indexPath.row > 0) {
-                    MRSLTag *currentTag = object;
-                    MRSLTag *previousTag = [self.dataSource objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section]];
-                    shouldDisplayTypeHeader = ![previousTag.keyword.type isEqualToString:currentTag.keyword.type];
-                }
-                return CGSizeMake(collectionView.frame.size.width, (shouldDisplayTypeHeader) ? 64.f : 40.f);
             } else {
                 return CGSizeMake(collectionView.frame.size.width, 80.f);
             }
@@ -407,10 +402,10 @@ MRSLStateViewDelegate>
         placeVC.place = item;
         [self.navigationController pushViewController:placeVC
                                              animated:YES];
-    } else if ([item isKindOfClass:[MRSLTag class]]) {
-        MRSLKeywordUsersViewController *keywordUsersVC = [[UIStoryboard profileStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardKeywordUsersViewControllerKey];
-        keywordUsersVC.keyword = [(MRSLTag *)item keyword];
-        [self.navigationController pushViewController:keywordUsersVC
+    } else if ([item isKindOfClass:[MRSLCollection class]]) {
+        MRSLCollectionDetailViewController *collectionDetailVC = [[UIStoryboard collectionsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCollectionDetailViewControllerKey];
+        collectionDetailVC.collection = item;
+        [self.navigationController pushViewController:collectionDetailVC
                                              animated:YES];
     }
 }
@@ -454,11 +449,11 @@ MRSLStateViewDelegate>
                 self.dataSortType = MRSLDataSortTypeName;
                 self.dataAscending = YES;
                 break;
-            case MRSLDataSourceTypeTag:
-                self.emptyStateString = @"No tags added";
-                if ([self isCurrentUserProfile]) self.emptyStateButtonString = @"Manage tags";
-                self.dataSortType = MRSLDataSortTypeTagKeywordType;
-                self.dataAscending = YES;
+            case MRSLDataSourceTypeCollection:
+                self.emptyStateString = @"No collections added";
+                if ([self isCurrentUserProfile]) self.emptyStateButtonString = @"Add a collection";
+                self.dataSortType = MRSLDataSortTypeCreationDate;
+                self.dataAscending = NO;
                 break;
             default:
                 self.emptyStateString = @"No results";
@@ -477,6 +472,7 @@ MRSLStateViewDelegate>
     if (![self.user ?: [MRSLUser currentUser] isProfessional]) {
         NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
         [indexSet addIndex:0];
+        [indexSet addIndex:1];
         [indexSet addIndex:3];
         return indexSet;
     }
@@ -489,10 +485,10 @@ MRSLStateViewDelegate>
   didSelectButton:(UIButton *)button {
     if ([button.titleLabel.text isEqualToString:@"Add a morsel"]) {
         [self displayMorselAdd];
+    } else if ([button.titleLabel.text isEqualToString:@"Add a collection"]) {
+        [self displayAddCollection:nil];
     } else if ([button.titleLabel.text isEqualToString:@"Add a place"]) {
         [self displayAddPlace:button];
-    } else if ([button.titleLabel.text isEqualToString:@"Manage tags"]) {
-        [self displayProfessionalSettings];
     }
 }
 

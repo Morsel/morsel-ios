@@ -8,6 +8,7 @@
 
 #import "MRSLAPIService+Router.h"
 
+#import "MRSLAPIService+Collection.h"
 #import "MRSLAPIService+Like.h"
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Place.h"
@@ -48,6 +49,11 @@
             [_appDelegate.apiService getUserTags:user
                                          success:successOrNil
                                          failure:failureOrNil];
+            break;
+        case MRSLDataSourceTypeCollection:
+            [_appDelegate.apiService getCollectionsForUser:user
+                                                   success:successOrNil
+                                                   failure:failureOrNil];
             break;
         default:
             if (failureOrNil) failureOrNil(nil);

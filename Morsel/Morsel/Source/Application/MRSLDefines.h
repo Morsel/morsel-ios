@@ -82,10 +82,11 @@ typedef NS_ENUM(NSUInteger, MRSLDataSortType) {
 
 typedef NS_ENUM(NSUInteger, MRSLDataSourceType) {
     MRSLDataSourceTypeMorsel,
+    MRSLDataSourceTypeCollection,
     MRSLDataSourceTypePlace,
-    MRSLDataSourceTypeTag,
     MRSLDataSourceTypeLikedMorsel,
-    MRSLDataSourceTypeUser
+    MRSLDataSourceTypeUser,
+    MRSLDataSourceTypeTag
 };
 
 typedef NS_ENUM(NSUInteger, MRSLStatusType) {

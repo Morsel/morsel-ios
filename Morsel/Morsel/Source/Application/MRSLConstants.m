@@ -97,6 +97,7 @@ NSString *const MRSLItemImageSmallKey = @"_50x50";
 #pragma mark - Storyboard Constants
 
 NSString *const MRSLStoryboardiPhoneActivityKey = @"Activity";
+NSString *const MRSLStoryboardiPhoneCollectionsKey = @"Collections";
 NSString *const MRSLStoryboardiPhoneExploreKey = @"Explore";
 NSString *const MRSLStoryboardiPhoneFeedKey = @"Feed";
 NSString *const MRSLStoryboardiPhoneLoginKey = @"Login";
@@ -155,6 +156,10 @@ NSString *const MRSLStoryboardOnboardingFeedKey = @"sb_OnboardingFeed";
 NSString *const MRSLStoryboardMorselSearchKey = @"sb_MorselSearch";
 NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey = @"sb_MRSLMorselSearchResultsViewController";
 NSString *const MRSLStoryboardFindUsersViewControllerKey = @"sb_MRSLFindUsersViewController";
+NSString *const MRSLStoryboardCollectionKey = @"sb_Collection";
+NSString *const MRSLStoryboardCollectionAddKey = @"sb_CollectionAdd";
+NSString *const MRSLStoryboardCollectionDetailViewControllerKey = @"sb_MRSLCollectionDetailViewController";
+NSString *const MRSLStoryboardCollectionAddViewControllerKey = @"sb_MRSLCollectionAddViewController";
 
 #pragma mark - Storyboard Segue Constants
 
@@ -224,6 +229,7 @@ NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey = @"ruid_PushNo
 NSString *const MRSLStoryboardRUIDHashtagKeywordCellKey = @"ruid_HashtagKeywordCell";
 NSString *const MRSLStoryboardRUIDIcontTextCellKey = @"ruid_IconTextCell";
 NSString *const MRSLStoryboardRUIDCheckmarkCellKey = @"ruid_CheckmarkCell";
+NSString *const MRSLStoryboardRUIDCollectionCellKey = @"ruid_CollectionPreviewCell";
 
 #pragma mark - Storyboard Source Identifiers
 /*

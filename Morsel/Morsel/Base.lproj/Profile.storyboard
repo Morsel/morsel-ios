@@ -437,6 +437,16 @@
                                             <outlet property="textView" destination="Wyf-3x-QX7" id="k1h-eR-Ijw"/>
                                         </connections>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_CollectionPreviewCell" id="5Mq-N0-x30" customClass="MRSLCollectionPreviewCell">
+                                        <rect key="frame" x="0.0" y="175" width="106" height="106"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <size key="customSize" width="160" height="160"/>
+                                    </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_HeaderCell" id="Tfj-fk-nYN" customClass="MRSLSegmentedHeaderReusableView">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
@@ -452,7 +462,7 @@
                                                         <constraint firstAttribute="height" constant="50" placeholder="YES" id="YCh-7t-Ft6"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <state key="normal" title="Places">
+                                                    <state key="normal" title="Collections">
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
@@ -466,7 +476,7 @@
                                                         <constraint firstAttribute="height" constant="50" placeholder="YES" id="8vj-Rx-uWw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <state key="normal" title="Tags">
+                                                    <state key="normal" title="Places">
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>

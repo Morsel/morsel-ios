@@ -10,6 +10,7 @@
 
 #import "UINavigationController+Additions.h"
 
+#import "MRSLCollectionAddViewController.h"
 #import "MRSLTemplateSelectionViewController.h"
 #import "MRSLMenuBarButtonItem.h"
 
@@ -189,9 +190,19 @@
 
 - (IBAction)displayAddPlace:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Add place",
+                                 properties:@{@"_title": @"Add a place",
                                               @"_view": self.mp_eventView ?: @"menu"}];
     [self.navigationController pushViewController:[[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlacesAddViewControllerKey]
+                                         animated:YES];
+}
+
+- (void)displayAddCollection:(MRSLMorsel *)morselOrNil {
+    [[MRSLEventManager sharedManager] track:@"Tapped Button"
+                                 properties:@{@"_title": @"Add a collection",
+                                              @"_view": self.mp_eventView ?: @"menu"}];
+    MRSLCollectionAddViewController *collectionAddVC = [[UIStoryboard collectionsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCollectionAddViewControllerKey];
+    collectionAddVC.morsel = morselOrNil;
+    [self.navigationController pushViewController:collectionAddVC
                                          animated:YES];
 }
 

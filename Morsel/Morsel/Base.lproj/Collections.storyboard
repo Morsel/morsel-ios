@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <scenes>
+        <!--Collection-->
+        <scene sceneID="XdP-uO-MFO">
+            <objects>
+                <viewController storyboardIdentifier="sb_MRSLCollectionDetailViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="B8Y-p3-KsQ" customClass="MRSLCollectionDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hbt-Qm-CbV"/>
+                        <viewControllerLayoutGuide type="bottom" id="66t-hs-MJE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TP4-h8-eId">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lv0-O1-t7a" customClass="MRSLCollectionView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="yU7-Pg-dJc">
+                                    <size key="itemSize" width="160" height="160"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="320" height="50"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_MorselPreviewCell" id="JQ6-vp-z3t" customClass="MRSLMorselPreviewCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="175" width="106" height="106"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0NN-pN-8gt" customClass="MRSLItemImageView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="106" id="r8p-al-gCS"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="106" id="zgL-Hp-Cfu"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnz-Ii-O9x" customClass="MRSLStandardTextView">
+                                                    <rect key="frame" x="0.0" y="123" width="160" height="37"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="dnz-Ii-O9x" secondAttribute="bottom" id="1JD-y3-rax"/>
+                                            <constraint firstItem="0NN-pN-8gt" firstAttribute="leading" secondItem="JQ6-vp-z3t" secondAttribute="leading" id="8cU-kZ-uiM"/>
+                                            <constraint firstItem="0NN-pN-8gt" firstAttribute="top" secondItem="JQ6-vp-z3t" secondAttribute="top" id="8lu-9L-XGc"/>
+                                            <constraint firstItem="dnz-Ii-O9x" firstAttribute="leading" secondItem="JQ6-vp-z3t" secondAttribute="leading" id="Kqx-Rv-FVh"/>
+                                            <constraint firstAttribute="trailing" secondItem="dnz-Ii-O9x" secondAttribute="trailing" id="utn-hR-W3g"/>
+                                            <constraint firstAttribute="bottom" secondItem="0NN-pN-8gt" secondAttribute="bottom" id="vE8-4t-G2s"/>
+                                            <constraint firstAttribute="trailing" secondItem="0NN-pN-8gt" secondAttribute="trailing" id="yS1-AJ-Plk"/>
+                                        </constraints>
+                                        <size key="customSize" width="160" height="160"/>
+                                        <connections>
+                                            <outlet property="itemImageView" destination="0NN-pN-8gt" id="Fy7-AQ-bTJ"/>
+                                            <outlet property="textView" destination="dnz-Ii-O9x" id="vrY-u8-dCv"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="ruid_LoadingCell" id="ASz-Wb-Hdk">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="REh-su-ga3" customClass="MRSLActivityIndicatorView">
+                                            <rect key="frame" x="290" y="15" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="TSb-2H-XVW"/>
+                                                <constraint firstAttribute="width" constant="20" id="hHV-NM-7RB"/>
+                                            </constraints>
+                                            <color key="color" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="REh-su-ga3" secondAttribute="centerY" id="gb7-m4-E1a"/>
+                                        <constraint firstAttribute="centerX" secondItem="REh-su-ga3" secondAttribute="centerX" id="yTI-fV-S6R"/>
+                                    </constraints>
+                                </collectionReusableView>
+                                <connections>
+                                    <outlet property="dataSource" destination="B8Y-p3-KsQ" id="68F-7x-QHO"/>
+                                    <outlet property="delegate" destination="B8Y-p3-KsQ" id="1UA-ar-HYN"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lv0-O1-t7a" firstAttribute="top" secondItem="hbt-Qm-CbV" secondAttribute="bottom" id="0TX-qb-hOa"/>
+                            <constraint firstItem="66t-hs-MJE" firstAttribute="top" secondItem="lv0-O1-t7a" secondAttribute="bottom" id="ZfN-Go-A6Y"/>
+                            <constraint firstItem="lv0-O1-t7a" firstAttribute="leading" secondItem="TP4-h8-eId" secondAttribute="leading" id="uoy-a1-PDo"/>
+                            <constraint firstAttribute="trailing" secondItem="lv0-O1-t7a" secondAttribute="trailing" id="vCT-fn-IWj"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Collection" id="lSn-TU-DcD"/>
+                    <connections>
+                        <outlet property="collectionView" destination="lv0-O1-t7a" id="RwH-Ua-vyb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IHx-Jk-LdE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1745" y="882"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="1VD-Pe-Xhy">
+            <objects>
+                <navigationController storyboardIdentifier="sb_Collection" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="Kfd-pj-TDC" customClass="MRSLNavigationController" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="gEB-wj-hY7">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="B8Y-p3-KsQ" kind="relationship" relationship="rootViewController" id="eWG-bP-JyT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1PS-6R-4pI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="933" y="882"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="XxC-xt-7te">
+            <objects>
+                <navigationController storyboardIdentifier="sb_CollectionAdd" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="hY8-OB-ax3" customClass="MRSLNavigationController" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="W99-xC-pA3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="VmA-E1-Igo" kind="relationship" relationship="rootViewController" id="egc-0j-3Kk"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p0u-Mh-FAP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="933" y="172"/>
+        </scene>
+        <!--Collection Add View Controller-->
+        <scene sceneID="CfO-AT-Gb1">
+            <objects>
+                <viewController storyboardIdentifier="sb_MRSLCollectionAddViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="VmA-E1-Igo" customClass="MRSLCollectionAddViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yXn-sv-GZb"/>
+                        <viewControllerLayoutGuide type="bottom" id="kND-Gk-Rz4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JRR-3K-Qp1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" id="Dmp-FQ-ZFO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ptq-iC-OaM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1745" y="179"/>
+        </scene>
+    </scenes>
+</document>
