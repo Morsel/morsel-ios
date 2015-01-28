@@ -26,13 +26,20 @@
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:isCurrentUser];
 
-    NSString *userEndpoint = isCurrentUser ? @"users/me" : [NSString stringWithFormat:@"users/%i", user.userIDValue];
+    int userID = user.userIDValue;
+
+    NSString *userEndpoint = isCurrentUser ? @"users/me" : [NSString stringWithFormat:@"users/%i", userID];
 
     [[MRSLAPIClient sharedClient] performRequest:userEndpoint
                                       parameters:parameters
                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                              DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                             [user MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                             MRSLUser *updatedUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                                                                      withValue:@(userID)
+                                                                                             inContext:[NSManagedObjectContext MR_defaultContext]];
+                                             if (!updatedUser) updatedUser = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+                                             [updatedUser MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                             if (updatedUser.managedObjectContext) [updatedUser.managedObjectContext MR_saveToPersistentStoreAndWait];
                                              if (successOrNil) successOrNil(responseObject);
                                          } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                              [self reportFailure:failureOrNil
@@ -57,20 +64,24 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:@[NSNullIfNil(user)]
                                               requiresAuthentication:YES];
+    int userID = user.userIDValue;
+
     if (user.profilePhotoFull) {
         parameters[@"prepare_presigned_upload"] = @"true";
     }
 
-    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"users/%i", user.userIDValue]
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"users/%i", userID]
                                                   withMethod:MRSLAPIMethodTypePUT
                                               formParameters:[self parametersToDataWithDictionary:parameters]
                                                   parameters:nil
                                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                                         if (user.managedObjectContext) {
-                                                             [user MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                                             [user.managedObjectContext MR_saveToPersistentStoreAndWait];
-                                                         }
+                                                         MRSLUser *updatedUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
+                                                                                                         withValue:@(userID)
+                                                                                                         inContext:[NSManagedObjectContext MR_defaultContext]];
+                                                         if (!updatedUser) updatedUser = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+                                                         [updatedUser MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                         if (updatedUser.managedObjectContext) [updatedUser.managedObjectContext MR_saveToPersistentStoreAndWait];
                                                          dispatch_async(dispatch_get_main_queue(), ^{
                                                              [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidUpdateUserNotification
                                                                                                                  object:nil];
