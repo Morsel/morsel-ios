@@ -2,12 +2,9 @@
 
 #import "MRSLAPIService+Morsel.h"
 #import "MRSLAPIService+Report.h"
-#import "MRSLAPIService+Templates.h"
 
 #import "MRSLItem.h"
 #import "MRSLPlace.h"
-#import "MRSLTemplate.h"
-#import "MRSLTemplateItem.h"
 #import "MRSLUser.h"
 
 @implementation MRSLMorsel
@@ -27,7 +24,6 @@
     objectInfoJSON[@"title"] = NSNullIfNil((([self.title length] > 0) ? self.title : nil));
     objectInfoJSON[@"place_id"] = NSNullIfNil(self.place.placeID);
     objectInfoJSON[@"summary"] = NSNullIfNil((([self.summary length] > 0) ? self.summary : nil));
-    if (self.template_id) objectInfoJSON[@"template_id"] = NSNullIfNil(self.template_id);
     MRSLItem *coverItem = [self coverItem];
     if (coverItem) objectInfoJSON[@"primary_item_id"] = NSNullIfNil(coverItem.itemID);
 
@@ -42,7 +38,7 @@
 }
 
 - (BOOL)hasPlaceholderTitle {
-    return (([self.title length] == 0 || !self.title) && self.template_id);
+    return NO;
 }
 
 - (BOOL)hasTaggedUsers {
@@ -93,9 +89,7 @@
 }
 
 - (NSString *)placeholderTitle {
-    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
-                                                               withValue:self.template_id];
-    return [NSString stringWithFormat:@"%@ morsel", morselTemplate.title];
+    return @"";
 }
 
 - (NSString *)firstItemDescription {
@@ -292,37 +286,6 @@
                              [hashtags addObject:[[self summary] substringWithRange:match.range]];
                          }];
     return ([hashtags count] > 0) ? [hashtags componentsJoinedByString:@" "] : @"";
-}
-
-#pragma mark - Templates
-
-- (void)reloadTemplateDataIfNecessaryWithSuccess:(MRSLSuccessBlock)successOrNil
-                                         failure:(MRSLFailureBlock)failureOrNil {
-    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirstByAttribute:MRSLTemplateAttributes.templateID
-                                                               withValue:self.template_id ?: @(1)];
-    if (morselTemplate) {
-        [self reloadPlaceholderItemsWithSuccess:successOrNil
-                                        failure:failureOrNil];
-    }
-}
-
-- (void)reloadPlaceholderItemsWithSuccess:(MRSLSuccessBlock)successOrNil
-                                  failure:(MRSLFailureBlock)failureOrNil {
-    __weak __typeof(self)weakSelf = self;
-    MRSLMorsel *localContextMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                               withValue:weakSelf.morselID];
-    for (MRSLItem *item in localContextMorsel.items) {
-        if (item.template_order && !item.placeholder_description) {
-            MRSLTemplateItem *templateItem = [MRSLTemplateItem MR_findFirstByAttribute:MRSLTemplateItemAttributes.template_order
-                                                                             withValue:item.template_order];
-            item.placeholder_description = templateItem.placeholder_description;
-            item.placeholder_photo_large = templateItem.placeholder_photo_large;
-            item.placeholder_photo_small = templateItem.placeholder_photo_small;
-        }
-    }
-    [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-        if (successOrNil) successOrNil(success);
-    }];
 }
 
 #pragma mark - Reportable

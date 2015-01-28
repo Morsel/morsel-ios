@@ -24,7 +24,4 @@
 
 - (void)getCoverInformation:(MRSLAttributedStringBlock)attributedStringBlock;
 
-- (void)reloadTemplateDataIfNecessaryWithSuccess:(MRSLSuccessBlock)successOrNil
-                                         failure:(MRSLFailureBlock)failureOrNil;
-
 @end

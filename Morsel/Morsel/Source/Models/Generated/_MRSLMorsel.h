@@ -24,7 +24,6 @@ extern const struct MRSLMorselAttributes {
 	__unsafe_unretained NSString *summary;
 	__unsafe_unretained NSString *tagged;
 	__unsafe_unretained NSString *tagged_users_count;
-	__unsafe_unretained NSString *template_id;
 	__unsafe_unretained NSString *title;
 	__unsafe_unretained NSString *twitter_mrsl;
 	__unsafe_unretained NSString *url;
@@ -318,19 +317,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* template_id;
-
-
-
-@property int16_t template_idValue;
-- (int16_t)template_idValue;
-- (void)setTemplate_idValue:(int16_t)value_;
-
-//- (BOOL)validateTemplate_id:(id*)value_ error:(NSError**)error_;
-
-
-
-
 
 @property (nonatomic, strong) NSString* title;
 
@@ -565,15 +551,6 @@ extern const struct MRSLMorselFetchedProperties {
 
 - (int32_t)primitiveTagged_users_countValue;
 - (void)setPrimitiveTagged_users_countValue:(int32_t)value_;
-
-
-
-
-- (NSNumber*)primitiveTemplate_id;
-- (void)setPrimitiveTemplate_id:(NSNumber*)value;
-
-- (int16_t)primitiveTemplate_idValue;
-- (void)setPrimitiveTemplate_idValue:(int16_t)value_;
 
 
 

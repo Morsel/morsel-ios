@@ -20,7 +20,7 @@
 #import "MRSLFeedShareCollectionViewCell.h"
 #import "MRSLSocialService.h"
 #import "MRSLModalLikersViewController.h"
-#import "MRSLMorselEditViewController.h"
+#import "MRSLPROManageMorselViewController.h"
 #import "MRSLProfileImageView.h"
 #import "MRSLTitleItemView.h"
 #import "MRSLItemImageView.h"
@@ -192,10 +192,10 @@ MRSLFeedShareCollectionViewCellDelegate>
 
 
 - (IBAction)editMorsel {
-    UINavigationController *morselEditNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditKey];
-    MRSLMorselEditViewController *morselEditVC = [[morselEditNC viewControllers] firstObject];
-    morselEditVC.morselID = _morsel.morselID;
-    [self presentViewController:morselEditNC
+    UINavigationController *morselManageNC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselManageKey];
+    MRSLPROManageMorselViewController *manageMorselVC = [[morselManageNC viewControllers] firstObject];
+    manageMorselVC.morselID = _morsel.morselID;
+    [self presentViewController:morselManageNC
                        animated:YES
                      completion:nil];
 }

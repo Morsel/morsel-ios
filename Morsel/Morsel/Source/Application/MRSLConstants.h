@@ -110,7 +110,6 @@ extern NSString *const MRSLStoryboardiPhoneProfileKey;
 extern NSString *const MRSLStoryboardiPhoneSettingsKey;
 extern NSString *const MRSLStoryboardiPhoneSocialKey;
 extern NSString *const MRSLStoryboardiPhoneSpecsKey;
-extern NSString *const MRSLStoryboardiPhoneTemplatesKey;
 
 #pragma mark - Storyboard Identifier Constants
 
@@ -128,9 +127,8 @@ extern NSString *const MRSLStoryboardLikesKey;
 extern NSString *const MRSLStoryboardTaggedUsersKey;
 extern NSString *const MRSLStoryboardMediaPreviewKey;
 extern NSString *const MRSLStoryboardMorselAddTitleViewControllerKey;
-extern NSString *const MRSLStoryboardMorselAddKey;
-extern NSString *const MRSLStoryboardMorselEditKey;
 extern NSString *const MRSLStoryboardMorselListKey;
+extern NSString *const MRSLStoryboardMorselManageKey;
 extern NSString *const MRSLStoryboardMorselEditViewControllerKey;
 extern NSString *const MRSLStoryboardNotificationsKey;
 extern NSString *const MRSLStoryboardPlaceDetailViewControllerKey;
@@ -148,10 +146,6 @@ extern NSString *const MRSLStoryboardSocialComposeKey;
 extern NSString *const MRSLStoryboardMorselDetailKey;
 extern NSString *const MRSLStoryboardMorselDetailViewControllerKey;
 extern NSString *const MRSLStoryboardWebBrowserKey;
-extern NSString *const MRSLStoryboardTemplateSelectionKey;
-extern NSString *const MRSLStoryboardTemplateSelectionViewControllerKey;
-extern NSString *const MRSLStoryboardTemplateInfoViewControllerKey;
-extern NSString *const MRSLStoryboardTemplateInfoKey;
 extern NSString *const MRSLStoryboardOnboardingFeedKey;
 extern NSString *const MRSLStoryboardMorselSearchKey;
 extern NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey;
@@ -162,6 +156,8 @@ extern NSString *const MRSLStoryboardCollectionCreateKey;
 extern NSString *const MRSLStoryboardCollectionDetailViewControllerKey;
 extern NSString *const MRSLStoryboardCollectionAddViewControllerKey;
 extern NSString *const MRSLStoryboardCollectionCreateViewControllerKey;
+
+extern NSString *const MRSLStoryboardPROManageMorselViewControllerKey;
 
 #pragma mark - Storyboard Segue Constants
 
@@ -179,7 +175,6 @@ extern NSString *const MRSLStoryboardSeguePublishShareMorselKey;
 extern NSString *const MRSLStoryboardSegueSelectPlaceKey;
 extern NSString *const MRSLStoryboardSegueSetupProfessionalAccountKey;
 extern NSString *const MRSLStoryboardSegueSpecialtiesKey;
-extern NSString *const MRSLStoryboardSegueTemplateInfoKey;
 extern NSString *const MRSLStoryboardSegueKeywordFollowersKey;
 extern NSString *const MRSLStoryboardSegueEligibleUsersKey;
 extern NSString *const MRSLStoryboardSegueAddSummaryKey;
@@ -225,8 +220,6 @@ extern NSString *const MRSLStoryboardRUIDUserCellKey;
 extern NSString *const MRSLStoryboardRUIDUserFollowCellKey;
 extern NSString *const MRSLStoryboardRUIDUserEligibleCellKey;
 extern NSString *const MRSLStoryboardRUIDUserLikedMorselCellKey;
-extern NSString *const MRSLStoryboardRUIDTemplateCell;
-extern NSString *const MRSLStoryboardRUIDTemplateInfoCell;
 extern NSString *const MRSLStoryboardRUIDMorselAddCell;
 extern NSString *const MRSLStoryboardRUIDMorselInfoCell;
 extern NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey;

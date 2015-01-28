@@ -110,7 +110,6 @@ NSString *const MRSLStoryboardiPhoneProfileKey = @"Profile";
 NSString *const MRSLStoryboardiPhoneSettingsKey = @"Settings";
 NSString *const MRSLStoryboardiPhoneSocialKey = @"Social";
 NSString *const MRSLStoryboardiPhoneSpecsKey = @"Specs_iPhone";
-NSString *const MRSLStoryboardiPhoneTemplatesKey = @"Templates";
 
 #pragma mark - Storyboard Identifier Constants
 
@@ -128,9 +127,8 @@ NSString *const MRSLStoryboardLikesKey = @"sb_Likes";
 NSString *const MRSLStoryboardTaggedUsersKey = @"sb_TaggedUsers";
 NSString *const MRSLStoryboardMediaPreviewKey = @"sb_MediaPreview";
 NSString *const MRSLStoryboardMorselAddTitleViewControllerKey = @"sb_MRSLMorselAddTitleViewController";
-NSString *const MRSLStoryboardMorselAddKey = @"sb_MorselAdd";
-NSString *const MRSLStoryboardMorselEditKey = @"sb_MorselEdit";
 NSString *const MRSLStoryboardMorselListKey = @"sb_MorselList";
+NSString *const MRSLStoryboardMorselManageKey = @"sb_MorselManage";
 NSString *const MRSLStoryboardMorselEditViewControllerKey = @"sb_MRSLMorselEditViewController";
 NSString *const MRSLStoryboardNotificationsKey = @"sb_Notifications";
 NSString *const MRSLStoryboardPlaceDetailViewControllerKey = @"sb_MRSLPlaceDetailViewController";
@@ -148,10 +146,6 @@ NSString *const MRSLStoryboardSocialComposeKey = @"sb_SocialCompose" ;
 NSString *const MRSLStoryboardMorselDetailKey = @"sb_MorselDetail";
 NSString *const MRSLStoryboardMorselDetailViewControllerKey = @"sb_MRSLMorselDetailViewController";
 NSString *const MRSLStoryboardWebBrowserKey = @"sb_WebBrowser";
-NSString *const MRSLStoryboardTemplateSelectionKey = @"sb_TemplateSelection";
-NSString *const MRSLStoryboardTemplateSelectionViewControllerKey = @"sb_MRSLTemplateSelectionViewController";
-NSString *const MRSLStoryboardTemplateInfoViewControllerKey = @"sb_MRSLTemplateInfoViewController";
-NSString *const MRSLStoryboardTemplateInfoKey = @"sb_TemplateInfo";
 NSString *const MRSLStoryboardOnboardingFeedKey = @"sb_OnboardingFeed";
 NSString *const MRSLStoryboardMorselSearchKey = @"sb_MorselSearch";
 NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey = @"sb_MRSLMorselSearchResultsViewController";
@@ -162,6 +156,8 @@ NSString *const MRSLStoryboardCollectionCreateKey = @"sb_CollectionCreate";
 NSString *const MRSLStoryboardCollectionDetailViewControllerKey = @"sb_MRSLCollectionDetailViewController";
 NSString *const MRSLStoryboardCollectionAddViewControllerKey = @"sb_MRSLCollectionAddViewController";
 NSString *const MRSLStoryboardCollectionCreateViewControllerKey = @"sb_MRSLCollectionCreateViewController";
+
+NSString *const MRSLStoryboardPROManageMorselViewControllerKey = @"sb_MRSLPROManageMorselViewController";
 
 #pragma mark - Storyboard Segue Constants
 
@@ -178,7 +174,6 @@ NSString *const MRSLStoryboardSeguePublishShareMorselKey = @"seg_PublishShareMor
 NSString *const MRSLStoryboardSegueSelectPlaceKey = @"seg_SelectPlace";
 NSString *const MRSLStoryboardSegueSetupProfessionalAccountKey = @"seg_SetupProfessionalAccount";
 NSString *const MRSLStoryboardSegueSpecialtiesKey = @"seg_Specialties";
-NSString *const MRSLStoryboardSegueTemplateInfoKey = @"seg_DisplayTemplateInfo";
 NSString *const MRSLStoryboardSegueKeywordFollowersKey = @"seg_DisplayKeywordFollowers";
 NSString *const MRSLStoryboardSegueEligibleUsersKey = @"seg_DisplayEligibleUsers";
 NSString *const MRSLStoryboardSegueAddSummaryKey = @"seg_AddSummary";
@@ -223,8 +218,6 @@ NSString *const MRSLStoryboardRUIDUserCellKey = @"ruid_UserCell";
 NSString *const MRSLStoryboardRUIDUserFollowCellKey = @"ruid_UserFollowCell";
 NSString *const MRSLStoryboardRUIDUserEligibleCellKey = @"ruid_UserEligibleCell";
 NSString *const MRSLStoryboardRUIDUserLikedMorselCellKey = @"ruid_UserLikedMorselCell";
-NSString *const MRSLStoryboardRUIDTemplateCell = @"ruid_TemplateCell";
-NSString *const MRSLStoryboardRUIDTemplateInfoCell = @"ruid_TemplateInfoCell";
 NSString *const MRSLStoryboardRUIDMorselAddCell = @"ruid_MorselAddCell";
 NSString *const MRSLStoryboardRUIDMorselInfoCell = @"ruid_MorselInfoCell";
 NSString *const MRSLStoryboardRUIDPushNotificationSettingCellKey = @"ruid_PushNotificationSettingCell";

@@ -25,7 +25,6 @@
 + (UIStoryboard *)profileStoryboard;
 + (UIStoryboard *)settingsStoryboard;
 + (UIStoryboard *)socialStoryboard;
-+ (UIStoryboard *)templatesStoryboard;
 
 #pragma mark - Specs
 

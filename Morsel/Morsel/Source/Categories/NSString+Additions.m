@@ -10,6 +10,10 @@
 
 @implementation NSString (Additions)
 
+- (BOOL)isEmpty {
+    return [self length] == 0;
+}
+
 - (NSString *)stringWithEncoding:(NSStringEncoding)encoding {
     return (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self,
                                                                 NULL, (CFStringRef)@";/?:@&=$+{}<>,",

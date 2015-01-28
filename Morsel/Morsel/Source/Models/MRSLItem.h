@@ -8,7 +8,6 @@
 + (MRSLItem *)localUniqueItemInContext:(NSManagedObjectContext *)context;
 
 - (BOOL)isCoverItem;
-- (BOOL)isTemplatePlaceholderItem;
 
 - (CGFloat)descriptionHeight;
 

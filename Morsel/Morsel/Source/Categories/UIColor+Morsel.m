@@ -133,6 +133,13 @@
 }
 
 
++ (UIColor *)randomColor {
+    return [UIColor colorWithHue:(arc4random() % 256 / 256.0)       //  0.0 to 1.0
+                      saturation:(arc4random() % 128 / 256.0) + 0.5 //  0.5 to 1.0
+                      brightness:(arc4random() % 128 / 256.0) + 0.5 //  0.5 to 1.0
+                           alpha:1.0f];
+}
+
 #pragma mark - Instance Methods
 
 - (UIColor *)colorWithBrightness:(CGFloat)brightness {

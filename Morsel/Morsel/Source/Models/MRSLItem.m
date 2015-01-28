@@ -32,8 +32,6 @@
 
     if (self.localUUID) objectInfoJSON[@"nonce"] = self.localUUID;
 
-    if (self.template_order) objectInfoJSON[@"template_order"] = self.template_order;
-
     if (self.morsel) {
         if (self.morsel.morselID) objectInfoJSON[@"morsel_id"] = self.morsel.morselID;
         if (self.sort_order) objectInfoJSON[@"sort_order"] = self.sort_order;
@@ -66,10 +64,6 @@
 
 - (BOOL)isCoverItem {
     return [[self.morsel coverItem] isEqual:self];
-}
-
-- (BOOL)isTemplatePlaceholderItem {
-    return (self.template_order != nil && !self.itemPhotoURL && !self.itemPhotoFull);
 }
 
 - (CGFloat)descriptionHeight {

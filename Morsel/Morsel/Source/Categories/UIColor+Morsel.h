@@ -44,6 +44,7 @@
 + (UIColor *)morselValidColor;
 + (UIColor *)morselInvalidColor;
 
++ (UIColor *)randomColor;
 
 #pragma mark - Instance Methods
 

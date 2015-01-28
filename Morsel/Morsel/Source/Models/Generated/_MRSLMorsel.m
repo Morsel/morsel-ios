@@ -23,7 +23,6 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.summary = @"summary",
 	.tagged = @"tagged",
 	.tagged_users_count = @"tagged_users_count",
-	.template_id = @"template_id",
 	.title = @"title",
 	.twitter_mrsl = @"twitter_mrsl",
 	.url = @"url",
@@ -118,11 +117,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"tagged_users_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"tagged_users_count"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"template_idValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"template_id"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -469,32 +463,6 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 - (void)setPrimitiveTagged_users_countValue:(int32_t)value_ {
 	[self setPrimitiveTagged_users_count:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
-@dynamic template_id;
-
-
-
-- (int16_t)template_idValue {
-	NSNumber *result = [self template_id];
-	return [result shortValue];
-}
-
-- (void)setTemplate_idValue:(int16_t)value_ {
-	[self setTemplate_id:[NSNumber numberWithShort:value_]];
-}
-
-- (int16_t)primitiveTemplate_idValue {
-	NSNumber *result = [self primitiveTemplate_id];
-	return [result shortValue];
-}
-
-- (void)setPrimitiveTemplate_idValue:(int16_t)value_ {
-	[self setPrimitiveTemplate_id:[NSNumber numberWithShort:value_]];
 }
 
 

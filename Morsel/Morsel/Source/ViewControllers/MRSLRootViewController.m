@@ -451,8 +451,9 @@ MRSLMenuViewControllerDelegate>
             [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                          properties:@{@"_title": @"New morsel",
                                                       @"_view": @"menu"}];
-            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardTemplateSelectionKey
-                                                      andStoryboardFileName:MRSLStoryboardiPhoneTemplatesKey];
+            [self displayNavigationControllerEmbeddedViewControllerWithName:MRSLStoryboardMorselManageKey
+                                                      andStoryboardFileName:MRSLStoryboardiPhoneMorselManagementKey];
+
             break;
         }
         CASE(MRSLMenuDraftsKey) {

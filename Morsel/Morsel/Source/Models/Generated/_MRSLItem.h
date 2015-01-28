@@ -24,7 +24,6 @@ extern const struct MRSLItemAttributes {
 	__unsafe_unretained NSString *placeholder_photo_large;
 	__unsafe_unretained NSString *placeholder_photo_small;
 	__unsafe_unretained NSString *sort_order;
-	__unsafe_unretained NSString *template_order;
 	__unsafe_unretained NSString *url;
 } MRSLItemAttributes;
 
@@ -300,20 +299,6 @@ extern const struct MRSLItemFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* template_order;
-
-
-
-@property int16_t template_orderValue;
-- (int16_t)template_orderValue;
-- (void)setTemplate_orderValue:(int16_t)value_;
-
-//- (BOOL)validateTemplate_order:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) NSString* url;
 
 
@@ -506,15 +491,6 @@ extern const struct MRSLItemFetchedProperties {
 
 - (int32_t)primitiveSort_orderValue;
 - (void)setPrimitiveSort_orderValue:(int32_t)value_;
-
-
-
-
-- (NSNumber*)primitiveTemplate_order;
-- (void)setPrimitiveTemplate_order:(NSNumber*)value;
-
-- (int16_t)primitiveTemplate_orderValue;
-- (void)setPrimitiveTemplate_orderValue:(int16_t)value_;
 
 
 

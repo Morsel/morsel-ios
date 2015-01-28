@@ -77,11 +77,6 @@
                                      bundle:nil];
 }
 
-+ (UIStoryboard *)templatesStoryboard {
-    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneTemplatesKey
-                                     bundle:nil];
-}
-
 #pragma mark - Specs
 
 + (UIStoryboard *)specsStoryboardInBundle:(NSBundle *)bundleOrNil {

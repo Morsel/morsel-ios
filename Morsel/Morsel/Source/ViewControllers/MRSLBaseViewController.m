@@ -7,10 +7,10 @@
 //
 
 #import "MRSLBaseViewController.h"
+#import "MRSLPROManageMorselViewController.h"
 
 #import "UINavigationController+Additions.h"
 
-#import "MRSLTemplateSelectionViewController.h"
 #import "MRSLMenuBarButtonItem.h"
 
 #import "MRSLUser.h"
@@ -182,8 +182,8 @@
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"New morsel",
                                               @"_view": self.mp_eventView ?: @"menu"}];
-    MRSLTemplateSelectionViewController *templateSelectionVC = [[UIStoryboard templatesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardTemplateSelectionViewControllerKey];
-    [self.navigationController pushViewController:templateSelectionVC
+    MRSLPROManageMorselViewController *manageMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPROManageMorselViewControllerKey];
+    [self.navigationController pushViewController:manageMorselVC
                                          animated:YES];
 }
 

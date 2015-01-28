@@ -18,11 +18,9 @@
 
 #pragma mark - Morsel Services
 
-- (void)createMorselWithTemplateID:(NSNumber *)templateID
-                           success:(MRSLAPISuccessBlock)successOrNil
-                           failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"morsel": @{@"title" : NSNullIfNil(nil),
-                                                                                    @"template_id": NSNullIfNil(templateID)}}
+- (void)createMorselWithSuccess:(MRSLAPISuccessBlock)successOrNil
+                        failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"morsel": @{@"title" : NSNullIfNil(nil)}}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
 

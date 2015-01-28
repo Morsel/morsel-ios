@@ -9,17 +9,15 @@
 #import "MRSLMorselDraftsViewController.h"
 
 #import "MRSLAPIService+Morsel.h"
-#import "MRSLAPIService+Templates.h"
 
 #import "MRSLMorselTableViewCell.h"
-#import "MRSLMorselEditViewController.h"
+#import "MRSLPROManageMorselViewController.h"
 #import "MRSLTableView.h"
 #import "MRSLTableViewDataSource.h"
 
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 #import "MRSLUser.h"
-#import "MRSLTemplate.h"
 
 @interface MRSLMorselDraftsViewController ()
 <MRSLTableViewDataSourceDelegate>
@@ -38,10 +36,6 @@
     self.title = @"Drafts";
 
     [self.tableView setEmptyStateTitle:@"None yet. Create a new morsel below."];
-
-    MRSLTemplate *morselTemplate = [MRSLTemplate MR_findFirst];
-    if (!morselTemplate) [_appDelegate.apiService getTemplatesWithSuccess:nil
-                                                                  failure:nil];
 
     self.pagedRemoteRequestBlock = ^(NSNumber *page, NSNumber *count, MRSLRemoteRequestWithObjectIDsOrErrorCompletionBlock remoteRequestWithObjectIDsOrErrorCompletionBlock) {
         [_appDelegate.apiService getMorselsForUser:nil
@@ -150,10 +144,10 @@
                                               @"_view": self.mp_eventView,
                                               @"morsel_id": NSNullIfNil(morsel.morselID),
                                               @"morsel_draft": (morsel.draftValue) ? @"true" : @"false"}];
-    MRSLMorselEditViewController *editMorselVC = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardMorselEditViewControllerKey];
-    editMorselVC.morselID = morsel.morselID;
+    MRSLPROManageMorselViewController *manageMorselViewController = [[UIStoryboard morselManagementStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPROManageMorselViewControllerKey];
+    manageMorselViewController.morselID = morsel.morselID;
 
-    [self.navigationController pushViewController:editMorselVC
+    [self.navigationController pushViewController:manageMorselViewController
                                          animated:YES];
 }
 

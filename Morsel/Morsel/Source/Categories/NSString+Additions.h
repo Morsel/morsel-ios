@@ -10,6 +10,7 @@
 
 @interface NSString (Additions)
 
+- (BOOL)isEmpty;
 - (NSString *)stringWithEncoding:(NSStringEncoding)encoding;
 - (NSString *)stringWithNSUTF8StringEncoding;
 - (NSString *)stringWithWhitespaceTrimmed;
