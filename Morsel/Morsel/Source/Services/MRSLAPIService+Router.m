@@ -52,6 +52,8 @@
             break;
         case MRSLDataSourceTypeCollection:
             [_appDelegate.apiService getCollectionsForUser:user
+                                                      page:pageOrNil
+                                                     count:countOrNil
                                                    success:successOrNil
                                                    failure:failureOrNil];
             break;

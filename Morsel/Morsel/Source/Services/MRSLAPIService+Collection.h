@@ -11,10 +11,14 @@
 @interface MRSLAPIService (Collection)
 
 - (void)getCollectionsForUser:(MRSLUser *)user
+                         page:(NSNumber *)pageOrNil
+                        count:(NSNumber *)countOrNil
                       success:(MRSLAPIArrayBlock)successOrNil
                       failure:(MRSLFailureBlock)failureOrNil;
 
 - (void)getMorselsForCollection:(MRSLCollection *)collection
+                           page:(NSNumber *)pageOrNil
+                          count:(NSNumber *)countOrNil
                         success:(MRSLAPIArrayBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil;
 
@@ -30,8 +34,9 @@
                  success:(MRSLAPISuccessBlock)successOrNil
                  failure:(MRSLFailureBlock)failureOrNil;
 
-- (void)createCollection:(MRSLCollection *)collection
-                 success:(MRSLAPISuccessBlock)successOrNil
-                 failure:(MRSLFailureBlock)failureOrNil;
+- (void)createCollectionWithTitle:(NSString *)titleOrNil
+                      description:(NSString *)descriptionOrNil
+                          success:(MRSLAPISuccessBlock)successOrNil
+                          failure:(MRSLFailureBlock)failureOrNil;
 
 @end

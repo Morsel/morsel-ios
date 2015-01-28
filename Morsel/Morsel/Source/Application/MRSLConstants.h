@@ -160,6 +160,7 @@ extern NSString *const MRSLStoryboardCollectionKey;
 extern NSString *const MRSLStoryboardCollectionAddKey;
 extern NSString *const MRSLStoryboardCollectionDetailViewControllerKey;
 extern NSString *const MRSLStoryboardCollectionAddViewControllerKey;
+extern NSString *const MRSLStoryboardCollectionCreateViewControllerKey;
 
 #pragma mark - Storyboard Segue Constants
 
@@ -232,6 +233,7 @@ extern NSString *const MRSLStoryboardRUIDHashtagKeywordCellKey;
 extern NSString *const MRSLStoryboardRUIDIcontTextCellKey;
 extern NSString *const MRSLStoryboardRUIDCheckmarkCellKey;
 extern NSString *const MRSLStoryboardRUIDCollectionCellKey;
+extern NSString *const MRSLStoryboardRUIDCollectionAddCellKey;
 
 #pragma mark - Debugging Constants
 

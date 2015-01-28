@@ -189,15 +189,7 @@
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="Lcr-Os-KM2"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="pk6-jy-js0"/>
                                                     </constraints>
-                                                    <attributedString key="attributedText">
-                                                        <fragment content="Nothing yet">
-                                                            <attributes>
-                                                                <color key="NSColor" red="0.22352941334247589" green="0.25098040699958801" blue="0.21960784494876862" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <font key="NSFont" size="17" name="Helvetica-Light"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <attributedString key="attributedText"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -445,6 +437,31 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <size key="customSize" width="160" height="160"/>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_CollectionAddCell" id="Pyz-2y-jTs" customClass="MRSLBaseCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="175" width="106" height="106"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="icon-add" translatesAutoresizingMaskIntoConstraints="NO" id="Vl2-qU-abP">
+                                                    <rect key="frame" x="70" y="70" width="21" height="21"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Create new collection" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="130" translatesAutoresizingMaskIntoConstraints="NO" id="u7m-6v-dOv" customClass="MRSLPrimaryBoldLabel">
+                                                    <rect key="frame" x="0.0" y="114" width="160" height="46"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="centerY" secondItem="Vl2-qU-abP" secondAttribute="centerY" id="amv-nX-ZTt"/>
+                                            <constraint firstAttribute="centerX" secondItem="Vl2-qU-abP" secondAttribute="centerX" id="t0t-HL-ebc"/>
+                                        </constraints>
                                         <size key="customSize" width="160" height="160"/>
                                     </collectionViewCell>
                                 </cells>
@@ -1012,6 +1029,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="icon-add" width="21" height="21"/>
         <image name="icon-flag-white" width="20" height="20"/>
         <image name="icon-place" width="30" height="30"/>
     </resources>

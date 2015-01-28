@@ -9,8 +9,20 @@
 #import "MRSLCollectionPreviewCell.h"
 
 #import "MRSLCollection.h"
+#import "MRSLItemImageView.h"
+
+@interface MRSLCollectionPreviewCell ()
+
+@property (weak, nonatomic) MRSLItemImageView *itemImageView;
+
+@end
 
 @implementation MRSLCollectionPreviewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.backgroundColor = [UIColor whiteColor];
+}
 
 - (void)setCollection:(MRSLCollection *)collection {
     _collection = collection;

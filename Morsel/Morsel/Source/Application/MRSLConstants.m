@@ -160,6 +160,7 @@ NSString *const MRSLStoryboardCollectionKey = @"sb_Collection";
 NSString *const MRSLStoryboardCollectionAddKey = @"sb_CollectionAdd";
 NSString *const MRSLStoryboardCollectionDetailViewControllerKey = @"sb_MRSLCollectionDetailViewController";
 NSString *const MRSLStoryboardCollectionAddViewControllerKey = @"sb_MRSLCollectionAddViewController";
+NSString *const MRSLStoryboardCollectionCreateViewControllerKey = @"sb_MRSLCollectionCreateViewController";
 
 #pragma mark - Storyboard Segue Constants
 
@@ -230,6 +231,7 @@ NSString *const MRSLStoryboardRUIDHashtagKeywordCellKey = @"ruid_HashtagKeywordC
 NSString *const MRSLStoryboardRUIDIcontTextCellKey = @"ruid_IconTextCell";
 NSString *const MRSLStoryboardRUIDCheckmarkCellKey = @"ruid_CheckmarkCell";
 NSString *const MRSLStoryboardRUIDCollectionCellKey = @"ruid_CollectionPreviewCell";
+NSString *const MRSLStoryboardRUIDCollectionAddCellKey = @"ruid_CollectionAddCell";
 
 #pragma mark - Storyboard Source Identifiers
 /*

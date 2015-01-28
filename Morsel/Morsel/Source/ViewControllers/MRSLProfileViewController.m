@@ -23,6 +23,7 @@
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLUserFollowListViewController.h"
 #import "MRSLCollectionDetailViewController.h"
+#import "MRSLCollectionCreateViewController.h"
 
 #import "MRSLStateView.h"
 #import "MRSLCollectionView.h"
@@ -156,7 +157,6 @@ MRSLStateViewDelegate>
 - (NSFetchedResultsController *)defaultFetchedResultsController {
     NSString *predicateString = [NSString stringWithFormat:@"%@ID", [MRSLUtil stringForDataSourceType:self.dataSourceTabType]];
     NSString *sortString = [MRSLUtil stringForDataSortType:self.dataSortType];
-#warning Make sure this defaults to ID for order
     return [[MRSLUtil classForDataSourceType:self.dataSourceTabType] MR_fetchAllSortedBy:sortString
                                                                                ascending:self.dataAscending
                                                                            withPredicate:[NSPredicate predicateWithFormat:@"%K IN %@", predicateString, self.objectIDs]
@@ -288,7 +288,23 @@ MRSLStateViewDelegate>
                                          animated:YES];
 }
 
+- (BOOL)isCollectionTabAndSection:(NSInteger)section {
+    return (section == 1 && self.dataSourceTabType == MRSLDataSourceTypeCollection);
+}
+
+- (void)createCollection {
+    MRSLCollectionCreateViewController *collectionCreateVC = [[UIStoryboard collectionsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCollectionCreateViewControllerKey];
+    [self.navigationController pushViewController:collectionCreateVC
+                                         animated:YES];
+}
+
 #pragma mark - MRSLPanelSegmentedCollectionViewDataSource
+
+- (NSInteger)collectionViewDataSourceNumberOfItemsInSection:(NSInteger)section {
+    NSInteger count = (section == 0) ? 1 : ([self.dataSource count] ?: 0);
+    if ([self.user isCurrentUser]) count += ([self isCollectionTabAndSection:section]) ? 1 : 0;
+    return count;
+}
 
 - (UICollectionViewCell *)configureCellForItem:(id)item
                               inCollectionView:(UICollectionView *)collectionView
@@ -330,6 +346,10 @@ MRSLStateViewDelegate>
                 cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDCollectionCellKey
                                                                  forIndexPath:indexPath];
                 [(MRSLCollectionPreviewCell *)cell setCollection:item];
+            } else {
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:MRSLStoryboardRUIDCollectionAddCellKey
+                                                                 forIndexPath:indexPath];
+                [cell setBackgroundColor:[UIColor whiteColor]];
             }
         }
     }
@@ -355,7 +375,12 @@ MRSLStateViewDelegate>
                                                                                      atIndexPath:indexPath];
                 }
             } else {
-                return CGSizeMake(collectionView.frame.size.width, 80.f);
+                if ([self isCollectionTabAndSection:indexPath.section]) {
+                    return [MRSLMorselPreviewCollectionViewCell defaultCellSizeForCollectionView:collectionView
+                                                                                     atIndexPath:indexPath];
+                } else {
+                    return CGSizeMake(collectionView.frame.size.width, 80.f);
+                }
             }
         }
     }
@@ -407,6 +432,10 @@ MRSLStateViewDelegate>
         collectionDetailVC.collection = item;
         [self.navigationController pushViewController:collectionDetailVC
                                              animated:YES];
+    } else {
+        if ([self isCollectionTabAndSection:indexPath.section]) {
+            [self createCollection];
+        }
     }
 }
 
@@ -486,7 +515,7 @@ MRSLStateViewDelegate>
     if ([button.titleLabel.text isEqualToString:@"Add a morsel"]) {
         [self displayMorselAdd];
     } else if ([button.titleLabel.text isEqualToString:@"Add a collection"]) {
-        [self displayAddCollection:nil];
+        [self createCollection];
     } else if ([button.titleLabel.text isEqualToString:@"Add a place"]) {
         [self displayAddPlace:button];
     }

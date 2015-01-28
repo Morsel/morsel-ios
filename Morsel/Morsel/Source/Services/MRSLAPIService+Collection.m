@@ -17,11 +17,15 @@
 @implementation MRSLAPIService (Collection)
 
 - (void)getCollectionsForUser:(MRSLUser *)user
+                         page:(NSNumber *)pageOrNil
+                        count:(NSNumber *)countOrNil
                       success:(MRSLAPIArrayBlock)successOrNil
                       failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
+    if (countOrNil) parameters[@"count"] = countOrNil;
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"users/%i/collections", user.userIDValue]
                                       parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                           DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -38,11 +42,15 @@
 }
 
 - (void)getMorselsForCollection:(MRSLCollection *)collection
+                           page:(NSNumber *)pageOrNil
+                          count:(NSNumber *)countOrNil
                         success:(MRSLAPIArrayBlock)successOrNil
                         failure:(MRSLFailureBlock)failureOrNil {
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
+    if (pageOrNil) parameters[@"page"] = pageOrNil;
+    if (countOrNil) parameters[@"count"] = countOrNil;
     [[MRSLAPIClient sharedClient] performRequest:[NSString stringWithFormat:@"collections/%i/morsels", collection.collectionIDValue]
                                       parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                           DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
@@ -147,11 +155,13 @@
                                                      }];
 }
 
-- (void)createCollection:(MRSLCollection *)collection
-                 success:(MRSLAPISuccessBlock)successOrNil
-                 failure:(MRSLFailureBlock)failureOrNil {
-    NSMutableDictionary *parameters = [self parametersWithDictionary:nil
-                                                includingMRSLObjects:@[collection]
+- (void)createCollectionWithTitle:(NSString *)titleOrNil
+                      description:(NSString *)descriptionOrNil
+                          success:(MRSLAPISuccessBlock)successOrNil
+                          failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"collection": @{@"title" : NSNullIfNil(titleOrNil),
+                                                                                        @"description": NSNullIfNil(descriptionOrNil)}}
+                                                includingMRSLObjects:nil
                                               requiresAuthentication:YES];
     [[MRSLAPIClient sharedClient] multipartFormRequestString:@"collections"
                                                   withMethod:MRSLAPIMethodTypePOST

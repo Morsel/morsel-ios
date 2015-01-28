@@ -196,7 +196,7 @@
                                          animated:YES];
 }
 
-- (void)displayAddCollection:(MRSLMorsel *)morselOrNil {
+- (void)displayAddToCollection:(MRSLMorsel *)morselOrNil {
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
                                  properties:@{@"_title": @"Add a collection",
                                               @"_view": self.mp_eventView ?: @"menu"}];

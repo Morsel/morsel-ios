@@ -228,6 +228,9 @@
 		066F5ADF185BCB5000468210 /* MRSLProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5ADE185BCB5000468210 /* MRSLProfileViewController.m */; };
 		066F5AF9185BCD3700468210 /* MRSLProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5AF8185BCD3700468210 /* MRSLProfileImageView.m */; };
 		066F5B05185BCFD600468210 /* MRSLCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F5B04185BCFD600468210 /* MRSLCommentTableViewCell.m */; };
+		0674B2AF1A7B344C00CF9145 /* MRSLCollectionAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0674B2AE1A7B344C00CF9145 /* MRSLCollectionAddViewController.m */; };
+		0674B2B01A7B344C00CF9145 /* MRSLCollectionAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0674B2AE1A7B344C00CF9145 /* MRSLCollectionAddViewController.m */; };
+		0674B2B11A7B344C00CF9145 /* MRSLCollectionAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0674B2AE1A7B344C00CF9145 /* MRSLCollectionAddViewController.m */; };
 		0676B48F1898514D001D7483 /* MRSLMorselEditItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B48E1898514D001D7483 /* MRSLMorselEditItemTableViewCell.m */; };
 		0676B49218996241001D7483 /* MRSLBoldButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B49118996241001D7483 /* MRSLBoldButton.m */; };
 		0676B4A0189985E1001D7483 /* MRSLPrimaryRegularLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0676B49F189985E1001D7483 /* MRSLPrimaryRegularLabel.m */; };
@@ -299,9 +302,9 @@
 		06A8478E1A782149007776C5 /* Collections.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06A8478C1A782149007776C5 /* Collections.storyboard */; };
 		06A8478F1A782149007776C5 /* Collections.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06A8478C1A782149007776C5 /* Collections.storyboard */; };
 		06A847901A782149007776C5 /* Collections.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06A8478C1A782149007776C5 /* Collections.storyboard */; };
-		06A847931A782694007776C5 /* MRSLCollectionAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A847921A782694007776C5 /* MRSLCollectionAddViewController.m */; };
-		06A847941A782694007776C5 /* MRSLCollectionAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A847921A782694007776C5 /* MRSLCollectionAddViewController.m */; };
-		06A847951A782694007776C5 /* MRSLCollectionAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A847921A782694007776C5 /* MRSLCollectionAddViewController.m */; };
+		06A847931A782694007776C5 /* MRSLCollectionCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A847921A782694007776C5 /* MRSLCollectionCreateViewController.m */; };
+		06A847941A782694007776C5 /* MRSLCollectionCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A847921A782694007776C5 /* MRSLCollectionCreateViewController.m */; };
+		06A847951A782694007776C5 /* MRSLCollectionCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A847921A782694007776C5 /* MRSLCollectionCreateViewController.m */; };
 		06B4EFD51A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4EFD41A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m */; };
 		06B4EFD61A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4EFD41A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m */; };
 		06B4EFD71A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B4EFD41A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m */; };
@@ -975,6 +978,8 @@
 		066F5AF8185BCD3700468210 /* MRSLProfileImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLProfileImageView.m; path = Source/Views/MRSLProfileImageView.m; sourceTree = "<group>"; };
 		066F5B03185BCFD600468210 /* MRSLCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLCommentTableViewCell.h; path = Source/Views/MRSLCommentTableViewCell.h; sourceTree = "<group>"; };
 		066F5B04185BCFD600468210 /* MRSLCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLCommentTableViewCell.m; path = Source/Views/MRSLCommentTableViewCell.m; sourceTree = "<group>"; };
+		0674B2AD1A7B344C00CF9145 /* MRSLCollectionAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCollectionAddViewController.h; sourceTree = "<group>"; };
+		0674B2AE1A7B344C00CF9145 /* MRSLCollectionAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCollectionAddViewController.m; sourceTree = "<group>"; };
 		0676B48D1898514D001D7483 /* MRSLMorselEditItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLMorselEditItemTableViewCell.h; path = Source/Views/MRSLMorselEditItemTableViewCell.h; sourceTree = "<group>"; };
 		0676B48E1898514D001D7483 /* MRSLMorselEditItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLMorselEditItemTableViewCell.m; path = Source/Views/MRSLMorselEditItemTableViewCell.m; sourceTree = "<group>"; };
 		0676B49018996241001D7483 /* MRSLBoldButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLBoldButton.h; path = Source/Views/MRSLBoldButton.h; sourceTree = "<group>"; };
@@ -1072,8 +1077,8 @@
 		06A847871A7820E6007776C5 /* MRSLCollectionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCollectionDetailViewController.h; sourceTree = "<group>"; };
 		06A847881A7820E6007776C5 /* MRSLCollectionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCollectionDetailViewController.m; sourceTree = "<group>"; };
 		06A8478D1A782149007776C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Collections.storyboard; sourceTree = "<group>"; };
-		06A847911A782694007776C5 /* MRSLCollectionAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCollectionAddViewController.h; sourceTree = "<group>"; };
-		06A847921A782694007776C5 /* MRSLCollectionAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCollectionAddViewController.m; sourceTree = "<group>"; };
+		06A847911A782694007776C5 /* MRSLCollectionCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLCollectionCreateViewController.h; sourceTree = "<group>"; };
+		06A847921A782694007776C5 /* MRSLCollectionCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLCollectionCreateViewController.m; sourceTree = "<group>"; };
 		06B4448319ED8D8E00E6FDBE /* Morsel_1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Morsel_1.3.xcdatamodel; sourceTree = "<group>"; };
 		06B4EFD31A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRSLMorselEditSummaryViewController.h; sourceTree = "<group>"; };
 		06B4EFD41A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRSLMorselEditSummaryViewController.m; sourceTree = "<group>"; };
@@ -2413,8 +2418,10 @@
 		06A847861A7820C1007776C5 /* Collections */ = {
 			isa = PBXGroup;
 			children = (
-				06A847911A782694007776C5 /* MRSLCollectionAddViewController.h */,
-				06A847921A782694007776C5 /* MRSLCollectionAddViewController.m */,
+				0674B2AD1A7B344C00CF9145 /* MRSLCollectionAddViewController.h */,
+				0674B2AE1A7B344C00CF9145 /* MRSLCollectionAddViewController.m */,
+				06A847911A782694007776C5 /* MRSLCollectionCreateViewController.h */,
+				06A847921A782694007776C5 /* MRSLCollectionCreateViewController.m */,
 				06A847871A7820E6007776C5 /* MRSLCollectionDetailViewController.h */,
 				06A847881A7820E6007776C5 /* MRSLCollectionDetailViewController.m */,
 			);
@@ -3337,7 +3344,7 @@
 				068B04D7195A000F004B302F /* MRSLImageView.m in Sources */,
 				40A83E4C196E0A7F00DED0A1 /* MRSLStateView.m in Sources */,
 				065D0CE819ABE710009E6FC7 /* MRSLTemplateInfoViewController.m in Sources */,
-				06A847931A782694007776C5 /* MRSLCollectionAddViewController.m in Sources */,
+				06A847931A782694007776C5 /* MRSLCollectionCreateViewController.m in Sources */,
 				062064151919629D00D8DCF9 /* MRSLSocialServiceTwitter.m in Sources */,
 				065D0CCC19A9A06E009E6FC7 /* _MRSLTemplateItem.m in Sources */,
 				0621C2E319AD0A1300340C48 /* UITableViewCell+Additions.m in Sources */,
@@ -3428,6 +3435,7 @@
 				060FEC4918DCC75E00085ED1 /* MRSLBaseViewController.m in Sources */,
 				060D39311A3B88E000BFB642 /* MRSLBaseRemoteDataSourceViewController.m in Sources */,
 				408744371940DAB2000B491F /* NSString+Additions.m in Sources */,
+				0674B2AF1A7B344C00CF9145 /* MRSLCollectionAddViewController.m in Sources */,
 				061B4EAA195CC4DD00BC4C76 /* MRSLProfileEditPlacesViewController.m in Sources */,
 				06D52EB218C8DD2C00356381 /* MRSLMorselEditDescriptionViewController.m in Sources */,
 				061F936019105C7A00608C0B /* MRSLKeywordUsersViewController.m in Sources */,
@@ -3520,6 +3528,7 @@
 				0621C2DF19ACFDE200340C48 /* MRSLMorselInfoTableViewCell.m in Sources */,
 				066E8C25191AAC7200991165 /* MRSLAPIService+Like.m in Sources */,
 				065D0CC319A99AB1009E6FC7 /* _MRSLTemplate.m in Sources */,
+				0674B2B01A7B344C00CF9145 /* MRSLCollectionAddViewController.m in Sources */,
 				06A847841A782048007776C5 /* MRSLCollectionPreviewCell.m in Sources */,
 				06D1D5C51A379B2B0085B8E2 /* MRSLExploreSearchViewController.m in Sources */,
 				066E8C26191AAC7200991165 /* MRSLAPIService+Follow.m in Sources */,
@@ -3602,7 +3611,7 @@
 				40348F3019536C3D00BDDC15 /* MRSLTableViewDataSource.m in Sources */,
 				064B035819E344E500AD3FE3 /* MRSLMorselEditEligibleUsersViewController.m in Sources */,
 				06B4EFD61A2D20C8001FD595 /* MRSLMorselEditSummaryViewController.m in Sources */,
-				06A847941A782694007776C5 /* MRSLCollectionAddViewController.m in Sources */,
+				06A847941A782694007776C5 /* MRSLCollectionCreateViewController.m in Sources */,
 				06153B8A19956C16000C486D /* MRSLAPIService+Report.m in Sources */,
 				06F2612219DC8C1900A7050B /* MRSLBaseOnboardingViewController.m in Sources */,
 				40677324196BA27C0055BEAE /* _MRSLPresignedUpload.m in Sources */,
@@ -3666,6 +3675,7 @@
 				06C4DDC519897E14009B6406 /* UIAlertView+Additions.m in Sources */,
 				06C4DDC619897E14009B6406 /* UICollectionView+Additions.m in Sources */,
 				06C4DDC719897E14009B6406 /* UICollectionView+States.m in Sources */,
+				0674B2B11A7B344C00CF9145 /* MRSLCollectionAddViewController.m in Sources */,
 				06C4DDC819897E14009B6406 /* UIColor+Morsel.m in Sources */,
 				06C4DDC919897E14009B6406 /* UIDevice+Additions.m in Sources */,
 				06C4DDCA19897E14009B6406 /* UIFont+Morsel.m in Sources */,
@@ -3824,7 +3834,7 @@
 				065D0CBA19A9991C009E6FC7 /* MRSLAPIService+Templates.m in Sources */,
 				0621C2E519AD0A1300340C48 /* UITableViewCell+Additions.m in Sources */,
 				06C4DE4219897E14009B6406 /* MRSLUserLikedMorselCollectionViewCell.m in Sources */,
-				06A847951A782694007776C5 /* MRSLCollectionAddViewController.m in Sources */,
+				06A847951A782694007776C5 /* MRSLCollectionCreateViewController.m in Sources */,
 				06C4DE4319897E14009B6406 /* MRSLCommentTableViewCell.m in Sources */,
 				06C4DE4419897E14009B6406 /* MRSLFeedCoverCollectionViewCell.m in Sources */,
 				06C4DE4519897E14009B6406 /* MRSLFeedPageCollectionViewCell.m in Sources */,
