@@ -5,5 +5,6 @@
 - (NSArray *)morselsArray;
 
 - (NSMutableAttributedString *)thumbnailInformation;
+- (CGFloat)descriptionHeight;
 
 @end

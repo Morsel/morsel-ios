@@ -4,6 +4,11 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Roboto-Light.ttf">
+            <string>Roboto-Light</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Collection-->
         <scene sceneID="XdP-uO-MFO">
@@ -22,7 +27,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="yU7-Pg-dJc">
                                     <size key="itemSize" width="160" height="160"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="50" height="50"/>
                                     <size key="footerReferenceSize" width="320" height="50"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
@@ -67,6 +72,28 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_CollectionDescriptionCell" id="SNx-21-fDs" customClass="MRSLCollectionDescriptionReusableView">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="fyO-Sw-oW4" customClass="MRSLPrimaryLightLabel">
+                                            <rect key="frame" x="20" y="0.0" width="560" height="50"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="14"/>
+                                            <color key="textColor" red="0.22352941330000001" green="0.25098040700000002" blue="0.21960784489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.9529411792755127" green="0.94509804248809814" blue="0.93725490570068359" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="fyO-Sw-oW4" secondAttribute="bottom" id="5Q0-Sh-0fE"/>
+                                        <constraint firstItem="fyO-Sw-oW4" firstAttribute="top" secondItem="SNx-21-fDs" secondAttribute="top" id="8ST-a8-4m8"/>
+                                        <constraint firstItem="fyO-Sw-oW4" firstAttribute="leading" secondItem="SNx-21-fDs" secondAttribute="leading" constant="20" id="NDC-9Y-ze5"/>
+                                        <constraint firstAttribute="trailing" secondItem="fyO-Sw-oW4" secondAttribute="trailing" constant="20" id="Ue0-98-Qao"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="descriptionLabel" destination="fyO-Sw-oW4" id="wvw-gW-t15"/>
+                                    </connections>
+                                </collectionReusableView>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="ruid_LoadingCell" id="ASz-Wb-Hdk">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

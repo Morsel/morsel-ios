@@ -232,6 +232,7 @@ NSString *const MRSLStoryboardRUIDIcontTextCellKey = @"ruid_IconTextCell";
 NSString *const MRSLStoryboardRUIDCheckmarkCellKey = @"ruid_CheckmarkCell";
 NSString *const MRSLStoryboardRUIDCollectionCellKey = @"ruid_CollectionPreviewCell";
 NSString *const MRSLStoryboardRUIDCollectionAddCellKey = @"ruid_CollectionAddCell";
+NSString *const MRSLStoryboardRUIDCollectionDescriptionCellKey = @"ruid_CollectionDescriptionCell";
 
 #pragma mark - Storyboard Source Identifiers
 /*

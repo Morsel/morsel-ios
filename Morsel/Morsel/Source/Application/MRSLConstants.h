@@ -234,6 +234,7 @@ extern NSString *const MRSLStoryboardRUIDIcontTextCellKey;
 extern NSString *const MRSLStoryboardRUIDCheckmarkCellKey;
 extern NSString *const MRSLStoryboardRUIDCollectionCellKey;
 extern NSString *const MRSLStoryboardRUIDCollectionAddCellKey;
+extern NSString *const MRSLStoryboardRUIDCollectionDescriptionCellKey;
 
 #pragma mark - Debugging Constants
 

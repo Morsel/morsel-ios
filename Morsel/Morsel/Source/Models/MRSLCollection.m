@@ -53,6 +53,16 @@
     return infoAttributedString;
 }
 
+- (CGFloat)descriptionHeight {
+    if (!self.collectionDescription || [self.collectionDescription length] == 0) return 0.f;
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:self.collectionDescription
+                                                                           attributes:@{NSFontAttributeName: [UIFont primaryLightFontOfSize:14.f]}];
+    CGRect descriptionRect = [attributedString boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - (MRSLCellDefaultPadding * 2), CGFLOAT_MAX)
+                                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                                            context:nil];
+    return descriptionRect.size.height + (MRSLCellDefaultPadding * 2);
+}
+
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {

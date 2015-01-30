@@ -10,6 +10,7 @@
 
 #import "MRSLAPIService+Collection.h"
 
+#import "MRSLCollectionDescriptionReusableView.h"
 #import "MRSLCollectionViewDataSource.h"
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
@@ -70,14 +71,22 @@
                                                                                          return cell;
                                                                                      }
                                                                                      supplementaryBlock:^UICollectionReusableView *(UICollectionView *collectionView, NSString *kind, NSIndexPath *indexPath) {
+                                                                                         UICollectionReusableView *reusableView = nil;
                                                                                          if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
-                                                                                             return [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                             reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                                                                                        withReuseIdentifier:MRSLStoryboardRUIDLoadingCellKey
                                                                                                                                               forIndexPath:indexPath];
+                                                                                         } else if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+                                                                                             reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                                                                                       withReuseIdentifier:MRSLStoryboardRUIDCollectionDescriptionCellKey
+                                                                                                                                              forIndexPath:indexPath];
+                                                                                             [[(MRSLCollectionDescriptionReusableView *)reusableView descriptionLabel] setText:weakSelf.collection.collectionDescription];
                                                                                          }
-                                                                                         return nil;
+                                                                                         return reusableView;
                                                                                      }
-                                                                                 sectionHeaderSizeBlock:nil
+                                                                                 sectionHeaderSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
+                                                                                     return ([weakSelf.collection.collectionDescription length] > 0) ? CGSizeMake([collectionView getWidth], [weakSelf.collection descriptionHeight]) : CGSizeZero;
+                                                                                 }
                                                                                  sectionFooterSizeBlock:^CGSize(UICollectionView *collectionView, NSInteger section) {
                                                                                      return weakSelf.loadingMore ? CGSizeMake([collectionView getWidth], 50.f) : CGSizeZero;
                                                                                  }

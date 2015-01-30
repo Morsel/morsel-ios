@@ -97,7 +97,7 @@ MRSLTableViewDataSourceDelegate>
             [self.objectIDs count] > 0) {
             if (!self.disableAutomaticPagination) {
                 [self.refreshControl beginRefreshing];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     if (self.collectionView) [self.collectionView setContentOffset:CGPointMake(0.f, MRSLDefaultRefreshControlPadding)
                                                                           animated:YES];
                     if (self.tableView) [self.tableView setContentOffset:CGPointMake(0.f, MRSLDefaultRefreshControlPadding)
