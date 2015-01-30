@@ -158,6 +158,7 @@ NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey = @"sb_MRSLMo
 NSString *const MRSLStoryboardFindUsersViewControllerKey = @"sb_MRSLFindUsersViewController";
 NSString *const MRSLStoryboardCollectionKey = @"sb_Collection";
 NSString *const MRSLStoryboardCollectionAddKey = @"sb_CollectionAdd";
+NSString *const MRSLStoryboardCollectionCreateKey = @"sb_CollectionCreate";
 NSString *const MRSLStoryboardCollectionDetailViewControllerKey = @"sb_MRSLCollectionDetailViewController";
 NSString *const MRSLStoryboardCollectionAddViewControllerKey = @"sb_MRSLCollectionAddViewController";
 NSString *const MRSLStoryboardCollectionCreateViewControllerKey = @"sb_MRSLCollectionCreateViewController";

@@ -39,4 +39,15 @@
                           success:(MRSLAPISuccessBlock)successOrNil
                           failure:(MRSLFailureBlock)failureOrNil;
 
+- (void)addMorsel:(MRSLMorsel *)morsel
+     toCollection:(MRSLCollection *)collection
+         withNote:(NSString *)noteOrNil
+          success:(MRSLAPISuccessBlock)successOrNil
+          failure:(MRSLFailureBlock)failureOrNil;
+
+- (void)removeMorsel:(MRSLMorsel *)morsel
+      fromCollection:(MRSLCollection *)collection
+             success:(MRSLAPISuccessBlock)successOrNil
+             failure:(MRSLFailureBlock)failureOrNil;
+
 @end

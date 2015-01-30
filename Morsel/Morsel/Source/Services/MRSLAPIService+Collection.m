@@ -182,4 +182,79 @@
                                                      }];
 }
 
+- (void)addMorsel:(MRSLMorsel *)morsel
+     toCollection:(MRSLCollection *)collection
+         withNote:(NSString *)noteOrNil
+          success:(MRSLAPISuccessBlock)successOrNil
+          failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"collection_id": NSNullIfNil(collection.collectionID),
+                                                                       @"note": NSNullIfNil(noteOrNil)}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"morsels/%i/collect", morsel.morselIDValue]
+                                                  withMethod:MRSLAPIMethodTypePOST
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                             [collection addMorselsObject:morsel];
+                                                         });
+                                                         if (successOrNil) successOrNil(responseObject);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                         if (serviceErrorInfo) {
+                                                             if ([[serviceErrorInfo.errorInfo lowercaseString] rangeOfString:@"already in this collection"].location != NSNotFound) {
+                                                                 [UIAlertView showOKAlertViewWithTitle:@"Error"
+                                                                                               message:@"The morsel is already in this collection."];
+                                                             } else if ([[serviceErrorInfo.errorInfo lowercaseString] rangeOfString:@"not published"].location != NSNotFound) {
+                                                                 [UIAlertView showOKAlertViewWithTitle:@"Error"
+                                                                                               message:@"A collection can only contain published morsels."];
+                                                             } else if ([[serviceErrorInfo.errorInfo lowercaseString] rangeOfString:@"not authorized"].location != NSNotFound) {
+                                                                 [UIAlertView showOKAlertViewWithTitle:@"Error"
+                                                                                               message:@"You can only add to collections you own."];
+                                                             }
+                                                         }
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
+}
+
+- (void)removeMorsel:(MRSLMorsel *)morsel
+      fromCollection:(MRSLCollection *)collection
+             success:(MRSLAPISuccessBlock)successOrNil
+             failure:(MRSLFailureBlock)failureOrNil {
+    NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"collection_id": NSNullIfNil(collection.collectionID)}
+                                                includingMRSLObjects:nil
+                                              requiresAuthentication:YES];
+    [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"morsels/%i/collect", morsel.morselIDValue]
+                                                  withMethod:MRSLAPIMethodTypeDELETE
+                                              formParameters:[self parametersToDataWithDictionary:parameters]
+                                                  parameters:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
+                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                             [collection addMorselsObject:morsel];
+                                                         });
+                                                         if (successOrNil) successOrNil(responseObject);
+                                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                         MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
+                                                         if (serviceErrorInfo) {
+                                                             if ([[serviceErrorInfo.errorInfo lowercaseString] rangeOfString:@"not in this collection"].location != NSNotFound) {
+                                                                 [UIAlertView showOKAlertViewWithTitle:@"Error"
+                                                                                               message:@"The morsel is not in this collection."];
+                                                             } else if ([[serviceErrorInfo.errorInfo lowercaseString] rangeOfString:@"not authorized"].location != NSNotFound) {
+                                                                 [UIAlertView showOKAlertViewWithTitle:@"Error"
+                                                                                               message:@"You can only remove morsels from collections you own."];
+                                                             }
+                                                         }
+                                                         [self reportFailure:failureOrNil
+                                                                forOperation:operation
+                                                                   withError:error
+                                                                    inMethod:NSStringFromSelector(_cmd)];
+                                                     }];
+}
+
 @end

@@ -158,6 +158,7 @@ extern NSString *const MRSLStoryboardMorselSearchResultsViewControllerKey;
 extern NSString *const MRSLStoryboardFindUsersViewControllerKey;
 extern NSString *const MRSLStoryboardCollectionKey;
 extern NSString *const MRSLStoryboardCollectionAddKey;
+extern NSString *const MRSLStoryboardCollectionCreateKey;
 extern NSString *const MRSLStoryboardCollectionDetailViewControllerKey;
 extern NSString *const MRSLStoryboardCollectionAddViewControllerKey;
 extern NSString *const MRSLStoryboardCollectionCreateViewControllerKey;

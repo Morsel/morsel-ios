@@ -35,7 +35,6 @@ UITextFieldDelegate>
 - (IBAction)displayMenuBar;
 - (IBAction)displayMorselAdd;
 - (IBAction)displayAddPlace:(id)sender;
-- (IBAction)displayAddToCollection:(MRSLMorsel *)morselOrNil;
 - (IBAction)displayMorselShare;
 - (IBAction)displayProfessionalSettings;
 - (IBAction)goBack;

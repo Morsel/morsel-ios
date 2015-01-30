@@ -52,6 +52,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 @property (nonatomic) MRSLScrollDirection scrollDirection;
 
+@property (strong, nonatomic) UIBarButtonItem *collectionBarButtonItem;
 @property (strong, nonatomic) UIBarButtonItem *likeBarButtonItem;
 @property (strong, nonatomic) UIBarButtonItem *space;
 @property (strong, nonatomic) UIBarButtonItem *shareBarButtonItem;
