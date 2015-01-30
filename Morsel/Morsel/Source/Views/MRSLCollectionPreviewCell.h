@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Morsel. All rights reserved.
 //
 
-#import "MRSLBaseCollectionViewCell.h"
+#import <UIKit/UIKit.h>
 
-@interface MRSLCollectionPreviewCell : MRSLBaseCollectionViewCell
+@interface MRSLCollectionPreviewCell : UICollectionViewCell
 
 @property (weak, nonatomic) MRSLCollection *collection;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mgU-9x-CbA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mgU-9x-CbA">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -435,9 +435,73 @@
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Qx-4a-0fw">
+                                                    <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QiZ-kj-qQP" customClass="MRSLItemImageView">
+                                                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2tn-cR-5md" customClass="MRSLItemImageView">
+                                                            <rect key="frame" x="80" y="0.0" width="80" height="80"/>
+                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kCu-jc-cda" customClass="MRSLItemImageView">
+                                                            <rect key="frame" x="0.0" y="80" width="80" height="80"/>
+                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AsL-s4-sxc" customClass="MRSLItemImageView">
+                                                            <rect key="frame" x="80" y="80" width="80" height="80"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="QiZ-kj-qQP" firstAttribute="height" secondItem="2tn-cR-5md" secondAttribute="height" id="3oY-KD-HKx"/>
+                                                        <constraint firstItem="QiZ-kj-qQP" firstAttribute="width" secondItem="kCu-jc-cda" secondAttribute="width" id="5oD-c2-Nag"/>
+                                                        <constraint firstAttribute="bottom" secondItem="AsL-s4-sxc" secondAttribute="bottom" id="9sS-Xg-pgT"/>
+                                                        <constraint firstItem="AsL-s4-sxc" firstAttribute="width" secondItem="QiZ-kj-qQP" secondAttribute="width" id="AVy-um-xy6"/>
+                                                        <constraint firstItem="AsL-s4-sxc" firstAttribute="leading" secondItem="kCu-jc-cda" secondAttribute="trailing" id="Fb5-Px-1Yy"/>
+                                                        <constraint firstItem="kCu-jc-cda" firstAttribute="leading" secondItem="9Qx-4a-0fw" secondAttribute="leading" id="N5a-do-uxH"/>
+                                                        <constraint firstItem="2tn-cR-5md" firstAttribute="leading" secondItem="QiZ-kj-qQP" secondAttribute="trailing" id="T3d-Qj-y0f"/>
+                                                        <constraint firstItem="2tn-cR-5md" firstAttribute="top" secondItem="9Qx-4a-0fw" secondAttribute="top" id="V2z-rw-Cbm"/>
+                                                        <constraint firstAttribute="bottom" secondItem="kCu-jc-cda" secondAttribute="bottom" id="VPh-Zp-qbt"/>
+                                                        <constraint firstItem="QiZ-kj-qQP" firstAttribute="height" secondItem="kCu-jc-cda" secondAttribute="height" id="XZs-j1-J9m"/>
+                                                        <constraint firstAttribute="trailing" secondItem="AsL-s4-sxc" secondAttribute="trailing" id="gNN-Oh-QMm"/>
+                                                        <constraint firstItem="QiZ-kj-qQP" firstAttribute="top" secondItem="9Qx-4a-0fw" secondAttribute="top" id="gtD-AN-x29"/>
+                                                        <constraint firstItem="AsL-s4-sxc" firstAttribute="height" secondItem="QiZ-kj-qQP" secondAttribute="height" id="hG0-H6-SBu"/>
+                                                        <constraint firstItem="AsL-s4-sxc" firstAttribute="top" secondItem="2tn-cR-5md" secondAttribute="bottom" id="hhi-w6-him"/>
+                                                        <constraint firstItem="QiZ-kj-qQP" firstAttribute="leading" secondItem="9Qx-4a-0fw" secondAttribute="leading" id="igT-5l-tQH"/>
+                                                        <constraint firstItem="QiZ-kj-qQP" firstAttribute="width" secondItem="2tn-cR-5md" secondAttribute="width" id="mlC-UX-sg6"/>
+                                                        <constraint firstAttribute="trailing" secondItem="2tn-cR-5md" secondAttribute="trailing" id="xyI-ZK-Aeg"/>
+                                                        <constraint firstItem="kCu-jc-cda" firstAttribute="top" secondItem="QiZ-kj-qQP" secondAttribute="bottom" id="zak-Qw-xs0"/>
+                                                    </constraints>
+                                                </view>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6IU-Dj-RXD" customClass="MRSLStandardTextView">
+                                                    <rect key="frame" x="0.0" y="123" width="160" height="37"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textView>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="9Qx-4a-0fw" secondAttribute="trailing" id="9Q4-Uv-0Yp"/>
+                                            <constraint firstItem="6IU-Dj-RXD" firstAttribute="leading" secondItem="5Mq-N0-x30" secondAttribute="leading" id="cMh-Bd-3Nj"/>
+                                            <constraint firstItem="9Qx-4a-0fw" firstAttribute="leading" secondItem="5Mq-N0-x30" secondAttribute="leading" id="dvi-BS-GwN"/>
+                                            <constraint firstAttribute="bottom" secondItem="6IU-Dj-RXD" secondAttribute="bottom" id="fpf-At-jVf"/>
+                                            <constraint firstAttribute="trailing" secondItem="6IU-Dj-RXD" secondAttribute="trailing" id="gEp-oI-zEs"/>
+                                            <constraint firstAttribute="bottom" secondItem="9Qx-4a-0fw" secondAttribute="bottom" id="tge-yK-8qF"/>
+                                            <constraint firstItem="9Qx-4a-0fw" firstAttribute="top" secondItem="5Mq-N0-x30" secondAttribute="top" id="vBA-cC-WnG"/>
+                                        </constraints>
                                         <size key="customSize" width="160" height="160"/>
+                                        <connections>
+                                            <outlet property="imageContainerView" destination="9Qx-4a-0fw" id="iT9-az-SJw"/>
+                                            <outlet property="textView" destination="6IU-Dj-RXD" id="mST-Wb-xJv"/>
+                                            <outletCollection property="imageViews" destination="QiZ-kj-qQP" id="fvf-tX-yZf"/>
+                                            <outletCollection property="imageViews" destination="2tn-cR-5md" id="u8S-PD-VEC"/>
+                                            <outletCollection property="imageViews" destination="kCu-jc-cda" id="H53-mM-Kdn"/>
+                                            <outletCollection property="imageViews" destination="AsL-s4-sxc" id="CSz-yT-Sdh"/>
+                                        </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ruid_CollectionAddCell" id="Pyz-2y-jTs" customClass="MRSLBaseCollectionViewCell">
                                         <rect key="frame" x="0.0" y="175" width="106" height="106"/>

@@ -32,11 +32,28 @@
     return objectInfoJSON;
 }
 
+#pragma mark - Instance Methods
+
 - (NSArray *)morselsArray {
     NSSortDescriptor *idSort = [NSSortDescriptor sortDescriptorWithKey:@"sort_order"
                                                              ascending:YES];
     return [[self.morsels allObjects] sortedArrayUsingDescriptors:@[idSort]];
 }
+
+- (NSMutableAttributedString *)thumbnailInformation {
+    NSMutableAttributedString *infoAttributedString = [[NSMutableAttributedString alloc] initWithString:self.title ?: @""
+                                                                                             attributes:@{NSFontAttributeName : [UIFont preferredPrimaryFontForTextStyle:UIFontTextStyleHeadline],
+                                                                                                          NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    [infoAttributedString addAttribute:NSParagraphStyleAttributeName
+                                 value:paragraphStyle
+                                 range:NSMakeRange(0, infoAttributedString.length)];
+
+    return infoAttributedString;
+}
+
+#pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
     if (![data[@"user_id"] isEqual:[NSNull null]]) {

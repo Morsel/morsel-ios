@@ -4,4 +4,6 @@
 
 - (NSArray *)morselsArray;
 
+- (NSMutableAttributedString *)thumbnailInformation;
+
 @end
