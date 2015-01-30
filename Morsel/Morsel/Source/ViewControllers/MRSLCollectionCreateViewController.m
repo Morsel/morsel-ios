@@ -12,6 +12,8 @@
 
 #import "MRSLPlaceholderTextView.h"
 
+#import "MRSLCollection.h"
+
 @interface MRSLCollectionCreateViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *collectionTitleField;
@@ -45,7 +47,21 @@
                                                description:self.collectionDescriptionField.text
                                                    success:^(id responseObject) {
                                                        if (weakSelf) {
-                                                           [weakSelf goBack];
+                                                           if (weakSelf.morsel && [responseObject isKindOfClass:[MRSLCollection class]]) {
+                                                               [_appDelegate.apiService addMorsel:weakSelf.morsel
+                                                                                     toCollection:(MRSLCollection *)responseObject
+                                                                                         withNote:nil
+                                                                                          success:^(id responseObject) {
+                                                                                              [weakSelf dismiss];
+                                                               }
+                                                                                          failure:^(NSError *error) {
+                                                                   [UIAlertView showAlertViewForErrorString:@"Error adding to newly created collection. Please try again."
+                                                                                                   delegate:nil];
+                                                                   [weakSelf goBack];
+                                                               }];
+                                                           } else {
+                                                               [weakSelf goBack];
+                                                           }
                                                        }
                                                    }
                                                    failure:^(NSError *error) {

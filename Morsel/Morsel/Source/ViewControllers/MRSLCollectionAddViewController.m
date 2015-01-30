@@ -53,8 +53,8 @@ MRSLStateViewDelegate>
 #pragma mark - Actions
 
 - (IBAction)addCollection:(id)sender {
-#warning Create collection, add morsel immediately, then dismiss!
     MRSLCollectionCreateViewController *collectionCreateVC = [[UIStoryboard collectionsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCollectionCreateViewControllerKey];
+    collectionCreateVC.morsel = self.morsel;
     [self.navigationController pushViewController:collectionCreateVC
                                          animated:YES];
 }

@@ -10,4 +10,6 @@
 
 @interface MRSLCollectionCreateViewController : MRSLBaseViewController
 
+@property (weak, nonatomic) MRSLMorsel *morsel;
+
 @end
