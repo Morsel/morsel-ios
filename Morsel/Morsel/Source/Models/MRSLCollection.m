@@ -36,7 +36,7 @@
 
 - (NSArray *)morselsArray {
     NSSortDescriptor *idSort = [NSSortDescriptor sortDescriptorWithKey:@"sort_order"
-                                                             ascending:YES];
+                                                             ascending:NO];
     return [[self.morsels allObjects] sortedArrayUsingDescriptors:@[idSort]];
 }
 

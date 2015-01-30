@@ -49,7 +49,7 @@
 }
 
 - (NSFetchedResultsController *)defaultFetchedResultsController {
-    return  [MRSLMorsel MR_fetchAllSortedBy:@"creationDate"
+    return  [MRSLMorsel MR_fetchAllSortedBy:@"sort_order"
                                   ascending:NO
                               withPredicate:[NSPredicate predicateWithFormat:@"morselID IN %@", self.objectIDs]
                                     groupBy:nil

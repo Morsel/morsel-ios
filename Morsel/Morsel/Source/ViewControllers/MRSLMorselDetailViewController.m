@@ -14,6 +14,7 @@
 #import "MRSLAPIService+Like.h"
 #import "NSMutableArray+Additions.h"
 
+#import "MRSLCollectionAddViewController.h"
 #import "MRSLCollectionView.h"
 #import "MRSLCollectionViewDataSource.h"
 #import "MRSLFeedPanelViewController.h"
@@ -52,6 +53,7 @@ MRSLFeedPanelCollectionViewCellDelegate>
 
 @property (nonatomic) MRSLScrollDirection scrollDirection;
 
+@property (strong, nonatomic) UIBarButtonItem *backBarButtonItem;
 @property (strong, nonatomic) UIBarButtonItem *collectionBarButtonItem;
 @property (strong, nonatomic) UIBarButtonItem *likeBarButtonItem;
 @property (strong, nonatomic) UIBarButtonItem *space;
@@ -217,7 +219,21 @@ MRSLFeedPanelCollectionViewCellDelegate>
     self.likeBarButtonItem.enabled = YES;
 }
 
+- (void)addToCollection {
+    UINavigationController *collectionAddNC = [[UIStoryboard collectionsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCollectionAddKey];
+    MRSLCollectionAddViewController *collectionAddVC = [[collectionAddNC viewControllers] firstObject];
+    collectionAddVC.morsel = [self visibleMorsel];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                        object:collectionAddNC];
+}
+
 #pragma mark - Private Methods
+
+- (MRSLMorsel *)visibleMorsel {
+    NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
+    MRSLMorsel *morsel = [self.dataSource objectAtIndexPath:indexPath];
+    return morsel;
+}
 
 - (NSFetchedResultsController *)defaultFetchedResultsController {
     return [MRSLMorsel MR_fetchAllSortedBy:@"publishedDate"
@@ -308,6 +324,19 @@ MRSLFeedPanelCollectionViewCellDelegate>
 }
 
 - (void)setupFeedNavigationItems {
+    // Left items
+
+    self.collectionBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-collection-add"]
+                                                                    style:UIBarButtonItemStylePlain
+                                                                   target:self
+                                                                   action:@selector(addToCollection)];
+    self.backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-back"]
+                                                              style:UIBarButtonItemStyleBordered
+                                                             target:self
+                                                             action:@selector(goBack)];
+    self.backBarButtonItem.accessibilityLabel = @"Back";
+    // Right items
+
     self.likeBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-like-off"]
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
@@ -324,9 +353,11 @@ MRSLFeedPanelCollectionViewCellDelegate>
                                                               target:self
                                                               action:@selector(displayMorselShare)];
 
-    NSArray *buttons = @[self.space, self.shareBarButtonItem, self.likeBarButtonItem];
+    NSArray *leftButtons = @[self.backBarButtonItem, self.collectionBarButtonItem, self.space];
+    NSArray *rightButtons = @[self.space, self.shareBarButtonItem, self.likeBarButtonItem];
 
-    self.navigationItem.rightBarButtonItems = buttons;
+    self.navigationItem.leftBarButtonItems = leftButtons;
+    self.navigationItem.rightBarButtonItems = rightButtons;
 }
 
 #pragma mark - UIScrollViewDelegate
