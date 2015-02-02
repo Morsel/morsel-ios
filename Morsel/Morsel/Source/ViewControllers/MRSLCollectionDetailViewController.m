@@ -14,11 +14,24 @@
 #import "MRSLCollectionViewDataSource.h"
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
+#import "MRSLToolbar.h"
 
 #import "MRSLCollection.h"
 #import "MRSLMorsel.h"
+#import "MRSLUser.h"
+
+@interface MRSLCollectionDetailViewController ()
+<MRSLToolbarViewDelegate>
+
+@property (weak, nonatomic) IBOutlet MRSLToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *rightBarButtonItem;
+
+@end
 
 @implementation MRSLCollectionDetailViewController
+
+#pragma mark - Instance Methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,7 +53,21 @@
                                                      remoteRequestWithObjectIDsOrErrorCompletionBlock(nil, error);
                                                  }];
     };
+
+    if (![self.collection.creator isCurrentUser]) {
+        self.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = nil;
+        self.toolbarHeightConstraint.constant = 0.f;
+        [self.view needsUpdateConstraints];
+    }
 }
+
+#pragma mark - Action Methods
+
+- (IBAction)displayCollectionSelectState:(id)sender {
+
+}
+
 
 #pragma mark - MRSLBaseRemoteDataSourceViewController Methods
 
@@ -110,6 +137,16 @@
     userMorselsFeedVC.user = morsel.creator;
     [self.navigationController pushViewController:userMorselsFeedVC
                                          animated:YES];
+}
+
+#pragma mark - MRSLToolbarViewDelegate
+
+- (void)toolbarDidSelectLeftButton:(UIButton *)leftButton {
+#warning Remove selected items from collection
+}
+
+- (void)toolbarDidSelectRightButton:(UIButton *)rightButton {
+#warning Display action sheet to Edit or Delete collection
 }
 
 @end

@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lv0-O1-t7a" customClass="MRSLCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="yU7-Pg-dJc">
                                     <size key="itemSize" width="160" height="160"/>
@@ -117,23 +117,99 @@
                                     <outlet property="delegate" destination="B8Y-p3-KsQ" id="1UA-ar-HYN"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BAQ-lI-Mee" customClass="MRSLToolbar">
+                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTS-bk-i88" customClass="MRSLLightButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="L9H-Ct-KOM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Remove">
+                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.59109933039999996" green="0.2456843273" blue="0.17475133740000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.59299266579999999" green="0.24647127260000001" blue="0.17531107900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="leftButtonSelected" destination="BAQ-lI-Mee" eventType="touchUpInside" id="bwF-zN-B1F"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeS-tS-32Q" customClass="MRSLLightButton">
+                                        <rect key="frame" x="470" y="0.0" width="130" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="130" id="vTe-Nq-vEJ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
+                                        <state key="normal" image="icon-more">
+                                            <color key="titleColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.59109933039999996" green="0.2456843273" blue="0.17475133740000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" red="0.59299266579999999" green="0.24647127260000001" blue="0.17531107900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="rightButtonSelected" destination="BAQ-lI-Mee" eventType="touchUpInside" id="hSs-Or-SO5"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.98431372640000003" green="0.98039215800000001" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="HeS-tS-32Q" firstAttribute="top" secondItem="BAQ-lI-Mee" secondAttribute="top" id="AzV-Lf-YHJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="HeS-tS-32Q" secondAttribute="trailing" id="E4g-uO-Nbk"/>
+                                    <constraint firstAttribute="bottom" secondItem="HeS-tS-32Q" secondAttribute="bottom" id="KcP-ww-Xyu"/>
+                                    <constraint firstItem="HTS-bk-i88" firstAttribute="leading" secondItem="BAQ-lI-Mee" secondAttribute="leading" id="R2r-YY-Bxp"/>
+                                    <constraint firstItem="HTS-bk-i88" firstAttribute="top" secondItem="BAQ-lI-Mee" secondAttribute="top" id="eA9-hT-hBj"/>
+                                    <constraint firstAttribute="height" constant="44" id="mZL-mQ-ooO"/>
+                                    <constraint firstAttribute="bottom" secondItem="HTS-bk-i88" secondAttribute="bottom" id="ohp-rP-zqc"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="B8Y-p3-KsQ" id="T4l-5w-wlI"/>
+                                    <outlet property="leftButton" destination="HTS-bk-i88" id="KMb-Dv-Y5l"/>
+                                    <outlet property="rightButton" destination="HeS-tS-32Q" id="KbC-Lv-xKj"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="lv0-O1-t7a" firstAttribute="top" secondItem="hbt-Qm-CbV" secondAttribute="bottom" id="0TX-qb-hOa"/>
-                            <constraint firstItem="lv0-O1-t7a" firstAttribute="top" secondItem="hbt-Qm-CbV" secondAttribute="bottom" id="CgG-rB-bYN"/>
-                            <constraint firstItem="lv0-O1-t7a" firstAttribute="leading" secondItem="TP4-h8-eId" secondAttribute="leading" id="Hap-5H-YoG"/>
-                            <constraint firstItem="66t-hs-MJE" firstAttribute="top" secondItem="lv0-O1-t7a" secondAttribute="bottom" id="ZfN-Go-A6Y"/>
-                            <constraint firstAttribute="trailing" secondItem="lv0-O1-t7a" secondAttribute="trailing" id="jm8-6D-6lL"/>
-                            <constraint firstItem="lv0-O1-t7a" firstAttribute="leading" secondItem="TP4-h8-eId" secondAttribute="leading" id="uoy-a1-PDo"/>
-                            <constraint firstAttribute="trailing" secondItem="lv0-O1-t7a" secondAttribute="trailing" id="vCT-fn-IWj"/>
-                            <constraint firstItem="66t-hs-MJE" firstAttribute="top" secondItem="lv0-O1-t7a" secondAttribute="bottom" id="vG3-XZ-Lsk"/>
+                            <constraint firstItem="BAQ-lI-Mee" firstAttribute="top" secondItem="lv0-O1-t7a" secondAttribute="bottom" id="C5r-2G-z1M"/>
+                            <constraint firstItem="lv0-O1-t7a" firstAttribute="top" secondItem="hbt-Qm-CbV" secondAttribute="bottom" id="DPA-FN-La9"/>
+                            <constraint firstAttribute="bottom" secondItem="BAQ-lI-Mee" secondAttribute="bottom" id="LV9-Id-fuu"/>
+                            <constraint firstAttribute="trailing" secondItem="BAQ-lI-Mee" secondAttribute="trailing" id="OAc-wk-T3N"/>
+                            <constraint firstItem="BAQ-lI-Mee" firstAttribute="leading" secondItem="TP4-h8-eId" secondAttribute="leading" id="cdM-py-8l9"/>
+                            <constraint firstAttribute="trailing" secondItem="lv0-O1-t7a" secondAttribute="trailing" id="h3a-nA-4HU"/>
+                            <constraint firstItem="lv0-O1-t7a" firstAttribute="leading" secondItem="TP4-h8-eId" secondAttribute="leading" id="uEg-zI-si9"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Collection" id="lSn-TU-DcD"/>
+                    <navigationItem key="navigationItem" title="Collection" id="lSn-TU-DcD">
+                        <barButtonItem key="rightBarButtonItem" title="Select" id="lla-a1-xaH">
+                            <connections>
+                                <action selector="displayCollectionSelectState:" destination="B8Y-p3-KsQ" id="Uwz-EC-w1M"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="lv0-O1-t7a" id="RwH-Ua-vyb"/>
+                        <outlet property="rightBarButtonItem" destination="lla-a1-xaH" id="n9G-bi-sej"/>
+                        <outlet property="toolbar" destination="BAQ-lI-Mee" id="8E1-PD-gsZ"/>
+                        <outlet property="toolbarHeightConstraint" destination="mZL-mQ-ooO" id="7FR-G3-Xgz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IHx-Jk-LdE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -438,6 +514,7 @@
     </scenes>
     <resources>
         <image name="icon-add" width="21" height="21"/>
+        <image name="icon-more" width="37" height="13"/>
     </resources>
     <color key="tintColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
 </document>

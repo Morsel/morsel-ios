@@ -66,8 +66,8 @@
 #pragma mark - MagicalRecord
 
 - (void)didImport:(id)data {
-    if (![data[@"user_id"] isEqual:[NSNull null]]) {
-        NSNumber *userID = data[@"user_id"];
+    if (![data[@"creator_id"] isEqual:[NSNull null]] && !self.creator) {
+        NSNumber *userID = data[@"creator_id"];
         MRSLUser *potentialUser = [MRSLUser MR_findFirstByAttribute:MRSLUserAttributes.userID
                                                           withValue:userID
                                                           inContext:self.managedObjectContext];
