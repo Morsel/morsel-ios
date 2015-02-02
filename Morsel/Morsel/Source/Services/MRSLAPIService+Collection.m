@@ -173,6 +173,7 @@
                                                                                                                            withValue:responseObject[@"data"][@"id"]];
                                                          if (!createdCollection) createdCollection = [MRSLCollection MR_createEntity];
                                                          [createdCollection MR_importValuesForKeysWithObject:responseObject[@"data"]];
+                                                         [createdCollection.managedObjectContext MR_saveOnlySelfAndWait];
                                                          if (successOrNil) successOrNil(createdCollection);
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                          [self reportFailure:failureOrNil

@@ -80,6 +80,7 @@ MRSLStateViewDelegate>
         if (!_user) {
             self.user = [MRSLUser MR_createEntity];
             self.user.userID = @([self.userInfo[@"user_id"] intValue]);
+            [self.user.managedObjectContext MR_saveOnlySelfAndWait];
         }
         __weak __typeof(self)weakSelf = self;
         [_appDelegate.apiService getUserProfile:_user

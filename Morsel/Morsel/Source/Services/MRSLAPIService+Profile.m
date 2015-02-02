@@ -39,7 +39,7 @@
                                                                                              inContext:[NSManagedObjectContext MR_defaultContext]];
                                              if (!updatedUser) updatedUser = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
                                              [updatedUser MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                             if (updatedUser.managedObjectContext) [updatedUser.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                             if (updatedUser.managedObjectContext) [updatedUser.managedObjectContext MR_saveOnlySelfAndWait];
                                              if (successOrNil) successOrNil(responseObject);
                                          } failure: ^(AFHTTPRequestOperation * operation, NSError * error) {
                                              [self reportFailure:failureOrNil
@@ -81,7 +81,7 @@
                                                                                                          inContext:[NSManagedObjectContext MR_defaultContext]];
                                                          if (!updatedUser) updatedUser = [MRSLUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
                                                          [updatedUser MR_importValuesForKeysWithObject:responseObject[@"data"]];
-                                                         if (updatedUser.managedObjectContext) [updatedUser.managedObjectContext MR_saveToPersistentStoreAndWait];
+                                                         if (updatedUser.managedObjectContext) [updatedUser.managedObjectContext MR_saveOnlySelfAndWait];
                                                          dispatch_async(dispatch_get_main_queue(), ^{
                                                              [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidUpdateUserNotification
                                                                                                                  object:nil];
