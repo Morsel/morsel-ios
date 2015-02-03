@@ -21,6 +21,7 @@ MRSLTableViewDataSourceDelegate>
 @property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL stopLoadingNextPage;
 @property (nonatomic) BOOL refreshedOnInitialLoad;
+@property (nonatomic) BOOL firstRequest;
 
 @property (nonatomic) NSNumber *currentPage;
 
@@ -40,6 +41,7 @@ MRSLTableViewDataSourceDelegate>
     [super viewDidLoad];
 
     self.currentPage = @(1);
+    self.firstRequest = YES;
 
     if (!self.paginationCount) self.paginationCount = @(MRSLPaginationCountDefault);
 
@@ -97,7 +99,7 @@ MRSLTableViewDataSourceDelegate>
             [self.objectIDs count] > 0) {
             if (!self.disableAutomaticPagination) {
                 [self.refreshControl beginRefreshing];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     if (self.collectionView) [self.collectionView setContentOffset:CGPointMake(0.f, MRSLDefaultRefreshControlPadding)
                                                                           animated:YES];
                     if (self.tableView) [self.tableView setContentOffset:CGPointMake(0.f, MRSLDefaultRefreshControlPadding)
@@ -276,11 +278,13 @@ MRSLTableViewDataSourceDelegate>
                                     error:(NSError *)error {
     if ([objectIDs count] > 0) {
         //  If no data has been loaded or the first new objectID doesn't already exist, aka identical response
-        if ([self.dataSource count] == 0 || ![[objectIDs firstObject] isEqualToNumber:[self.objectIDs firstObject]]) {
+        if ([self.dataSource count] == 0) {
             if (nextPage)
                 [self appendObjectIDs:[objectIDs copy]];
             else
                 [self prependObjectIDs:[objectIDs copy]];
+        } else {
+            if ((!nextPage || self.firstRequest) && ([self.dataSource count] != [objectIDs count])) self.objectIDs = objectIDs;
         }
         // Reached final page since amount of objects returned was less than default of 20
         if ([objectIDs count] < [self.paginationCount intValue]) self.stopLoadingNextPage = YES;
@@ -290,6 +294,7 @@ MRSLTableViewDataSourceDelegate>
     } else if (!nextPage && [objectIDs count] == 0) {
         self.objectIDs = objectIDs;
     }
+    self.firstRequest = NO;
     [self refreshLocalContent];
     [self.refreshControl endRefreshing];
     self.loading = NO;

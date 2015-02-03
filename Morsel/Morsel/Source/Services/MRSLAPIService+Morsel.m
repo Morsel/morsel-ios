@@ -33,8 +33,9 @@
                                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
                                                          MRSLMorsel *morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                                        withValue:responseObject[@"data"][@"id"]];
-                                                         if (!morsel) morsel = [MRSLMorsel MR_createEntity];
+                                                                                                        withValue:responseObject[@"data"][@"id"]
+                                                                                                        inContext:[NSManagedObjectContext MR_defaultContext]];
+                                                         if (!morsel) morsel = [MRSLMorsel MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
                                                          [morsel MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                                          [MRSLUser incrementCurrentUserDraftCount];
                                                          dispatch_async(dispatch_get_main_queue(), ^{
@@ -176,8 +177,9 @@
                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                              DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
                                              MRSLMorsel *localMorsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
-                                                                                                 withValue:@(morselObjectID)];
-                                             if (!localMorsel) localMorsel = [MRSLMorsel MR_createEntity];
+                                                                                                 withValue:@(morselObjectID)
+                                                                                                 inContext:[NSManagedObjectContext MR_defaultContext]];
+                                             if (!localMorsel) localMorsel = [MRSLMorsel MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
 
                                              if (localMorsel.managedObjectContext) {
                                                  @try {

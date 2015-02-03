@@ -19,6 +19,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 	.primary_item_id = @"primary_item_id",
 	.publishedDate = @"publishedDate",
 	.rank = @"rank",
+	.sort_order = @"sort_order",
 	.summary = @"summary",
 	.tagged = @"tagged",
 	.tagged_users_count = @"tagged_users_count",
@@ -30,6 +31,7 @@ const struct MRSLMorselAttributes MRSLMorselAttributes = {
 
 const struct MRSLMorselRelationships MRSLMorselRelationships = {
 	.activitiesAsSubject = @"activitiesAsSubject",
+	.collections = @"collections",
 	.creator = @"creator",
 	.items = @"items",
 	.place = @"place",
@@ -101,6 +103,11 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	}
 	if ([key isEqualToString:@"rankValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"rank"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"sort_orderValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"sort_order"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -383,6 +390,32 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 
 
 
+@dynamic sort_order;
+
+
+
+- (int32_t)sort_orderValue {
+	NSNumber *result = [self sort_order];
+	return [result intValue];
+}
+
+- (void)setSort_orderValue:(int32_t)value_ {
+	[self setSort_order:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveSort_orderValue {
+	NSNumber *result = [self primitiveSort_order];
+	return [result intValue];
+}
+
+- (void)setPrimitiveSort_orderValue:(int32_t)value_ {
+	[self setPrimitiveSort_order:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
 @dynamic summary;
 
 
@@ -498,6 +531,19 @@ const struct MRSLMorselFetchedProperties MRSLMorselFetchedProperties = {
 	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"activitiesAsSubject"];
   
 	[self didAccessValueForKey:@"activitiesAsSubject"];
+	return result;
+}
+	
+
+@dynamic collections;
+
+	
+- (NSMutableSet*)collectionsSet {
+	[self willAccessValueForKey:@"collections"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"collections"];
+  
+	[self didAccessValueForKey:@"collections"];
 	return result;
 }
 	

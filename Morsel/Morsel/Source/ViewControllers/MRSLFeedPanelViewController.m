@@ -14,6 +14,7 @@
 
 #import "MRSLActivityItemShareTextProvider.h"
 #import "MRSLActivityItemShareURLProvider.h"
+#import "MRSLCollectionAddViewController.h"
 #import "MRSLFeedCoverCollectionViewCell.h"
 #import "MRSLFeedPageCollectionViewCell.h"
 #import "MRSLFeedShareCollectionViewCell.h"
@@ -211,6 +212,8 @@ MRSLFeedShareCollectionViewCellDelegate>
                                                destructiveButtonTitle:@"Report inappropriate"
                                                     otherButtonTitles:nil];
 
+    [actionSheet addButtonWithTitle:@"Add to collection"];
+    
     if (self.morsel.taggedValue) {
         [actionSheet addButtonWithTitle:@"Remove tag"];
     }
@@ -340,6 +343,12 @@ MRSLFeedShareCollectionViewCellDelegate>
                                       [UIAlertView showOKAlertViewWithTitle:@"Unable to remove tag"
                                                                     message:@"Please try again"];
                                   }];
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Add to collection"]) {
+        UINavigationController *collectionAddNC = [[UIStoryboard collectionsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCollectionAddKey];
+        MRSLCollectionAddViewController *collectionAddVC = [[collectionAddNC viewControllers] firstObject];
+        collectionAddVC.morsel = self.morsel;
+        [[NSNotificationCenter defaultCenter] postNotificationName:MRSLAppShouldDisplayBaseViewControllerNotification
+                                                            object:collectionAddNC];
     }
 }
 

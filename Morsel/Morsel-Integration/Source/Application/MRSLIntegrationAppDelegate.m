@@ -13,10 +13,6 @@
 #import <CocoaLumberjack/DDASLLogger.h>
 #import <CocoaLumberjack/DDTTYLogger.h>
 
-#if MRSL_RECORDING
-#import <VCRURLConnection/VCR.h>
-#endif
-
 #import "MRSLAPIClient.h"
 #import "MRSLS3Client.h"
 #import "MRSLS3Service.h"
@@ -29,6 +25,9 @@
 @implementation MRSLIntegrationAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    [MRSLVCRManager setupVCR];
+
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
 
@@ -66,7 +65,11 @@
 }
 
 - (void)resetDataStore {
-    // Blank on purpose
+    [MagicalRecord cleanUp];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary]
+                                                       forName:[[NSBundle mainBundle] bundleIdentifier]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

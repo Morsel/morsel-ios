@@ -28,7 +28,11 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return (section == 0) ? 1 : ([self.objects count] ?: 0);
+    if ([self.delegate respondsToSelector:@selector(collectionViewDataSourceNumberOfItemsInSection:)]) {
+        return [self.delegate collectionViewDataSourceNumberOfItemsInSection:section];
+    } else {
+        return (section == 0) ? 1 : ([self.objects count] ?: 0);
+    }
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView

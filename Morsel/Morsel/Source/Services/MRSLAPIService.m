@@ -46,8 +46,11 @@
         }
     }
     // apply authentication
-    if (requiresAuthentication && ![MRSLUser isCurrentUserGuest]) [parametersDictionary setObject:[MRSLUser apiTokenForCurrentUser]
-                                                                                           forKey:@"api_key"];
+    if (requiresAuthentication && ![MRSLUser isCurrentUserGuest]) {
+        NSString *apiTokenForCurrentUser = [MRSLUser apiTokenForCurrentUser];
+        if (apiTokenForCurrentUser) [parametersDictionary setObject:[MRSLUser apiTokenForCurrentUser]
+                                                             forKey:@"api_key"];
+    }
     // apply device information
     NSString *releaseAppendedIdentifier = @"";
 #if defined(MORSEL_BETA)
