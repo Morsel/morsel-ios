@@ -9,6 +9,7 @@
 #import "MRSLUtil.h"
 
 #import "MRSLActivity.h"
+#import "MRSLCollection.h"
 #import "MRSLMorsel.h"
 #import "MRSLPlace.h"
 #import "MRSLItem.h"
@@ -73,6 +74,9 @@
         case MRSLDataSourceTypeUser:
             return [MRSLUser class];
             break;
+        case MRSLDataSourceTypeCollection:
+            return [MRSLCollection class];
+            break;
         default:
             return [NSNull class];
             break;
@@ -120,6 +124,9 @@
             break;
         case MRSLDataSourceTypeTag:
             return @"tag";
+            break;
+        case MRSLDataSourceTypeCollection:
+            return @"collection";
             break;
         case MRSLDataSourceTypeUser:
             return @"user";

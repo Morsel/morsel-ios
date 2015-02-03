@@ -18,6 +18,17 @@
         "morsel_count": 1,
         "sign_in_count": 1,
         "facebook_uid": "1234567890",
-        "twitter_username": "item_marty"
+        "twitter_username": "item_marty",
+        "professional": true,
+        "tagged": false,
+        "following": false,
+        "followed_user_count": 3,
+        "follower_count": 5,
+        "staff": true,
+        "photo_processing": null,
+        "email": "buttsackmcgee@eatmorsel.com",
+        "settings": {
+            "auto_follow": true
+        }
     }
 }

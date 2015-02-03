@@ -18,6 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet MRSLStandardTextView *textView;
 @property (weak, nonatomic) IBOutlet MRSLItemImageView *itemImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *checkmarkImageView;
 
 @end
 
@@ -71,6 +72,22 @@
 - (void)setBounds:(CGRect)bounds {
     [super setBounds:bounds];
     self.contentView.frame = bounds;
+}
+
+#pragma mark - Setter Methods
+
+- (void)setChecked:(BOOL)checked {
+    _checked = checked;
+    if ([self isEditing]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.checkmarkImageView.image = (checked) ? [UIImage imageNamed:@"icon-circle-check-green"] : [UIImage imageNamed:@"icon-circle-check-gray"];
+        });
+    }
+}
+
+- (void)setEditing:(BOOL)editing {
+    _editing = editing;
+    self.checkmarkImageView.hidden = !editing;
 }
 
 - (void)setMorsel:(MRSLMorsel *)morsel {

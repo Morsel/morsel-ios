@@ -14,6 +14,4 @@
 - (void)performLogIn;
 - (void)returnToLoggedOutHomeScreen;
 
-- (void)tapCellInCollectionViewWithAccessibilityLabel:(NSString*)tableViewLabel
-                                          atIndexPath:(NSIndexPath *)indexPath;
 @end

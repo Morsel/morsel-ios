@@ -42,9 +42,9 @@ static const int kGuestUserID = -1;
 }
 
 + (NSString *)apiTokenForCurrentUser {
-    MRSLUser *currentUser = [MRSLUser currentUser];
-
-    return [NSString stringWithFormat:@"%i:%@", currentUser.userIDValue, currentUser.auth_token];
+    NSNumber *userID = [[NSUserDefaults standardUserDefaults] objectForKey:@"userID"] ?: [[MRSLUser currentUser] userID];
+    NSString *authToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"authToken"] ?: [[MRSLUser currentUser] auth_token];
+    return (userID == nil || authToken == nil) ? nil : [NSString stringWithFormat:@"%@:%@", userID, authToken];
 }
 
 + (MRSLUser *)currentUser {
@@ -80,6 +80,11 @@ static const int kGuestUserID = -1;
     [user MR_importValuesForKeysWithObject:userDictionary];
 
     [user setThirdPartySettings];
+
+    if (![userDictionary[@"auth_token"] isEqual:[NSNull null]]) {
+        [[NSUserDefaults standardUserDefaults] setObject:userDictionary[@"auth_token"]
+                                                  forKey:@"authToken"];
+    }
 
     [[NSUserDefaults standardUserDefaults] setObject:user.userID
                                               forKey:@"userID"];

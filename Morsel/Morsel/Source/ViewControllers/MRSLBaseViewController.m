@@ -189,7 +189,7 @@
 
 - (IBAction)displayAddPlace:(id)sender {
     [[MRSLEventManager sharedManager] track:@"Tapped Button"
-                                 properties:@{@"_title": @"Add place",
+                                 properties:@{@"_title": @"Add a place",
                                               @"_view": self.mp_eventView ?: @"menu"}];
     [self.navigationController pushViewController:[[UIStoryboard placesStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardPlacesAddViewControllerKey]
                                          animated:YES];

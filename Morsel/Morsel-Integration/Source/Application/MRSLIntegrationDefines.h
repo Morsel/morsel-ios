@@ -11,7 +11,6 @@
 #import <KIF-Kiwi/KIF-Kiwi.h>
 
 #import "MRSLDefines.h"
-#import "MRSLSpecUtil.h"
+#import "MRSLVCRManager.h"
 
 #define MRSL_DEFAULT_TIMEOUT 3
-#define MRSL_RECORDING 0

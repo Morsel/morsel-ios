@@ -354,6 +354,19 @@
         self.creator = user;
     }
 
+    if (![data[@"place_id"] isEqual:[NSNull null]] &&
+        !self.creator) {
+        NSNumber *creatorID = data[@"place_id"];
+        MRSLPlace *place = [MRSLPlace MR_findFirstByAttribute:MRSLPlaceAttributes.placeID
+                                                 withValue:creatorID
+                                                 inContext:self.managedObjectContext];
+        if (!place) {
+            place = [MRSLUser MR_createInContext:self.managedObjectContext];
+            place.placeID = data[@"place_id"];
+        }
+        self.place = place;
+    }
+
     if (![data[@"created_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"created_at"];
         self.creationDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
@@ -368,10 +381,12 @@
         NSString *updateString = data[@"updated_at"];
         self.lastUpdatedDate = [_appDelegate.defaultDateFormatter dateFromString:updateString];
     }
+
     if (![data[@"liked_at"] isEqual:[NSNull null]]) {
         NSString *dateString = data[@"liked_at"];
         self.likedDate = [_appDelegate.defaultDateFormatter dateFromString:dateString];
     }
+    
     if (![data[@"photos"] isEqual:[NSNull null]]) {
         NSDictionary *photoDictionary = data[@"photos"];
         self.morselPhotoURL = photoDictionary[@"_800x600"];

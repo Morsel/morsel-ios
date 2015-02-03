@@ -13,6 +13,7 @@
 #pragma mark - Main
 
 + (UIStoryboard *)activityStoryboard;
++ (UIStoryboard *)collectionsStoryboard;
 + (UIStoryboard *)exploreStoryboard;
 + (UIStoryboard *)feedStoryboard;
 + (UIStoryboard *)loginStoryboard;

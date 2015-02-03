@@ -17,6 +17,11 @@
                                      bundle:nil];
 }
 
++ (UIStoryboard *)collectionsStoryboard {
+    return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneCollectionsKey
+                                     bundle:nil];
+}
+
 + (UIStoryboard *)exploreStoryboard {
     return [UIStoryboard storyboardWithName:MRSLStoryboardiPhoneExploreKey
                                      bundle:nil];
