@@ -118,7 +118,9 @@
                                                   withMethod:MRSLAPIMethodTypeDELETE
                                               formParameters:[self parametersToDataWithDictionary:parameters]
                                                   parameters:nil
-                                                     success:nil
+                                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         if (successOrNil) successOrNil(YES);
+                                                     }
                                                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                          if ([operation.response statusCode] == 200) {
                                                              if (successOrNil) successOrNil(YES);

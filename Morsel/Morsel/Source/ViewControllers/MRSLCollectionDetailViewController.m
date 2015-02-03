@@ -13,6 +13,7 @@
 #import "MRSLCollectionDescriptionReusableView.h"
 #import "MRSLCollectionView.h"
 #import "MRSLCollectionViewDataSource.h"
+#import "MRSLCollectionCreateViewController.h"
 #import "MRSLMorselDetailViewController.h"
 #import "MRSLMorselPreviewCollectionViewCell.h"
 #import "MRSLToolbar.h"
@@ -22,7 +23,8 @@
 #import "MRSLUser.h"
 
 @interface MRSLCollectionDetailViewController ()
-<MRSLToolbarViewDelegate>
+<UIActionSheetDelegate,
+MRSLToolbarViewDelegate>
 
 @property (nonatomic, getter=isEditing) BOOL editing;
 
@@ -42,8 +44,6 @@
     [super viewDidLoad];
     self.mp_eventView = @"collection_detail";
     self.emptyStateString = @"No morsels";
-
-    self.title = self.collection.title;
 
     self.checkedIndexPaths = [NSMutableArray array];
 
@@ -66,6 +66,23 @@
         self.navigationItem.rightBarButtonItem = nil;
         self.toolbarHeightConstraint.constant = 0.f;
         [self.view needsUpdateConstraints];
+    } else {
+        [self determineSelectStatus];
+    }
+
+    self.toolbar.leftButton.hidden = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    self.title = self.collection.title;
+}
+
+- (void)determineSelectStatus {
+    if ([self.collection.morsels count] == 0) {
+        self.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = nil;
     }
 }
 
@@ -83,6 +100,7 @@
     if (![self isEditing]) {
         [self.checkedIndexPaths removeAllObjects];
     }
+    [self determineSelectStatus];
 }
 
 - (BOOL)containsCheckedIndexPath:(NSIndexPath *)indexPath {
@@ -201,7 +219,36 @@
 }
 
 - (void)toolbarDidSelectRightButton:(UIButton *)rightButton {
-#warning Display action sheet to Edit or Delete collection
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Collection options"
+                                                             delegate:self
+                                                    cancelButtonTitle:nil
+                                               destructiveButtonTitle:@"Delete"
+                                                    otherButtonTitles:nil];
+    [actionSheet addButtonWithTitle:@"Edit"];
+    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+    [actionSheet showInView:self.view];
+}
+
+#pragma mark - UIActionSheetDelegate Methods
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Edit"]) {
+        MRSLCollectionCreateViewController *collectionCreateVC = [[UIStoryboard collectionsStoryboard] instantiateViewControllerWithIdentifier:MRSLStoryboardCollectionCreateViewControllerKey];
+        collectionCreateVC.collection = self.collection;
+        [self.navigationController pushViewController:collectionCreateVC
+                                             animated:YES];
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Delete"]) {
+        __weak __typeof(self) weakSelf = self;
+        [self.toolbar.rightButton setEnabled:NO];
+        [_appDelegate.apiService deleteCollection:self.collection
+                                          success:^(BOOL success) {
+                                              [weakSelf goBack];
+                                          } failure:^(NSError *error) {
+                                              [UIAlertView showAlertViewForErrorString:@"Unable to delete collection. Please try again."
+                                                                              delegate:nil];
+                                              [weakSelf.toolbar.rightButton setEnabled:YES];
+                                          }];
+    }
 }
 
 @end
