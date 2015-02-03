@@ -349,7 +349,7 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C0S-5O-KRi">
                                                     <rect key="frame" x="278" y="0.0" width="40" height="40"/>
-                                                    <accessibility key="accessibilityConfiguration" label="Edit"/>
+                                                    <accessibility key="accessibilityConfiguration" label="Flag"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="40" id="beZ-Uu-oCS"/>
                                                         <constraint firstAttribute="height" constant="40" id="h4d-Bm-YCv"/>

@@ -1,5 +1,5 @@
 //
-//  MorselLargeButton.m
+//  MRSLColoredBackgroundLightButton.m
 //  Morsel
 //
 //  Created by Javier Otero on 1/24/14.
@@ -12,7 +12,7 @@
 
 - (void)setUp {
     [super setUp];
-
+    
     [self addObserver:self
            forKeyPath:@"highlighted"
               options:NSKeyValueObservingOptionNew
@@ -36,6 +36,7 @@
                forState:UIControlStateSelected];
 
     [self.titleLabel setFont:[UIFont primaryLightFontOfSize:self.titleLabel.font.pointSize]];
+    self.accessibilityLabel = self.titleLabel.text;
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
@@ -108,7 +109,7 @@
                   forKeyPath:@"enabled"];
     }
     @catch (NSException *exception) {
-        DDLogError(@"Key paths not observed and removal attempt failed: %@", exception);
+        DDLogError(@"\n\n\n\n\n\nKey paths not observed and removal attempt failed: %@", exception);
     }
 }
 

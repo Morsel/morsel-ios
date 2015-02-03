@@ -105,7 +105,7 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:nil
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
-
+    int collectionUserID = collection.creator.userIDValue;
     int collectionID = collection.collectionIDValue;
     NSManagedObjectContext *context = collection.managedObjectContext;
     if (!context) return;
@@ -119,6 +119,10 @@
                                               formParameters:[self parametersToDataWithDictionary:parameters]
                                                   parameters:nil
                                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                             [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidDeleteCollectionNotification
+                                                                                                                 object:@(collectionUserID)];
+                                                         });
                                                          if (successOrNil) successOrNil(YES);
                                                      }
                                                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -147,7 +151,10 @@
                                                          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
 
                                                          [collection MR_importValuesForKeysWithObject:responseObject[@"data"]];
-
+                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                             [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidUpdateCollectionNotification
+                                                                                                                 object:collection];
+                                                         });
                                                          if (successOrNil) successOrNil(collection);
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                          [self reportFailure:failureOrNil
@@ -176,6 +183,10 @@
                                                          if (!createdCollection) createdCollection = [MRSLCollection MR_createEntity];
                                                          [createdCollection MR_importValuesForKeysWithObject:responseObject[@"data"]];
                                                          [createdCollection.managedObjectContext MR_saveOnlySelfAndWait];
+                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                             [[NSNotificationCenter defaultCenter] postNotificationName:MRSLUserDidCreateCollectionNotification
+                                                                                                                 object:createdCollection];
+                                                         });
                                                          if (successOrNil) successOrNil(createdCollection);
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                          [self reportFailure:failureOrNil

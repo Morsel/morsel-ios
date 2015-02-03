@@ -150,8 +150,6 @@ static const CGFloat MRSLProfileThumbDimensionThreshold = 90.f;
 
 #pragma mark - Defines
 
-#define MRSL_RECORDING 0
-
 #define MORSEL_SUPPORT_EMAIL @"Morsel Support <support@eatmorsel.com>"
 
 #define TWITTER_BASE_URL @"https://www.twitter.com"

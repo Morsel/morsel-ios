@@ -98,14 +98,29 @@ MRSLStateViewDelegate>
     } else {
         if (!_user) self.user = [MRSLUser currentUser];
         [self setupRemoteRequestBlock];
+        [self populateUserInformation];
     }
 
     self.emptyStateString = @"No morsels added";
     self.dataSourceTabType = MRSLDataSourceTypeMorsel;
     self.dataSortType = MRSLDataSortTypePublishedDate;
     self.followButton.hidden = YES;
+    self.allowObserversToRemain = YES;
 
     [super viewDidLoad];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshCollections:)
+                                                 name:MRSLUserDidCreateCollectionNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshCollections:)
+                                                 name:MRSLUserDidUpdateCollectionNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshCollections:)
+                                                 name:MRSLUserDidDeleteCollectionNotification
+                                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -116,10 +131,6 @@ MRSLStateViewDelegate>
         self.shouldShowFollowers = YES;
         [self performSegueWithIdentifier:MRSLStoryboardSegueFollowListKey
                                   sender:nil];
-    }
-
-    if (self.dataSourceTabType == MRSLDataSourceTypeCollection) {
-        [self refreshLocalContent];
     }
 }
 
@@ -150,6 +161,24 @@ MRSLStateViewDelegate>
 }
 
 #pragma mark - Private Methods
+
+- (void)refreshCollections:(NSNotification *)notification {
+    if ([notification.object isKindOfClass:[MRSLCollection class]]) {
+        MRSLCollection *newCollection = notification.object;
+        if (newCollection.creator.userIDValue == self.user.userIDValue) {
+            if (self.dataSourceTabType == MRSLDataSourceTypeCollection) {
+                [self refreshRemoteContent];
+            }
+        }
+    } else if ([notification.object isKindOfClass:[NSNumber class]]) {
+        NSNumber *userID = notification.object;
+        if ([userID intValue] == self.user.userIDValue) {
+            if (self.dataSourceTabType == MRSLDataSourceTypeCollection) {
+                [self refreshRemoteContent];
+            }
+        }
+    }
+}
 
 - (BOOL)isCurrentUserProfile {
     return [self.user isCurrentUser];

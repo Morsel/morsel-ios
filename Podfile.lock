@@ -35,6 +35,7 @@ PODS:
   - DateTools (1.4.3)
   - Facebook-iOS-SDK (3.22.0):
     - Bolts (~> 1.0)
+  - FLEX (1.1.1)
   - GCPlaceholderTextView (1.0.1)
   - GPUImage (0.1.6)
   - JLRoutes (1.5.1)
@@ -77,6 +78,7 @@ DEPENDENCIES:
   - CocoaLumberjack (= 1.6.5.1)
   - DateTools (~> 1.4)
   - Facebook-iOS-SDK (~> 3.19)
+  - FLEX (~> 1.1)
   - GCPlaceholderTextView (= 1.0.1)
   - GPUImage (~> 0.1)
   - JLRoutes (~> 1.5)
@@ -135,6 +137,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: baf4a09a3bcbdfea3363556a90104e026d3504e2
   DateTools: 7c2d233ea2d4bda3a717d0cd5f58da926a5998d0
   Facebook-iOS-SDK: 0eda8ff7120aada0a9c5f98552f7625da6c3440a
+  FLEX: 8e53751b915759215d77c7c72b1c7bd28665dac2
   GCPlaceholderTextView: d48f3558c8d71daaae65679275075592ca13e1c8
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
   JLRoutes: 3400fe314fc01c861a14ff7e183d209b0cd302ae

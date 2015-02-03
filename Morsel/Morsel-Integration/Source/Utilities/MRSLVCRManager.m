@@ -21,7 +21,7 @@
 @implementation MRSLVCRManager
 
 + (void)setupVCR {
-#if MRSL_RECORDING
+#if MRSL_INTEGRATION_RECORDING_NETWORK
     [VCR start];
 #endif
     VCRCassette *cassette = nil;
@@ -33,9 +33,14 @@
     }
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+#if MRSL_INTEGRATION_RECORDING_NETWORK
         return ([cassette recordingForRequest:request] != nil);
+#else
+        return YES;
+#endif
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         VCRRecording *recording = [cassette recordingForRequest:request];
+        NSAssert((recording != nil), @"VCRRecording not found for stubbed request. Should make sure integration-cassette.json includes accurate data.");
         return [OHHTTPStubsResponse responseWithData:recording.data
                                           statusCode:(int)recording.statusCode
                                              headers:recording.headerFields];
@@ -43,41 +48,22 @@
 }
 
 + (void)saveVCR {
-#if MRSL_RECORDING
+#if MRSL_INTEGRATION_RECORDING_NETWORK
     [VCR save:[self vcrFilePath]];
 #endif
 }
 
 + (NSString *)vcrFilePath {
     NSString *vcrCassetteFilePath = nil;
-#if MRSL_RECORDING
+#if MRSL_INTEGRATION_RECORDING_NETWORK
     NSArray *cachePathArray = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachePath = [cachePathArray lastObject];
     vcrCassetteFilePath = [cachePath stringByAppendingPathComponent:@"integration-cassette.json"];
 #else
     vcrCassetteFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"integration-cassette"
-                                                          ofType:@"json"];
+                                                                           ofType:@"json"];
 #endif
     return vcrCassetteFilePath;
 }
-
-/*
- The entire purpose of this method is to ensure stub collisions do not occur on similar API requests
- */
-
-+ (void)stubItemAPIRequestsWithJSONFileName:(NSString *)fileName
-                             forRequestPath:(NSString *)urlParametersToMatch {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        NSString *requestToStub = [NSString stringWithFormat:@"%@%@", request.URL.host, urlParametersToMatch];
-        NSRange apiRequestRange = [request.URL.absoluteString rangeOfString:requestToStub];
-        return (apiRequestRange.location != NSNotFound);
-    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        NSString *jsonPath = [[NSBundle bundleForClass:self] pathForResource:[fileName stringByDeletingPathExtension]
-                                                                      ofType:[fileName pathExtension]];
-        return [OHHTTPStubsResponse responseWithFileAtPath:jsonPath
-                                                statusCode:200
-                                                   headers:@{@"Content-Type": @"application/json"}];
-    }];
-};
 
 @end

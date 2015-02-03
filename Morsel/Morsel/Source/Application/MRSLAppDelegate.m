@@ -18,6 +18,7 @@
 #import <DBChooser/DBChooser.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <FLEX/FLEXManager.h>
 
 #import "MRSLAPIService+Remote.h"
 
@@ -89,6 +90,10 @@
             [self handleRemoteNotification:remoteNotificationUserInfo];
         });
     }
+
+#if defined(MORSEL_DEBUG)
+    [[FLEXManager sharedManager] showExplorer];
+#endif
     return YES;
 }
 

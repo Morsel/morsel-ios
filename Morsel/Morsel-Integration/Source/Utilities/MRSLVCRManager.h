@@ -13,7 +13,4 @@
 + (void)setupVCR;
 + (void)saveVCR;
 
-+ (void)stubItemAPIRequestsWithJSONFileName:(NSString *)fileName
-                                forRequestPath:(NSString *)urlParametersToMatch;
-
 @end

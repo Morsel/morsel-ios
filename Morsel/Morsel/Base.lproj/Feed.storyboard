@@ -122,8 +122,8 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <accessibility key="accessibilityConfiguration" label="Feed">
-                            <bool key="isElement" value="YES"/>
+                        <accessibility key="accessibilityConfiguration" label="">
+                            <bool key="isElement" value="NO"/>
                         </accessibility>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="6sS-zQ-hj1" secondAttribute="trailing" id="1Yu-Ig-hWf"/>
@@ -350,8 +350,8 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <accessibility key="accessibilityConfiguration" label="Morsel Comments">
-                            <bool key="isElement" value="YES"/>
+                        <accessibility key="accessibilityConfiguration" label="">
+                            <bool key="isElement" value="NO"/>
                         </accessibility>
                         <constraints>
                             <constraint firstItem="0hy-eg-G0Q" firstAttribute="leading" secondItem="wcg-ov-BMd" secondAttribute="leading" id="1mL-e9-CJp"/>
@@ -484,8 +484,8 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <accessibility key="accessibilityConfiguration" label="Morsel Likes">
-                            <bool key="isElement" value="YES"/>
+                        <accessibility key="accessibilityConfiguration" label="">
+                            <bool key="isElement" value="NO"/>
                         </accessibility>
                         <constraints>
                             <constraint firstItem="J9l-yy-mYv" firstAttribute="top" secondItem="J0M-ka-xXK" secondAttribute="bottom" id="Tpa-tJ-ghr"/>
@@ -550,6 +550,9 @@
                                                     <subviews>
                                                         <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LFA-9d-Dvr" customClass="MRSLRegularButton">
                                                             <rect key="frame" x="10" y="2" width="74" height="24"/>
+                                                            <accessibility key="accessibilityConfiguration">
+                                                                <bool key="isElement" value="NO"/>
+                                                            </accessibility>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="24" id="9XX-Md-VsC"/>
                                                                 <constraint firstAttribute="width" constant="74" id="rar-9h-Jhe"/>
@@ -685,7 +688,7 @@
                                                 </textView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dbg-un-sDm" customClass="MRSLRegularButton">
                                                     <rect key="frame" x="20" y="320" width="280" height="40"/>
-                                                    <accessibility key="accessibilityConfiguration" label="Comment"/>
+                                                    <accessibility key="accessibilityConfiguration" label="Add comment"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="05B-4v-frV"/>
                                                     </constraints>
@@ -783,6 +786,7 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gw6-kg-9SE" userLabel="Flag Button">
                                                     <rect key="frame" x="0.0" y="200" width="70" height="50"/>
+                                                    <accessibility key="accessibilityConfiguration" label="Options"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="Icl-XS-fe6"/>
                                                         <constraint firstAttribute="width" constant="70" id="myR-nc-MTX"/>
@@ -839,6 +843,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JkO-06-06e" customClass="MRSLFollowButton">
                                                     <rect key="frame" x="124" y="175" width="72" height="30"/>
                                                     <color key="backgroundColor" red="0.31764705879999999" green="0.72941176470000002" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <accessibility key="accessibilityConfiguration" label=""/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="FJj-zC-Y0I"/>
                                                         <constraint firstAttribute="width" constant="72" id="n1M-48-ENi"/>
@@ -890,6 +895,9 @@
                             </collectionView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="127" translatesAutoresizingMaskIntoConstraints="NO" id="dD2-3O-yZb" userLabel="Time Ago Label" customClass="MRSLPrimaryLightLabel">
                                 <rect key="frame" x="569" y="5" width="21" height="23"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="ylE-mx-bAI"/>
                                 </constraints>
@@ -1114,8 +1122,8 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <accessibility key="accessibilityConfiguration" label="Morsel Likes">
-                            <bool key="isElement" value="YES"/>
+                        <accessibility key="accessibilityConfiguration" label="">
+                            <bool key="isElement" value="NO"/>
                         </accessibility>
                         <constraints>
                             <constraint firstItem="MKG-aP-kY2" firstAttribute="top" secondItem="V3h-cg-bTL" secondAttribute="bottom" id="0XH-bd-BeK"/>

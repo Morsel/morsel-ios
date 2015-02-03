@@ -1,5 +1,5 @@
 //
-//  MorselLargeButton.h
+//  MRSLColoredBackgroundLightButton.h
 //  Morsel
 //
 //  Created by Javier Otero on 1/24/14.

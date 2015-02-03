@@ -22,7 +22,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.accessibilityLabel = @"Settings";
     self.mp_eventView = @"settings";
 }
 

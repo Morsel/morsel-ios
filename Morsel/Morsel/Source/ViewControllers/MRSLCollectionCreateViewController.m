@@ -59,7 +59,7 @@
     if ([self.collectionTitleField.text length] == 0 ||
         self.collectionTitleField.text.length > 70) {
         [UIAlertView showAlertViewWithTitle:@"Invalid Title"
-                                    message:@"Title must contain at less than 70 characters."
+                                    message:@"Title must not be empty and contain less than 70 characters."
                                    delegate:nil
                           cancelButtonTitle:@"Close"
                           otherButtonTitles:nil];
