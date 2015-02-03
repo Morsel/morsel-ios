@@ -67,6 +67,8 @@
     self.contentView.frame = bounds;
 }
 
+#pragma mark - Setter Methods
+
 - (void)setCollection:(MRSLCollection *)collection {
     _collection = collection;
     [self.imageViews enumerateObjectsUsingBlock:^(MRSLItemImageView *imageView, NSUInteger idx, BOOL *stop) {

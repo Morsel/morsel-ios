@@ -192,15 +192,15 @@
                                                                        @"note": NSNullIfNil(noteOrNil)}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [collection addMorselsObject:morsel];
+    });
     [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"morsels/%i/collect", morsel.morselIDValue]
                                                   withMethod:MRSLAPIMethodTypePOST
                                               formParameters:[self parametersToDataWithDictionary:parameters]
                                                   parameters:nil
                                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                             [collection addMorselsObject:morsel];
-                                                         });
                                                          if (successOrNil) successOrNil(responseObject);
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                          MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
@@ -216,6 +216,9 @@
                                                                                                message:@"You can only add to collections you own."];
                                                              }
                                                          }
+                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                             [collection removeMorselsObject:morsel];
+                                                         });
                                                          [self reportFailure:failureOrNil
                                                                 forOperation:operation
                                                                    withError:error
@@ -230,15 +233,15 @@
     NSMutableDictionary *parameters = [self parametersWithDictionary:@{@"collection_id": NSNullIfNil(collection.collectionID)}
                                                 includingMRSLObjects:nil
                                               requiresAuthentication:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [collection removeMorselsObject:morsel];
+    });
     [[MRSLAPIClient sharedClient] multipartFormRequestString:[NSString stringWithFormat:@"morsels/%i/collect", morsel.morselIDValue]
                                                   withMethod:MRSLAPIMethodTypeDELETE
                                               formParameters:[self parametersToDataWithDictionary:parameters]
                                                   parameters:nil
                                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                          DDLogVerbose(@"%@ Response: %@", NSStringFromSelector(_cmd), responseObject);
-                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                             [collection addMorselsObject:morsel];
-                                                         });
                                                          if (successOrNil) successOrNil(responseObject);
                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                          MRSLServiceErrorInfo *serviceErrorInfo = error.userInfo[JSONResponseSerializerWithServiceErrorInfoKey];
@@ -251,6 +254,9 @@
                                                                                                message:@"You can only remove morsels from collections you own."];
                                                              }
                                                          }
+                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                             [collection addMorselsObject:morsel];
+                                                         });
                                                          [self reportFailure:failureOrNil
                                                                 forOperation:operation
                                                                    withError:error

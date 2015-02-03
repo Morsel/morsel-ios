@@ -13,6 +13,9 @@
 + (CGSize)defaultCellSizeForCollectionView:(UICollectionView *)collectionView
                                atIndexPath:(NSIndexPath *)indexPath;
 
+@property (nonatomic, getter=isEditing) BOOL editing;
+@property (nonatomic, getter=isChecked) BOOL checked;
+
 @property (weak, nonatomic) MRSLMorsel *morsel;
 
 @end

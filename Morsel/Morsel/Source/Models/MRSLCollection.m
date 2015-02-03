@@ -3,6 +3,7 @@
 #import "MRSLAPIService+Place.h"
 #import "MRSLAPIService+Profile.h"
 
+#import "MRSLMorsel.h"
 #import "MRSLPlace.h"
 #import "MRSLUser.h"
 
@@ -64,6 +65,15 @@
 }
 
 #pragma mark - MagicalRecord
+
+- (void)willImport:(id)data {
+    if ([self.morsels count] > 0) {
+        [self.morsels enumerateObjectsUsingBlock:^(MRSLMorsel *morsel, BOOL *stop) {
+            [[morsel collectionsSet] removeObject:morsel];
+        }];
+        self.morsels = [NSSet set];
+    }
+}
 
 - (void)didImport:(id)data {
     if (![data[@"creator_id"] isEqual:[NSNull null]] && !self.creator) {

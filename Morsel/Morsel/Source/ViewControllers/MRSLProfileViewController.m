@@ -117,6 +117,10 @@ MRSLStateViewDelegate>
         [self performSegueWithIdentifier:MRSLStoryboardSegueFollowListKey
                                   sender:nil];
     }
+
+    if (self.dataSourceTabType == MRSLDataSourceTypeCollection) {
+        [self refreshLocalContent];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
