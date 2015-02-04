@@ -116,24 +116,27 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 - (void)toggleReordering:(BOOL)isReordering {
     NSLog(@"\t\tReordering: %d", isReordering);
     self.reordering = isReordering;
+
     if (isReordering) {
         __weak __typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.7f
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
+                             CGFloat scale = 0.25f;
                              weakSelf.view.frame = CGRectMake(CGRectGetMinX(weakSelf.view.frame), CGRectGetMinY(weakSelf.view.frame), CGRectGetWidth(weakSelf.view.frame), CGRectGetWidth(weakSelf.view.frame) + CGRectGetHeight(weakSelf.view.frame) * 2.0f);
 
                              CGRect frame = weakSelf.view.frame;
                              CGPoint topCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMinY(frame));
 
                              weakSelf.view.layer.anchorPoint = CGPointMake(0.5, 0);
-                             weakSelf.view.transform = CGAffineTransformMakeScale(0.25f, 0.25f);
+                             weakSelf.view.transform = CGAffineTransformMakeScale(scale, scale);
 
                              weakSelf.view.layer.position = topCenter;
                              [weakSelf.tableView.draggingView setTransform:CGAffineTransformMakeScale(0.5f, 0.5f)];
                          } completion:^(BOOL finished) {
                              [weakSelf.navigationItem setPrompt:@"Drop to new position."];
+                             [weakSelf.tableView setNeedsDisplay];
                          }];
     } else {
         self.view.transform = CGAffineTransformIdentity;
@@ -313,9 +316,17 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_TitleCell"];
         [cell setText:self.morsel.title];
     } else if (indexPath.section == MRSLPROManagerMorselSectionItems) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_ItemCell"];
         MRSLItem *item = self.objects[indexPath.row];
-        [cell setText:item.itemDescription];
+
+        if ([self isReordering]) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                          reuseIdentifier:@"butts"];
+            [[cell textLabel] setText:item.itemDescription];
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_ItemCell"];
+            [cell setText:item.itemDescription];
+        }
+
         if (item == self.draggingItem) {
             [cell setBackgroundColor:[UIColor clearColor]];
         } else {

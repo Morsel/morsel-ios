@@ -30,6 +30,13 @@
 
 #pragma mark - Instance Methods
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    self.itemImageView.frame = CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame));
+    self.textView.frame = CGRectMake(0.0f, CGRectGetMaxY(self.itemImageView.frame), CGRectGetWidth(self.itemImageView.frame), CGRectGetHeight(self.textView.frame));
+}
+
 - (void)shouldHideEverythingButImage:(BOOL)shouldHideEverythingButImage {
     [self.viewsToHideDuringReorder enumerateObjectsUsingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop) {
         [subview setHidden:shouldHideEverythingButImage];
