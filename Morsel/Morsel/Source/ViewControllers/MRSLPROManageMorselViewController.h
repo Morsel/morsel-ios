@@ -8,10 +8,12 @@
 
 #import "MRSLBaseViewController.h"
 
+#import <ELCImagePickerController/ELCImagePickerController.h>
+
 #import "MRSLPROInputAccessoryToolbar.h"
 #import "MRSLPROTitleTextViewTableViewCell.h"
 
-@interface MRSLPROManageMorselViewController : MRSLBaseViewController <MRSLPROExpandableTextTableViewCellDelegate, MRSLPROInputAccessoryToolbarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface MRSLPROManageMorselViewController : MRSLBaseViewController <ELCImagePickerControllerDelegate, UIImagePickerControllerDelegate, MRSLPROExpandableTextTableViewCellDelegate, MRSLPROInputAccessoryToolbarDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) NSNumber *morselID;
 

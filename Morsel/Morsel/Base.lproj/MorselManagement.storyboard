@@ -1332,32 +1332,6 @@
                                             <outlet property="textView" destination="66o-hf-Zvs" id="E53-bh-guq"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_SummaryCell" rowHeight="200" id="h9X-P0-ETY" userLabel="ruid_SummaryCell" customClass="MRSLPROSummaryTextViewTableViewCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h9X-P0-ETY" id="mbg-rP-yhe">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fB2-Sr-6J0" customClass="MRSLPROTextView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                                    <color key="backgroundColor" red="0.22352941179999999" green="0.25098039220000001" blue="0.21960784310000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <color key="textColor" red="0.91372549020000005" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="24"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Add a title"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </textView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="fB2-Sr-6J0" secondAttribute="bottom" id="GIp-5m-LFS"/>
-                                                <constraint firstAttribute="trailing" secondItem="fB2-Sr-6J0" secondAttribute="trailing" id="KHl-vW-KV1"/>
-                                                <constraint firstItem="fB2-Sr-6J0" firstAttribute="top" secondItem="mbg-rP-yhe" secondAttribute="top" id="Nyb-IO-ycB"/>
-                                                <constraint firstItem="fB2-Sr-6J0" firstAttribute="leading" secondItem="mbg-rP-yhe" secondAttribute="leading" id="UMR-di-ZDb"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.8862745098" green="0.86666666670000003" blue="0.84313725490000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" showsReorderControl="YES" indentationWidth="10" reuseIdentifier="ruid_ItemCell" rowHeight="420" id="pTR-5i-OFH" userLabel="ruid_ItemCell" customClass="MRSLPROItemTableViewCell">
                                         <rect key="frame" x="140" y="58" width="320" height="420"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1490,19 +1464,24 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5cE-6u-oG6">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="＋ Add Content" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1c-zU-XY2">
-                                                            <rect key="frame" x="8" y="30" width="584" height="40"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFK-6i-FmQ" customClass="MRSLColoredBackgroundLightButton">
+                                                            <rect key="frame" x="10" y="30" width="580" height="40"/>
                                                             <color key="backgroundColor" red="0.91372549020000005" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <state key="normal" title="＋ Add Content">
+                                                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="addItem:" destination="TBP-YS-3Ok" eventType="touchUpInside" id="ABG-gl-RkL"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="L1c-zU-XY2" firstAttribute="leading" secondItem="5cE-6u-oG6" secondAttribute="leadingMargin" id="Bcw-In-eUm"/>
-                                                        <constraint firstAttribute="bottom" secondItem="L1c-zU-XY2" secondAttribute="bottom" constant="10" id="VlM-QR-S0H"/>
-                                                        <constraint firstItem="L1c-zU-XY2" firstAttribute="top" secondItem="5cE-6u-oG6" secondAttribute="top" constant="30" id="mvf-y8-fI0"/>
-                                                        <constraint firstItem="L1c-zU-XY2" firstAttribute="trailing" secondItem="5cE-6u-oG6" secondAttribute="trailingMargin" id="zXs-ht-kqL"/>
+                                                        <constraint firstItem="zFK-6i-FmQ" firstAttribute="top" secondItem="5cE-6u-oG6" secondAttribute="top" constant="30" id="0JD-fL-Qva"/>
+                                                        <constraint firstItem="zFK-6i-FmQ" firstAttribute="leading" secondItem="5cE-6u-oG6" secondAttribute="leading" constant="10" id="EA4-g7-B6J"/>
+                                                        <constraint firstAttribute="trailing" secondItem="zFK-6i-FmQ" secondAttribute="trailing" constant="10" id="u1B-Ex-ISq"/>
+                                                        <constraint firstAttribute="bottom" secondItem="zFK-6i-FmQ" secondAttribute="bottom" constant="10" id="wam-gc-wxM"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>

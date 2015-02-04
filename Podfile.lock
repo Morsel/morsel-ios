@@ -33,6 +33,7 @@ PODS:
   - CocoaLumberjack/Extensions (1.6.5.1):
     - CocoaLumberjack/Core
   - DateTools (1.4.3)
+  - ELCImagePickerController (0.2.0)
   - Facebook-iOS-SDK (3.22.0):
     - Bolts (~> 1.0)
   - GCPlaceholderTextView (1.0.1)
@@ -76,6 +77,7 @@ DEPENDENCIES:
   - ALAssetsLibrary-CustomPhotoAlbum (~> 1.2)
   - CocoaLumberjack (= 1.6.5.1)
   - DateTools (~> 1.4)
+  - ELCImagePickerController (from `https://github.com/B-Sides/ELCImagePickerController.git`, commit `a96964e7ab9d2bfc3cefe48038985ba4db8adf47`)
   - Facebook-iOS-SDK (~> 3.19)
   - GCPlaceholderTextView (= 1.0.1)
   - GPUImage (~> 0.1)
@@ -101,6 +103,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/Morsel/AFOAuth1Client
   AFOAuth2Client:
     :git: https://github.com/Morsel/AFOAuth2Client
+  ELCImagePickerController:
+    :commit: a96964e7ab9d2bfc3cefe48038985ba4db8adf47
+    :git: https://github.com/B-Sides/ELCImagePickerController.git
   RSKImageCropper:
     :git: https://github.com/Morsel/RSKImageCropper
   SDWebImage:
@@ -116,6 +121,9 @@ CHECKOUT OPTIONS:
   AFOAuth2Client:
     :commit: 4b65de842cbfb07a4b29d562819202702789d525
     :git: https://github.com/Morsel/AFOAuth2Client
+  ELCImagePickerController:
+    :commit: a96964e7ab9d2bfc3cefe48038985ba4db8adf47
+    :git: https://github.com/B-Sides/ELCImagePickerController.git
   RSKImageCropper:
     :commit: 59b692708791e1701afd1882f759684fe93a4f35
     :git: https://github.com/Morsel/RSKImageCropper
@@ -134,6 +142,7 @@ SPEC CHECKSUMS:
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CocoaLumberjack: baf4a09a3bcbdfea3363556a90104e026d3504e2
   DateTools: 7c2d233ea2d4bda3a717d0cd5f58da926a5998d0
+  ELCImagePickerController: 1baf64fadfe088550c16f82225469e4dfad917e2
   Facebook-iOS-SDK: 0eda8ff7120aada0a9c5f98552f7625da6c3440a
   GCPlaceholderTextView: d48f3558c8d71daaae65679275075592ca13e1c8
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e

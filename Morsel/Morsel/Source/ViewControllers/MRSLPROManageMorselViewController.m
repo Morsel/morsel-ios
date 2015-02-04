@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Morsel. All rights reserved.
 //
 
+#import <ELCImagePickerController/ELCAlbumPickerController.h>
+
 #import "MRSLPROManageMorselViewController.h"
 
 #import "MRSLPROItemTableViewCell.h"
@@ -195,13 +197,56 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
 - (void)showAddItemPrompt {
     [self.view endEditing:YES];
+
+    if (self.morsel != nil) {
+        //  TODO: mp event
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Add a photo"
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"Cancel"
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:@"Photo Library", @"Take Photo", @"Import from Website", nil];
+        [actionSheet showInView:self.view];
+    } else {
+        //  TODO: show alert about syncing data
+    }
+}
+
+- (void)showCamera {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+
+    [self presentViewController:imagePickerController
+                       animated:YES
+                     completion:nil];
+}
+
+- (void)showImportFromWebsite {
+    //  TODO: showImportFromWebsite
+}
+
+- (void)showPhotoLibrary {
+    ELCAlbumPickerController *albumPickerController = [[ELCAlbumPickerController alloc] init];
+    ELCImagePickerController *imagePickerController = [[ELCImagePickerController alloc] initWithRootViewController:albumPickerController];
+    imagePickerController.maximumImagesCount = 20;
+    imagePickerController.returnsOriginalImage = YES;
+    imagePickerController.onOrder = YES;
+    imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+    imagePickerController.imagePickerDelegate = self;
+    albumPickerController.parent = imagePickerController;
+
+    [self presentViewController:imagePickerController
+                       animated:YES
+                     completion:nil];
 }
 
 - (void)toggleNavBarHidden:(BOOL)hidden {
     [[UIApplication sharedApplication] setStatusBarHidden:hidden
                                             withAnimation:UIStatusBarAnimationSlide];
     [self.navigationController setNavigationBarHidden:hidden
-                                             animated:true];
+                                             animated:YES];
 }
 
 - (void)toggleReordering:(BOOL)isReordering {
@@ -289,6 +334,58 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 - (void)keyboardWillHide:(NSNotification *)notification {
     [self toggleNavBarHidden:NO];
 }
+
+
+#pragma mark - IBAction
+
+- (IBAction)addItem:(id)sender {
+    [self showAddItemPrompt];
+}
+
+
+#pragma mark - ELCImagePickerControllerDelegate
+
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    [info enumerateObjectsUsingBlock:^(NSDictionary *imageDictionary, NSUInteger idx, BOOL *stop) {
+        if (imageDictionary[UIImagePickerControllerMediaType] == ALAssetTypePhoto) {
+            UIImage *image = imageDictionary[UIImagePickerControllerOriginalImage];
+            //  TODO: create item w/ image
+        }
+    }];
+//    let lastSortOrder = morsel?.lastItemSortOrder()
+//    for (index, dict: NSDictionary) in enumerate(info as [NSDictionary]) {
+//        if dict[UIImagePickerControllerMediaType] as NSString == ALAssetTypePhoto {
+//            let image: UIImage = dict[UIImagePickerControllerOriginalImage] as UIImage
+//            apiCreateItem(image, nil, index + lastSortOrder! + 1, index == 0)
+//        }
+//    }
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
+
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
+
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = info[UIImagePickerControllerEditedImage];
+    //  TODO: create item w/ image
+//    let lastSortOrder = morsel?.lastItemSortOrder()
+//    apiCreateItem(originalImage!, nil, lastSortOrder! + 1, true)
+
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
+
 
 
 #pragma mark - MRSLPROExpandableTextTableViewCellDelegate
@@ -407,6 +504,25 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     self.draggingItem = nil;
 
     [self toggleReordering:NO];
+}
+
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:@"Photo Library"]) {
+        //  TODO: mp event
+        [self showPhotoLibrary];
+    } else if ([buttonTitle isEqualToString:@"Take Photo"]) {
+        //  TODO: mp event
+        [self showCamera];
+    } else if ([buttonTitle isEqualToString:@"Import from Website"]) {
+        //  TODO: mp event
+        [self showImportFromWebsite];
+    } else {
+        //  TODO: mp event for cancel
+    }
 }
 
 
