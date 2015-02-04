@@ -34,6 +34,10 @@
     }
 }
 
+- (void)becomeFirstResponderForTextView {
+    [self.textView becomeFirstResponder];
+}
+
 - (CGFloat)cellHeight {
     return [self textViewHeight];
 }

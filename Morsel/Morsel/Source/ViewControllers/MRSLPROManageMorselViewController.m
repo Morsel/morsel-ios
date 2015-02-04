@@ -14,15 +14,13 @@
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 
-//  !!!: TESTING
-#define MAX_ROWS 10
-
 NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     MRSLPROManagerMorselSectionTitle = 0,
     MRSLPROManagerMorselSectionItems,
     MRSLPROManagerMorselSectionAddItems,
 
-    MRSLPROManagerMorselSectionsCount
+    MRSLPROManagerMorselSectionsCount,
+    MRSLPROManagerMorselSectionsStopArrowNavigationAtSection = MRSLPROManagerMorselSectionAddItems  //  Don't allow navigating to this section and all sections afterwards using the keyboard toolbar arrows
 };
 
 @interface BVReorderTableView ()
@@ -65,7 +63,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     _updating = NO;
     _updatingCounter = 0;
 
-//    self.keyboardInputAccessoryToolbar = [MRSLPROInputAccessoryToolbar defaultInputAccessoryToolbarWithDelegate:self];
+    self.keyboardInputAccessoryToolbar = [MRSLPROInputAccessoryToolbar defaultInputAccessoryToolbarWithDelegate:self];
 
     self.objects = [[NSMutableArray alloc] initWithArray:self.morsel.itemsArray];
 }
@@ -76,6 +74,95 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 }
 
 #pragma mark - Private Methods
+
+- (UITableViewCell *)activeCell {
+    return [self findCellForView:self.activeTextView];
+}
+
+- (UITableViewCell *)findCellForView:(UIView *)view {
+    if (view == nil) {
+        return nil;
+    } else if ([view isKindOfClass:[UITableViewCell class]]) {
+        return (UITableViewCell *)view;
+    } else {
+        return [self findCellForView:view.superview];
+    }
+}
+
+- (void)becomeFirstResponderAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tableView selectRowAtIndexPath:indexPath
+                                animated:NO
+                          scrollPosition:UITableViewScrollPositionTop];
+
+    id cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    if (cell && [cell respondsToSelector:@selector(becomeFirstResponderForTextView)]) {
+        [cell becomeFirstResponderForTextView];
+    }
+}
+
+- (void)becomeFirstResponderAtPreviousCell {
+    if ([self.tableView numberOfRowsInSection:MRSLPROManagerMorselSectionItems] > 0) {
+        [self becomeFirstResponderAtIndexPath:[self indexPathForPreviousCell]];
+    }
+}
+
+- (void)becomeFirstResponderAtNextCell {
+    if ([self.tableView numberOfRowsInSection:MRSLPROManagerMorselSectionItems] > 0) {
+        [self becomeFirstResponderAtIndexPath:[self indexPathForNextCell]];
+    }
+}
+
+- (NSIndexPath *)indexPathForActiveCell {
+    UITableViewCell *activeCell = [self activeCell];
+    return [self.tableView indexPathForRowAtPoint:activeCell.center];
+}
+
+- (NSIndexPath *)indexPathForPreviousCell {
+    NSIndexPath *activeCellIndexPath = [self indexPathForActiveCell];
+    NSInteger previousCellIndexPathSection = activeCellIndexPath.section;
+    NSInteger previousCellIndexPathRow = activeCellIndexPath.row - 1;
+
+    //  previous row loops back
+    if (previousCellIndexPathRow < 0) {
+        //  jump back a section
+        previousCellIndexPathSection--;
+        //  check if the section is valid
+        if (previousCellIndexPathSection < 0) {
+            //  loop back to the last section
+            previousCellIndexPathSection = MRSLPROManagerMorselSectionsStopArrowNavigationAtSection - 1;
+        }
+
+        //  previous row becomes the last row in the section
+        previousCellIndexPathRow = [self.tableView numberOfRowsInSection:previousCellIndexPathSection] - 1;
+    }
+
+    return [NSIndexPath indexPathForRow:previousCellIndexPathRow
+                              inSection:previousCellIndexPathSection];
+}
+
+- (NSIndexPath *)indexPathForNextCell {
+    NSIndexPath *activeCellIndexPath = [self indexPathForActiveCell];
+    NSInteger nextCellIndexPathSection = activeCellIndexPath.section;
+    NSInteger nextCellIndexPathRow = activeCellIndexPath.row + 1;
+    NSInteger lastRowInSection = [self.tableView numberOfRowsInSection:nextCellIndexPathSection] - 1;
+
+    //  next row if in the next section
+    if (nextCellIndexPathRow > lastRowInSection) {
+        //  jump forward a section
+        nextCellIndexPathSection++;
+        //  check if the section is valid
+        if (nextCellIndexPathSection >= MRSLPROManagerMorselSectionsStopArrowNavigationAtSection) {
+            //  loop back to the first section
+            nextCellIndexPathSection = 0;
+        }
+
+        //  next row becomes the first row in the section
+        nextCellIndexPathRow = 0;
+    }
+
+    return [NSIndexPath indexPathForRow:nextCellIndexPathRow
+                              inSection:nextCellIndexPathSection];
+}
 
 - (void)toggleInterface:(BOOL)enabled {
     [self.navigationItem.leftBarButtonItem setEnabled:enabled];
@@ -104,6 +191,10 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
                                   selector:@selector(keyboardWillHide:)
                                       name:UIKeyboardWillHideNotification
                                     object:nil];
+}
+
+- (void)showAddItemPrompt {
+    [self.view endEditing:YES];
 }
 
 - (void)toggleNavBarHidden:(BOOL)hidden {
@@ -223,19 +314,34 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     }
 }
 
+- (BOOL)tableView:(UITableView *)tableView textViewDidBeginEditing:(UITextView *)textView {
+    self.activeTextView = textView;
+    //  TODO: Update scroll position
+    return YES;
+}
+
+- (BOOL)tableView:(UITableView *)tableView textViewDidEndEditing:(UITextView *)textView {
+    self.activeTextView = nil;
+    return YES;
+}
+
 
 #pragma mark - MRSLPROInputAccessoryToolbarDelegate
 
-- (void)inputAccessoryToolbarTappedDismissKeyboardButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar {
+- (void)inputAccessoryToolbarTappedAddButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar {
+    [self showAddItemPrompt];
+}
+
+- (void)inputAccessoryToolbarTappedDoneButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar {
     [self.view endEditing:YES];
 }
 
 - (void)inputAccessoryToolbarTappedDownButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar {
-    //  TODO: Navigate to next Item
+    [self becomeFirstResponderAtNextCell];
 }
 
 - (void)inputAccessoryToolbarTappedUpButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar {
-    //  TODO: Navigate to previous Item
+    [self becomeFirstResponderAtPreviousCell];
 }
 
 

@@ -20,10 +20,10 @@ typedef NS_ENUM(NSUInteger, MRSLPROPosition) {
 @protocol MRSLPROInputAccessoryToolbarDelegate <NSObject>
 
 @optional
-- (void)inputAccessoryToolbarTappedDismissKeyboardButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar;
+- (void)inputAccessoryToolbarTappedAddButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar;
+- (void)inputAccessoryToolbarTappedDoneButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar;
 - (void)inputAccessoryToolbarTappedDownButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar;
 - (void)inputAccessoryToolbarTappedUpButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar;
-
 @end
 
 @interface MRSLPROInputAccessoryToolbar : UIToolbar

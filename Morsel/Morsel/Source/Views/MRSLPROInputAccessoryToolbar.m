@@ -72,20 +72,26 @@
 
 #pragma mark - IBAction
 
-- (IBAction)dismissKeyboardTapped:(id)sender {
-    if (self.inputAccessoryToolbarDelegate) {
-        [self.inputAccessoryToolbarDelegate inputAccessoryToolbarTappedDismissKeyboardButtonForToolbar:self];
+- (IBAction)addButtonTapped:(id)sender {
+    if (self.inputAccessoryToolbarDelegate && [self.inputAccessoryToolbarDelegate respondsToSelector:@selector(inputAccessoryToolbarTappedAddButtonForToolbar:)]) {
+        [self.inputAccessoryToolbarDelegate inputAccessoryToolbarTappedAddButtonForToolbar:self];
+    }
+}
+
+- (IBAction)doneButtonTapped:(id)sender {
+    if (self.inputAccessoryToolbarDelegate && [self.inputAccessoryToolbarDelegate respondsToSelector:@selector(inputAccessoryToolbarTappedDoneButtonForToolbar:)]) {
+        [self.inputAccessoryToolbarDelegate inputAccessoryToolbarTappedDoneButtonForToolbar:self];
     }
 }
 
 - (IBAction)downButtonTapped:(id)sender {
-    if (self.inputAccessoryToolbarDelegate) {
+    if (self.inputAccessoryToolbarDelegate && [self.inputAccessoryToolbarDelegate respondsToSelector:@selector(inputAccessoryToolbarTappedDownButtonForToolbar:)]) {
         [self.inputAccessoryToolbarDelegate inputAccessoryToolbarTappedDownButtonForToolbar:self];
     }
 }
 
 - (IBAction)upButtonTapped:(id)sender {
-    if (self.inputAccessoryToolbarDelegate) {
+    if (self.inputAccessoryToolbarDelegate && [self.inputAccessoryToolbarDelegate respondsToSelector:@selector(inputAccessoryToolbarTappedUpButtonForToolbar:)]) {
         [self.inputAccessoryToolbarDelegate inputAccessoryToolbarTappedUpButtonForToolbar:self];
     }
 }

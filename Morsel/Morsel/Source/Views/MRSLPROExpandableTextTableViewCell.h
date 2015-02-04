@@ -26,6 +26,7 @@
 
 @property (nonatomic, weak) UITableView *tableView;
 
+- (void)becomeFirstResponderForTextView;
 - (CGFloat)cellHeight;
 - (void)setInputAccessoryView:(UIView *)inputAccessoryView;
 - (void)setText:(NSString *)text;
