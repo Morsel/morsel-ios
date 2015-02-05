@@ -30,6 +30,7 @@ static CGFloat kPadding = MRSLDefaultPadding;
 
 - (void)setUp {
     [self.titleLabel setFont:[UIFont primaryLightFontOfSize:self.titleLabel.font.pointSize]];
+    self.accessibilityLabel = self.titleLabel.text;
     [self setDefaultRoundedCornerRadius];
 }
 

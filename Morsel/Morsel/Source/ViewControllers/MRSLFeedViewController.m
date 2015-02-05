@@ -76,7 +76,6 @@ MRSLFeedPanelCollectionViewCellDelegate>
     NSInteger recentlyPublishedInteger = [[NSUserDefaults standardUserDefaults] integerForKey:@"recentlyPublishedMorselID"];
     if (recentlyPublishedInteger > 0) self.recentlyPublishedMorselID = @([[NSUserDefaults standardUserDefaults] integerForKey:@"recentlyPublishedMorselID"]);
 
-    self.feedCollectionView.accessibilityLabel = @"Feed";
     [self.feedCollectionView setScrollsToTop:NO];
 
     self.feedMorsels = [NSMutableArray array];

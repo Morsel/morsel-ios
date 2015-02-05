@@ -28,4 +28,9 @@ static CGFloat kPadding = MRSLDefaultPadding;
     });
 }
 
+- (void)setPlaceholder:(NSString *)placeholder {
+    [super setPlaceholder:placeholder];
+    self.accessibilityLabel = placeholder;
+}
+
 @end

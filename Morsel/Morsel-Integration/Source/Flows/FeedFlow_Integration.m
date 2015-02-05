@@ -20,7 +20,7 @@ describe(@"The feed", ^{
     });
     afterAll(^{
         [MRSLVCRManager saveVCR];
-        [tester waitForTimeInterval:MRSL_DEFAULT_TIMEOUT];
+        [tester waitForTimeInterval:MRSL_ACTOR_DEFAULT_WAIT];
     });
 });
 

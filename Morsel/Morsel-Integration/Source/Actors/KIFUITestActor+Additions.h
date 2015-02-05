@@ -10,8 +10,20 @@
 
 @interface KIFUITestActor (Additions)
 
+#pragma mark - Login Flow
+
 - (void)navigateToLoginPage;
 - (void)performLogIn;
 - (void)returnToLoggedOutHomeScreen;
+
+#pragma mark - Profile Flow
+
+- (void)navigateToCurrentUserProfile;
+
+#pragma mark - Collection Flow
+
+#pragma mark - Utilities
+
+- (void)waitAndTapViewWithAccessibilityLabel:(NSString *)label;
 
 @end

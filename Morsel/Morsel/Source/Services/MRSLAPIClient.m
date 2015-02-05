@@ -12,6 +12,12 @@
 
 #import "MRSLUser.h"
 
+@interface MRSLAPIClient ()
+
+@property (nonatomic) int requestCount;
+
+@end
+
 @implementation MRSLAPIClient
 
 #pragma mark - Class Methods
@@ -34,6 +40,15 @@
 
 #pragma mark - Instance Methods
 
+- (NSString *)routeRequestURLForIntegrationCheck:(NSString *)fullUrlString {
+#if defined(INTEGRATION_TESTING)
+    self.requestCount++;
+    NSString *queryString = ([fullUrlString rangeOfString:@"?"].location == NSNotFound) ? @"?" : @"&";
+    fullUrlString = [NSString stringWithFormat:@"%@%@integration=%i", fullUrlString, queryString, self.requestCount];
+#endif
+    return fullUrlString;
+}
+
 - (void)registerOperation:(AFHTTPRequestOperation *)requestOperation {
     for (AFHTTPRequestOperation *operation in self.operationQueue.operations) {
         if ([[operation.request.URL absoluteString] isEqualToString:[requestOperation.request.URL absoluteString]]) {
@@ -49,12 +64,15 @@
             parameters:(NSDictionary *)parameters
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))successOrNil
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failureOrNil {
+
+
     AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
     [requestSerializer setValue:@"application/json"
              forHTTPHeaderField:@"ACCEPT"];
     NSError *error = nil;
+    NSString *fullUrlString = [self routeRequestURLForIntegrationCheck:[[NSURL URLWithString:urlString relativeToURL:[self baseURL]] absoluteString]];
     NSMutableURLRequest *request = [requestSerializer requestWithMethod:@"GET"
-                                                              URLString:[[NSURL URLWithString:urlString relativeToURL:[self baseURL]] absoluteString]
+                                                              URLString:fullUrlString
                                                              parameters:parameters
                                                                   error:&error];
     if (error) DDLogError(@"MRSLAPIClient: General request error: %@", error);
@@ -80,8 +98,9 @@
     [requestSerializer setValue:@"application/json"
              forHTTPHeaderField:@"ACCEPT"];
     NSError *error = nil;
+    NSString *fullUrlString = [self routeRequestURLForIntegrationCheck:[[NSURL URLWithString:urlString relativeToURL:[self baseURL]] absoluteString]];
     NSMutableURLRequest *request = [requestSerializer multipartFormRequestWithMethod:[self apiMethodStringWithType:apiMethodType]
-                                                                           URLString:[[NSURL URLWithString:urlString relativeToURL:[self baseURL]] absoluteString]
+                                                                           URLString:fullUrlString
                                                                           parameters:parameters
                                                            constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                                                                [self appendParameters:formParameters

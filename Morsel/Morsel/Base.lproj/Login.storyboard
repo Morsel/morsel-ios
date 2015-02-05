@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VgC-h7-Rc7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VgC-h7-Rc7">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
@@ -35,6 +36,7 @@
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5pn-nQ-5KK" customClass="MRSLLightButton">
                                                 <rect key="frame" x="10" y="77" width="80" height="103"/>
+                                                <accessibility key="accessibilityConfiguration" label="Add profile image"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="103" id="Hv2-yC-pY2"/>
                                                     <constraint firstAttribute="width" constant="80" id="Nfr-JW-NPl"/>
@@ -55,9 +57,10 @@
                                                     <constraint firstAttribute="height" constant="54" id="qyh-tH-uWe"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bq9-Hv-jgI" customClass="MRSLTextField">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bq9-Hv-jgI" customClass="MRSLTextField">
                                                 <rect key="frame" x="100" y="77" width="500" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <accessibility key="accessibilityConfiguration" label=""/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="ASt-IQ-l2p"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="220" id="mvP-gE-qTw"/>
@@ -69,7 +72,7 @@
                                                     <outlet property="delegate" destination="8OR-HZ-uNV" id="b39-2T-ieb"/>
                                                 </connections>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gmV-Fn-CVe" customClass="MRSLTextField">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gmV-Fn-CVe" customClass="MRSLTextField">
                                                 <rect key="frame" x="100" y="116" width="500" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -121,7 +124,7 @@
                                                     <outlet property="statusLabel" destination="Apu-W5-OZz" id="bI6-0U-XcE"/>
                                                 </connections>
                                             </view>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bGg-M7-toW" customClass="MRSLTextField">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bGg-M7-toW" customClass="MRSLTextField">
                                                 <rect key="frame" x="0.0" y="281" width="600" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -152,6 +155,9 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SDr-zQ-YVH" customClass="MRSLCheckbox">
                                                 <rect key="frame" x="160" y="370" width="280" height="30"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                <accessibility key="accessibilityConfiguration" hint="I am a professional chef, sommelier, mixologist, etc." label="Checkbox">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="EOt-ML-YUG"/>
                                                     <constraint firstAttribute="width" constant="280" id="HWT-Ho-h4a"/>
@@ -211,6 +217,7 @@
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uG8-wY-2oL">
                                                 <rect key="frame" x="209" y="410" width="122" height="44"/>
+                                                <accessibility key="accessibilityConfiguration" label="Terms of Service"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="122" id="K6N-PS-rDq"/>
                                                     <constraint firstAttribute="height" constant="44" id="iCZ-lt-3zK"/>
@@ -225,6 +232,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="On6-Wh-bB0">
                                                 <rect key="frame" x="330" y="410" width="110" height="44"/>
+                                                <accessibility key="accessibilityConfiguration" label="Privacy Policy"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="110" id="gS8-or-1sN"/>
                                                     <constraint firstAttribute="height" constant="44" id="nWv-QJ-KXh"/>
@@ -240,6 +248,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8wV-eE-wJu" customClass="MRSLColoredBackgroundLightButton">
                                                 <rect key="frame" x="20" y="455" width="560" height="40"/>
                                                 <color key="backgroundColor" red="0.9098039269" green="0.38039216399999998" blue="0.26666668059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <accessibility key="accessibilityConfiguration" label=""/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="YQR-fx-myK"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="cKy-Xv-jxu"/>
@@ -320,7 +329,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="">
-                            <bool key="isElement" value="YES"/>
+                            <bool key="isElement" value="NO"/>
                         </accessibility>
                         <constraints>
                             <constraint firstAttribute="height" secondItem="2eP-S9-soZ" secondAttribute="height" id="05V-rk-AeQ"/>
@@ -379,7 +388,7 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTe-8N-0rF" customClass="MRSLLightButton">
                                 <rect key="frame" x="304" y="493" width="276" height="44"/>
-                                <accessibility key="accessibilityConfiguration" label="Log in"/>
+                                <accessibility key="accessibilityConfiguration" label="Sign up with email"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="arr-OH-KuR"/>
                                     <constraint firstAttribute="height" constant="44" id="lHF-gl-k7U"/>
@@ -414,6 +423,9 @@
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="graphic-morsel-identity-large" translatesAutoresizingMaskIntoConstraints="NO" id="N7E-ql-Fu6">
                                         <rect key="frame" x="49" y="2" width="182" height="54"/>
+                                        <accessibility key="accessibilityConfiguration" label="Morsel">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A culinary community sharing food stories, cooking inspiration and kitchen hacks" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="258" translatesAutoresizingMaskIntoConstraints="NO" id="mEl-mm-msG" customClass="MRSLPrimaryLightItalicLabel">
                                         <rect key="frame" x="11" y="54" width="258" height="58"/>
@@ -431,6 +443,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z9T-66-ia5" customClass="MRSLColoredBackgroundLightButton">
                                 <rect key="frame" x="20" y="349" width="560" height="40"/>
                                 <color key="backgroundColor" red="0.23137254900000001" green="0.34901960780000002" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Connect with Facebook"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="8Dm-7z-FJb"/>
                                     <constraint firstAttribute="height" constant="40" id="znq-SK-7ub"/>
@@ -449,6 +462,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUE-Ap-rSk" customClass="MRSLColoredBackgroundLightButton">
                                 <rect key="frame" x="20" y="397" width="560" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.67450980392156867" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Connect with Twitter"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="9b9-da-8iG"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="V46-x5-OO5"/>
@@ -467,6 +481,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C2d-h8-JWo" customClass="MRSLColoredBackgroundLightButton">
                                 <rect key="frame" x="20" y="445" width="560" height="40"/>
                                 <color key="backgroundColor" red="0.54912707270408156" green="0.54912707270408156" blue="0.54912707270408156" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Continue as Guest"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="9uV-lO-rPp"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="mtI-jh-a1X"/>
@@ -500,9 +515,6 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <accessibility key="accessibilityConfiguration">
-                            <bool key="isElement" value="YES"/>
-                        </accessibility>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="nJh-qG-Ak3" secondAttribute="centerX" id="1DT-sR-bQ9"/>
                             <constraint firstItem="3SO-vu-Jhk" firstAttribute="top" secondItem="KVp-ve-MdM" secondAttribute="bottom" id="1b2-0C-AEg"/>
@@ -629,6 +641,7 @@
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oSS-cF-Gqv">
                                                 <rect key="frame" x="0.0" y="478" width="600" height="38"/>
+                                                <accessibility key="accessibilityConfiguration" label="Forgot your password?"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="SRQ-xU-5KI"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="gTR-8E-hTU"/>
@@ -711,7 +724,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="">
-                            <bool key="isElement" value="YES"/>
+                            <bool key="isElement" value="NO"/>
                         </accessibility>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="ddp-IH-8rt" secondAttribute="trailing" id="2w4-2O-SN6"/>

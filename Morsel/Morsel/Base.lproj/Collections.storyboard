@@ -441,6 +441,7 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Give your collection a title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GNO-s5-xZQ" customClass="MRSLTextField">
                                                 <rect key="frame" x="0.0" y="8" width="600" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <accessibility key="accessibilityConfiguration" label="Give your collection a title"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="31G-BS-kan"/>
                                                 </constraints>

@@ -77,6 +77,7 @@ MRSLToolbarViewDelegate>
     [super viewWillAppear:animated];
 
     self.title = self.collection.title;
+    self.view.accessibilityLabel = self.collection.title;
 }
 
 - (void)determineSelectStatus {

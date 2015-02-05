@@ -82,7 +82,7 @@
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="85u-KW-I9F">
                                                             <rect key="frame" x="10" y="93" width="28" height="28"/>
-                                                            <accessibility key="accessibilityConfiguration" label="Edit"/>
+                                                            <accessibility key="accessibilityConfiguration" label="Flag"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="28" id="R8P-bS-IEh"/>
                                                                 <constraint firstAttribute="width" constant="28" id="maD-eC-zjw"/>
@@ -97,6 +97,7 @@
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44w-Ui-et2" customClass="MRSLRegularButton">
                                                             <rect key="frame" x="209" y="93" width="101" height="24"/>
+                                                            <accessibility key="accessibilityConfiguration" label="Following"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="24" id="THZ-hr-pUY"/>
                                                             </constraints>
@@ -110,6 +111,7 @@
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V1E-4e-rQT" customClass="MRSLRegularButton">
                                                             <rect key="frame" x="100" y="93" width="101" height="24"/>
+                                                            <accessibility key="accessibilityConfiguration" label="Followers"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="24" id="IKW-J9-6OU"/>
                                                             </constraints>
@@ -660,6 +662,9 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="">
+                            <bool key="isElement" value="NO"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstItem="nOm-Tm-KKG" firstAttribute="top" secondItem="H7y-T6-0WB" secondAttribute="bottom" id="9f9-0o-sBD"/>
                             <constraint firstItem="c6f-yf-OaN" firstAttribute="top" secondItem="nOm-Tm-KKG" secondAttribute="bottom" id="A8T-d1-Or2"/>

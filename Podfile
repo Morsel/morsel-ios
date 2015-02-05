@@ -21,6 +21,7 @@ pod 'M13Checkbox', '~> 1.1'
 pod 'OAuthCore', '~> 0.0'
 pod 'NXOAuth2Client', '~> 1.2'
 pod 'Facebook-iOS-SDK', '~> 3.19'
+pod 'FLEX', '~> 1.1'
 
 pod 'SDWebImage', :git => 'https://github.com/Morsel/SDWebImage'
 pod 'AFOAuth1Client', :git => 'https://github.com/Morsel/AFOAuth1Client'

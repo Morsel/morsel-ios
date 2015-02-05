@@ -11,12 +11,14 @@
 #import "MRSLActivityIndicatorView.h"
 #import "MRSLCollectionView.h"
 #import "MRSLCollectionViewDataSource.h"
+#import "MRSLStateView.h"
 #import "MRSLTableView.h"
 #import "MRSLTableViewDataSource.h"
 
 @interface MRSLBaseRemoteDataSourceViewController ()
 <MRSLCollectionViewDataSourceDelegate,
-MRSLTableViewDataSourceDelegate>
+MRSLTableViewDataSourceDelegate,
+MRSLStateViewDelegate>
 
 @property (nonatomic, getter = isLoading) BOOL loading;
 @property (nonatomic) BOOL stopLoadingNextPage;
@@ -71,12 +73,14 @@ MRSLTableViewDataSourceDelegate>
 
     if (self.tableView) {
         [self.tableView setScrollsToTop:YES];
+        self.tableView.accessibilityIdentifier = @"BaseRemoteTableView";
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         if (!self.disableAutomaticPagination) self.tableView.alwaysBounceVertical = YES;
 
         [self.tableView setEmptyStateTitle:self.emptyStateString ?: @"Nothing to display."];
     } else if (self.collectionView) {
         [self.collectionView setScrollsToTop:YES];
+        self.collectionView.accessibilityIdentifier = @"BaseRemoteCollectionView";
         if (!self.disableAutomaticPagination && ![self isHorizontalLayout]) self.collectionView.alwaysBounceVertical = YES;
 
         [self.collectionView setEmptyStateTitle:self.emptyStateString ?: @"Nothing to display."];
@@ -153,8 +157,14 @@ MRSLTableViewDataSourceDelegate>
 
 - (void)setEmptyStateButtonString:(NSString *)emptyStateButtonString {
     _emptyStateButtonString = emptyStateButtonString;
-    if (self.tableView) [self.tableView setEmptyStateButtonTitle:emptyStateButtonString];
-    if (self.collectionView) [self.collectionView setEmptyStateButtonTitle:emptyStateButtonString];
+    if (self.tableView) {
+        [self.tableView setEmptyStateButtonTitle:emptyStateButtonString];
+        [self.collectionView setEmptyStateDelegate:self];
+    }
+    if (self.collectionView) {
+        [self.collectionView setEmptyStateButtonTitle:emptyStateButtonString];
+        [self.collectionView setEmptyStateDelegate:self];
+    }
 }
 
 - (void)setDataSource:(MRSLDataSource *)dataSource {

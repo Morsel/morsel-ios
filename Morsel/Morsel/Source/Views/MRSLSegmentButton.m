@@ -40,6 +40,7 @@
                forState:UIControlStateSelected];
 
     [self.titleLabel setFont:[UIFont primaryRegularFontOfSize:self.titleLabel.font.pointSize]];
+    self.accessibilityLabel = self.titleLabel.text;
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {

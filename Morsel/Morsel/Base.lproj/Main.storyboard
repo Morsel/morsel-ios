@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qbi-Wx-vRl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qbi-Wx-vRl">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -52,6 +52,10 @@
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="22" translatesAutoresizingMaskIntoConstraints="NO" id="hdb-4v-7ck" customClass="MRSLPrimaryBoldLabel">
                                                             <rect key="frame" x="0.0" y="0.0" width="22" height="21"/>
+                                                            <accessibility key="accessibilityConfiguration">
+                                                                <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                                                <bool key="isElement" value="NO"/>
+                                                            </accessibility>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -99,8 +103,12 @@
                                     <outlet property="delegate" destination="j5D-UW-Qw6" id="4XR-ok-QOF"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WB5-qf-sKu">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WB5-qf-sKu">
+                                <rect key="frame" x="0.0" y="0.0" width="550" height="64"/>
+                                <accessibility key="accessibilityConfiguration" label="View profile"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="9NG-22-J7g"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -120,6 +128,10 @@
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="PtY-GP-fqB" customClass="MRSLPrimaryBoldLabel">
                                         <rect key="frame" x="62" y="2" width="480" height="21"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                            <bool key="isElement" value="NO"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="o47-GC-XQI"/>
                                         </constraints>
@@ -129,6 +141,10 @@
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="view profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="88" translatesAutoresizingMaskIntoConstraints="NO" id="vab-pu-sYb" customClass="MRSLPrimaryRegularLabel">
                                         <rect key="frame" x="64" y="22" width="368" height="21"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                            <bool key="isElement" value="NO"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="2GX-2F-wGa"/>
                                         </constraints>
@@ -138,6 +154,9 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="PtY-GP-fqB" secondAttribute="bottom" constant="21" id="EGl-ze-Vt4"/>
                                     <constraint firstAttribute="bottom" secondItem="VwH-Hl-jnS" secondAttribute="bottom" constant="1" id="JdB-U4-Fo3"/>
@@ -156,6 +175,10 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jbX-Cn-uhG">
                                 <rect key="frame" x="550" y="0.0" width="50" height="600"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="SoO-jG-fMg"/>
                                 </constraints>
@@ -176,11 +199,14 @@
                             <constraint firstItem="jbX-Cn-uhG" firstAttribute="top" secondItem="fIo-qb-XFU" secondAttribute="bottom" id="Cy2-HI-NCG"/>
                             <constraint firstItem="0so-g2-jYj" firstAttribute="top" secondItem="fIo-qb-XFU" secondAttribute="bottom" id="E1O-Km-hLM"/>
                             <constraint firstAttribute="trailing" secondItem="0so-g2-jYj" secondAttribute="trailing" id="L7T-p2-f2T"/>
+                            <constraint firstItem="WB5-qf-sKu" firstAttribute="top" secondItem="fIo-qb-XFU" secondAttribute="bottom" id="MCE-xa-PkW"/>
                             <constraint firstAttribute="trailing" secondItem="jbX-Cn-uhG" secondAttribute="trailing" id="Qav-hC-L3x"/>
                             <constraint firstItem="jbX-Cn-uhG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="S40-Tv-IXG" secondAttribute="leading" constant="270" id="RgN-cF-4Cu"/>
                             <constraint firstItem="uJh-oT-ZOe" firstAttribute="top" secondItem="jbX-Cn-uhG" secondAttribute="bottom" id="Ssh-Xh-bJH"/>
+                            <constraint firstItem="WB5-qf-sKu" firstAttribute="leading" secondItem="S40-Tv-IXG" secondAttribute="leading" id="UVd-hb-1VR"/>
                             <constraint firstItem="J97-SJ-llG" firstAttribute="leading" secondItem="S40-Tv-IXG" secondAttribute="leading" id="Wuu-Z8-ejG"/>
                             <constraint firstItem="0so-g2-jYj" firstAttribute="leading" secondItem="S40-Tv-IXG" secondAttribute="leading" id="XzC-ha-wiF"/>
+                            <constraint firstItem="jbX-Cn-uhG" firstAttribute="leading" secondItem="WB5-qf-sKu" secondAttribute="trailing" id="eq7-px-iHP"/>
                             <constraint firstItem="Bg3-nq-fU5" firstAttribute="leading" secondItem="S40-Tv-IXG" secondAttribute="leading" id="kDD-Nc-PJb"/>
                             <constraint firstItem="J97-SJ-llG" firstAttribute="top" secondItem="0so-g2-jYj" secondAttribute="bottom" id="mGZ-ff-8wk"/>
                             <constraint firstItem="uJh-oT-ZOe" firstAttribute="top" secondItem="J97-SJ-llG" secondAttribute="bottom" id="qs1-pN-rCM"/>
@@ -199,7 +225,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Npa-tW-T5f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1074.375" y="943.30985915492954"/>
+            <point key="canvasLocation" x="1074" y="943"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="TE9-G8-7lO">
