@@ -48,9 +48,12 @@
 
 - (void)setText:(NSString *)text {
     [self.textView setText:text];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self textViewDidChange:self.textView];
-    });
+
+    dispatch_after(
+                   dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+                       [self textViewDidChange:self.textView];
+                   });
 }
 
 
@@ -110,12 +113,12 @@
                                  atIndexPath:indexPath];
 
             }
+
+            [self.tableView beginUpdates];
+            [self setNeedsLayout];
+            [self.tableView endUpdates];
         }
     }
-
-    [self.tableView beginUpdates];
-    [self setNeedsLayout];
-    [self.tableView endUpdates];
 }
 
 @end

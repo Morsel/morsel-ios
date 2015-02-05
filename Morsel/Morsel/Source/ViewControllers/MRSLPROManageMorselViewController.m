@@ -16,6 +16,9 @@
 #import "MRSLItem.h"
 #import "MRSLMorsel.h"
 
+static const CGFloat kDefaultItemCellHeight = 400.0f;
+static const CGFloat kItemCellBottomPadding = 80.0f;
+
 NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     MRSLPROManagerMorselSectionTitle = 0,
     MRSLPROManagerMorselSectionItems,
@@ -397,7 +400,6 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 }
 
 
-
 #pragma mark - MRSLPROExpandableTextTableViewCellDelegate
 
 - (void)tableView:(UITableView *)tableview updatedText:(NSString *)text atIndexPath:(NSIndexPath *)indexPath {
@@ -414,11 +416,9 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 - (void)tableView:(UITableView *)tableview updatedHeight:(CGFloat)updatedHeight atIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == MRSLPROManagerMorselSectionTitle) {
         self.titleCellHeight = MAX(updatedHeight, MRSLPRODefaultTitleCellHeight);
-    } else if (indexPath.section == MRSLPROManagerMorselSectionItems) {
-        MRSLItem *item = [self itemForIndexPath:indexPath];
-        //  TODO: Add cellHeight to Item
-//        item.cellHeight = updatedHeight;
     }
+
+    [self updateScrollPosition];
 }
 
 - (BOOL)tableView:(UITableView *)tableView textViewDidBeginEditing:(UITextView *)textView {
@@ -607,7 +607,26 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     if (indexPath.section == MRSLPROManagerMorselSectionTitle) {
         return [self isReordering] ? 0.0f : MAX(self.titleCellHeight, MRSLPRODefaultTitleCellHeight);
     } else if (indexPath.section == MRSLPROManagerMorselSectionItems) {
-        return [self isReordering] ? 250.0f : 500.0f; //  !!!: Change second value to 500 or w/e item cell height is
+        if ([self isReordering]) {
+            return kDefaultItemCellHeight * 0.5f;
+        } else {
+            MRSLItem *item = [self itemForIndexPath:indexPath];
+            if (item.itemDescription) {
+                NSString *text = item.itemDescription;
+                CGFloat imageDimension = CGRectGetWidth(tableView.frame);
+                UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+                NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:text
+                                                                                       attributes:@{
+                                                                                                    NSFontAttributeName: font
+                                                                                                    }];
+                CGRect rect = [attributedString boundingRectWithSize:CGSizeMake(imageDimension, CGFLOAT_MAX)
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                             context:nil];
+                return MAX(ceilf(rect.size.height) + imageDimension + kItemCellBottomPadding, kDefaultItemCellHeight);
+            } else {
+                return kDefaultItemCellHeight;
+            }
+        }
     } else if (indexPath.section == MRSLPROManagerMorselSectionAddItems) {
         return [self isReordering] ? 0.0f : 140.0f;
     } else {
