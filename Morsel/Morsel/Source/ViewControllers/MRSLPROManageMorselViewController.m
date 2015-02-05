@@ -295,26 +295,28 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 }
 
 - (void)updateScrollPosition {
-    [UIView beginAnimations:nil
-                    context:nil];
     if (self.activeTextView != nil) {
+        [UIView beginAnimations:nil
+                        context:nil];
+
         CGRect viewFrame = self.view.frame;
         CGRect activeTextViewFrame = self.activeTextView.frame;
         UIView *activeTextViewSuperview = self.activeTextView.superview;
 
-        viewFrame.size.height -= self.defaultKeyboardHeight + 40.0f;
+        CGFloat offset = 20.0f;
+        viewFrame.size.height -= self.defaultKeyboardHeight + offset;
         CGRect activeTextViewConvertedRect = [self.view convertRect:activeTextViewFrame
-                                                  fromView:activeTextViewSuperview];
+                                                           fromView:activeTextViewSuperview];
 
-        if (CGRectContainsRect(viewFrame, activeTextViewConvertedRect)) {
+        if (!CGRectContainsRect(viewFrame, activeTextViewConvertedRect)) {
             CGRect butts = [self.tableView convertRect:activeTextViewFrame
                                               fromView:activeTextViewSuperview];
-            [self.tableView scrollRectToVisible:CGRectOffset(butts, 0.0f, self.defaultKeyboardHeight + 40.0f)
+            [self.tableView scrollRectToVisible:CGRectOffset(butts, 0.0f, self.defaultKeyboardHeight + offset)
                                        animated:YES];
         }
-    }
 
-    [UIView commitAnimations];
+        [UIView commitAnimations];
+    }
 }
 
 - (void)setUpdating:(BOOL)updating {
@@ -423,7 +425,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
 - (BOOL)tableView:(UITableView *)tableView textViewDidBeginEditing:(UITextView *)textView {
     self.activeTextView = textView;
-    //  TODO: Update scroll position
+    [self updateScrollPosition];
     return YES;
 }
 
