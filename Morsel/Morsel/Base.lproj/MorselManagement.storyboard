@@ -1455,7 +1455,7 @@
                                             <outletCollection property="viewsToHideDuringReorder" destination="POb-0j-Cps" id="BAB-5n-As4"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_AddItemCell" rowHeight="80" id="ngX-LF-MiD" userLabel="ruid_AddItemCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ruid_AddItemCell" rowHeight="140" id="ngX-LF-MiD" userLabel="ruid_AddItemCell">
                                         <rect key="frame" x="140" y="228" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ngX-LF-MiD" id="Alv-IP-9CI">
@@ -1467,6 +1467,9 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFK-6i-FmQ" customClass="MRSLColoredBackgroundLightButton">
                                                             <rect key="frame" x="10" y="30" width="580" height="40"/>
                                                             <color key="backgroundColor" red="0.91372549020000005" green="0.3803921569" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="40" id="PRH-DO-5WK"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <state key="normal" title="＋ Add Content">
                                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1481,14 +1484,13 @@
                                                         <constraint firstItem="zFK-6i-FmQ" firstAttribute="top" secondItem="5cE-6u-oG6" secondAttribute="top" constant="30" id="0JD-fL-Qva"/>
                                                         <constraint firstItem="zFK-6i-FmQ" firstAttribute="leading" secondItem="5cE-6u-oG6" secondAttribute="leading" constant="10" id="EA4-g7-B6J"/>
                                                         <constraint firstAttribute="trailing" secondItem="zFK-6i-FmQ" secondAttribute="trailing" constant="10" id="u1B-Ex-ISq"/>
-                                                        <constraint firstAttribute="bottom" secondItem="zFK-6i-FmQ" secondAttribute="bottom" constant="10" id="wam-gc-wxM"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="5cE-6u-oG6" firstAttribute="top" secondItem="Alv-IP-9CI" secondAttribute="top" id="0gw-hb-JKy"/>
                                                 <constraint firstItem="5cE-6u-oG6" firstAttribute="leading" secondItem="Alv-IP-9CI" secondAttribute="leading" id="KXf-lo-gxH"/>
-                                                <constraint firstAttribute="bottom" secondItem="5cE-6u-oG6" secondAttribute="bottom" id="bQ5-3e-bKG"/>
+                                                <constraint firstAttribute="bottom" secondItem="5cE-6u-oG6" secondAttribute="bottom" constant="60" id="bQ5-3e-bKG"/>
                                                 <constraint firstAttribute="trailing" secondItem="5cE-6u-oG6" secondAttribute="trailing" id="vb6-7p-KgR"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1501,11 +1503,9 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X3x-hp-dpL">
-                                <rect key="frame" x="0.0" y="231" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="462" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem systemItem="trash" id="pot-Iq-6iI">
-                                        <color key="tintColor" red="1" green="0.0" blue="0.064798492680551156" alpha="1" colorSpace="calibratedRGB"/>
-                                    </barButtonItem>
+                                    <barButtonItem systemItem="trash" id="pot-Iq-6iI"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="lDT-Vr-oFa"/>
                                     <barButtonItem title="Social Settings" id="dhw-GB-cRl"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Jem-lO-fhI"/>
@@ -1520,7 +1520,7 @@
                             <constraint firstItem="cPH-T2-l9j" firstAttribute="top" secondItem="suW-xQ-2ol" secondAttribute="bottom" id="bRy-1S-WPX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="suW-xQ-2ol" secondAttribute="trailing" id="fgy-92-DKX"/>
                             <constraint firstAttribute="trailing" secondItem="V6X-5q-ycQ" secondAttribute="trailing" id="jZW-cq-iOq"/>
-                            <constraint firstItem="V6X-5q-ycQ" firstAttribute="centerY" secondItem="X3x-hp-dpL" secondAttribute="centerY" id="p8c-ob-EoK"/>
+                            <constraint firstItem="V6X-5q-ycQ" firstAttribute="bottom" secondItem="X3x-hp-dpL" secondAttribute="bottom" id="p8c-ob-EoK"/>
                             <constraint firstItem="V6X-5q-ycQ" firstAttribute="trailing" secondItem="X3x-hp-dpL" secondAttribute="trailing" id="pkr-hO-ss8"/>
                             <constraint firstItem="V6X-5q-ycQ" firstAttribute="leading" secondItem="X3x-hp-dpL" secondAttribute="leading" id="qFx-IG-m9I"/>
                             <constraint firstItem="V6X-5q-ycQ" firstAttribute="bottom" secondItem="cPH-T2-l9j" secondAttribute="top" id="zWj-t2-qh0"/>
@@ -1532,6 +1532,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Publish Update" id="CZP-no-13t"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="morselOptionsToolbar" destination="X3x-hp-dpL" id="RKQ-kI-YaY"/>
                         <outlet property="tableView" destination="V6X-5q-ycQ" id="SsY-ec-1vy"/>
                     </connections>
                 </viewController>

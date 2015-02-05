@@ -39,6 +39,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 @property (nonatomic) CGRect defaultViewFrame;
 @property (nonatomic, strong) MRSLPROInputAccessoryToolbar *keyboardInputAccessoryToolbar;
 @property (nonatomic, strong) MRSLMorsel *morsel;
+@property (nonatomic, weak) IBOutlet UIToolbar *morselOptionsToolbar;
 @property (nonatomic, getter=isReordering) BOOL reordering;
 @property (nonatomic, weak) IBOutlet MRSLReorderTableView *tableView;
 @property (nonatomic) CGFloat titleCellHeight;
@@ -73,6 +74,11 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.defaultViewFrame = self.view.frame;
+}
+
+- (void)setActiveTextView:(UITextView *)activeTextView {
+    _activeTextView = activeTextView;
+    [self toggleMorselOptionsToolbarHidden:activeTextView != nil];
 }
 
 #pragma mark - Private Methods
@@ -240,6 +246,10 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     [self presentViewController:imagePickerController
                        animated:YES
                      completion:nil];
+}
+
+- (void)toggleMorselOptionsToolbarHidden:(BOOL)hidden {
+    [self.morselOptionsToolbar setHidden:hidden];
 }
 
 - (void)toggleNavBarHidden:(BOOL)hidden {
@@ -599,7 +609,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     } else if (indexPath.section == MRSLPROManagerMorselSectionItems) {
         return [self isReordering] ? 250.0f : 500.0f; //  !!!: Change second value to 500 or w/e item cell height is
     } else if (indexPath.section == MRSLPROManagerMorselSectionAddItems) {
-        return [self isReordering] ? 0.0f : 80.0f;
+        return [self isReordering] ? 0.0f : 140.0f;
     } else {
         return 0.0f;
     }
