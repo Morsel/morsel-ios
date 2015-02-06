@@ -13,6 +13,9 @@
 
 #import "MRSLPROTextView.h"
 
+static NSString * const kDeleteThisItem = @"Delete This Item";
+static NSString * const kMakeCoverPhoto = @"Make Cover Photo";
+
 @interface MRSLPROExpandableTextTableViewCell()
 
 @property (nonatomic, weak) IBOutlet MRSLPROTextView *textView;
@@ -54,8 +57,8 @@
     id actionSheet = [[UIActionSheet alloc] initWithTitle:@"Item Options"
                                                  delegate:self
                                         cancelButtonTitle:@"Cancel"
-                                   destructiveButtonTitle:@"Delete this Item"
-                                        otherButtonTitles:@"Make Cover Photo", nil];
+                                   destructiveButtonTitle:kDeleteThisItem
+                                        otherButtonTitles:kMakeCoverPhoto, nil];
 
     [actionSheet showInView:self.tableView];
 }
@@ -71,13 +74,13 @@
 
     id tableViewDelegate = self.tableView.delegate;
 
-    if ([buttonTitleAtIndex isEqualToString:@"Delete this Item"]) {
+    if ([buttonTitleAtIndex isEqualToString:kDeleteThisItem]) {
         if ([tableViewDelegate respondsToSelector:@selector(tableView:commitEditingStyle:forRowAtIndexPath:)]) {
             [tableViewDelegate tableView:self.tableView
                       commitEditingStyle:UITableViewCellEditingStyleDelete
                        forRowAtIndexPath:[self.tableView indexPathForCell:self]];
         }
-    } else if ([buttonTitleAtIndex isEqualToString:@"Make Cover Photo"]) {
+    } else if ([buttonTitleAtIndex isEqualToString:kMakeCoverPhoto]) {
         if ([tableViewDelegate respondsToSelector:@selector(tableView:makePrimaryItemAtIndexPath:)]) {
             [tableViewDelegate tableView:self.tableView
               makePrimaryItemAtIndexPath:[self.tableView indexPathForCell:self]];

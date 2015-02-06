@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 Morsel. All rights reserved.
 //
 
+#import <DateTools/NSDate+DateTools.h>
 #import <ELCImagePickerController/ELCAlbumPickerController.h>
+
+#import "MRSLAPIService+Morsel.h"
 
 #import "MRSLPROManageMorselViewController.h"
 
@@ -19,6 +22,11 @@
 
 static const CGFloat kDefaultItemCellHeight = 400.0f;
 static const CGFloat kItemCellBottomPadding = 80.0f;
+
+static NSString * const kPhotoLibrary = @"Photo Library";
+static NSString * const kTakePhoto = @"Take Photo";
+static NSString * const kImportFromWebsite = @"Import from Website";
+static NSString * const kDelete = @"Delete";
 
 NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     MRSLPROManagerMorselSectionTitle = 0,
@@ -36,7 +44,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 @end
 
 
-@interface MRSLPROManageMorselViewController ()
+@interface MRSLPROManageMorselViewController () <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, weak) UITextView *activeTextView;
 @property (nonatomic) CGFloat defaultKeyboardHeight;
@@ -49,6 +57,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 @property (nonatomic) int updatingCounter;
 @property (nonatomic, strong) MRSLItem *draggingItem;
 
+@property (strong, nonatomic) NSFetchedResultsController *itemsFetchedResultsController;
 @property (nonatomic, strong) NSMutableArray *objects;
 @property (nonatomic) int previousSortOrder;
 @property (strong, nonatomic) NSIndexPath *sourceIndexPath;
@@ -68,7 +77,8 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     // Do any additional setup after loading the view.
     [self.taggedUsersBarButton setToolbar:self.morselOptionsToolbar];
 
-    self.morsel = [MRSLMorsel MR_findFirstByAttribute:@"morselID" withValue:@"1427"];
+//    self.morsel = [MRSLMorsel MR_findFirstByAttribute:@"morselID" withValue:@"1427"];
+    self.morselID = @1427;
     self.titleCellHeight = MRSLPRODefaultTitleCellHeight;
 
     [self setupNotificationObservers];
@@ -78,12 +88,83 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
     self.keyboardInputAccessoryToolbar = [MRSLPROInputAccessoryToolbar defaultInputAccessoryToolbarWithDelegate:self];
 
-    self.objects = [[NSMutableArray alloc] initWithArray:self.morsel.itemsArray];
+    self.objects = [NSMutableArray array];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.defaultViewFrame = self.view.frame;
+    [self updateMorselStatus];
+    [self displayMorsel];
+}
+
+- (void)configureCell:(UITableViewCell *)cell withObject:(id)object {
+    if ([object isKindOfClass:[MRSLItem class]]) {
+        MRSLItem *item = (MRSLItem *)object;
+        [(id)cell setText:item.itemDescription];
+
+        if (item == self.draggingItem) {
+            [cell setBackgroundColor:[UIColor clearColor]];
+        } else {
+            [cell setBackgroundColor:[UIColor colorWithWhite:(item.sort_orderValue * 0.1f)
+                                                       alpha:0.7f]];
+        }
+    }
+}
+
+- (void)displayMorsel {
+    self.morsel = [self getOrLoadMorselIfExists];
+    if (self.itemsFetchedResultsController) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    } else {
+        self.updating = YES;
+        [self setupFetchRequest];
+        [self populateContent];
+    }
+}
+
+- (MRSLMorsel *)getOrLoadMorselIfExists {
+    MRSLMorsel *morsel = nil;
+    if (_morselID) {
+        morsel = [MRSLMorsel MR_findFirstByAttribute:MRSLMorselAttributes.morselID
+                                           withValue:_morselID];
+        [morsel.managedObjectContext MR_saveOnlySelfAndWait];
+    }
+    return morsel;
+}
+
+- (void)setupFetchRequest {
+    self.itemsFetchedResultsController = [MRSLItem MR_fetchAllSortedBy:@"sort_order"
+                                                             ascending:YES
+                                                         withPredicate:[NSPredicate predicateWithFormat:@"(morsel.morselID == %i)", [_morselID intValue]]
+                                                               groupBy:nil
+                                                              delegate:self
+                                                             inContext:[NSManagedObjectContext MR_defaultContext]];
+}
+
+- (void)populateContent {
+    NSError *fetchError = nil;
+    [_itemsFetchedResultsController performFetch:&fetchError];
+
+    self.objects = [NSMutableArray arrayWithArray:[_itemsFetchedResultsController fetchedObjects]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+        self.updating = NO;
+    });
+}
+
+- (void)updateMorselStatus {
+    self.morsel = [self getOrLoadMorselIfExists];
+    if (_morsel) {
+        __weak __typeof(self) weakSelf = self;
+        [_appDelegate.apiService getMorsel:_morsel
+                                  orWithID:nil
+                                   success:^(id responseObject) {
+                                       [weakSelf updateTaggedUsersBadge:(weakSelf.morsel.tagged_users_countValue > 0 ? [NSString stringWithFormat:@"%d", weakSelf.morsel.tagged_users_countValue] : nil)];
+                                   } failure:nil];
+    }
 }
 
 - (void)setActiveTextView:(UITextView *)activeTextView {
@@ -97,9 +178,6 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
         id firstViewController = [[destinationViewController viewControllers] firstObject];
         if ([firstViewController respondsToSelector:@selector(setMorsel:)]) {
             [firstViewController setMorsel:_morsel];
-        }
-        if ([firstViewController isKindOfClass:[MRSLMorselEditEligibleUsersViewController class]]) {
-            [(MRSLMorselEditEligibleUsersViewController *)firstViewController setDelegate:self];
         }
         if ([firstViewController isKindOfClass:[MRSLMorselPublishShareViewController class]]) {
             [(MRSLMorselPublishShareViewController *)firstViewController setDelegate:self];
@@ -115,6 +193,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
 - (void)deleteMorsel {
     //  TODO: deleteMorsel
+    NSLog(@"TODO: deleteMorsel");
 }
 
 - (UITableViewCell *)findCellForView:(UIView *)view {
@@ -216,7 +295,8 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 }
 
 - (IBAction)publishUpdate:(id)sender {
-    //  TODO: Check socialSettingsDictionary to handle Instagram and send_to_x flags
+    //  TODO: publishUpdateCheck socialSettingsDictionary to handle Instagram and send_to_x flags
+    NSLog(@"TODO: publishUpdate");
 }
 
 - (void)setupNotificationObservers {
@@ -244,7 +324,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
                                                                  delegate:self
                                                         cancelButtonTitle:@"Cancel"
                                                    destructiveButtonTitle:nil
-                                                        otherButtonTitles:@"Photo Library", @"Take Photo", @"Import from Website", nil];
+                                                        otherButtonTitles:kPhotoLibrary, kTakePhoto, kImportFromWebsite, nil];
         [actionSheet showInView:self.view];
     } else {
         //  TODO: show alert about syncing data
@@ -265,6 +345,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
 - (void)showImportFromWebsite {
     //  TODO: showImportFromWebsite
+    NSLog(@"TODO: showImportFromWebsite");
 }
 
 - (void)showPhotoLibrary {
@@ -360,7 +441,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     if (self.updatingCounter < 1) {
         if (![self isKeyboardActive]) { [self toggleInterface:YES]; }
         [self toggleInterface:YES];
-        self.navigationItem.prompt = [NSString stringWithFormat:@"%@", self.morsel.lastUpdatedDate];
+        self.navigationItem.prompt = [NSString stringWithFormat:@"Updated %@", [[self.morsel.lastUpdatedDate timeAgoSinceNow] lowercaseString]];
     } else {
         self.navigationItem.prompt = @"Updating...";
     }
@@ -419,6 +500,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
         if (imageDictionary[UIImagePickerControllerMediaType] == ALAssetTypePhoto) {
             UIImage *image = imageDictionary[UIImagePickerControllerOriginalImage];
             //  TODO: create item w/ image
+            NSLog(@"TODO: create item w/ image");
         }
     }];
 //    let lastSortOrder = morsel?.lastItemSortOrder()
@@ -443,6 +525,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = info[UIImagePickerControllerEditedImage];
     //  TODO: create item w/ image
+    NSLog(@"TODO: create item w/ image");
 //    let lastSortOrder = morsel?.lastItemSortOrder()
 //    apiCreateItem(originalImage!, nil, lastSortOrder! + 1, true)
 
@@ -456,13 +539,6 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 }
 
 
-#pragma mark - MRSLMorselEditEligibleUsersViewControllerDelegate
-
-- (void)morselEditEligibleUsersViewController:(MRSLMorselEditEligibleUsersViewController *)morselEditEligibleUsersViewController viewWillDisappearWithTaggedUserCount:(NSInteger)taggedUserCount {
-    [self updateTaggedUsersBadge:[NSString stringWithFormat:@"%d", taggedUserCount]];
-}
-
-
 #pragma mark - MRSLMorselPublishShareViewControllerDelegate
 
 - (void)morselPublishShareViewController:(MRSLMorselPublishShareViewController *)morselPublishShareViewController viewWillDisappearWithSocialSettings:(NSDictionary *)socialSettings {
@@ -471,6 +547,11 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
 
 #pragma mark - MRSLPROExpandableTextTableViewCellDelegate
+
+- (void)tableView:(UITableView *)tableview makePrimaryItemAtIndexPath:(NSIndexPath *)indexPath {
+    //  TODO: makePrimaryItemAtIndexPath
+    NSLog(@"TODO: makePrimaryItemAtIndexPath");
+}
 
 - (void)tableView:(UITableView *)tableview updatedText:(NSString *)text atIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == MRSLPROManagerMorselSectionTitle) {
@@ -519,6 +600,67 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
 - (void)inputAccessoryToolbarTappedUpButtonForToolbar:(MRSLPROInputAccessoryToolbar *)toolbar {
     [self becomeFirstResponderAtPreviousCell];
+}
+
+
+#pragma mark - NSFetchedResultsControllerDelegate Methods
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    UITableView *tableView = self.tableView;
+
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:@[indexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:@[indexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case NSFetchedResultsChangeUpdate: {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            if (cell != nil) {
+                [self configureCell:cell withObject:anObject];
+            }
+            } break;
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:@[indexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+
+            [tableView insertRowsAtIndexPaths:@[newIndexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+  didChangeSection:(id )sectionInfo
+           atIndex:(NSUInteger)sectionIndex
+     forChangeType:(NSFetchedResultsChangeType)type {
+
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView endUpdates];
 }
 
 
@@ -591,16 +733,16 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"Photo Library"]) {
+    if ([buttonTitle isEqualToString:kPhotoLibrary]) {
         //  TODO: mp event
         [self showPhotoLibrary];
-    } else if ([buttonTitle isEqualToString:@"Take Photo"]) {
+    } else if ([buttonTitle isEqualToString:kTakePhoto]) {
         //  TODO: mp event
         [self showCamera];
-    } else if ([buttonTitle isEqualToString:@"Import from Website"]) {
+    } else if ([buttonTitle isEqualToString:kImportFromWebsite]) {
         //  TODO: mp event
         [self showImportFromWebsite];
-    } else if ([buttonTitle isEqualToString:@"Delete"]) {
+    } else if ([buttonTitle isEqualToString:kDelete]) {
         //  TODO: mp event
         [self deleteMorsel];
     } else {
@@ -623,21 +765,9 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     } else if (indexPath.section == MRSLPROManagerMorselSectionItems) {
         MRSLItem *item = self.objects[indexPath.row];
 
-        if ([self isReordering]) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:@"butts"];
-            [[cell textLabel] setText:item.itemDescription];
-        } else {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_ItemCell"];
-            [cell setText:item.itemDescription];
-        }
-
-        if (item == self.draggingItem) {
-            [cell setBackgroundColor:[UIColor clearColor]];
-        } else {
-            [cell setBackgroundColor:[UIColor colorWithWhite:(item.sort_orderValue * 0.1f)
-                                                       alpha:0.7f]];
-        }
+        cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_ItemCell"];
+        [self configureCell:cell
+                 withObject:item];
     } else if (indexPath.section == MRSLPROManagerMorselSectionAddItems) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"ruid_AddItemCell"];
     }
@@ -655,6 +785,40 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     }
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    //  TODO: commitEditingStyle
+    NSLog(@"TODO: commitEditingStyle");
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        self.morsel = [self getOrLoadMorselIfExists];
+//        MRSLItem *deletedItem = [_objects objectAtIndex:indexPath.row];
+//        [[MRSLEventManager sharedManager] track:@"Tapped Button"
+//                                     properties:@{@"_title": @"Delete Item",
+//                                                  @"_view": self.mp_eventView,
+//                                                  @"item_count": @([_objects count]),
+//                                                  @"morsel_id": NSNullIfNil(_morsel.morselID),
+//                                                  @"item_id": NSNullIfNil(deletedItem.itemID)}];
+//        [_objects removeObject:deletedItem];
+//        self.totalCells --;
+//        [_morselItemsTableView deleteRowsAtIndexPaths:@[indexPath]
+//                                     withRowAnimation:UITableViewRowAnimationFade];
+//
+//        __weak __typeof(self) weakSelf = self;
+//
+//        double delayInSeconds = .4f;
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            [_appDelegate.apiService deleteItem:deletedItem
+//                                        success:^(BOOL success) {
+//                                            if (weakSelf) {
+//                                                weakSelf.morsel = [weakSelf getOrLoadMorselIfExists];
+//                                                weakSelf.morsel.lastUpdatedDate = [NSDate date];
+//                                                [weakSelf displayMorselStatus];
+//                                            }
+//                                        } failure:nil];
+//        });
+//    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

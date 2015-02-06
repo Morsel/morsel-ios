@@ -1389,6 +1389,9 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vGO-FT-5zc">
                                                             <rect key="frame" x="568" y="9" width="22" height="22"/>
                                                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <connections>
+                                                                <action selector="showItemInfo:" destination="pTR-5i-OFH" eventType="touchUpInside" id="9RW-ri-1u1"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <constraints>
@@ -1533,7 +1536,11 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" prompt="Loading..." id="o7T-Hf-hD5">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="f2n-Go-amY"/>
-                        <barButtonItem key="rightBarButtonItem" title="Publish Update" id="CZP-no-13t"/>
+                        <barButtonItem key="rightBarButtonItem" title="Publish Update" id="CZP-no-13t">
+                            <connections>
+                                <action selector="publishUpdate:" destination="TBP-YS-3Ok" id="Xg2-xD-KrQ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="morselOptionsToolbar" destination="X3x-hp-dpL" id="RKQ-kI-YaY"/>
@@ -1566,7 +1573,6 @@
         <!--Navigation Controller-->
         <scene sceneID="53v-PP-FgL">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jhe-u0-D3X" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="Ega-bA-R5o" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4ec-XS-aDS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1576,6 +1582,7 @@
                         <segue destination="t2X-wZ-2qF" kind="relationship" relationship="rootViewController" id="YgH-rQ-6qf"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jhe-u0-D3X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2890" y="3188"/>
         </scene>
