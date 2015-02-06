@@ -622,6 +622,10 @@
 		4040D49D18E627ED008A39E5 /* _MRSLActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D49B18E627ED008A39E5 /* _MRSLActivity.m */; };
 		4040D4A118E62809008A39E5 /* MRSLActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4A018E62809008A39E5 /* MRSLActivity.m */; };
 		4040D4A218E62809008A39E5 /* MRSLActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4040D4A018E62809008A39E5 /* MRSLActivity.m */; };
+		405736411A841D9C006EC25E /* BadgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4057363E1A841D9C006EC25E /* BadgeLabel.m */; };
+		405736421A841D9C006EC25E /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4057363F1A841D9C006EC25E /* LICENSE.txt */; };
+		405736431A841D9C006EC25E /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 405736401A841D9C006EC25E /* README.md */; };
+		405736461A841E88006EC25E /* MRSLBadgedBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 405736451A841E88006EC25E /* MRSLBadgedBarButtonItem.m */; };
 		405992731A79748D00E52C4E /* MRSLPROTitleTextViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 405992721A79748D00E52C4E /* MRSLPROTitleTextViewTableViewCell.m */; };
 		405992741A79748D00E52C4E /* MRSLPROTitleTextViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 405992721A79748D00E52C4E /* MRSLPROTitleTextViewTableViewCell.m */; };
 		405992751A79748D00E52C4E /* MRSLPROTitleTextViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 405992721A79748D00E52C4E /* MRSLPROTitleTextViewTableViewCell.m */; };
@@ -1248,6 +1252,12 @@
 		4040D49B18E627ED008A39E5 /* _MRSLActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MRSLActivity.m; path = Source/Models/Generated/_MRSLActivity.m; sourceTree = "<group>"; };
 		4040D49F18E62809008A39E5 /* MRSLActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLActivity.h; path = Source/Models/MRSLActivity.h; sourceTree = "<group>"; };
 		4040D4A018E62809008A39E5 /* MRSLActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLActivity.m; path = Source/Models/MRSLActivity.m; sourceTree = "<group>"; };
+		4057363D1A841D9C006EC25E /* BadgeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadgeLabel.h; sourceTree = "<group>"; };
+		4057363E1A841D9C006EC25E /* BadgeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BadgeLabel.m; sourceTree = "<group>"; };
+		4057363F1A841D9C006EC25E /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		405736401A841D9C006EC25E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		405736441A841E88006EC25E /* MRSLBadgedBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLBadgedBarButtonItem.h; path = Source/Views/MRSLBadgedBarButtonItem.h; sourceTree = "<group>"; };
+		405736451A841E88006EC25E /* MRSLBadgedBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLBadgedBarButtonItem.m; path = Source/Views/MRSLBadgedBarButtonItem.m; sourceTree = "<group>"; };
 		405992711A79748D00E52C4E /* MRSLPROTitleTextViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLPROTitleTextViewTableViewCell.h; path = Source/Views/MRSLPROTitleTextViewTableViewCell.h; sourceTree = "<group>"; };
 		405992721A79748D00E52C4E /* MRSLPROTitleTextViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRSLPROTitleTextViewTableViewCell.m; path = Source/Views/MRSLPROTitleTextViewTableViewCell.m; sourceTree = "<group>"; };
 		405992761A7976D600E52C4E /* MRSLPROTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRSLPROTextView.h; path = Morsel/Source/Views/MRSLPROTextView.h; sourceTree = SOURCE_ROOT; };
@@ -2413,6 +2423,7 @@
 		06BB9F711A5C4E4100F33456 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4057363C1A841D9C006EC25E /* BadgeLabel */,
 				0631E3BD1A5C51AD005C80E9 /* dropbox-ios-dropins-sdk-1.2.1 */,
 			);
 			name = Vendor;
@@ -2688,6 +2699,8 @@
 			children = (
 				06FB35C819A294D6008F4B61 /* MRSLAlignedButton.h */,
 				06FB35C919A294D6008F4B61 /* MRSLAlignedButton.m */,
+				405736441A841E88006EC25E /* MRSLBadgedBarButtonItem.h */,
+				405736451A841E88006EC25E /* MRSLBadgedBarButtonItem.m */,
 				0676B49018996241001D7483 /* MRSLBoldButton.h */,
 				0676B49118996241001D7483 /* MRSLBoldButton.m */,
 				06F2F4F11892F78A00977DEB /* MRSLColoredBackgroundLightButton.h */,
@@ -2785,6 +2798,17 @@
 				409170A71A82AF5E0098D556 /* MRSLPROInputAccessoryToolbar.xib */,
 			);
 			name = XIB;
+			sourceTree = "<group>";
+		};
+		4057363C1A841D9C006EC25E /* BadgeLabel */ = {
+			isa = PBXGroup;
+			children = (
+				4057363D1A841D9C006EC25E /* BadgeLabel.h */,
+				4057363E1A841D9C006EC25E /* BadgeLabel.m */,
+				4057363F1A841D9C006EC25E /* LICENSE.txt */,
+				405736401A841D9C006EC25E /* README.md */,
+			);
+			path = BadgeLabel;
 			sourceTree = "<group>";
 		};
 		4067732B196BA2EA0055BEAE /* External */ = {
@@ -3004,6 +3028,7 @@
 				0631E4061A5C51AD005C80E9 /* LICENSE in Resources */,
 				060BC3601A3FA7B100CA05CB /* Lato-LightItalic.ttf in Resources */,
 				0631E4091A5C51AD005C80E9 /* README in Resources */,
+				405736421A841D9C006EC25E /* LICENSE.txt in Resources */,
 				0631E4001A5C51AD005C80E9 /* DBChooser.bundle in Resources */,
 				06CA68911A3F9EA700E26D9E /* Merriweather-Regular.ttf in Resources */,
 				064566F418C50BDD00C9CCBF /* Activity.storyboard in Resources */,
@@ -3236,6 +3261,7 @@
 				068165C419F9A1BE0081424E /* MRSLMorselTaggedUsersViewController.m in Sources */,
 				0693C25118F6C0D10026D6B3 /* _MRSLItem.m in Sources */,
 				06C4CD0C192AA1A7004CD3B7 /* MRSLSocialComposeViewController.m in Sources */,
+				405736411A841D9C006EC25E /* BadgeLabel.m in Sources */,
 				06B8780E193CBB3E00160707 /* MRSLPlaceDetailContactCollectionViewCell.m in Sources */,
 				4068303919804B0E00C293D1 /* UIImagePickerController+StatusBarHidden.m in Sources */,
 				063250CA1860E1DD00ADDF23 /* MRSLRootViewController.m in Sources */,
@@ -3275,6 +3301,7 @@
 				4003509918EB5CED00C97DDC /* MRSLActivityCollectionViewCell.m in Sources */,
 				40677333196BAAFD0055BEAE /* MRSLS3Client.m in Sources */,
 				06DAFB49191A91750044AF3E /* MRSLAPIService+Activity.m in Sources */,
+				405736431A841D9C006EC25E /* README.md in Sources */,
 				06B877FC193C182800160707 /* MRSLPlaceUserCollectionViewCell.m in Sources */,
 				4061724B198308310097CD17 /* MRSLPlaceholderTextView.m in Sources */,
 				0615C37F1908C8E200A1C361 /* MRSLMorselDetailViewController.m in Sources */,
@@ -3405,6 +3432,7 @@
 				06BFCE1C1A6EF9A100DDBAE9 /* MRSLAPIService+Collection.m in Sources */,
 				405F2F071986F9E900F0A11C /* MRSLSectionView.m in Sources */,
 				40348F2A195365FC00BDDC15 /* MRSLFollowableActivityTableViewController.m in Sources */,
+				405736461A841E88006EC25E /* MRSLBadgedBarButtonItem.m in Sources */,
 				06A847891A7820E6007776C5 /* MRSLCollectionDetailViewController.m in Sources */,
 				063B177718922BDD00ABFEAE /* MRSLPrimaryLightLabel.m in Sources */,
 				0698CA8C18523A8C007AF442 /* Morsel.xcdatamodeld in Sources */,

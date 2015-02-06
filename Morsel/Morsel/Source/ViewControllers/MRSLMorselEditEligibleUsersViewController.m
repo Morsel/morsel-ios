@@ -45,6 +45,15 @@ UISearchBarDelegate>
     [self setupRemoteRequest];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if ([self.delegate respondsToSelector:@selector(morselEditEligibleUsersViewController:viewWillDisappearWithTaggedUserCount:)]) {
+        [self.delegate morselEditEligibleUsersViewController:self
+                    viewWillDisappearWithTaggedUserCount:5];
+        //  TODO: Get tagged user count ^
+    }
+}
+
 #pragma mark - Private Methods
 
 - (NSString *)objectIDsKey {

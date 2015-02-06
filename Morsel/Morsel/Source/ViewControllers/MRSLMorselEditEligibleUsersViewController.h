@@ -8,7 +8,19 @@
 
 #import "MRSLBaseRemoteDataSourceViewController.h"
 
+@class MRSLMorselEditEligibleUsersViewController;
+
+@protocol MRSLMorselEditEligibleUsersViewControllerDelegate<NSObject>
+
+@optional
+- (void)morselEditEligibleUsersViewController:(MRSLMorselEditEligibleUsersViewController *)morselEditEligibleUsersViewController
+         viewWillDisappearWithTaggedUserCount:(NSInteger)taggedUserCount;
+
+@end
+
 @interface MRSLMorselEditEligibleUsersViewController : MRSLBaseRemoteDataSourceViewController
+
+@property (weak, nonatomic) id <MRSLMorselEditEligibleUsersViewControllerDelegate> delegate;
 
 @property (weak, nonatomic) MRSLMorsel *morsel;
 

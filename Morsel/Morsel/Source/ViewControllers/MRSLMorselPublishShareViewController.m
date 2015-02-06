@@ -65,9 +65,27 @@
                                                object:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if ([self.delegate respondsToSelector:@selector(morselPublishShareViewController:viewWillDisappearWithSocialSettings:)]) {
+        [self.delegate morselPublishShareViewController:self
+                    viewWillDisappearWithSocialSettings:[self socialSettingsDict]];
+    }
+}
+
 - (void)setMorsel:(MRSLMorsel *)morsel {
     _morsel = morsel;
     self.morselID = morsel.morselIDValue;
+}
+
+- (NSDictionary *)socialSettingsDict {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+
+    if (self.facebookSwitch.isOn) { dict[@"post_to_facebook"] = @"true"; }
+    if (self.twitterSwitch.isOn) { dict[@"post_to_twitter"] = @"true"; }
+    if (self.instagramSwitch.isOn) { dict[@"send_to_instagram"] = @"true"; }
+
+    return [dict count] > 0 ? dict : nil;
 }
 
 #pragma mark - Notification Methods

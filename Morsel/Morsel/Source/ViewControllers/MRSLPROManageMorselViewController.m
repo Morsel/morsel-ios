@@ -10,6 +10,7 @@
 
 #import "MRSLPROManageMorselViewController.h"
 
+#import "MRSLBadgedBarButtonItem.h"
 #import "MRSLPROItemTableViewCell.h"
 #import "MRSLReorderTableView.h"
 
@@ -42,9 +43,7 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 @property (nonatomic) CGRect defaultViewFrame;
 @property (nonatomic, strong) MRSLPROInputAccessoryToolbar *keyboardInputAccessoryToolbar;
 @property (nonatomic, strong) MRSLMorsel *morsel;
-@property (nonatomic, weak) IBOutlet UIToolbar *morselOptionsToolbar;
 @property (nonatomic, getter=isReordering) BOOL reordering;
-@property (nonatomic, weak) IBOutlet MRSLReorderTableView *tableView;
 @property (nonatomic) CGFloat titleCellHeight;
 @property (nonatomic, getter=isUpdating) BOOL updating;
 @property (nonatomic) int updatingCounter;
@@ -54,6 +53,12 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 @property (nonatomic) int previousSortOrder;
 @property (strong, nonatomic) NSIndexPath *sourceIndexPath;
 
+@property (nonatomic, strong) NSDictionary *socialSettingsDictionary;
+
+@property (nonatomic, weak) IBOutlet UIToolbar *morselOptionsToolbar;
+@property (nonatomic, weak) IBOutlet MRSLBadgedBarButtonItem *taggedUsersBarButton;
+@property (nonatomic, weak) IBOutlet MRSLReorderTableView *tableView;
+
 @end
 
 @implementation MRSLPROManageMorselViewController
@@ -61,6 +66,8 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.taggedUsersBarButton setToolbar:self.morselOptionsToolbar];
+
     self.morsel = [MRSLMorsel MR_findFirstByAttribute:@"morselID" withValue:@"1427"];
     self.titleCellHeight = MRSLPRODefaultTitleCellHeight;
 
@@ -84,10 +91,30 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     [self toggleMorselOptionsToolbarHidden:activeTextView != nil];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    id destinationViewController = [segue destinationViewController];
+    if ([destinationViewController isKindOfClass:[UINavigationController class]] && [[destinationViewController viewControllers] count] > 0) {
+        id firstViewController = [[destinationViewController viewControllers] firstObject];
+        if ([firstViewController respondsToSelector:@selector(setMorsel:)]) {
+            [firstViewController setMorsel:_morsel];
+        }
+        if ([firstViewController isKindOfClass:[MRSLMorselEditEligibleUsersViewController class]]) {
+            [(MRSLMorselEditEligibleUsersViewController *)firstViewController setDelegate:self];
+        }
+        if ([firstViewController isKindOfClass:[MRSLMorselPublishShareViewController class]]) {
+            [(MRSLMorselPublishShareViewController *)firstViewController setDelegate:self];
+        }
+    }
+}
+
 #pragma mark - Private Methods
 
 - (UITableViewCell *)activeCell {
     return [self findCellForView:self.activeTextView];
+}
+
+- (void)deleteMorsel {
+    //  TODO: deleteMorsel
 }
 
 - (UITableViewCell *)findCellForView:(UIView *)view {
@@ -186,6 +213,10 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
 - (MRSLItem *)itemForIndexPath:(NSIndexPath *)indexPath {
     return self.objects[indexPath.row];
+}
+
+- (IBAction)publishUpdate:(id)sender {
+    //  TODO: Check socialSettingsDictionary to handle Instagram and send_to_x flags
 }
 
 - (void)setupNotificationObservers {
@@ -319,6 +350,10 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     }
 }
 
+- (void)updateTaggedUsersBadge:(NSString *)badgeString {
+    [self.taggedUsersBarButton setBadgeText:badgeString];
+}
+
 - (void)setUpdating:(BOOL)updating {
     _updating = updating;
     self.updatingCounter += updating ? 1 : -1;
@@ -355,6 +390,25 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 
 - (IBAction)addItem:(id)sender {
     [self showAddItemPrompt];
+}
+
+- (IBAction)showDeleteMorselPrompt:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Delete this morsel and all \nphotos associated with it?"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:@"Delete"
+                                                    otherButtonTitles:nil];
+    [actionSheet showInView:self.view];
+}
+
+- (IBAction)showSocialSettings:(id)sender {
+    [self performSegueWithIdentifier:@"seg_SocialSettings"
+                              sender:nil];
+}
+
+- (IBAction)showTaggedUsers:(id)sender {
+    [self performSegueWithIdentifier:@"seg_TagUsers"
+                              sender:nil];
 }
 
 
@@ -399,6 +453,20 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES
                              completion:nil];
+}
+
+
+#pragma mark - MRSLMorselEditEligibleUsersViewControllerDelegate
+
+- (void)morselEditEligibleUsersViewController:(MRSLMorselEditEligibleUsersViewController *)morselEditEligibleUsersViewController viewWillDisappearWithTaggedUserCount:(NSInteger)taggedUserCount {
+    [self updateTaggedUsersBadge:[NSString stringWithFormat:@"%d", taggedUserCount]];
+}
+
+
+#pragma mark - MRSLMorselPublishShareViewControllerDelegate
+
+- (void)morselPublishShareViewController:(MRSLMorselPublishShareViewController *)morselPublishShareViewController viewWillDisappearWithSocialSettings:(NSDictionary *)socialSettings {
+    self.socialSettingsDictionary = socialSettings;
 }
 
 
@@ -532,6 +600,9 @@ NS_ENUM(NSUInteger, MRSLPROManagerMorselSections) {
     } else if ([buttonTitle isEqualToString:@"Import from Website"]) {
         //  TODO: mp event
         [self showImportFromWebsite];
+    } else if ([buttonTitle isEqualToString:@"Delete"]) {
+        //  TODO: mp event
+        [self deleteMorsel];
     } else {
         //  TODO: mp event for cancel
     }
