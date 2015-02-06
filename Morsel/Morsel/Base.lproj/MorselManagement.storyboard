@@ -1384,24 +1384,24 @@
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qhE-h0-LAP" userLabel="Item Option">
-                                                    <rect key="frame" x="0.0" y="280" width="600" height="40"/>
+                                                    <rect key="frame" x="0.0" y="260" width="600" height="60"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vGO-FT-5zc">
-                                                            <rect key="frame" x="568" y="9" width="22" height="22"/>
-                                                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vGO-FT-5zc">
+                                                            <rect key="frame" x="545" y="5" width="50" height="50"/>
+                                                            <state key="normal" image="icon-more" backgroundImage="effect-gradient-icon"/>
                                                             <connections>
                                                                 <action selector="showItemInfo:" destination="pTR-5i-OFH" eventType="touchUpInside" id="9RW-ri-1u1"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="vGO-FT-5zc" secondAttribute="trailing" constant="10" id="HWe-Xp-XYl"/>
+                                                        <constraint firstAttribute="trailing" secondItem="vGO-FT-5zc" secondAttribute="trailing" constant="5" id="HWe-Xp-XYl"/>
                                                         <constraint firstAttribute="centerY" secondItem="vGO-FT-5zc" secondAttribute="centerY" id="hIA-d2-ZhR"/>
-                                                        <constraint firstItem="vGO-FT-5zc" firstAttribute="top" secondItem="qhE-h0-LAP" secondAttribute="top" constant="9" id="ifk-hq-Xs5"/>
+                                                        <constraint firstItem="vGO-FT-5zc" firstAttribute="top" secondItem="qhE-h0-LAP" secondAttribute="top" constant="5" id="ifk-hq-Xs5"/>
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="POb-0j-Cps" userLabel="Reorder Option">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="68"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tEK-JK-JC0">
                                                             <rect key="frame" x="570" y="9" width="20" height="22"/>
@@ -1411,7 +1411,7 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="tEK-JK-JC0" secondAttribute="trailing" constant="10" id="4gQ-Yf-0P7"/>
-                                                        <constraint firstAttribute="centerY" secondItem="tEK-JK-JC0" secondAttribute="centerY" id="WdU-xA-4P2"/>
+                                                        <constraint firstAttribute="centerY" secondItem="tEK-JK-JC0" secondAttribute="centerY" constant="14" id="WdU-xA-4P2"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -1427,7 +1427,7 @@
                                                 <constraint firstItem="Dm8-eE-1AS" firstAttribute="leading" secondItem="kB9-1z-DSe" secondAttribute="leading" id="dOW-jV-VDk"/>
                                                 <constraint firstItem="POb-0j-Cps" firstAttribute="width" secondItem="qhE-h0-LAP" secondAttribute="width" id="fmg-6R-gkr"/>
                                                 <constraint firstItem="eyz-DD-eJW" firstAttribute="leading" secondItem="Dm8-eE-1AS" secondAttribute="leading" id="iln-du-2cQ"/>
-                                                <constraint firstItem="POb-0j-Cps" firstAttribute="height" secondItem="qhE-h0-LAP" secondAttribute="height" id="kA4-2b-ROh"/>
+                                                <constraint firstItem="POb-0j-Cps" firstAttribute="height" secondItem="qhE-h0-LAP" secondAttribute="height" constant="8" id="kA4-2b-ROh"/>
                                                 <constraint firstItem="SXa-ee-mGd" firstAttribute="top" secondItem="kB9-1z-DSe" secondAttribute="topMargin" id="pa0-lC-nez"/>
                                                 <constraint firstItem="eyz-DD-eJW" firstAttribute="top" secondItem="Dm8-eE-1AS" secondAttribute="bottom" id="sxi-jU-XZS"/>
                                                 <constraint firstItem="Dm8-eE-1AS" firstAttribute="top" secondItem="SXa-ee-mGd" secondAttribute="bottom" id="wvm-an-v1D"/>
@@ -1589,6 +1589,7 @@
     </scenes>
     <resources>
         <image name="button-retry" width="50" height="50"/>
+        <image name="effect-gradient-icon" width="50" height="50"/>
         <image name="icon-add" width="21" height="21"/>
         <image name="icon-arrow-accessory-red" width="16" height="16"/>
         <image name="icon-circle-check-gray" width="30" height="30"/>
